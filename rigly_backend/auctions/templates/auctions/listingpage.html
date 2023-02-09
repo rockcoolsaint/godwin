@@ -1,0 +1,161 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<a class="title">{{list.title}}</a><br>
+<a class="cat">{{list.category}}</a>
+
+{% if messages %}
+{% for message in messages %}
+<!-- <div class="message">{{ message }}</div> -->
+{% endfor %}
+{% endif %}
+<div id="activelist">
+    <div id="productinfo">
+        {% if list.site_photo %}
+        <img src="/media/{{ list.site_photo }}" class="list_img">
+        {% else %}
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1024px-No_image_3x4.svg.png"
+             alt="No image Provided" class="list_img">
+        {% endif %}
+
+        <p class="desc">{{ list.desc | safe }}</p>
+        <div class="message">{{ message }}</div>
+        <div class="start_bid"><a class="c_price">Present Bid: </a> <span id="current__bid" class="current__bid">${{ present_bid}}</span>
+        </div>
+        <div class="start_bid"><a class="c_price">Listed By: </a> <span
+                id="bid_by_user">{{ present_bid_detail.user }}</span></div>
+
+
+        <form method="get" action="{% url 'bid' %}">
+            {% csrf_token %}
+            <input name="bid_amnt" placeholder="Bid Amount" type="number">
+            <input name="list_d" id="list_id" type="hidden" value={{ list.id }}>
+            <input name="source" type="hidden" value="list_page">
+
+            <button class="btn btn-outline-primary" type="submit" name="list_d" value={{ list.id }}>Bid Item</button>
+        </form>
+        <div class="bid_amnt">
+            <form method="get" action="{% url 'addwatchlist' %}">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#proxyModal">
+                    Place automatic bid
+                </button>
+                <button class="btn btn-outline-primary" type="submit" value={{ list.id }} name="listid">Add to
+                    Watchlist
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="proxyModal" tabindex="-1" role="dialog" aria-labelledby="proxyModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="proxyModalLabel">Place automatic bid</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label>Set maximum amount : </label>
+                    <input type="number" name="proxy_bid" id="proxy_bid_val">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save_proxyamount">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="commentsection">
+        <h3>Comments</h3>
+        <div id="commentbox">
+            <ul>
+                {% for comment in comments %}
+                <li><a class="comment"><a>{{ comment.user }} : {{comment.comment}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <form method="get" action="{% url 'allcomments' %}">
+            {% csrf_token %}
+            <input required type="text" placeholder="Add Comment" name="comment">
+            <button class="btn btn-outline-primary" type="submit" value={{ list.id }} name="listid"> Comment</button>
+        </form>
+        <div class="closebid">
+            {% if list.user == user.username %}
+            <form method="get" action="{% url 'win_ner' %}">
+                <button class="btn btn-outline-primary" type="submit" value={{ list.id }} name="listid">Close Bid
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+    $("#save_proxyamount").on('click',function(e) {
+                console.log("here");
+                e.preventDefault();
+
+                var actionUrl = "/save_proxy_amount";
+                var type = 'POST';
+
+                var proxy_bid_val = $("#proxy_bid_val").val();
+                var auction_id = $("#list_id").val();
+
+                $.ajax({
+                    type: type,
+                    url: actionUrl,
+                    data: {"proxy_amount":proxy_bid_val,"auction_id":auction_id,"csrfmiddlewaretoken": '{{ csrf_token }}'},
+                    success: function(data)
+                    {
+                        var new_bid_amount = data.new_bid_amount;
+                        var user = "{{request.user.username}}";
+                        $("#current__bid").html(new_bid_amount);
+                        $("#bid_by_user").html(user);
+                        $("#proxyModal").modal('hide');
+
+                    },
+                    error:function(data){
+                        console.log(data.responseJSON.Error);
+                        $("#proxyModal").modal('hide');
+                    }
+                });
+
+                });
+
+    setInterval(function () {
+        var auction_id = $("#list_id").val();
+        $.ajax({
+                    type: "GET",
+                    url: "/get_present_bid/"+auction_id,
+                    success: function(data)
+                    {
+                        var new_bid_amount = data.data.bid;
+                        var user = data.data.user__username;
+                        $("#current__bid").html('$'+new_bid_amount);
+                        $("#bid_by_user").html(user);
+
+                    },
+                    error:function(data){
+                        console.log(data.responseJSON.Error);
+                        $("#proxyModal").modal('hide');
+                    }
+                });
+
+    }, 1000);
+
+
+
+</script>
+{% endblock %}
+
+

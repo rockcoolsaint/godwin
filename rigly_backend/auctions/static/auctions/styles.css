@@ -1,0 +1,84 @@
+body {
+    padding: 10px;
+    text-align: center;
+}
+.message{
+    background-color:  #15317E;
+    color: white;
+    padding: 2vw;
+}      
+
+.nav{
+    margin-top: 2.5vw;
+}
+
+div.message:empty{
+    display: none !important;
+}
+
+.closebid{
+    padding: 1vw;
+}
+
+#activelist{
+    margin-top: 2vw;
+    grid-gap: 2vw;
+    display:grid;
+    width: 80%;
+    margin-left: 10%;
+    grid-template-rows: repeat(auto,1fr);
+    grid-template-columns: 1fr 0.5fr;
+    font-family: 'Nunito', sans-serif;
+}
+p{
+    margin-top: 1vw;
+}
+#commentsection{
+
+    background-color: #F5F5F5;
+
+}
+
+.bid_amnt{
+    padding: 1vw;
+}
+
+h3{
+    padding-top: 2vw;
+}
+
+#commentbox{
+text-align: left;
+padding-top: 1vw;
+background-color: white;
+min-height: 300px;
+margin: 1vw;
+
+}
+
+img{
+        width: 100%;
+
+    }
+
+.title{
+
+    font-size: 2vw;
+    font-weight: bold;
+
+}
+.c_price{
+
+    font-weight: bold;
+
+}
+
+.comment{
+   align-items : left;
+}
+
+.start_bid{
+
+    padding-bottom: 1vw;
+
+}
