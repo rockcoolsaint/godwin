@@ -1,0 +1,14 @@
+<div style="padding: 38px 20px; background-color: #ffffff;">
+<div style="color: #252525; font-weight: 400; font-size: 17px;">Dear <span style="font-family: 'Cabin', sans-serif; color: #e94b3f; font-size: 18px; font-weight: 600;">{$customer_name}</span></div>
+<div style="color: #252525; font-weight: 400; font-size: 17px;">The auction you joined is going to start.Following are the auction details:</div>
+<div style="font-family: 'Cabin', sans-serif; color: #252525; font-size: 18px; font-weight: 600; margin-top: 24px;">Product Information</div>
+<div style="display: flex;">
+<div><img style="border: 1px solid #555;" src="{$product_image}" width="50px" height="80px" /></div>
+<div>
+<div style="color: #252525; font-size: 17px; padding-left: 20px;">Product Name- <span style="font-family: 'Cabin', sans-serif; color: #e94b3f; font-size: 18px; font-weight: 600;">{$product_name}</span></div>
+<div style="color: #252525; font-size: 17px; padding-left: 20px;">Auction Start Date- {$start_date}</div>
+</div>
+</div>
+<a href="https://{$domain_name}/products/{$product_handle}"> <button style="color: #ffffff; font-size: 17px; width: 152px; height: 48px; background-color: #e94b3f; border: 0; border-radius: 3px; cursor: pointer;">View Auction</button> </a>
+<p style="color: #252525; font-weight: 400; font-size: 17px; margin-top: 24px;">Regards<br />{$domain_name}</p>
+</div>

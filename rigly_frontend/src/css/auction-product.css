@@ -132,3 +132,8 @@
   font-size: 1.5rem;
   margin-bottom: 20px;
 }
+
+.bidsSection{
+  max-height: 50vh;
+  overflow-y: scroll;
+}

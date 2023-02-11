@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import *
 
+
 # class auction(admin.ModelAdmin):
 #     list_display = ("id" , "user", "active_bool","title" , "desc" , "starting_bid" , "image_url" , "category")
 
@@ -19,8 +20,10 @@ from .models import *
 class TimeAdmin(admin.ModelAdmin):
     readonly_fields = ('updated_at',)
 
+
 class SlugTimeAdmin(admin.ModelAdmin):
-    readonly_fields = ('updated_at','slug_category')
+    readonly_fields = ('updated_at', 'slug_category')
+
 
 # Register your models here.
 admin.site.register(User)
@@ -29,5 +32,5 @@ admin.site.register(AuctionList, SlugTimeAdmin)
 admin.site.register(Bids, TimeAdmin)
 admin.site.register(Comments, TimeAdmin)
 admin.site.register(WatchList, TimeAdmin)
-admin.site.register(Winner, TimeAdmin)
+admin.site.register(AuctionResult, TimeAdmin)
 admin.site.register(ProxyBids, TimeAdmin)

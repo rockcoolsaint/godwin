@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import Homepage from "./pages/Homepage"
 
@@ -18,10 +18,17 @@ import Seller from "./pages/Seller";
 import Individual from "./pages/Individual";
 import Collections from "./pages/Collections";
 import Product from "./pages/Product";
+import SignUpPayment from "./pages/SignUpPayment";
+import { CallbackPage } from "./pages/call-back";
+import { ProfilePage } from "./pages/Profile";
+
+
+
+
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <Announcement />
       <Header />
       <Routes>
@@ -30,10 +37,13 @@ function App() {
         <Route path="/businesses" element={<Seller />} />
         <Route path="/individuals" element={<Individual />} />
         <Route path="/product/:id" element={<Product />} />
+        <Route path="/payment/:id" element={<SignUpPayment />} />
+        <Route path="/callback" element={<CallbackPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
       <ContactUs />
       <Footer />
-    </BrowserRouter>
+    </>
   );
 }
 

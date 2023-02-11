@@ -22,4 +22,5 @@ urlpatterns = [
     path("categories/<str:category_name>", views.cat, name="cat"),
     path("get_present_bid/<int:auction_id>", views.get_present_bid, name="get_present_bid"),
     path("save_proxy_amount", views.save_proxy_amount, name="save_proxy_amount"),
+    path("test/", views.announce_winner_and_add_auction_results, name="start_auctions_and_check_auctions_expiry"),
 ]

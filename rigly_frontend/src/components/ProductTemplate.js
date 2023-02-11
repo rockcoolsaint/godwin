@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Bids from './Bids'
 import CalculatorWidget from './CalculatorWidget'
 import HashPrice from './HashPrice'
@@ -8,9 +8,75 @@ import SitePhoto from './SitePhoto'
 
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
+import { useAuth0 } from '@auth0/auth0-react'
+import BidModal from './Modal'
 
 
-const ProductTemplate = ({data}) => {
+const ProductTemplate = ({data, bids, currentbid}) => {
+function formatMoney(number) {
+    return Number((number).toFixed(2)).toLocaleString();
+}
+
+const { getIdTokenClaims } = useAuth0();
+
+
+const [query, setQuery] = useState("");
+const [query1, setQuery1] = useState("");
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    getIdTokenClaims().then(async(data1) => {
+        if (!query) return;
+        if(!data1.__raw) return;
+        fetch('/api/place-bid/', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json',
+                        'Authorization': 'Bearer '+data1.__raw, 
+            },
+            body: JSON.stringify({
+                bid_amnt: query,
+                source: "list_page",
+                list_id: data.id
+            }),
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            return responseJson.movies;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    })
+  };
+
+
+
+  const handleSubmit1 = (e) => {
+    e.preventDefault();
+    getIdTokenClaims().then(async(data1) => {
+        if (!query1) return;
+        if(!data1.__raw) return;
+        fetch('/api/place-automatic-bid/', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json',
+                        'Authorization': 'Bearer '+data1.__raw, 
+            },
+            body: JSON.stringify({
+                proxy_bid_amnt: query1,
+                source: "list_page",
+                list_id: data.id
+            }),
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            return responseJson.movies;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    })
+  };
+
   return (
     <section className="product-details-wrp">
                 <div className="container">
@@ -25,7 +91,7 @@ const ProductTemplate = ({data}) => {
                                     <Tab.Content>
                                         <Tab.Pane eventKey="pro-tbs1" title="Bids">
                                             <div className="">
-                                                <Bids />
+                                                <Bids bids={bids} />
                                             </div>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="pro-tbs2" title="Product Profile">
@@ -89,17 +155,22 @@ const ProductTemplate = ({data}) => {
                                 </div>
                                 <div className="d-flex flex-column align-items-center justify-content-center mt-4 py-3 px-5 mb-4 w-75 current-bid-container">
                                     <p className="m-0 fs-6 current-bid-title">Current bid</p>
-                                    <h2 className="m-0">1,500,999</h2>
+                                    <h2 className="m-0">{currentbid.bid?formatMoney(currentbid.bid):''}</h2>
                                 </div>
                                 <p className="fs-6 text-dark-emphasis fw-semibold cb-enter-bid">Enter your bid</p>
                                 <div className="container px-5">
-                                    <input type="number" className="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                    <input type="number" onChange={(e) => {setQuery(e.target.value)}} className="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
                                 </div>
                                 <div className="cb-bid-note">
                                     Bids require 20,000$ deposit, refunded after auction
                                 </div>
                                 <div className="w-100 mt-4 border-top d-flex align-items-center justify-content-center">
-                                    <button className="btn btn-primary mt-4 w-75 cb-bid-btn py-2">Place bid</button>
+                                    <button onClick={handleSubmit} className="btn btn-primary mt-4 w-75 cb-bid-btn py-2">Place bid</button>
+                                </div>
+                                <div className="w-100 mt-4 border-top d-flex align-items-center justify-content-center">
+                                <input type="number" onChange={(e) => {setQuery1(e.target.value)}} className="form-control mb-3" id="exampleInputEmail11" aria-describedby="emailHelp" />
+                                <button onClick={handleSubmit1} className="btn btn-primary mt-4 w-75 cb-bid-btn py-2">Place automatic bid</button>
+                                    {/* <BidModal data={data} token={userToken} /> */}
                                 </div>
                             </div>
                         </div>

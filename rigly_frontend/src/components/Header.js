@@ -8,6 +8,9 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
+import { useAuth0 } from "@auth0/auth0-react";
+
+
 const Header = () => {
     const [stickyClass, setStickyClass] = useState(null);
 
@@ -27,7 +30,29 @@ const Header = () => {
     };
 
 
+    const { loginWithRedirect,isAuthenticated,logout, isLoading  } = useAuth0();
+
+    const handleLogin = async () => {
+        await loginWithRedirect({
+        appState: {
+            returnTo: "/profile",
+        },
+        });
+    };
+
+    const handleLogout = () => {
+        logout({
+        logoutParams: {
+            returnTo: window.location.origin,
+        },
+        });
+    };
+
+
   return (
+
+    
+
     <header  className={stickyClass}>
         <div className="container">
 
@@ -58,8 +83,9 @@ const Header = () => {
             <Nav.Item>
                 <Nav.Link href="/">Company</Nav.Link>
             </Nav.Item>
+            
             <Nav.Item>
-                <Nav.Link href="#" className='order-btn'>Sign up</Nav.Link>
+                <Nav.Link style={{ visibility: isLoading? 'hidden': 'visible'}} href="#" onClick={ !isAuthenticated?(handleLogin):(handleLogout)} className='order-btn'> {!isAuthenticated ?"Sign up":"Logout"}</Nav.Link>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>

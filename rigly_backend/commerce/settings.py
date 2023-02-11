@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 from auctions import config
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -47,7 +48,8 @@ INSTALLED_APPS = [
     'social_django',
     "corsheaders",
     'rest_framework',
-    'sslserver'
+    'sslserver',
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -129,6 +131,12 @@ AUTHENTICATION_BACKENDS = {
     'social_core.backends.auth0.Auth0OAuth2',
     'django.contrib.auth.backends.ModelBackend'
 }
+
+CRONJOBS = [
+    ('*/1 * * * *', 'auctions.views.start_auctions_and_check_auctions_expiry',
+     '>> ' + os.path.join(BASE_DIR, 'log/cron_debug.log' + ' 2>&1 '))
+]
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -144,8 +152,7 @@ USE_TZ = True
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
-
-MEDIA_ROOT = BASE_DIR+'/media/'
+MEDIA_ROOT = BASE_DIR + '/media/'
 
 MEDIA_URL = '/media/'
 
@@ -154,11 +161,19 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/login/auth0'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-
+LOGIN_REDIRECT_URL = 'http://localhost:3000/'
+LOGOUT_REDIRECT_URL = 'http://localhost:3000/'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://b6d8-2401-4900-1f33-b61a-fbdf-f4bf-970c-40c7.in.ngrok.io"
 ]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = 'kcqjaqhvzsgtzqjv'
+EMAIL_HOST_USER = 'kgoyal00000@gmail.com'

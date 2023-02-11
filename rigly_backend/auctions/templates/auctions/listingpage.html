@@ -132,26 +132,26 @@
 
                 });
 
-    setInterval(function () {
-        var auction_id = $("#list_id").val();
-        $.ajax({
-                    type: "GET",
-                    url: "/get_present_bid/"+auction_id,
-                    success: function(data)
-                    {
-                        var new_bid_amount = data.data.bid;
-                        var user = data.data.user__username;
-                        $("#current__bid").html('$'+new_bid_amount);
-                        $("#bid_by_user").html(user);
+   // setInterval(function () {
+   //     var auction_id = $("#list_id").val();
+   //     $.ajax({
+   //                 type: "GET",
+   //                 url: "/get_present_bid/"+auction_id,
+   //                 success: function(data)
+    //                {
+     //                   var new_bid_amount = data.data.bid;
+     //                   var user = data.data.user__username;
+     //                   $("#current__bid").html('$'+new_bid_amount);
+     //                   $("#bid_by_user").html(user);
 
-                    },
-                    error:function(data){
-                        console.log(data.responseJSON.Error);
-                        $("#proxyModal").modal('hide');
-                    }
-                });
+      //              },
+      //              error:function(data){
+      //                  console.log(data.responseJSON.Error);
+       //                 $("#proxyModal").modal('hide');
+       //             }
+       //         });
 
-    }, 1000);
+    //}, 1000);
 
 
 
