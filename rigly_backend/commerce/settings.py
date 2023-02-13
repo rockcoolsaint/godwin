@@ -52,6 +52,11 @@ INSTALLED_APPS = [
     'django_crontab'
 ]
 
+REST_FRAMEWORK = {
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
+    'PAGE_SIZE': 10
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -68,7 +73,9 @@ ROOT_URLCONF = 'commerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.abspath(os.path.join(BASE_DIR, '..', 'rigly_frontend/build'))
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -160,6 +167,11 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.abspath(os.path.join(BASE_DIR, '..', 'rigly_frontend/build/static'))
+]
+
 LOGIN_URL = '/login/auth0'
 LOGIN_REDIRECT_URL = 'http://localhost:3000/'
 LOGOUT_REDIRECT_URL = 'http://localhost:3000/'
@@ -167,7 +179,7 @@ LOGOUT_REDIRECT_URL = 'http://localhost:3000/'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://b6d8-2401-4900-1f33-b61a-fbdf-f4bf-970c-40c7.in.ngrok.io"
+    "https://e385-2401-4900-1f32-371e-b6a8-6ab3-2345-2da2.in.ngrok.io"
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

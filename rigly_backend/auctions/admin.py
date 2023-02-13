@@ -27,6 +27,7 @@ class SlugTimeAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(User)
+admin.site.register(Payment, TimeAdmin)
 admin.site.register(Collection, TimeAdmin)
 admin.site.register(AuctionList, SlugTimeAdmin)
 admin.site.register(Bids, TimeAdmin)

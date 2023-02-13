@@ -22,7 +22,7 @@ export const CallbackPage = () => {
 
   return (
     <div className="page-layout">
-      Inside App
+      Logged In Successfully.
       <div className="page-layout__content" />
     </div>
   );

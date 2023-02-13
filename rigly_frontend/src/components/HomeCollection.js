@@ -3,7 +3,33 @@ import Slider from "react-slick";
 
 import {Link} from 'react-router-dom';
 
+import Countdown from "react-countdown";
+
 const HomeCollection = ({data}) => {
+
+  var current_date = new Date()
+  if(!current_date){
+    current_date = new Date().now()
+  }
+
+  const Completionist = () => <p>Bidding Closed for this product</p>;
+
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+      if (completed) {
+        // Render a completed state
+        return <Completionist />;
+      } else {
+        // Render a countdown
+        return( 
+          <div className='d-flex countdown'>
+            <h4>{days} <sup>days</sup></h4>
+            <h4>{hours} <sup>hours</sup></h4>
+            <h4>{minutes} <sup>min</sup></h4>
+            <h4>{seconds} <sup>sec</sup></h4>
+          </div>);
+      }
+    };
+
 
     var settings = {
         arrows: false,
@@ -70,7 +96,11 @@ return (
                       </div>
                       <div className="similer-data">
                           <h3>{product.title}</h3>
-                          <p>Bidding Closed for this product</p>
+                          {new Date(product.auction_start_date) > current_date ? <p>Auction starting in: </p>: <p>Auction ending at: </p>}
+                          <Countdown
+                            date={(new Date(product.auction_start_date ) > current_date) ?( new Date(product.auction_start_date)) : (new Date(product.expiry_at))}
+                            renderer={renderer}
+                          />
                           <h5>No. of Bids: <strong>9</strong></h5>
                           <h6>Auction Ended at: <strong>$180.00</strong></h6>
 

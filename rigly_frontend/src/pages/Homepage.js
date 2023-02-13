@@ -26,8 +26,8 @@ const Homepage = () => {
     <>
         <HeroBanner data={data[0]} />
         <HomeCollection data={data[0]} />
-        <Information />
-        <AboutUs />
+        <Information data={data[0]} />
+        <AboutUs data={data[0]} />
     </>:
     <></>
   )

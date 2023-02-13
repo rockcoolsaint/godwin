@@ -1764,3 +1764,14 @@ footer.inner-footer{
 #one {order: 1;}
 #two {order: 2;}
 /* **** End How ITs Work Page **** */
+
+
+.similer-data .countdown h4 {
+    color: #316aef;
+    margin-left: 10px;
+  }
+  
+  .similer-data .countdown h4 sup {
+    color: #646f86;
+    font-size: 0.875rem;
+  }

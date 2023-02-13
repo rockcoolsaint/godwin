@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 
 import Homepage from "./pages/Homepage"
 
-import Announcement from "./components/Announcement";
 import Header from "./components/Header";
 
 import "./css/bootstrap.min.css";
@@ -29,7 +28,6 @@ import { ProfilePage } from "./pages/Profile";
 function App() {
   return (
     <>
-      <Announcement />
       <Header />
       <Routes>
         <Route path="/" exact element={<Homepage />} />
@@ -37,7 +35,7 @@ function App() {
         <Route path="/businesses" element={<Seller />} />
         <Route path="/individuals" element={<Individual />} />
         <Route path="/product/:id" element={<Product />} />
-        <Route path="/payment/:id" element={<SignUpPayment />} />
+        <Route path="/payment" element={<SignUpPayment />} />
         <Route path="/callback" element={<CallbackPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>

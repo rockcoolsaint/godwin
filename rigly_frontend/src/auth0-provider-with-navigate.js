@@ -10,7 +10,7 @@ export const Auth0ProviderWithNavigate = ({ children }) => {
   const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
 
   const onRedirectCallback = (appState) => {
-    navigate(appState?.returnTo || window.location.pathname);
+    navigate('/payment' || window.location.pathname);
   };
 
   if (!(domain && clientId && redirectUri)) {

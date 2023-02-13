@@ -19,6 +19,7 @@ class Coupons(BaseModel):
 class Payment(BaseModel):
     payment_status = models.CharField(max_length=100)
     transaction_id = models.TextField()
+    extra_info = models.JSONField(blank=True, null=True)
 
 
 class User(AbstractUser):
@@ -26,6 +27,9 @@ class User(AbstractUser):
     is_paid = models.BooleanField(default=False)
     coupon = models.ForeignKey(Coupons, blank=True, null=True, on_delete=models.CASCADE)
     is_coupon_used = models.BooleanField(default=False)
+    profile_pik = models.URLField(blank=True, null=True)
+    phone_number = models.CharField(max_length=100, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
 
 
 class Collection(BaseModel):
@@ -49,7 +53,7 @@ class AuctionList(BaseModel):
     terms_link = models.CharField(max_length=1504, null=True, blank=True)
     desc = RichTextField(null=True, blank=True)  # CharField cannot be left without giving a max_length, Textfield can
     starting_bid = models.IntegerField()
-    auction_start_date = models.DateTimeField(blank=True,null=True)
+    auction_start_date = models.DateTimeField(blank=True, null=True)
     expiry_at = models.DateTimeField(default=timezone.now)
     is_expired = models.BooleanField(default=False)
     category = models.ForeignKey(Collection, on_delete=models.CASCADE, null=True, blank=True)
@@ -66,6 +70,7 @@ class AuctionList(BaseModel):
     hash_price_image = models.FileField(upload_to='images', null=True, blank=True, max_length=800)
 
     active_bool = models.BooleanField(default=True)
+    auction_status = models.CharField(max_length=100, default='enabled')
     slug_category = models.SlugField(default='', editable=False, null=True, blank=True, max_length=250)
 
     def __str__(self):

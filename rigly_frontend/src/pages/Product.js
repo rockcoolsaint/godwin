@@ -16,7 +16,7 @@ const Product = ({ match, history }) => {
 
 
   const fetchData = async () => {
-    const response = await fetch("/api/product/"+id_pro)
+    const response = await fetch("/api/product/"+id_pro+"/")
     const returnData = await response.json()
     console.log(returnData)
     setdataProduct(returnData.Product)

@@ -12,12 +12,17 @@ from .serializers import *
 import json
 from social_core.backends.auth0 import Auth0OAuth2
 
-
 # Create your views here.
 @api_view(['GET'])
 def HomePage(request):
     home1 = HomePageData.objects.all()
     serializer = homeSerializer(home1, many=True, context={"request": request})
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def HeaderDataView(request):
+    header_data = HeaderData.objects.all()
+    serializer = headerSerializer(header_data, many=True, context={"request": request})
     return Response(serializer.data)
 
 

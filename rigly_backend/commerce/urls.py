@@ -14,13 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from social_django.views import auth
 
-urlpatterns = [
+from django.views.generic import TemplateView
+
+urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)+[
     path("admin/", admin.site.urls),
-    path("", include("auctions.urls")),
-    path("api/", include("api.urls"))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # path("", TemplateView.as_view(template_name="index.html")),
+    
+    path("auction/", include("auctions.urls")),
+    path("api/", include("api.urls")),
+    # re_path(r'^.*$', TemplateView.as_view(template_name="index.html")),
+    # re_path(r'^$', TemplateView.as_view(template_name="index.html")),
+    # # match all other pages
+    # re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name="index.html")),
+    re_path('(^(?!(api|admin)).*$)',
+    TemplateView.as_view(template_name="index.html")),
+]

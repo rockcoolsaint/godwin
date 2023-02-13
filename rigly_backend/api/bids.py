@@ -13,9 +13,8 @@ from api.permissions import ValidateAuth0TokenPermission
 from auctions import config
 from auctions.models import Bids, AuctionList, ProxyBids
 from commerce.settings import BASE_DIR
+from .serializers import BidsSerializer, BidHistorySerializer
 from .utils import send_rigly_emails, minbid
-
-
 
 
 def send_outbid_email(user, win_bid_obj, outbid_obj):
@@ -127,8 +126,15 @@ class AutomaticBidsList(APIView):
         data = json.loads(body_unicode)
         max_bid_amnt = data["proxy_bid_amnt"]
         auction_id = data["list_id"]
-        place_bid_response, status_code = self.place_automatic_bid(max_bid_amnt, auction_id)
-        return Response(place_bid_response, status=status_code)
+        if request.user.is_paid or request.user.is_coupon_used:
+            place_bid_response, status_code = self.place_automatic_bid(max_bid_amnt, auction_id)
+            all_bids, current_bid = BidsList().get_all_bids(auction_id)
+            bids_serializer = BidsSerializer(all_bids, many=True, context={"request": request})
+            return Response(
+                {"place_bid_status": place_bid_response, "bids": bids_serializer.data, "current_bid": current_bid},
+                status=status_code)
+        else:
+            return Response({"message": "User status Unpaid"}, status=status.HTTP_200_OK)
 
 
 class BidsList(APIView):
@@ -141,6 +147,24 @@ class BidsList(APIView):
     #     snippets = Snippet.objects.all()
     #     serializer = SnippetSerializer(snippets, many=True)
     #     return Response(serializer.data)
+    def get_bid_history(self, user):
+        # user = self.request.user
+        all_bids = Bids.objects.filter(user=user).order_by('-created_at')
+        filtered_user_bids = []
+        auctions = []
+        for bid in all_bids:
+            if bid.auction_list.id not in auctions:
+                filtered_user_bids.append(bid)
+                auctions.append(bid.auction_list.id)
+
+        bids_serializer = BidHistorySerializer(filtered_user_bids, many=True)
+        return bids_serializer.data
+
+    def get_all_bids(self, auction_id):
+        auction_obj = AuctionList.objects.get(id=auction_id)
+        all_bids = Bids.objects.filter(auction_list=auction_obj)
+        current_bid, bid_obj = minbid(auction_obj.starting_bid, all_bids)
+        return all_bids, current_bid
 
     def place_bid(self, bid_amnt, list_id):
         # print('User in Bid')
@@ -202,6 +226,13 @@ class BidsList(APIView):
         data = json.loads(body_unicode)
         bid_amnt = data["bid_amnt"]
         auction_id = data["list_id"]
-        print(request.user, "**************")
-        place_bid_status = self.place_bid(bid_amnt, auction_id)
-        return Response(place_bid_status, status=status.HTTP_200_OK)
+        # print(request.user, "**************")
+        if request.user.is_paid or request.user.is_coupon_used:
+            place_bid_status = self.place_bid(bid_amnt, auction_id)
+            all_bids, current_bid = self.get_all_bids(auction_id)
+            bids_serializer = BidsSerializer(all_bids, many=True, context={"request": request})
+            return Response(
+                {"place_bid_status": place_bid_status, "bids": bids_serializer.data, "current_bid": current_bid},
+                status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "User status Unpaid"}, status=status.HTTP_200_OK)

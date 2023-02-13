@@ -15,7 +15,7 @@ export const ProfilePage = () => {
     console.log(data1)
     if(data1.__raw){
     try {
-      const response = await fetch('https://127.0.0.1:8000/api/create-user/', {
+      const response = await fetch('/api/create-user/', {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json'

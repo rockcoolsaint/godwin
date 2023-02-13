@@ -1,10 +1,9 @@
 import React from 'react'
 
-import AboutImg1 from '../images/abt-img1.png'
-import AboutImg2 from '../images/abt-img2.png'
-import AboutImg3 from '../images/abt-img3.png'
+import parse from 'html-react-parser';
 
-const AboutUs = () => {
+
+const AboutUs = ({data}) => {
   return (
     <section className="about-wrp">
         <div className="container">
@@ -14,29 +13,33 @@ const AboutUs = () => {
                 <div className="row">
                     <div className="col-md-4 col-sm-12">
                         <div className="abt-box">
-                            <img src={AboutImg1} alt="" />
-                            <h3>A Janus "The Pro"</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est sed quis vulputate aliquet ac. Nam phasellus massa proin posuere malesuada.</p>
+                            <img src={data?.about_us_1_image} alt="" />
+                            <h3>{data?.about_us_1_title}</h3>
+                            {
+                               parse(data?.about_us_1_sub_title.toString())
+                            }
 
-                            <a href="#">Read More <i className="far fa-arrow-right fa-fw"></i></a>
+                            <a href={data?.about_us_1_url}>Read More <i className="far fa-arrow-right fa-fw"></i></a>
                         </div>
                     </div>
                     <div className="col-md-4 col-sm-12">
                         <div className="abt-box">
-                            <img src={AboutImg2} alt="" />
-                            <h3>A Janus "The Pro"</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est sed quis vulputate aliquet ac. Nam phasellus massa proin posuere malesuada.</p>
-
-                            <a href="#">Read More <i className="far fa-arrow-right fa-fw"></i></a>
+                            <img src={data?.about_us_2_image} alt="" />
+                            <h3>{data?.about_us_2_title}</h3>
+                            {
+                               parse(data?.about_us_2_sub_title.toString())
+                            }
+                            <a href={data?.about_us_2_url}>Read More <i className="far fa-arrow-right fa-fw"></i></a>
                         </div>
                     </div>
                     <div className="col-md-4 col-sm-12">
                         <div className="abt-box">
-                            <img src={AboutImg3} alt="" />
-                            <h3>A Janus "The Pro"</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Est sed quis vulputate aliquet ac. Nam phasellus massa proin posuere malesuada.</p>
-
-                            <a href="#">Read More <i className="far fa-arrow-right fa-fw"></i></a>
+                            <img src={data?.about_us_3_image} alt="" />
+                            <h3>{data?.about_us_3_title}</h3>
+                            {
+                               parse(data?.about_us_3_sub_title.toString())
+                            }
+                            <a href={data?.about_us_3_url}>Read More <i className="far fa-arrow-right fa-fw"></i></a>
                         </div>
                     </div>
                 </div>
