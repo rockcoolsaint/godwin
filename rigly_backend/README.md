@@ -27,7 +27,11 @@ A point can be made that once a production database is established, it's easier 
 5. Make sure that everything is working properly by entering postgres's command line interface with `psql postgres`. You should see you enter a shell that looks like `postgres=#`.
 6. Once in the interface, create a new database named auctions with the command `CREATE DATABASE auctions;` If creating the database succeeds, you will see the response `CREATE DATABASE`. This will be the database that our django application will connect and write to for local development. 
 7. For anyone to connect and access the database we created, they need a valid postgres username and password combination. This means that we need to create a dedicated user for django to interact with our new database. We create it with  `CREATE USER admin WITH PASSWORD '021198dD@';` 
-8. Our new postgres user needs explicit permission to have read and write capabilities on our newly created database. We can do that with the command `GRANT ALL PRIVILEGES ON DATABASE "auctions" to admin;` .  
+8. Our new postgres user needs explicit permission to have read and write capabilities on our newly created database. We can do that with the command 
+`ALTER ROLE admin SET client_encoding TO 'utf8';`
+
+`ALTER ROLE admin SET timezone TO 'UTC';`
+`GRANT ALL PRIVILEGES ON DATABASE "auctions" to admin;` 
 9. Exit out of postgres with comand `\q`
 
 
