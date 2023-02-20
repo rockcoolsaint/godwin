@@ -1,7 +1,7 @@
 {
   "name": "rigly_frontend_typescript",
   "version": "0.1.0",
-  "proxy": "https://9693-2401-4900-1f33-f0d2-cfdf-1f44-9996-45fc.in.ngrok.io",
+  "proxy": "https://test-auctions.karangoyal.cc",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^2.0.0",

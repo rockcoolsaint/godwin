@@ -76,6 +76,7 @@ rigly_frontend/*.iml
 rigly_frontend/.vscode
 rigly_frontend/*.swp
 rigly_frontend/*.swo
+rigly_frontend/.env
 
 rigly_frontend/packages/react-devtools-core/dist
 rigly_frontend/packages/react-devtools-extensions/chrome/build
