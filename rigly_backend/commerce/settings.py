@@ -30,8 +30,11 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://913f-2401-4900-1f33-645-5dac-f82-ccd9-5c52.in.ngrok.io/'
+    'https://ba99-2401-4900-1f32-371e-2075-d73-df88-4776.in.ngrok.io/'
 ]
+
+SECURE_SSL_REDIRECT = True
+
 
 # Application definition
 
@@ -53,7 +56,7 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }
 
@@ -74,7 +77,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.abspath(os.path.join(BASE_DIR, '..', 'rigly_frontend/build'))
+            os.path.abspath(os.path.join(BASE_DIR, '..', 'rigly_frontend_typescript/build'))
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -108,13 +111,13 @@ AUTH_USER_MODEL = 'auctions.User'
 
 SOCIAL_AUTH_TRAILING_SLASH = False  # Remove trailing slash from routes
 SOCIAL_AUTH_AUTH0_DOMAIN = config.AUTH0_DOMAIN
-SOCIAL_AUTH_AUTH0_KEY = config.AUTH0_CLIENT_ID
-SOCIAL_AUTH_AUTH0_SECRET = config.AUTH0_CLIENT_SECRET
-SOCIAL_AUTH_AUTH0_SCOPE = [
-    'openid',
-    'profile',
-    'email'
-]
+# SOCIAL_AUTH_AUTH0_KEY = config.AUTH0_CLIENT_ID
+# SOCIAL_AUTH_AUTH0_SECRET = config.AUTH0_CLIENT_SECRET
+# SOCIAL_AUTH_AUTH0_SCOPE = [
+#     'openid',
+#     'profile',
+#     'email'
+# ]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -140,7 +143,7 @@ AUTHENTICATION_BACKENDS = {
 }
 
 CRONJOBS = [
-    ('*/1 * * * *', 'auctions.views.start_auctions_and_check_auctions_expiry',
+    ('*/1 * * * *', 'auctions.cron_jobs.start_auctions_and_check_auctions_expiry',
      '>> ' + os.path.join(BASE_DIR, 'log/cron_debug.log' + ' 2>&1 '))
 ]
 
@@ -169,7 +172,7 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.abspath(os.path.join(BASE_DIR, '..', 'rigly_frontend/build/static'))
+    os.path.abspath(os.path.join(BASE_DIR, '..', 'rigly_frontend_typescript/build/static'))
 ]
 
 LOGIN_URL = '/login/auth0'
@@ -179,7 +182,7 @@ LOGOUT_REDIRECT_URL = 'http://localhost:3000/'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://e385-2401-4900-1f32-371e-b6a8-6ab3-2345-2da2.in.ngrok.io"
+    "https://ba99-2401-4900-1f32-371e-2075-d73-df88-4776.in.ngrok.io"
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

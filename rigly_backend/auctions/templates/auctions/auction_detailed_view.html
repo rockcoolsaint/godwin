@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body{
+            padding-top:50px;
+            background-color:#34495e;
+        }
+
+        .hiddenRow {
+            padding: 0 !important;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Bidders
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed table-striped">
+                    <thead>
+                    <tr>
+								<th class="bdr-btm-blue-dark"></th>
+                                <th class="bdr-btm-blue-dark">Position</th>
+                                <th class="bdr-btm-blue-dark">Id</th>
+								<th class="bdr-btm-blue-dark">Bidder Name</th>
+								<th class="bdr-btm-blue-dark">Email</th>
+							</tr>
+                    </thead>
+
+                    <tbody>
+                    {% for bid in bids  %}
+                    {% firstof forloop.counter as variable %}
+
+                    {% for key, value in bid.items %}
+                         {% if key != "bids" and key != "max_bid" %}
+                    <tr data-toggle="collapse" data-target="#demo{{variable}}" class="accordion-toggle">
+                    <td>
+                        <span class="pointer show-bidding active"></span>
+                    </td>
+                    <td>{{variable}}</td>
+                    <td>{{value.id}}</td>
+                    <td>{{key}}</td>
+                    <td>{{value.email}}</td>
+                    </tr>
+
+                        {% endif %}
+                    {% endfor %}
+
+
+                    <tr>
+                        <td colspan="12" class="hiddenRow">
+                            <div class="accordian-body collapse" id="demo{{variable}}">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="bdr-btm-gray-dark">Bid Amount</th>
+                                            <th class="bdr-btm-gray-dark">Quantity</th>
+                                            <th class="bdr-btm-gray-dark">Date &amp; Time</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for key, value in bid.items %}
+                                 {% if key == "bids" %}
+                                    {% for all_bid in value %}
+                                    {% for bid in all_bid %}
+                                    <tr>
+                                        <td>USD {{bid.bid}}</td>
+                                        <td>1 Unit(s)</td>
+                                        <td>{{bid.created_at}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endfor %}
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </td>
+                    </tr>
+{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

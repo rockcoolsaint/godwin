@@ -3,8 +3,14 @@ from django.core import mail
 
 
 def send_rigly_emails(subject, to_email: list, text_message=None, html_message=None):
-    # html_message = render_to_string(path + 'admin-new-request.html',
-    #                                 {'name': first_name, 'email': email, 'items': items, 'order_id': order_id})
+    """
+    function to send emails
+    :param subject:
+    :param to_email:
+    :param text_message:
+    :param html_message:
+    :return:
+    """
     plain_message = strip_tags(html_message)
     from_email = 'Rigly Web App <kgoyal00000@gmail.com>'
 
@@ -14,6 +20,12 @@ def send_rigly_emails(subject, to_email: list, text_message=None, html_message=N
 
 # this function returns minimum bid required to place a user's bid
 def minbid(min_bid, present_bid):
+    """
+    calculates the minimum required bid
+    :param min_bid:
+    :param present_bid:
+    :return:
+    """
     bid_obj = None
     for bids_list in present_bid:
         if min_bid < int(bids_list.bid):

@@ -1,16 +1,19 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 
-from django.core.files import File
-import os
-import urllib
-
-from auctions.models import Collection, AuctionList
+from auctions.models import Collection
 
 
 class HeaderData(models.Model):
     annoucement_message = models.CharField(max_length=1500, null=True, blank=True)
     header_logo = models.FileField(upload_to='images', null=True, blank=True, max_length=800)
+
+    def __str__(self):
+        return self.annoucement_message
+
+    class Meta:
+        verbose_name = "Header Data"
+        verbose_name_plural = "Header Data"
 
 
 # Create your models here.
@@ -45,3 +48,10 @@ class HomePageData(models.Model):
     about_us_3_title = models.CharField(max_length=500, null=True, blank=True)
     about_us_3_sub_title = RichTextField(null=True, blank=True)
     about_us_3_url = models.CharField(max_length=500, null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Home Page Data"
+        verbose_name_plural = "Home Page Data"

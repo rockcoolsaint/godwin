@@ -11,20 +11,9 @@ from auctions import config
 from auctions.models import User
 
 
-def validate_email_address(email_address):
-    if not re.search(r"^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$", email_address):
-        print(f"The email address {email_address} is not valid")
-        return False
-
-
 class ValidateAuth0TokenPermission(BasePermission):
     def has_permission(self, request, view):
-        print(request.META)
         user_access_token = request.META['HTTP_AUTHORIZATION'].split(' ')[-1]
-
-        print('User Access Token')
-        print('*******************************')
-        print(user_access_token)
 
         jwks = Auth0OAuth2().get_json(Auth0OAuth2().api_path('.well-known/jwks.json'))
         issuer = Auth0OAuth2().api_path()

@@ -1,11 +1,7 @@
 from rest_framework import serializers
-# from rest_framework import users # remove this
-from django.contrib.auth import get_user_model  # add this
 
 from .models import *
-from auctions.models import AuctionList, User, Bids, AuctionResult
-from rest_framework.validators import UniqueValidator
-from django.contrib.auth.password_validation import validate_password
+from auctions.models import AuctionList, User, Bids, AuctionResult, AuctionMetaData, AuctionType
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,19 +12,13 @@ class UserSerializer(serializers.ModelSerializer):
             'profile_pik', 'phone_number', 'address')
 
 
-class collectionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AuctionList
-        fields = '__all__'
-
-
-class headerSerializer(serializers.ModelSerializer):
+class HeaderDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeaderData
         fields = '__all__'
 
 
-class homeSerializer(serializers.ModelSerializer):
+class HomePageSerializer(serializers.ModelSerializer):
     products = serializers.SerializerMethodField()
 
     class Meta:
@@ -36,10 +26,60 @@ class homeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_products(self, instance):
-        # Filter using the Auction model instance and the category related_name
-        # (which in this case defaults to products_set)
         products_instances = AuctionList.objects.filter(category=instance.show_collection)
-        return collectionSerializer(products_instances, many=True, context={"request": self.context['request']}).data
+        product_data = ProductDetailedSerializer(products_instances, many=True,
+                                                 context={"request": self.context['request']}).data
+        return product_data
+
+
+class ProductMetaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AuctionMetaData
+        fields = '__all__'
+
+
+class AuctionResultSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = AuctionResult
+        fields = '__all__'
+
+
+class ProductTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AuctionType
+        fields = '__all__'
+
+
+class ProductDetailedSerializer(serializers.ModelSerializer):
+    auction_meta = ProductMetaSerializer()
+    auction_type = ProductTypeSerializer()
+    bid_count = serializers.SerializerMethodField('get_bid_count')
+    current_bid = serializers.SerializerMethodField('get_current_bid')
+
+    class Meta:
+        model = AuctionList
+        fields = '__all__'
+
+    def get_current_bid(self, obj):
+        """
+        getting current bid for current auction and appending with that auction instance
+        :param obj:
+        :return:
+        """
+        from api.utils import minbid
+        bids_present = Bids.objects.filter(auction_list=obj)
+        current_bid, bid_obj = minbid(obj.starting_bid, bids_present)
+        return current_bid
+
+    def get_bid_count(self, obj):
+        """
+        getting current bid for current auction and appending with that auction instance
+        :param obj:
+        :return:
+        """
+        bid_count = Bids.objects.filter(auction_list=obj).count()
+        return bid_count
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -50,6 +90,11 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_current_bid(self, obj):
+        """
+        getting current bid for current auction and appending with that auction instance
+        :param obj:
+        :return:
+        """
         from api.utils import minbid
         bids_present = Bids.objects.filter(auction_list=obj)
         current_bid, bid_obj = minbid(obj.starting_bid, bids_present)
@@ -73,6 +118,11 @@ class ProductHistorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_user_auction_status(self, obj):
+        """
+        Appending auction result status for current user
+        :param obj:
+        :return:
+        """
         if obj.is_expired:
             # check current user winner or not
             auction_result = AuctionResult.objects.get(auctions=obj, is_winner=True)
@@ -90,35 +140,3 @@ class BidHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Bids
         fields = '__all__'
-
-
-class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(
-        required=True,
-        validators=[UniqueValidator(queryset=User.objects.all())]
-    )
-
-    password = serializers.CharField(
-        write_only=True, required=True, validators=[validate_password])
-
-    class Meta:
-        model = User
-        fields = ('username', 'password',
-                  'email', 'first_name')
-
-    def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError(
-                {"password": "Password fields didn't match."})
-        return attrs
-
-    def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            # last_name=validated_data['last_name']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
