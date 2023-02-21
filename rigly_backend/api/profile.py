@@ -8,23 +8,29 @@ from social_core.backends.auth0 import Auth0OAuth2
 from jose import jwt
 from auctions import config
 from auctions.models import User
-
+from api.permissions import ValidateAuth0TokenPermission
 
 class UserProfile(APIView):
     """
     user profile get and update
     """
+    permission_classes = [ValidateAuth0TokenPermission]
 
     def get(self, request):
-        # user = request.user
-        user = User.objects.filter()[1]
-        serializer = UserSerializer(user)
+        user = request.user
+        #user = User.objects.filter()[1]
+        serializer = UserSerializer(user, context={"request": request})
         bid_history = BidsList().get_bid_history(user)
         return Response({"user": serializer.data, "history": bid_history}, status=status.HTTP_200_OK)
 
-    def put(self, request, pk, format=None):
-        user = User.objects.filter(id=pk)
-        serializer = UserSerializer(user, data=request.data)
+    def put(self, request, format=None):
+        user = request.user
+        # if request.FILES['uploaded_profile']:
+        #    image = request.FILES['uploaded_profile']
+        #    user.uploaded_profile = image
+        #    user.save()
+            
+        serializer = UserSerializer(user, data=request.data, context={"request": request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -70,12 +76,14 @@ class UserView(APIView):
                      'user_id': payload['sub']}
 
         user, crt = User.objects.get_or_create(email=data["email"])
-        user.username = payload["nickname"]
-        user.email_verified = payload["email_verified"]
-        user.first_name = fullname
-        user.last_name = last_name
-        user.set_password(data["nickname"] + "_" + payload['sub'])
-        user.save()
+        if crt:
+            user.username = payload["nickname"]
+            user.profile_pik = payload['picture']
+            user.email_verified = payload["email_verified"]
+            user.first_name = fullname
+            user.last_name = last_name
+            user.set_password(data["nickname"] + "_" + payload['sub'])
+            user.save()
         serializer = UserSerializer(user)
 
         return Response(serializer.data)

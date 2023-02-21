@@ -9,6 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import Announcement from './Announcement'
 import Loader from './Loader';
+import { Link } from 'react-router-dom';
 
 
 const Header = () => {
@@ -82,16 +83,16 @@ const Header = () => {
             <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ml-auto">
                 <Nav.Item>
-                    <Nav.Link href="/">Home</Nav.Link>
+                    <Link className='nav-link' to="/">Home</Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="/collections">Collections</Nav.Link>
+                    <Link className='nav-link' to="/collections">Collections</Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="/individuals">Individuals</Nav.Link>
+                    <Link className='nav-link' to="/individuals">Individuals</Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="/businesses">Businesses</Nav.Link>
+                    <Link className='nav-link' to="/businesses">Businesses</Link>
                 </Nav.Item>
                 {/* <Nav.Item>
                     <Nav.Link href="/">Developers</Nav.Link>
@@ -99,6 +100,10 @@ const Header = () => {
                 <Nav.Item>
                     <Nav.Link href="/">Company</Nav.Link>
                 </Nav.Item> */}
+
+                {isAuthenticated? <Nav.Item>
+                    <Link className='nav-link' to="/profile">Profile</Link>
+                </Nav.Item>:<></>}
                 
                 <Nav.Item>
                     <Nav.Link style={{ visibility: isLoading? 'hidden': 'visible'}} href="#" onClick={ !isAuthenticated?(handleLogin):(handleLogout)} className='order-btn'> {!isAuthenticated ?"Sign up":"Logout"}</Nav.Link>

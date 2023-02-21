@@ -8,8 +8,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'id', 'first_name', 'email', 'username', 'last_name', 'is_paid', 'is_coupon_used', 'coupon', 'date_joined',
-            'profile_pik', 'phone_number', 'address')
+            'id', 'first_name', 'uploaded_profile', 'date_joined', 'bidding_name', 'email', 'username', 'last_name', 'is_paid', 'is_coupon_used', 'coupon', 'date_joined',
+            'profile_pik', 'phone_number', 'address', 'newsletter_subscribe', 'telegram_username', 'mining_pool_stratum_address', 'mining_pool_username', 'refer_code', 'referral_code')
 
 
 class HeaderDataSerializer(serializers.ModelSerializer):
@@ -112,6 +112,7 @@ class BidsSerializer(serializers.ModelSerializer):
 class ProductHistorySerializer(serializers.ModelSerializer):
     # auction_winner = serializers.SerializerMethodField('get_current_bid')
     user_auction_status = serializers.SerializerMethodField('get_user_auction_status')
+    auction_meta = ProductMetaSerializer()
 
     class Meta:
         model = AuctionList

@@ -4,7 +4,7 @@ from django.utils import timezone
 from ckeditor.fields import RichTextField
 from django.utils.text import slugify
 
-
+import uuid
 # AUCTION_TYPES = (
 #     ('I', 'Immediate delivery'),
 #     ('F', 'Forward date'),
@@ -49,8 +49,16 @@ class User(AbstractUser):
     coupon = models.ForeignKey(Coupons, blank=True, null=True, on_delete=models.CASCADE)
     is_coupon_used = models.BooleanField(default=False)
     profile_pik = models.URLField(blank=True, null=True)
+    uploaded_profile = models.ImageField(upload_to = 'images/user_profile_images', null=True, blank=True)
+    bidding_name = models.CharField(max_length=1000, default="Anonymous")
     phone_number = models.CharField(max_length=100, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
+    newsletter_subscribe = models.BooleanField(default=True)
+    telegram_username = models.CharField(max_length=1000, blank=True, null=True)
+    mining_pool_stratum_address = models.TextField(blank=True, null=True)
+    mining_pool_username = models.CharField(max_length=1000, blank=True, null=True)
+    refer_code = models.CharField(max_length=100, blank=True, null=True, default=uuid.uuid4().hex[:10].upper())
+    referral_code = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return "User " + str(self.id) + " - " + self.email

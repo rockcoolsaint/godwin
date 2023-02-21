@@ -129,17 +129,62 @@ export interface userProps{
     "id"?: number | string,
     "first_name"?: string,
     "email"?: string,
+    "bidding_name": string,
     "username"?: string,
     "last_name"?: string,
     "is_paid"?: boolean | string,
     "is_coupon_used"?: boolean,
     "coupon"?: string | string | number,
-    "date_joined"?: string | Date,
+    "date_joined": string,
     "profile_pik"?: string,
+    "uploaded_profile": string,
     "phone_number"?: string | number,
     "address"?: string,
-    "key"?: string | number
+    "key"?: string | number,
+    "newsletter_subscribe": boolean,
+    "telegram_username": string,
+    "mining_pool_stratum_address": string,
+    "mining_pool_username": string,
+    "refer_code": string,
+    "referral_code": string
 }
+
+export interface auctionListHistory{
+    "id": number | string,
+    "user_auction_status": string,
+    "created_at": string,
+    "updated_at": string,
+    "deleted": boolean,
+    "version": string,
+    "title": string,
+    "sub_title": string,
+    "description": string,
+    "starting_bid": number,
+    "auction_start_date": string,
+    "expiry_at": string,
+    "is_expired": boolean,
+    "proxy_increement": number,
+    "is_auction_active": boolean,
+    "auction_status": string,
+    "slug_category": string,
+    "payment_address": string,
+    "payment_address_qr": string,
+    "user": number | string,
+    "category": number | string,
+    "auction_type": number | string,
+    "auction_meta": productMetaProps
+}
+export interface userHistory{
+    "id": number | string,
+    "auction_list": auctionListHistory,
+    "created_at": string,
+    "updated_at": string,
+    "deleted": boolean,
+    "version": string,
+    "bid": number,
+    "user": string | number
+}
+
 
 export interface bidProps{
     "id": number | string,

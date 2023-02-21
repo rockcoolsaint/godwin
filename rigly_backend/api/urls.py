@@ -26,7 +26,7 @@ urlpatterns = [
 
     # user api routes
     path('profile/', UserProfile.as_view()),
-    path('profile/<int:pk>/', UserProfile.as_view()),
+    #path('profile/<int:pk>/', UserProfile.as_view()),
     path('create-user/', UserView.as_view(), name="UserApi"),
     re_path(r'^v1/', include(router.urls))
 ]

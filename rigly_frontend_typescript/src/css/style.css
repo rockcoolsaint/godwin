@@ -1428,14 +1428,14 @@ footer.inner-footer{
 .user-profiletabs .nav-tabs{
     border: none;
 }
-.user-profiletabs .nav-tabs li{
+.user-profiletabs .nav-tabs .nav-item{
     margin: 0 0 5px;
     width: 100%;
 }
-.user-profiletabs .nav-tabs li:last-child{
+.user-profiletabs .nav-tabs .nav-item:last-child{
     margin: 0;
 }
-.user-profiletabs .nav-tabs li a{
+.user-profiletabs .nav-tabs .nav-item a{
     padding: 15px 20px;
     font-size: 16px;
     font-weight: normal;
@@ -1445,7 +1445,7 @@ footer.inner-footer{
     display: flex;
     align-items: center;
 }
-.user-profiletabs .nav-tabs li a img{
+.user-profiletabs .nav-tabs .nav-item a img{
     margin-right: 10px;
     width: 20px;
 }
