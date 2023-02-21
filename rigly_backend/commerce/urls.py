@@ -25,6 +25,6 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     path("admin/", admin.site.urls),
     path("auction/", include("auctions.urls")),
     path("api/", include("api.urls")),
-    re_path('(^(?!(auction|api|admin)).*$)',
+    re_path('(^(?!(auction|media|api|admin)).*$)',
             TemplateView.as_view(template_name="index.html")),
 ]
