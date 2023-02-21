@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://ba99-2401-4900-1f32-371e-2075-d73-df88-4776.in.ngrok.io/'
+    'https://auctions.rigly.io/'
 ]
 
 SECURE_SSL_REDIRECT = True
@@ -57,6 +57,9 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'PAGE_SIZE': 10
 }
 
@@ -169,6 +172,8 @@ MEDIA_URL = '/media/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT = '/static/'
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
@@ -176,13 +181,12 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_URL = '/login/auth0'
-LOGIN_REDIRECT_URL = 'http://localhost:3000/'
-LOGOUT_REDIRECT_URL = 'http://localhost:3000/'
+LOGIN_REDIRECT_URL = 'https://auctions.rigly.io/'
+LOGOUT_REDIRECT_URL = 'https://auctions.rigly.io/'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://ba99-2401-4900-1f32-371e-2075-d73-df88-4776.in.ngrok.io"
+    "https://auctions.rigly.io"
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

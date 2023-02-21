@@ -90,6 +90,9 @@
     font-weight: normal;
     font-size: 1rem;
     margin-top: 25px;
+        /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
   }
 
 .paywall-note-icon {

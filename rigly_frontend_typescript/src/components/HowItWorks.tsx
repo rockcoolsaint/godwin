@@ -20,7 +20,7 @@ const HowItWorks = () => {
                         <div className="how-work-data">
                             <label>1</label>
                             <h3>Signup as a Seller</h3>
-                            <p>Check around. Getting up and running as a miner in this market takes months. %name% offers the opportunity to start today without the big ASIC order, dealing with customs or wiring your own electricity. Bidders are able to lock in physical miners at a known price for a known period. It’s as simple as that.</p>
+                            <p>Check around. Getting up and running as a miner in this market takes months. Rigly offers the opportunity to start today without the big ASIC order, dealing with customs or wiring your own electricity. Bidders are able to lock in physical miners at a known price for a known period. It’s as simple as that.</p>
 
                             <Link to="#">Learn more <i className="far fa-arrow-right fa-fw"></i></Link>
                         </div>
@@ -34,7 +34,7 @@ const HowItWorks = () => {
                         <div className="how-work-data">
                             <label>2</label>
                             <h3>Get Validation</h3>
-                            <p>Check around. Getting up and running as a miner in this market takes months. %name% offers the opportunity to start today without the big ASIC order, dealing with customs or wiring your own electricity. Bidders are able to lock in physical miners at a known price for a known period. It’s as simple as that.</p>
+                            <p>Check around. Getting up and running as a miner in this market takes months. Rigly offers the opportunity to start today without the big ASIC order, dealing with customs or wiring your own electricity. Bidders are able to lock in physical miners at a known price for a known period. It’s as simple as that.</p>
 
                             <Link to="#">Learn more <i className="far fa-arrow-right fa-fw"></i></Link>
                         </div>
@@ -58,7 +58,7 @@ const HowItWorks = () => {
                         <div className="how-work-data">
                             <label>3</label>
                             <h3>Add your Rigs to Auction</h3>
-                            <p>Check around. Getting up and running as a miner in this market takes months. %name% offers the opportunity to start today without the big ASIC order, dealing with customs or wiring your own electricity. Bidders are able to lock in physical miners at a known price for a known period. It’s as simple as that.</p>
+                            <p>Check around. Getting up and running as a miner in this market takes months. Rigly offers the opportunity to start today without the big ASIC order, dealing with customs or wiring your own electricity. Bidders are able to lock in physical miners at a known price for a known period. It’s as simple as that.</p>
 
                             <Link to="#">Learn more <i className="far fa-arrow-right fa-fw"></i></Link>
                         </div>

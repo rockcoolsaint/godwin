@@ -1,7 +1,7 @@
 {
   "name": "rigly_frontend_typescript",
   "version": "0.1.0",
-  "proxy": "https://test-auctions.karangoyal.cc",
+  "proxy": "https://auctions.rigly.io",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^2.0.0",

@@ -1801,3 +1801,7 @@ footer.inner-footer{
 #proxy_modal{
     max-width: 550px;
 }
+
+.paywall-note-icon img{
+    max-width: 60px;
+}

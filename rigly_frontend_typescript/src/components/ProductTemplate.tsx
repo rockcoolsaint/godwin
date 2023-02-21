@@ -90,17 +90,18 @@ const handleSubmit = () => {
         .then((response) => response.json())
         .then((responseJson) => {
             console.log(responseJson)
-            if(responseJson.place_bid_status.message === "User status Unpaid"){
+            if(responseJson.message === "User status Unpaid"){
                 setUserPaidStatus(false)
             }else{
                 setUserPaidStatus(true)
+           
+                setToastData({
+                    "message": responseJson.place_bid_status.message
+                })
+                setShowToast(true)
             }
-            setToastData({
-                "message": responseJson.place_bid_status.message
-            })
-            setShowToast(true)
             //window.location.reload()
-            return responseJson.movies;
+            return responseJson;
         })
         .catch((error) => {
             alert(error)
