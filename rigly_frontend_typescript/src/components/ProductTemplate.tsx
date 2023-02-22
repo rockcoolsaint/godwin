@@ -24,10 +24,11 @@ interface ProductsProps {
     bids: bidProps[],
     currentbid: bidProps,
     route_id?: string,
-    winner: winnerProps | null
+    winner: winnerProps | null,
+    satToUsd: number
 }
 
-const ProductTemplate = ({data, bids, currentbid, winner, route_id}: ProductsProps) => {
+const ProductTemplate = ({data, bids, currentbid, winner, route_id, satToUsd}: ProductsProps) => {
 
 const [showToast, setShowToast] = useState(false)
 const [toastData, setToastData] = useState({"message":""})
@@ -134,9 +135,9 @@ const handleSubmit = () => {
                             <div className="col-md-8">
                                 <Tab.Container defaultActiveKey="pro-tbs1">
                                     <Tab.Content>
-                                        <Tab.Pane eventKey="pro-tbs1" title="Bids">
+                                        <Tab.Pane eventKey="pro-tbs1">
                                             <div className="">
-                                                <Bids bids={bids} />
+                                                <Bids satToUsd={satToUsd} bids={bids} />
                                             </div>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="pro-tbs2" title="Product Profile">
@@ -151,7 +152,7 @@ const handleSubmit = () => {
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="pro-tbs4" title="Calculator Widget">
                                             <div className="">
-                                                <CalculatorWidget currentBid={currentbid.bid} data={data} />
+                                                <CalculatorWidget satToUsd={satToUsd} currentBid={currentbid.bid} data={data} />
                                             </div>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="pro-tbs5" title="Hash Price">
@@ -204,7 +205,7 @@ const handleSubmit = () => {
                                 </div>
                                 <div className="d-flex flex-column align-items-center justify-content-center mt-4 py-3 px-5 mb-4 w-75 current-bid-container">
                                     <p className="m-0 fs-6 current-bid-title">Current bid</p>
-                                    <h2 className="m-0">{currentbid.bid?formatMoney(currentbid.bid):''}</h2>
+                                    <h2 className="m-0"><span data-tooltip-content={"$"+(currentbid.bid * satToUsd).toFixed(2).toString()} data-tooltip-id="my-tooltip">{currentbid.bid?formatMoney(currentbid.bid):''}</span></h2>
                                 </div>
                                 {winnerUser?<div className='text-center'>
                                     <hr />
@@ -215,7 +216,7 @@ const handleSubmit = () => {
                                     }
                                     <hr />
                                 </div>:""}
-                                {data.is_expired || (new Date(data.auction_start_date) > new Date())?<><p><Link to="/collections">Checkout more auctions </Link></p>
+                                {data.is_expired || (new Date(data.expiry_at) > new Date()) || (new Date(data.auction_start_date) > new Date())?<><p><Link to="/collections">Checkout more auctions </Link></p>
                                 
                                 
                                 

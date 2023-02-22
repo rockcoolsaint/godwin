@@ -31,7 +31,7 @@ const Footer = () => {
                             <h4>Quick Link</h4>
 
                             <ul>
-                                <li><Link to="#">Acutions</Link></li>
+                                <li><Link to="#">Auctions</Link></li>
                                 <li><Link to="#">About us</Link></li>
                                 <li><Link to="#">How it Works</Link></li>
                                 <li><Link to="#">Contact us</Link></li>
@@ -55,7 +55,7 @@ const Footer = () => {
                     <div className="col-md-3 col-sm-12">
                         <div className="subscribe-bx">
                             <h4>Subscribe Newsletter</h4>
-                            <p>Signup for our Newletter to get the latest news in your inbox</p>
+                            <p>Signup for our Newsletter to get the latest news in your inbox</p>
                             <form>
                                 <div className="form-group">
                                     <input type="text" name="" placeholder="Email Address" className="form-control" />

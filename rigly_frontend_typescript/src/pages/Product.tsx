@@ -6,6 +6,7 @@ import "../css/auction-product.css";
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 
+import { satoshisToFiat } from 'bitcoin-conversion';
 
 const Product = () => {
   const routeParams = useParams();
@@ -13,6 +14,7 @@ const Product = () => {
   const [dataBids, setdataBids] = useState([]);
   const [currentBid, setcurrentBid] = useState(null);
   const [winner, setWinner] = useState(null);
+  const [paymentInBtcFromUsd, setPaymentInBtcFromUsd] = useState(5917.861);
 
 
   useEffect(() => {
@@ -24,7 +26,10 @@ const Product = () => {
       setdataProduct(returnData.Product)
       setdataBids(returnData.Bids)
       setcurrentBid(returnData.CurrentBid)
+      setPaymentInBtcFromUsd(await satoshisToFiat(1, 'USD'))
     }
+
+    
 
     fetchData();
   },[routeParams])
@@ -48,7 +53,7 @@ const Product = () => {
     <div className="auction-product">
       <div className="main-wrpper">
         {dataProduct && currentBid?
-          <ProductTemplate route_id={routeParams.id} data={dataProduct} bids={dataBids} currentbid={currentBid} winner={winner} />
+          <ProductTemplate satToUsd={paymentInBtcFromUsd} route_id={routeParams.id} data={dataProduct} bids={dataBids} currentbid={currentBid} winner={winner} />
           :<></>
         }
       </div>

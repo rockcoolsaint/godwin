@@ -1530,6 +1530,7 @@ footer.inner-footer{
     border-radius: 20px;
     border: 2px solid #F1F5FF;
     margin: 0 0 0;
+    overflow-x: auto;
     padding: 30px;
 }
 .history-order h3{
@@ -1805,3 +1806,46 @@ footer.inner-footer{
 .paywall-note-icon img{
     max-width: 60px;
 }
+
+
+.product-details-wrp [role="tabpanel"]{
+    height: 65vh;
+    overflow: hidden;
+    margin: auto;
+}
+
+.product-details-wrp [role="tabpanel"] > div{
+    height: 100%;
+    width: 100%;
+}
+
+.product-details-wrp [role="tabpanel"] > div > section{
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+}
+
+label.profileimg{
+    position: relative;
+    max-width: 200px;
+}
+
+label.profileimg img{
+    max-width: 100%;
+}
+
+label.profileimg i{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 15px;
+    color: #fff;
+    background: linear-gradient(90deg, #035DF2 -16.41%, #258AF7 35.88%, #41ADFD 88.17%);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+

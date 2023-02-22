@@ -12,7 +12,6 @@ import Loader from "../components/Loader";
 
 function AlertDismissible() {
   const [show, setShow] = useState(true);
-  const navigate = useNavigate()
   return (
     <>
       <Alert show={show} variant="success" className="mb-3">
@@ -22,9 +21,9 @@ function AlertDismissible() {
         </p>
         <br />
         <div className="d-flex justify-content-end">
-          <Button onClick={() => {setShow(false); navigate('/collections')}} variant="outline-success">
+          {/* <Button onClick={() => {setShow(false); navigate('/collections')}} variant="outline-success">
             Go to Auctions
-          </Button>
+          </Button> */}
         </div>
       </Alert>
 
@@ -90,6 +89,7 @@ const SignUpPayment = () => {
       // const myTimeout = setTimeout(showRegisterForm, 3000);
       console.log("Success Message")
       setPaymentStatus(true)
+      navigate('/collections')
     }
 
 

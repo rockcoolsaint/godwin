@@ -30,6 +30,7 @@ const Header = () => {
     }
 
     const [data, setData] = useState<headerData[]>([]);
+    const[profileData ,setProfileData] = useState({"username":""})
 
     const fetchData = async () => {
       const response = await fetch("/api/header/")
@@ -46,7 +47,7 @@ const Header = () => {
     };
 
 
-    const { loginWithRedirect,isAuthenticated,logout, isLoading  } = useAuth0();
+    const { loginWithRedirect,isAuthenticated,logout, isLoading, getIdTokenClaims  } = useAuth0();
 
     const handleLogin = async () => {
         await loginWithRedirect({
@@ -63,6 +64,39 @@ const Header = () => {
         },
         });
     };
+
+
+    useEffect(()=>{
+    if(isLoading || !isAuthenticated){
+        return
+    }
+    getIdTokenClaims().then(async(data1: any) => {
+        
+        console.log(data1)
+        if(data1.__raw){
+        try {
+          const response = await fetch('/api/profile/', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + data1.__raw,
+            }
+        });
+          const data = await response.json();
+          console.log(data);
+          setProfileData(data.user)
+          } catch(error) {
+            console.log(error)
+            await loginWithRedirect({
+                appState: {
+                    returnTo: window.location.pathname,
+                },
+                });
+          } 
+        }
+      })
+
+    },[isLoading, isAuthenticated, getIdTokenClaims, loginWithRedirect])
 
 
   return (
@@ -105,8 +139,10 @@ const Header = () => {
                     <Link className='nav-link' to="/profile">Profile</Link>
                 </Nav.Item>:<></>}
                 
-                <Nav.Item>
+                <Nav.Item className='text-center'>
                     <Nav.Link style={{ visibility: isLoading? 'hidden': 'visible'}} href="#" onClick={ !isAuthenticated?(handleLogin):(handleLogout)} className='order-btn'> {!isAuthenticated ?"Sign up":"Logout"}</Nav.Link>
+                   <small>{profileData&&isAuthenticated?profileData.username:""}</small>
+                   {isAuthenticated?"":<small>Already have an account? <span onClick={(handleLogin)} className='text-primary'  role="button">Sign In</span></small>}
                 </Nav.Item>
             </Nav>
             </Navbar.Collapse>

@@ -1,4 +1,5 @@
 import React, {  useRef  } from 'react'
+import { Tooltip } from 'react-tooltip';
 
 import {productProps} from './interfaces' 
 
@@ -9,14 +10,15 @@ import {productProps} from './interfaces'
 
 interface calculatorProps{
     "data": productProps,
-    "currentBid": number
+    "currentBid": number,
+    "satToUsd": number
 }
 
-const CalculatorWidget = ({data, currentBid}: calculatorProps) => {
-    const myContainer = useRef<HTMLHeadingElement>(null);
-    const myContainer1 = useRef<HTMLHeadingElement>(null);
-    const myContainer2 = useRef<HTMLHeadingElement>(null);
-    const myContainer3 = useRef<HTMLHeadingElement>(null);
+const CalculatorWidget = ({data, currentBid, satToUsd}: calculatorProps) => {
+    const myContainer = useRef<HTMLSpanElement>(null);
+    const myContainer1 = useRef<HTMLSpanElement>(null);
+    const myContainer2 = useRef<HTMLSpanElement>(null);
+    const myContainer3 = useRef<HTMLSpanElement>(null);
 
     const myContainer4 = useRef<HTMLInputElement>(null);
     const myContainer5 = useRef<HTMLInputElement>(null);
@@ -38,7 +40,7 @@ function formatMoney(number: number) {
 }
 
 
-function animateValue(obj: HTMLHeadingElement | null, start: number, end: number, duration: number) {
+function animateValue(obj: HTMLSpanElement | null, start: number, end: number, duration: number) {
     let startTimestamp: number | null = null;
     start = parseInt(start.toString().replaceAll(',','')) || 0
     end = Math.round(parseInt(end.toString().replaceAll(',','')))
@@ -80,6 +82,7 @@ function calculateRigly(){
   return (
     <section className=" px-4 py-3 rounded-3 border" style={{backgroundColor: '#fff'}}>
         <div className="row">
+            <Tooltip id="my-tooltip-1" />
             <div className="col-md-6">
                 <div className="mb-3">
                     <label htmlFor="exampleFormControlInput1" className="form-label">What's your bid?</label>
@@ -113,19 +116,27 @@ function calculateRigly(){
             <div className="col-md-6 border rounded-3 calculator-details py-3 px-3">
                 <div>
                     <small>Estimate future hashprice (per TH/s/day)</small>
-                    <h3 id="formula-result-#9" ref={myContainer1}>{data.auction_meta?.current_hash_price}</h3>
+                    <h3 id="formula-result-#9">
+                        <span ref={myContainer1} data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer1.current?.innerHTML?myContainer1.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{data.auction_meta?.current_hash_price}</span>
+                    </h3>
                 </div>
                 <div>
                     <small>Your mining hashprice (per TH/s/day)</small>
-                    <h3 id="formula-result-#10" ref={myContainer}>{Math.round(((currentBid?currentBid:(data.starting_bid?data.starting_bid:1))/parseInt(data.auction_meta.hashrate?data.auction_meta.hashrate:"1"))/parseInt(data.auction_meta.days_of_mining?data.auction_meta.days_of_mining:"1"))}</h3>
+                    <h3 id="formula-result-#10">
+                        <span ref={myContainer}  data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer.current?.innerHTML?myContainer.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{Math.round(((currentBid?currentBid:(data.starting_bid?data.starting_bid:1))/parseInt(data.auction_meta.hashrate?data.auction_meta.hashrate:"1"))/parseInt(data.auction_meta.days_of_mining?data.auction_meta.days_of_mining:"1"))}</span>
+                    </h3>
                 </div>
                 <div>
                     <small>Your mining cost ©</small>
-                    <h3 id="formula-result-#5" ref={myContainer2}>{Math.round((currentBid?currentBid:(data?.starting_bid)))}</h3>
+                    <h3 id="formula-result-#5">
+                    <span  ref={myContainer2} data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer2.current?.innerHTML?myContainer2.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{Math.round((currentBid?currentBid:(data?.starting_bid)))}</span>
+                    </h3>
                 </div>
                 <div>
                     <small>Estimate future mining payout</small>
-                    <h3 id="formula-result-#11" ref={myContainer3}>{parseInt(data.auction_meta.hashrate?data.auction_meta?.hashrate:"1")*parseInt(data.auction_meta.days_of_mining?data.auction_meta?.days_of_mining:"1")*parseInt(data?.auction_meta.current_hash_price?data?.auction_meta.current_hash_price:"1")}</h3>
+                    <h3 id="formula-result-#11">
+                    <span  ref={myContainer3} data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer3.current?.innerHTML?myContainer3.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{parseInt(data.auction_meta.hashrate?data.auction_meta?.hashrate:"1")*parseInt(data.auction_meta.days_of_mining?data.auction_meta?.days_of_mining:"1")*parseInt(data?.auction_meta.current_hash_price?data?.auction_meta.current_hash_price:"1")}</span>
+                    </h3>
                 </div>
             </div>
             

@@ -39,6 +39,7 @@ const CollectionProductBlock = ({product}: ProductProps) => {
  const current_date = new Date()
   return (
     <div className="similer-box">
+      <Link to={"/product/"+product.slug_category} >
         <div className="similer-proimg">
             <img src={product.auction_meta.site_photo} alt={product.title + " Image"} />
         </div>
@@ -55,8 +56,9 @@ const CollectionProductBlock = ({product}: ProductProps) => {
             new Date(product.expiry_at) < current_date ?<><p>Auction Ended at: <strong>{product.current_bid}</strong></p></>:
             <><p>Auction current bid: <strong>{product.current_bid}</strong></p></>}</h6>
 
-            <Link to={"/product/"+product.slug_category} className="btn-main"><span>Start mining Today</span></Link>
+            <span className={new Date(product.expiry_at) > current_date?"btn-main opacity-50":"btn-main"}><span>{new Date(product.expiry_at) > current_date?"View Auction":"Start mining Today"}</span></span>
         </div>
+        </Link>
     </div>
   )
 }

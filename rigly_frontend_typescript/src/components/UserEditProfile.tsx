@@ -11,7 +11,7 @@ const UserEditProfile = ({data, setData}: Props) => {
   const [first_name, setFirstName] = useState(data?.first_name)
   const [last_name, setLastName] = useState(data?.last_name)
   const [bidding_name, setBiddingName] = useState(data?.bidding_name)
-  const [username, setUsername] = useState(data?.username)
+//   const [username, setUsername] = useState(data?.username)
   const [email, setEmail] = useState(data?.email)
   const [phone_number, setPhoneNumber] = useState(data?.phone_number)
   const [mining_pool_username, setMiningPoolUsername] = useState(data?.mining_pool_username)
@@ -34,7 +34,6 @@ const UserEditProfile = ({data, setData}: Props) => {
                     "first_name": first_name,
                     "last_name": last_name,
                     "bidding_name": bidding_name,
-                    "username": username,
                     "email": email,
                     "phone_number": phone_number,
                     "mining_pool_username": mining_pool_username,
@@ -78,9 +77,10 @@ const UserEditProfile = ({data, setData}: Props) => {
                 <input className="form-control mb-3" name='bidding_name' onChange={(e) => setBiddingName(e.target.value)} type="text" defaultValue={bidding_name} />
             </Col>
             <Col sm={12} md={6} lg={6}>
-                <label>Username Name</label>
-                <input className="form-control mb-3" name='username' onChange={(e) => setUsername(e.target.value)} type="text" defaultValue={username} />
+                <label>Telegram Username</label>
+                <input className="form-control mb-3" name='telegram_username' onChange={(e) => setTelegramUserName(e.target.value)} type="text" defaultValue={telegram_username} />
             </Col>
+            
         </Row>
         <Row>
             <Col sm={12} md={6} lg={6}>
@@ -98,16 +98,13 @@ const UserEditProfile = ({data, setData}: Props) => {
                 <input className="form-control mb-3" name='mining_pool_username' onChange={(e) => setMiningPoolUsername(e.target.value)} defaultValue={mining_pool_username} />
             </Col>
             <Col sm={12} md={6} lg={6}>
-                <label>Telegram Username</label>
-                <input className="form-control mb-3" name='telegram_username' onChange={(e) => setTelegramUserName(e.target.value)} type="text" defaultValue={telegram_username} />
-            </Col>
-                        
-        </Row>
-        <Row>
-            <Col sm={12} md={6} lg={6}>
                 <label>Mining Pool Stratum Address</label>
                 <textarea className="form-control mb-3" onChange={(e) => setMiningPoolStratumAddress(e.target.value)} defaultValue={mining_pool_stratum_address} name='mining_pool_stratum_address'></textarea>
             </Col>
+                                    
+        </Row>
+        <Row>
+            
             <Col sm={12} md={6} lg={6}>
                 <label>Address</label>
                 <textarea className="form-control mb-3" onChange={(e) => setAddress(e.target.value)} defaultValue={address} name='address'></textarea>
