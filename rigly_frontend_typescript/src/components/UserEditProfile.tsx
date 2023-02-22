@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import React, { useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import { userProps } from './interfaces'
+import ToastAlert from './Toast'
 interface Props{
     data: userProps | null,
     setData: React.Dispatch<React.SetStateAction<null>>
@@ -18,6 +19,7 @@ const UserEditProfile = ({data, setData}: Props) => {
   const [telegram_username, setTelegramUserName] = useState(data?.telegram_username)
   const [mining_pool_stratum_address, setMiningPoolStratumAddress] = useState(data?.mining_pool_stratum_address)
   const [address, setAddress] = useState(data?.address)
+  const [showAlert, setShowAlert] = useState(false)
 
   const handleSubmit = ()=>{
     getIdTokenClaims().then(async(data1: any) => {
@@ -35,6 +37,7 @@ const UserEditProfile = ({data, setData}: Props) => {
                     "last_name": last_name,
                     "bidding_name": bidding_name,
                     "email": email,
+                    "username": data?.username,
                     "phone_number": phone_number,
                     "mining_pool_username": mining_pool_username,
                     "telegram_username": telegram_username,
@@ -46,6 +49,7 @@ const UserEditProfile = ({data, setData}: Props) => {
             .then((result) => {
                setData(result)
                console.log(result)
+               setShowAlert(true)
             })
 
           } catch(error) {
@@ -58,6 +62,7 @@ const UserEditProfile = ({data, setData}: Props) => {
 
   return (
     <div className="user-order">
+        {showAlert?<ToastAlert title='Alert' description="Saved Successfully" show_toast={showAlert} />:<></>}
         <h3>Edit Profile</h3>   
         <Form>
         <Row>
