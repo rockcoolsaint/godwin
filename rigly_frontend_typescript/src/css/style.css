@@ -1849,6 +1849,11 @@ label.profileimg i{
     border-radius: 50%;
 }
 
+
+.page-404{
+    height: 70vh;
+}
+
 @media screen and (max-width:992px) and (min-width: 768px) {
     .ml-auto.navbar-nav{
         display: flex !important;
