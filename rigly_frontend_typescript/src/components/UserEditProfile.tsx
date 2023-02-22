@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import React, { useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import { userProps } from './interfaces'
+import Loader from './Loader'
 import ToastAlert from './Toast'
 interface Props{
     data: userProps | null,
@@ -21,6 +22,9 @@ const UserEditProfile = ({data, setData}: Props) => {
   const [address, setAddress] = useState(data?.address)
   const [showAlert, setShowAlert] = useState(false)
 
+  if(!data){
+        return <Loader />
+    }
   const handleSubmit = ()=>{
     getIdTokenClaims().then(async(data1: any) => {
         console.log(data1)

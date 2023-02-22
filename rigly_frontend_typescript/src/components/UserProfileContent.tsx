@@ -3,6 +3,7 @@ import React, { useRef } from 'react'
 import { userHistory, userProps } from './interfaces'
 import UserProfileHistory from './UserProfileHistory'
 import PaymentIcon2 from '../images/payment-2.svg'
+import Loader from './Loader'
 
 interface Props{
     data: userProps | null
@@ -59,8 +60,10 @@ const UserProfileContent = ({data, userhistory, setData}: Props) => {
     } 
 
   return (
+    
     <div className="user-profiletab-contents">
-        <div className="user-profile-content">
+        {!data?<Loader />:<></>}
+        <div className={!data?"user-profile-content invisible":"user-profile-content"}>
             <div className="profile-head-row">
                 <div className="row">
                     <div className="col-md-5 col-sm-5">
@@ -165,8 +168,6 @@ const UserProfileContent = ({data, userhistory, setData}: Props) => {
         </div>
         </div>
     </div>
-
-        
     </div>
   )
 }
