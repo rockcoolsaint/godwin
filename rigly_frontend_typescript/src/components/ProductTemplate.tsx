@@ -18,6 +18,7 @@ import Loader from './Loader'
 import AlertDismissible from './Alert'
 
 import ToastAlert from '../components/Toast'
+import { Tooltip } from 'react-tooltip'
 
 interface ProductsProps {
     data: productProps | null,
@@ -126,6 +127,7 @@ const handleSubmit = () => {
         
         {data? 
                 <div className="container">
+                    <Tooltip id="my-tooltip" />
                     <div className="breadcrumb-bx"></div>
                     <h4>{data.title}</h4>
                     <p>{data.sub_title}</p>
