@@ -126,7 +126,7 @@ class ProductHistorySerializer(serializers.ModelSerializer):
         """
         if obj.is_expired:
             # check current user winner or not
-            auction_result = AuctionResult.objects.get(auctions=obj, is_winner=True)
+            auction_result = AuctionResult.objects.get(auction=obj, is_winner=True)
             if auction_result.user == obj.user:
                 return "winner"
             else:

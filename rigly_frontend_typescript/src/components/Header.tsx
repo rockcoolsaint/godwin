@@ -87,16 +87,16 @@ const Header = () => {
           setProfileData(data.user)
           } catch(error) {
             console.log(error)
-            // logout({
-            //     logoutParams: {
-            //         returnTo: window.location.origin,
-            //     },
-            // });
+             logout({
+                 logoutParams: {
+                     returnTo: window.location.origin,
+                 },
+             });
           } 
         }
       })
 
-    },[isLoading, isAuthenticated, getIdTokenClaims])
+    },[isLoading, isAuthenticated, getIdTokenClaims, logout])
 
 
   return (

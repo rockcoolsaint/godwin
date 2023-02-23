@@ -156,16 +156,19 @@ class BidsList(APIView):
     #     return Response(serializer.data)
     def get_bid_history(self, user):
         # user = self.request.user
-        all_bids = Bids.objects.filter(user=user).order_by('-created_at')
-        filtered_user_bids = []
-        auctions = []
-        for bid in all_bids:
-            if bid.auction_list.id not in auctions:
-                filtered_user_bids.append(bid)
-                auctions.append(bid.auction_list.id)
+        try:
+            all_bids = Bids.objects.filter(user=user).order_by('-created_at')
+            filtered_user_bids = []
+            auctions = []
+            for bid in all_bids:
+                if bid.auction_list.id not in auctions:
+                    filtered_user_bids.append(bid)
+                    auctions.append(bid.auction_list.id)
 
-        bids_serializer = BidHistorySerializer(filtered_user_bids, many=True)
-        return bids_serializer.data
+            bids_serializer = BidHistorySerializer(filtered_user_bids, many=True)
+            return bids_serializer.data
+        except:
+            return []
 
     def get_all_bids(self, auction_id):
         auction_obj = AuctionList.objects.get(id=auction_id)
