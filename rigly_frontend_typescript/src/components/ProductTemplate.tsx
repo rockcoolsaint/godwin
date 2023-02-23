@@ -124,7 +124,7 @@ const handleSubmit = () => {
     <section className="product-details-wrp">
         {showToast?<ToastAlert title='Alert' description={toastData.message} show_toast={showToast} />:<></>}
         
-        {data?.id? 
+        {data? 
                 <div className="container">
                     <div className="breadcrumb-bx"></div>
                     <h4>{data.title}</h4>
@@ -216,7 +216,7 @@ const handleSubmit = () => {
                                     }
                                     <hr />
                                 </div>:""}
-                                {data.is_expired || (new Date(data.expiry_at) > new Date()) || (new Date(data.auction_start_date) > new Date())?<><p><Link to="/collections">Checkout more auctions </Link></p>
+                                {data.is_expired || (new Date(data.expiry_at) < new Date()) || (new Date(data.auction_start_date) > new Date())?<><p><Link to="/collections">Checkout more auctions </Link></p>
                                 
                                 
                                 
@@ -242,7 +242,7 @@ const handleSubmit = () => {
                                 <div className="w-100 mt-4 d-flex align-items-center justify-content-center">
                                 {/* <input type="number" onChange={(e) => {setQuery1(e.target.value)}} className="form-control mb-3" id="exampleInputEmail11" aria-describedby="emailHelp" />
                                 <button onClick={handleSubmit1} className="btn btn-primary mt-4 w-75 cb-bid-btn py-2">Place automatic bid</button> */}
-                                    <BidModal data={data.id} />
+                                    <BidModal data={data.id?data.id:1} />
                                 </div>
                                 </>
                                 }

@@ -56,7 +56,7 @@ const CollectionProductBlock = ({product}: ProductProps) => {
             new Date(product.expiry_at) < current_date ?<><p>Auction Ended at: <strong>{product.current_bid}</strong></p></>:
             <><p>Auction current bid: <strong>{product.current_bid}</strong></p></>}</h6>
 
-            <span className={new Date(product.expiry_at) > current_date?"btn-main opacity-50":"btn-main"}><span>{new Date(product.expiry_at) > current_date?"View Auction":"Start mining Today"}</span></span>
+            <span className={new Date(product.expiry_at) < current_date?"btn-main opacity-50":"btn-main"}><span>{new Date(product.expiry_at) < current_date?"View Auction":"Start mining Today"}</span></span>
         </div>
         </Link>
     </div>
