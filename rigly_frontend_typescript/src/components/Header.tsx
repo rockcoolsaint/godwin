@@ -87,16 +87,16 @@ const Header = () => {
           setProfileData(data.user)
           } catch(error) {
             console.log(error)
-            await loginWithRedirect({
-                appState: {
-                    returnTo: window.location.pathname,
+            logout({
+                logoutParams: {
+                    returnTo: window.location.origin,
                 },
-                });
+            });
           } 
         }
       })
 
-    },[isLoading, isAuthenticated, getIdTokenClaims, loginWithRedirect])
+    },[isLoading, isAuthenticated, getIdTokenClaims, logout])
 
 
   return (
