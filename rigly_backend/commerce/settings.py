@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'auctions',
     'api',
     'ckeditor',
+    'import_export',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -144,6 +145,8 @@ AUTHENTICATION_BACKENDS = {
     'social_core.backends.auth0.Auth0OAuth2',
     'django.contrib.auth.backends.ModelBackend'
 }
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 CRONJOBS = [
     ('*/1 * * * *', 'auctions.cron_jobs.start_auctions_and_check_auctions_expiry',
