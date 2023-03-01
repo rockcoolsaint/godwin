@@ -12,6 +12,7 @@ const Product = () => {
   const routeParams = useParams();
   const [dataProduct, setdataProduct] = useState(null);
   const [dataBids, setdataBids] = useState([]);
+  const [dataProxyBids, setdataProxyBids] = useState([]);
   const [currentBid, setcurrentBid] = useState(null);
   const [winner, setWinner] = useState(null);
   const [paymentInBtcFromUsd, setPaymentInBtcFromUsd] = useState(5917.861);
@@ -26,6 +27,7 @@ const Product = () => {
       setdataProduct(returnData.Product)
       setdataBids(returnData.Bids)
       setcurrentBid(returnData.CurrentBid)
+      setdataProxyBids(returnData.proxy_bid)
       setPaymentInBtcFromUsd(await satoshisToFiat(1, 'USD'))
     }
 
@@ -41,6 +43,7 @@ const Product = () => {
       const returnData = await response.json()
       setdataBids(returnData.Bids)
       setcurrentBid(returnData.CurrentBid)
+      setdataProxyBids(returnData.proxy_bid)
       setWinner(returnData.winner)
     }
     const interval = setInterval(() => {
@@ -53,7 +56,7 @@ const Product = () => {
     <div className="auction-product">
       <div className="main-wrpper">
         {dataProduct && currentBid?
-          <ProductTemplate satToUsd={paymentInBtcFromUsd} route_id={routeParams.id} data={dataProduct} bids={dataBids} currentbid={currentBid} winner={winner} />
+          <ProductTemplate proxy_bid={dataProxyBids} satToUsd={paymentInBtcFromUsd} route_id={routeParams.id} data={dataProduct} bids={dataBids} currentbid={currentBid} winner={winner} />
           :<></>
         }
       </div>

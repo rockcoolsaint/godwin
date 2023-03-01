@@ -12,10 +12,15 @@ function MyVerticallyCenteredModal(props: any) {
     const { getIdTokenClaims } = useAuth0();
     const [query1, setQuery1] = useState("");
 
+    function formatNumber(n: string) {
+      // format number 1000000 to 1,234,567
+      return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
 
     const handleSubmit1 = () => {
       getIdTokenClaims().then(async(data1: any) => {
           if (!query1) return;
+          if(parseInt(query1) > 10000000){ alert('Value should be less than 10,000,000'); return}
           if(!data1?.__raw) return;
           fetch('/api/place-automatic-bid/', {
               method: 'post',
@@ -43,11 +48,6 @@ function MyVerticallyCenteredModal(props: any) {
       })
     };
 
-    const handleChange4 = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // setMaxValue(e.target.value);
-        setQuery1(e.target.value)
-        console.log(query1)
-    };
   return (
     <>
      {showToast?<ToastAlert title='Alert' description={toastData.message} show_toast={showToast} />:<></>}
@@ -65,7 +65,7 @@ function MyVerticallyCenteredModal(props: any) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <input type="number" value={query1} onChange={handleChange4} className="form-control"  />
+        <input type="text" defaultValue={query1} onChange={(e) => { e.target.value = formatNumber(e.target.value); setQuery1(e.target.value.replaceAll(',',''))}} className="form-control"  />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleSubmit1}>Save</Button>

@@ -117,25 +117,25 @@ function calculateRigly(){
                 <div>
                     <small>Estimate future hashprice (per TH/s/day)</small>
                     <h3 id="formula-result-#9">
-                        <span ref={myContainer1} data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer1.current?.innerHTML?myContainer1.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{data.auction_meta?.current_hash_price}</span>
+                        <span ref={myContainer1} data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer1.current?.innerHTML?myContainer1.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{data.auction_meta?.current_hash_price}</span> <i className="fak fa-regular" />
                     </h3>
                 </div>
                 <div>
                     <small>Your mining hashprice (per TH/s/day)</small>
                     <h3 id="formula-result-#10">
-                        <span ref={myContainer}  data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer.current?.innerHTML?myContainer.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{Math.round(((currentBid?currentBid:(data.starting_bid?data.starting_bid:1))/parseInt(data.auction_meta.hashrate?data.auction_meta.hashrate:"1"))/parseInt(data.auction_meta.days_of_mining?data.auction_meta.days_of_mining:"1"))}</span>
+                        <span ref={myContainer}  data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer.current?.innerHTML?myContainer.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{Math.round(((currentBid?currentBid:(data.starting_bid?data.starting_bid:1))/parseInt(data.auction_meta.hashrate?data.auction_meta.hashrate:"1"))/parseInt(data.auction_meta.days_of_mining?data.auction_meta.days_of_mining:"1"))}</span> <i className="fak fa-regular" />
                     </h3>
                 </div>
                 <div>
                     <small>Your mining cost ©</small>
                     <h3 id="formula-result-#5">
-                    <span  ref={myContainer2} data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer2.current?.innerHTML?myContainer2.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{Math.round((currentBid?currentBid:(data?.starting_bid)))}</span>
+                    <span  ref={myContainer2} data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer2.current?.innerHTML?myContainer2.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{Math.round((currentBid?currentBid:(data?.starting_bid)))}</span> <i className="fak fa-regular" />
                     </h3>
                 </div>
                 <div>
                     <small>Estimate future mining payout</small>
                     <h3 id="formula-result-#11">
-                    <span  ref={myContainer3} data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer3.current?.innerHTML?myContainer3.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{parseInt(data.auction_meta.hashrate?data.auction_meta?.hashrate:"1")*parseInt(data.auction_meta.days_of_mining?data.auction_meta?.days_of_mining:"1")*parseInt(data?.auction_meta.current_hash_price?data?.auction_meta.current_hash_price:"1")}</span>
+                    <span  ref={myContainer3} data-tooltip-id="my-tooltip-1" data-tooltip-content={"$"+(parseInt(myContainer3.current?.innerHTML?myContainer3.current?.innerHTML:"0") * satToUsd).toFixed(2).toString()}>{parseInt(data.auction_meta.hashrate?data.auction_meta?.hashrate:"1")*parseInt(data.auction_meta.days_of_mining?data.auction_meta?.days_of_mining:"1")*parseInt(data?.auction_meta.current_hash_price?data?.auction_meta.current_hash_price:"1")}</span> <i className="fak fa-regular" />
                     </h3>
                 </div>
             </div>

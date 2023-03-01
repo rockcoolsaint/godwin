@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { userHistory } from './interfaces'
 
@@ -8,6 +8,7 @@ interface Props{
 }
 
 const UserProfileHistory = ({userhistory}: Props) => {
+    const navigate = useNavigate();
   const dateFormat = (date: Date) =>{
     return new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short',day: '2-digit'}).format(date)
   }
@@ -24,7 +25,7 @@ const UserProfileHistory = ({userhistory}: Props) => {
                         <tbody>
                             
                             {userhistory?userhistory.map((data, idx)=>{
-                               return <tr className="odd" key={idx}>
+                               return <tr className="odd" key={idx} onClick={e => navigate('/product/'+data.auction_list.slug_category)}>
                                     <td className="dtr-control sorting_1">
                                         <div className="proimgbx">
                                             <img src={data.auction_list.auction_meta.site_photo} alt="" />
@@ -32,7 +33,7 @@ const UserProfileHistory = ({userhistory}: Props) => {
                                     </td>
                                     <td>{data.auction_list.title}</td>
                                     <td>{dateFormat(new Date(data.auction_list.created_at))}</td>
-                                    <td>{data.bid} sats</td>
+                                    <td>{data.bid} <i className="fak fa-regular" /></td>
                                     <td>{dateFormat(new Date(data.auction_list.expiry_at))}</td>
                                     <td><label className={data.auction_list.user_auction_status}>{data.auction_list.user_auction_status.toUpperCase()}</label> <Link to="#"><img src="images/delet-ic.svg" alt="" /></Link></td>
                                 </tr>

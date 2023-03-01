@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  web:
+    restart: always
+    build: ./rigly_frontend_typescript
+    command: npm start
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./rigly_frontend_typescript:/frontend
+    networks:
+      - db-net
+
+  code:
+    restart: always
+    build: ./rigly_backend
+    command: bash -c "python manage.py migrate &&
+                      python manage.py runsslserver 0.0.0.0:8000"
+    volumes:
+      - ./rigly_backend:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    environment:
+      - DB_NAME=auctions
+      - DB_USER=admin
+      - DB_PASS=021198dD@
+      - DB_HOST=db
+    networks:
+      - db-net
+
+  db:
+    restart: always
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - POSTGRES_DB=auctions
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=021198dD@
+    networks:
+      - db-net
+
+volumes:
+  postgres_data:
+
+networks:
+  db-net:
+    driver: bridge

@@ -20,7 +20,7 @@ export const Auth0ProviderWithNavigate = ({ children }: Iprops) => {
   if (!(domain && clientId && redirectUri)) {
     return null;
   }
-  console.log(domain)
+
   return (
     <Auth0Provider
       domain={domain}

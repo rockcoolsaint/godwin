@@ -8,15 +8,15 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useAuth0 } from "@auth0/auth0-react";
 
 import Announcement from './Announcement'
-import Loader from './Loader';
 import { Link } from 'react-router-dom';
 
+import Logo from '../images/logo.svg'
 
 const Header = () => {
     const [stickyClass, setStickyClass] = useState<string>("");
 
     useEffect(() => {
-        fetchData();
+        // fetchData();
         window.addEventListener('scroll', stickNavbar);
 
         return () => {
@@ -24,20 +24,19 @@ const Header = () => {
         };
     }, []);
 
-    interface headerData {
-        annoucement_message: string,
-        header_logo: string
-    }
+    // interface headerData {
+    //     annoucement_message: string,
+    //     header_logo: string
+    // }
 
-    const [data, setData] = useState<headerData[]>([]);
     const[profileData ,setProfileData] = useState({"username":""})
 
-    const fetchData = async () => {
-      const response = await fetch("/api/header/")
-      const returnData = await response.json()
-      console.log(returnData[0])
-      setData(returnData)
-    }
+    // const fetchData = async () => {
+    //   const response = await fetch("/api/header/")
+    //   const returnData = await response.json()
+    //   console.log(returnData[0])
+    //   setData(returnData)
+    // }
 
     const stickNavbar = () => {
         if (window !== undefined) {
@@ -52,7 +51,7 @@ const Header = () => {
     const handleLogin = async () => {
         await loginWithRedirect({
         appState: {
-            returnTo: "/payment",
+            returnTo: window.location.pathname,
         },
         });
     };
@@ -102,15 +101,14 @@ const Header = () => {
   return (
 
     <>
-        {data[0]?.annoucement_message?(<Announcement message={data[0]?.annoucement_message} />):(<></>)}
-        {data[0]?.header_logo?
+        <Announcement message="Appropriately foster efficient ideas after go forward alignments. Monotonectally." />
         <header  className={stickyClass}>
             <div className="container">
 
 
             <Navbar collapseOnSelect expand="md" variant="light">
             <Navbar.Brand href="/">
-                <img src={data[0]?.header_logo} alt="Logo" />
+                <img src={Logo} alt="Logo" />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
@@ -149,9 +147,7 @@ const Header = () => {
         </Navbar>
 
             </div>
-        </header>:
-        <Loader />
-        }
+        </header>
     </>
 
     

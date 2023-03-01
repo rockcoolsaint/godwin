@@ -12,7 +12,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import BidModal from './Modal'
 import Countdown from "react-countdown";
 
-import {RendererProps, bidProps, productProps, winnerProps} from './interfaces'
+import {RendererProps, bidProps, productProps, winnerProps, proxyBid} from './interfaces'
 import { Link } from 'react-router-dom'
 import Loader from './Loader'
 import AlertDismissible from './Alert'
@@ -24,16 +24,18 @@ interface ProductsProps {
     data: productProps | null,
     bids: bidProps[],
     currentbid: bidProps,
+    proxy_bid: proxyBid[],
     route_id?: string,
     winner: winnerProps | null,
     satToUsd: number
 }
 
-const ProductTemplate = ({data, bids, currentbid, winner, route_id, satToUsd}: ProductsProps) => {
+const ProductTemplate = ({data, bids, currentbid, proxy_bid, winner, route_id, satToUsd}: ProductsProps) => {
 
 const [showToast, setShowToast] = useState(false)
 const [toastData, setToastData] = useState({"message":""})
 const [winnerUser, setWinnerUser] = useState(false)
+const [currentBid, setCurrentBid] = useState(currentbid.bid)
 console.log("***************************")
 
 
@@ -73,9 +75,40 @@ const renderer = ({ days, hours, minutes, seconds, completed }:RendererProps): J
     }
   };
 
+  const handleSubmit1 = () => {
+    getIdTokenClaims().then(async(data1: any) => {
+        if(!data1?.__raw) return;
+        if(parseInt(query) > 10000000){ alert('Value should be less than 10,000,000'); return}
+        fetch('/api/place-automatic-bid/', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json',
+                        'Authorization': 'Bearer '+data1?.__raw, 
+            },
+            body: JSON.stringify({
+                proxy_bid_amnt: currentbid?.bid?currentbid?.bid.toString():query,
+                source: "list_page",
+                list_id: data?.id
+            }),
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            setCurrentBid(responseJson.current_bid)
+            setToastData({
+              "message": responseJson.place_bid_status.status
+          })
+          setShowToast(true)
+          return responseJson;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    })
+  };
+
 const handleSubmit = () => {
     getIdTokenClaims().then(async(data1: any) => {
-        if (!query) return;
+        if (!query) {setQuery(currentbid?.bid?currentbid?.bid.toString():"")};
+        if(parseInt(query) > 10000000){ alert('Value should be less than 10,000,000'); return}
         if(!data1.__raw) return;
         fetch('/api/place-bid/', {
             method: 'post',
@@ -91,10 +124,12 @@ const handleSubmit = () => {
         .then((response) => response.json())
         .then((responseJson) => {
             console.log(responseJson)
+            setCurrentBid(responseJson.current_bid)
             if(responseJson.message === "User status Unpaid"){
                 setUserPaidStatus(false)
             }else{
                 setUserPaidStatus(true)
+                setQuery(responseJson.current_bid)
            
                 setToastData({
                     "message": responseJson.place_bid_status.message
@@ -111,6 +146,13 @@ const handleSubmit = () => {
     })
   };
 
+
+  function formatNumber(n: string) {
+    // format number 1000000 to 1,234,567
+    return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  }
+  
+  
 
   const dateFormat = (date: Date) =>{
     return new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(date)
@@ -206,7 +248,8 @@ const handleSubmit = () => {
                                 </div>
                                 <div className="d-flex flex-column align-items-center justify-content-center mt-4 py-3 px-5 mb-4 w-75 current-bid-container">
                                     <p className="m-0 fs-6 current-bid-title">Current bid</p>
-                                    <h2 className="m-0"><span data-tooltip-content={"$"+(currentbid.bid * satToUsd).toFixed(2).toString()} data-tooltip-id="my-tooltip">{currentbid.bid?formatMoney(currentbid.bid):''}</span></h2>
+                                    <h2 className="m-0"><span data-tooltip-content={"$"+(currentbid.bid?currentbid.bid:data.starting_bid * satToUsd).toFixed(2).toString()} data-tooltip-id="my-tooltip">{currentbid.bid?formatMoney(currentbid.bid):formatMoney(data.starting_bid)} <i className="fak fa-regular" />
+</span></h2>
                                 </div>
                                 {winnerUser?<div className='text-center'>
                                     <hr />
@@ -231,7 +274,7 @@ const handleSubmit = () => {
                                 </div>}
                                 <p className="fs-6 text-dark-emphasis fw-semibold cb-enter-bid">Enter your bid</p>
                                 <div className="container px-5">
-                                    <input type="number" onChange={(e) => {setQuery(e.target.value)}} defaultValue={currentbid.bid?currentbid.bid: data.starting_bid} className="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                    <input type="text" onChange={(e) => { e.target.value = formatNumber(e.target.value); setQuery(e.target.value.replaceAll(',',''))}} defaultValue={currentBid?formatNumber(currentBid.toString()): formatNumber(data.starting_bid.toString())} className="form-control mb-3" id="exampleInputEmail1" aria-describedby="emailHelp" />
                                 </div>
                                 <div className="cb-bid-note">
                                     Bids require 20,000$ deposit, refunded after auction
@@ -240,11 +283,28 @@ const handleSubmit = () => {
                                     <button onClick={handleSubmit} className="btn btn-primary mt-4 w-75 cb-bid-btn py-2">Place bid</button>
                                 </div>
                                 
-                                <div className="w-100 mt-4 d-flex align-items-center justify-content-center">
+                                <div className="w-100 mt-4 text-center align-items-center justify-content-center flex-direction-column">
                                 {/* <input type="number" onChange={(e) => {setQuery1(e.target.value)}} className="form-control mb-3" id="exampleInputEmail11" aria-describedby="emailHelp" />
                                 <button onClick={handleSubmit1} className="btn btn-primary mt-4 w-75 cb-bid-btn py-2">Place automatic bid</button> */}
+                                    {proxy_bid?proxy_bid.map((e,idx)=>{
+                                        if(user?.email === e.user.email){
+                                            if(e.maximum_amount > currentBid){
+                                                return (<div key={e.user.id} className='mb-2 text-center'>
+                                                    <small>Your Proxy Bid Maximum:</small> {e.maximum_amount} <i className="fak fa-regular" /><br />
+                                                    <small>
+                                                        <Link to="#" onClick={handleSubmit1}>Cancel my proxy bid.</Link>
+                                                    </small><br />
+                                                </div>)
+                                            }else{
+                                                return <> <small>Last Proxy Bid:</small> {e.maximum_amount} <i className="fak fa-regular" /><br /></>
+                                            }
+                                        }else{
+                                            return <></>
+                                        }
+                                    }):<></>}
                                     <BidModal data={data.id?data.id:1} />
                                 </div>
+
                                 </>
                                 }
                                 

@@ -52,9 +52,9 @@ const CollectionProductBlock = ({product}: ProductProps) => {
             renderer={renderer}
             />
             <h5>No. of Bids: <strong>{product.bid_count}</strong></h5>
-            <h6>{new Date(product.auction_start_date) > current_date ? <><p>Auction starting at: <strong>{product.starting_bid}</strong></p></>: 
-            new Date(product.expiry_at) < current_date ?<><p>Auction Ended at: <strong>{product.current_bid}</strong></p></>:
-            <><p>Auction current bid: <strong>{product.current_bid}</strong></p></>}</h6>
+            <h6>{new Date(product.auction_start_date) > current_date ? <><p>Auction starting at: <strong>{product.starting_bid}</strong> <i className="fak fa-regular" /></p></>: 
+            new Date(product.expiry_at) < current_date ?<><p>Auction Ended at: <strong>{product.current_bid}</strong> <i className="fak fa-regular" /></p></>:
+            <><p>Auction current bid: <strong>{product.current_bid}</strong> <i className="fak fa-regular" /></p></>}</h6>
 
             <span className={new Date(product.expiry_at) < current_date?"btn-main opacity-50":"btn-main"}><span>{new Date(product.expiry_at) < current_date?"View Auction":"Start mining Today"}</span></span>
         </div>

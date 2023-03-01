@@ -11,15 +11,16 @@ interface Props{
 const UserEditProfile = ({data, setData}: Props) => {
   const { getIdTokenClaims } = useAuth0();
   const [first_name, setFirstName] = useState(data?.first_name)
-  const [last_name, setLastName] = useState(data?.last_name)
+//   const [last_name, setLastName] = useState(data?.last_name)
   const [bidding_name, setBiddingName] = useState(data?.bidding_name)
 //   const [username, setUsername] = useState(data?.username)
   const [email, setEmail] = useState(data?.email)
-  const [phone_number, setPhoneNumber] = useState(data?.phone_number)
+  const [referral, setReferral] = useState(data?.referral_code)
+  //const [phone_number, setPhoneNumber] = useState(data?.phone_number)
   const [mining_pool_username, setMiningPoolUsername] = useState(data?.mining_pool_username)
   const [telegram_username, setTelegramUserName] = useState(data?.telegram_username)
   const [mining_pool_stratum_address, setMiningPoolStratumAddress] = useState(data?.mining_pool_stratum_address)
-  const [address, setAddress] = useState(data?.address)
+ // const [address, setAddress] = useState(data?.address)
   const [showAlert, setShowAlert] = useState(false)
 
   if(!data){
@@ -38,15 +39,13 @@ const UserEditProfile = ({data, setData}: Props) => {
             },
                 body: JSON.stringify({
                     "first_name": first_name,
-                    "last_name": last_name,
                     "bidding_name": bidding_name,
                     "email": email,
                     "username": data?.username,
-                    "phone_number": phone_number,
                     "mining_pool_username": mining_pool_username,
                     "telegram_username": telegram_username,
                     "mining_pool_stratum_address": mining_pool_stratum_address,
-                    "address": address
+                    "referral_code": referral
                 })
             })
             .then((response) => response.json())
@@ -75,9 +74,13 @@ const UserEditProfile = ({data, setData}: Props) => {
                 <input className="form-control mb-3" name='first_name' onChange={(e) => setFirstName(e.target.value)} defaultValue={first_name} />
             </Col>
             <Col sm={12} md={6} lg={6}>
+                <label>Email</label>
+                <input className="form-control mb-3" name='email' onChange={(e) => setEmail(e.target.value)} defaultValue={email} />
+            </Col>
+            {/* <Col sm={12} md={6} lg={6}>
                 <label>Last Name</label>
                 <input className="form-control mb-3" name='last_name' onChange={(e) => setLastName(e.target.value)} defaultValue={last_name} />
-            </Col>
+            </Col> */}
             
         </Row>
         <Row>
@@ -91,16 +94,13 @@ const UserEditProfile = ({data, setData}: Props) => {
             </Col>
             
         </Row>
-        <Row>
-            <Col sm={12} md={6} lg={6}>
-                <label>Email</label>
-                <input className="form-control mb-3" name='email' onChange={(e) => setEmail(e.target.value)} defaultValue={email} />
-            </Col>
+        {/* <Row>
+            
             <Col sm={12} md={6} lg={6}>
                 <label>Mobile</label>
                 <input className="form-control mb-3" name='phone_number' onChange={(e) => setPhoneNumber(e.target.value)} type="text" defaultValue={phone_number} />
             </Col>
-        </Row>
+        </Row> */}
         <Row>
             <Col sm={12} md={6} lg={6}>
                 <label>Mining Pool Username</label>
@@ -113,13 +113,19 @@ const UserEditProfile = ({data, setData}: Props) => {
                                     
         </Row>
         <Row>
+            <Col sm={12} md={6} lg={6}>
+                <label>Referral Code</label>
+                <input className="form-control mb-3" name='referral_code' onChange={(e) => setReferral(e.target.value)} defaultValue={referral} />
+            </Col>
+        </Row>
+        {/* <Row>
             
             <Col sm={12} md={6} lg={6}>
                 <label>Address</label>
                 <textarea className="form-control mb-3" onChange={(e) => setAddress(e.target.value)} defaultValue={address} name='address'></textarea>
             </Col>
             
-        </Row>
+        </Row> */}
         <Row className='text-center'>
             <Button type='button' onClick={handleSubmit}>Save</Button>
         </Row>

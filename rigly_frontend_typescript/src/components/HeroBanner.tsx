@@ -4,24 +4,23 @@ import shp1 from '../images/banner-shp1.svg';
 import shp2 from '../images/banner-shp2.svg';
 import shp3 from '../images/banner-shp3.png';
 
-import parse from 'html-react-parser'
 import { Link } from 'react-router-dom';
 
-interface props{
-    title: string,
-    description: string,
-    image_file: string
-}
+import BannerImg from '../images/banner-img.svg'
 
-const HeroBanner = ({title, description, image_file}:props) => {
+const HeroBanner = () => {
   return (
     <section className="hero-banner-wrp">
         <div className="container">
             <div className="row">
                 <div className="col-md-7 col-sm-12" id="one">
                     <div className="banner-data">
-                        <h1>{title}</h1>
-                        {parse(description.toString())}
+                        <h1>Mining Has Never Been Easier</h1>
+                        <ul>
+                            <li>Bid on verified machines</li>
+                            <li>No need to wait</li>
+                            <li>No need for expensive upfront capital investment</li>
+                        </ul>
                         <div className="btn-group">
                             <Link to="/collections" className="btn-main">Start Mining Today</Link>
                             <h5>Need any help? <Link to="#">Contact us</Link></h5>
@@ -30,7 +29,7 @@ const HeroBanner = ({title, description, image_file}:props) => {
                 </div>
                 <div className="col-md-5 col-sm-12" id="two">
                     <div className="banner-img">
-                        <img src={image_file} alt="" />
+                        <img src={BannerImg} alt="" />
                     </div>
                 </div>
             </div>

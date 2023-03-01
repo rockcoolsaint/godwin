@@ -28,7 +28,8 @@ const Bids = ({bids, satToUsd}: Ibids) => {
               <p>{new Date(bid?.created_at).toLocaleString()}</p>
           </div>
           <div className="col-md-4">
-              <h6 className="text-end-1"><span data-tooltip-id="my-tooltip-2" data-tooltip-content={"$"+(bid.bid * satToUsd).toFixed(2).toString()} >{bid.bid} sats</span></h6>
+              <h6 className="text-end-1"><span data-tooltip-id="my-tooltip-2" data-tooltip-content={"$"+(bid.bid * satToUsd).toFixed(2).toString()} >{bid.bid} <i className="fak fa-regular" />
+</span></h6>
               <p className="text-end-1">{satoshisToBitcoin(bid.bid)} BTC</p>
           </div>
       </div>

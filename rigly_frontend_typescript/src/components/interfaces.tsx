@@ -95,6 +95,11 @@ export interface productMetaProps{
 
 }
 
+export interface proxyBid{
+    "maximum_amount": number,
+    "user": userProps
+}
+
 export interface productProps {
     "auction_meta": productMetaProps,
     "auction_type": string,

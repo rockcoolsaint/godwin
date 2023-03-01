@@ -1,10 +1,11 @@
 {
   "name": "rigly_frontend_typescript",
   "version": "0.1.0",
-  "proxy": "https://auctions.rigly.io",
+  "proxy": "https://127.0.0.1:8000/",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^2.0.0",
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

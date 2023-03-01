@@ -147,7 +147,7 @@ class AuctionList(BaseModel):
 class ProxyBids(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     auction_list = models.ForeignKey(AuctionList, on_delete=models.CASCADE, null=True, blank=True)
-    maximum_amount = models.IntegerField(default=0)
+    maximum_amount = models.BigIntegerField(default=0)
     history_values = models.TextField(default="")
 
     def __str__(self):
@@ -161,7 +161,7 @@ class ProxyBids(BaseModel):
 class Bids(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     auction_list = models.ForeignKey(AuctionList, on_delete=models.CASCADE, blank=True, null=True)
-    bid = models.IntegerField()
+    bid = models.BigIntegerField()
     is_proxy = True
     max_proxy_amount = 100
 
@@ -177,7 +177,7 @@ class AuctionResult(BaseModel):
     auction = models.ForeignKey(AuctionList, on_delete=models.CASCADE)
     position = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    bid_price = models.IntegerField(default=0)
+    bid_price = models.BigIntegerField(default=0)
     is_winner = models.BooleanField(default=0)
 
     def __str__(self):

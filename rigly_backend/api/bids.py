@@ -86,12 +86,19 @@ class AutomaticBidsList(APIView):
         # CASE : check present bid > max val
         if len(all_proxy_bids) > 1:
             second_max_value = list_of_proxy_bids[-2]
+            
             max_value = list_of_proxy_bids[-1]
             print('*' * 50)
             print(all_proxy_bids, second_max_value, max_value)
             new_bid_amount = second_max_value + auction_obj.proxy_increement
             top_bidder_obj = all_proxy_objs.last()
             user = top_bidder_obj.user
+            second_top_bidder = ProxyBids.objects.filter(maximum_amount__gt=current_bid, auction_list__id=auction_id).order_by('-maximum_amount')
+
+            if second_top_bidder[1].user != user:
+                new_bid_1 = Bids(user=second_top_bidder[1].user, auction_list=auction_obj, bid=second_top_bidder[1].maximum_amount)
+                new_bid_1.save()
+
         elif len(all_proxy_bids) == 1:
             max_value = list_of_proxy_bids[-1]
             new_bid_amount = current_bid + auction_obj.proxy_increement
@@ -133,15 +140,16 @@ class AutomaticBidsList(APIView):
         data = json.loads(body_unicode)
         max_bid_amnt = data["proxy_bid_amnt"]
         auction_id = data["list_id"]
-        if request.user.is_paid or request.user.is_coupon_used:
+        # if request.user.is_paid or request.user.is_coupon_used:
+        if True:
             place_bid_response, status_code = self.place_automatic_bid(max_bid_amnt, auction_id)
             all_bids, current_bid = BidsList().get_all_bids(auction_id)
             bids_serializer = BidsSerializer(all_bids, many=True, context={"request": request})
             return Response(
                 {"place_bid_status": place_bid_response, "bids": bids_serializer.data, "current_bid": current_bid},
                 status=status_code)
-        else:
-            return Response({"message": "User status Unpaid"}, status=status.HTTP_200_OK)
+        # else:
+        #     return Response({"message": "User status Unpaid"}, status=status.HTTP_200_OK)
 
 
 class BidsList(APIView):
@@ -252,12 +260,13 @@ class BidsList(APIView):
         bid_amnt = data["bid_amnt"]
         auction_id = data["list_id"]
         # print(request.user, "**************")
-        if request.user.is_paid or request.user.is_coupon_used:
+        # if request.user.is_paid or request.user.is_coupon_used:
+        if True:
             place_bid_status = self.place_bid(bid_amnt, auction_id)
             all_bids, current_bid = self.get_all_bids(auction_id)
             bids_serializer = BidsSerializer(all_bids, many=True, context={"request": request})
             return Response(
                 {"place_bid_status": place_bid_status, "bids": bids_serializer.data, "current_bid": current_bid},
                 status=status.HTTP_200_OK)
-        else:
-            return Response({"message": "User status Unpaid"}, status=status.HTTP_200_OK)
+        # else:
+        #     return Response({"message": "User status Unpaid"}, status=status.HTTP_200_OK)

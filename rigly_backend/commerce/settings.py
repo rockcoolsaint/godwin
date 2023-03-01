@@ -15,6 +15,10 @@ import os
 from auctions import config
 from datetime import timedelta
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -30,7 +34,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://auctions.rigly.io/'
+    'https://auctions.rigly.io/',
+    'http://localhost:3000/'
 ]
 
 SECURE_SSL_REDIRECT = True
@@ -106,7 +111,7 @@ DATABASES = {
         'NAME': 'auctions',
         'USER': 'admin',
         'PASSWORD': '021198dD@',
-        'HOST': 'localhost',
+        'HOST': os.getenv("DB_HOST"),
         'PORT': '',
     }
 }

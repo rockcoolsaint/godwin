@@ -32,10 +32,10 @@ const Homepage = () => {
   return (
     data?
     <>
-      <HeroBanner title={data[0].title} description={data[0].description} image_file={data[0].image_file} />
+      <HeroBanner />
       <HomeCollection products={data[0].products} />
-      <Information data={data[0]} />
-      <AboutUs data={data[0]} /> 
+      <Information />
+      <AboutUs /> 
     </>:
    <Loader />
   )

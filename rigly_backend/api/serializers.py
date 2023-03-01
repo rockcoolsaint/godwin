@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import *
-from auctions.models import AuctionList, User, Bids, AuctionResult, AuctionMetaData, AuctionType
+from auctions.models import AuctionList, User, Bids, AuctionResult, AuctionMetaData, AuctionType, ProxyBids
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,6 +11,12 @@ class UserSerializer(serializers.ModelSerializer):
             'id', 'first_name', 'uploaded_profile', 'date_joined', 'bidding_name', 'email', 'username', 'last_name', 'is_paid', 'is_coupon_used', 'coupon', 'date_joined',
             'profile_pik', 'phone_number', 'address', 'newsletter_subscribe', 'telegram_username', 'mining_pool_stratum_address', 'mining_pool_username', 'refer_code', 'referral_code')
 
+
+class ProxyDataSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = ProxyBids
+        fields = ('maximum_amount', 'user')
 
 class HeaderDataSerializer(serializers.ModelSerializer):
     class Meta:

@@ -5,10 +5,10 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 
 from api.bids import BidsList
-from api.serializers import ProductSerializer, BidsSerializer, ProductMetaSerializer, ProductDetailedSerializer, \
+from api.serializers import ProductSerializer, ProxyDataSerializer, BidsSerializer, ProductMetaSerializer, ProductDetailedSerializer, \
     AuctionResultSerializer
 from api.utils import minbid
-from auctions.models import AuctionList, Bids, AuctionMetaData, AuctionResult
+from auctions.models import AuctionList, Bids, AuctionMetaData, AuctionResult, ProxyBids
 from rest_framework.decorators import action
 
 
@@ -38,7 +38,8 @@ class AuctionViewSet(viewsets.ViewSet, LimitOffsetPagination):
 
         bids = Bids.objects.filter(auction_list=product).order_by('-created_at')
         bids_serializer = BidsSerializer(bids, many=True, context={"request": request})
-
+        proxy_bids = ProxyBids.objects.filter(auction_list=product).order_by('-created_at')
+        proxy_serializer = ProxyDataSerializer(proxy_bids, many=True, context={"request": request})
         min_req_bid, current_bid_obj = minbid(product.starting_bid, bids)
         current_bid_serializer = BidsSerializer(current_bid_obj, context={"request": request})
 
@@ -52,4 +53,4 @@ class AuctionViewSet(viewsets.ViewSet, LimitOffsetPagination):
 
         return JsonResponse(
             {"Product": serializer.data, "Bids": bids_serializer.data, "CurrentBid": current_bid_serializer.data,
-             "winner": winner_data})
+             "winner": winner_data, "proxy_bid": proxy_serializer.data})
