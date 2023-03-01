@@ -29,7 +29,7 @@ def send_auction_loosing_email(user, loose_bid_obj, highest_bid, to_email):
                                      "product_handle": loose_bid_obj.auction_list.slug_category,
                                      "highest_bid": highest_bid})
     subject = "Sorry! You Loose Auction - " + loose_bid_obj.auction_list.title
-    send_rigly_emails(subject, to_email, '', html_message)
+    send_rigly_emails(subject, [to_email], '', html_message)
 
 
 def announce_winner_and_add_auction_results(auction_obj):
@@ -55,6 +55,7 @@ def announce_winner_and_add_auction_results(auction_obj):
             else:
                 is_winner = 0
                 looser.append(bid_obj.user.email)
+                send_auction_loosing_email(bid_obj.user, bid_obj, highest_bid, bid_obj.user.email)
             AuctionResult.objects.create(auction=auction_obj, position=position_count, user=bid_obj.user,
                                          bid_price=bid_obj.bid, is_winner=is_winner)
     send_winner_email(bid_obj, winner[0] , to_email)

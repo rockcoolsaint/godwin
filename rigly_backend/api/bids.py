@@ -78,7 +78,7 @@ class AutomaticBidsList(APIView):
         # print(bid_obj, bid_obj.user.username, "*****bid obj*********")
 
         # case 1 if multiple proxy bids are present and greater than current bid
-        all_proxy_objs = ProxyBids.objects.filter(maximum_amount__gt=current_bid).order_by('maximum_amount')
+        all_proxy_objs = ProxyBids.objects.filter(maximum_amount__gt=current_bid, auction_list__id=auction_id).order_by('maximum_amount')
         all_proxy_bids = all_proxy_objs.values_list(
             'maximum_amount', flat=True)
         list_of_proxy_bids = list(all_proxy_bids)
