@@ -52,11 +52,10 @@ if(user && winner){
 }
 },[user, winner])
 
-const [query, setQuery] = useState<string>("");
+const [query, setQuery] = useState<string>(currentbid?.bid?currentbid?.bid.toString():"");
 const [userPaidStatus, setUserPaidStatus] = useState<boolean>(true);
 
 const Completionist = () => <span>Bidding for this auction is now being closed</span>;
-
 
 const renderer = ({ days, hours, minutes, seconds, completed }:RendererProps): JSX.Element => {
     if (completed) {
