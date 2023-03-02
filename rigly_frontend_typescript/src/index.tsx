@@ -6,6 +6,13 @@ import { Auth0ProviderWithNavigate } from './auth0-provider-with-navigate';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+declare global {
+  interface Window {
+    fetchUrl:any;
+  }
+}
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>

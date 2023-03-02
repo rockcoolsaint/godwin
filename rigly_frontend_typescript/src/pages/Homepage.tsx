@@ -19,7 +19,7 @@ const Homepage = () => {
 
 
   const fetchData = async () => {
-    const response = await fetch("/api/get_homepage_data/")
+    const response = await fetch(window.fetchUrl+"/api/get_homepage_data/")
     const returnData = await response.json()
     console.log(returnData)
     setData(returnData)

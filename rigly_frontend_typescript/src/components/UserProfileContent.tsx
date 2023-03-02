@@ -30,7 +30,7 @@ const UserProfileContent = ({data, userhistory, setData}: Props) => {
                 console.log(data1)
                 if(data1.__raw){
                 try {
-                    fetch('/api/profile/', {
+                    fetch(window.fetchUrl+'/api/profile/', {
                         method: "PUT",
                         headers: {
                             Authorization: 'Bearer ' + data1.__raw
@@ -79,7 +79,7 @@ const UserProfileContent = ({data, userhistory, setData}: Props) => {
                                 <li><Link to="#"><img src="images/proic2.svg" alt="" /></Link></li>
                                 <li><Link to="#"><img src="images/proic3.svg" alt="" /></Link></li> */}
                                 <input type="file" className='d-none' id="profile_pic" onChange={e => handleChangeFile(e)} accept="image/png, image/gif, image/jpeg" />
-                                <li><label htmlFor="profile_pic" className="profileimg"><i className="fa fa-pencil"></i><img src={data?.uploaded_profile?data?.uploaded_profile:data?.profile_pik} alt="" /></label></li>
+                                <li><label htmlFor="profile_pic" className="profileimg"><i className="fa fa-pencil"></i><img src={data?.uploaded_profile?data?.uploaded_profile:(data?.profile_pik?data?.profile_pik:"https://auctions.rigly.io/media/auction_profile_images/profile_dummy.jpg")} alt="" /></label></li>
                             </ul>
                         </div>
                     </div>

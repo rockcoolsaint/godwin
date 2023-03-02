@@ -31,7 +31,7 @@ const UserEditProfile = ({data, setData}: Props) => {
         console.log(data1)
         if(data1.__raw){
         try {
-            fetch('/api/profile/', {
+            fetch(window.fetchUrl+'/api/profile/', {
                 method: "PUT",
                 headers: {
                     'Content-type': 'application/json',

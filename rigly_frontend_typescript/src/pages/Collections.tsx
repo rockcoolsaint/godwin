@@ -16,7 +16,7 @@ const Collections = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/api/v1/auctions/"+query)
+      const response = await fetch(window.fetchUrl+"/api/v1/auctions/"+query)
       const returnData = await response.json()
       console.log(returnData)
       setData(returnData)

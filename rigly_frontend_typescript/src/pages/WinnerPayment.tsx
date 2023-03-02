@@ -41,7 +41,7 @@ const WinnerPayment = () => {
             try {
             const fetchData = async () => {
                 const id_pro = routeParams.id
-                const response = await fetch("/api/auctions/"+id_pro+"/complete_auction_detail/")
+                const response = await fetch(window.fetchUrl+"/api/auctions/"+id_pro+"/complete_auction_detail/")
                 const returnData = await response.json()
                 console.log(returnData)
                 if(returnData.Product.payment_address){

@@ -22,7 +22,7 @@ function MyVerticallyCenteredModal(props: any) {
           if (!query1) return;
           if(parseInt(query1) > 10000000){ alert('Value should be less than 10,000,000'); return}
           if(!data1?.__raw) return;
-          fetch('/api/place-automatic-bid/', {
+          fetch(window.fetchUrl+'/api/place-automatic-bid/', {
               method: 'post',
               headers: { 'Content-Type': 'application/json',
                           'Authorization': 'Bearer '+data1?.__raw, 

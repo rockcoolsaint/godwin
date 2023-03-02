@@ -153,10 +153,13 @@ AUTHENTICATION_BACKENDS = {
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
+
 CRONJOBS = [
     ('*/1 * * * *', 'auctions.cron_jobs.start_auctions_and_check_auctions_expiry',
-     '>> ' + os.path.join(BASE_DIR, 'log/cron_debug.log' + ' 2>&1 '))
+    '>> ' + os.path.join(BASE_DIR, 'log/cron_debug.log' + ' 2>&1 '))
 ]
+
+    
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -184,9 +187,14 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-   os.path.abspath(os.path.join(BASE_DIR, '..', 'rigly_frontend_typescript/build/static'))
-]
+if os.getenv("DB_HOST") == 'localhost':
+    STATICFILES_DIRS = [
+        os.path.abspath(os.path.join(BASE_DIR, '..', 'rigly_frontend_typescript/build/static'))
+    ]
+else:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "staticfiles")
+    ]
 
 LOGIN_URL = '/login/auth0'
 LOGIN_REDIRECT_URL = 'https://auctions.rigly.io/'

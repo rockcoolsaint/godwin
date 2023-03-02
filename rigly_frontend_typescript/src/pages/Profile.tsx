@@ -39,7 +39,7 @@ export const ProfilePage = () => {
       console.log(data1)
       if(data1.__raw){
       try {
-        const response = await fetch('/api/profile/', {
+        const response = await fetch(window.fetchUrl+'/api/profile/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

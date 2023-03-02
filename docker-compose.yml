@@ -11,12 +11,21 @@ services:
       - ./rigly_frontend_typescript:/frontend
     networks:
       - db-net
+    environment:
+      - REACT_APP_API_SERVER_URL=https://127.0.0.1:8000/
+      - REACT_APP_AUTH0_DOMAIN=dev-jppzp2qwctg28hbm.us.auth0.com
+      - REACT_APP_AUTH0_CLIENT_ID=egTjnVIfXMN94Cr5gC7xvz8z4PkSS50c
+      - REACT_APP_AUTH0_CALLBACK_URL=http://localhost:3000/callback
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
+      - REACT_APP_AUTH0_AUDIENCE=vk1HoDtC5prVu22PI7QOIQYIsNFfxCe7
+      - REACT_APP_HTTPS_PROXY=https://127.0.0.1:8000
 
   code:
     restart: always
     build: ./rigly_backend
     command: bash -c "python manage.py migrate &&
-                      python manage.py runsslserver 0.0.0.0:8000"
+                      python manage.py runsslserver 0.0.0.0:8000 &&
+                      python manage.py crontab add"
     volumes:
       - ./rigly_backend:/code
     ports:

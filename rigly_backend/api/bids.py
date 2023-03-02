@@ -59,6 +59,10 @@ class AutomaticBidsList(APIView):
     permission_classes = [ValidateAuth0TokenPermission]
 
     def place_automatic_bid(self, max_proxy_amount, auction_id):
+        bids_present_1 = Bids.objects.filter(auction_list__id=auction_id).order_by('bid')
+        if int(bids_present_1.last().bid)>int(max_proxy_amount):
+            return {"status": "Proxy bid must be greater than current bid"}, status.HTTP_200_OK
+        
         auction_obj = AuctionList.objects.get(id=auction_id)
         if not auction_obj.is_auction_active:
             return {"status": "Auction Not Active"}, status.HTTP_400_BAD_REQUEST
@@ -82,22 +86,48 @@ class AutomaticBidsList(APIView):
         all_proxy_bids = all_proxy_objs.values_list(
             'maximum_amount', flat=True)
         list_of_proxy_bids = list(all_proxy_bids)
-
+        if int(current_bid)==int(max_proxy_amount):
+             return {"status": "Cancelled Successfully"}, status.HTTP_200_OK
+        if(len(bids_present) == 0):
+            new_bid = Bids(user=self.request.user, auction_list=auction_obj, bid=auction_obj.starting_bid)
+            new_bid.save()
+            top_bidder_obj = all_proxy_objs.first()
+            user = top_bidder_obj.user
+            new_bid_amount = auction_obj.starting_bid
+            max_value = list_of_proxy_bids[-1]
         # CASE : check present bid > max val
-        if len(all_proxy_bids) > 1:
+        elif len(all_proxy_bids) > 1:
             second_max_value = list_of_proxy_bids[-2]
             
             max_value = list_of_proxy_bids[-1]
             print('*' * 50)
             print(all_proxy_bids, second_max_value, max_value)
-            new_bid_amount = second_max_value + auction_obj.proxy_increement
+            second_top_bidder = ProxyBids.objects.filter(maximum_amount__gt=current_bid, auction_list__id=auction_id).order_by('-maximum_amount')
             top_bidder_obj = all_proxy_objs.last()
             user = top_bidder_obj.user
-            second_top_bidder = ProxyBids.objects.filter(maximum_amount__gt=current_bid, auction_list__id=auction_id).order_by('-maximum_amount')
+            new_bid_amount = second_max_value + auction_obj.proxy_increement
 
-            if second_top_bidder[1].user != user:
+            if second_top_bidder[1].user != user and current_bid!=max_proxy_amount:
                 new_bid_1 = Bids(user=second_top_bidder[1].user, auction_list=auction_obj, bid=second_top_bidder[1].maximum_amount)
                 new_bid_1.save()
+
+                if top_bidder_obj.maximum_amount > second_top_bidder[1].maximum_amount and len(bids_present)<=2:  
+                    new_bid = Bids(user=user, auction_list=auction_obj, bid=new_bid_amount)
+                    new_bid.save()
+                    # send_proxy_bid_place_email(user, new_bid)
+                    t = threading.Thread(target=send_proxy_bid_place_email,
+                                        args=(user, new_bid), kwargs={},
+                                        daemon=True)
+                    t.start()
+                    bids_present_check = Bids.objects.filter(auction_list__id=auction_id).order_by('bid')
+                    second_max_bid_obj = list(bids_present_check)[-2]
+                    # send_outbid_email(second_max_bid_obj.user, top_bidder_obj, second_max_bid_obj)
+                    t = threading.Thread(target=send_outbid_email,
+                                        args=(second_max_bid_obj.user, top_bidder_obj, second_max_bid_obj), kwargs={},
+                                        daemon=True)
+                    t.start()
+                
+            
 
         elif len(all_proxy_bids) == 1:
             max_value = list_of_proxy_bids[-1]
@@ -116,24 +146,26 @@ class AutomaticBidsList(APIView):
                 user = top_bidder_obj.user
 
             # case - when max value user is same as current user
-            if bid_obj.user == self.request.user:
-                pass
-            else:
-                new_bid = Bids(user=user, auction_list=auction_obj, bid=new_bid_amount)
-                new_bid.save()
-                # send_proxy_bid_place_email(user, new_bid)
-                t = threading.Thread(target=send_proxy_bid_place_email,
-                                     args=(user, new_bid), kwargs={},
-                                     daemon=True)
-                t.start()
-                bids_present_check = Bids.objects.filter(auction_list__id=auction_id).order_by('bid')
-                second_max_bid_obj = list(bids_present_check)[-2]
-                # send_outbid_email(second_max_bid_obj.user, top_bidder_obj, second_max_bid_obj)
-                t = threading.Thread(target=send_outbid_email,
-                                     args=(second_max_bid_obj.user, top_bidder_obj, second_max_bid_obj), kwargs={},
-                                     daemon=True)
-                t.start()
-        return {"status": "Saved Successfully", "new_bid_amount": new_bid_amount}, status.HTTP_200_OK
+            if bid_obj:
+                if bid_obj.user == self.request.user:
+                    pass
+                else:
+                    if current_bid!=max_proxy_amount:
+                        new_bid = Bids(user=user, auction_list=auction_obj, bid=new_bid_amount)
+                        new_bid.save()
+                        # send_proxy_bid_place_email(user, new_bid)
+                        t = threading.Thread(target=send_proxy_bid_place_email,
+                                            args=(user, new_bid), kwargs={},
+                                            daemon=True)
+                        t.start()
+                        bids_present_check = Bids.objects.filter(auction_list__id=auction_id).order_by('bid')
+                        second_max_bid_obj = list(bids_present_check)[-2]
+                        # send_outbid_email(second_max_bid_obj.user, top_bidder_obj, second_max_bid_obj)
+                        t = threading.Thread(target=send_outbid_email,
+                                            args=(second_max_bid_obj.user, top_bidder_obj, second_max_bid_obj), kwargs={},
+                                            daemon=True)
+                        t.start()
+        return {"status": "Saved Successfully" + str(current_bid)+" "+str(max_proxy_amount), "new_bid_amount": new_bid_amount}, status.HTTP_200_OK
 
     def post(self, request, format=None):
         body_unicode = request.body.decode('utf-8')
@@ -193,7 +225,26 @@ class BidsList(APIView):
             return {"error": "Auction Not Active"}
         min_req_bid, bid_obj = minbid(startingbid.starting_bid, bids_present)
         message = ""
-        if int(bid_amnt) > int(min_req_bid):
+
+        #CASE IF FIRST BID
+        if int(bid_amnt) == int(min_req_bid) and len(bids_present) == 0:
+            auction_list = AuctionList.objects.get(id=list_id)
+            mybid = Bids(user=self.request.user, auction_list=auction_list, bid=bid_amnt)
+            mybid.save()
+            # send_bid_place_email(self.request.user, mybid)
+            t = threading.Thread(target=send_bid_place_email,
+                                 args=(self.request.user, mybid), kwargs={},
+                                 daemon=True)
+            t.start()
+            bids_present_check = Bids.objects.filter(auction_list__id=list_id).order_by('bid')
+
+
+            # CASE : check if any user has specified maximum amount more than this users amount
+            proxy_bid = ProxyBids.objects.filter(auction_list=auction_list).aggregate(Max('maximum_amount'))
+            message = "Bid Placed"
+
+
+        elif int(bid_amnt) > int(min_req_bid):
             auction_list = AuctionList.objects.get(id=list_id)
             mybid = Bids(user=self.request.user, auction_list=auction_list, bid=bid_amnt)
             mybid.save()

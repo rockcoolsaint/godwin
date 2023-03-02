@@ -1,7 +1,6 @@
 {
   "name": "rigly_frontend_typescript",
   "version": "0.1.0",
-  "proxy": "https://auctions.rigly.io/",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^2.0.0",
@@ -18,6 +17,7 @@
     "bitcoin-conversion": "^0.4.0",
     "bootstrap": "^5.2.3",
     "html-react-parser": "^3.0.9",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-countdown": "^2.3.5",

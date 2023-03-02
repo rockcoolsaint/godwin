@@ -54,7 +54,7 @@ const SignUpPayment = () => {
       getIdTokenClaims().then(async(data1: any) => {
         if(data1.__raw){
         try {
-          const response = await fetch('/api/create-user/', {
+          const response = await fetch(window.fetchUrl+'/api/create-user/', {
            method: 'POST',
            headers: {
              'Content-Type': 'application/json'
@@ -149,7 +149,7 @@ const SignUpPayment = () => {
                 .then((data) => {
                   console.log(data.data)
                   getIdTokenClaims().then(async(data1) => {
-                  fetch('/api/update-payment-status/', {
+                  fetch(window.fetchUrl+'/api/update-payment-status/', {
                     method: 'post',
                     headers: { 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer '+data1?.__raw, 

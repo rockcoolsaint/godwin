@@ -21,7 +21,7 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       const id_pro = routeParams.id
-      const response = await fetch("/api/auctions/"+id_pro+"/complete_auction_detail/")
+      const response = await fetch(window.fetchUrl+"/api/auctions/"+id_pro+"/complete_auction_detail/")
       const returnData = await response.json()
       console.log(returnData)
       setdataProduct(returnData.Product)
@@ -39,7 +39,7 @@ const Product = () => {
   useEffect(() => {
     const fetchData1 = async () => {
       const id_pro = routeParams.id
-      const response = await fetch("/api/auctions/"+id_pro+"/complete_auction_detail/")
+      const response = await fetch(window.fetchUrl+"/api/auctions/"+id_pro+"/complete_auction_detail/")
       const returnData = await response.json()
       setdataBids(returnData.Bids)
       setcurrentBid(returnData.CurrentBid)

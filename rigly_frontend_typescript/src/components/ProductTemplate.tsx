@@ -79,7 +79,7 @@ const renderer = ({ days, hours, minutes, seconds, completed }:RendererProps): J
     getIdTokenClaims().then(async(data1: any) => {
         if(!data1?.__raw) return;
         if(parseInt(query) > 10000000){ alert('Value should be less than 10,000,000'); return}
-        fetch('/api/place-automatic-bid/', {
+        fetch(window.fetchUrl+'/api/place-automatic-bid/', {
             method: 'post',
             headers: { 'Content-Type': 'application/json',
                         'Authorization': 'Bearer '+data1?.__raw, 
@@ -107,16 +107,16 @@ const renderer = ({ days, hours, minutes, seconds, completed }:RendererProps): J
 
 const handleSubmit = () => {
     getIdTokenClaims().then(async(data1: any) => {
-        if (!query) {setQuery(currentbid?.bid?currentbid?.bid.toString():"")};
+        if (!query) {setQuery(currentbid.bid?currentbid.bid.toString():"")};
         if(parseInt(query) > 10000000){ alert('Value should be less than 10,000,000'); return}
         if(!data1.__raw) return;
-        fetch('/api/place-bid/', {
+        fetch(window.fetchUrl+'/api/place-bid/', {
             method: 'post',
             headers: { 'Content-Type': 'application/json',
                         'Authorization': 'Bearer '+data1?.__raw, 
             },
             body: JSON.stringify({
-                bid_amnt: query,
+                bid_amnt: query == ""? data?.starting_bid : query,
                 source: "list_page",
                 list_id: data?.id
             }),
@@ -248,7 +248,7 @@ const handleSubmit = () => {
                                 </div>
                                 <div className="d-flex flex-column align-items-center justify-content-center mt-4 py-3 px-3 mb-4 w-75 current-bid-container">
                                     <p className="m-0 fs-6 current-bid-title">Current bid</p>
-                                    <h2 className="m-0"><span data-tooltip-content={"$"+(currentbid.bid?currentbid.bid:data.starting_bid * satToUsd).toFixed(2).toString()} data-tooltip-id="my-tooltip">{currentbid.bid?formatMoney(currentbid.bid):formatMoney(data.starting_bid)} <i className="fak fa-regular" />
+                                    <h2 className="m-0"><span data-tooltip-content={"$"+((currentbid.bid?currentbid.bid:data.starting_bid) * satToUsd).toFixed(2).toString()} data-tooltip-id="my-tooltip">{currentbid.bid?formatMoney(currentbid.bid):formatMoney(data.starting_bid)} <i className="fak fa-regular" />
 </span></h2>
                                 </div>
                                 {winnerUser?<div className='text-center'>
@@ -296,7 +296,7 @@ const handleSubmit = () => {
                                                     </small><br />
                                                 </div>)
                                             }else{
-                                                return <> <small>Last Proxy Bid:</small> {e.maximum_amount} <i className="fak fa-regular" /><br /></>
+                                                return <small key={e.user.id} className='d-block text-center'> Last Proxy Bid: {e.maximum_amount} <i className="fak fa-regular" /></small>
                                             }
                                         }else{
                                             return <></>
