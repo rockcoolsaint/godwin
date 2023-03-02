@@ -43,6 +43,22 @@ class Payment(BaseModel):
         verbose_name_plural = "Payments"
 
 
+class AuctionPayment(BaseModel):
+    class AuctionPaymentStatus(models.TextChoices):
+        PROCESSING = 'processing'
+        PAID = 'paid'
+
+    order_id = models.TextField()
+    payment_id = models.TextField()
+    price = models.BigIntegerField()
+    fee = models.BigIntegerField()
+    status = models.CharField(
+        max_length=10,
+        choices=AuctionPaymentStatus.choices,
+        default=AuctionPaymentStatus.PROCESSING,
+    )
+
+
 class User(AbstractUser):
     payment = models.ForeignKey(Payment, blank=True, null=True, on_delete=models.CASCADE)
     is_paid = models.BooleanField(default=False)

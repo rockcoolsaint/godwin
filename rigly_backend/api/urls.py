@@ -24,6 +24,10 @@ urlpatterns = [
     path('place-automatic-bid/', bids.AutomaticBidsList.as_view()),
     path('update-payment-status/', payment.PaymentDetails.as_view()),
 
+    # payment routes
+    path('payments/status', payment.Payments.as_view()),
+    path('payments/webhook', payment.PaymentWebhook.as_view()),
+
     # user api routes
     path('profile/', UserProfile.as_view()),
     #path('profile/<int:pk>/', UserProfile.as_view()),
