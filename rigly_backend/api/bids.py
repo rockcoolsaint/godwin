@@ -165,7 +165,7 @@ class AutomaticBidsList(APIView):
                                             args=(second_max_bid_obj.user, top_bidder_obj, second_max_bid_obj), kwargs={},
                                             daemon=True)
                         t.start()
-        return {"status": "Saved Successfully" + str(current_bid)+" "+str(max_proxy_amount), "new_bid_amount": new_bid_amount}, status.HTTP_200_OK
+        return {"status": "Proxy Bid Saved", "new_bid_amount": new_bid_amount}, status.HTTP_200_OK
 
     def post(self, request, format=None):
         body_unicode = request.body.decode('utf-8')
