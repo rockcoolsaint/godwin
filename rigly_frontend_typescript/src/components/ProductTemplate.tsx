@@ -246,7 +246,7 @@ const handleSubmit = () => {
                                 }
                                     
                                 </div>
-                                <div className="d-flex flex-column align-items-center justify-content-center mt-4 py-3 px-5 mb-4 w-75 current-bid-container">
+                                <div className="d-flex flex-column align-items-center justify-content-center mt-4 py-3 px-3 mb-4 w-75 current-bid-container">
                                     <p className="m-0 fs-6 current-bid-title">Current bid</p>
                                     <h2 className="m-0"><span data-tooltip-content={"$"+(currentbid.bid?currentbid.bid:data.starting_bid * satToUsd).toFixed(2).toString()} data-tooltip-id="my-tooltip">{currentbid.bid?formatMoney(currentbid.bid):formatMoney(data.starting_bid)} <i className="fak fa-regular" />
 </span></h2>

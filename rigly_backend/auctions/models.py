@@ -48,7 +48,7 @@ class User(AbstractUser):
     is_paid = models.BooleanField(default=False)
     coupon = models.ForeignKey(Coupons, blank=True, null=True, on_delete=models.CASCADE)
     is_coupon_used = models.BooleanField(default=False)
-    profile_pik = models.URLField(blank=True, null=True)
+    profile_pik = models.URLField(blank=True, null=True, default="https://auctions.rigly.io/media/auction_profile_images/profile_dummy.jpg")
     uploaded_profile = models.ImageField(upload_to = 'images/user_profile_images', null=True, blank=True)
     bidding_name = models.CharField(max_length=1000, default="Anonymous")
     phone_number = models.CharField(max_length=100, blank=True, null=True)
