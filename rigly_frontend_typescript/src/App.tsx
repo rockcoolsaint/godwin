@@ -35,7 +35,8 @@ const Wrapper = ({ children }: childrenProps) => {
   useLayoutEffect(() => {
     document.documentElement.scrollTo(0, 0);
   }, [location.pathname]);
-  window.fetchUrl = process.env.REACT_APP_HTTPS_PROXY;
+  // window.fetchUrl = process.env.REACT_APP_HTTPS_PROXY;
+  window.fetchUrl = "https://localhost:8000";
   console.log(process.env.REACT_APP_HTTPS_PROXY);
   return children;
 };

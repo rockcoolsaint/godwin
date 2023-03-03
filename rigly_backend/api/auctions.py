@@ -28,26 +28,35 @@ class AuctionViewSet(viewsets.ViewSet, LimitOffsetPagination):
 
     def retrieve(self, request, pk=None):
         all_bids, current_bid = BidsList().get_all_bids(pk)
-        bids_serializer = BidsSerializer(all_bids, many=True, context={"request": request})
+        bids_serializer = BidsSerializer(
+            all_bids, many=True, context={"request": request})
         return Response({"bids": bids_serializer.data, "current_bid": current_bid})
 
     @action(detail=False, methods=["GET"])
     def complete_auction_detail(self, request, pk=None):
         product = AuctionList.objects.get(slug_category=pk)
-        serializer = ProductDetailedSerializer(product, many=False, context={"request": request})
+        serializer = ProductDetailedSerializer(
+            product, many=False, context={"request": request})
 
-        bids = Bids.objects.filter(auction_list=product).order_by('-created_at')
-        bids_serializer = BidsSerializer(bids, many=True, context={"request": request})
-        proxy_bids = ProxyBids.objects.filter(auction_list=product).order_by('-created_at')
-        proxy_serializer = ProxyDataSerializer(proxy_bids, many=True, context={"request": request})
+        bids = Bids.objects.filter(
+            auction_list=product).order_by('-created_at')
+        bids_serializer = BidsSerializer(
+            bids, many=True, context={"request": request})
+        proxy_bids = ProxyBids.objects.filter(
+            auction_list=product).order_by('-created_at')
+        proxy_serializer = ProxyDataSerializer(
+            proxy_bids, many=True, context={"request": request})
         min_req_bid, current_bid_obj = minbid(product.starting_bid, bids)
-        current_bid_serializer = BidsSerializer(current_bid_obj, context={"request": request})
+        current_bid_serializer = BidsSerializer(
+            current_bid_obj, context={"request": request})
 
         winner_data = {}
         if product.is_expired:
             try:
-                winner = AuctionResult.objects.get(auction=product, is_winner=True)
-                winner_data = AuctionResultSerializer(winner, many=False, context={"request": request}).data
+                winner = AuctionResult.objects.get(
+                    auction=product, is_winner=True)
+                winner_data = AuctionResultSerializer(
+                    winner, many=False, context={"request": request}).data
             except:
                 pass
 
