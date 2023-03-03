@@ -13,7 +13,8 @@ import { Link } from 'react-router-dom';
 import Logo from '../images/logo.svg'
 
 const Header = () => {
-    const [stickyClass, setStickyClass] = useState<string>("");
+    const [stickyClass, setStickyClass] = useState<string>(""); 
+    const [expanded, setExpanded] = useState(false);
 
     useEffect(() => {
         // fetchData();
@@ -29,7 +30,7 @@ const Header = () => {
     //     header_logo: string
     // }
 
-    const[profileData ,setProfileData] = useState({"username":""})
+    const[profileData ,setProfileData] = useState({"bidding_name":""})
 
     // const fetchData = async () => {
     //   const response = await fetch("/api/header/")
@@ -106,25 +107,25 @@ const Header = () => {
             <div className="container">
 
 
-            <Navbar collapseOnSelect expand="md" variant="light">
+            <Navbar collapseOnSelect  expanded={expanded}  expand="md" variant="light">
             <Navbar.Brand href="/">
                 <img src={Logo} alt="Logo" />
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Toggle aria-controls="responsive-navbar-nav"  onClick={() => setExpanded(expanded ? false : true)} />
 
             <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="ml-auto">
                 <Nav.Item>
-                    <Link className='nav-link' to="/">Home</Link>
+                    <Link  onClick={() => setExpanded(false)}  className='nav-link' to="/">Home</Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Link className='nav-link' to="/collections">Collections</Link>
+                    <Link className='nav-link'  onClick={() => setExpanded(false)} to="/collections">Collections</Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Link className='nav-link' to="/individuals">Individuals</Link>
+                    <Link  onClick={() => setExpanded(false)} className='nav-link' to="/individuals">Individuals</Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Link className='nav-link' to="/businesses">Businesses</Link>
+                    <Link className='nav-link'  onClick={() => setExpanded(false)} to="/businesses">Businesses</Link>
                 </Nav.Item>
                 {/* <Nav.Item>
                     <Nav.Link href="/">Developers</Nav.Link>
@@ -134,12 +135,12 @@ const Header = () => {
                 </Nav.Item> */}
 
                 {isAuthenticated? <Nav.Item>
-                    <Link className='nav-link' to="/profile">Profile</Link>
+                    <Link className='nav-link' onClick={() => setExpanded(false)} to="/profile">Profile</Link>
                 </Nav.Item>:<></>}
                 
                 <Nav.Item className='text-center'>
                     <Nav.Link style={{ visibility: isLoading? 'hidden': 'visible'}} href="#" onClick={ !isAuthenticated?(handleLogin):(handleLogout)} className='order-btn'> {!isAuthenticated ?"Sign up":"Logout"}</Nav.Link>
-                   <small>{profileData&&isAuthenticated?profileData.username:""}</small>
+                   <small>{profileData&&isAuthenticated?profileData.bidding_name:""}</small>
                    {isAuthenticated?"":<small>Already have an account? <span onClick={(handleLogin)} className='text-primary'  role="button">Sign In</span></small>}
                 </Nav.Item>
             </Nav>

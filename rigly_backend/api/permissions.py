@@ -30,7 +30,7 @@ class ValidateAuth0TokenPermission(BasePermission):
         if '@' in email and '.' in email and len(email) > 4:
             user, crt = User.objects.get_or_create(email=payload["email"])
             if crt:
-                user.username = payload["nickname"]
+                user.username = payload["nickname"]+payload['sub'].replace('|','_')
                 user.email_verified = payload["email_verified"]
                 user.first_name = fullname
                 user.last_name = last_name
