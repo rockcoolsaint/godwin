@@ -20,7 +20,8 @@ export enum OrderStatus {
 export type Order = {
   auction: Object;
   price: number;
-  fee: number;
   total: number;
+  mining_deposit: number;
+  auction_fee: number;
   status: OrderStatus;
 };

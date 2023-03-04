@@ -214,9 +214,12 @@ class Order(BaseModel):
         UNPAID = 'unpaid'
         PARTIALLY_PAID = 'partial'
         PAID = 'paid'
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     auction = models.ForeignKey(AuctionList, on_delete=models.PROTECT)
     price = models.BigIntegerField()
-    fee = models.BigIntegerField()
+    total = models.BigIntegerField()
+    mining_deposit = models.BigIntegerField()
+    auction_fee = models.BigIntegerField()
     status = models.CharField(
         max_length=7,
         choices=OrderStatus.choices,
@@ -230,7 +233,9 @@ class OrderPayment(models.Model):
         PAID = 'paid'
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     payment_id = models.TextField(null=True)
+    original_amount = models.BigIntegerField()
     amount = models.BigIntegerField()
+    promo_code = models.TextField(null=True)
     status = models.CharField(
         max_length=10,
         choices=OrderPaymentStatus.choices,

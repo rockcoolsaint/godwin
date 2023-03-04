@@ -27,6 +27,7 @@ urlpatterns = [
     path('update-payment-status/', payment.VerificationPayment.as_view()),
     path('orders', orders.Orders.as_view()),
     path('orders/<int:pk>', orders.Orders.as_view()),
+    path('orders/update', orders.Orders.as_view()),
     path('payments/webhook', payment.PaymentsWebhook.as_view()),
     path('payments/<str:pk>', payment.Payments.as_view()),
 

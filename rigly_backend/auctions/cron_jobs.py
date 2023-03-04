@@ -1,16 +1,22 @@
-import datetime
 import os
+import datetime
 
 from django.template.loader import render_to_string
-
 from api.utils import send_rigly_emails
 from auctions import config
-from auctions.models import Bids, AuctionResult, AuctionList
+from auctions.models import Bids, AuctionResult, AuctionList, Order, OrderPayment
 from commerce.settings import BASE_DIR
+from shared.orders import create_order
+
+
+def log(msg):
+    # TODO: Implement proper logging solution.
+    print(msg)
 
 
 def send_winner_email(bid_obj, win_bid_obj, to_email):
-    path = os.path.join(BASE_DIR, 'auctions/templates/auction_email_templates/')
+    path = os.path.join(
+        BASE_DIR, 'auctions/templates/auction_email_templates/')
     html_message = render_to_string(path + 'after_win.html',
                                     {"customer_name": bid_obj.user.username, "product_name": win_bid_obj.auction_list.title,
                                      "currency": config.CURRENCY, "base_price": win_bid_obj.auction_list.starting_bid,
@@ -21,7 +27,8 @@ def send_winner_email(bid_obj, win_bid_obj, to_email):
 
 
 def send_auction_loosing_email(user, loose_bid_obj, highest_bid, to_email):
-    path = os.path.join(BASE_DIR, 'auctions/templates/auction_email_templates/')
+    path = os.path.join(
+        BASE_DIR, 'auctions/templates/auction_email_templates/')
     html_message = render_to_string(path + 'courtesy_email.html',
                                     {"customer_name": user.username, "product_name": loose_bid_obj.auction_list.title,
                                      "currency": config.CURRENCY, "base_price": loose_bid_obj.auction_list.starting_bid,
@@ -33,7 +40,8 @@ def send_auction_loosing_email(user, loose_bid_obj, highest_bid, to_email):
 
 
 def announce_winner_and_add_auction_results(auction_obj):
-    all_auction_bids = Bids.objects.filter(auction_list=auction_obj).order_by("-bid")
+    all_auction_bids = Bids.objects.filter(
+        auction_list=auction_obj).order_by("-bid")
 
     position_list = []
     looser = []
@@ -55,10 +63,11 @@ def announce_winner_and_add_auction_results(auction_obj):
             else:
                 is_winner = 0
                 looser.append(bid_obj.user.email)
-                send_auction_loosing_email(bid_obj.user, bid_obj, highest_bid, bid_obj.user.email)
+                send_auction_loosing_email(
+                    bid_obj.user, bid_obj, highest_bid, bid_obj.user.email)
             AuctionResult.objects.create(auction=auction_obj, position=position_count, user=bid_obj.user,
                                          bid_price=bid_obj.bid, is_winner=is_winner)
-    send_winner_email(bid_obj, winner[0] , to_email)
+    send_winner_email(bid_obj, winner[0], to_email)
     # send_auction_loosing_email(bid_obj, looser)
 
 
@@ -66,6 +75,12 @@ def on_auction_expiry(expired_auctions):
     for auction_obj in expired_auctions:
         is_already_expired = auction_obj.is_expired
         if not is_already_expired:
+            order, payment = create_order(auction_obj)
+
+            if order is None:
+                log('Could not create order.')
+                return
+
             auction_obj.is_auction_active = False
             auction_obj.is_expired = True
             auction_obj.save()
@@ -92,7 +107,8 @@ def start_auctions_and_check_auctions_expiry():
     on_auction_expiry(expired_auctions)
 
     # Start Auctions
-    start_auctions = AuctionList.objects.filter(auction_start_date__gte=current_date)
+    start_auctions = AuctionList.objects.filter(
+        auction_start_date__gte=current_date)
     on_start_auction(start_auctions)
     # return HttpResponse("done " + str(current_date))
     print("cron job running ************8")

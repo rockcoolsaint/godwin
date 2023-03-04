@@ -40,8 +40,10 @@ class Payments(APIView):
             return Response({
                 'order_id': payment.order.id,
                 'payment_id': payment.payment_id,
+                'original_amount': payment.original_amount,
                 'amount': payment.amount,
                 'status': payment.status,
+                'promo_code': payment.promo_code,
                 'checkout_url': "https://dev-checkout.opennode.com/" + str(payment.payment_id)
             }, status=200)
 

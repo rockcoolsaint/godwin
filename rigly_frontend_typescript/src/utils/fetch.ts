@@ -36,6 +36,18 @@ export async function get(url: string, headers?: Object) {
   return data;
 }
 
+export async function put(url: string, payload: Object, headers?: Object) {
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: getHeaders(headers),
+    body: JSON.stringify(payload),
+  });
+
+  const data = await res.json();
+
+  return data;
+}
+
 export async function post(url: string, payload: Object, headers?: Object) {
   const res = await fetch(url, {
     method: "POST",
