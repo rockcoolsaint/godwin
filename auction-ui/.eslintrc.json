@@ -1,5 +1,5 @@
 {
-  "extends":[
+  "extends": [
     "next/core-web-vitals",
     "prettier",
     "plugin:@typescript-eslint/recommended",
@@ -9,6 +9,59 @@
     "plugin:tailwindcss/recommended"
   ],
   "rules": {
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "return"
+      }
+    ],
+    "react-hooks/exhaustive-deps": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": [
+              "../*"
+            ],
+            "message": "Usage of relative parent imports is not allowed."
+          },
+          {
+            "group": [
+              "next/link"
+            ],
+            "message": "Please use the Link components from /src/components/shared/Link instead."
+          }
+        ]
+      }
+    ],
+    "no-only-tests/no-only-tests": "error",
+    // "import/order": ["error", { "groups": ["builtin", "external", "internal", "type", "parent", "sibling", "object", "index"] }], TODO: Fix this https://github.com/francoismassart/eslint-plugin-tailwindcss/issues/173
+    "react/jsx-no-bind": "error",
+    "@typescript-eslint/consistent-type-definitions": [
+      "error",
+      "interface"
+    ],
+    "react/destructuring-assignment": [
+      "error",
+      "always",
+      {
+        "destructureInSignature": "always"
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error", // or "error"
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
     "no-console": [
       "error",
       {
@@ -29,5 +82,13 @@
         "argsIgnorePattern": "^_"
       }
     ]
-  }
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "tailwindcss",
+    "unused-imports",
+    "no-only-tests"
+  ],
+  "parser": "@typescript-eslint/parser"
 }
