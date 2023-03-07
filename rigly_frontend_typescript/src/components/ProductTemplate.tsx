@@ -25,6 +25,7 @@ import AlertDismissible from "./Alert";
 
 import ToastAlert from "../components/Toast";
 import { Tooltip } from "react-tooltip";
+import { Order } from "../types";
 
 interface ProductsProps {
   data: productProps | null;
@@ -34,7 +35,7 @@ interface ProductsProps {
   route_id?: string;
   winner: winnerProps | null;
   satToUsd: number;
-  orderId: string | null;
+  order?: Order;
 }
 
 const ProductTemplate = ({
@@ -45,7 +46,7 @@ const ProductTemplate = ({
   winner,
   route_id,
   satToUsd,
-  orderId,
+  order,
 }: ProductsProps) => {
   const [showToast, setShowToast] = useState(false);
   const [toastData, setToastData] = useState({ message: "" });
@@ -356,12 +357,12 @@ const ProductTemplate = ({
                     </span>
                   </h2>
                 </div>
-                {winnerUser && orderId ? (
+                {winnerUser && order ? (
                   <div className="text-center">
                     <hr />
                     <p>You are the winner.</p>
                     {route_id ? (
-                      <Link to={`/checkout?order_id=${orderId}`}>
+                      <Link to={`/checkout?order_id=${order.id}`}>
                         Click here to checkout
                       </Link>
                     ) : (

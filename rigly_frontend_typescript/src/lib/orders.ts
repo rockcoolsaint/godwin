@@ -1,19 +1,24 @@
 import { get, post } from "../utils/fetch";
 import { url } from "../utils/url";
 
-export const getOrder = async (orderId: string) => {
-  return await get(url(`/api/orders/${orderId}`));
+export const getById = async (orderId: string) => {
+  return await get(url(`/api/orders?order_id=${orderId}`));
 };
 
-export const createOrder = async (slug: string) => {
+export const getByAuctionId = async (auctionId: number) => {
+  return await get(url(`/api/orders?auction_id=${auctionId}`));
+};
+
+export const create = async (slug: string) => {
   return await post(url("/api/orders"), {
     slug,
   });
 };
 
 const Orders = {
-  get: getOrder,
-  create: createOrder,
+  getById,
+  getByAuctionId,
+  create,
 };
 
 export default Orders;

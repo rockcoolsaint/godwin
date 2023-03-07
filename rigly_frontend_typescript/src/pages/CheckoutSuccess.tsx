@@ -17,8 +17,8 @@ export default function CheckoutSuccess() {
         return;
       }
 
-      const order = await Orders.get(orderId);
-      const payment = await Payments.get(order.payment);
+      const order = await Orders.getById(orderId);
+      const payment = await Payments.get(order.payment.payment_id);
 
       setPayment(payment);
 

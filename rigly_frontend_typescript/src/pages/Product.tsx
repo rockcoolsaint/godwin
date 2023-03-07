@@ -11,6 +11,7 @@ import { get } from "../utils/fetch";
 import { url } from "../utils/url";
 import { useAuth0 } from "@auth0/auth0-react";
 import Orders from "../lib/orders";
+import { Order, OrderStatus } from "../types";
 
 const Product = () => {
   const routeParams = useParams();
@@ -21,7 +22,7 @@ const Product = () => {
   const [winner, setWinner] = useState(null);
   const [paymentInBtcFromUsd, setPaymentInBtcFromUsd] = useState(5917.861);
   const { user, getIdTokenClaims, isLoading } = useAuth0();
-  const [orderId, setOrderId] = useState(null);
+  const [order, setOrder] = useState<Order | undefined>(undefined);
 
   const getAuctionStatus = async () => {
     const auction = await get(
@@ -45,26 +46,31 @@ const Product = () => {
     return user;
   };
 
-  const checkIsPaymentNeeded = async () => {
+  const showCheckoutIfNeeded = async () => {
     if (!routeParams.id) {
       return;
     }
 
     const user = await getUser();
-    await getAuctionStatus();
+    const { Product: auction } = await getAuctionStatus();
 
-    const order = await Orders.create(routeParams.id);
+    let order = await Orders.getByAuctionId(auction.id);
 
-    if (order.user_id !== user.id) {
-      // Current user is not winner of the auction.
+    // TODO:
+    // This is a debug code path to create order if it doesn't exist.
+    // On prod, a cron job should have created this after auction close.
+    if (order.error) {
+      order = await Orders.create(routeParams.id);
+    }
+
+    const isOrderOwner = order.user_id === user.id;
+    const isOrderPaid = order.status === OrderStatus.Paid;
+
+    if (!isOrderOwner || isOrderPaid) {
       return;
     }
-    console.log(order.order_id);
 
-    // TODO: Replace with more robust way to check if order has received payment.
-    if (order.status === "unpaid" || order.status === "partial") {
-      setOrderId(order.order_id);
-    }
+    setOrder(order);
   };
 
   useEffect(() => {
@@ -72,7 +78,7 @@ const Product = () => {
       return;
     }
 
-    checkIsPaymentNeeded();
+    showCheckoutIfNeeded();
   }, [routeParams, user, getIdTokenClaims, isLoading]);
 
   useEffect(() => {
@@ -109,7 +115,7 @@ const Product = () => {
             bids={dataBids}
             currentbid={currentBid}
             winner={winner}
-            orderId={orderId}
+            order={order}
           />
         ) : (
           <></>

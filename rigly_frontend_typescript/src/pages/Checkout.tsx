@@ -1,48 +1,91 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Order, OrderPayment } from "../types";
 import Button from "react-bootstrap/Button";
 
+import { Order, OrderPayment } from "../types";
 import Orders from "../lib/orders";
 import Payments from "../lib/payments";
-import { put } from "../utils/fetch";
-import { url } from "../utils/url";
+import usePayments from "../hooks/usePayments";
 
 export default function Checkout() {
   const [order, setOrder] = useState<Order | undefined>(undefined);
-  const [payment, setPayment] = useState<OrderPayment | undefined>(undefined);
-  const [promoCodeInput, setPromoCodeInput] = useState<string | undefined>(
+  const [firstPayment, setFirstPayment] = useState<OrderPayment | undefined>(
     undefined
   );
+  const [payments, setPayments] = useState<OrderPayment[]>([]);
   const [promoCode, setPromoCode] = useState<string | undefined>(undefined);
-  const [discount, setDiscount] = useState<number>(0);
-  const [discountedTotal, setDiscountedTotal] = useState<number>(0);
+  const [promoCodeInput, setPromoCodeInput] = useState<string>("");
 
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const orderId = queryParams.get("order_id");
 
-  const applyPromoCode = async () => {
-    const update = await put(url("/api/orders/update"), {
-      order_id: orderId,
-      promo_code: promoCode,
-    });
+  const {
+    first,
+    paymentId,
+    amountPaid,
+    amountRemaining,
+    isPaymentComplete,
+    checkoutUrl,
+  } = usePayments(payments);
 
-    setDiscount(update.discount);
-    setDiscountedTotal(update.amount);
-    setPayment({
-      ...payment,
-      checkout_url: update.checkout_url,
-    } as OrderPayment);
+  const handleApplyPromoCode = () => {
+    setPromoCode(promoCodeInput);
+    setPromoCodeInput("");
+    applyPromoCode();
   };
 
-  useEffect(() => {
-    if (promoCode === undefined) {
+  const applyPromoCode = async () => {
+    if (!firstPayment || !promoCode) {
       return;
     }
 
-    applyPromoCode();
-  }, [promoCode]);
+    try {
+      const res = await Payments.applyPromoCode(
+        firstPayment.id,
+        promoCodeInput
+      );
+
+      setFirstPayment(res);
+
+      const newPayments = [...payments];
+      newPayments[0] = res;
+      setPayments(newPayments);
+    } catch (ex) {
+      console.error(ex);
+    }
+  };
+
+  const clearPromoCode = async () => {
+    if (!firstPayment || !promoCode) {
+      return;
+    }
+
+    try {
+      const res = await Payments.clearPromoCode(firstPayment.id);
+
+      setFirstPayment(res);
+
+      const newPayments = [...payments];
+      newPayments[0] = res;
+      setPayments(newPayments);
+
+      setPromoCode(undefined);
+    } catch (ex) {
+      console.error(ex);
+    }
+  };
+
+  const formatAuctionType = (auctionType: string) => {
+    switch (auctionType) {
+      case "immediate_delivery":
+        return "Immediate delivery";
+      case "forward_date":
+        return "Forward date";
+      case "upfront_payment":
+        return "Upfront payment";
+    }
+  };
 
   useEffect(() => {
     const prepareCheckout = async () => {
@@ -50,11 +93,20 @@ export default function Checkout() {
         return;
       }
 
-      const order = await Orders.get(orderId);
-      const payment = await Payments.get(order.payment);
+      const order = await Orders.getById(orderId);
+      const payments = await Payments.get(
+        order.payments.map((payment: OrderPayment) => payment.payment_id)
+      );
+
+      const first = payments[0];
 
       setOrder(order);
-      setPayment(payment);
+      setFirstPayment(first);
+      setPayments(payments);
+
+      if (first.promo_code) {
+        setPromoCode(first.promo_code.code);
+      }
     };
 
     prepareCheckout();
@@ -67,58 +119,139 @@ export default function Checkout() {
     >
       <h2>Checkout</h2>
 
-      {order && payment && (
+      {order && first && (
         <div>
           <div>
-            <div>PaymentID: {payment.payment_id}</div>
             <div>
-              Auction fee: {order.auction_fee}
-              <i className="fak fa-regular" />
+              <span>PaymentID:</span> <b>{paymentId}</b>
             </div>
             <div>
-              Mining deposit: {order.mining_deposit}
-              <i className="fak fa-regular" />
+              <span>Bid:</span>{" "}
+              <b>
+                {order.price}
+                <i className="fak fa-regular" />
+              </b>
             </div>
             <div>
-              Price: {order.price}
-              <i className="fak fa-regular" />
+              <span>
+                Mining deposit (
+                {formatAuctionType(order.auction.auction_type.type)}{" "}
+                {order.auction.auction_type.percentage}%):
+              </span>{" "}
+              <b>
+                {order.mining_deposit}
+                <i className="fak fa-regular" />
+              </b>
             </div>
-            {discount > 0 && (
+            <div>
+              <span>Auction fee (3.5%):</span>{" "}
+              <b>
+                {order.auction_fee}
+                <i className="fak fa-regular" />
+              </b>
+            </div>
+            {first.promo_code && (
               <>
-                <div>Discount: {discount}%</div>
+                <div>Discount: {first.promo_code.discount}%</div>
                 <div>
-                  Total: {discountedTotal}
-                  <i className="fak fa-regular" />
+                  <span>Total:</span>{" "}
+                  <b>
+                    {first.amount}
+                    <i className="fak fa-regular" />
+                  </b>
                 </div>
               </>
             )}
-            {discount === 0 && (
+            {!first.promo_code && (
               <div>
-                Total: {order.total}
-                <i className="fak fa-regular" />
+                <span>Total:</span>{" "}
+                <b>
+                  {order.total}
+                  <i className="fak fa-regular" />
+                </b>
+              </div>
+            )}
+            {payments.length > 0 && !isPaymentComplete && (
+              <div style={{ paddingTop: "20px" }}>
+                <b style={{ color: "red" }}>
+                  You still need to complete payment for this order:
+                </b>
+                <div>
+                  <span>Paid:</span>{" "}
+                  <b>
+                    {amountPaid}
+                    <i className="fak fa-regular" />
+                  </b>
+                </div>
+                <div>
+                  <span>Remaining:</span>{" "}
+                  <b>
+                    {amountRemaining}
+                    <i className="fak fa-regular" />
+                  </b>
+                </div>
+              </div>
+            )}
+            {isPaymentComplete && (
+              <div style={{ paddingTop: "20px" }}>
+                <b style={{ color: "green" }}>
+                  You've completed payment for this order.
+                </b>
               </div>
             )}
           </div>
 
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <input
-              className="form-control mb-3"
-              name="promo_code"
-              onChange={(e) => setPromoCodeInput(e.target.value)}
-              type="text"
-            />
+          {first.can_apply_promo_code && (
+            <div style={{ display: "flex", gap: "1rem", marginTop: "20px" }}>
+              <input
+                className="form-control mb-3"
+                name="promo_code"
+                value={promoCodeInput}
+                onChange={(e) => setPromoCodeInput(e.target.value)}
+                type="text"
+              />
 
-            <Button
-              style={{ height: "38px" }}
-              onClick={() => setPromoCode(promoCodeInput)}
+              <Button
+                style={{ height: "38px" }}
+                onClick={() => handleApplyPromoCode()}
+              >
+                <span style={{ whiteSpace: "nowrap" }}>Apply code</span>
+              </Button>
+            </div>
+          )}
+
+          {first.promo_code && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "8px",
+                background: "#E8F6FF",
+                borderRadius: "8px",
+                padding: "16px",
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}
             >
-              <span style={{ whiteSpace: "nowrap" }}>Apply code</span>
-            </Button>
-          </div>
+              <div>
+                <div>Promo code applied:</div>
+                <b>
+                  {first.promo_code.code} ({first.promo_code.discount}% OFF)
+                </b>
+              </div>
 
-          <a href={payment.checkout_url} target="_blank" rel="noreferrer">
-            <Button>Checkout</Button>
-          </a>
+              {first.can_apply_promo_code && (
+                <Button onClick={clearPromoCode}>Clear</Button>
+              )}
+            </div>
+          )}
+
+          {!isPaymentComplete && (
+            <a href={checkoutUrl} target="_blank" rel="noreferrer">
+              <Button>Checkout</Button>
+            </a>
+          )}
         </div>
       )}
     </div>
