@@ -1,32 +1,3 @@
-# Django #
-
-rigly_backend/__pycache__
-rigly_backend/db.sqlite3
-rigly_backend/media
-
-
-rigly_backend/develop-eggs/ 
-rigly_backend/dist/ 
-rigly_backend/downloads/ 
-rigly_backend/eggs/ 
-rigly_backend/lib/ 
-rigly_backend/lib64/ 
-rigly_backend/parts/ 
-rigly_backend/sdist/ 
-rigly_backend/var/ 
-rigly_backend/wheels/ 
-
-
-# Environments 
-rigly_backend/env/ 
-rigly_backend/venv/ 
-
-# mkdocs documentation 
-rigly_backend/site 
-
-
-
-
 # dependencies
 rigly_frontend/node_modules
 rigly_frontend/.pnp
