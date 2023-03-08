@@ -38,7 +38,7 @@ export type Order = {
   mining_deposit: number;
   auction_fee: number;
   status: OrderStatus;
-  payment?: OrderPayment;
+  payments?: OrderPayment[];
 };
 
 export type Collection = {};
