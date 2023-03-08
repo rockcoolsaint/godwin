@@ -85,6 +85,8 @@ export default function Checkout() {
       }
 
       const order = await Orders.getById(orderId);
+      const payment = await Payments.create(order.id);
+      console.log(payment);
 
       setOrder(order);
     };

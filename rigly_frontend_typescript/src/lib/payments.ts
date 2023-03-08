@@ -43,8 +43,15 @@ export async function clearPromoCode(paymentId: number): Promise<OrderPayment> {
   return payment;
 }
 
+export async function create(orderId: number): Promise<OrderPayment> {
+  const res = await post(url("/api/payments/create"), { order_id: orderId });
+
+  return res;
+}
+
 const Payments = {
   get: getPayments,
+  create,
   applyPromoCode,
   clearPromoCode,
 };
