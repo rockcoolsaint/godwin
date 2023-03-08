@@ -2,11 +2,6 @@ const defaultHeaders = {
   "Content-Type": "application/json",
 };
 
-function getAuthorizationHeader() {
-  const token = "";
-  return `Bearer ${token}`;
-}
-
 function getHeaders(headers: Object | undefined): Headers {
   const result = new Headers();
 
@@ -20,7 +15,7 @@ function getHeaders(headers: Object | undefined): Headers {
     });
   }
 
-  // result.set("Authorization", getAuthorizationHeader());
+  // TODO: Implement generic way to add Authorization headers.
 
   return result;
 }
@@ -31,9 +26,7 @@ export async function get(url: string, headers?: Object) {
     headers: getHeaders(headers),
   });
 
-  const data = await res.json();
-
-  return data;
+  return await res.json();
 }
 
 export async function put(url: string, payload: Object, headers?: Object) {
@@ -43,9 +36,7 @@ export async function put(url: string, payload: Object, headers?: Object) {
     body: JSON.stringify(payload),
   });
 
-  const data = await res.json();
-
-  return data;
+  return await res.json();
 }
 
 export async function post(url: string, payload: Object, headers?: Object) {
@@ -55,7 +46,5 @@ export async function post(url: string, payload: Object, headers?: Object) {
     body: JSON.stringify(payload),
   });
 
-  const data = await res.json();
-
-  return data;
+  return await res.json();
 }
