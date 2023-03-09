@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Iprops {
-  children: JSX.Element
+  children: JSX.Element;
 }
 
 export const Auth0ProviderWithNavigate = ({ children }: Iprops) => {
@@ -13,7 +13,7 @@ export const Auth0ProviderWithNavigate = ({ children }: Iprops) => {
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
   const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
 
-  const onRedirectCallback = ({returnTo}: any) => {
+  const onRedirectCallback = ({ returnTo }: any) => {
     navigate(returnTo || window.location.pathname);
   };
 
