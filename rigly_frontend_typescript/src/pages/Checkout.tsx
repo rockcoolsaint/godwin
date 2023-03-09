@@ -85,8 +85,18 @@ export default function Checkout() {
       }
 
       const order = await Orders.getById(orderId);
-      const payment = await Payments.create(order.id);
-      console.log(payment);
+
+      if (order.payments.length === 0) {
+        // If order does not have any payments, we need to create one.
+        const payment = await Payments.create(order.id);
+        order.payments[0] = payment;
+      } else {
+        // If order already has payments, we need to refresh the payment.
+        const lastIdx = order.payments.length - 1;
+        const lastPayment = order.payments[lastIdx];
+        const payment = await Payments.refresh(lastPayment.id);
+        order.payments[lastIdx] = payment;
+      }
 
       setOrder(order);
     };

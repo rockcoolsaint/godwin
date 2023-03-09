@@ -58,17 +58,7 @@ const UserProfileHistory = ({ userhistory }: Props) => {
                       style={{ width: "102px" }}
                       aria-label="Auction Date: activate to sort column ascending"
                     >
-                      Auction Date
-                    </th>
-                    <th
-                      className="sorting"
-                      aria-controls="example"
-                      rowSpan={1}
-                      colSpan={1}
-                      style={{ width: "139px" }}
-                      aria-label="Auction End Date: activate to sort column ascending"
-                    >
-                      Auction End Date
+                      Auction period
                     </th>
                     <th
                       className="sorting"
@@ -109,6 +99,16 @@ const UserProfileHistory = ({ userhistory }: Props) => {
                       aria-label="Status: activate to sort column ascending"
                     >
                       Auction fee
+                    </th>
+                    <th
+                      className="sorting numeric"
+                      aria-controls="example"
+                      rowSpan={1}
+                      colSpan={1}
+                      style={{ width: "126px" }}
+                      aria-label="Bid Amount: activate to sort column ascending"
+                    >
+                      Total price
                     </th>
                     <th
                       className="sorting numeric"

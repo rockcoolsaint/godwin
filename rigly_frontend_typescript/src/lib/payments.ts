@@ -49,9 +49,18 @@ export async function create(orderId: number): Promise<OrderPayment> {
   return res;
 }
 
+export async function refresh(paymentId: number): Promise<OrderPayment> {
+  const res = await post(url("/api/payments/refresh"), {
+    payment_id: paymentId,
+  });
+
+  return res;
+}
+
 const Payments = {
   get: getPayments,
   create,
+  refresh,
   applyPromoCode,
   clearPromoCode,
 };

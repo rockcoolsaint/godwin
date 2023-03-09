@@ -25,8 +25,10 @@ export default function UserProfileHistoryItem({ data }: { data: any }) {
         </div>
       </td>
       <td>{data.auction_list.title}</td>
-      <td>{formatDate(new Date(data.auction_list.created_at))}</td>
-      <td>{formatDate(new Date(data.auction_list.expiry_at))}</td>
+      <td>
+        {formatDate(new Date(data.auction_list.created_at))} -{" "}
+        {formatDate(new Date(data.auction_list.expiry_at))}
+      </td>
       <td>
         <span className={data.auction_list.user_auction_status}>
           {data.auction_list.user_auction_status.toUpperCase()}
@@ -45,6 +47,11 @@ export default function UserProfileHistoryItem({ data }: { data: any }) {
       <td className="numeric">
         <span>
           {auctionFee} <i className="fak fa-regular" />
+        </span>
+      </td>
+      <td className="numeric">
+        <span>
+          {data.order.total} <i className="fak fa-regular" />
         </span>
       </td>
       <td className="numeric">

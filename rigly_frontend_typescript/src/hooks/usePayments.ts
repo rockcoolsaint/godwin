@@ -43,6 +43,10 @@ function getFeesPaid(order: Order) {
   const first = order.payments[0];
   const feesTotal = order.mining_deposit + order.auction_fee;
 
+  if (!first) {
+    return 0;
+  }
+
   if (first.status === OrderPaymentStatus.Processing) {
     return false;
   }
