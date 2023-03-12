@@ -7,12 +7,6 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-declare global {
-  interface Window {
-    fetchUrl: any;
-  }
-}
-
 root.render(
   <React.StrictMode>
     <BrowserRouter>

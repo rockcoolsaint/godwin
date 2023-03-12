@@ -39,6 +39,18 @@ export async function put(url: string, payload: Object, headers?: Object) {
   return await res.json();
 }
 
+export async function putFormData(url: string, payload: any, headers?: Object) {
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: {
+      ...headers,
+    } as Headers,
+    body: payload,
+  });
+
+  return await res.json();
+}
+
 export async function post(url: string, payload: Object, headers?: Object) {
   const res = await fetch(url, {
     method: "POST",

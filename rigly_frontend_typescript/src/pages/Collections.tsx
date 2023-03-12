@@ -1,48 +1,56 @@
-import React, { useEffect, useState } from 'react'
-import FilterSort from '../components/FilterSort'
-import InnerSection from '../components/InnerSection'
-import Loader from '../components/Loader'
-import Pagination from '../components/Pagination'
-import ProductBlock from '../components/ProductBlock'
+import React, { useEffect, useState } from "react";
+import FilterSort from "../components/FilterSort";
+import InnerSection from "../components/InnerSection";
+import Loader from "../components/Loader";
+import Pagination from "../components/Pagination";
+import ProductBlock from "../components/ProductBlock";
 
-import {collectionProps} from '../components/interfaces'
+import { collectionProps } from "../components/interfaces";
+import { get } from "../utils/fetch";
+import { url } from "../utils/url";
 
-const limit = 10
+const limit = 10;
 
 const Collections = () => {
-  const [data, setData] = useState<collectionProps|null>(null);
-  const [query, setQuery] = useState<string>("?limit="+limit);
-  
+  const [data, setData] = useState<collectionProps | null>(null);
+  const [query, setQuery] = useState<string>("?limit=" + limit);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(window.fetchUrl+"/api/v1/auctions/"+query)
-      const returnData = await response.json()
-      console.log(returnData)
-      setData(returnData)
-    }
+      const data = await get(url(`/api/v1/auctions/${query}`));
+      console.log(data);
+      setData(data);
+    };
 
     fetchData();
-  },[query])
+  }, [query]);
 
-  return (
-    data?
+  return data ? (
     <>
-        <InnerSection title={"Auctions"} breadcrumb={"All Auctions"} />
-        <section className="product-lst-wrp">
-            <div className="container">
-                <FilterSort />
-                <div className="row">
-                    <ProductBlock  data={data.results} />
-                </div>
-                {data &&data.count?
-                  <Pagination limit={limit} prev={data?.previous} next={data?.next} count={data.count} setQuery={setQuery} />:<></>
-                }
-            </div>
-        </section>
-    </>:
+      <InnerSection title={"Auctions"} breadcrumb={"All Auctions"} />
+      <section className="product-lst-wrp">
+        <div className="container">
+          <FilterSort />
+          <div className="row">
+            <ProductBlock data={data.results} />
+          </div>
+          {data && data.count ? (
+            <Pagination
+              limit={limit}
+              prev={data?.previous}
+              next={data?.next}
+              count={data.count}
+              setQuery={setQuery}
+            />
+          ) : (
+            <></>
+          )}
+        </div>
+      </section>
+    </>
+  ) : (
     <Loader />
-  )
-}
+  );
+};
 
-export default Collections
+export default Collections;

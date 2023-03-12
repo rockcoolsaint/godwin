@@ -26,6 +26,8 @@ import AlertDismissible from "./Alert";
 import ToastAlert from "../components/Toast";
 import { Tooltip } from "react-tooltip";
 import { Order } from "../types";
+import { post } from "../utils/fetch";
+import { url } from "../utils/url";
 
 interface ProductsProps {
   data: productProps | null;
@@ -114,30 +116,24 @@ const ProductTemplate = ({
         alert("Value should be less than 10,000,000");
         return;
       }
-      fetch(window.fetchUrl + "/api/place-automatic-bid/", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + data1?.__raw,
-        },
-        body: JSON.stringify({
+      const res = await post(
+        url("/api/place-automatic-bid"),
+        {
           proxy_bid_amnt: currentbid?.bid ? currentbid?.bid.toString() : query,
           source: "list_page",
           list_id: data?.id,
-        }),
-      })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          setCurrentBid(responseJson.current_bid);
-          setToastData({
-            message: responseJson.place_bid_status.status,
-          });
-          setShowToast(true);
-          return responseJson;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+        },
+        {
+          Authorization: "Bearer " + data1?.__raw,
+        }
+      );
+
+      setCurrentBid(res.current_bid);
+      setToastData({
+        message: res.place_bid_status.status,
+      });
+      setShowToast(true);
+      return res;
     });
   };
 
@@ -146,45 +142,42 @@ const ProductTemplate = ({
       if (!query) {
         setQuery(currentbid.bid ? currentbid.bid.toString() : "");
       }
+
       if (parseInt(query) > 10000000) {
         alert("Value should be less than 10,000,000");
         return;
       }
+
       if (!data1.__raw) return;
-      fetch(window.fetchUrl + "/api/place-bid/", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + data1?.__raw,
-        },
-        body: JSON.stringify({
+
+      const responseJson = await post(
+        url("/api/place-bid/"),
+        {
           bid_amnt: query === "" ? data?.starting_bid : query,
           source: "list_page",
           list_id: data?.id,
-        }),
-      })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          console.log(responseJson);
-          setCurrentBid(responseJson.current_bid);
-          if (responseJson.message === "User status Unpaid") {
-            setUserPaidStatus(false);
-          } else {
-            setUserPaidStatus(true);
-            setQuery(responseJson.current_bid);
+        },
+        {
+          Authorization: "Bearer " + data1?.__raw,
+        }
+      );
 
-            setToastData({
-              message: responseJson.place_bid_status.message,
-            });
-            setShowToast(true);
-          }
-          //window.location.reload()
-          return responseJson;
-        })
-        .catch((error) => {
-          alert(error);
-          console.error(error);
+      console.log(responseJson);
+      setCurrentBid(responseJson.current_bid);
+
+      if (responseJson.message === "User status Unpaid") {
+        setUserPaidStatus(false);
+      } else {
+        setUserPaidStatus(true);
+        setQuery(responseJson.current_bid);
+
+        setToastData({
+          message: responseJson.place_bid_status.message,
         });
+        setShowToast(true);
+      }
+      //window.location.reload()
+      return responseJson;
     });
   };
 

@@ -11,6 +11,8 @@ import AboutUs from "../components/AboutUs";
 import Loader from "../components/Loader";
 
 import { HomePageProps } from "../components/interfaces";
+import { get } from "../utils/fetch";
+import { url } from "../utils/url";
 
 const Homepage = () => {
   const [loading, setLoading] = useState(false);
@@ -19,10 +21,9 @@ const Homepage = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(window.fetchUrl + "/api/get_homepage_data/");
-      const returnData = await response.json();
-      console.log(returnData);
-      setData(returnData);
+      const data = await get(url("/api/get_homepage_data/"));
+      console.log(data);
+      setData(data);
     } catch (ex) {
       console.error(ex);
     } finally {
