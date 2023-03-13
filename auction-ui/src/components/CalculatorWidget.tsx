@@ -77,7 +77,7 @@ const CalculatorWidget = ({ data, currentBid }: calculatorProps) => {
         <div className="col-md-6">
           <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">
-              What's your bid?
+              What&apos;s your bid?
             </label>
             <div className="d-flex align-items-center">
               <input
@@ -154,7 +154,7 @@ const CalculatorWidget = ({ data, currentBid }: calculatorProps) => {
             </div>
           </div>
         </div>
-        <div className="col-md-6 rounded-3 calculator-details border py-3 px-3">
+        <div className="col-md-6 rounded-3 calculator-details border p-3">
           <div>
             <small>Estimate future hashprice (per TH/s/day)</small>
             <h3 id="formula-result-#9" ref={myContainer1}>

@@ -1,6 +1,4 @@
-import SellerImg1 from '../images/how-seller-img1.svg'
-import SellerImg2 from '../images/how-seller-img2.svg'
-import SellerImg3 from '../images/how-seller-img3.svg'
+import Image from 'next/image'
 import Link from './shared/Link'
 
 const HowItWorks = () => {
@@ -11,7 +9,7 @@ const HowItWorks = () => {
           <div className="row">
             <div className="col-md-5 col-sm-12">
               <div className="how-it-img">
-                <img src={SellerImg1} alt="" />
+                <Image src="../images/how-seller-img1.svg" alt="" />
               </div>
             </div>
             <div className="offset-md-1 col-md-6 col-sm-12">
@@ -24,7 +22,7 @@ const HowItWorks = () => {
                   miners at a known price for a known period. It’s as simple as that.
                 </p>
 
-                <Link to="#">
+                <Link href="#">
                   Learn more <i className="far fa-arrow-right fa-fw"></i>
                 </Link>
               </div>
@@ -44,14 +42,14 @@ const HowItWorks = () => {
                   miners at a known price for a known period. It’s as simple as that.
                 </p>
 
-                <Link to="#">
+                <Link href="#">
                   Learn more <i className="far fa-arrow-right fa-fw"></i>
                 </Link>
               </div>
             </div>
             <div className="offset-md-1 col-md-5 col-sm-12" id="two">
               <div className="how-it-img">
-                <img src={SellerImg2} alt="" />
+                <Image src="../images/how-seller-img2.svg" alt="" />
               </div>
             </div>
           </div>
@@ -61,7 +59,7 @@ const HowItWorks = () => {
           <div className="row">
             <div className="col-md-5 col-sm-12">
               <div className="how-it-img">
-                <img src={SellerImg3} alt="" />
+                <Image src={'../images/how-seller-img3.svg'} alt="" />
               </div>
             </div>
             <div className="offset-md-1 col-md-6 col-sm-12">
@@ -74,7 +72,7 @@ const HowItWorks = () => {
                   miners at a known price for a known period. It’s as simple as that.
                 </p>
 
-                <Link to="#">
+                <Link href="#">
                   Learn more <i className="far fa-arrow-right fa-fw"></i>
                 </Link>
               </div>

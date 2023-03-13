@@ -19,7 +19,7 @@ let getElements: (
           onClick={e => {
             e.preventDefault()
             setActiveData(i)
-            i !== activePage ? setQuery('?limit=' + limit + '&offset=' + limit * (i - 1)) : console.log('First Page')
+            i !== activePage ? setQuery('?limit=' + limit + '&offset=' + limit * (i - 1)) : undefined
           }}
         >
           {i}

@@ -1,3 +1,5 @@
+import Image from 'next/image'
+// eslint-disable-next-line no-restricted-imports
 import logo from '../images/logo.svg'
 import Link from './shared/Link'
 
@@ -9,28 +11,28 @@ const Footer = () => {
           <div className="row">
             <div className="col-md-3 col-sm-12">
               <div className="foot-abt">
-                <img src={logo} alt="" />
+                <Image src={logo} alt="" />
 
                 <ul>
                   <li>
-                    <Link to="#">Contact@mail.com</Link>
+                    <Link href="#">Contact@mail.com</Link>
                   </li>
                   <li>
-                    <Link to="#">+011123456789</Link>
+                    <Link href="#">+011123456789</Link>
                   </li>
                 </ul>
 
                 <div className="social-bx">
-                  <Link to="#" target="_blank">
+                  <Link href="#" target="_blank">
                     <i className="fab fa-facebook-f fa-fw"></i>
                   </Link>
-                  <Link to="#" target="_blank">
+                  <Link href="#" target="_blank">
                     <i className="fab fa-instagram fa-fw"></i>
                   </Link>
-                  <Link to="#" target="_blank">
+                  <Link href="#" target="_blank">
                     <i className="fab fa-twitter fa-fw"></i>
                   </Link>
-                  <Link to="#" target="_blank">
+                  <Link href="#" target="_blank">
                     <i className="fab fa-skype fa-fw"></i>
                   </Link>
                 </div>
@@ -42,19 +44,19 @@ const Footer = () => {
 
                 <ul>
                   <li>
-                    <Link to="#">Acutions</Link>
+                    <Link href="#">Acutions</Link>
                   </li>
                   <li>
-                    <Link to="#">About us</Link>
+                    <Link href="#">About us</Link>
                   </li>
                   <li>
-                    <Link to="#">How it Works</Link>
+                    <Link href="#">How it Works</Link>
                   </li>
                   <li>
-                    <Link to="#">Contact us</Link>
+                    <Link href="#">Contact us</Link>
                   </li>
                   <li>
-                    <Link to="#">Learn</Link>
+                    <Link href="#">Learn</Link>
                   </li>
                 </ul>
               </div>
@@ -65,19 +67,19 @@ const Footer = () => {
 
                 <ul>
                   <li>
-                    <Link to="#">Help Center</Link>
+                    <Link href="#">Help Center</Link>
                   </li>
                   <li>
-                    <Link to="#">Create Account</Link>
+                    <Link href="#">Create Account</Link>
                   </li>
                   <li>
-                    <Link to="#">Privacy policy</Link>
+                    <Link href="#">Privacy policy</Link>
                   </li>
                   <li>
-                    <Link to="#">Terms & Conditions</Link>
+                    <Link href="#">Terms & Conditions</Link>
                   </li>
                   <li>
-                    <Link to="#">FAQ</Link>
+                    <Link href="#">FAQ</Link>
                   </li>
                 </ul>
               </div>

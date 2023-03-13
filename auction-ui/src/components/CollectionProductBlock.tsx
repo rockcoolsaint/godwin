@@ -1,6 +1,7 @@
-import { productProps } from './interfaces'
-
+import Image from 'next/image'
 import Countdown from 'react-countdown'
+
+import { productProps } from './interfaces'
 import Link from './shared/Link'
 
 interface ProductProps {
@@ -48,7 +49,7 @@ const CollectionProductBlock = ({ product }: ProductProps) => {
   return (
     <div className="similer-box">
       <div className="similer-proimg">
-        <img src={product.auction_meta.site_photo} alt={product.title + ' Image'} />
+        <Image src={product.auction_meta.site_photo} alt={product.title + ' Image'} />
       </div>
       <div className="similer-data">
         <h3>{product.title}</h3>

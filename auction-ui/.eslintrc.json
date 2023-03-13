@@ -81,7 +81,8 @@
         "args": "after-used",
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "tailwindcss/no-custom-classname": "off"
   },
   "plugins": [
     "@typescript-eslint",

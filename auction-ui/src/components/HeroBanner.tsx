@@ -1,7 +1,4 @@
-import shp1 from '../images/banner-shp1.svg'
-import shp2 from '../images/banner-shp2.svg'
-import shp3 from '../images/banner-shp3.png'
-
+import Image from 'next/image'
 import parse from 'html-react-parser'
 import Link from './shared/Link'
 
@@ -32,15 +29,15 @@ const HeroBanner = ({ title, description, image_file }: props) => {
           </div>
           <div className="col-md-5 col-sm-12" id="two">
             <div className="banner-img">
-              <img src={image_file} alt="" />
+              <Image src={image_file} alt="" />
             </div>
           </div>
         </div>
       </div>
 
-      <img src={shp1} alt="" className="banner-shp1" />
-      <img src={shp2} alt="" className="banner-shp2" />
-      <img src={shp3} alt="" className="banner-shp3" />
+      <Image src="../images/banner-shp1.svg" alt="" className="banner-shp1" />
+      <Image src="../images/banner-shp2.svg" alt="" className="banner-shp2" />
+      <Image src="../images/banner-shp3.svg" alt="" className="banner-shp3" />
     </section>
   )
 }

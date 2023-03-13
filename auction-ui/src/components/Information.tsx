@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import parse from 'html-react-parser'
 
 interface props {
@@ -34,7 +35,7 @@ const Information = ({ data }: dataProp) => {
           <div className="row">
             <div className="col-md-6 col-sm-12">
               <div className="mining-img">
-                <img src={data.mining_info_image_1} alt="" />
+                <Image src={data.mining_info_image_1} alt="" />
               </div>
             </div>
             <div className="offset-md-1 col-md-5 col-sm-12">
@@ -62,7 +63,7 @@ const Information = ({ data }: dataProp) => {
             </div>
             <div className="offset-md-1 col-md-6 col-sm-12" id="two">
               <div className="mining-img">
-                <img src={data.mining_info_image_2} alt="" />
+                <Image src={data.mining_info_image_2} alt="" />
               </div>
             </div>
           </div>
@@ -72,7 +73,7 @@ const Information = ({ data }: dataProp) => {
           <div className="row">
             <div className="col-md-6 col-sm-12">
               <div className="mining-img">
-                <img src={data.mining_info_image_2} alt="" />
+                <Image src={data.mining_info_image_2} alt="" />
               </div>
             </div>
             <div className="offset-md-1 col-md-5 col-sm-12">

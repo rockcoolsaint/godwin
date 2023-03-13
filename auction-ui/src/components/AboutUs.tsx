@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import parse from 'html-react-parser'
 
 interface props {
@@ -30,7 +31,7 @@ const AboutUs = ({ data }: dataProp) => {
           <div className="row">
             <div className="col-md-4 col-sm-12">
               <div className="abt-box">
-                <img src={data?.about_us_1_image} alt="" />
+                <Image src={data?.about_us_1_image} alt="" />
                 <h3>{data?.about_us_1_title}</h3>
                 {parse(data?.about_us_1_sub_title.toString())}
 
@@ -41,7 +42,7 @@ const AboutUs = ({ data }: dataProp) => {
             </div>
             <div className="col-md-4 col-sm-12">
               <div className="abt-box">
-                <img src={data?.about_us_2_image} alt="" />
+                <Image src={data?.about_us_2_image} alt="" />
                 <h3>{data?.about_us_2_title}</h3>
                 {parse(data?.about_us_2_sub_title.toString())}
                 <a href={data?.about_us_2_url}>
@@ -51,7 +52,7 @@ const AboutUs = ({ data }: dataProp) => {
             </div>
             <div className="col-md-4 col-sm-12">
               <div className="abt-box">
-                <img src={data?.about_us_3_image} alt="" />
+                <Image src={data?.about_us_3_image} alt="" />
                 <h3>{data?.about_us_3_title}</h3>
                 {parse(data?.about_us_3_sub_title.toString())}
                 <a href={data?.about_us_3_url}>
