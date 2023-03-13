@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
 import Nav from 'react-bootstrap/Nav'
@@ -66,7 +67,7 @@ const Header = () => {
           <div className="container">
             <Navbar collapseOnSelect expand="md" variant="light">
               <Navbar.Brand href="/">
-                <img src={data[0]?.header_logo} alt="Logo" />
+                <Image src={data[0]?.header_logo} alt="Logo" />
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 

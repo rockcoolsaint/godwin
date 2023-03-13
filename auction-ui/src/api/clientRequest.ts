@@ -1,7 +1,7 @@
 import { FetchError } from './error'
+import { url } from 'utils'
 
 interface MakeClientRequestProps {
-  host?: string
   method: 'GET' | 'POST' | 'PATCH' | 'PUT'
   path: string
   body?: object
@@ -9,19 +9,11 @@ interface MakeClientRequestProps {
   abortSignal?: AbortSignal
 }
 
-export const makeClientRequest = async ({
-  host = process.env.NEXT_PUBLIC_APP_API_SERVER_URL,
-  method = 'GET',
-  blob,
-  path,
-  body,
-  abortSignal,
-}: MakeClientRequestProps) => {
+export const makeClientRequest = async ({ method = 'GET', blob, path, body, abortSignal }: MakeClientRequestProps) => {
   let response: Response | undefined = undefined
   let json: any = undefined
   try {
-    const basePath = host
-    response = await fetch(`${basePath}${path}`, {
+    response = await fetch(url(path), {
       method,
       ...(body && {
         body: JSON.stringify(body),

@@ -1,14 +1,5 @@
+import Image from 'next/image'
 import Link from './shared/Link'
-
-import BuyerImg1 from '../images/how-buyer-img1.svg'
-import BuyerImg2 from '../images/how-buyer-img1.svg'
-import BuyerImg3 from '../images/how-buyer-img1.svg'
-
-import Points from '../images/points.svg'
-import WinIc1 from '../images/win-ic1.svg'
-import WinIc2 from '../images/win-ic2.svg'
-import WinIc3 from '../images/win-ic3.svg'
-import WinIc4 from '../images/win-ic4.svg'
 
 const BuyerHowItWorks = () => {
   return (
@@ -33,7 +24,7 @@ const BuyerHowItWorks = () => {
             </div>
             <div className="offset-md-1 col-md-5 col-sm-12" id="two">
               <div className="how-it-img">
-                <img src={BuyerImg1} alt="" />
+                <Image src="../images/how-buyer-img1.svg" alt="" />
               </div>
             </div>
           </div>
@@ -43,7 +34,7 @@ const BuyerHowItWorks = () => {
           <div className="row">
             <div className="col-md-5 col-sm-12">
               <div className="how-it-img">
-                <img src={BuyerImg2} alt="" />
+                <Image src="../images/how-buyer-img1.svg" alt="" />
               </div>
             </div>
             <div className="offset-md-1 col-md-6 col-sm-12">
@@ -76,14 +67,14 @@ const BuyerHowItWorks = () => {
                   miners at a known price for a known period. It’s as simple as that.
                 </p>
 
-                <Link to="#">
+                <Link href="#">
                   Learn more <i className="far fa-arrow-right fa-fw"></i>
                 </Link>
               </div>
             </div>
             <div className="offset-md-1 col-md-5 col-sm-12" id="two">
               <div className="how-it-img">
-                <img src={BuyerImg3} alt="" />
+                <Image src="../images/how-buyer-img1.svg" alt="" />
               </div>
             </div>
           </div>
@@ -93,13 +84,13 @@ const BuyerHowItWorks = () => {
             <div className="col-md-6 col-sm-12">
               <div className="buyer-block">
                 <h3>
-                  You Win! <img src={Points} alt="" />
+                  You Win! <Image src="../images/points.svg" alt="" />
                 </h3>
 
                 <ul>
                   <li>
                     <div className="buyer-ic">
-                      <img src={WinIc1} alt="" />
+                      <Image src="../images/win-ic1.svg" alt="" />
                     </div>
                     <div className="buyer-dt">
                       <h4>Send Payment</h4>
@@ -111,7 +102,7 @@ const BuyerHowItWorks = () => {
                   </li>
                   <li>
                     <div className="buyer-ic">
-                      <img src={WinIc2} alt="" />
+                      <Image src="../images/win-ic2.svg" alt="" />
                     </div>
                     <div className="buyer-dt">
                       <h4>Start Mining</h4>
@@ -131,7 +122,7 @@ const BuyerHowItWorks = () => {
                 <ul>
                   <li>
                     <div className="buyer-ic">
-                      <img src={WinIc3} alt="" />
+                      <Image src="../images/win-ic3.svg" alt="" />
                     </div>
                     <div className="buyer-dt">
                       <h4>Keep bidding on other Auctions</h4>
@@ -143,7 +134,7 @@ const BuyerHowItWorks = () => {
                   </li>
                   <li>
                     <div className="buyer-ic">
-                      <img src={WinIc4} alt="" />
+                      <Image src="../images/win-ic4.svg" alt="" />
                     </div>
                     <div className="buyer-dt">
                       <h4>Refund Deposit after 1 Month</h4>

@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+
+const path = require('path')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -12,6 +15,11 @@ const nextConfig = {
       issuer: /\.[jt]sx?$/,
       use: [{ loader: '@svgr/webpack' }],
     })
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      utils: path.resolve(__dirname, 'src', 'utils'),
+    }
 
     return config
   },

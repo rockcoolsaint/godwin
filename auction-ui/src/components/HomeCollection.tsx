@@ -62,7 +62,6 @@ const HomeCollection = ({ products }: ProductsProps) => {
       },
     ],
   }
-  console.log('Inside Home COllection')
 
   return (
     <section className="similer-products-wrp">

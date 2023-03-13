@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
+import Image from 'next/image'
 
 interface Props {
   title: string
@@ -19,7 +20,7 @@ const ToastAlert = ({ title, description, show_toast }: Props) => {
     <ToastContainer position={'top-center'} className="p-4">
       <Toast bg="light" onClose={() => setShow(false)} show={show} delay={3000} autohide={true}>
         <Toast.Header>
-          <img src="holder.js/20x20?text=%20" className="me-2 rounded" alt="" />
+          <Image src="holder.js/20x20?text=%20" className="me-2 rounded" alt="" />
           <strong className="me-auto">{title}</strong>
           <small className="text-muted">just now</small>
         </Toast.Header>

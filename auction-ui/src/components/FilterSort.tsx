@@ -1,5 +1,4 @@
-import GridIcon from '../images/gird-ic.svg'
-import ListIcon from '../images/list-ic.svg'
+import Image from 'next/image'
 import Link from './shared/Link'
 
 const FilterSort = () => {
@@ -10,13 +9,13 @@ const FilterSort = () => {
           <div className="lft-acbar">
             <ul>
               <li>
-                <Link to="#">
-                  <img src={GridIcon} alt="" />
+                <Link href="#">
+                  <Image src={'../images/gird-ic.svg'} alt="" />
                 </Link>
               </li>
               <li>
-                <Link to="#">
-                  <img src={ListIcon} alt="" />
+                <Link href="#">
+                  <Image src={'../images/list-ic.svg'} alt="" />
                 </Link>
               </li>
               <li>

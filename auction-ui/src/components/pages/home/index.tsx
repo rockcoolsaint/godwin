@@ -1,9 +1,6 @@
 'use client'
 
-import AboutUs from 'src/components/AboutUs'
-import HeroBanner from 'src/components/HeroBanner'
 import HomeCollection from 'src/components/HomeCollection'
-import Information from 'src/components/Information'
 import Loader from 'src/components/Loader'
 import { HomePageProps } from 'src/components/interfaces'
 import { useState, useEffect } from 'react'
@@ -15,7 +12,6 @@ export default function Home() {
   const fetchData = async () => {
     const response = await getHomeData()
     const returnData = await response
-    console.log('returnData :>>', { returnData })
     setData(returnData)
   }
 
