@@ -1,0 +1,22 @@
+name: Deploy QA
+on:
+  push:
+    branches: ["develop"]
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.QA_HOST }}
+          username: ${{ secrets.QA_USERNAME }}
+          key: ${{ secrets.QA_PRIVATE_KEY }}
+          port: ${{ secrets.QA_PORT }}
+          script: |
+            cd rigly-frontend
+            git reset --hard
+            git pull
+            yarn install
+            yarn build
+            pm2 restart frontend
