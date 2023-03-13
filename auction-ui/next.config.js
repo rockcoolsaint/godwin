@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-
+require('dotenv').config()
 const path = require('path')
 
 /** @type {import('next').NextConfig} */
@@ -8,6 +8,9 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     appDir: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: process.env.ENV === 'production',
   },
   webpack(config) {
     config.module.rules.push({

@@ -19,6 +19,7 @@
     "babel-loader": "^9.1.0",
     "babel-plugin-module-resolver": "^5.0.0",
     "date-fns": "^2.29.3",
+    "dotenv": "^16.0.3",
     "html-react-parser": "^3.0.12",
     "next": "13.2.3",
     "postcss-100vh-fix": "^1.0.2",
