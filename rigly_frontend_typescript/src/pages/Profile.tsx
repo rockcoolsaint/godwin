@@ -12,6 +12,8 @@ import pro_img2 from "../images/user-tb-ic2.svg";
 import pro_img4 from "../images/user-tb-ic4.svg";
 import pro_img5 from "../images/user-tb-ic5.svg";
 import { Order } from "../types";
+import { get } from "../utils/fetch";
+import { url } from "../utils/url";
 
 export const ProfilePage = () => {
   const {
@@ -45,15 +47,9 @@ export const ProfilePage = () => {
       console.log(data1);
       if (data1.__raw) {
         try {
-          const response = await fetch(window.fetchUrl + "/api/profile/", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + data1.__raw,
-            },
+          const data = await get(url("/api/profile/"), {
+            Authorization: "Bearer " + data1.__raw,
           });
-
-          const data = await response.json();
 
           // TODO: Refactor this, backend should have endpoint.
           const orders = await Promise.all(
