@@ -19,6 +19,6 @@ jobs:
             git reset --hard
             git pull
             cd auction-ui
-            docker build -t rigly-frontend .
             docker stop frontend
+            docker build -t rigly-frontend .
             docker run -d --name frontend -p 3000:3000 rigly-frontend
