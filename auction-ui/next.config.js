@@ -4,13 +4,14 @@ const path = require('path')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
     appDir: true,
   },
   eslint: {
-    ignoreDuringBuilds: process.env.ENV === 'production',
+    ignoreDuringBuilds: true,
   },
   webpack(config) {
     config.module.rules.push({
