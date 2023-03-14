@@ -11,7 +11,8 @@ jobs:
         with:
           host: ${{ secrets.QA_HOST }}
           username: ${{ secrets.QA_USERNAME }}
-          key: ${{ secrets.QA_PRIVATE_KEY }}
+          # key: ${{ secrets.QA_PRIVATE_KEY }}
+          password: ${{ secrets.QA_PASSWORD }}
           port: ${{ secrets.QA_PORT }}
           script: |
             cd rigly-frontend
