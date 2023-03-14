@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
-const path = require('path')
 
-const isProd = process.env.ENV === 'production'
+const isProd = process.env.NODE_ENV === 'production'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -27,7 +26,6 @@ const nextConfig = {
 
     config.resolve.alias = {
       ...config.resolve.alias,
-      utils: path.resolve(__dirname, 'src', 'utils'),
     }
 
     return config
