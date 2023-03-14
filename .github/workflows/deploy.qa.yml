@@ -7,6 +7,13 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Install yarn
+        run: npm install -g yarn
+
+      - name: Install pm2
+        run: nom install -g pm2
+
+      - name: Restart server
       - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.QA_HOST }}
