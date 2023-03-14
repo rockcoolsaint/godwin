@@ -21,7 +21,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN yarn install
-RUN ENV=production yarn build
+RUN NODE_ENV=production yarn build
 
 FROM base AS runner
 WORKDIR /app
