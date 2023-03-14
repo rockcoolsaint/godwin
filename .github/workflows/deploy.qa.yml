@@ -16,7 +16,4 @@ jobs:
           # key: ${{ secrets.QA_PRIVATE_KEY }}
           port: ${{ secrets.QA_PORT }}
           script: |
-            cd rigly-frontend
-            git reset --hard
-            git pull
-            docker compose restart frontend
+            ./restart_server.sh
