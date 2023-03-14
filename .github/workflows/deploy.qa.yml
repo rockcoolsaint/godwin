@@ -1,26 +1,40 @@
-name: Deploy QA
+name: Deploy to EC2
+
 on:
   push:
-    branches: ["develop"]
+    branches:
+      - develop
 
 jobs:
-  Deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Install yarn
-        run: npm install -g yarn
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Install pm2
-        run: nom install -g pm2
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Restart server
+      - name: Build and push Docker image
+        id: build-and-push
+        env:
+          ECR_REGISTRY: 686795470659.dkr.ecr.us-east-2.amazonaws.com
+          ECR_REPOSITORY: rigly-frontend
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
+
+      - name: SSH into EC2 instance
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.QA_HOST }}
           username: ${{ secrets.QA_USERNAME }}
           password: ${{ secrets.QA_PASSWORD }}
-          # TODO: Figure out why this isn't working:
-          # key: ${{ secrets.QA_PRIVATE_KEY }}
           port: ${{ secrets.QA_PORT }}
           script: |
-            ./restart_server.sh
+            sudo docker stop frontend || true
+            sudo docker rm frontend || true
+            sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
+            sudo docker run -d --name=frontend -p 3000:3000 $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
