@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
 
     steps:
       - name: Checkout code
@@ -19,9 +22,6 @@ jobs:
           aws-region: us-east-2
           role-to-assume: arn:aws:iam::686795470659:role/github-actions
           role-session-name: GitHubActions
-          permissions:
-            id-token: write
-            contents: write
 
       - name: Login to Amazon ECR
         id: login-ecr
