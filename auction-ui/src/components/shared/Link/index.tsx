@@ -13,7 +13,7 @@ const Link = forwardRef<HTMLAnchorElement, Props>(function LinkInner(
   ref,
 ) {
   return (
-    <NextLink className={twMerge(`${styled && `text-primary outline-primary underline`}`, className)} {...props} ref={ref}>
+    <NextLink className={twMerge(`${styled && `text-primary underline outline-primary`}`, className)} {...props} ref={ref}>
       {children}
     </NextLink>
   )
