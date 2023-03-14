@@ -19,7 +19,4 @@ jobs:
             cd rigly-frontend
             git reset --hard
             git pull
-            cd auction-ui
-            docker build -t rigly-frontend .
-            cd ..
-            docker compose restart frontend
+            pm2 restart frontend
