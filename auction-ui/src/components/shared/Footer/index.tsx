@@ -1,33 +1,61 @@
 import Link from 'src/components/shared/Link'
+import { ArrowLongRightIcon } from '@heroicons/react/24/outline'
+import LogoSvg from 'src/assets/svg/logo_dark.svg'
+import LinkedInSvg from 'src/assets/svg/linkedin.svg'
+import TwitterSvg from 'src/assets/svg/twitter.svg'
 
 const Footer = () => {
   return (
-    <div className="container">
-      <div className="grid grid-cols-4 gap-4">
-        <div className="col-md-3 col-sm-12">
+    <section>
+      <div>
+        <div>
+          <div className="mb-16 flex items-center justify-between border-t border-gray-200 pt-16">
+            <div className="flex items-center">
+              <LogoSvg />
+              <div className="ml-3 border-l pl-3">
+                <span className="block text-dark-200/[.7]">Bitcoin Mining</span>
+                <span className="block text-dark-200/[.7]">Auction</span>
+              </div>
+            </div>
+            <div className="flex">
+              <Link className=" flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-100/[.5]" href="/">
+                <LinkedInSvg className="h-6 w-6" />
+              </Link>
+              <Link className="ml-2 flex items-center justify-center rounded-lg bg-gradient p-3 hover:bg-gradient-hover" href="/">
+                <TwitterSvg className="h-6 w-6" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-5 gap-4">
+        <div className="">
           <div className="foot-abt">
-            {/* <img src={logo} alt="" /> */}
-
+            <h4 className="mb-5 text-lg font-medium text-dark-200">Contact</h4>
             <ul>
-              <li>
-                <Link href="/">Contact@mail.com</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="tel:+011123456789">
+                  +011123456789
+                </Link>
               </li>
-              <li>
-                <Link href="/">+011123456789</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="mailto:contact@rigly.io">
+                  contact@rigly.io
+                </Link>
               </li>
             </ul>
 
             <div className="social-bx">
-              <Link href="/" target="_blank">
+              <Link className="font-normal text-dark-100" href="/" target="_blank">
                 <i className="fab fa-facebook-f fa-fw"></i>
               </Link>
-              <Link href="/" target="_blank">
+              <Link className="font-normal text-dark-100" href="/" target="_blank">
                 <i className="fab fa-instagram fa-fw"></i>
               </Link>
-              <Link href="/" target="_blank">
+              <Link className="font-normal text-dark-100" href="/" target="_blank">
                 <i className="fab fa-twitter fa-fw"></i>
               </Link>
-              <Link href="/" target="_blank">
+              <Link className="font-normal text-dark-100" href="/" target="_blank">
                 <i className="fab fa-skype fa-fw"></i>
               </Link>
             </div>
@@ -35,67 +63,97 @@ const Footer = () => {
         </div>
         <div className="col-md-3 col-sm-6">
           <div className="quicklink">
-            <h4>Quick Link</h4>
-
+            <h4 className="mb-5 text-lg font-medium text-dark-200">Quick Link</h4>
             <ul>
-              <li>
-                <Link href="/">Acutions</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  Acutions
+                </Link>
               </li>
-              <li>
-                <Link href="/">About us</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  About us
+                </Link>
               </li>
-              <li>
-                <Link href="/">How it Works</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  How it Works
+                </Link>
               </li>
-              <li>
-                <Link href="/">Contact us</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  Contact us
+                </Link>
               </li>
-              <li>
-                <Link href="/">Learn</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  Learn
+                </Link>
               </li>
             </ul>
           </div>
         </div>
         <div className="col-md-3 col-sm-6">
           <div className="quicklink">
-            <h4>Support</h4>
-
+            <h4 className="mb-5 text-lg font-medium text-dark-200">Support</h4>
             <ul>
-              <li>
-                <Link href="/">Help Center</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  Help Center
+                </Link>
               </li>
-              <li>
-                <Link href="/">Create Account</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  Create Account
+                </Link>
               </li>
-              <li>
-                <Link href="/">Privacy policy</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  Privacy policy
+                </Link>
               </li>
-              <li>
-                <Link href="/">Terms & Conditions</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  Terms & Conditions
+                </Link>
               </li>
-              <li>
-                <Link href="/">FAQ</Link>
+              <li className="mb-3">
+                <Link className="font-normal text-dark-100" href="/">
+                  FAQ
+                </Link>
               </li>
             </ul>
           </div>
         </div>
-        <div className="col-md-3 col-sm-12">
+        <div className="col-span-2 ">
           <div className="subscribe-bx">
-            <h4>Subscribe Newsletter</h4>
-            <p>Signup for our Newletter to get the latest news in your inbox</p>
-            <form>
-              <div className="form-group">
-                <input type="text" name="" placeholder="Email Address" className="form-control" />
+            <h4 className="mb-5 text-lg font-medium text-dark-200">Sign up for updates</h4>
+            <form className="flex">
+              <div className="w-full">
+                <input
+                  type="text"
+                  name=""
+                  placeholder="Enter your email"
+                  className="h-input-tall w-full rounded-lg border px-4 placeholder:text-dark-100 focus:border-gradient focus:ring-0"
+                />
               </div>
-              <button type="submit">Subscribe</button>
+              <button
+                className=" ml-2 flex items-center justify-center rounded-lg bg-gradient px-4 text-white hover:bg-gradient-hover"
+                type="submit"
+              >
+                <span>Send</span>
+                <ArrowLongRightIcon className="ml-2 h-5 w-5" />
+              </button>
             </form>
           </div>
         </div>
       </div>
-      <div className="copyright">
-        <p>@2022 Copyright All Right Reserved by Rigly</p>
+      <div className="mt-16 flex items-center justify-center border-t border-gray-200 py-7 ">
+        <p>
+          @2022 Copyright All Right Reserved by <span className="text-primary">Rigly</span>
+        </p>
       </div>
-    </div>
+    </section>
   )
 }
 
