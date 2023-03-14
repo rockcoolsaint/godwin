@@ -20,6 +20,8 @@ jobs:
             git reset --hard
             git pull
             cd auction-ui
+            yarn install
+            ENV=production yarn build
             docker build -t rigly-frontend .
             cd ..
             docker compose restart frontend
