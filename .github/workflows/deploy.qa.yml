@@ -17,6 +17,4 @@ jobs:
             cd rigly-frontend
             git reset --hard
             git pull
-            yarn install
-            yarn build
-            pm2 restart frontend
+            docker compose restart frontend
