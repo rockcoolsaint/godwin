@@ -1,50 +1,23 @@
-name: Deploy to EC2
-
+name: Deploy QA
 on:
   push:
-    branches:
-      - develop
+    branches: ["develop"]
 
 jobs:
-  deploy:
+  Deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: write
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-region: us-east-2
-          role-to-assume: arn:aws:iam::686795470659:role/github-actions
-          role-session-name: GitHubActions
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build and push Docker image
-        id: build-and-push
-        env:
-          ECR_REGISTRY: 686795470659.dkr.ecr.us-east-2.amazonaws.com
-          ECR_REPOSITORY: rigly-frontend
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
-
-      - name: SSH into EC2 instance
-        uses: appleboy/ssh-action@master
+      - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.QA_HOST }}
           username: ${{ secrets.QA_USERNAME }}
-          password: ${{ secrets.QA_PASSWORD }}
+          key: ${{ secrets.QA_PRIVATE_KEY }}
           port: ${{ secrets.QA_PORT }}
           script: |
-            sudo docker stop frontend || true
-            sudo docker rm frontend || true
-            sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
-            sudo docker run -d --name=frontend -p 3000:3000 $ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA
+            cd rigly-frontend
+            git reset --hard
+            git pull
+            cd auction-ui
+            docker build -t rigly-frontend .
+            docker stop frontend
+            docker run -d --name frontend -p 3000:3000 rigly-frontend
