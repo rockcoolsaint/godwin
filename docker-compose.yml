@@ -1,12 +1,9 @@
 version: "3.9"
 
 services:
-  web:
+  frontend:
     restart: always
     build: ./auction-ui
-    command: bash -c "yarn install &&
-      yarn build &&
-      yarn start"
     ports:
       - "3000:3000"
     volumes:
