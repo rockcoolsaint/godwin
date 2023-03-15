@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <div className="flex h-screen w-full items-center justify-center">
-      <h1>Hello {t('home.loading')}!</h1>
+      <h1>Hello {t('home.loading')}</h1>
       <ActivityCard />
       <NotFoundComponent message="We couldn't find this page" />
     </div>
