@@ -28,37 +28,22 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-5 gap-4">
-        <div className="">
-          <div className="foot-abt">
+      <div className="flex grid-cols-5 flex-col gap-4 md:grid">
+        <div>
+          <div>
             <h4 className="mb-5 text-lg font-medium text-dark-200">Contact</h4>
             <ul>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="tel:+011123456789">
+                <Link className="font-normal text-dark-100 hover:underline" href="tel:+011123456789">
                   +011123456789
                 </Link>
               </li>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="mailto:contact@rigly.io">
+                <Link className="font-normal text-dark-100 hover:underline" href="mailto:contact@rigly.io">
                   contact@rigly.io
                 </Link>
               </li>
             </ul>
-
-            <div className="social-bx">
-              <Link className="font-normal text-dark-100" href="/" target="_blank">
-                <i className="fab fa-facebook-f fa-fw"></i>
-              </Link>
-              <Link className="font-normal text-dark-100" href="/" target="_blank">
-                <i className="fab fa-instagram fa-fw"></i>
-              </Link>
-              <Link className="font-normal text-dark-100" href="/" target="_blank">
-                <i className="fab fa-twitter fa-fw"></i>
-              </Link>
-              <Link className="font-normal text-dark-100" href="/" target="_blank">
-                <i className="fab fa-skype fa-fw"></i>
-              </Link>
-            </div>
           </div>
         </div>
         <div className="col-md-3 col-sm-6">
@@ -66,27 +51,27 @@ const Footer = () => {
             <h4 className="mb-5 text-lg font-medium text-dark-200">Quick Link</h4>
             <ul>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   Acutions
                 </Link>
               </li>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   About us
                 </Link>
               </li>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   How it Works
                 </Link>
               </li>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   Contact us
                 </Link>
               </li>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   Learn
                 </Link>
               </li>
@@ -98,27 +83,27 @@ const Footer = () => {
             <h4 className="mb-5 text-lg font-medium text-dark-200">Support</h4>
             <ul>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   Help Center
                 </Link>
               </li>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   Create Account
                 </Link>
               </li>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   Privacy policy
                 </Link>
               </li>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   Terms & Conditions
                 </Link>
               </li>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100" href="/">
+                <Link className="font-normal text-dark-100 hover:underline" href="/">
                   FAQ
                 </Link>
               </li>
