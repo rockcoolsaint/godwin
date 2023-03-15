@@ -1,3 +1,5 @@
+'use client'
+
 import HomeCollection from 'src/components/HomeCollection'
 import { Products } from 'src/api/auction/types'
 

@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import { Products } from 'src/api/auction/types'
 import Link from './shared/Link'

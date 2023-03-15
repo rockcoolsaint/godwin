@@ -1,3 +1,5 @@
+'use client'
+
 import { Products } from 'src/api/auction/types'
 import CollectionProductBlock from 'src/components/CollectionProductBlock'
 interface Props {
