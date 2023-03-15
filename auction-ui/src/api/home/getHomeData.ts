@@ -1,10 +1,11 @@
-import { makeClientRequest } from 'src/api/clientRequest'
+import { makeServerRequest } from 'src/api/serverRequest'
+import { HomePageDataResponse } from 'src/api/home/types'
 
-export async function getHomeData() {
-  const program = await makeClientRequest({
+export async function getHomeData(): Promise<HomePageDataResponse> {
+  const homeData: HomePageDataResponse[] = await makeServerRequest({
     method: 'GET',
-    path: `api/get_homepage_data/`,
+    path: `api/get_homepage_data`,
   })
 
-  return program
+  return homeData[0]
 }

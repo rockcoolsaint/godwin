@@ -6,10 +6,10 @@ import TwitterSvg from 'src/assets/svg/twitter.svg'
 
 const Footer = () => {
   return (
-    <section>
+    <section className="px-6 md:px-40">
       <div>
         <div>
-          <div className="mb-16 flex items-center justify-between border-t border-gray-200 pt-16">
+          <div className="mb-16 flex items-center justify-between border-t border-gray-300 pt-16">
             <div className="flex items-center">
               <LogoSvg />
               <div className="ml-3 border-l pl-3">
@@ -18,7 +18,7 @@ const Footer = () => {
               </div>
             </div>
             <div className="flex">
-              <Link className=" flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-100/[.5]" href="/">
+              <Link className=" flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]" href="/">
                 <LinkedInSvg className="h-6 w-6" />
               </Link>
               <Link className="ml-2 flex items-center justify-center rounded-lg bg-gradient p-3 hover:bg-gradient-hover" href="/">
@@ -133,7 +133,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="mt-16 flex items-center justify-center border-t border-gray-200 py-7 ">
+      <div className="mt-16 flex items-center justify-center border-t border-gray-300 py-7 ">
         <p>
           @2022 Copyright All Right Reserved by <span className="text-primary">Rigly</span>
         </p>
