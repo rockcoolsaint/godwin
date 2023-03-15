@@ -7,7 +7,5 @@ export async function getFeaturedAuctions(): Promise<Products[]> {
     path: `/api/auctions/featured`,
   })
 
-  console.log('getFeaturedAuctions ', featuredAuction)
-
   return featuredAuction
 }

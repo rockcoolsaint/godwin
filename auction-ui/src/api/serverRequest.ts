@@ -30,7 +30,6 @@ export const makeServerRequest = async ({ method = 'GET', blob, path, body, cach
     }
 
     json = await response.json()
-    console.log('inside server request -- response ', json)
     if (response.ok) {
       return json
     }
