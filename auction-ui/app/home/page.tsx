@@ -1,8 +1,8 @@
-import { getHomeData } from 'src/api/home/getHomeData'
+import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
 import Home from 'src/components/pages/home'
 
 export default async function HomePage() {
-  const homeData = await getHomeData()
+  const auctions = await getFeaturedAuctions()
 
-  return <Home products={homeData.products} />
+  return <Home products={auctions} />
 }

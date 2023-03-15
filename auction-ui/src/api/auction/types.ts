@@ -50,6 +50,4 @@ export interface AuctionType {
 
 export interface HomePageDataResponse {
   products: Products[]
-  id: number
-  show_collection: number
 }
