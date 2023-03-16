@@ -22,11 +22,16 @@ module.exports = {
           100: '#EBEFF0',
           200: '#ECF3FD',
           300: '#DCE2E5',
+          400: '#D3DBDE',
         },
         dark: {
           100: '#646F86',
           200: '#252628',
           300: '#070707',
+        },
+        tag: {
+          red: '#D92D20',
+          blue: '#316AEF',
         },
       },
       backgroundImage: {

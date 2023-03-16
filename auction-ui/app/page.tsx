@@ -1,15 +1,9 @@
-import ActivityCard from 'src/components/shared/ActivityCard'
-import NotFoundComponent from 'src/components/shared/NotFoundComponent'
-import { useTranslation } from 'src/hooks/useTranslation'
+import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
+import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
+import Home from 'src/components/pages/home'
 
-export default function Home() {
-  const { t } = useTranslation()
+export default async function HomePage() {
+  const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay()])
 
-  return (
-    <div className="flex h-screen w-full items-center justify-center">
-      <h1>Hello {t('home.loading')}</h1>
-      <ActivityCard />
-      <NotFoundComponent message="We couldn't find this page" />
-    </div>
-  )
+  return <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} />
 }
