@@ -10,6 +10,7 @@ export default async function RootLayout(props: PropsWithChildren<unknown>) {
     <html lang="en" className="bg-page-background">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rigly</title>
       </head>
       <body>
         <section className="flex h-screen w-screen flex-col justify-between">
