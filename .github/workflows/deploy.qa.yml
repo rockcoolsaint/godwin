@@ -15,11 +15,4 @@ jobs:
           password: ${{ secrets.QA_PASSWORD }}
           port: ${{ secrets.QA_PORT }}
           script: |
-            cd rigly-frontend
-            git reset --hard
-            git pull
-            cd auction-ui
-            docker build -t rigly-frontend .
-            docker stop $(docker ps -a -q)
-            docker rm $(docker ps -a -q)
-            docker run -d --name frontend -p 3000:3000 rigly-frontend
+            ./deploy_server.sh
