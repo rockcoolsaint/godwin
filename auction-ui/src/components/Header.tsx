@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
@@ -85,6 +86,7 @@ const Header = () => {
                   <Nav.Item>
                     <Nav.Link href="/businesses">Businesses</Nav.Link>
                   </Nav.Item>
+                  <Link href="/collections">Collections</Link>
                   {/* <Nav.Item>
                     <Nav.Link href="/">Developers</Nav.Link>
                 </Nav.Item>
