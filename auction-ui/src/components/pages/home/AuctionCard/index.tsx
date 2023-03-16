@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { Auction } from 'src/api/auction/types'
-import Link from './shared/Link'
+import Link from 'src/components/shared/Link'
 
 interface ProductProps {
   auction: Auction

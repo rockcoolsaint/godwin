@@ -1,4 +1,4 @@
-import CollectionProductBlock from './CollectionProductBlock'
+import CollectionProductBlock from './pages/home/AuctionCard'
 
 import { productProps } from './interfaces'
 
