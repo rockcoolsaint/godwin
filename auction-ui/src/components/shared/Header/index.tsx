@@ -28,16 +28,16 @@ export default function HeaderNav() {
                 <LogoSvg />
               </Link>
               <aside className="hidden sm:block">
-                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/about">
+                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
                   Home
                 </Link>
-                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/about">
+                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
                   Collections
                 </Link>
-                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/about">
+                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
                   Individuals
                 </Link>
-                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/about">
+                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
                   Businesses
                 </Link>
               </aside>
@@ -57,19 +57,19 @@ export default function HeaderNav() {
 
           <Disclosure.Panel className="h-screen sm:hidden">
             <aside className="mt-8 flex flex-col">
-              <Link className="px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/about">
+              <Link className="px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/">
                 Home
               </Link>
-              <Link className="px-3 pb-8 text-base  text-dark-300 hover:text-blue-500" href="/about">
+              <Link className="px-3 pb-8 text-base  text-dark-300 hover:text-blue-500" href="/">
                 Collections
               </Link>
-              <Link className="px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/about">
+              <Link className="px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/">
                 Individuals
               </Link>
-              <Link className="px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/about">
+              <Link className="px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/">
                 Businesses
               </Link>
-              <Link className="flex items-center px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/about">
+              <Link className="flex items-center px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/">
                 <span>List your mining</span> <MiningSvg className="ml-4" />
               </Link>
             </aside>

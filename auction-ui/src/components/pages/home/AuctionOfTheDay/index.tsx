@@ -14,12 +14,12 @@ export default function AuctionOfTheDay({ auction: { auction } }: AuctionOfTheDa
   const { t } = useTranslation()
 
   return (
-    <section className="mt-28 flex w-full items-center justify-center">
-      <div className="shadow-level-2 rounded-3xl border px-12 py-14 shadow-md">
+    <section className="mt-28 flex w-full items-center justify-center px-5 md:px-0">
+      <div className="shadow-level-2 rounded-3xl border px-3 py-14 shadow-md md:px-12">
         <h1 className="mb-9 text-center text-4xl">{t('home.auction_of_the_day')}</h1>
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
           <Image className="rounded-3xl" src="https://via.placeholder.com/352x230" alt="auction of the day" width={550} height={415} />
-          <div className="ml-9 flex flex-col items-start">
+          <div className="ml-0 mt-4 flex flex-col items-start md:mt-0 md:ml-9">
             <p className="mb-4 rounded bg-tag-red/[.2] p-2 text-base font-semibold text-tag-red">{t('home.bid_closed')}</p>
             <h1 className="mb-6 text-2xl font-semibold">{auction.title}</h1>
             <div className="flex justify-between">
@@ -27,7 +27,7 @@ export default function AuctionOfTheDay({ auction: { auction } }: AuctionOfTheDa
                 <p className="text-base text-dark-100">{t('home.bid_start_date')}:</p>
                 <p className="text-base font-semibold">{format(parseISO(auction.auction_start_date), 'do MMMM, yyyy hh:mm aaa')}</p>
               </aside>
-              <aside className="ml-9">
+              <aside className="md:ml-9">
                 <p className="text-base text-dark-100">{t('home.bid_end_date')}:</p>
                 <p className="text-base font-semibold">{format(parseISO(auction.expiry_at), 'do MMMM, yyyy hh:mm aaa')}</p>
               </aside>
@@ -41,7 +41,7 @@ export default function AuctionOfTheDay({ auction: { auction } }: AuctionOfTheDa
                   {auction.starting_bid} <SatsSvg className="ml-2" />
                 </p>
               </aside>
-              <aside className="mr-9">
+              <aside className="md:mr-9">
                 <p className="mb-1 text-base text-dark-100">Auction Ended Amount:</p>
                 <p className="flex items-center text-base font-semibold">
                   {auction.current_bid} <SatsSvg className="ml-2" />
