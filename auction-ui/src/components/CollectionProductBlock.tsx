@@ -1,98 +1,47 @@
-import Image from 'next/image'
-import Countdown from 'react-countdown'
+'use client'
 
-import { productProps } from './interfaces'
+import Image from 'next/image'
+import { Auction } from 'src/api/auction/types'
 import Link from './shared/Link'
 
 interface ProductProps {
-  product: productProps
+  auction: Auction
 }
 
-const Completionist = () => <p>Bidding Closed for this product</p>
-
-interface RendererProps {
-  days: string | number
-  hours: string | number
-  minutes: string | number
-  seconds: string | number
-  completed: boolean | number
-}
-
-const renderer = ({ days, hours, minutes, seconds, completed }: RendererProps): JSX.Element => {
-  if (completed) {
-    // Render a completed state
-    return <Completionist />
-  } else {
-    // Render a countdown
-    return (
-      <div className="d-flex countdown">
-        <h4>
-          {days} <sup>days</sup>
-        </h4>
-        <h4>
-          {hours} <sup>hours</sup>
-        </h4>
-        <h4>
-          {minutes} <sup>min</sup>
-        </h4>
-        <h4>
-          {seconds} <sup>sec</sup>
-        </h4>
-      </div>
-    )
-  }
-}
-
-const CollectionProductBlock = ({ product }: ProductProps) => {
-  const current_date = new Date()
-
+const CollectionProductBlock = ({ auction }: ProductProps) => {
   return (
-    <div className="similer-box">
-      <div className="similer-proimg">
-        <Image src={product.auction_meta.site_photo} alt={product.title + ' Image'} />
-      </div>
-      <div className="similer-data">
-        <h3>{product.title}</h3>
-        {new Date(product.auction_start_date) > current_date ? (
-          <p>Auction starting in: </p>
-        ) : new Date(product.expiry_at) < current_date ? (
-          <p>Auction ended</p>
-        ) : (
-          <p>Auction ending at: </p>
-        )}
-        <Countdown
-          date={new Date(product.auction_start_date) > current_date ? new Date(product.auction_start_date) : new Date(product.expiry_at)}
-          renderer={renderer}
+    <div className="mb-4 rounded-xl border border-gray-100">
+      <aside className="px-5 pt-5">
+        <Image
+          className="mb-4 w-full rounded-xl"
+          width={352}
+          height={230}
+          src="https://via.placeholder.com/352x230"
+          alt={auction.title + ' Image'}
         />
-        <h5>
-          No. of Bids: <strong>{product.bid_count}</strong>
-        </h5>
-        <h6>
-          {new Date(product.auction_start_date) > current_date ? (
-            <>
-              <p>
-                Auction starting at: <strong>{product.starting_bid}</strong>
-              </p>
-            </>
-          ) : new Date(product.expiry_at) < current_date ? (
-            <>
-              <p>
-                Auction Ended at: <strong>{product.current_bid}</strong>
-              </p>
-            </>
-          ) : (
-            <>
-              <p>
-                Auction current bid: <strong>{product.current_bid}</strong>
-              </p>
-            </>
-          )}
-        </h6>
+        <h3 className="mb-3 text-center text-2xl">{auction.title}</h3>
+        <p className="text-center text-sm text-dark-100">14 Days | 280TH/s | Feb 26+</p>
 
-        <Link href={'/product/' + product.slug_category} className="btn-main">
-          <span>Start mining Today</span>
+        <div className="mt-6 flex justify-between">
+          <div className="flex flex-col items-start">
+            <h5 className="mb-2 text-sm text-dark-100">Bid End Date:</h5>
+            <strong className="text-left">28 Dec 2022, 12:00 am</strong>
+          </div>
+          <div className="flex flex-col items-end">
+            <h5 className="mb-2 text-sm text-dark-100">No. of Bids:</h5>
+            <strong className="text-right">{auction.bid_count}</strong>
+          </div>
+        </div>
+      </aside>
+      <aside className="mt-5 flex items-center justify-between border-t border-[#EBEFF0] p-5">
+        <div>
+          <h4 className="text-sm font-medium text-dark-100">Current Bid</h4>
+          <h3 className="text-base">{auction.current_bid}</h3>
+        </div>
+        <Link href={'/product/' + auction.slug_category} className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
+          <span className="text-base font-medium">Place a bid</span>
         </Link>
-      </div>
+      </aside>
     </div>
   )
 }

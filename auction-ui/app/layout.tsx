@@ -12,9 +12,11 @@ export default async function RootLayout(props: PropsWithChildren<unknown>) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body>
-        <Header />
-        <div className="bg-white">{props.children}</div>
-        <Footer />
+        <section className="flex h-screen w-screen flex-col justify-between">
+          <Header />
+          <div className="bg-white px-6 md:px-40">{props.children}</div>
+          <Footer />
+        </section>
       </body>
     </html>
   )

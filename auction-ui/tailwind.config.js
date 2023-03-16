@@ -19,8 +19,9 @@ module.exports = {
         primary: '#035DF2',
         gradient: `bg-gradient-to-r from-cyan-500 to-blue-500`,
         gray: {
-          100: '#ECF3FD',
-          200: '#DCE2E5',
+          100: '#EBEFF0',
+          200: '#ECF3FD',
+          300: '#DCE2E5',
         },
         dark: {
           100: '#646F86',
