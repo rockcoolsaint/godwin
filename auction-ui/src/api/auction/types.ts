@@ -51,3 +51,56 @@ export interface AuctionType {
 export interface HomePageDataResponse {
   auction: Auction[]
 }
+
+export interface AuctionOfTheDayResponse {
+  auction: Auction
+  bids?: BidsEntityOrCurrentBid[] | null
+  current_bid: BidsEntityOrCurrentBid
+  proxy_bid?: null[] | null
+  winner: Winner
+}
+
+export interface BidsEntityOrCurrentBid {
+  id: number
+  user: User
+  created_at: string
+  updated_at: string
+  deleted: boolean
+  version: string
+  bid: number
+  auction_list: number
+}
+export interface User {
+  id: number
+  first_name: string
+  uploaded_profile: string
+  date_joined: string
+  bidding_name: string
+  email: string
+  username: string
+  last_name: string
+  is_paid: boolean
+  is_coupon_used: boolean
+  coupon?: null
+  profile_pik: string
+  phone_number?: null
+  address: string
+  newsletter_subscribe: boolean
+  telegram_username?: null
+  mining_pool_stratum_address: string
+  mining_pool_username?: null
+  refer_code: string
+  referral_code?: null
+}
+export interface Winner {
+  id: number
+  user: User
+  created_at: string
+  updated_at: string
+  deleted: boolean
+  version: string
+  position: number
+  bid_price: number
+  is_winner: boolean
+  auction: number
+}

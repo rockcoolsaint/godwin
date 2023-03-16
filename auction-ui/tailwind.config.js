@@ -29,6 +29,10 @@ module.exports = {
           200: '#252628',
           300: '#070707',
         },
+        tag: {
+          red: '#D92D20',
+          blue: '#316AEF',
+        },
       },
       backgroundImage: {
         gradient: 'linear-gradient(to right, #035DF2, #258AF7, #41ADFD)',
