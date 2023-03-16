@@ -4,7 +4,7 @@ import 'react-medium-image-zoom/dist/styles.css'
 import { PropsWithChildren } from 'react'
 import Footer from 'src/components/shared/Footer'
 import Header from 'src/components/shared/Header'
-import Link from 'next/link'
+import Link from 'src/components/shared/Link'
 
 export default async function RootLayout(props: PropsWithChildren<unknown>) {
   return (
