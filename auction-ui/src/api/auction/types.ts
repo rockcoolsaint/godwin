@@ -1,4 +1,4 @@
-export interface Products {
+export interface Auction {
   id: number
   auction_meta: AuctionMeta
   auction_type: AuctionType
@@ -49,5 +49,5 @@ export interface AuctionType {
 }
 
 export interface HomePageDataResponse {
-  products: Products[]
+  auction: Auction[]
 }

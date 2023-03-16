@@ -1,16 +1,16 @@
 'use client'
 
 import HomeCollection from 'src/components/HomeCollection'
-import { Products } from 'src/api/auction/types'
+import { Auction } from 'src/api/auction/types'
 
 interface Props {
-  products: Products[]
+  auctions: Auction[]
 }
 
-export default function Home({ products }: Props) {
+export default function Home({ auctions }: Props) {
   return (
     <div>
-      <HomeCollection products={products} />
+      <HomeCollection auctions={auctions} />
     </div>
   )
 }

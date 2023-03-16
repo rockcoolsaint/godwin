@@ -1,18 +1,18 @@
 'use client'
 
-import { Products } from 'src/api/auction/types'
+import { Auction } from 'src/api/auction/types'
 import CollectionProductBlock from 'src/components/CollectionProductBlock'
 interface Props {
-  products: Products[]
+  auctions: Auction[]
 }
 
-const HomeCollection = ({ products }: Props) => {
+const HomeCollection = ({ auctions }: Props) => {
   return (
     <section className="flex w-full flex-col items-center justify-center py-40">
       <h1 className="text-center text-7xl text-primary">Upcoming Auctions</h1>
       <div className="mt-20 grid w-full grid-cols-1 gap-6 md:w-[52%] md:grid-cols-2">
-        {products.map((product, idx) => (
-          <CollectionProductBlock key={idx} product={product} />
+        {auctions.map((auction, idx) => (
+          <CollectionProductBlock key={idx} auction={auction} />
         ))}
       </div>
     </section>

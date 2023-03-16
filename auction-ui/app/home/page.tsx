@@ -4,5 +4,5 @@ import Home from 'src/components/pages/home'
 export default async function HomePage() {
   const auctions = await getFeaturedAuctions()
 
-  return <Home products={auctions} />
+  return <Home auctions={auctions} />
 }
