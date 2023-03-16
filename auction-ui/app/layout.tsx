@@ -14,7 +14,7 @@ export default async function RootLayout(props: PropsWithChildren<unknown>) {
       <body>
         <section className="flex h-screen w-screen flex-col justify-between">
           <Header />
-          <div className="bg-white px-6 md:px-40">{props.children}</div>
+          <div className="bg-white">{props.children}</div>
           <Footer />
         </section>
       </body>

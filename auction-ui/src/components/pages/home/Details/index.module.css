@@ -1,0 +1,3 @@
+.text-callout span {
+  @apply text-primary;
+}
