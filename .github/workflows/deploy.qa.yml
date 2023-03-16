@@ -1,0 +1,25 @@
+name: Deploy QA
+on:
+  push:
+    branches: ["develop"]
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.QA_HOST }}
+          username: ${{ secrets.QA_USERNAME }}
+          # key: ${{ secrets.QA_PRIVATE_KEY }}
+          password: ${{ secrets.QA_PASSWORD }}
+          port: ${{ secrets.QA_PORT }}
+          script: |
+            cd rigly-frontend
+            git reset --hard
+            git pull
+            cd auction-ui
+            docker build -t rigly-frontend .
+            docker stop $(docker ps -a -q)
+            docker rm $(docker ps -a -q)
+            docker run -d --name frontend -p 3000:3000 rigly-frontend

@@ -1,5 +1,5 @@
 import { FetchError } from './error'
-import { url } from 'utils'
+import { url } from 'src/utils'
 
 interface MakeClientRequestProps {
   method: 'GET' | 'POST' | 'PATCH' | 'PUT'

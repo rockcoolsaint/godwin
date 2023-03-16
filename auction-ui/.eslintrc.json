@@ -23,15 +23,11 @@
       {
         "patterns": [
           {
-            "group": [
-              "../*"
-            ],
+            "group": ["../*"],
             "message": "Usage of relative parent imports is not allowed."
           },
           {
-            "group": [
-              "next/link"
-            ],
+            "group": ["next/link"],
             "message": "Please use the Link components from /src/components/shared/Link instead."
           }
         ]
@@ -40,10 +36,7 @@
     "no-only-tests/no-only-tests": "error",
     // "import/order": ["error", { "groups": ["builtin", "external", "internal", "type", "parent", "sibling", "object", "index"] }], TODO: Fix this https://github.com/francoismassart/eslint-plugin-tailwindcss/issues/173
     "react/jsx-no-bind": "error",
-    "@typescript-eslint/consistent-type-definitions": [
-      "error",
-      "interface"
-    ],
+    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     "react/destructuring-assignment": [
       "error",
       "always",
@@ -65,11 +58,7 @@
     "no-console": [
       "error",
       {
-        "allow": [
-          "assert",
-          "info",
-          "error"
-        ]
+        "allow": ["assert", "info", "error"]
       }
     ],
     "unused-imports/no-unused-imports": "error",
@@ -84,12 +73,6 @@
     ],
     "tailwindcss/no-custom-classname": "off"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "prettier",
-    "tailwindcss",
-    "unused-imports",
-    "no-only-tests"
-  ],
+  "plugins": ["@typescript-eslint", "prettier", "tailwindcss", "unused-imports", "no-only-tests"],
   "parser": "@typescript-eslint/parser"
 }
