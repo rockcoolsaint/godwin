@@ -25,11 +25,11 @@
           {
             "group": ["../*"],
             "message": "Usage of relative parent imports is not allowed."
+          },
+          {
+            "group": ["next/link"],
+            "message": "Please use the Link components from /src/components/shared/Link instead."
           }
-          // {
-          //   "group": ["next/link"],
-          //   "message": "Please use the Link components from /src/components/shared/Link instead."
-          // }
         ]
       }
     ],
