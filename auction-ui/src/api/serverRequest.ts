@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { FetchError } from './error'
 
 interface ServerRequestProps {
