@@ -3,12 +3,16 @@
 import Image from 'next/image'
 import { Auction } from 'src/api/auction/types'
 import Link from 'src/components/shared/Link'
+import SatsSvg from 'src/assets/svg/sats.svg'
+import { useTranslation } from 'src/hooks/useTranslation'
 
 interface ProductProps {
   auction: Auction
 }
 
 const CollectionProductBlock = ({ auction }: ProductProps) => {
+  const { t } = useTranslation()
+
   return (
     <div className="mb-4 rounded-xl border border-gray-100">
       <aside className="px-5 pt-5">
@@ -24,22 +28,24 @@ const CollectionProductBlock = ({ auction }: ProductProps) => {
 
         <div className="mt-6 flex justify-between">
           <div className="flex flex-col items-start">
-            <h5 className="mb-2 text-sm text-dark-100">Bid End Date:</h5>
+            <h5 className="mb-2 text-sm text-dark-100">{t('home.bid_end_date')}:</h5>
             <strong className="text-left">28 Dec 2022, 12:00 am</strong>
           </div>
           <div className="flex flex-col items-end">
-            <h5 className="mb-2 text-sm text-dark-100">No. of Bids:</h5>
+            <h5 className="mb-2 text-sm text-dark-100">{t('home.number_of_bids')}</h5>
             <strong className="text-right">{auction.bid_count}</strong>
           </div>
         </div>
       </aside>
       <aside className="mt-5 flex items-center justify-between border-t border-[#EBEFF0] p-5">
         <div>
-          <h4 className="text-sm font-medium text-dark-100">Current Bid</h4>
-          <h3 className="text-base">{auction.current_bid}</h3>
+          <h4 className="text-sm font-medium text-dark-100">{t('home.current_bid')}</h4>
+          <h3 className="flex items-center text-base">
+            {auction.current_bid} <SatsSvg className="ml-1" />
+          </h3>
         </div>
         <Link href={'/product/' + auction.slug_category} className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
-          <span className="text-base font-medium">Place a bid</span>
+          <span className="text-base font-medium">{t('home.place_bid')}</span>
         </Link>
       </aside>
     </div>

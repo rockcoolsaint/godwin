@@ -8,5 +8,8 @@
   "start_mining_today": "Start mining today",
   "bid_start_date": "Bid start date",
   "bid_end_date": "Bid end date",
-  "bid_closed": "Bidding close for this product"
+  "bid_closed": "Bidding close for this product",
+  "current_bid": "Current bid",
+  "place_bid": "Place a bid",
+  "number_of_bids": "No. of bids"
 }
