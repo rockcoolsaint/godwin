@@ -26,8 +26,8 @@ export type OrderPayment = {
 
 export enum OrderStatus {
   Unpaid = "unpaid",
-  PartiallyPaid = "partial",
-  Paid = "paid",
+  PaymentOneComplete = "paid_1",
+  PaymentTwoComplete = "paid_2",
 }
 
 export type Order = {
@@ -38,7 +38,7 @@ export type Order = {
   mining_deposit: number;
   auction_fee: number;
   status: OrderStatus;
-  payments?: OrderPayment[];
+  payments: OrderPayment[];
 };
 
 export type Collection = {};

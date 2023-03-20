@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import FilterSort from 'src/components/FilterSort'
 import InnerSection from 'src/components/InnerSection'
-import Loader from 'src/components/Loader'
+import { Loader } from 'src/core'
 import Pagination from 'src/components/Pagination'
 import { collectionProps } from 'src/components/interfaces'
 import ProductBlock from 'src/components/ProductBlock'
