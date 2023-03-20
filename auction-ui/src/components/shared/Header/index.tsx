@@ -11,7 +11,7 @@ export default function HeaderNav() {
     <Disclosure as="nav" className="bg-white px-6 md:px-40">
       {({ open }) => (
         <>
-          <section className="relative flex items-center justify-center border-b py-6 sm:justify-between sm:border-0">
+          <section className="relative flex items-center justify-center border-b py-6 sm:justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               {/* Mobile menu button*/}
               <Disclosure.Button className="inline-flex items-center justify-center rounded-md text-dark-200 hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -31,7 +31,7 @@ export default function HeaderNav() {
                 <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
                   Home
                 </Link>
-                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
+                <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/collections">
                   Collections
                 </Link>
                 <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
@@ -60,7 +60,7 @@ export default function HeaderNav() {
               <Link className="px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/">
                 Home
               </Link>
-              <Link className="px-3 pb-8 text-base  text-dark-300 hover:text-blue-500" href="/">
+              <Link className="px-3 pb-8 text-base  text-dark-300 hover:text-blue-500" href="/collections">
                 Collections
               </Link>
               <Link className="px-3 pb-8 text-base text-dark-300 hover:text-blue-500" href="/">

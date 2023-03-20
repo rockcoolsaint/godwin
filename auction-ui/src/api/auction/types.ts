@@ -18,6 +18,7 @@ export interface Auction {
   proxy_increement: number
   is_auction_active: boolean
   auction_status: string
+  slug: string
   slug_category: string
   payment_address: string
   payment_address_qr: string
@@ -103,4 +104,11 @@ export interface Winner {
   bid_price: number
   is_winner: boolean
   auction: number
+}
+
+export interface AllAuctionsResponse {
+  count: number
+  next: number | null
+  previous: number | null
+  results: Auction[]
 }
