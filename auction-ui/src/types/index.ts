@@ -17,11 +17,9 @@ export interface Payment {
   original_amount: number
   status: PaymentStatus
   checkout_url: string
-  can_apply_promo_code: boolean
   is_first: boolean
   has_initiated_payment: boolean
   missing_amount?: number
-  promo_code?: PromoCode
 }
 
 export enum OrderStatus {
@@ -39,6 +37,8 @@ export interface Order {
   auction_fee: number
   status: OrderStatus
   payments: Payment[]
+  can_apply_promo_code: boolean
+  promo_code?: PromoCode
 }
 
 export interface Collection {

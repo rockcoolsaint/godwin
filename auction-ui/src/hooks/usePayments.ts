@@ -30,9 +30,7 @@ function getAmountPaid(payments: Payment[]) {
   const first = payments[0]
   const last = payments[payments.length - 1]
 
-  const s = first.promo_code ? first.amount : first.original_amount
-
-  return last.status === PaymentStatus.Paid ? s : s - last.amount
+  return last.status === PaymentStatus.Paid ? first.amount : first.amount - last.amount
 }
 
 function getFeesPaid(order: Order) {

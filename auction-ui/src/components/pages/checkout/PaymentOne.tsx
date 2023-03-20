@@ -24,26 +24,18 @@ function PaymentOne({ order }: { order: Order }) {
     try {
       setLoading(true)
 
-      const res = await makeClientRequest({
+      const newOrder = await makeClientRequest({
         method: 'PUT',
-        path: '/api/payments/update',
+        path: '/api/orders/update',
         body: {
-          payment_id: first.id,
-          promo_code: promoCode,
+          order_id: currentOrder.id,
+          update: {
+            promo_code: promoCode,
+          },
         },
       })
 
-      if (res.error) {
-        throw res.error
-      }
-
-      setCurrentOrder({
-        ...currentOrder,
-        payments: currentOrder.payments.map(payment => {
-          return payment.id === res.id ? res : payment
-        }),
-      })
-
+      setCurrentOrder(newOrder)
       setPromoCode('')
     } catch (ex) {
       console.error(ex)
@@ -60,22 +52,18 @@ function PaymentOne({ order }: { order: Order }) {
     try {
       setLoading(true)
 
-      const res = await makeClientRequest({
+      const newOrder = await makeClientRequest({
         method: 'PUT',
-        path: '/api/payments/update',
+        path: '/api/orders/update',
         body: {
-          payment_id: first.id,
-          promo_code: null,
+          order_id: currentOrder.id,
+          update: {
+            promo_code: null,
+          },
         },
       })
 
-      setCurrentOrder({
-        ...currentOrder,
-        payments: currentOrder.payments.map(payment => {
-          return payment.id === res.id ? res : payment
-        }),
-      })
-
+      setCurrentOrder(newOrder)
       setPromoCode('')
     } catch (ex) {
       console.error(ex)
@@ -127,14 +115,15 @@ function PaymentOne({ order }: { order: Order }) {
   const showRemaining =
     currentOrder &&
     currentOrder.payments &&
-    currentOrder.payments.length > 0 &&
+    currentOrder.payments.length > 1 &&
     !isPaymentComplete &&
     first &&
     first.status !== PaymentStatus.Processing
 
   return (
     <Container>
-      <p>OpenNode checkout</p>
+      <h1>Checkout</h1>
+      <h2>Mining deposit & auction fee</h2>
 
       <div>
         <span>PaymentID:</span> <b>{paymentId}</b>
@@ -162,34 +151,40 @@ function PaymentOne({ order }: { order: Order }) {
           <i className="fak fa-regular" />
         </b>
       </div>
-
-      {first.promo_code && (
-        <>
-          <div>
-            <span>Discount: </span>
-            <b>{first.promo_code.discount}%</b>
-          </div>
-          <div>
-            <span>Total: </span>
-            <b>
-              {first.amount}
-              <i className="fak fa-regular" />
-            </b>
-          </div>
-        </>
+      <div>
+        <span>Total: </span>
+        <b>{first.original_amount}</b>
+      </div>
+      {currentOrder.promo_code && (
+        <div>
+          <span>Discount: </span>
+          <b>{currentOrder.promo_code.discount}%</b>
+        </div>
       )}
 
-      {!first.promo_code && (
+      <div className="my-4 border-t border-gray-300" />
+
+      {currentOrder.promo_code && (
         <div>
-          <span>Total: </span>
+          <span>Amount due: </span>
           <b>
-            {currentOrder.total}
+            {first.amount}
             <i className="fak fa-regular" />
           </b>
         </div>
       )}
 
-      {first.can_apply_promo_code && (
+      {!currentOrder.promo_code && (
+        <div>
+          <span>Amount due: </span>
+          <b>
+            {currentOrder.mining_deposit + currentOrder.auction_fee}
+            <i className="fak fa-regular" />
+          </b>
+        </div>
+      )}
+
+      {currentOrder.can_apply_promo_code && (
         <div style={{ display: 'flex', gap: '1rem', marginTop: '20px' }}>
           <Input className="form-control mb-3" name="promo_code" value={promoCode} onChange={handlePromoCodeChange} type="text" />
 
@@ -199,7 +194,7 @@ function PaymentOne({ order }: { order: Order }) {
         </div>
       )}
 
-      {first.promo_code && (
+      {currentOrder.promo_code && (
         <div
           style={{
             display: 'flex',
@@ -216,11 +211,11 @@ function PaymentOne({ order }: { order: Order }) {
           <div>
             <div>Promo code applied:</div>
             <b>
-              {first.promo_code.code} ({first.promo_code.discount}% OFF)
+              {currentOrder.promo_code.code} ({currentOrder.promo_code.discount}% OFF)
             </b>
           </div>
 
-          {first.can_apply_promo_code && (
+          {currentOrder.can_apply_promo_code && (
             <Button onClick={clearPromoCode} disabled={loading}>
               Clear
             </Button>
@@ -247,6 +242,7 @@ function PaymentOne({ order }: { order: Order }) {
           </div>
         </div>
       )}
+
       {isPaymentComplete && (
         <div style={{ paddingTop: '20px' }}>
           <b style={{ color: 'green' }}>You`ve completed payment for this order.</b>
