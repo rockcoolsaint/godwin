@@ -104,3 +104,10 @@ export interface Winner {
   is_winner: boolean
   auction: number
 }
+
+export interface AllAuctionsResponse {
+  count: number
+  next: number | null
+  previous: number | null
+  results: Auction[]
+}

@@ -10,7 +10,7 @@ interface ProductProps {
   auction: Auction
 }
 
-const CollectionProductBlock = ({ auction }: ProductProps) => {
+const AuctionCard = ({ auction }: ProductProps) => {
   const { t } = useTranslation()
 
   return (
@@ -52,4 +52,4 @@ const CollectionProductBlock = ({ auction }: ProductProps) => {
   )
 }
 
-export default CollectionProductBlock
+export default AuctionCard
