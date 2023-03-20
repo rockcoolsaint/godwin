@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import React, { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
-import ToastAlert from './Toast'
-import Link from './shared/Link'
+import { Toast } from 'src/core'
+import Link from 'src/components/shared/Link'
 
 function MyVerticallyCenteredModal(props: any) {
   // const [maxValue, setMaxValue] = useState('');
@@ -50,7 +50,7 @@ function MyVerticallyCenteredModal(props: any) {
 
   return (
     <>
-      {showToast ? <ToastAlert title="Alert" description={toastData.message} show_toast={showToast} /> : <></>}
+      {showToast ? <Toast title="Alert" description={toastData.message} show_toast={showToast} /> : <></>}
       <Modal {...props} size="lg" id="proxy_modal" aria-labelledby="contained-modal-title-vcenter" centered>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">Place automatic bid</Modal.Title>

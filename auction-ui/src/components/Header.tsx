@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import Announcement from './Announcement'
-import Loader from './Loader'
+import { Loader } from 'src/core'
 
 const Header = () => {
   const [stickyClass, setStickyClass] = useState<string>('')
