@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { url } from 'utils'
 import { FetchError } from './error'
 
 interface ServerRequestProps {
@@ -14,8 +15,7 @@ export const makeServerRequest = async ({ method = 'GET', blob, path, body, cach
   let response: Response | undefined = undefined
   let json: any = undefined
   try {
-    const basePath = process.env.NEXT_PUBLIC_APP_API_SERVER_URL
-    response = await fetch(`${basePath}${path}`, {
+    response = await fetch(url(path), {
       method,
       ...(body && {
         body: JSON.stringify(body),

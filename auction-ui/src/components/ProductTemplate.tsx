@@ -10,15 +10,14 @@ import SitePhoto from './SitePhoto'
 import Nav from 'react-bootstrap/Nav'
 import Tab from 'react-bootstrap/Tab'
 import { useAuth0 } from '@auth0/auth0-react'
-import BidModal from './Modal'
 import Countdown from 'react-countdown'
 
 import { RendererProps, bidProps, productProps, winnerProps } from './interfaces'
-import Loader from './Loader'
+import { Loader } from 'src/core'
 import AlertDismissible from './Alert'
 
 import Link from './shared/Link'
-import ToastAlert from './Toast'
+import { Toast, Modal as BidModal } from 'src/core'
 
 interface ProductsProps {
   data: productProps | null
@@ -123,7 +122,7 @@ const ProductTemplate = ({ data, bids, currentbid, winner, route_id }: ProductsP
 
   return (
     <section className="product-details-wrp">
-      {showToast ? <ToastAlert title="Alert" description={toastData.message} show_toast={showToast} /> : <></>}
+      {showToast ? <Toast title="Alert" description={toastData.message} show_toast={showToast} /> : <></>}
 
       {data?.id ? (
         <div className="container">
