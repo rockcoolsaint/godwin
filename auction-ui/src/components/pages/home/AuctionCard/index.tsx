@@ -14,7 +14,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
   const { t } = useTranslation()
 
   return (
-    <div className="mb-4 rounded-xl border border-gray-100">
+    <Link href={'/auctions/' + auction.slug} className="mb-4 rounded-xl border border-gray-100">
       <aside className="px-5 pt-5">
         <Image
           className="mb-4 w-full rounded-xl"
@@ -44,11 +44,11 @@ const AuctionCard = ({ auction }: ProductProps) => {
             {auction.current_bid} <SatsSvg className="ml-1" />
           </h3>
         </div>
-        <Link href={'/product/' + auction.slug_category} className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
+        <Link href={'/auctions/' + auction.slug} className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
           <span className="text-base font-medium">{t('home.place_bid')}</span>
         </Link>
       </aside>
-    </div>
+    </Link>
   )
 }
 
