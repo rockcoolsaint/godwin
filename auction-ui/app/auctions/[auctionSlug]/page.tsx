@@ -22,6 +22,7 @@ export default async function AuctionPage({ params }: { params: { auctionSlug: s
       <a href={`/checkout?order_id=${order.id}`}>
         <button>Checkout</button>
       </a>
+      <AuctionContainer />
     </ContentContainer>
   )
 }
