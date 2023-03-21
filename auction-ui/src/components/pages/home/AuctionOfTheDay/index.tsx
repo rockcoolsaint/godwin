@@ -13,6 +13,10 @@ interface AuctionOfTheDay {
 export default function AuctionOfTheDay({ auction: { auction } }: AuctionOfTheDay) {
   const { t } = useTranslation()
 
+  if (!auction) {
+    return <>Could not load auction of the day</>
+  }
+
   return (
     <section className="mt-28 flex w-full items-center justify-center px-5 md:px-0">
       <div className="shadow-level-2 rounded-3xl border px-3 py-14 shadow-md md:px-12">

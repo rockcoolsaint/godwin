@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/destructuring-assignment */
+'use client'
+
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import React, { useState } from 'react'
