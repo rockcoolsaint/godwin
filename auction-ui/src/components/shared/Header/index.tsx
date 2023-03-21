@@ -5,8 +5,13 @@ import LogoSvg from 'src/assets/svg/logo_dark.svg'
 import MiningSvg from 'src/assets/svg/mine.svg'
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useAccount } from 'src/hooks'
+import Authorized from './Authorized'
+import Unauthorized from './Unauthorized'
 
 export default function HeaderNav() {
+  const { loading, authenticated } = useAccount()
+
   return (
     <Disclosure as="nav" className="bg-white px-6 md:px-40">
       {({ open }) => (
@@ -46,12 +51,13 @@ export default function HeaderNav() {
               <Link className="hidden items-center sm:flex" href="/">
                 <span>List your mining</span> <MiningSvg className="ml-4" />
               </Link>
-              <Link
-                className="ml-8 flex items-center justify-center rounded-lg bg-gradient p-3 px-5 text-white hover:bg-gradient-hover"
-                href="/"
-              >
-                <span>Sign in</span>
-              </Link>
+
+              {!loading && (
+                <>
+                  {authenticated && <Authorized />}
+                  {!authenticated && <Unauthorized />}
+                </>
+              )}
             </div>
           </section>
 

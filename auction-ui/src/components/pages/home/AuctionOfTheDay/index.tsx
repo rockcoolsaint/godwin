@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import { AuctionOfTheDayResponse } from 'src/api/auction/types'
 import Link from 'src/components/shared/Link'
-import { useTranslation } from 'src/hooks/useTranslation'
+import { useTranslation } from 'src/hooks'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import SatsSvg from 'src/assets/svg/sats.svg'
+import Container from 'src/core/components/Container'
 
 interface AuctionOfTheDay {
   auction: AuctionOfTheDayResponse
@@ -12,6 +13,10 @@ interface AuctionOfTheDay {
 
 export default function AuctionOfTheDay({ auction: { auction } }: AuctionOfTheDay) {
   const { t } = useTranslation()
+
+  if (!auction) {
+    return <Container>Could not load auction of the day</Container>
+  }
 
   return (
     <section className="mt-28 flex w-full items-center justify-center px-5 md:px-0">

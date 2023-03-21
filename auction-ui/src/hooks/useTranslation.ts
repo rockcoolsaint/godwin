@@ -10,6 +10,6 @@ const i18n = rosetta({
 
 i18n.locale('en')
 
-export const useTranslation = () => {
+export default function useTranslation() {
   return { ...i18n }
 }

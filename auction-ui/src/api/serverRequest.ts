@@ -36,7 +36,7 @@ export const makeServerRequest = async ({ method = 'GET', blob, path, body, cach
     }
   } catch (error) {
     // fall through
-    console.log('error server request -- ', error)
+    console.error('error server request -- ', error)
   }
   if (throwOnError === false) {
     return
