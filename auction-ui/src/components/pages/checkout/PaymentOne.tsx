@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
-import { Button, Container, Input } from 'src/core'
+import { Button, Container, Input, Loader } from 'src/core'
 import usePayments from 'src/hooks/usePayments'
 import { Order, PaymentStatus } from 'src/types'
 
@@ -78,6 +78,7 @@ function PaymentOne({ order }: { order: Order }) {
 
   useEffect(() => {
     const prepareCheckout = async () => {
+      setLoading(true)
       if (!order.payments[0]) {
         // If order does not have any payments, we need to create one.
         const res = await createPayment(order.id)
@@ -92,10 +93,6 @@ function PaymentOne({ order }: { order: Order }) {
         const lastPayment = order.payments[lastIdx]
         const res = await refreshPayment(lastPayment.id)
 
-        if (!res) {
-          return
-        }
-
         setCurrentOrder({
           ...order,
           payments: order.payments.map(payment => {
@@ -103,13 +100,18 @@ function PaymentOne({ order }: { order: Order }) {
           }),
         })
       }
+      setLoading(false)
     }
 
     prepareCheckout()
   }, [order])
 
-  if (!first) {
-    return <Container>Loading</Container>
+  if (!first || loading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader />
+      </div>
+    )
   }
 
   const showRemaining =
@@ -121,7 +123,7 @@ function PaymentOne({ order }: { order: Order }) {
     first.status !== PaymentStatus.Processing
 
   return (
-    <Container>
+    <>
       <h1>Checkout</h1>
       <h2>Mining deposit & auction fee</h2>
 
@@ -252,7 +254,7 @@ function PaymentOne({ order }: { order: Order }) {
       <a href={checkoutUrl} target="_blank" rel="noreferrer" className="mt-4 block">
         <Button>Checkout</Button>
       </a>
-    </Container>
+    </>
   )
 }
 
