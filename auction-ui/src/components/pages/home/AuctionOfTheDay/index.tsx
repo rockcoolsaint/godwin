@@ -5,6 +5,7 @@ import { useTranslation } from 'src/hooks'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import SatsSvg from 'src/assets/svg/sats.svg'
+import Container from 'src/core/components/Container'
 
 interface AuctionOfTheDay {
   auction: AuctionOfTheDayResponse
@@ -14,7 +15,7 @@ export default function AuctionOfTheDay({ auction: { auction } }: AuctionOfTheDa
   const { t } = useTranslation()
 
   if (!auction) {
-    return <>Could not load auction of the day</>
+    return <Container>Could not load auction of the day</Container>
   }
 
   return (
