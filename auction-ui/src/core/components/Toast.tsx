@@ -1,4 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
+'use client'
+
 import { useEffect, useState } from 'react'
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'

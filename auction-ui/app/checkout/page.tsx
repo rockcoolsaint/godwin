@@ -22,7 +22,8 @@ export default function Checkout({ searchParams }: { searchParams: { order_id: s
 
       setLoading(true)
       const res = await getOrder(order_id)
-      setOrder(res)
+      // TODO: Error handling
+      setOrder(res as Order)
       setLoading(false)
     }
 
@@ -51,21 +52,31 @@ export default function Checkout({ searchParams }: { searchParams: { order_id: s
     )
   }
 
-  if (order && order.status === OrderStatus.Unpaid) {
-    return <PaymentOne order={order} />
+  switch (order.status) {
+    case OrderStatus.Unpaid: {
+      return (
+        <Container>
+          <PaymentOne order={order} />
+        </Container>
+      )
+    }
+    case OrderStatus.PaymentOneComplete: {
+      return (
+        <Container>
+          <PaymentTwo order={order} />
+        </Container>
+      )
+    }
+    default: {
+      return (
+        <Container>
+          <div className="flex h-full w-full items-center justify-center">
+            <span className="text-green-700">
+              Order <b>{order_id}</b> is completed.
+            </span>
+          </div>
+        </Container>
+      )
+    }
   }
-
-  if (order && order.status === OrderStatus.PaymentOneComplete) {
-    return <PaymentTwo order={order} />
-  }
-
-  return (
-    <Container>
-      <div className="flex h-full w-full items-center justify-center">
-        <span className="text-green-700">
-          Order <b>{order_id}</b> is completed.
-        </span>
-      </div>
-    </Container>
-  )
 }
