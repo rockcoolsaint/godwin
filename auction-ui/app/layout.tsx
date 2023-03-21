@@ -2,10 +2,11 @@ import 'src/styles/globals.css'
 import 'react-medium-image-zoom/dist/styles.css'
 
 import { PropsWithChildren } from 'react'
-import Footer from 'src/components/shared/Footer'
 import Header from 'src/components/shared/Header'
+import Footer from 'src/components/shared/Footer'
+import AuthProvider from 'src/providers/AuthProvider'
 
-export default async function RootLayout(props: PropsWithChildren<unknown>) {
+export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
     <html lang="en" className="bg-page-background">
       <head>
@@ -13,11 +14,13 @@ export default async function RootLayout(props: PropsWithChildren<unknown>) {
         <title>Rigly</title>
       </head>
       <body>
-        <section className="flex h-screen w-screen flex-col justify-between">
-          <Header />
-          <div className="bg-white">{props.children}</div>
-          <Footer />
-        </section>
+        <AuthProvider>
+          <section className="flex h-screen w-screen flex-col justify-between">
+            <Header />
+            <div className="bg-white">{children}</div>
+            <Footer />
+          </section>
+        </AuthProvider>
       </body>
     </html>
   )
