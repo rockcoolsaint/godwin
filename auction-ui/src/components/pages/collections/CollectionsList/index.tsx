@@ -1,6 +1,6 @@
 import { Auction } from 'src/api/auction/types'
 import ContentContainer from 'src/components/shared/ContentContainer'
-import { useTranslation } from 'src/hooks/useTranslation'
+import { useTranslation } from 'src/hooks'
 import AuctionCard from 'src/components/pages/home/AuctionCard'
 
 interface Props {

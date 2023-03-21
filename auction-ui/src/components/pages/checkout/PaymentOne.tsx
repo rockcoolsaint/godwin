@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
-import { Button, Input, Loader } from 'src/core'
-import usePayments from 'src/hooks/usePayments'
+import { Button, Loader, Input } from 'src/core'
+import { usePayments } from 'src/hooks'
 import { Order, PaymentStatus } from 'src/types'
 
 function PaymentOne({ order }: { order: Order }) {

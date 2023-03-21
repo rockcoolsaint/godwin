@@ -1,6 +1,6 @@
 'use client'
 
-import { useTranslation } from 'src/hooks/useTranslation'
+import { useTranslation } from 'src/hooks'
 
 export default function ActivityCard() {
   const { t } = useTranslation()

@@ -1,6 +1,6 @@
 import Link from 'src/components/shared/Link'
 import Image, { StaticImageData } from 'next/image'
-import { useTranslation } from 'src/hooks/useTranslation'
+import { useTranslation } from 'src/hooks'
 import styles from './index.module.css'
 import { twMerge } from 'tailwind-merge'
 

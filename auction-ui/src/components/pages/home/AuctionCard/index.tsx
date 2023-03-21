@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Auction } from 'src/api/auction/types'
 import Link from 'src/components/shared/Link'
 import SatsSvg from 'src/assets/svg/sats.svg'
-import { useTranslation } from 'src/hooks/useTranslation'
+import { useTranslation } from 'src/hooks'
 
 interface ProductProps {
   auction: Auction
