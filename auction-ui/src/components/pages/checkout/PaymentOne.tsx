@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
-import { Button, Container, Input, Loader } from 'src/core'
+import { Button, Input, Loader } from 'src/core'
 import usePayments from 'src/hooks/usePayments'
 import { Order, PaymentStatus } from 'src/types'
 
