@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { Tab } from '@headlessui/react'
 import { Auction } from 'src/types'
 import { BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
@@ -12,13 +11,14 @@ import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
 import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
 import Countdown from 'react-countdown'
 import ContentContainer from 'src/components/shared/ContentContainer'
+import clsx from 'clsx'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
 function handleSelect({ selected }: { selected: boolean }) {
-  return classNames(
+  return clsx(
     'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark-100',
     ' ring-offset-blue-400 ',
     selected ? 'bg-gradient !text-white' : 'text-dark-100 hover:bg-white/[0.52] hover:text-dark-100',
@@ -35,7 +35,7 @@ interface AuctionContainerProps {
 }
 
 export default function AuctionContainer({ auction, bids }: AuctionContainerProps) {
-  const [categories] = useState({
+  const categories = {
     Bids: [
       {
         id: 1,
@@ -72,7 +72,7 @@ export default function AuctionContainer({ auction, bids }: AuctionContainerProp
         component: <AuctionSitePhotos />,
       },
     ],
-  })
+  }
 
   if (!auction) {
     return <ContentContainer>Error loading auction</ContentContainer>
@@ -147,7 +147,9 @@ const renderer = ({ days, hours, minutes, seconds, completed }: RendererProps): 
     // Render a completed state
     return <span className="text-center">Bidding for this auction is now being closed</span>
   } else {
-    // Render a countdown
+    // T0 - DO: Render a countdown when place bid flow ready
+    return <span className="text-center"></span>
+
     return (
       <>
         <h4>
