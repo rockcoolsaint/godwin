@@ -1,7 +1,9 @@
 'use client'
 
+import clsx from 'clsx'
+import Countdown from 'react-countdown'
 import { Tab } from '@headlessui/react'
-import { Auction } from 'src/types'
+
 import { BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
 import AuctionBids from 'src/components/pages/auction/AuctionBids'
 import AuctionProfile from 'src/components/pages/auction/AuctionProfile'
@@ -9,9 +11,9 @@ import AuctionLiveFeed from 'src/components/pages/auction/AuctionLiveFeed'
 import AuctionSitePhotos from 'src/components/pages/auction/AuctionSitePhotos'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
 import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
-import Countdown from 'react-countdown'
 import ContentContainer from 'src/components/shared/ContentContainer'
-import clsx from 'clsx'
+import { Button } from 'src/core'
+import { Auction, Order } from 'src/types'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -27,6 +29,7 @@ function handleSelect({ selected }: { selected: boolean }) {
 
 interface AuctionContainerProps {
   auction: Auction
+  order: Order
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
   proxy_bid: BidsEntityOrCurrentBid[]
@@ -34,7 +37,7 @@ interface AuctionContainerProps {
   slug: string
 }
 
-export default function AuctionContainer({ auction, bids }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, order, bids }: AuctionContainerProps) {
   const categories = {
     Bids: [
       {
@@ -126,6 +129,12 @@ export default function AuctionContainer({ auction, bids }: AuctionContainerProp
               </Countdown>
             ) : (
               <></>
+            )}
+
+            {order && (
+              <a href={`/checkout?order_id=${order.id}`} className="mt-4 flex w-full flex-col">
+                <Button>Checkout</Button>
+              </a>
             )}
           </div>
         </div>

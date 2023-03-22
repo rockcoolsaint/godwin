@@ -22,10 +22,7 @@ export default async function AuctionPage({ params }: { params: { auctionSlug: s
 
   return (
     <ContentContainer className="py-5">
-      {/* <a href={`/checkout?order_id=${order.id}`}>
-        <button>Checkout</button>
-      </a> */}
-      <AuctionContainer {...auction} slug={slug} />
+      <AuctionContainer {...auction} order={order} slug={slug} />
     </ContentContainer>
   )
 }
