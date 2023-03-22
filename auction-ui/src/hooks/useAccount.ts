@@ -13,15 +13,19 @@ export default function useAccount() {
 
   useEffect(() => {
     const authorize = async () => {
-      const claims = await getIdTokenClaims()
-      if (claims) {
-        setToken(claims.__raw)
+      try {
+        const claims = await getIdTokenClaims()
+        if (claims) {
+          setToken(claims.__raw)
 
-        const account = await getAccount(claims.__raw)
-        setAccount(account)
+          const account = await getAccount(claims.__raw)
+          setAccount(account)
+        }
+      } catch (ex) {
+        console.error(ex)
+      } finally {
+        setLoading(false)
       }
-
-      setLoading(false)
     }
     authorize()
   }, [getIdTokenClaims])
