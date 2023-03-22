@@ -55,7 +55,7 @@ export default function AuctionOfTheDay({ auction: { auction } }: AuctionOfTheDa
             </div>
             <Link
               className="mt-8 flex w-full items-center justify-center rounded-lg bg-gradient p-3 text-base text-white hover:bg-gradient-hover"
-              href={'/auctions/' + auction.slug_category}
+              href={'/auctions/' + auction.slug}
             >
               View Details
             </Link>
