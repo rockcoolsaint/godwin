@@ -19,7 +19,6 @@ export interface Auction {
   is_auction_active: boolean
   auction_status: string
   slug: string
-  slug_category: string
   payment_address: string
   payment_address_qr: string
   user: number
