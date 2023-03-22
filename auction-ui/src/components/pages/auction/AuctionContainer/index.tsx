@@ -29,7 +29,7 @@ function handleSelect({ selected }: { selected: boolean }) {
 
 interface AuctionContainerProps {
   auction: Auction
-  order: Order
+  order?: Order
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
   proxy_bid: BidsEntityOrCurrentBid[]
