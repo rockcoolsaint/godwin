@@ -17,7 +17,9 @@ export default function Login({ searchParams }: { searchParams: { error?: string
 
   useEffect(() => {
     if (!searchParams.error) {
-      router.push('/')
+      setTimeout(() => {
+        router.push('/')
+      }, 3000)
     }
   }, [searchParams.error, router])
 
@@ -31,8 +33,9 @@ export default function Login({ searchParams }: { searchParams: { error?: string
       )}
 
       {!searchParams.error && (
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
           <Loader />
+          <span className="mt-8">Redirecting after 3 seconds</span>
         </div>
       )}
     </Container>
