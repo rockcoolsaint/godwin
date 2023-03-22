@@ -5,8 +5,11 @@ import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
 
 export default async function AuctionPage({ params }: { params: { auctionSlug: string } }) {
   const slug = params.auctionSlug
-  const auction = await getAuctionBySlug(slug)
+  if (!slug || slug === 'undefined') {
+    return <ContentContainer title="Auction">Error loading auction</ContentContainer>
+  }
 
+  const auction = await getAuctionBySlug(slug)
   if (!auction) {
     return <ContentContainer title="Auction">Error loading auction</ContentContainer>
   }
@@ -19,10 +22,7 @@ export default async function AuctionPage({ params }: { params: { auctionSlug: s
 
   return (
     <ContentContainer className="py-5">
-      {/* <a href={`/checkout?order_id=${order.id}`}>
-        <button>Checkout</button>
-      </a> */}
-      <AuctionContainer {...auction} slug={slug} />
+      <AuctionContainer {...auction} order={order} slug={slug} />
     </ContentContainer>
   )
 }

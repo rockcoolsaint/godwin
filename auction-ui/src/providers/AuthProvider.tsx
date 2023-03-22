@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { Auth0Provider } from '@auth0/auth0-react'
 import React from 'react'
+import { Auth0Provider } from '@auth0/auth0-react'
+import AccountProvider from './AccountProvider'
 
 const auth0 = {
   domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '',
@@ -33,7 +34,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       }}
       onRedirectCallback={handleRedirectCallback}
     >
-      {children}
+      <AccountProvider>{children}</AccountProvider>
     </Auth0Provider>
   )
 }
