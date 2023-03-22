@@ -17,10 +17,10 @@ export default function Authorized() {
       {account && (
         <>
           <span className="text-sm">
-            Logged in as <b className="text-blue-400">{account.nickname}</b>
+            <b className="text-blue-400">{account.email}</b>
           </span>
 
-          <span onClick={handleLogout} className="cursor-pointer text-xs hover:text-blue-500">
+          <span onClick={handleLogout} className="cursor-pointer whitespace-nowrap text-xs hover:text-blue-500">
             Sign out
           </span>
         </>

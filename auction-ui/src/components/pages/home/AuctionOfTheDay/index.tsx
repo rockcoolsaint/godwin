@@ -11,12 +11,14 @@ interface AuctionOfTheDay {
   auction: AuctionOfTheDayResponse
 }
 
-export default function AuctionOfTheDay({ auction: { auction } }: AuctionOfTheDay) {
+export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfTheDay) {
   const { t } = useTranslation()
 
-  if (!auction) {
+  if (!auctionResponse) {
     return <Container>Could not load auction of the day</Container>
   }
+
+  const { auction } = auctionResponse
 
   return (
     <section className="mt-28 flex w-full items-center justify-center px-5 md:px-0">

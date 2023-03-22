@@ -95,18 +95,20 @@ export interface Auction {
 }
 
 export interface Account {
-  aud: string
+  id: number
   email: string
-  email_verified: boolean
-  exp: number
-  iat: number
-  iss: string
-  name: string
-  nickname: string
-  nonce: string
-  picture: string
-  sid: string
-  sub: string
-  updated_at: string
-  __raw: string
+  bidding_name: string
+  username: string
+  first_name: string
+  last_name: string
+  is_paid: boolean
+  avatar?: string
+  phone_number?: string
+  address?: string
+  newsletter_subscribe: boolean
+  telegram_username?: string
+  mining_pool_stratum_address?: string
+  mining_pool_username?: string
+  referral_code: string
+  onboarding_complete: boolean
 }
