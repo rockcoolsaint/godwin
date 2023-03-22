@@ -3,8 +3,7 @@
 
 import { useRef } from 'react'
 import { Tooltip } from 'react-tooltip'
-import Image from 'next/image'
-import sitePhoto from 'src/assets/png/site_photo.png'
+
 import { Auction } from 'src/types'
 
 interface calculatorProps {
@@ -77,11 +76,11 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
         <div className="border-3 border-yellow-600">
           <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="form-label">
-              What's Your bid?
+              Your bid?
             </label>
             <div className="d-flex align-items-center">
               <input
-                onChange={e => {
+                onChange={() => {
                   calculateRigly()
                 }}
                 type="number"
@@ -100,7 +99,7 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
             </label>
             <div className="d-flex align-items-center">
               <input
-                onChange={e => {
+                onChange={() => {
                   calculateRigly()
                 }}
                 className="w-100"
@@ -121,7 +120,7 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
             </label>
             <div className="d-flex align-items-center">
               <input
-                onChange={e => {
+                onChange={() => {
                   calculateRigly()
                 }}
                 type="number"
@@ -140,7 +139,7 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
             </label>
             <div className="d-flex align-items-center">
               <input
-                onChange={e => {
+                onChange={() => {
                   calculateRigly()
                 }}
                 type="number"
