@@ -1,3 +1,4 @@
+'use client'
 import { Auction } from 'src/api/auction/types'
 import ContentContainer from 'src/components/shared/ContentContainer'
 import { useTranslation } from 'src/hooks'

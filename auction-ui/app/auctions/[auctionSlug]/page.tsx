@@ -1,3 +1,4 @@
+import AuctionContainer from 'src/components/pages/auction/AuctionContainer'
 import ContentContainer from 'src/components/shared/ContentContainer'
 import { getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
 import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
@@ -17,10 +18,11 @@ export default async function AuctionPage({ params }: { params: { auctionSlug: s
   }
 
   return (
-    <ContentContainer title="Auction">
-      <a href={`/checkout?order_id=${order.id}`}>
+    <ContentContainer className="py-5">
+      {/* <a href={`/checkout?order_id=${order.id}`}>
         <button>Checkout</button>
-      </a>
+      </a> */}
+      <AuctionContainer {...auction} slug={slug} />
     </ContentContainer>
   )
 }
