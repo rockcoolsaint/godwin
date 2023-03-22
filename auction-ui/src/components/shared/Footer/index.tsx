@@ -34,13 +34,8 @@ const Footer = () => {
             <h4 className="mb-5 text-lg font-medium text-dark-200">Contact</h4>
             <ul>
               <li className="mb-3">
-                <Link className="font-normal text-dark-100 hover:underline" href="tel:+011123456789">
-                  +011123456789
-                </Link>
-              </li>
-              <li className="mb-3">
-                <Link className="font-normal text-dark-100 hover:underline" href="mailto:contact@rigly.io">
-                  contact@rigly.io
+                <Link className="font-normal text-dark-100 hover:underline" href="mailto:hello@rigly.io">
+                   hello@rigly.io
                 </Link>
               </li>
             </ul>
@@ -52,7 +47,7 @@ const Footer = () => {
             <ul>
               <li className="mb-3">
                 <Link className="font-normal text-dark-100 hover:underline" href="/">
-                  Acutions
+                  Auctions
                 </Link>
               </li>
               <li className="mb-3">
