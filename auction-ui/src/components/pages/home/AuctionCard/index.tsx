@@ -44,7 +44,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
             {auction.current_bid} <SatsSvg className="ml-1" />
           </h3>
         </div>
-        <Link href={'/auctions/' + auction.slug} className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
+        <Link href={'/auctions/' + auction.slug_category} className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
           <span className="text-base font-medium">{t('home.place_bid')}</span>
         </Link>
       </aside>
