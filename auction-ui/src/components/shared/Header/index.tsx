@@ -58,11 +58,6 @@ export default function HeaderNav() {
                   {!account && <Unauthorized />}
                 </>
               )}
-              {loading && (
-                <>
-                  <Loader />
-                </>
-              )}
             </div>
           </section>
 
