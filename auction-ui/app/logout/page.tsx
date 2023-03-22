@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { useEffect } from 'react'
-import { Container } from 'src/core'
+import { Container, Loader } from 'src/core'
 import useAccount from 'src/hooks/useAccount'
 
 export default function Login() {
@@ -14,5 +14,11 @@ export default function Login() {
     }
   }, [account, loading])
 
-  return <Container>Logout</Container>
+  return (
+    <Container>
+      <div className="flex items-center justify-center">
+        <Loader />
+      </div>
+    </Container>
+  )
 }

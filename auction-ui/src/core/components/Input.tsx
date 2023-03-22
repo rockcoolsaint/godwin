@@ -9,10 +9,11 @@ interface InputProps {
   required?: boolean
   onChange?: (val: string) => void
   value?: string
+  defaultValue?: string
 }
 
 function Input(props: InputProps) {
-  const { onChange, className } = props
+  const { onChange, className, name } = props
 
   const handleChange = (e: any) => {
     if (typeof onChange === 'function') {
@@ -23,6 +24,7 @@ function Input(props: InputProps) {
   return (
     <input
       {...props}
+      id={name}
       className={clsx(className, 'mb-0 flex h-12 items-center justify-center rounded-lg border border-gray-300 px-5 outline-none')}
       onChange={handleChange}
     />
