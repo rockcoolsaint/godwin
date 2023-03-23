@@ -137,7 +137,7 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
             )}
 
             {order && (
-              <a href={`/checkout?order_id=${order.id}`} className="mt-4 flex w-full flex-col">
+              <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">
                 <Button>Checkout</Button>
               </a>
             )}

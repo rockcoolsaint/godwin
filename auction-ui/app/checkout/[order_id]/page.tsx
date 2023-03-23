@@ -8,13 +8,10 @@ import PaymentTwo from 'src/components/pages/checkout/PaymentTwo'
 import { useEffect, useState } from 'react'
 import getOrder from 'src/api/checkout/getOrder'
 
-// Needed for searchParams to be available on props:
-export const dynamic = 'force-dynamic'
+export default function Checkout({ params }: { params: { order_id: string | undefined } }) {
+  const { order_id } = params
 
-export default function Checkout({ searchParams }: { searchParams: { order_id: string | undefined } }) {
-  const { order_id } = searchParams
-
-  console.log('searchParams:', searchParams)
+  console.log('params:', params)
 
   const [loading, setLoading] = useState<boolean>(true)
   const [order, setOrder] = useState<Order | undefined>(undefined)
