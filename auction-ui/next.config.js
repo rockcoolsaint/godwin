@@ -16,7 +16,7 @@ const nextConfig = {
     ],
   },
   output: 'standalone',
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   experimental: {
     appDir: true,

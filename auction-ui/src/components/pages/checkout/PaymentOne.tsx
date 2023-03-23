@@ -12,7 +12,7 @@ import { Order, PaymentStatus } from 'src/types'
 function PaymentOne({ order }: { order: Order }) {
   const [currentOrder, setCurrentOrder] = useState(order)
   const [promoCode, setPromoCode] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const { first, paymentId, amountPaid, amountRemaining, isPaymentComplete, checkoutUrl } = usePayments(currentOrder)
 
@@ -23,7 +23,6 @@ function PaymentOne({ order }: { order: Order }) {
 
     try {
       setLoading(true)
-
       const newOrder = await makeClientRequest({
         method: 'PUT',
         path: '/api/orders/update',
@@ -34,7 +33,6 @@ function PaymentOne({ order }: { order: Order }) {
           },
         },
       })
-
       setCurrentOrder(newOrder)
       setPromoCode('')
     } catch (ex) {

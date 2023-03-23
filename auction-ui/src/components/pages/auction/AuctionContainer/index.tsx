@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 'use client'
 
 import clsx from 'clsx'
@@ -77,6 +78,10 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
     ],
   }
 
+  const handleCreateOrder = () => {
+    console.log('create order')
+  }
+
   if (!auction) {
     return <ContentContainer>Error loading auction</ContentContainer>
   }
@@ -136,6 +141,8 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
                 <Button>Checkout</Button>
               </a>
             )}
+
+            {!order && <Button onClick={handleCreateOrder}>Create order</Button>}
           </div>
         </div>
       </section>
