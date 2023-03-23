@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { Button, Container, Loader } from 'src/core'
 
+const LOGIN_REDIRECT_TIMEOUT = Number(process.env.NEXT_PUBLIC_LOGIN_REDIRECT_TIMEOUT) || 0
+
 // { searchParams }: { searchParams: { code: string; state: string } }
 export default function Login({ searchParams }: { searchParams: { error?: string; error_description?: string } }) {
   const { loginWithRedirect } = useAuth0()
@@ -19,7 +21,7 @@ export default function Login({ searchParams }: { searchParams: { error?: string
     if (!searchParams.error) {
       setTimeout(() => {
         router.push('/')
-      }, 3000)
+      }, LOGIN_REDIRECT_TIMEOUT)
     }
   }, [searchParams.error, router])
 
@@ -35,7 +37,7 @@ export default function Login({ searchParams }: { searchParams: { error?: string
       {!searchParams.error && (
         <div className="flex flex-col items-center justify-center">
           <Loader />
-          <span className="mt-8">Redirecting after 3 seconds</span>
+          <span className="mt-8">Redirecting after {LOGIN_REDIRECT_TIMEOUT / 1000} seconds</span>
         </div>
       )}
     </Container>
