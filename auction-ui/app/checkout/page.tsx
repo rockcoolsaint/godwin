@@ -7,9 +7,16 @@ import PaymentOne from 'src/components/pages/checkout/PaymentOne'
 import PaymentTwo from 'src/components/pages/checkout/PaymentTwo'
 import { useEffect, useState } from 'react'
 import getOrder from 'src/api/checkout/getOrder'
+import { usePathname } from 'next/navigation'
 
-export default function Checkout({ searchParams }: { searchParams: { order_id: string | undefined } }) {
+export default function Checkout(props: any) {
+  const { searchParams } = props
   const { order_id } = searchParams
+  const pathname = usePathname()
+
+  console.log('props:', props)
+  console.log('order_id:', order_id)
+  console.log('pathname:', pathname)
 
   const [loading, setLoading] = useState<boolean>(true)
   const [order, setOrder] = useState<Order | undefined>(undefined)
