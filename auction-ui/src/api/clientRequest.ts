@@ -38,6 +38,7 @@ export const makeClientRequest = async ({ method = 'GET', blob, path, body, abor
     }
   } catch (error) {
     // fall through
+    console.error(error)
   }
 
   // this change is temporary until Backend is fixed
