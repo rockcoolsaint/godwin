@@ -10,9 +10,6 @@ import getOrder from 'src/api/checkout/getOrder'
 
 export default function Checkout({ params }: { params: { order_id: string | undefined } }) {
   const { order_id } = params
-
-  console.log('params:', params)
-
   const [loading, setLoading] = useState<boolean>(true)
   const [order, setOrder] = useState<Order | undefined>(undefined)
 

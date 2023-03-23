@@ -6,10 +6,11 @@ import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
 import { Button, Loader, Input } from 'src/core'
-import { usePayments } from 'src/hooks'
+import { useAccount, usePayments } from 'src/hooks'
 import { Order, PaymentStatus } from 'src/types'
 
 function PaymentOne({ order }: { order: Order }) {
+  const { token, loading: tokenLoading } = useAccount()
   const [currentOrder, setCurrentOrder] = useState(order)
   const [promoCode, setPromoCode] = useState('')
   const [loading, setLoading] = useState(true)
@@ -76,10 +77,14 @@ function PaymentOne({ order }: { order: Order }) {
 
   useEffect(() => {
     const prepareCheckout = async () => {
+      if (!token) {
+        return console.error('Cannot prepare checkout, missing token.')
+      }
+
       setLoading(true)
       if (!order.payments[0]) {
         // If order does not have any payments, we need to create one.
-        const res = await createPayment(order.id)
+        const res = await createPayment(order.id, token)
 
         setCurrentOrder({
           ...order,
@@ -89,7 +94,7 @@ function PaymentOne({ order }: { order: Order }) {
         // If order already has payments, we need to refresh the payment.
         const lastIdx = order.payments.length - 1
         const lastPayment = order.payments[lastIdx]
-        const res = await refreshPayment(lastPayment.id)
+        const res = await refreshPayment(lastPayment.id, token)
 
         setCurrentOrder({
           ...order,
@@ -101,8 +106,10 @@ function PaymentOne({ order }: { order: Order }) {
       setLoading(false)
     }
 
-    prepareCheckout()
-  }, [order])
+    if (!tokenLoading && token) {
+      prepareCheckout()
+    }
+  }, [order, tokenLoading, token])
 
   if (!first || loading) {
     return (

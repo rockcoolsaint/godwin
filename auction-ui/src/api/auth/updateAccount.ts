@@ -1,6 +1,6 @@
 import { makeClientRequest } from 'src/api/clientRequest'
 
-export async function updateAccount(token: string, update: object): Promise<boolean> {
+export async function updateAccount(update: object, token: string): Promise<boolean> {
   try {
     await makeClientRequest({
       method: 'PUT',

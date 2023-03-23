@@ -15,7 +15,7 @@ export default function Onboard() {
   const handleSubmit = async (data: object) => {
     if (token) {
       // TODO: Validate whether data satisfies requirements to complete onboarding.
-      const success = await updateAccount(token, { ...data, onboarding_complete: true })
+      const success = await updateAccount({ ...data, onboarding_complete: true }, token)
       if (success) {
         router.push('/')
       }
