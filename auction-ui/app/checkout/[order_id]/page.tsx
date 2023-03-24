@@ -57,7 +57,20 @@ export default function Checkout({ params }: { params: { order_id: string | unde
   }
 
   switch (order.status) {
-    case OrderStatus.Unpaid: {
+    // case OrderStatus.Processing: {
+    //   return (
+    //     <Container>
+    //       <div className="flex h-full w-full items-center justify-center">
+    //         <div className="flex flex-col items-center gap-2">
+    //           <span className="text-lg font-semibold">Oops, your payment has already been initiated.</span>
+    //           <span className="">TODO: Make sure payment is canceled, and refresh payment.</span>
+    //         </div>
+    //       </div>
+    //     </Container>
+    //   )
+    // }
+    case OrderStatus.Unpaid:
+    case OrderStatus.Processing: {
       return (
         <Container>
           <PaymentOne order={order} />

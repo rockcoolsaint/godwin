@@ -48,7 +48,7 @@ const ProductProfile = ({ data }: productProfileProps) => {
           </div>
           <div className="row profile-row">
             <div className="col-4 border-end profile-row-title ps-3 border-white py-2">Auction end</div>
-            <div className="col-8 ps-4 py-2">{new Date(data.expiry_at).toLocaleString()}</div>
+            <div className="col-8 ps-4 py-2">{new Date(data.end_at).toLocaleString()}</div>
           </div>
         </div>
         <div className="col-md-4">

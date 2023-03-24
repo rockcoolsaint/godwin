@@ -7,13 +7,14 @@ import refreshPayment from 'src/api/checkout/refreshPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
 import { Button, Loader, Input } from 'src/core'
 import { useAccount, usePayments } from 'src/hooks'
-import { Order, PaymentStatus } from 'src/types'
+import { Order, OrderStatus, PaymentStatus } from 'src/types'
 
 function PaymentOne({ order }: { order: Order }) {
   const { token, loading: tokenLoading } = useAccount()
   const [currentOrder, setCurrentOrder] = useState(order)
   const [promoCode, setPromoCode] = useState('')
   const [loading, setLoading] = useState(true)
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   const { first, paymentId, amountPaid, amountRemaining, isPaymentComplete, checkoutUrl } = usePayments(currentOrder)
 
@@ -75,6 +76,30 @@ function PaymentOne({ order }: { order: Order }) {
     setPromoCode(val)
   }
 
+  const handleCheckout = async () => {
+    setCheckoutLoading(true)
+    try {
+      await makeClientRequest({
+        method: 'PUT',
+        path: '/api/orders/update',
+        body: {
+          order_id: currentOrder.id,
+          update: {
+            status: 'processing',
+          },
+        },
+      })
+
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl
+      }
+    } catch (ex) {
+      console.error(ex)
+    } finally {
+      setCheckoutLoading(false)
+    }
+  }
+
   useEffect(() => {
     const prepareCheckout = async () => {
       if (!token) {
@@ -90,7 +115,7 @@ function PaymentOne({ order }: { order: Order }) {
           ...order,
           payments: [res],
         })
-      } else {
+      } else if (order.status !== OrderStatus.Processing) {
         // If order already has payments, we need to refresh the payment.
         const lastIdx = order.payments.length - 1
         const lastPayment = order.payments[lastIdx]
@@ -191,6 +216,12 @@ function PaymentOne({ order }: { order: Order }) {
         </div>
       )}
 
+      {currentOrder.status === OrderStatus.Processing && (
+        <div className="my-5 flex gap-2">
+          <span>Payment for this order has already been started, unable to apply promo codes.</span>
+        </div>
+      )}
+
       {currentOrder.can_apply_promo_code && (
         <div style={{ display: 'flex', gap: '1rem', marginTop: '20px' }}>
           <Input className="form-control mb-3" name="promo_code" value={promoCode} onChange={handlePromoCodeChange} type="text" />
@@ -256,9 +287,11 @@ function PaymentOne({ order }: { order: Order }) {
         </div>
       )}
 
-      <a href={checkoutUrl} target="_blank" rel="noreferrer" className="mt-4 block">
-        <Button>Checkout</Button>
-      </a>
+      {order.status !== OrderStatus.Processing && (
+        <Button disabled={checkoutLoading} onClick={handleCheckout}>
+          Checkout
+        </Button>
+      )}
     </>
   )
 }

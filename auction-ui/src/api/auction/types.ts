@@ -12,17 +12,21 @@ export interface Auction {
   sub_title: string
   description: string
   starting_bid: number
-  auction_start_date: string
-  expiry_at: string
-  is_expired: boolean
+  start_at: string
+  end_at: string
+  status: AuctionStatus
   proxy_increement: number
-  is_auction_active: boolean
-  auction_status: string
   slug: string
   payment_address: string
   payment_address_qr: string
   user: number
   category: number
+}
+
+export enum AuctionStatus {
+  Scheduled = 'scheduled',
+  Active = 'active',
+  Completed = 'completed',
 }
 
 export interface AuctionMeta {
