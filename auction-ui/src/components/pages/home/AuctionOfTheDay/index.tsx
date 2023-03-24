@@ -21,7 +21,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
   const { auction } = auctionResponse
 
   // const start = format(parseISO(auction.start_at), 'do MMMM, yyyy hh:mm aaa')
-  const end = format(parseISO(auction.end_at), 'do MMMM, yyyy hh:mm aaa')
+  // const end = format(parseISO(auction.end_at), 'do MMMM, yyyy hh:mm aaa')
 
   return (
     <section className="mt-28 flex w-full items-center justify-center px-5 md:px-0">
@@ -39,7 +39,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
               </aside>
               <aside className="md:ml-9">
                 <p className="text-base text-dark-100">{t('home.bid_end_date')}:</p>
-                <p className="text-base font-semibold">{end}</p>
+                {/* <p className="text-base font-semibold">{end}</p> */}
               </aside>
             </div>
             <hr className="my-5 block w-full border" />
