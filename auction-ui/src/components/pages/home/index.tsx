@@ -30,7 +30,7 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
         <Image className="hidden md:block" width={660} height={440} src={hero_image} alt="hero image" />
       </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
-      {auctions && <FeaturedAuctions auctions={auctions} />}
+      <FeaturedAuctions auctions={auctions} />
       <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-40 md:px-0">
         <h1 className="mb-20 text-center text-7xl text-primary">{t('home.start_mining_today')}</h1>
         <div className="flex flex-col items-center justify-center md:flex-row">
