@@ -2,7 +2,6 @@
 'use client'
 
 import clsx from 'clsx'
-import Countdown from 'react-countdown'
 import { Tab } from '@headlessui/react'
 
 import { BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
@@ -13,6 +12,7 @@ import AuctionSitePhotos from 'src/components/pages/auction/AuctionSitePhotos'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
 import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
 import ContentContainer from 'src/components/shared/ContentContainer'
+import BidWidget from 'src/components/pages/auction/BidWidget'
 import { Button, Loader } from 'src/core'
 import { Auction, Order } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
@@ -39,7 +39,7 @@ interface AuctionContainerProps {
   slug: string
 }
 
-export default function AuctionContainer({ auction, order, bids }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, order, bids, current_bid }: AuctionContainerProps) {
   const { account, loading } = useAccountContext()
 
   const categories = {
@@ -132,64 +132,16 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
             </Tab.List>
           </Tab.Group>
         </div>
-        <div className="ml-4 flex w-[25%] flex-col items-center rounded-xl bg-white p-4">
-          {/* <p className="mb-3">Bid End Date</p> */}
-          <div className="d-flex countdown text-center">
-            {auction.end_at ? (
-              <Countdown
-                className="bg-red-200"
-                date={new Date(auction.start_at) > new Date() ? new Date(auction.start_at) : new Date(auction.end_at)}
-                renderer={renderer}
-              >
-                <span className="text-center">Bidding for this auction is now being closed</span>
-              </Countdown>
-            ) : (
-              <></>
-            )}
+        <div className="ml-4 flex w-[25%] flex-col">
+          <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
 
-            {order && account && order.user_id === account.id && (
-              <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">
-                <Button>Checkout</Button>
-              </a>
-            )}
-          </div>
+          {order && account && order.user_id === account.id && (
+            <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">
+              <Button>Checkout</Button>
+            </a>
+          )}
         </div>
       </section>
     </>
   )
-}
-
-interface RendererProps {
-  days?: string | number
-  hours?: string | number
-  minutes?: string | number
-  seconds?: string | number
-  completed?: boolean | number
-}
-
-const renderer = ({ days, hours, minutes, seconds, completed }: RendererProps): JSX.Element => {
-  if (completed) {
-    // Render a completed state
-    return <span className="text-center">Bidding for this auction is now being closed</span>
-  } else {
-    // T0 - DO: Render a countdown when place bid flow ready
-    return <span className="text-center"></span>
-
-    return (
-      <>
-        <h4>
-          {days} <sup>days</sup>
-        </h4>
-        <h4>
-          {hours} <sup>hours</sup>
-        </h4>
-        <h4>
-          {minutes} <sup>min</sup>
-        </h4>
-        <h4>
-          {seconds} <sup>sec</sup>
-        </h4>
-      </>
-    )
-  }
 }

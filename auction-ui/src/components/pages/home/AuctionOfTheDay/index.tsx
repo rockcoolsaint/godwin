@@ -13,7 +13,7 @@ interface AuctionOfTheDay {
 export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfTheDay) {
   const { t } = useTranslation()
 
-  if (!auctionResponse || !auctionResponse.auction) {
+  if (!auctionResponse.auction) {
     return <Container>Could not load auction of the day</Container>
   }
 

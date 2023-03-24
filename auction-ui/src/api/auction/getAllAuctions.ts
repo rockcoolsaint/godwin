@@ -10,10 +10,10 @@ interface Props {
 }
 
 export async function getAllAuctions({ limit, offset, sorting = 'desc' }: Props): Promise<AllAuctionsResponse> {
-  const auctionOfTheDay: AllAuctionsResponse = await makeClientRequest({
+  const auctions: AllAuctionsResponse = await makeClientRequest({
     method: 'GET',
     path: `/api/auctions?limit=${limit}&offset=${offset}&sorting=${sorting}`,
   })
 
-  return auctionOfTheDay
+  return auctions
 }
