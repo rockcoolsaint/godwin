@@ -41,6 +41,7 @@ export interface Order {
   status: OrderStatus
   payments: Payment[]
   can_apply_promo_code: boolean
+  user_id: number
   promo_code?: PromoCode
 }
 
