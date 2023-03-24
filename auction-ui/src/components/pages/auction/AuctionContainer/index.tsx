@@ -9,9 +9,11 @@ import AuctionLiveFeed from 'src/components/pages/auction/AuctionLiveFeed'
 import AuctionSitePhotos from 'src/components/pages/auction/AuctionSitePhotos'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
 import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
-import Countdown from 'react-countdown'
 import ContentContainer from 'src/components/shared/ContentContainer'
 import clsx from 'clsx'
+import { ClockIcon } from '@heroicons/react/24/outline'
+import SatsSvg from 'src/assets/svg/sats.svg'
+import BidWidget from 'src/components/pages/auction/BidWidget'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -34,7 +36,7 @@ interface AuctionContainerProps {
   slug: string
 }
 
-export default function AuctionContainer({ auction, bids }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, bids, current_bid }: AuctionContainerProps) {
   const categories = {
     Bids: [
       {
@@ -111,24 +113,7 @@ export default function AuctionContainer({ auction, bids }: AuctionContainerProp
             </Tab.List>
           </Tab.Group>
         </div>
-        <div className="ml-4 flex w-[25%] flex-col items-center rounded-xl bg-white p-4">
-          {/* <p className="mb-3">Bid End Date</p> */}
-          <div className="d-flex countdown text-center">
-            {auction.expiry_at ? (
-              <Countdown
-                className="bg-red-200"
-                date={
-                  new Date(auction.auction_start_date) > new Date() ? new Date(auction.auction_start_date) : new Date(auction.expiry_at)
-                }
-                renderer={renderer}
-              >
-                <span className="text-center">Bidding for this auction is now being closed</span>
-              </Countdown>
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
+        <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
       </section>
     </>
   )
@@ -140,31 +125,4 @@ interface RendererProps {
   minutes?: string | number
   seconds?: string | number
   completed?: boolean | number
-}
-
-const renderer = ({ days, hours, minutes, seconds, completed }: RendererProps): JSX.Element => {
-  if (completed) {
-    // Render a completed state
-    return <span className="text-center">Bidding for this auction is now being closed</span>
-  } else {
-    // T0 - DO: Render a countdown when place bid flow ready
-    return <span className="text-center"></span>
-
-    return (
-      <>
-        <h4>
-          {days} <sup>days</sup>
-        </h4>
-        <h4>
-          {hours} <sup>hours</sup>
-        </h4>
-        <h4>
-          {minutes} <sup>min</sup>
-        </h4>
-        <h4>
-          {seconds} <sup>sec</sup>
-        </h4>
-      </>
-    )
-  }
 }
