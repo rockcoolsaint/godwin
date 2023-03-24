@@ -139,8 +139,6 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
                 <Button>Checkout</Button>
               </a>
             )}
-
-            {!order && <Button onClick={handleCreateOrder}>Create order</Button>}
           </div>
         </div>
       </section>
