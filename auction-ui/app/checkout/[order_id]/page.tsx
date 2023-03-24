@@ -7,8 +7,9 @@ import PaymentOne from 'src/components/pages/checkout/PaymentOne'
 import PaymentTwo from 'src/components/pages/checkout/PaymentTwo'
 import { useEffect, useState } from 'react'
 import getOrder from 'src/api/checkout/getOrder'
+import protect from 'src/hoc/protect'
 
-export default function Checkout({ params, searchParams }: { params: { order_id?: string }; searchParams: { success?: string } }) {
+function Checkout({ params, searchParams }: { params: { order_id?: string }; searchParams: { success?: string } }) {
   const { order_id } = params
   const isSuccessPage = searchParams.success === 'true'
 
@@ -123,3 +124,5 @@ export default function Checkout({ params, searchParams }: { params: { order_id?
     }
   }
 }
+
+export default protect(Checkout)
