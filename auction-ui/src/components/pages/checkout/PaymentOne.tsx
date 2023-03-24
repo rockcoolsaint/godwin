@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
-import { Button, Loader, Input } from 'src/core'
+import { Button, Loader, Input, formatAuctionType, Container } from 'src/core'
 import { useAccount, usePayments } from 'src/hooks'
 import { Order, OrderStatus, PaymentStatus } from 'src/types'
 
@@ -153,15 +153,15 @@ function PaymentOne({ order }: { order: Order }) {
     first.status !== PaymentStatus.Processing
 
   return (
-    <>
+    <Container>
       <h1>Checkout</h1>
       <h2>Mining deposit & auction fee</h2>
 
-      <div>
+      <div className="mt-4">
         <span>PaymentID:</span> <b>{paymentId}</b>
       </div>
       <div>
-        <span>Bid: </span>
+        <span>Your bid: </span>
         <b>
           {currentOrder.price}
           <i className="fak fa-regular" />
@@ -281,30 +281,19 @@ function PaymentOne({ order }: { order: Order }) {
         </div>
       )}
 
-      {isPaymentComplete && (
-        <div style={{ paddingTop: '20px' }}>
-          <b style={{ color: 'green' }}>You`ve completed payment for this order.</b>
-        </div>
-      )}
-
-      {order.status !== OrderStatus.Processing && (
+      {currentOrder.status !== OrderStatus.Processing && (
         <Button disabled={checkoutLoading} onClick={handleCheckout}>
           Checkout
         </Button>
       )}
-    </>
-  )
-}
 
-const formatAuctionType = (auctionType: string) => {
-  switch (auctionType) {
-    case 'immediate_delivery':
-      return 'Immediate delivery'
-    case 'forward_date':
-      return 'Forward date'
-    case 'upfront_payment':
-      return 'Upfront payment'
-  }
+      {currentOrder.status === OrderStatus.Processing && (
+        <a href={checkoutUrl} rel="noreferrer">
+          <Button>Checkout</Button>
+        </a>
+      )}
+    </Container>
+  )
 }
 
 export default PaymentOne

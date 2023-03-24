@@ -6,3 +6,5 @@ export { default as Loader } from './components/Loader'
 export { default as Toast } from './components/Toast'
 export { default as Modal } from './components/Modal'
 export { default as QR } from './components/QR'
+
+export { default as formatAuctionType } from './utils/format-auction-type'

@@ -79,7 +79,7 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
   }
 
   const handleCreateOrder = () => {
-    console.log('create order')
+    // console.log('create order')
   }
 
   if (!auction) {
