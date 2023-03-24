@@ -1,7 +1,8 @@
 import { makeServerRequest } from 'src/api/serverRequest'
 import { Auction } from 'src/types'
-import { BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
-interface AuctionResponse {
+import { BidsEntityOrCurrentBid, Winner } from './types'
+
+export interface AuctionResponse {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
