@@ -79,10 +79,6 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
     ],
   }
 
-  const handleCreateOrder = () => {
-    console.log('create order')
-  }
-
   if (!auction) {
     return <ContentContainer>Error loading auction</ContentContainer>
   }
@@ -126,12 +122,6 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
             <a href={`/checkout/${order.id}`} className="mt-4 block w-full">
               <Button className="w-full">Checkout</Button>
             </a>
-          )}
-
-          {!order && (
-            <Button className="w-full" onClick={handleCreateOrder}>
-              Create order
-            </Button>
           )}
         </div>
       </section>

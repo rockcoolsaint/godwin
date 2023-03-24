@@ -35,7 +35,7 @@ const Footer = () => {
             <ul>
               <li className="mb-3">
                 <Link className="font-normal text-dark-100 hover:underline" href="mailto:hello@rigly.io">
-                   hello@rigly.io
+                  hello@rigly.io
                 </Link>
               </li>
             </ul>
