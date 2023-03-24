@@ -6,7 +6,7 @@ import { AuctionResponse, getAuctionBySlug } from 'src/api/auction/getAuctionByS
 import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
 import { useEffect, useState } from 'react'
 
-import { Order, OrderStatus } from 'src/types'
+import { Order } from 'src/types'
 import { Loader } from 'src/core'
 import { AuctionStatus } from 'src/api/auction/types'
 

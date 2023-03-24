@@ -78,10 +78,6 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
     ],
   }
 
-  const handleCreateOrder = () => {
-    // console.log('create order')
-  }
-
   if (!auction) {
     return <ContentContainer>Error loading auction</ContentContainer>
   }
