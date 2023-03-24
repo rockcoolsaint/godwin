@@ -15,9 +15,9 @@ const AuctionCard = ({ auction }: ProductProps) => {
 
   return (
     <Link href={'/auctions/' + auction.slug} className="mb-4 rounded-xl border border-gray-100">
-      <span className="px-5 pt-5">
+      <div className=" px-5 pt-5">
         <Image
-          className="mb-4 w-full rounded-xl"
+          className="mb-4 block w-full overflow-hidden rounded-xl"
           width={352}
           height={230}
           src="https://via.placeholder.com/352x230"
@@ -36,8 +36,8 @@ const AuctionCard = ({ auction }: ProductProps) => {
             <strong className="text-right">{auction.bid_count}</strong>
           </div>
         </div>
-      </span>
-      <span className="mt-5 flex items-center justify-between border-t border-[#EBEFF0] p-5">
+      </div>
+      <div className="mt-5 flex items-center justify-between border-t border-[#EBEFF0] p-5">
         <div>
           <h4 className="text-sm font-medium text-dark-100">{t('home.current_bid')}</h4>
           <h3 className="flex items-center text-base">
@@ -47,7 +47,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
         <span className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
           <span className="text-base font-medium">{t('home.place_bid')}</span>
         </span>
-      </span>
+      </div>
     </Link>
   )
 }

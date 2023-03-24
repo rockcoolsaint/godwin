@@ -120,7 +120,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
             </Tab.List>
           </Tab.Group>
         </div>
-        <div className="ml-4 flex w-[25%] flex-col border-2 border-green-800">
+        <div className="ml-4 flex w-[25%] flex-col">
           <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
           {order && (
             <a href={`/checkout/${order.id}`} className="mt-4 block w-full">
