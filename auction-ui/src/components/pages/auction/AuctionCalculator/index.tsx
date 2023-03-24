@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import SatsSvg from 'src/assets/svg/sats.svg'
@@ -14,10 +14,10 @@ interface calculatorProps {
 }
 
 export default function AuctionCalculator({ data, currentBid = 0 }: calculatorProps) {
-  const [bid, setBid] = useState(0)
-  const [futureHashPrice, setFutureHashPrice] = useState(0)
-  const [speed, setSpeed] = useState(0)
-  const [daysOfMining, setDaysOfMining] = useState(0)
+  // const [bid, setBid] = useState(0)
+  // const [futureHashPrice, setFutureHashPrice] = useState(0)
+  // const [speed, setSpeed] = useState(0)
+  // const [daysOfMining, setDaysOfMining] = useState(0)
 
   function formatMoney(number: number) {
     return Number(number.toFixed(2)).toLocaleString()

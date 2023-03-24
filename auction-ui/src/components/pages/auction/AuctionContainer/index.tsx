@@ -15,7 +15,6 @@ import ContentContainer from 'src/components/shared/ContentContainer'
 import BidWidget from 'src/components/pages/auction/BidWidget'
 import { Button } from 'src/core'
 import { Auction, Order } from 'src/types'
-import { Fragment } from 'react'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')

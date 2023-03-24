@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/classnames-order */
 /* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
 'use client'
@@ -19,7 +20,7 @@ interface Props {
   slug?: string
 }
 
-const BidWidget = ({ auction, bids, current_bid, proxy_bid, winner, slug }: Props) => {
+const BidWidget = ({ auction }: Props) => {
   const { loading, token } = useAccountContext()
 
   function handlePlaceBid() {
@@ -35,7 +36,7 @@ const BidWidget = ({ auction, bids, current_bid, proxy_bid, winner, slug }: Prop
   return (
     <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
       <p className="mb-4 flex items-center text-sm text-dark-100">
-        Bid End Date: <span className="text-sm font-medium text-black">{auction.end_at.toString()}</span>
+        {/* Bid End Date: <span className="text-sm font-medium text-black">{auction.end_at}</span> */}
         <ExclamationCircleIcon className="ml-1 h-4 w-4" />
       </p>
       <div className="d-flex w-full text-center">
@@ -104,9 +105,9 @@ const countdownWidget = ({ days, hours, minutes, seconds, completed }: Countdown
         <div className="mt-5 w-full">
           <p className="text-base font-semibold text-dark-100">Enter your bid</p>
           <div className="mt-2 flex flex-col">
-            <input className="mb-2 w-full w-full rounded-lg border border-gray-100 p-2 text-center" placeholder="0" type="number" />
-            <input className="mb-2 w-full w-full rounded-lg border border-gray-100 p-2" placeholder="Display name" type="text" />
-            <input className="mb-2 w-full w-full rounded-lg border border-gray-100 p-2" placeholder="Email address" type="text" />
+            <input className="mb-2 w-full rounded-lg border border-gray-100 p-2 text-center" placeholder="0" type="number" />
+            <input className="mb-2 w-full rounded-lg border border-gray-100 p-2" placeholder="Display name" type="text" />
+            <input className="mb-2 w-full rounded-lg border border-gray-100 p-2" placeholder="Email address" type="text" />
           </div>
         </div>
       </section>
