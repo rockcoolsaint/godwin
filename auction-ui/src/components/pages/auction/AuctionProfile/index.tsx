@@ -83,7 +83,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-4 font-semibold text-dark-100">Auction start</p>
             </aside>
             <aside>
-              <p className="p-3 pl-4">{new Date(data.auction_start_date).toLocaleString()}</p>
+              <p className="p-3 pl-4">{new Date(data.start_at).toLocaleString()}</p>
             </aside>
           </div>
           <div className="flex items-center rounded-b-xl border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
@@ -91,7 +91,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-4 font-semibold text-dark-100">Auction end</p>
             </aside>
             <aside>
-              <p className="p-3 pl-4">{new Date(data.expiry_at).toLocaleString()}</p>
+              <p className="p-3 pl-4">{new Date(data.end_at).toLocaleString()}</p>
             </aside>
           </div>
         </div>

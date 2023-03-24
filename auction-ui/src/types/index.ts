@@ -1,3 +1,5 @@
+import { AuctionStatus } from 'src/api/auction/types'
+
 export enum PaymentStatus {
   Processing = 'processing',
   Underpaid = 'underpaid',
@@ -24,6 +26,7 @@ export interface Payment {
 
 export enum OrderStatus {
   Unpaid = 'unpaid',
+  Processing = 'processing',
   PaymentOneComplete = 'paid_1',
   PaymentTwoComplete = 'paid_2',
 }
@@ -80,13 +83,11 @@ export interface Auction {
   sub_title: string
   description: string
   starting_bid: number
-  auction_start_date: Date
-  expiry_at: Date
-  is_expired: boolean
+  start_at: Date
+  end_at: Date
+  status: AuctionStatus
   category: Collection
   proxy_increment: number
-  is_auction_active: boolean
-  auction_status: string
   slug_category: string
   auction_type: AuctionType
   payment_address: string

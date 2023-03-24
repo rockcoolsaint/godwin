@@ -2,8 +2,7 @@ import Image from 'next/image'
 import { AuctionOfTheDayResponse } from 'src/api/auction/types'
 import Link from 'src/components/shared/Link'
 import { useTranslation } from 'src/hooks'
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
+import { format, parseISO } from 'date-fns'
 import SatsSvg from 'src/assets/svg/sats.svg'
 import Container from 'src/core/components/Container'
 
@@ -20,6 +19,12 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
 
   const { auction } = auctionResponse
 
+  const start_iso = parseISO(auction.start_at)
+  const end_iso = parseISO(auction.end_at)
+
+  const start = format(start_iso, 'do MMMM, yyyy hh:mm aaa')
+  const end = format(end_iso, 'do MMMM, yyyy hh:mm aaa')
+
   return (
     <section className="mt-28 flex w-full items-center justify-center px-5 md:px-0">
       <div className="shadow-level-2 rounded-3xl border px-3 py-14 shadow-md md:px-12">
@@ -32,11 +37,11 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
             <div className="flex justify-between">
               <aside>
                 <p className="text-base text-dark-100">{t('home.bid_start_date')}:</p>
-                <p className="text-base font-semibold">{format(parseISO(auction.auction_start_date), 'do MMMM, yyyy hh:mm aaa')}</p>
+                <p className="text-base font-semibold">{start}</p>
               </aside>
               <aside className="md:ml-9">
                 <p className="text-base text-dark-100">{t('home.bid_end_date')}:</p>
-                <p className="text-base font-semibold">{format(parseISO(auction.expiry_at), 'do MMMM, yyyy hh:mm aaa')}</p>
+                <p className="text-base font-semibold">{end}</p>
               </aside>
             </div>
             <hr className="my-5 block w-full border" />

@@ -8,6 +8,7 @@ import Countdown from 'react-countdown'
 import { Auction } from 'src/types'
 import { BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
 import { placeBid } from 'src/api/bids/placeBid'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 interface Props {
   auction: Auction
@@ -19,8 +20,14 @@ interface Props {
 }
 
 const BidWidget = ({ auction, bids, current_bid, proxy_bid, winner, slug }: Props) => {
+  const { loading, token } = useAccountContext()
+
   function handlePlaceBid() {
-    placeBid({ list_id: auction.id, bid_amnt: 1000 })
+    if (!token) {
+      return
+    }
+
+    placeBid({ list_id: auction.id, bid_amnt: 1000 }, token)
       .then(res => console.log(res))
       .catch(err => console.log(err))
   }
@@ -28,22 +35,28 @@ const BidWidget = ({ auction, bids, current_bid, proxy_bid, winner, slug }: Prop
   return (
     <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
       <p className="mb-4 flex items-center text-sm text-dark-100">
-        Bid End Date: <span className="text-sm font-medium text-black">{auction.expiry_at}</span>
+        Bid End Date: <span className="text-sm font-medium text-black">{auction.end_at.toString()}</span>
         <ExclamationCircleIcon className="ml-1 h-4 w-4" />
       </p>
       <div className="d-flex w-full text-center">
-        {auction.expiry_at ? (
+        {auction.end_at ? (
           <>
             <Countdown
               className="bg-red-200"
-              date={new Date(auction.auction_start_date) > new Date() ? new Date(auction.auction_start_date) : new Date(auction.expiry_at)}
+              date={new Date(auction.start_at) > new Date() ? new Date(auction.start_at) : new Date(auction.end_at)}
               renderer={countdownWidget}
             >
               <span className="text-center">Bidding for this auction is now being closed</span>
             </Countdown>
-            <button onClick={() => handlePlaceBid()} className="mt-4 w-full rounded-lg bg-gradient p-3 text-white hover:bg-gradient-hover">
-              Place bid
-            </button>
+
+            {!loading && token && (
+              <button
+                onClick={() => handlePlaceBid()}
+                className="mt-4 w-full rounded-lg bg-gradient p-3 text-white hover:bg-gradient-hover"
+              >
+                Place bid
+              </button>
+            )}
           </>
         ) : (
           <></>

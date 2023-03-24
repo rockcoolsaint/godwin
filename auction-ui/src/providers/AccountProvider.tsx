@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Account } from 'src/types'
 import { getAccount } from 'src/api/auth/getAccount'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 interface AccountContextType {
   account?: Account
@@ -19,6 +19,7 @@ export const useAccountContext = () => useContext(AccountContext)
 export default function AccountProvider({ children }: { children: React.ReactNode }) {
   const { getIdTokenClaims } = useAuth0()
   const pathName = usePathname()
+  const router = useRouter()
 
   const [token, setToken] = useState<string | undefined>(undefined)
   const [account, setAccount] = useState<Account | undefined>(undefined)
@@ -30,19 +31,26 @@ export default function AccountProvider({ children }: { children: React.ReactNod
         const claims = await getIdTokenClaims()
         if (claims) {
           const token = claims.__raw
-          const account = await getAccount(token)
-          setToken(token)
-          setAccount(account)
+          try {
+            const account = await getAccount(token)
+            setToken(token)
+            setAccount(account)
+
+            setLoading(false)
+          } catch (ex: any) {
+            throw ex
+          }
+        } else {
+          throw new Error(`Couldn't get account claims`)
         }
       } catch (ex) {
-        console.error(ex)
-      } finally {
+        // console.error(ex)
         setLoading(false)
       }
     }
 
     authorize()
-  }, [getIdTokenClaims, pathName])
+  }, [getIdTokenClaims, pathName, router])
 
   return <AccountContext.Provider value={{ account, token, loading }}>{children}</AccountContext.Provider>
 }
