@@ -30,9 +30,16 @@ export default function AccountProvider({ children }: { children: React.ReactNod
         const claims = await getIdTokenClaims()
         if (claims) {
           const token = claims.__raw
-          const account = await getAccount(token)
-          setToken(token)
-          setAccount(account)
+          try {
+            const account = await getAccount(token)
+            setToken(token)
+            setAccount(account)
+          } catch (ex: any) {
+            if (ex.message === 'Forbidden') {
+              return console.error('Could not get account, forbidden.')
+            }
+            console.error(ex)
+          }
         }
       } catch (ex) {
         console.error(ex)

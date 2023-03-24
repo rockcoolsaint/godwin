@@ -8,8 +8,10 @@ import PaymentTwo from 'src/components/pages/checkout/PaymentTwo'
 import { useEffect, useState } from 'react'
 import getOrder from 'src/api/checkout/getOrder'
 
-export default function Checkout({ params }: { params: { order_id: string | undefined } }) {
+export default function Checkout({ params, searchParams }: { params: { order_id?: string }; searchParams: { success?: string } }) {
   const { order_id } = params
+  const isSuccessPage = searchParams.success === 'true'
+
   const [loading, setLoading] = useState<boolean>(true)
   const [order, setOrder] = useState<Order | undefined>(undefined)
 
@@ -22,7 +24,7 @@ export default function Checkout({ params }: { params: { order_id: string | unde
       try {
         setLoading(true)
         const res = await getOrder(order_id)
-        // TODO: Error handling
+
         setOrder(res as Order)
       } catch (ex) {
         console.error(ex)
@@ -33,6 +35,28 @@ export default function Checkout({ params }: { params: { order_id: string | unde
 
     prepareCheckout()
   }, [order_id])
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>
+
+    if (order) {
+      const poll = async () => {
+        const res = await getOrder(order.id)
+        if (res.status !== order.status) {
+          setOrder(res as Order)
+        }
+      }
+
+      if (order && order.status !== OrderStatus.PaymentTwoComplete) {
+        poll()
+        interval = setInterval(() => poll(), 5000)
+      }
+    }
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [order])
 
   if (loading) {
     return (
@@ -56,8 +80,22 @@ export default function Checkout({ params }: { params: { order_id: string | unde
     )
   }
 
+  if ((order.status === OrderStatus.Unpaid || order.status === OrderStatus.Processing) && isSuccessPage) {
+    return (
+      <Container>
+        <div className="flex h-full w-full items-center justify-center">
+          <div className="flex flex-col items-center">
+            <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment #1</span>
+            <span className="mb-2">Please wait for confirmation on this page, or check back later.</span>
+          </div>
+        </div>
+      </Container>
+    )
+  }
+
   switch (order.status) {
-    case OrderStatus.Unpaid: {
+    case OrderStatus.Unpaid:
+    case OrderStatus.Processing: {
       return (
         <Container>
           <PaymentOne order={order} />
@@ -75,9 +113,10 @@ export default function Checkout({ params }: { params: { order_id: string | unde
       return (
         <Container>
           <div className="flex h-full w-full items-center justify-center">
-            <span className="text-green-700">
-              Order <b>{order_id}</b> is completed.
-            </span>
+            <div className="flex flex-col items-center">
+              <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment #2</span>
+              <span className="mb-2">TODO: Add some guidance for users here on how to access their hashrate.</span>
+            </div>
           </div>
         </Container>
       )

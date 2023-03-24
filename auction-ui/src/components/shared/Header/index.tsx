@@ -8,7 +8,6 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Authorized from './Authorized'
 import Unauthorized from './Unauthorized'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Loader } from 'src/core'
 
 export default function HeaderNav() {
   const { account, loading } = useAccountContext()

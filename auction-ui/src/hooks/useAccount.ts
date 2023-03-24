@@ -23,7 +23,7 @@ export default function useAccount() {
           const account = await getAccount(claims.__raw)
           setAccount(account)
         } else {
-          console.log('no claims')
+          // console.warn('no claims')
         }
       } catch (ex) {
         console.error(ex)

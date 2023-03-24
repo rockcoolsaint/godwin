@@ -79,7 +79,7 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
   }
 
   const handleCreateOrder = () => {
-    console.log('create order')
+    // console.log('create order')
   }
 
   if (!auction) {
@@ -122,12 +122,10 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
         <div className="ml-4 flex w-[25%] flex-col items-center rounded-xl bg-white p-4">
           {/* <p className="mb-3">Bid End Date</p> */}
           <div className="d-flex countdown text-center">
-            {auction.expiry_at ? (
+            {auction.end_at ? (
               <Countdown
                 className="bg-red-200"
-                date={
-                  new Date(auction.auction_start_date) > new Date() ? new Date(auction.auction_start_date) : new Date(auction.expiry_at)
-                }
+                date={new Date(auction.start_at) > new Date() ? new Date(auction.start_at) : new Date(auction.end_at)}
                 renderer={renderer}
               >
                 <span className="text-center">Bidding for this auction is now being closed</span>
