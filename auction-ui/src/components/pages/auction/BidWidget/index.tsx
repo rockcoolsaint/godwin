@@ -25,7 +25,7 @@ const BidWidget = ({ auction, bids, current_bid, proxy_bid, winner, slug }: Prop
   }
 
   return (
-    <div className="ml-4 flex w-[25%] flex-col items-center rounded-xl bg-white p-4">
+    <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
       <p className="mb-4 flex items-center text-sm text-dark-100">
         Bid End Date: <span className="text-sm font-medium text-black">{auction.expiry_at}</span>
         <ExclamationCircleIcon className="ml-1 h-4 w-4" />
