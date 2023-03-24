@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/jsx-no-bind */
 'use client'
 

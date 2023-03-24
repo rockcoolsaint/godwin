@@ -3,6 +3,8 @@
 
 import { useRef } from 'react'
 import { Tooltip } from 'react-tooltip'
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
+import SatsSvg from 'src/assets/svg/sats.svg'
 
 import { Auction } from 'src/types'
 
@@ -75,34 +77,34 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
         <Tooltip id="my-tooltip-1" />
         <div className="border-3 border-yellow-600">
           <div className="mb-3">
-            <label htmlFor="exampleFormControlInput1" className="form-label">
-              Your bid?
+            <label htmlFor="exampleFormControlInput1" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
+              What is your bid? <ExclamationCircleIcon className="ml-1 inline h-4 w-4" />
             </label>
-            <div className="d-flex align-items-center">
+            <div className="flex items-center">
               <input
                 onChange={() => {
                   calculateRigly()
                 }}
                 type="number"
                 defaultValue={currentBid ? currentBid : data?.starting_bid}
-                className="form-control"
+                className="w-full rounded-lg border border-gray-400 p-2"
                 ref={myContainer4}
                 id="#1"
                 placeholder="0"
               />
-              <span className="ms-1 text-secondary">Sats</span>
+              <span className="ml-1 text-sm text-dark-100">Sats</span>
             </div>
           </div>
-          <div className="mb-3">
-            <label htmlFor="exampleFormControlInput1" className="form-label">
-              What is future hashprice??
+          <div className="mb-3 mt-7">
+            <label htmlFor="exampleFormControlInput1" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
+              What is future hashprice? <ExclamationCircleIcon className="ml-1 inline h-4 w-4" />
             </label>
-            <div className="d-flex align-items-center">
+            <div className="flex items-center">
               <input
                 onChange={() => {
                   calculateRigly()
                 }}
-                className="w-100"
+                className="w-full"
                 type="range"
                 defaultValue={data?.auction_meta?.current_hash_price}
                 ref={myContainer7}
@@ -111,52 +113,53 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
                 min="0"
                 max="800"
               />
-              <span className="ms-1 text-secondary">Sats per TH/s/Day</span>
+              <span className="ml-1 w-14 text-center text-sm text-dark-100">Sats per TH/s/Day</span>
             </div>
           </div>
-          <div className="mb-3">
-            <label htmlFor="exampleFormControlInput1" className="form-label">
+          <div className="mb-3 mt-7">
+            <label htmlFor="exampleFormControlInput1" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
               Speed
             </label>
-            <div className="d-flex align-items-center">
+            <div className="flex items-center">
               <input
                 onChange={() => {
                   calculateRigly()
                 }}
                 type="number"
-                className="form-control"
+                className="w-full rounded-lg border border-gray-400 p-2"
                 ref={myContainer5}
                 id="#4"
                 defaultValue={data?.auction_meta?.hashrate}
                 placeholder="0"
               />
-              <span className="ms-1 text-secondary">TH/s</span>
+              <span className="ml-1 text-sm text-dark-100">TH/s</span>
             </div>
           </div>
-          <div className="mb-3">
-            <label htmlFor="exampleFormControlInput1" className="form-label">
+          <div className="mb-3 mt-7">
+            <label htmlFor="exampleFormControlInput1" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
               Days of Mining
             </label>
-            <div className="d-flex align-items-center">
+            <div className="flex items-center">
               <input
                 onChange={() => {
                   calculateRigly()
                 }}
                 type="number"
-                className="form-control"
+                className="w-full rounded-lg border border-gray-400 p-2"
                 ref={myContainer6}
                 defaultValue={data?.auction_meta?.days_of_mining}
                 id="#7"
                 placeholder="0"
               />
-              <span className="ms-1 text-secondary">Days</span>
+              <span className="ml-1 text-sm text-dark-100">Days</span>
             </div>
           </div>
         </div>
-        <div className=" border-3 border-green-700">
-          <div>
-            <small>Estimate future hashprice (per TH/s/day)</small>
-            <h3 id="formula-result-#9">
+
+        <aside className="border-3 ml-6 rounded-xl border-green-700 bg-gray-100 px-4 py-2">
+          <div className="mb-7">
+            <p className="mb-3 text-sm font-semibold text-dark-100">Estimate future hashprice (per TH/s/day)</p>
+            <h3 className="flex items-center" id="formula-result-#9">
               <span
                 ref={myContainer1}
                 data-tooltip-id="my-tooltip-1"
@@ -166,12 +169,12 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
               >
                 {data?.auction_meta?.current_hash_price}
               </span>{' '}
-              <i className="fak fa-regular" />
+              <SatsSvg className="ml-2" />
             </h3>
           </div>
-          <div>
-            <small>Your mining hashprice (per TH/s/day)</small>
-            <h3 id="formula-result-#10">
+          <div className="mb-7">
+            <p className="mb-3 text-sm font-semibold text-dark-100">Your mining hashprice (per TH/s/day)</p>
+            <h3 className="flex items-center" id="formula-result-#10">
               <span
                 ref={myContainer}
                 data-tooltip-id="my-tooltip-1"
@@ -185,12 +188,12 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
                     parseInt(data.auction_meta.days_of_mining ? data.auction_meta.days_of_mining : '1'),
                 )}
               </span>{' '}
-              <i className="fak fa-regular" />
+              <SatsSvg className="ml-2" />
             </h3>
           </div>
-          <div>
-            <small>Your mining cost ©</small>
-            <h3 id="formula-result-#5">
+          <div className="mb-7">
+            <p className="mb-3 text-sm font-semibold text-dark-100">Your mining cost ©</p>
+            <h3 className="flex items-center" id="formula-result-#5">
               <span
                 ref={myContainer2}
                 data-tooltip-id="my-tooltip-1"
@@ -200,12 +203,12 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
               >
                 {Math.round(currentBid ? currentBid : data?.starting_bid)}
               </span>{' '}
-              <i className="fak fa-regular" />
+              <SatsSvg className="ml-2" />
             </h3>
           </div>
-          <div>
-            <small>Estimate future mining payout</small>
-            <h3 id="formula-result-#11">
+          <div className="mb-7">
+            <p className="mb-3 text-sm font-semibold text-dark-100">Estimate future mining payout</p>
+            <h3 className="flex items-center" id="formula-result-#11">
               <span
                 ref={myContainer3}
                 data-tooltip-id="my-tooltip-1"
@@ -217,10 +220,10 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
                   parseInt(data.auction_meta.days_of_mining ? data.auction_meta?.days_of_mining : '1') *
                   parseInt(data?.auction_meta.current_hash_price ? data?.auction_meta.current_hash_price : '1')}
               </span>{' '}
-              <i className="fak fa-regular" />
+              <SatsSvg className="ml-2" />
             </h3>
           </div>
-        </div>
+        </aside>
       </div>
     </section>
   )
