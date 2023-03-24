@@ -2,10 +2,10 @@
 'use client'
 
 import { useAuth0 } from '@auth0/auth0-react'
-import { useAccount } from 'src/hooks'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 export default function Authorized() {
-  const { account } = useAccount()
+  const { account, loading } = useAccountContext()
   const { logout } = useAuth0()
 
   const handleLogout = () => {
@@ -14,13 +14,13 @@ export default function Authorized() {
 
   return (
     <div className="ml-4 flex flex-col items-end">
-      {account && (
+      {!loading && account && (
         <>
           <span className="text-sm">
-            Logged in as <b className="text-blue-400">{account.nickname}</b>
+            <b className="text-blue-400">{account.email}</b>
           </span>
 
-          <span onClick={handleLogout} className="cursor-pointer text-xs hover:text-blue-500">
+          <span onClick={handleLogout} className="cursor-pointer whitespace-nowrap text-xs hover:text-blue-500">
             Sign out
           </span>
         </>

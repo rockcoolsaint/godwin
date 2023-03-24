@@ -13,7 +13,7 @@ export default function Unauthorized() {
       className="ml-8 flex items-center justify-center rounded-lg bg-gradient p-3 px-5 text-white hover:bg-gradient-hover"
       onClick={handleLogin}
     >
-      <span>Sign in</span>
+      <span className="whitespace-nowrap text-sm">Sign In</span>
     </button>
   )
 }

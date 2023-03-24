@@ -2,25 +2,28 @@
 'use client'
 
 import { useAuth0 } from '@auth0/auth0-react'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { Button, Container } from 'src/core'
-import useAccount from 'src/hooks/useAccount'
+import { Button, Container, Loader } from 'src/core'
+
+const LOGIN_REDIRECT_TIMEOUT = Number(process.env.NEXT_PUBLIC_LOGIN_REDIRECT_TIMEOUT) || 0
 
 // { searchParams }: { searchParams: { code: string; state: string } }
 export default function Login({ searchParams }: { searchParams: { error?: string; error_description?: string } }) {
-  const { account, loading } = useAccount()
   const { loginWithRedirect } = useAuth0()
+  const router = useRouter()
 
   const handleLogin = () => {
     loginWithRedirect()
   }
 
   useEffect(() => {
-    if (!loading && account) {
-      redirect('/')
+    if (!searchParams.error) {
+      setTimeout(() => {
+        router.push('/')
+      }, LOGIN_REDIRECT_TIMEOUT)
     }
-  }, [account, loading])
+  }, [searchParams.error, router])
 
   return (
     <Container>
@@ -30,7 +33,13 @@ export default function Login({ searchParams }: { searchParams: { error?: string
           <Button onClick={handleLogin}>Sign in</Button>
         </div>
       )}
-      {!searchParams.error && <span className="text-lg text-green-500">Login successful</span>}
+
+      {!searchParams.error && (
+        <div className="flex flex-col items-center justify-center">
+          <Loader />
+          <span className="mt-8">Redirecting after {LOGIN_REDIRECT_TIMEOUT / 1000} seconds</span>
+        </div>
+      )}
     </Container>
   )
 }

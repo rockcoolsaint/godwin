@@ -1,7 +1,9 @@
+/* eslint-disable react/jsx-no-bind */
 'use client'
 
+import clsx from 'clsx'
 import { Tab } from '@headlessui/react'
-import { Auction } from 'src/types'
+
 import { BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
 import AuctionBids from 'src/components/pages/auction/AuctionBids'
 import AuctionProfile from 'src/components/pages/auction/AuctionProfile'
@@ -10,10 +12,10 @@ import AuctionSitePhotos from 'src/components/pages/auction/AuctionSitePhotos'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
 import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
 import ContentContainer from 'src/components/shared/ContentContainer'
-import clsx from 'clsx'
-import { ClockIcon } from '@heroicons/react/24/outline'
-import SatsSvg from 'src/assets/svg/sats.svg'
 import BidWidget from 'src/components/pages/auction/BidWidget'
+import { Button } from 'src/core'
+import { Auction, Order } from 'src/types'
+import { Fragment } from 'react'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -29,6 +31,7 @@ function handleSelect({ selected }: { selected: boolean }) {
 
 interface AuctionContainerProps {
   auction: Auction
+  order?: Order
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
   proxy_bid: BidsEntityOrCurrentBid[]
@@ -36,7 +39,7 @@ interface AuctionContainerProps {
   slug: string
 }
 
-export default function AuctionContainer({ auction, bids, current_bid }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, order, bids, current_bid }: AuctionContainerProps) {
   const categories = {
     Bids: [
       {
@@ -76,6 +79,10 @@ export default function AuctionContainer({ auction, bids, current_bid }: Auction
     ],
   }
 
+  const handleCreateOrder = () => {
+    console.log('create order')
+  }
+
   if (!auction) {
     return <ContentContainer>Error loading auction</ContentContainer>
   }
@@ -113,16 +120,21 @@ export default function AuctionContainer({ auction, bids, current_bid }: Auction
             </Tab.List>
           </Tab.Group>
         </div>
-        <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
+        <div className="ml-4 flex w-[25%] flex-col border-2 border-green-800">
+          <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
+          {order && (
+            <a href={`/checkout/${order.id}`} className="mt-4 block w-full">
+              <Button className="w-full">Checkout</Button>
+            </a>
+          )}
+
+          {!order && (
+            <Button className="w-full" onClick={handleCreateOrder}>
+              Create order
+            </Button>
+          )}
+        </div>
       </section>
     </>
   )
-}
-
-interface RendererProps {
-  days?: string | number
-  hours?: string | number
-  minutes?: string | number
-  seconds?: string | number
-  completed?: boolean | number
 }

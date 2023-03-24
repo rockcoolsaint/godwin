@@ -8,23 +8,27 @@ import PaymentTwo from 'src/components/pages/checkout/PaymentTwo'
 import { useEffect, useState } from 'react'
 import getOrder from 'src/api/checkout/getOrder'
 
-export default function Checkout({ searchParams }: { searchParams: { order_id: string | undefined } }) {
-  const { order_id } = searchParams
-
+export default function Checkout({ params }: { params: { order_id: string | undefined } }) {
+  const { order_id } = params
   const [loading, setLoading] = useState<boolean>(true)
   const [order, setOrder] = useState<Order | undefined>(undefined)
 
   useEffect(() => {
     const prepareCheckout = async () => {
       if (!order_id) {
-        return
+        return console.error('No order_id was specified')
       }
 
-      setLoading(true)
-      const res = await getOrder(order_id)
-      // TODO: Error handling
-      setOrder(res as Order)
-      setLoading(false)
+      try {
+        setLoading(true)
+        const res = await getOrder(order_id)
+        // TODO: Error handling
+        setOrder(res as Order)
+      } catch (ex) {
+        console.error(ex)
+      } finally {
+        setLoading(false)
+      }
     }
 
     prepareCheckout()

@@ -15,7 +15,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
 
   return (
     <Link href={'/auctions/' + auction.slug} className="mb-4 rounded-xl border border-gray-100">
-      <aside className="px-5 pt-5">
+      <span className="px-5 pt-5">
         <Image
           className="mb-4 w-full rounded-xl"
           width={352}
@@ -36,18 +36,18 @@ const AuctionCard = ({ auction }: ProductProps) => {
             <strong className="text-right">{auction.bid_count}</strong>
           </div>
         </div>
-      </aside>
-      <aside className="mt-5 flex items-center justify-between border-t border-[#EBEFF0] p-5">
+      </span>
+      <span className="mt-5 flex items-center justify-between border-t border-[#EBEFF0] p-5">
         <div>
           <h4 className="text-sm font-medium text-dark-100">{t('home.current_bid')}</h4>
           <h3 className="flex items-center text-base">
             {auction.current_bid} <SatsSvg className="ml-1" />
           </h3>
         </div>
-        <Link href={'/auctions/' + auction.slug} className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
+        <span className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
           <span className="text-base font-medium">{t('home.place_bid')}</span>
-        </Link>
-      </aside>
+        </span>
+      </span>
     </Link>
   )
 }
