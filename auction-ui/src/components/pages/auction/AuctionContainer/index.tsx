@@ -13,9 +13,11 @@ import AuctionSitePhotos from 'src/components/pages/auction/AuctionSitePhotos'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
 import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
 import ContentContainer from 'src/components/shared/ContentContainer'
-import { Button, Loader } from 'src/core'
+import { Button, Input, Loader } from 'src/core'
 import { Auction, Order } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import { useState } from 'react'
+import { makeClientRequest } from 'src/api/clientRequest'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -40,7 +42,29 @@ interface AuctionContainerProps {
 }
 
 export default function AuctionContainer({ auction, order, bids }: AuctionContainerProps) {
-  const { account, loading } = useAccountContext()
+  const { account, token, loading } = useAccountContext()
+
+  const [bid, setBid] = useState<number>(0)
+
+  const handleBidChange = (val: number) => {
+    setBid(val)
+  }
+
+  const handlePlaceBid = () => {
+    makeClientRequest({
+      method: 'POST',
+      path: '/api/bids/place',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: {
+        bid_amnt: bid.toString(),
+        list_id: auction.id,
+      },
+    })
+
+    setBid(0)
+  }
 
   const categories = {
     Bids: [
@@ -145,6 +169,15 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
               </Countdown>
             ) : (
               <></>
+            )}
+
+            {!account && <p>You need to be logged in to bid</p>}
+
+            {account && (
+              <div className="flex flex-col gap-2">
+                <Input type="text" name="bid" onInput={handleBidChange} value={bid} />
+                <Button onClick={handlePlaceBid}>Place bid</Button>
+              </div>
             )}
 
             {order && account && order.user_id === account.id && (

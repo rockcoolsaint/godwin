@@ -7,17 +7,24 @@ interface InputProps {
   name: string
   placeholder?: string
   required?: boolean
-  onChange?: (val: string) => void
-  value?: string
+  onChange?: (val: string | number) => void
+  onInput?: (val: string | number) => void
+  value?: string | number
   defaultValue?: string
 }
 
 function Input(props: InputProps) {
-  const { onChange, className, name } = props
+  const { onChange, onInput, className, name } = props
 
   const handleChange = (e: any) => {
     if (typeof onChange === 'function') {
       onChange(e.target.value)
+    }
+  }
+
+  const handleInput = (e: any) => {
+    if (typeof onInput === 'function') {
+      onInput(e.target.value)
     }
   }
 
@@ -27,6 +34,7 @@ function Input(props: InputProps) {
       id={name}
       className={clsx(className, 'mb-0 flex h-12 items-center justify-center rounded-lg border border-gray-300 px-5 outline-none')}
       onChange={handleChange}
+      onInput={handleInput}
     />
   )
 }
