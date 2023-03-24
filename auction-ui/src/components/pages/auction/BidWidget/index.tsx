@@ -12,6 +12,7 @@ import { placeBid } from 'src/api/bids/placeBid'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Form, Input } from 'src/core'
 import { useState } from 'react'
+import { format, parseISO } from 'date-fns'
 
 interface Props {
   auction: Auction
@@ -82,14 +83,11 @@ const BidWidget = ({ auction, current_bid }: Props) => {
   return (
     <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
       <p className="mb-4 flex items-center text-sm text-dark-100">
-        {/* Bid End Date: <span className="text-sm font-medium text-black">{auction.end_at}</span> */}
+        Bid End Date:{' '}
+        <span className="ml-1 text-sm font-medium text-black">{format(parseISO(auction.end_at), 'MMMM dd, yyyy - h:mm aa')}</span>
         <ExclamationCircleIcon className="ml-1 h-4 w-4" />
       </p>
-      <Countdown
-        className="bg-red-200"
-        date={new Date(auction.start_at) > new Date() ? new Date(auction.start_at) : new Date(auction.end_at)}
-        renderer={countdownWidget}
-      >
+      <Countdown className="bg-red-200" date={new Date(auction.end_at)} renderer={countdownWidget}>
         <span className="text-center">Bidding for this auction is now being closed</span>
       </Countdown>
       <div className="d-flex w-full text-center">

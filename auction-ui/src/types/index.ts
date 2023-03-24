@@ -84,8 +84,8 @@ export interface Auction {
   sub_title: string
   description: string
   starting_bid: number
-  start_at: Date
-  end_at: Date
+  start_at: string
+  end_at: string
   status: AuctionStatus
   category: Collection
   proxy_increment: number
