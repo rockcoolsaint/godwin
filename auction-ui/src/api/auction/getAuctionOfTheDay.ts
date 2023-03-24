@@ -1,15 +1,11 @@
-'use client'
-
+import { makeServerRequest } from 'src/api/serverRequest'
 import { AuctionOfTheDayResponse } from 'src/api/auction/types'
-import { makeClientRequest } from 'src/api/clientRequest'
 
 export async function getAuctionOfTheDay(): Promise<AuctionOfTheDayResponse> {
-  const auctionOfTheDay: AuctionOfTheDayResponse = await makeClientRequest({
+  const auctionOfTheDay: AuctionOfTheDayResponse = await makeServerRequest({
     method: 'GET',
     path: `/api/auctions/featured-today`,
   })
-
-  console.log('ay')
 
   return auctionOfTheDay
 }

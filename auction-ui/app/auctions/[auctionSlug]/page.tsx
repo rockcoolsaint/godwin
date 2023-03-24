@@ -50,6 +50,31 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
     prepareAuction()
   }, [slug])
 
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>
+
+    if (slug) {
+      const poll = async () => {
+        const newAuction = await getAuctionBySlug(slug)
+
+        setAuction(newAuction)
+
+        if (newAuction.auction.status === AuctionStatus.Completed) {
+          const order = await getOrderByAuctionId(newAuction.auction.id)
+
+          setOrder(order)
+        }
+      }
+
+      poll()
+      setInterval(() => poll(), 1000)
+    }
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [slug])
+
   if (loading) {
     return (
       <ContentContainer>

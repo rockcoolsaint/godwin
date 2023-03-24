@@ -16,7 +16,10 @@ function Button({
 }) {
   return (
     <BootstrapButton
-      className={clsx(className, 'flex h-12 items-center justify-center rounded-lg bg-gradient px-5 text-white hover:bg-gradient-hover')}
+      className={clsx(className, 'flex h-12 items-center justify-center rounded-lg px-5 text-white outline-none', {
+        'bg-gradient hover:bg-gradient-hover': !disabled,
+        'pointer-events-none bg-gray-300': disabled,
+      })}
       onClick={onClick}
       disabled={disabled}
       type={type}
