@@ -13,8 +13,9 @@ import AuctionSitePhotos from 'src/components/pages/auction/AuctionSitePhotos'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
 import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
 import ContentContainer from 'src/components/shared/ContentContainer'
-import { Button } from 'src/core'
+import { Button, Loader } from 'src/core'
 import { Auction, Order } from 'src/types'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -39,6 +40,8 @@ interface AuctionContainerProps {
 }
 
 export default function AuctionContainer({ auction, order, bids }: AuctionContainerProps) {
+  const { account, loading } = useAccountContext()
+
   const categories = {
     Bids: [
       {
@@ -78,8 +81,22 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
     ],
   }
 
+  if (loading) {
+    return (
+      <ContentContainer>
+        <div className="flex items-center justify-center">
+          <Loader />
+        </div>
+      </ContentContainer>
+    )
+  }
+
   if (!auction) {
-    return <ContentContainer>Error loading auction</ContentContainer>
+    return (
+      <ContentContainer>
+        <div className="flex items-center justify-center">Error loading auction</div>
+      </ContentContainer>
+    )
   }
 
   return (
@@ -130,7 +147,7 @@ export default function AuctionContainer({ auction, order, bids }: AuctionContai
               <></>
             )}
 
-            {order && (
+            {order && account && order.user_id === account.id && (
               <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">
                 <Button>Checkout</Button>
               </a>
