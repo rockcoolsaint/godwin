@@ -20,10 +20,12 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
 
   const { auction } = auctionResponse
 
-  console.log(auction)
+  const start_iso = parseISO(auction.start_at)
+  const end_iso = parseISO(auction.end_at)
+  console.log(start_iso, end_iso)
 
-  const start = format(parseISO(auction.start_at), 'do MMMM, yyyy hh:mm aaa')
-  const end = format(parseISO(auction.end_at), 'do MMMM, yyyy hh:mm aaa')
+  const start = format(start_iso, 'do MMMM, yyyy hh:mm aaa')
+  const end = format(end_iso, 'do MMMM, yyyy hh:mm aaa')
 
   return (
     <section className="mt-28 flex w-full items-center justify-center px-5 md:px-0">
