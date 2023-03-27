@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import QuoteSvg from 'src/assets/svg/quote.svg'
 import { useTranslation } from 'src/hooks'
 
@@ -39,10 +40,6 @@ const testimonials = [
     ],
   ],
 ]
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function Example() {
   const { t } = useTranslation()
@@ -90,7 +87,7 @@ export default function Example() {
               {columnGroup.map((column, columnIdx) => (
                 <div
                   key={columnIdx}
-                  className={classNames(
+                  className={clsx(
                     (columnGroupIdx === 0 && columnIdx === 0) ||
                       (columnGroupIdx === testimonials.length - 1 && columnIdx === columnGroup.length - 1)
                       ? 'xl:row-span-2'
