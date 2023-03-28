@@ -5,6 +5,7 @@ import { PropsWithChildren } from 'react'
 import Header from 'src/components/shared/Header'
 import Footer from 'src/components/shared/Footer'
 import AuthProvider from 'src/providers/AuthProvider'
+import NotificationProvider from 'src/core/providers/NotificationProvider'
 
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
@@ -14,13 +15,15 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
         <title>Rigly</title>
       </head>
       <body>
-        <AuthProvider>
-          <section className="flex h-screen w-screen flex-col justify-between">
-            <Header />
-            <div className="mb-auto bg-white">{children}</div>
-            <Footer />
-          </section>
-        </AuthProvider>
+        <NotificationProvider>
+          <AuthProvider>
+            <section className="flex h-screen w-screen flex-col justify-between">
+              <Header />
+              <div className="mb-auto bg-white">{children}</div>
+              <Footer />
+            </section>
+          </AuthProvider>
+        </NotificationProvider>
       </body>
     </html>
   )

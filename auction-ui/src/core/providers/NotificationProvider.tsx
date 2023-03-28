@@ -11,10 +11,10 @@ export enum NotificationType {
 }
 
 export interface NotificationData {
-  id: number
+  id?: number
   title: string
   content: string
-  timeout: ReturnType<typeof setTimeout>
+  timeout?: ReturnType<typeof setTimeout>
   type?: NotificationType
 }
 
@@ -89,7 +89,7 @@ export default function NotificationProvider({ children }: { children: React.Rea
 
   return (
     <NotificationContext.Provider value={{ notifications, success, error, info, close, pause, resume }}>
-      <div className="pointer-events-none fixed inset-0 flex flex-col items-end justify-end p-8">
+      <div className="pointer-events-none fixed inset-0 top-20 flex flex-col items-end justify-start gap-4 p-8">
         {notifications.map((notification, i) => {
           return <Notification key={i} {...notification} />
         })}
