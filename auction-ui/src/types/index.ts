@@ -42,6 +42,7 @@ export interface Order {
   payments: Payment[]
   can_apply_promo_code: boolean
   user_id: number
+  checkout_url?: string
   promo_code?: PromoCode
 }
 
@@ -61,9 +62,9 @@ export interface AuctionType {
 }
 
 export interface AuctionMeta {
-  profile_image_1: string
-  profile_image_2: string
-  profile_image_3: string
+  image_1: string
+  image_2: string
+  image_3: string
   site_photo: string
   live_feed_image: string
   hash_price_image: string
@@ -89,7 +90,7 @@ export interface Auction {
   status: AuctionStatus
   category: Collection
   proxy_increment: number
-  slug_category: string
+  slug: string
   auction_type: AuctionType
   payment_address: string
   payment_address_qr: string

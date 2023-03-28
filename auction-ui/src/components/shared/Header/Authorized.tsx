@@ -3,6 +3,8 @@
 
 import { useAuth0 } from '@auth0/auth0-react'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import Icon from 'src/core/components/Icon'
+import Link from 'src/components/shared/Link'
 
 export default function Authorized() {
   const { account, loading } = useAccountContext()
@@ -13,18 +15,26 @@ export default function Authorized() {
   }
 
   return (
-    <div className="ml-4 flex flex-col items-end">
-      {!loading && account && (
-        <>
-          <span className="text-sm">
-            <b className="text-blue-400">{account.email}</b>
-          </span>
+    <div className="ml-4 flex items-center justify-end">
+      <Link href="/account">
+        <button>
+          <Icon icon="user" />
+        </button>
+      </Link>
 
-          <span onClick={handleLogout} className="cursor-pointer whitespace-nowrap text-xs hover:text-blue-500">
-            Sign out
-          </span>
-        </>
-      )}
+      <div className="ml-4 flex flex-col items-end">
+        {!loading && account && (
+          <>
+            <span className="text-sm">
+              <b className="text-blue-400">{account.email}</b>
+            </span>
+
+            <span onClick={handleLogout} className="cursor-pointer whitespace-nowrap text-xs hover:text-blue-500">
+              Sign out
+            </span>
+          </>
+        )}
+      </div>
     </div>
   )
 }
