@@ -4,7 +4,7 @@ import AccountSidebar from './AccountSidebar'
 
 export default function AccountView({ children }: { children: React.ReactNode }) {
   return (
-    <Container>
+    <Container className="pt-8">
       <h1>Account settings</h1>
       <div className="mt-4 flex items-start justify-start gap-8">
         <AccountSidebar />

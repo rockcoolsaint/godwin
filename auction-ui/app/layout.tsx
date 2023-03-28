@@ -17,7 +17,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
         <AuthProvider>
           <section className="flex h-screen w-screen flex-col justify-between">
             <Header />
-            <div className="bg-white">{children}</div>
+            <div className="mb-auto bg-white">{children}</div>
             <Footer />
           </section>
         </AuthProvider>

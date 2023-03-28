@@ -16,7 +16,7 @@ export default function HeaderNav() {
     <Disclosure as="nav" className="bg-white px-6 md:px-40">
       {({ open }) => (
         <>
-          <section className="relative flex items-center justify-center border-b py-6 sm:justify-between">
+          <section className="flex items-center justify-center border-b py-6 sm:justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
               {/* Mobile menu button*/}
               <Disclosure.Button className="inline-flex items-center justify-center rounded-md text-dark-200 hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -47,7 +47,7 @@ export default function HeaderNav() {
                 </Link>
               </aside>
             </div>
-            <div className="absolute right-0 flex items-center sm:relative">
+            <div className="flex items-center">
               <Link className="hidden items-center sm:flex" href="/">
                 <span>List your mining</span> <MiningSvg className="ml-4" />
               </Link>
