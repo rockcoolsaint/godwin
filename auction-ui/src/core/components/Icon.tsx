@@ -9,8 +9,8 @@ export default function Icon({ className, icon }: { className?: string; icon: st
   const Component = (icons as any)[icon]
 
   return (
-    <div className={clsx(className, 'h-4 w-4 text-black')}>
-      <Component />
+    <div className={clsx(className, 'flex items-center justify-center text-black')}>
+      <Component className="h-full w-full" />
     </div>
   )
 }

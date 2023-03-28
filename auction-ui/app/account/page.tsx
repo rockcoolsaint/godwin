@@ -5,10 +5,12 @@ import { useState } from 'react'
 import { updateAccount } from 'src/api/auth/updateAccount'
 import AccountView from 'src/components/pages/account/AccountView'
 import { Form, Input, Loader } from 'src/core'
+import { useNotificationContext } from 'src/core/providers/NotificationProvider'
 import { useAccount } from 'src/hooks'
 
 export default function Account() {
   const { account, loading: accountLoading, token } = useAccount()
+  const { success } = useNotificationContext()
   const [loading, setLoading] = useState<boolean>(false)
 
   const handleSubmit = async (data: object) => {
@@ -19,9 +21,12 @@ export default function Account() {
     try {
       setLoading(true)
 
-      const success = await updateAccount(data, token)
-      if (!success) {
-        console.log('Account updated')
+      const updateSuccess = await updateAccount(data, token)
+      if (updateSuccess) {
+        success({
+          title: 'Account saved',
+          content: 'Your changes have been saved.',
+        })
       }
     } catch (ex) {
       console.error(ex)

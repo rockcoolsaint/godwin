@@ -1,3 +1,6 @@
-export { default as user } from './User'
-export { default as cart } from './Cart'
 export { default as arrowRightFromBracket } from './ArrowRightFromBracket'
+export { default as cart } from './Cart'
+export { default as check } from './Check'
+export { default as info } from './Info'
+export { default as times } from './Times'
+export { default as user } from './User'
