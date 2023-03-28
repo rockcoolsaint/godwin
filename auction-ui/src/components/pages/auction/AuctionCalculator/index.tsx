@@ -28,7 +28,9 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
   useEffect(() => {
     function handleCalculateRigly() {
       const futureMiningPayout = futureHashPrice * speed * daysOfMining
-      const miningHashPrice = bid / speed / daysOfMining
+      let miningHashPrice = 0
+      if (speed > 0 && daysOfMining > 0) miningHashPrice = bid / speed / daysOfMining
+
       setFutureMiningPayout(futureMiningPayout)
       setFutureMiningHashprice(miningHashPrice)
     }
@@ -116,7 +118,7 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
           <div className="mb-7">
             <p className="mb-3 text-sm font-semibold text-dark-100">Your mining hashprice (per TH/s/day)</p>
             <h3 className="flex items-center" id="formula-result-#10">
-              <span>{formatMoney(futureMiningHashprice)}</span> <SatsSvg className="ml-2" />
+              <span>{formatMoney(futureMiningHashprice) || 0}</span> <SatsSvg className="ml-2" />
             </h3>
           </div>
           <div className="mb-7">
