@@ -6,10 +6,6 @@ import Icon from './Icon'
 export default function Notification({ id, title, content, type }: NotificationData) {
   const { close, pause, resume } = useNotificationContext()
 
-  if (!id) {
-    return null
-  }
-
   return (
     <div
       className={clsx(

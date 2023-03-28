@@ -13,6 +13,7 @@ import { useAccountContext } from 'src/providers/AccountProvider'
 import { Form, Input } from 'src/core'
 import { useState } from 'react'
 import { format, parseISO } from 'date-fns'
+import { useNotificationContext } from 'src/core/providers/NotificationProvider'
 
 interface Props {
   auction: Auction
@@ -25,6 +26,7 @@ interface Props {
 
 const BidWidget = ({ auction, current_bid }: Props) => {
   const { loading, token } = useAccountContext()
+  const { success, error } = useNotificationContext()
 
   const [bidAmount, setBidAmount] = useState<string>('')
   const [bidAmountErrors, setBidAmountErrors] = useState<string[] | undefined>(undefined)
@@ -73,8 +75,16 @@ const BidWidget = ({ auction, current_bid }: Props) => {
 
     try {
       await placeBid({ list_id: auction.id, bid_amnt: Number(bidAmount) }, token)
-    } catch (ex) {
-      console.error(ex)
+
+      success({
+        title: 'Bid placed',
+        content: 'Your bid has been placed.',
+      })
+    } catch (ex: any) {
+      error({
+        title: 'Error',
+        content: ex.message,
+      })
     } finally {
       setLoadingPlaceBid(false)
     }

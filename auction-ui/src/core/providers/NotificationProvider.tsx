@@ -23,9 +23,9 @@ interface NotificationContextType {
   success: (notification: NotificationData) => void
   error: (notification: NotificationData) => void
   info: (notification: NotificationData) => void
-  close: (id: number) => void
-  pause: (id: number) => void
-  resume: (id: number) => void
+  close: (id: number | undefined) => void
+  pause: (id: number | undefined) => void
+  resume: (id: number | undefined) => void
 }
 
 const NotificationContext = createContext<NotificationContextType>({
@@ -64,21 +64,33 @@ export default function NotificationProvider({ children }: { children: React.Rea
     notify(notification.title, notification.content, NotificationType.Info)
   }
 
-  const close = (id: number) => {
+  const close = (id: number | undefined) => {
+    if (!id) {
+      return
+    }
+
     const newNotifications = [...notifications]
     const idx = newNotifications.findIndex(n => n.id === id)
     newNotifications.splice(idx, 1)
     setNotifications(newNotifications)
   }
 
-  const pause = (id: number) => {
+  const pause = (id: number | undefined) => {
+    if (!id) {
+      return
+    }
+
     const newNotifications = [...notifications]
     const idx = newNotifications.findIndex(n => n.id === id)
     const notification = newNotifications[idx]
     clearTimeout(notification.timeout)
   }
 
-  const resume = (id: number) => {
+  const resume = (id: number | undefined) => {
+    if (!id) {
+      return
+    }
+
     const newNotifications = [...notifications]
     const idx = newNotifications.findIndex(n => n.id === id)
     const notification = newNotifications[idx]
@@ -89,7 +101,7 @@ export default function NotificationProvider({ children }: { children: React.Rea
 
   return (
     <NotificationContext.Provider value={{ notifications, success, error, info, close, pause, resume }}>
-      <div className="pointer-events-none fixed inset-0 top-20 flex flex-col items-end justify-start gap-4 p-8">
+      <div className="pointer-events-none fixed inset-0 top-20 flex flex-col items-end justify-start gap-4 p-8" id="notifications">
         {notifications.map((notification, i) => {
           return <Notification key={i} {...notification} />
         })}
