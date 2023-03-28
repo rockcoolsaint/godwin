@@ -3,8 +3,8 @@ import sitePhoto from 'src/assets/png/site_photo.png'
 
 export default function AuctionSitePhotos() {
   return (
-    <div className="h-full">
-      <Image className="h-full w-full" alt="Auction live feed" src={sitePhoto} width={500} height={500} />
+    <div className="flex h-full items-center justify-center">
+      <Image className="w-3/4 object-cover" alt="Auction live feed" src={sitePhoto} width={500} height={500} />
     </div>
   )
 }

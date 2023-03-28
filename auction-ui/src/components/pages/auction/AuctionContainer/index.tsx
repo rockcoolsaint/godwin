@@ -103,8 +103,8 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
       <p></p>
-      <section className="flex rounded-xl bg-gray-50 p-3">
-        <div className=" w-[75%] px-2 sm:px-0">
+      <section className="flex flex-col rounded-xl bg-gray-50 p-3 md:flex-row">
+        <div className=" px-2 sm:w-[75%] sm:px-0">
           <Tab.Group>
             <Tab.Panels className=" h-[640px] overflow-scroll ">
               {Object.values(categories).map((posts, idx) => (
@@ -132,7 +132,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
             </Tab.List>
           </Tab.Group>
         </div>
-        <div className="ml-4 flex w-[25%] flex-col">
+        <div className="ml-4 mt-4 flex flex-col sm:mt-0 sm:w-[25%]">
           <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
 
           {order && account && order.user_id === account.id && (

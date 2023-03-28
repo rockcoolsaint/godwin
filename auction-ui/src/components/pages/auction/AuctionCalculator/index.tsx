@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import SatsSvg from 'src/assets/svg/sats.svg'
@@ -14,72 +14,33 @@ interface calculatorProps {
 }
 
 export default function AuctionCalculator({ data, currentBid = 0 }: calculatorProps) {
-  // const [bid, setBid] = useState(0)
-  // const [futureHashPrice, setFutureHashPrice] = useState(0)
-  // const [speed, setSpeed] = useState(0)
-  // const [daysOfMining, setDaysOfMining] = useState(0)
+  const [bid, setBid] = useState(0)
+  const [futureHashPrice, setFutureHashPrice] = useState(0)
+  const [speed, setSpeed] = useState(0)
+  const [daysOfMining, setDaysOfMining] = useState(0)
+  const [futureMiningPayout, setFutureMiningPayout] = useState(0)
+  const [futureMiningHashprice, setFutureMiningHashprice] = useState(0)
 
   function formatMoney(number: number) {
     return Number(number.toFixed(2)).toLocaleString()
   }
 
-  const myContainer = useRef<HTMLSpanElement>(null)
-  const myContainer1 = useRef<HTMLSpanElement>(null)
-  const myContainer2 = useRef<HTMLSpanElement>(null)
-  const myContainer3 = useRef<HTMLSpanElement>(null)
+  useEffect(() => {
+    function handleCalculateRigly() {
+      const futureMiningPayout = futureHashPrice * speed * daysOfMining
+      let miningHashPrice = 0
+      if (speed > 0 && daysOfMining > 0) miningHashPrice = bid / speed / daysOfMining
 
-  const myContainer4 = useRef<HTMLInputElement>(null)
-  const myContainer5 = useRef<HTMLInputElement>(null)
-  const myContainer6 = useRef<HTMLInputElement>(null)
-  const myContainer7 = useRef<HTMLInputElement>(null)
-
-  const obj1 = myContainer.current
-  const obj2 = myContainer1.current
-  const obj3 = myContainer2.current
-  const obj4 = myContainer3.current
-
-  function animateValue(obj: HTMLSpanElement | null, start: number, end: number, duration: number) {
-    let startTimestamp: number | null = null
-    start = parseInt(start.toString().replaceAll(',', '')) || 0
-    end = Math.round(parseInt(end.toString().replaceAll(',', '')))
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp
-      const progress: number = Math.min((timestamp - startTimestamp) / duration, 1)
-
-      if (obj) {
-        obj.innerHTML = formatMoney(Math.floor(progress * (end - start) + start))
-      }
-
-      if (progress < 1) {
-        window.requestAnimationFrame(step)
-      }
+      setFutureMiningPayout(futureMiningPayout)
+      setFutureMiningHashprice(miningHashPrice)
     }
-    window.requestAnimationFrame(step)
-  }
 
-  function calculateRigly() {
-    const objId1 = Math.round(parseFloat(myContainer4.current ? myContainer4.current.value.replaceAll(',', '') : '0'))
-    const objId4 = Math.round(parseFloat(myContainer5.current ? myContainer5.current.value.replaceAll(',', '') : '0'))
-    const objId7 = Math.round(parseFloat(myContainer6.current ? myContainer6.current.value.replaceAll(',', '') : '0'))
-    const objId8 = Math.round(parseFloat(myContainer7.current ? myContainer7.current.value.replaceAll(',', '') : '0'))
-
-    if (obj1) {
-      const calc1 = objId1 / objId4 / objId7
-      animateValue(obj1, parseInt(obj1.innerText), calc1, 1200)
-
-      animateValue(obj2, parseInt(obj2 ? obj2.innerText : '1'), objId8, 1200)
-
-      animateValue(obj3, parseInt(obj3 ? obj3.innerText : '1'), objId1, 1200)
-
-      const calc2 = objId8 * objId4 * objId7
-      animateValue(obj4, parseInt(obj4 ? obj4.innerText : '1'), calc2, 1200)
-    }
-  }
+    handleCalculateRigly()
+  }, [bid, futureHashPrice, speed, daysOfMining])
 
   return (
     <section className=" rounded-3 border px-4 py-3">
       <div className="flex">
-        <Tooltip id="my-tooltip-1" />
         <div className="border-3 border-yellow-600">
           <div className="mb-3">
             <label htmlFor="exampleFormControlInput1" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
@@ -87,13 +48,11 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
             </label>
             <div className="flex items-center">
               <input
-                onChange={() => {
-                  calculateRigly()
+                onChange={e => {
+                  setBid(parseInt(e.target.value) || 0)
                 }}
                 type="number"
-                defaultValue={currentBid ? currentBid : data?.starting_bid}
                 className="w-full rounded-lg border border-gray-400 p-2"
-                ref={myContainer4}
                 id="#1"
                 placeholder="0"
               />
@@ -101,19 +60,17 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
             </div>
           </div>
           <div className="mb-3 mt-7">
-            <label htmlFor="exampleFormControlInput1" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
+            <label htmlFor="hashprice" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
               What is future hashprice? <ExclamationCircleIcon className="ml-1 inline h-4 w-4" />
             </label>
             <div className="flex items-center">
               <input
-                onChange={() => {
-                  calculateRigly()
+                onChange={e => {
+                  setFutureHashPrice(parseInt(e.target.value) || 0)
                 }}
                 className="w-full"
                 type="range"
-                defaultValue={data?.auction_meta?.current_hash_price}
-                ref={myContainer7}
-                id="#8"
+                id="hashprice"
                 name="volume"
                 min="0"
                 max="800"
@@ -122,38 +79,34 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
             </div>
           </div>
           <div className="mb-3 mt-7">
-            <label htmlFor="exampleFormControlInput1" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
+            <label htmlFor="speed" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
               Speed
             </label>
             <div className="flex items-center">
               <input
-                onChange={() => {
-                  calculateRigly()
+                onChange={e => {
+                  setSpeed(parseInt(e.target.value) || 0)
                 }}
                 type="number"
                 className="w-full rounded-lg border border-gray-400 p-2"
-                ref={myContainer5}
-                id="#4"
-                defaultValue={data?.auction_meta?.hashrate}
+                id="speed"
                 placeholder="0"
               />
               <span className="ml-1 text-sm text-dark-100">TH/s</span>
             </div>
           </div>
           <div className="mb-3 mt-7">
-            <label htmlFor="exampleFormControlInput1" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
+            <label htmlFor="daysOfMining" className="mb-3 flex items-center text-sm font-semibold text-dark-200">
               Days of Mining
             </label>
             <div className="flex items-center">
               <input
-                onChange={() => {
-                  calculateRigly()
+                onChange={e => {
+                  setDaysOfMining(parseInt(e.target.value) || 0)
                 }}
                 type="number"
                 className="w-full rounded-lg border border-gray-400 p-2"
-                ref={myContainer6}
-                defaultValue={data?.auction_meta?.days_of_mining}
-                id="#7"
+                id="daysOfMining"
                 placeholder="0"
               />
               <span className="ml-1 text-sm text-dark-100">Days</span>
@@ -163,69 +116,22 @@ export default function AuctionCalculator({ data, currentBid = 0 }: calculatorPr
 
         <aside className="border-3 ml-6 rounded-xl border-green-700 bg-gray-100 px-4 py-2">
           <div className="mb-7">
-            <p className="mb-3 text-sm font-semibold text-dark-100">Estimate future hashprice (per TH/s/day)</p>
-            <h3 className="flex items-center" id="formula-result-#9">
-              <span
-                ref={myContainer1}
-                data-tooltip-id="my-tooltip-1"
-                // data-tooltip-content={
-                //   '$' + (parseInt(myContainer1.current?.innerHTML ? myContainer1.current?.innerHTML : '0') * satToUsd).toFixed(2).toString()
-                // }
-              >
-                {data?.auction_meta?.current_hash_price}
-              </span>{' '}
-              <SatsSvg className="ml-2" />
-            </h3>
-          </div>
-          <div className="mb-7">
             <p className="mb-3 text-sm font-semibold text-dark-100">Your mining hashprice (per TH/s/day)</p>
             <h3 className="flex items-center" id="formula-result-#10">
-              <span
-                ref={myContainer}
-                data-tooltip-id="my-tooltip-1"
-                // data-tooltip-content={
-                //   '$' + (parseInt(myContainer.current?.innerHTML ? myContainer.current?.innerHTML : '0') * satToUsd).toFixed(2).toString()
-                // }
-              >
-                {Math.round(
-                  (currentBid ? currentBid : data.starting_bid ? data.starting_bid : 1) /
-                    parseInt(data.auction_meta.hashrate ? data.auction_meta.hashrate : '1') /
-                    parseInt(data.auction_meta.days_of_mining ? data.auction_meta.days_of_mining : '1'),
-                )}
-              </span>{' '}
-              <SatsSvg className="ml-2" />
+              <span>{formatMoney(futureMiningHashprice) || 0}</span> <SatsSvg className="ml-2" />
             </h3>
           </div>
           <div className="mb-7">
             <p className="mb-3 text-sm font-semibold text-dark-100">Your mining cost ©</p>
             <h3 className="flex items-center" id="formula-result-#5">
-              <span
-                ref={myContainer2}
-                data-tooltip-id="my-tooltip-1"
-                // data-tooltip-content={
-                //   '$' + (parseInt(myContainer2.current?.innerHTML ? myContainer2.current?.innerHTML : '0') * satToUsd).toFixed(2).toString()
-                // }
-              >
-                {Math.round(currentBid ? currentBid : data?.starting_bid)}
-              </span>{' '}
+              <span>{formatMoney(bid)}</span>
               <SatsSvg className="ml-2" />
             </h3>
           </div>
           <div className="mb-7">
             <p className="mb-3 text-sm font-semibold text-dark-100">Estimate future mining payout</p>
             <h3 className="flex items-center" id="formula-result-#11">
-              <span
-                ref={myContainer3}
-                data-tooltip-id="my-tooltip-1"
-                // data-tooltip-content={
-                //   '$' + (parseInt(myContainer3.current?.innerHTML ? myContainer3.current?.innerHTML : '0') * satToUsd).toFixed(2).toString()
-                // }
-              >
-                {parseInt(data.auction_meta.hashrate ? data.auction_meta?.hashrate : '1') *
-                  parseInt(data.auction_meta.days_of_mining ? data.auction_meta?.days_of_mining : '1') *
-                  parseInt(data?.auction_meta.current_hash_price ? data?.auction_meta.current_hash_price : '1')}
-              </span>{' '}
-              <SatsSvg className="ml-2" />
+              <span>{formatMoney(futureMiningPayout)}</span> <SatsSvg className="ml-2" />
             </h3>
           </div>
         </aside>
