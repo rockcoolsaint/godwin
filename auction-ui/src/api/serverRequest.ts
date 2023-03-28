@@ -8,10 +8,19 @@ interface ServerRequestProps {
   body?: object
   blob?: boolean
   cache?: RequestCache
+  nextFetchRequestConfig?: NextFetchRequestConfig
   throwOnError?: boolean
 }
 
-export const makeServerRequest = async ({ method = 'GET', blob, path, body, cache, throwOnError }: ServerRequestProps) => {
+export const makeServerRequest = async ({
+  method = 'GET',
+  blob,
+  path,
+  body,
+  cache,
+  nextFetchRequestConfig,
+  throwOnError,
+}: ServerRequestProps) => {
   let response: Response | undefined = undefined
   let json: any = undefined
   try {
@@ -24,6 +33,9 @@ export const makeServerRequest = async ({ method = 'GET', blob, path, body, cach
         cache,
       }),
       headers: { 'Content-Type': 'application/json' },
+      ...(nextFetchRequestConfig && {
+        next: nextFetchRequestConfig,
+      }),
     })
 
     if (blob) {

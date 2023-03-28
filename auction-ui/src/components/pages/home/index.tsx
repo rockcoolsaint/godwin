@@ -8,6 +8,7 @@ import AuctionOfTheDay from './AuctionOfTheDay'
 import Link from 'src/components/shared/Link'
 import hero_image from 'src/assets/png/hero.png'
 import Image from 'next/image'
+import Testimonials from 'src/components/pages/home/Testimonial'
 
 interface Props {
   auctions: Auction[]
@@ -38,6 +39,7 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
           <Details className="md:ml-14" title={t('home.title_bid')} imageSrc={bid} description={t('home.details_description')} />
         </div>
       </section>
+      <Testimonials />
     </div>
   )
 }
