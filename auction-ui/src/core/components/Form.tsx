@@ -74,7 +74,7 @@ function Label({
 
 function Submit({ children, className, disabled }: { children: React.ReactNode; className?: string; disabled?: boolean }) {
   return (
-    <Button className={clsx(className, { 'bg-red-500': disabled })} type="submit" disabled={disabled}>
+    <Button className={clsx(className, { 'bg-gray-300': disabled })} type="submit" disabled={disabled}>
       {children}
     </Button>
   )

@@ -17,7 +17,7 @@ import { format, parseISO } from 'date-fns'
 interface Props {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
-  current_bid: BidsEntityOrCurrentBid
+  current_bid: BidsEntityOrCurrentBid | null
   proxy_bid?: BidsEntityOrCurrentBid[]
   winner?: Winner
   slug?: string
@@ -35,7 +35,7 @@ const BidWidget = ({ auction, current_bid }: Props) => {
     const num = Number(val)
     const errors = []
 
-    if (num <= current_bid.bid) {
+    if (current_bid !== null && num <= current_bid.bid) {
       errors.push('Bid must be higher than current highest bid')
     }
 
@@ -69,13 +69,13 @@ const BidWidget = ({ auction, current_bid }: Props) => {
     }
 
     setLoadingPlaceBid(true)
+    setBidAmount('')
 
     try {
       await placeBid({ list_id: auction.id, bid_amnt: Number(bidAmount) }, token)
     } catch (ex) {
       console.error(ex)
     } finally {
-      setBidAmount('')
       setLoadingPlaceBid(false)
     }
   }
@@ -95,12 +95,19 @@ const BidWidget = ({ auction, current_bid }: Props) => {
         {auction.status === AuctionStatus.Completed && <div className="text-red-500">Auction ended</div>}
         {auction.status === AuctionStatus.Active && (
           <>
-            <div className="mt-7 w-full rounded-xl bg-gray-200 p-4">
-              <h5>Current bid</h5>
-              <h1 className="flex items-center justify-center">
-                {current_bid.bid} <SatsSvg className="ml-2" />{' '}
-              </h1>
-            </div>
+            {current_bid !== null && (
+              <div className="mt-7 w-full rounded-xl bg-gray-200 p-4">
+                <h5>Current bid</h5>
+                <h1 className="flex items-center justify-center">
+                  {current_bid.bid} <SatsSvg className="ml-2" />
+                </h1>
+              </div>
+            )}
+            {current_bid === null && (
+              <div className="mt-7 w-full rounded-xl bg-gray-200 p-4">
+                <span>Be the first to place a bid</span>
+              </div>
+            )}
 
             {!loading && !token && <p className="mt-8 text-red-500">You need to be logged in to place a bid</p>}
 
