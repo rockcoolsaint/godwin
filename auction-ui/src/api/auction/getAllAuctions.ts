@@ -1,4 +1,6 @@
-import { makeServerRequest } from 'src/api/serverRequest'
+'use client'
+
+import { makeClientRequest } from 'src/api/clientRequest'
 import { AllAuctionsResponse } from 'src/api/auction/types'
 
 interface Props {
@@ -8,10 +10,10 @@ interface Props {
 }
 
 export async function getAllAuctions({ limit, offset, sorting = 'desc' }: Props): Promise<AllAuctionsResponse> {
-  const auctionOfTheDay: AllAuctionsResponse = await makeServerRequest({
+  const auctions: AllAuctionsResponse = await makeClientRequest({
     method: 'GET',
     path: `/api/auctions?limit=${limit}&offset=${offset}&sorting=${sorting}`,
   })
 
-  return auctionOfTheDay
+  return auctions
 }

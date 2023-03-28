@@ -1,5 +1,6 @@
 'use client'
 
+import { satoshisToBitcoin } from 'bitcoin-conversion'
 import { format, parseISO } from 'date-fns'
 import { BidsEntityOrCurrentBid } from 'src/api/auction/types'
 
@@ -17,12 +18,12 @@ const AuctionBids = ({ bids }: Props) => {
           ? bids.map((bid, idx) => (
               <div key={idx} className="flex items-center justify-between  px-3 pt-3">
                 <div className="col-md-8">
-                  <h6 className="mb-1 text-xl font-bold capitalize">{bid.user.username}</h6>
+                  <h6 className="mb-1 text-xl font-bold capitalize">{bid.user.bidding_name || 'Anonymous'}</h6>
                   <p className="text-sm font-medium text-dark-100/[.8]">{format(parseISO(bid.created_at), 'do MMMM, yyyy hh:mmaaa')}</p>
                 </div>
                 <div className="col-md-4">
                   <h6 className="mb-1 text-xl font-bold capitalize">{bid.bid} sats</h6>
-                  <p className="text-right text-sm font-medium text-dark-100/[.8]">0.035 BTC</p>
+                  <p className="text-right text-sm font-medium text-dark-100/[.8]">{satoshisToBitcoin(bid.bid)} BTC</p>
                 </div>
               </div>
             ))

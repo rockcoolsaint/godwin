@@ -18,5 +18,9 @@ export default function QR({ className, code }: { className?: string; code: stri
     })
   }, [canvasRef, code])
 
-  return <canvas ref={canvasRef} className={clsx(className, 'h-40 w-40')}></canvas>
+  return (
+    <div className="rounded-lg border border-gray-300">
+      <canvas ref={canvasRef} className={clsx(className, 'h-40 w-40')}></canvas>
+    </div>
+  )
 }

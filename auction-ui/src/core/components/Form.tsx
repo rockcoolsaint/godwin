@@ -5,7 +5,17 @@ import React, { ReactElement } from 'react'
 import clsx from 'clsx'
 import Button from './Button'
 
-function Form({ children, className, onSubmit }: { children: React.ReactNode; className?: string; onSubmit: (data: object) => void }) {
+function Form({
+  children,
+  className,
+  onSubmit,
+  disabled,
+}: {
+  children: React.ReactNode
+  className?: string
+  onSubmit: (data: object) => void
+  disabled?: boolean
+}) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -18,7 +28,11 @@ function Form({ children, className, onSubmit }: { children: React.ReactNode; cl
   return (
     <form className={clsx('flex flex-col gap-8', className)} onSubmit={handleSubmit}>
       {React.Children.map(children, Child => {
-        return React.cloneElement(Child as ReactElement, {})
+        if (!Child) {
+          return null
+        }
+
+        return React.cloneElement(Child as ReactElement, { disabled })
       })}
     </form>
   )
@@ -28,6 +42,10 @@ function Field({ children, className, required }: { children: React.ReactNode; c
   return (
     <div className={clsx('flex flex-col gap-2', className)}>
       {React.Children.map(children, Child => {
+        if (!Child) {
+          return null
+        }
+
         return React.cloneElement(Child as ReactElement, { required })
       })}
     </div>
@@ -54,13 +72,9 @@ function Label({
   )
 }
 
-function Submit({ children, className }: { children: React.ReactNode; className?: string }) {
-  // const handleClick = () => {
-  //   console.log('submit')
-  // }
-
+function Submit({ children, className, disabled }: { children: React.ReactNode; className?: string; disabled?: boolean }) {
   return (
-    <Button className={clsx(className)} type="submit">
+    <Button className={clsx(className, { 'bg-gray-300': disabled })} type="submit" disabled={disabled}>
       {children}
     </Button>
   )

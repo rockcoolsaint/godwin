@@ -1,3 +1,5 @@
+import { AuctionStatus } from 'src/api/auction/types'
+
 export enum PaymentStatus {
   Processing = 'processing',
   Underpaid = 'underpaid',
@@ -24,6 +26,7 @@ export interface Payment {
 
 export enum OrderStatus {
   Unpaid = 'unpaid',
+  Processing = 'processing',
   PaymentOneComplete = 'paid_1',
   PaymentTwoComplete = 'paid_2',
 }
@@ -38,6 +41,8 @@ export interface Order {
   status: OrderStatus
   payments: Payment[]
   can_apply_promo_code: boolean
+  user_id: number
+  checkout_url?: string
   promo_code?: PromoCode
 }
 
@@ -57,9 +62,9 @@ export interface AuctionType {
 }
 
 export interface AuctionMeta {
-  profile_image_1: string
-  profile_image_2: string
-  profile_image_3: string
+  image_1: string
+  image_2: string
+  image_3: string
   site_photo: string
   live_feed_image: string
   hash_price_image: string
@@ -80,14 +85,12 @@ export interface Auction {
   sub_title: string
   description: string
   starting_bid: number
-  auction_start_date: Date
-  expiry_at: Date
-  is_expired: boolean
+  start_at: string
+  end_at: string
+  status: AuctionStatus
   category: Collection
   proxy_increment: number
-  is_auction_active: boolean
-  auction_status: string
-  slug_category: string
+  slug: string
   auction_type: AuctionType
   payment_address: string
   payment_address_qr: string

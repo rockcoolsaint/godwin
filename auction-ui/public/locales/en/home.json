@@ -11,5 +11,6 @@
   "bid_closed": "Bidding close for this product",
   "current_bid": "Current bid",
   "place_bid": "Place a bid",
-  "number_of_bids": "No. of bids"
+  "number_of_bids": "No. of bids",
+  "testimonials": "Testimonials"
 }
