@@ -8,9 +8,13 @@
   "start_mining_today": "Start mining today",
   "bid_start_date": "Bid start date",
   "bid_end_date": "Bid end date",
-  "bid_closed": "Bidding close for this product",
+  "bid_closed": "Bidding closed for this auction",
+  "bid_open": "Bidding open for this auction",
   "current_bid": "Current bid",
   "place_bid": "Place a bid",
   "number_of_bids": "No. of bids",
-  "testimonials": "Testimonials"
+  "testimonials": "Testimonials",
+  "start_bid_amount": "Start bid amount",
+  "auction_end_amount": "Auction end amount",
+  "view_details": "View details"
 }

@@ -5,7 +5,8 @@ import { useTranslation } from 'src/hooks'
 import { format, parseISO } from 'date-fns'
 import SatsSvg from 'src/assets/svg/sats.svg'
 import Container from 'src/core/components/Container'
-
+import { formatMoney } from 'src/utils/currency'
+import { isDateBefore } from 'src/utils/date'
 interface AuctionOfTheDay {
   auction: AuctionOfTheDayResponse
 }
@@ -25,6 +26,16 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
   const start = format(start_iso, 'do MMMM, yyyy hh:mm aaa')
   const end = format(end_iso, 'do MMMM, yyyy hh:mm aaa')
 
+  const isAuctionEnded = isDateBefore(auction.end_at)
+
+  function renderAuctionStatusTag() {
+    if (isAuctionEnded) {
+      return <p className="mb-4 rounded bg-tag-red/[.2] p-2 text-base font-semibold text-tag-red">{t('home.bid_closed')}</p>
+    }
+
+    return <p className="mb-4 rounded bg-tag-green/[.2] p-2 text-base font-semibold text-tag-green">{t('home.bid_open')}</p>
+  }
+
   return (
     <section className="mt-28 flex w-full items-center justify-center px-5 md:px-0">
       <div className="shadow-level-2 rounded-3xl border px-3 py-14 shadow-md md:px-12">
@@ -32,7 +43,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
         <div className="flex flex-col md:flex-row">
           <Image className="rounded-3xl" src="https://via.placeholder.com/352x230" alt="auction of the day" width={550} height={415} />
           <div className="ml-0 mt-4 flex flex-col items-start md:mt-0 md:ml-9">
-            <p className="mb-4 rounded bg-tag-red/[.2] p-2 text-base font-semibold text-tag-red">{t('home.bid_closed')}</p>
+            {renderAuctionStatusTag()}
             <h1 className="mb-6 text-2xl font-semibold">{auction.title}</h1>
             <div className="flex justify-between">
               <aside>
@@ -48,15 +59,15 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
             <p className="mb-4 rounded bg-tag-blue/[.2] p-2 px-5 text-base font-semibold text-tag-blue">{auction.bid_count} bid</p>
             <div className="mt-4 flex w-full justify-between">
               <aside>
-                <p className="mb-1 text-base text-dark-100">Start Bid Amount:</p>
+                <p className="mb-1 text-base text-dark-100">{t('home.start_bid_amount')}:</p>
                 <p className="flex items-center text-base font-semibold">
-                  {auction.starting_bid} <SatsSvg className="ml-2" />
+                  {formatMoney(auction.starting_bid)} <SatsSvg className="ml-2" />
                 </p>
               </aside>
               <aside className="md:mr-9">
-                <p className="mb-1 text-base text-dark-100">Auction Ended Amount:</p>
+                <p className="mb-1 text-base text-dark-100">{t('home.auction_end_amount')}:</p>
                 <p className="flex items-center text-base font-semibold">
-                  {auction.current_bid} <SatsSvg className="ml-2" />
+                  {formatMoney(auction.current_bid)} <SatsSvg className="ml-2" />
                 </p>
               </aside>
             </div>
@@ -64,7 +75,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
               className="mt-8 flex w-full items-center justify-center rounded-lg bg-gradient p-3 text-base text-white hover:bg-gradient-hover"
               href={'/auctions/' + auction.slug}
             >
-              View Details
+              {t('home.view_details')}
             </Link>
           </div>
         </div>

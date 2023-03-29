@@ -10,7 +10,7 @@ interface Props {
 
 const AuctionBids = ({ bids }: Props) => {
   return (
-    <section className=" rounded-xl border bg-white px-4 py-3">
+    <section className=" rounded-xl bg-white px-4 py-3">
       <h5 className="mb-4 text-3xl">Bids</h5>
       <div className="px-3"></div>
       <div className="mb-4 rounded-xl border">

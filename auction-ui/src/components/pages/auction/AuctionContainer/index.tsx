@@ -111,7 +111,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
                 <Tab.Panel
                   key={idx}
                   className={classNames(
-                    'rounded-xl bg-white pb-4',
+                    'rounded-xl bg-white',
                     'h-full ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                   )}
                 >

@@ -32,6 +32,7 @@ module.exports = {
         tag: {
           red: '#D92D20',
           blue: '#316AEF',
+          green: '#2F9E44',
         },
       },
       backgroundImage: {
