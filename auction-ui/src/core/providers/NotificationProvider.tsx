@@ -65,7 +65,7 @@ export default function NotificationProvider({ children }: { children: React.Rea
   }
 
   const close = (id: number | undefined) => {
-    if (!id) {
+    if (id === undefined) {
       return
     }
 
@@ -76,7 +76,7 @@ export default function NotificationProvider({ children }: { children: React.Rea
   }
 
   const pause = (id: number | undefined) => {
-    if (!id) {
+    if (id === undefined) {
       return
     }
 
@@ -87,7 +87,7 @@ export default function NotificationProvider({ children }: { children: React.Rea
   }
 
   const resume = (id: number | undefined) => {
-    if (!id) {
+    if (id === undefined) {
       return
     }
 
