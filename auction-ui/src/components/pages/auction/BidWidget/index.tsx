@@ -49,6 +49,10 @@ const BidWidget = ({ auction, current_bid }: Props) => {
   }
 
   function handleBidAmountBlur(val: string | number) {
+    if (val === '') {
+      return
+    }
+
     setBidAmount(Number(val).toString())
     validateBidAmount(val)
   }
@@ -93,16 +97,24 @@ const BidWidget = ({ auction, current_bid }: Props) => {
   return (
     <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
       <p className="mb-4 flex items-center text-sm text-dark-100">
-        Bid End Date:{' '}
+        {auction.status === AuctionStatus.Scheduled && <span>Auction starting:</span>}
+        {auction.status === AuctionStatus.Active && <span>Auction end date:</span>}
+        {auction.status === AuctionStatus.Completed && <span>Auction ended:</span>}
         <span className="ml-1 text-sm font-medium text-black">{format(parseISO(auction.end_at), 'MMMM dd, yyyy - h:mm aa')}</span>
         <ExclamationCircleIcon className="ml-1 h-4 w-4" />
       </p>
-      <Countdown className="bg-red-200" date={new Date(auction.end_at)} renderer={countdownWidget}>
-        <span className="text-center">Bidding for this auction is now being closed</span>
-      </Countdown>
+      {auction.status === AuctionStatus.Scheduled && (
+        <div className="mb-4 flex flex-col items-center gap-2">
+          <span className="text-orange-400">Auction has not started</span>
+          <span className="text-sm text-dark-100">Starting in:</span>
+        </div>
+      )}
+      <Countdown
+        className="bg-red-200"
+        date={auction.status === AuctionStatus.Scheduled ? new Date(auction.start_at) : new Date(auction.end_at)}
+        renderer={countdownWidget}
+      />
       <div className="d-flex w-full text-center">
-        {auction.status === AuctionStatus.Scheduled && <div>Auction has not started</div>}
-        {auction.status === AuctionStatus.Completed && <div className="text-red-500">Auction ended</div>}
         {auction.status === AuctionStatus.Active && (
           <>
             {current_bid !== null && (
@@ -126,8 +138,12 @@ const BidWidget = ({ auction, current_bid }: Props) => {
                 <div className="mt-5 w-full">
                   <p className="text-base font-semibold text-dark-100">Enter your bid</p>
                   <div className="mt-2 flex flex-col">
-                    <Form onSubmit={handlePlaceBid} disabled={loadingPlaceBid || (bidAmountErrors && bidAmountErrors.length > 0)}>
-                      <Form.Field required>
+                    <Form
+                      className="gap-4"
+                      onSubmit={handlePlaceBid}
+                      disabled={loadingPlaceBid || (bidAmountErrors && bidAmountErrors.length > 0)}
+                    >
+                      <Form.Field required errors={bidAmountErrors}>
                         <Input
                           type="number"
                           name="bid_amount"
@@ -138,16 +154,6 @@ const BidWidget = ({ auction, current_bid }: Props) => {
                           min="0"
                           step="1"
                         />
-
-                        {bidAmountErrors && (
-                          <div className="mt-4 flex flex-col">
-                            {bidAmountErrors.map((err, i) => (
-                              <span key={i} className="text-sm text-red-500">
-                                {err}
-                              </span>
-                            ))}
-                          </div>
-                        )}
                       </Form.Field>
 
                       <Form.Submit>Place bid</Form.Submit>
@@ -176,7 +182,7 @@ interface CountdownWidgetProps {
 
 const countdownWidget = ({ days, hours, minutes, seconds, completed }: CountdownWidgetProps): JSX.Element => {
   if (completed) {
-    return <span className="text-center">Bidding for this auction is now being closed</span>
+    return <span className="text-center text-red-400">Auction ended</span>
   } else {
     return (
       <section className="flex w-full flex-col items-center justify-center">

@@ -26,7 +26,7 @@ function Form({
   }
 
   return (
-    <form className={clsx('flex flex-col gap-8', className)} onSubmit={handleSubmit}>
+    <form className={clsx('flex flex-col', className)} onSubmit={handleSubmit}>
       {React.Children.map(children, Child => {
         if (!Child) {
           return null
@@ -38,7 +38,17 @@ function Form({
   )
 }
 
-function Field({ children, className, required }: { children: React.ReactNode; className?: string; required?: boolean }) {
+function Field({
+  children,
+  className,
+  required,
+  errors,
+}: {
+  children: React.ReactNode
+  className?: string
+  required?: boolean
+  errors?: string[]
+}) {
   return (
     <div className={clsx('flex flex-col gap-2', className)}>
       {React.Children.map(children, Child => {
@@ -46,8 +56,18 @@ function Field({ children, className, required }: { children: React.ReactNode; c
           return null
         }
 
-        return React.cloneElement(Child as ReactElement, { required })
+        return React.cloneElement(Child as ReactElement, { required, errors })
       })}
+
+      {errors && (
+        <div className="flex flex-col">
+          {errors.map((err, i) => (
+            <span key={i} className="text-xs text-red-500">
+              {err}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

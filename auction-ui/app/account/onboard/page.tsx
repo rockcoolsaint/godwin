@@ -49,7 +49,7 @@ export default function Onboard() {
   return (
     <Container>
       <h1>Complete your account</h1>
-      <Form className="mt-8" onSubmit={handleSubmit}>
+      <Form className="mt-8 gap-8" onSubmit={handleSubmit}>
         <Form.Field>
           <Form.Field.Label htmlFor="bidding_name">Bidding Name</Form.Field.Label>
           <Input type="text" name="bidding_name" defaultValue={account.username} />

@@ -51,7 +51,7 @@ export default function Account() {
 
   return (
     <AccountView>
-      <Form className="items-start p-4" onSubmit={handleSubmit} disabled={loading}>
+      <Form className="items-start gap-8 p-4" onSubmit={handleSubmit} disabled={loading}>
         <Form.Field className="w-full">
           <Form.Field.Label htmlFor="bidding_name">Bidding Name</Form.Field.Label>
           <Input type="text" name="bidding_name" defaultValue={account.bidding_name} placeholder="Anonymous" />
