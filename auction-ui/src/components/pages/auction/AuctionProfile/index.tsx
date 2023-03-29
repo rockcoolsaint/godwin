@@ -13,7 +13,7 @@ const AuctionProfile = ({ data }: Props) => {
       <div className="border-1 flex justify-between rounded-xl bg-white p-2">
         <div className="flex-1 ">
           <div className="flex items-center rounded-t-xl border-b-2 border-white  odd:bg-gray-300 even:bg-gray-50">
-            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">Name</p>
             </aside>
             <aside>
@@ -21,7 +21,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-1/4 border-r-2  border-r-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">Hashrate</p>
             </aside>
             <aside>
@@ -29,7 +29,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-1/4  border-r-2 border-r-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">Location</p>
             </aside>
             <aside>
@@ -37,7 +37,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-1/4  border-r-2 border-r-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">Days of mining</p>
             </aside>
             <aside>
@@ -45,7 +45,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-1/4 border-r-2  border-r-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">Hours</p>
             </aside>
             <aside>
@@ -53,7 +53,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-1/4 border-r-2  border-r-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">Power source</p>
             </aside>
             <aside>
@@ -61,7 +61,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-1/4 border-r-2  border-r-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">ASIC model</p>
             </aside>
             <aside>
@@ -69,7 +69,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-1/4 border-r-2 border-r-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">Terms</p>
             </aside>
             <aside>
@@ -79,7 +79,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-1/4 border-r-2 border-r-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">Auction start</p>
             </aside>
             <aside>
@@ -87,7 +87,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
           <div className="flex items-center rounded-b-xl border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-1/4 border-r-2 border-r-white sm:w-1/6">
+            <aside className=" w-1/4 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-1/6">
               <p className="p-3 py-4 font-semibold text-dark-100">Auction end</p>
             </aside>
             <aside>

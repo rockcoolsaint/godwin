@@ -115,7 +115,7 @@ const BidWidget = ({ auction, current_bid }: Props) => {
         zeroPadTime={2}
         renderer={countdownWidget}
       />
-      <div className="d-flex w-full text-center">
+      <div className="w-2/4 text-center lg:w-full">
         {auction.status === AuctionStatus.Active && (
           <>
             {current_bid !== null && (
