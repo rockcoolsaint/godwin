@@ -16,5 +16,15 @@
   "testimonials": "Testimonials",
   "start_bid_amount": "Start bid amount",
   "auction_end_amount": "Auction end amount",
-  "view_details": "View details"
+  "view_details": "View details",
+  "auction_start": "Auction start",
+  "auction_end": "Auction end",
+  "auction_terms": "Terms",
+  "asic_model": "ASIC model",
+  "power_source": "Power source",
+  "hours": "Hours",
+  "days_of_mining": "Days of mining",
+  "location": "location",
+  "hashrate": "hashrate",
+  "name": "name"
 }
