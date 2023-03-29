@@ -5,7 +5,7 @@
 
 import { ExclamationCircleIcon, ClockIcon } from '@heroicons/react/24/outline'
 import SatsSvg from 'src/assets/svg/sats.svg'
-import Countdown from 'react-countdown'
+import Countdown, { zeroPad } from 'react-countdown'
 import { Auction } from 'src/types'
 import { AuctionStatus, BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
 import { placeBid } from 'src/api/bids/placeBid'
@@ -97,8 +97,8 @@ const BidWidget = ({ auction, current_bid }: Props) => {
   return (
     <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
       <p className="mb-4 flex items-center text-sm text-dark-100">
-        {auction.status === AuctionStatus.Scheduled && <span>Auction starting:</span>}
-        {auction.status === AuctionStatus.Active && <span>Auction end date:</span>}
+        {auction.status === AuctionStatus.Scheduled && <span>Start date:</span>}
+        {auction.status === AuctionStatus.Active && <span>End date:</span>}
         {auction.status === AuctionStatus.Completed && <span>Auction ended:</span>}
         <span className="ml-1 text-sm font-medium text-black">{format(parseISO(auction.end_at), 'MMMM dd, yyyy - h:mm aa')}</span>
         <ExclamationCircleIcon className="ml-1 h-4 w-4" />
@@ -112,6 +112,7 @@ const BidWidget = ({ auction, current_bid }: Props) => {
       <Countdown
         className="bg-red-200"
         date={auction.status === AuctionStatus.Scheduled ? new Date(auction.start_at) : new Date(auction.end_at)}
+        zeroPadTime={2}
         renderer={countdownWidget}
       />
       <div className="d-flex w-full text-center">
@@ -158,9 +159,6 @@ const BidWidget = ({ auction, current_bid }: Props) => {
 
                       <Form.Submit>Place bid</Form.Submit>
                     </Form>
-                    {/* <Input className="mb-2 w-full rounded-lg border border-gray-100 p-2 text-center" placeholder="0" type="number" />
-                      <Input className="mb-2 w-full rounded-lg border border-gray-100 p-2" placeholder="Display name" type="text" />
-                      <Input className="mb-2 w-full rounded-lg border border-gray-100 p-2" placeholder="Email address" type="text" /> */}
                   </div>
                 </div>
               </>
@@ -173,10 +171,10 @@ const BidWidget = ({ auction, current_bid }: Props) => {
 }
 
 interface CountdownWidgetProps {
-  days?: string | number
-  hours?: string | number
-  minutes?: string | number
-  seconds?: string | number
+  days: string | number
+  hours: string | number
+  minutes: string | number
+  seconds: string | number
   completed?: boolean | number
 }
 
@@ -188,17 +186,19 @@ const countdownWidget = ({ days, hours, minutes, seconds, completed }: Countdown
       <section className="flex w-full flex-col items-center justify-center">
         <div className="flex w-full items-center justify-center">
           <ClockIcon className="h-5 w-5 text-dark-100" />
-          <p className="flex items-center">
-            <span className="gradient-text w-8 text-2xl font-semibold">{days}</span> <span className="text-sm text-dark-100">days</span>
+          <p className="ml-2 flex items-center">
+            <span className="gradient-text text-2xl font-semibold">{days}</span> <span className="ml-1 text-sm text-dark-100">days</span>
           </p>
-          <p className=" flex items-center">
-            <span className="gradient-text w-8 text-2xl font-semibold">{hours}</span> <span className=" text-sm text-dark-100">hours</span>
+          <p className="ml-2 flex items-center">
+            <span className="gradient-text text-2xl font-semibold">{hours}</span> <span className="ml-1 text-sm text-dark-100">hours</span>
           </p>
-          <p className="ml-1 flex items-center">
-            <span className="gradient-text w-8 text-2xl font-semibold">{minutes}</span> <span className=" text-sm text-dark-100">min</span>
+          <p className="ml-2 flex items-center">
+            <span className="gradient-text text-2xl font-semibold">{zeroPad(minutes)}</span>{' '}
+            <span className="ml-1 text-sm text-dark-100">min</span>
           </p>
-          <p className="ml-1 flex items-center">
-            <span className="gradient-text w-8 text-2xl font-semibold">{seconds}</span> <span className=" text-sm text-dark-100">sec</span>
+          <p className="ml-2 flex items-center">
+            <span className="gradient-text w-8 text-2xl font-semibold">{zeroPad(seconds)}</span>{' '}
+            <span className="ml-1 text-sm text-dark-100">sec</span>
           </p>
         </div>
       </section>
