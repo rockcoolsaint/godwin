@@ -3,6 +3,7 @@
 import { satoshisToBitcoin } from 'bitcoin-conversion'
 import { format, parseISO } from 'date-fns'
 import { BidsEntityOrCurrentBid } from 'src/api/auction/types'
+import { formatMoney } from 'src/utils/currency'
 
 interface Props {
   bids: BidsEntityOrCurrentBid[]
@@ -22,7 +23,7 @@ const AuctionBids = ({ bids }: Props) => {
                   <p className="text-sm font-medium text-dark-100/[.8]">{format(parseISO(bid.created_at), 'do MMMM, yyyy hh:mmaaa')}</p>
                 </div>
                 <div className="col-md-4">
-                  <h6 className="mb-1 text-xl font-bold capitalize">{bid.bid} sats</h6>
+                  <h6 className="mb-1 text-xl font-bold capitalize">{formatMoney(bid.bid)} sats</h6>
                   <p className="text-right text-sm font-medium text-dark-100/[.8]">{satoshisToBitcoin(bid.bid)} BTC</p>
                 </div>
               </div>
