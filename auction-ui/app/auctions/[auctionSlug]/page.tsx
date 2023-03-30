@@ -2,18 +2,24 @@
 
 import AuctionContainer from 'src/components/pages/auction/AuctionContainer'
 import ContentContainer from 'src/components/shared/ContentContainer'
-import { AuctionResponse, getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
+import { getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
 import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
 import { useEffect, useState } from 'react'
 
-import { Order } from 'src/types'
+import ws from 'src/lib/ws'
+import { Auction, Order } from 'src/types'
 import { Loader } from 'src/core'
 import { AuctionStatus } from 'src/api/auction/types'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
   const slug = params.auctionSlug
 
-  const [auction, setAuction] = useState<AuctionResponse | undefined>(undefined)
+  const [auction, setAuction] = useState<Auction | undefined>(undefined)
+  const [bids, setBids] = useState<any>(undefined)
+  const [currentBid, setCurrentBid] = useState<any>(undefined)
+  const [proxyBid, setProxyBid] = useState<any>(undefined)
+  const [winner, setWinner] = useState<any>(undefined)
+
   const [order, setOrder] = useState<Order | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -22,7 +28,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
       setLoading(true)
 
       try {
-        const auction = await getAuctionBySlug(slug)
+        const { auction, bids, current_bid, proxy_bid, winner } = await getAuctionBySlug(slug)
         if (!auction) {
           setLoading(false)
 
@@ -30,9 +36,13 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         }
 
         setAuction(auction)
+        setBids(bids)
+        setCurrentBid(current_bid)
+        setProxyBid(proxy_bid)
+        setWinner(winner)
 
-        if (auction.auction.status === AuctionStatus.Completed) {
-          const order = await getOrderByAuctionId(auction.auction.id)
+        if (auction.status === AuctionStatus.Completed) {
+          const order = await getOrderByAuctionId(auction.id)
           if (!order) {
             setLoading(false)
 
@@ -51,27 +61,29 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
   }, [slug])
 
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval>
-
-    if (slug) {
-      const poll = async () => {
-        const newAuction = await getAuctionBySlug(slug)
-
-        setAuction(newAuction)
-
-        if (newAuction.auction.status === AuctionStatus.Completed) {
-          const order = await getOrderByAuctionId(newAuction.auction.id)
-
-          setOrder(order)
-        }
-      }
-
-      poll()
-      setInterval(() => poll(), 1000)
+    const handleAuctionsUpdate = (auction: Auction) => {
+      setAuction(auction)
+      setCurrentBid(auction.current_bid)
     }
 
+    const handleBidsUpdate = (update: any) => {
+      setBids(update.bids)
+      setCurrentBid(update.proxy_bid)
+      setWinner(update.winner)
+    }
+
+    const prepare = async () => {
+      await ws.connect()
+
+      ws.subscribe(`auctions_${slug}`, handleAuctionsUpdate)
+      ws.subscribe(`bids_${slug}`, handleBidsUpdate)
+    }
+
+    prepare()
+
     return () => {
-      clearInterval(interval)
+      ws.unsubscribe(`auctions_${slug}`, handleAuctionsUpdate)
+      ws.unsubscribe(`bids_${slug}`, handleBidsUpdate)
     }
   }, [slug])
 
@@ -95,7 +107,15 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
   return (
     <ContentContainer className="py-5">
-      <AuctionContainer {...auction} order={order} slug={slug} />
+      <AuctionContainer
+        auction={auction}
+        bids={bids}
+        current_bid={currentBid}
+        proxy_bid={proxyBid}
+        winner={winner}
+        order={order}
+        slug={slug}
+      />
     </ContentContainer>
   )
 }

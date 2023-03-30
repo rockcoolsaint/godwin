@@ -14,6 +14,7 @@ import { Form, Input } from 'src/core'
 import { useState } from 'react'
 import { format, parseISO } from 'date-fns'
 import { useNotificationContext } from 'src/core/providers/NotificationProvider'
+import ws from 'src/lib/ws'
 
 interface Props {
   auction: Auction
@@ -79,6 +80,8 @@ const BidWidget = ({ auction, current_bid }: Props) => {
 
     try {
       await placeBid({ list_id: auction.id, bid_amnt: Number(bidAmount) }, token)
+
+      // ws.emit('place_bid', { auction_id: auction.id, amount: Number(bidAmount) })
 
       success({
         title: 'Bid placed',
