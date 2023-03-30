@@ -1,10 +1,15 @@
+/* eslint-disable no-console */
 class WS {
   socket: WebSocket | undefined
   subscriptions: { [key: string]: any }
+  callbacks: { [key: number]: any }
+  idc: number
 
   constructor() {
     this.socket = undefined
     this.subscriptions = {}
+    this.callbacks = {}
+    this.idc = 0
   }
 
   connect(): Promise<void> {
@@ -30,7 +35,7 @@ class WS {
 
   handleMessage(e: any) {
     try {
-      const { action, payload } = JSON.parse(e.data)
+      const { action, payload, request_id } = JSON.parse(e.data)
 
       switch (action) {
         case 'connect': {
@@ -49,8 +54,15 @@ class WS {
           break
         }
 
-        case 'place_bid_ack': {
-          console.log('bid placed')
+        case 'result': {
+          if (!this.callbacks.hasOwnProperty(request_id)) {
+            return
+          }
+
+          const cb = this.callbacks[request_id]
+          delete this.callbacks[request_id]
+
+          cb(payload)
           break
         }
       }
@@ -65,6 +77,8 @@ class WS {
     this.subscriptions[channel].push(handler)
 
     this.emit('subscribe', channel)
+
+    console.log(`[ws] subscribe ${channel}`)
   }
 
   unsubscribe(channel: string, handler: (update: any) => void) {
@@ -77,6 +91,8 @@ class WS {
     sc.splice(idx, 1)
 
     this.emit('unsubscribe', channel)
+
+    console.log(`[ws] unsubscribe ${channel}`)
   }
 
   emit(action: string, payload?: any) {
@@ -85,6 +101,23 @@ class WS {
     }
 
     this.socket.send(JSON.stringify({ action, payload }))
+  }
+
+  request(action: string, payload?: any) {
+    return new Promise((resolve, reject) => {
+      if (!this.socket) {
+        return reject('Invalid socket')
+      }
+
+      this.idc++
+      const requestId = this.idc
+
+      this.callbacks[requestId] = (payload: any) => {
+        resolve(payload)
+      }
+
+      this.socket.send(JSON.stringify({ action, payload, request_id: this.idc }))
+    })
   }
 }
 

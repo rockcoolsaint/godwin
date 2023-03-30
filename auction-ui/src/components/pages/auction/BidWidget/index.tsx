@@ -8,7 +8,6 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 import Countdown, { zeroPad } from 'react-countdown'
 import { Auction } from 'src/types'
 import { AuctionStatus, BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
-import { placeBid } from 'src/api/bids/placeBid'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Form, Input } from 'src/core'
 import { useState } from 'react'
@@ -79,9 +78,14 @@ const BidWidget = ({ auction, current_bid }: Props) => {
     setBidAmount('')
 
     try {
-      await placeBid({ list_id: auction.id, bid_amnt: Number(bidAmount) }, token)
+      const res: any = await ws.request('place_bid', {
+        auction_id: auction.id,
+        amount: Number(bidAmount),
+      })
 
-      // ws.emit('place_bid', { auction_id: auction.id, amount: Number(bidAmount) })
+      if (res.error) {
+        throw new Error(res.error)
+      }
 
       success({
         title: 'Bid placed',
