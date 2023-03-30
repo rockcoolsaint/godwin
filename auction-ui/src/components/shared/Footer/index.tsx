@@ -6,7 +6,7 @@ import TwitterSvg from 'src/assets/svg/twitter.svg'
 
 const Footer = () => {
   return (
-    <section className="px-6 md:px-40">
+    <section className="px-6 lg:px-40">
       <div>
         <div>
           <div className="mb-16 flex items-center justify-between border-t border-gray-300 pt-16">
