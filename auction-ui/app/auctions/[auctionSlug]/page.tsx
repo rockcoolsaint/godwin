@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 
 import { Auction, Order } from 'src/types'
 import { Loader } from 'src/core'
-import { AuctionStatus } from 'src/api/auction/types'
+import { AuctionStatus, BidsEntityOrCurrentBid } from 'src/api/auction/types'
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
@@ -19,7 +19,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
   const [auction, setAuction] = useState<Auction | undefined>(undefined)
   const [bids, setBids] = useState<any>(undefined)
   const [currentBid, setCurrentBid] = useState<any>(undefined)
-  const [proxyBid, setProxyBid] = useState<any>(undefined)
+  const [proxyBids, setProxyBids] = useState<any>(undefined)
   const [winner, setWinner] = useState<any>(undefined)
 
   const [order, setOrder] = useState<Order | undefined>(undefined)
@@ -30,7 +30,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
       setLoading(true)
 
       try {
-        const { auction, bids, current_bid, proxy_bid, winner } = await getAuctionBySlug(slug)
+        const { auction, bids, current_bid, proxy_bids, winner } = await getAuctionBySlug(slug)
         if (!auction) {
           setLoading(false)
 
@@ -39,8 +39,8 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
         setAuction(auction)
         setBids(bids)
+        setProxyBids(proxy_bids)
         setCurrentBid(current_bid)
-        setProxyBid(proxy_bid)
         setWinner(winner)
 
         if (auction.status === AuctionStatus.Completed) {
@@ -66,17 +66,29 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
     if (auction && isSocketReady) {
       const handleAuctionsUpdate = (update: any) => {
         setAuction({ ...auction, status: update })
-        // setAuction(newAuction)
-        // setCurrentBid(newAuction.current_bid)
       }
 
       const handleBidsUpdate = (update: any) => {
-        setBids(update.bids)
+        const newBids = [...bids, update].sort((a: BidsEntityOrCurrentBid, b: BidsEntityOrCurrentBid) => {
+          const ad = new Date(a.created_at)
+          const bd = new Date(b.created_at)
+
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          return bd - ad
+        })
+
+        setBids(newBids)
+      }
+
+      const handleCurrentBidUpdate = (update: any) => {
+        setCurrentBid(update)
       }
 
       const prepare = async () => {
         socket.subscribe(`auction_status_${auction.id}`, handleAuctionsUpdate)
         socket.subscribe(`bids_${auction.id}`, handleBidsUpdate)
+        socket.subscribe(`current_bid_${auction.id}`, handleCurrentBidUpdate)
       }
 
       prepare()
@@ -84,9 +96,10 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
       return () => {
         socket.unsubscribe(`auction_status_${auction.id}`, handleAuctionsUpdate)
         socket.unsubscribe(`bids_${auction.id}`, handleBidsUpdate)
+        socket.unsubscribe(`current_bid_${auction.id}`, handleCurrentBidUpdate)
       }
     }
-  }, [auction, auction?.id, socket, isSocketReady])
+  }, [auction, auction?.id, socket, isSocketReady, bids])
 
   if (loading) {
     return (
@@ -112,7 +125,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         auction={auction}
         bids={bids}
         current_bid={currentBid}
-        proxy_bid={proxyBid}
+        proxy_bids={proxyBids}
         winner={winner}
         order={order}
         slug={slug}

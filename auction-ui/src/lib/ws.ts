@@ -1,36 +1,42 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-console */
 class WS {
   socket: WebSocket | undefined
   subscriptions: { [key: string]: any }
   callbacks: { [key: number]: any }
+  onConnect: () => void
   idc: number
 
   constructor() {
     this.socket = undefined
     this.subscriptions = {}
     this.callbacks = {}
+    this.onConnect = () => {}
     this.idc = 0
   }
 
-  connect(): Promise<void> {
+  connect(accountId: number, token: string): Promise<void> {
     return new Promise((resolve, reject) => {
       this.socket = new WebSocket('ws://localhost:8000/ws/socket_server/')
       this.socket.onerror = reject
       this.socket.onopen = () => {
+        this.emit('authorize', { account_id: accountId, token })
         this.handleConnect()
-        resolve()
       }
       this.socket.onclose = this.handleDisconnect.bind(this)
       this.socket.onmessage = this.handleMessage.bind(this)
+      this.onConnect = () => {
+        resolve()
+      }
     })
   }
 
   handleConnect() {
-    // console.log('connected')
+    console.log('connected')
   }
 
   handleDisconnect() {
-    // console.log('disconnected')
+    console.log('disconnected')
   }
 
   handleMessage(e: any) {
@@ -38,8 +44,10 @@ class WS {
       const { action, payload, request_id } = JSON.parse(e.data)
 
       switch (action) {
-        case 'connect': {
-          // console.log('connected')
+        case 'authorized': {
+          console.log('[ws] authorized')
+          this.onConnect()
+          this.onConnect = () => {}
           break
         }
 

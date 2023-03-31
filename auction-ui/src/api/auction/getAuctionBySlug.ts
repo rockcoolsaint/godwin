@@ -8,7 +8,7 @@ export interface AuctionResponse {
   auction: Auction
   bids: Bid[]
   current_bid: Bid
-  proxy_bid: Bid[]
+  proxy_bids: Bid[]
   winner: Winner
 }
 

@@ -34,7 +34,7 @@ interface AuctionContainerProps {
   order?: Order
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid | null
-  proxy_bid: BidsEntityOrCurrentBid[]
+  proxy_bids: BidsEntityOrCurrentBid[]
   winner: Winner
   slug: string
 }
