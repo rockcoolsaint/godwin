@@ -19,7 +19,7 @@ class WS {
     return new Promise((resolve, reject) => {
       const url = process.env.NEXT_PUBLIC_APP_WS_SERVER_URL || undefined
       if (!url) {
-        return
+        return reject('No valid ws url provided.')
       }
 
       this.socket = new WebSocket(url)
