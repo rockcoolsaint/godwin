@@ -8,7 +8,9 @@ interface Props {
 }
 
 const FeaturedAuctions = ({ auctions }: Props) => {
-  if (!auctions.length) return <Container>Could not load auctions</Container>
+  if (!auctions || !auctions.length) {
+    return <Container>Could not load auctions</Container>
+  }
 
   return (
     <section className="flex w-full flex-col items-center justify-center px-5 py-40 md:px-0">
