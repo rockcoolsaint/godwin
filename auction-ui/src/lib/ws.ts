@@ -17,7 +17,7 @@ class WS {
 
   connect(accountId: number, token: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.socket = new WebSocket('ws://localhost:8000/ws/socket_server/')
+      this.socket = new WebSocket(`${process.env.NEXT_PUBLIC_APP_WS_SERVER_URL}/ws/socket_server/`)
       this.socket.onerror = reject
       this.socket.onopen = () => {
         this.emit('authorize', { account_id: accountId, token })
