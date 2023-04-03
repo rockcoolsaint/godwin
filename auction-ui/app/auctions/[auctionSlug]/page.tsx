@@ -2,18 +2,26 @@
 
 import AuctionContainer from 'src/components/pages/auction/AuctionContainer'
 import ContentContainer from 'src/components/shared/ContentContainer'
-import { AuctionResponse, getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
+import { getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
 import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
 import { useEffect, useState } from 'react'
 
-import { Order } from 'src/types'
+import { Auction, Order } from 'src/types'
 import { Loader } from 'src/core'
-import { AuctionStatus } from 'src/api/auction/types'
+import { AuctionStatus, BidsEntityOrCurrentBid } from 'src/api/auction/types'
+import { useWebsocketContext } from 'src/providers/WebsocketProvider'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
   const slug = params.auctionSlug
 
-  const [auction, setAuction] = useState<AuctionResponse | undefined>(undefined)
+  const { socket, isSocketReady } = useWebsocketContext()
+
+  const [auction, setAuction] = useState<Auction | undefined>(undefined)
+  const [bids, setBids] = useState<any>(undefined)
+  const [currentBid, setCurrentBid] = useState<any>(undefined)
+  const [proxyBids, setProxyBids] = useState<any>(undefined)
+  const [winner, setWinner] = useState<any>(undefined)
+
   const [order, setOrder] = useState<Order | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -22,7 +30,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
       setLoading(true)
 
       try {
-        const auction = await getAuctionBySlug(slug)
+        const { auction, bids, current_bid, proxy_bids, winner } = await getAuctionBySlug(slug)
         if (!auction) {
           setLoading(false)
 
@@ -30,9 +38,13 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         }
 
         setAuction(auction)
+        setBids(bids)
+        setProxyBids(proxy_bids)
+        setCurrentBid(current_bid)
+        setWinner(winner)
 
-        if (auction.auction.status === AuctionStatus.Completed) {
-          const order = await getOrderByAuctionId(auction.auction.id)
+        if (auction.status === AuctionStatus.Completed) {
+          const order = await getOrderByAuctionId(auction.id)
           if (!order) {
             setLoading(false)
 
@@ -51,29 +63,43 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
   }, [slug])
 
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval>
-
-    if (slug) {
-      const poll = async () => {
-        const newAuction = await getAuctionBySlug(slug)
-
-        setAuction(newAuction)
-
-        if (newAuction.auction.status === AuctionStatus.Completed) {
-          const order = await getOrderByAuctionId(newAuction.auction.id)
-
-          setOrder(order)
-        }
+    if (auction && isSocketReady) {
+      const handleAuctionsUpdate = (update: any) => {
+        setAuction({ ...auction, status: update })
       }
 
-      poll()
-      setInterval(() => poll(), 1000)
-    }
+      const handleBidsUpdate = (update: any) => {
+        const newBids = [...bids, update].sort((a: BidsEntityOrCurrentBid, b: BidsEntityOrCurrentBid) => {
+          const ad = new Date(a.created_at)
+          const bd = new Date(b.created_at)
 
-    return () => {
-      clearInterval(interval)
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          return bd - ad
+        })
+
+        setBids(newBids)
+      }
+
+      const handleCurrentBidUpdate = (update: any) => {
+        setCurrentBid(update)
+      }
+
+      const prepare = async () => {
+        socket.subscribe(`auction_status_${auction.id}`, handleAuctionsUpdate)
+        socket.subscribe(`bids_${auction.id}`, handleBidsUpdate)
+        socket.subscribe(`current_bid_${auction.id}`, handleCurrentBidUpdate)
+      }
+
+      prepare()
+
+      return () => {
+        socket.unsubscribe(`auction_status_${auction.id}`, handleAuctionsUpdate)
+        socket.unsubscribe(`bids_${auction.id}`, handleBidsUpdate)
+        socket.unsubscribe(`current_bid_${auction.id}`, handleCurrentBidUpdate)
+      }
     }
-  }, [slug])
+  }, [auction, auction?.id, socket, isSocketReady, bids])
 
   if (loading) {
     return (
@@ -95,7 +121,15 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
   return (
     <ContentContainer className="py-5">
-      <AuctionContainer {...auction} order={order} slug={slug} />
+      <AuctionContainer
+        auction={auction}
+        bids={bids}
+        current_bid={currentBid}
+        proxy_bids={proxyBids}
+        winner={winner}
+        order={order}
+        slug={slug}
+      />
     </ContentContainer>
   )
 }

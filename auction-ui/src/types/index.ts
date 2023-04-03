@@ -95,6 +95,7 @@ export interface Auction {
   payment_address: string
   payment_address_qr: string
   auction_meta: AuctionMeta
+  current_bid?: number
 }
 
 export interface Account {
@@ -114,4 +115,13 @@ export interface Account {
   mining_pool_username?: string
   referral_code: string
   onboarding_complete: boolean
+}
+
+export interface Bid {
+  id: number
+  auction: number
+  user: Account
+  bid: number
+  created_at: string
+  updated_at: string
 }

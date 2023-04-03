@@ -8,12 +8,12 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 import Countdown, { zeroPad } from 'react-countdown'
 import { Auction } from 'src/types'
 import { AuctionStatus, BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
-import { placeBid } from 'src/api/bids/placeBid'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Form, Input } from 'src/core'
 import { useState } from 'react'
 import { format, parseISO } from 'date-fns'
 import { useNotificationContext } from 'src/core/providers/NotificationProvider'
+import ws from 'src/lib/ws'
 
 interface Props {
   auction: Auction
@@ -78,13 +78,21 @@ const BidWidget = ({ auction, current_bid }: Props) => {
     setBidAmount('')
 
     try {
-      await placeBid({ list_id: auction.id, bid_amnt: Number(bidAmount) }, token)
+      const res: any = await ws.request('place_bid', {
+        auction_id: auction.id,
+        amount: Number(bidAmount),
+      })
+
+      if (res.error) {
+        throw new Error(res.error)
+      }
 
       success({
         title: 'Bid placed',
         content: 'Your bid has been placed.',
       })
     } catch (ex: any) {
+      console.error(ex)
       error({
         title: 'Error',
         content: ex.message,
@@ -105,15 +113,15 @@ const BidWidget = ({ auction, current_bid }: Props) => {
       </p>
       {auction.status === AuctionStatus.Scheduled && (
         <div className="mb-4 flex flex-col items-center gap-2">
-          <span className="text-orange-400">Auction has not started</span>
           <span className="text-sm text-dark-100">Starting in:</span>
         </div>
       )}
       <Countdown
+        key={auction.status}
         className="bg-red-200"
         date={auction.status === AuctionStatus.Scheduled ? new Date(auction.start_at) : new Date(auction.end_at)}
         zeroPadTime={2}
-        renderer={countdownWidget}
+        renderer={countdownProps => countdownWidget(countdownProps, auction)}
       />
       <div className="w-2/4 text-center lg:w-full">
         {auction.status === AuctionStatus.Active && (
@@ -178,8 +186,12 @@ interface CountdownWidgetProps {
   completed?: boolean | number
 }
 
-const countdownWidget = ({ days, hours, minutes, seconds, completed }: CountdownWidgetProps): JSX.Element => {
+const countdownWidget = ({ days, hours, minutes, seconds, completed }: CountdownWidgetProps, auction: Auction): JSX.Element => {
   if (completed) {
+    if (auction.status === AuctionStatus.Scheduled) {
+      return <></>
+    }
+
     return <span className="text-center text-red-400">Auction ended</span>
   } else {
     return (
