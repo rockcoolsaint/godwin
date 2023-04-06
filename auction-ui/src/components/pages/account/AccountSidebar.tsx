@@ -7,6 +7,7 @@ import Icon from 'src/core/components/Icon'
 
 const pages = [
   { label: 'Account', path: '/account', icon: 'user' },
+  { label: 'Hashrate', path: '/account/hashrate', icon: 'helmetSafety' },
   { label: 'Orders', path: '/account/orders', icon: 'cart' },
 ]
 
