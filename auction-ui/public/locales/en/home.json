@@ -11,6 +11,7 @@
   "bid_closed": "Bidding closed for this auction",
   "bid_open": "Bidding open for this auction",
   "current_bid": "Current bid",
+  "winning_bid": "Winning bid",
   "place_bid": "Place a bid",
   "number_of_bids": "No. of bids",
   "testimonials": "Testimonials",
@@ -26,5 +27,8 @@
   "days_of_mining": "Days of mining",
   "location": "location",
   "hashrate": "hashrate",
-  "name": "name"
+  "name": "name",
+  "auction_ended": "Auction ended",
+  "no_bids": "No bids have been placed",
+  "auction_scheduled": "Auction starting in <span></span>"
 }

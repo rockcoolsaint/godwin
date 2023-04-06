@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { Auction } from 'src/api/auction/types'
+import { Auction, AuctionStatus } from 'src/api/auction/types'
 import Link from 'src/components/shared/Link'
 import SatsSvg from 'src/assets/svg/sats.svg'
 import { useTranslation } from 'src/hooks'
@@ -45,17 +45,41 @@ const AuctionCard = ({ auction }: ProductProps) => {
           </div>
         </div>
       </div>
-      <div className="mt-5 flex items-center justify-between border-t border-[#EBEFF0] p-5">
-        <div>
-          <h4 className="text-sm font-medium text-dark-100">{t('home.current_bid')}</h4>
-          <h3 className="flex items-center text-base">
-            {formatMoney(auction.current_bid)} <SatsSvg className="ml-1" />
-          </h3>
+      {auction.status !== AuctionStatus.Scheduled && (
+        <div className="mt-5 flex items-center justify-between border-t border-[#EBEFF0] p-5">
+          {auction.status === AuctionStatus.Active && (
+            <>
+              <div>
+                <span className="text-sm font-medium text-dark-100">{t('home.current_bid')}</span>
+                <span className="flex items-center text-base">
+                  {formatMoney(auction.current_bid)} <SatsSvg className="ml-1" />
+                </span>
+              </div>
+              <span className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
+                <span className="text-base font-medium">{t('home.place_bid')}</span>
+              </span>
+            </>
+          )}
+          {auction.status === AuctionStatus.Completed && (
+            <>
+              {auction.bid_count > 0 && (
+                <div>
+                  <span className="text-sm font-medium text-red-500">{t('home.auction_ended')}</span>
+                  <span className="flex items-center text-sm">
+                    {t('home.winning_bid')}: {formatMoney(auction.current_bid)} <SatsSvg className="ml-1" />
+                  </span>
+                </div>
+              )}
+              {auction.bid_count === 0 && (
+                <div>
+                  <span className="text-sm font-medium text-red-500">{t('home.auction_ended')}</span>
+                  <span className="flex items-center text-sm">{t('home.no_bids')}</span>
+                </div>
+              )}
+            </>
+          )}
         </div>
-        <span className="rounded-xl bg-gradient px-8 py-3 text-white hover:bg-gradient-hover">
-          <span className="text-base font-medium">{t('home.place_bid')}</span>
-        </span>
-      </div>
+      )}
     </Link>
   )
 }
