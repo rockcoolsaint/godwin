@@ -121,9 +121,11 @@ export interface Account {
 
 export interface Bid {
   id: number
-  auction: number
   user: Account
+  auction: number
   bid: number
   created_at: string
   updated_at: string
+  deleted: boolean
+  version: string
 }
