@@ -1,3 +1,5 @@
+import { Bid } from 'src/types'
+
 export interface Auction {
   id: number
   auction_meta: AuctionMeta
@@ -58,22 +60,12 @@ export interface HomePageDataResponse {
 
 export interface AuctionOfTheDayResponse {
   auction: Auction
-  bids?: BidsEntityOrCurrentBid[] | null
-  current_bid: BidsEntityOrCurrentBid
+  bids?: Bid[] | null
+  current_bid: Bid
   proxy_bid?: null[] | null
   winner: Winner
 }
 
-export interface BidsEntityOrCurrentBid {
-  id: number
-  user: User
-  created_at: string
-  updated_at: string
-  deleted: boolean
-  version: string
-  bid: number
-  auction_list: number
-}
 export interface User {
   id: number
   first_name: string
