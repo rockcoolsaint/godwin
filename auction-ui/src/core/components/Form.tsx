@@ -32,7 +32,7 @@ function Form({
           return null
         }
 
-        return React.cloneElement(Child as ReactElement, { formDisabled: disabled })
+        return React.cloneElement(Child as ReactElement, { disabled: disabled })
       })}
     </form>
   )
@@ -86,7 +86,7 @@ function Label({
   required?: boolean
 }) {
   return (
-    <label htmlFor={htmlFor} className={clsx('flex justify-start gap-1 text-xs text-gray-500', className)}>
+    <label htmlFor={htmlFor} className={clsx('flex justify-start gap-1 text-sm text-gray-500', className)}>
       {children}
       {required && <span className="text-red-500">*</span>}
       {!required && <span className="">(Optional)</span>}
@@ -94,9 +94,9 @@ function Label({
   )
 }
 
-function Submit({ children, className, formDisabled }: { children: React.ReactNode; className?: string; formDisabled?: boolean }) {
+function Submit({ children, className, disabled }: { children: React.ReactNode; className?: string; disabled?: boolean }) {
   return (
-    <Button className={clsx(className, { 'bg-gray-300': formDisabled })} type="submit" disabled={formDisabled}>
+    <Button className={clsx(className, { 'bg-gray-300': disabled })} type="submit" disabled={disabled}>
       {children}
     </Button>
   )

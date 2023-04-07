@@ -12,7 +12,7 @@ enum LoginView {
   EmailSent = 1,
 }
 
-export default function Login() {
+export default function Login({ searchParams }: { searchParams: { return_url?: string } }) {
   const { login } = useAccountContext()
   const [loading, setLoading] = useState<boolean>(false)
   const [email, setEmail] = useState<string | undefined>(undefined)
@@ -21,7 +21,7 @@ export default function Login() {
   const handleSubmit = async (data: any) => {
     setLoading(true)
     try {
-      const loginSuccess = await login(data.email)
+      const loginSuccess = await login(data.email, searchParams?.return_url)
 
       if (loginSuccess) {
         setEmail(data.email)
