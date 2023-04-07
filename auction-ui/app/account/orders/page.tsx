@@ -61,51 +61,47 @@ function Orders() {
         </div>
       )}
       {!loading && (
-        <>
-          {orders.length > 0 && (
-            <Table
-              data={orders}
-              cols={[
-                { title: 'Auction', name: 'auction' },
-                { title: 'Payment status', name: 'payment_status' },
-                { title: 'Actions', name: 'actions', align: 'right' },
-              ]}
-              row={(order, col) => {
-                switch (col) {
-                  case 'auction': {
-                    return (
-                      <Link href={`/auctions/${order.auction.slug}`} className="group flex items-center justify-start gap-4 py-1">
-                        <div className="h-10 w-10 rounded-lg bg-gray-300">
-                          {order.auction.auction_meta.site_photo && (
-                            <Image src={order.auction.auction_meta.site_photo} alt={order.auction.title} />
-                          )}
-                        </div>
-                        <span className="group-hover:text-primary">{order.auction.title}</span>
+        <Table
+          data={orders}
+          cols={[
+            { title: 'Auction', name: 'auction' },
+            { title: 'Payment status', name: 'payment_status' },
+            { title: 'Actions', name: 'actions', align: 'right' },
+          ]}
+          row={(order, col) => {
+            switch (col) {
+              case 'auction': {
+                return (
+                  <Link href={`/auctions/${order.auction.slug}`} className="group flex items-center justify-start gap-4 py-1">
+                    <div className="h-10 w-10 rounded-lg bg-gray-300">
+                      {order.auction.auction_meta.site_photo && (
+                        <Image src={order.auction.auction_meta.site_photo} alt={order.auction.title} />
+                      )}
+                    </div>
+                    <span className="group-hover:text-primary">{order.auction.title}</span>
+                  </Link>
+                )
+              }
+              case 'payment_status': {
+                return <>{formatOrderStatus(order.status)}</>
+              }
+              case 'actions': {
+                return (
+                  <div className="flex h-full items-center justify-end">
+                    {order.status !== OrderStatus.PaymentTwoComplete ? (
+                      <Link href={`/checkout/${order.id}`} className="text-sm text-blue-500 hover:text-blue-700">
+                        Pay
                       </Link>
-                    )
-                  }
-                  case 'payment_status': {
-                    return <>{formatOrderStatus(order.status)}</>
-                  }
-                  case 'actions': {
-                    return (
-                      <div className="flex h-full items-center justify-end">
-                        {order.status !== OrderStatus.PaymentTwoComplete ? (
-                          <Link href={`/checkout/${order.id}`} className="text-sm text-blue-500 hover:text-blue-700">
-                            Pay
-                          </Link>
-                        ) : (
-                          <span className="text-sm text-gray-500">-</span>
-                        )}
-                      </div>
-                    )
-                  }
-                }
-              }}
-              empty={() => <span className="text-sm text-gray-500">No orders found</span>}
-            />
-          )}
-        </>
+                    ) : (
+                      <span className="text-sm text-gray-500">-</span>
+                    )}
+                  </div>
+                )
+              }
+            }
+          }}
+          empty={() => <span className="text-sm text-gray-500">No orders found</span>}
+        />
       )}
     </AccountView>
   )

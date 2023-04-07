@@ -100,7 +100,7 @@ function Hashrate() {
               }
             }
           }}
-          empty={() => <span className="text-sm text-gray-500">No orders found</span>}
+          empty={() => <span className="text-sm text-gray-500">No auctions found</span>}
         />
       )}
     </AccountView>

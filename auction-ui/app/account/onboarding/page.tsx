@@ -3,53 +3,56 @@
 
 import { useRouter } from 'next/navigation'
 
-import { Container, Form, Input, Loader } from 'src/core'
+import { Form, Input, Loader } from 'src/core'
 import { updateAccount } from 'src/api/auth/updateAccount'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import protect from 'src/hoc/protect'
+import ContentContainer from 'src/components/shared/ContentContainer'
 
-export default function Onboard() {
-  const { account, token, isLoading } = useAccountContext()
+function Onboard() {
+  const { account, token, isLoading: isAccountLoading } = useAccountContext()
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleSubmit = async (data: object) => {
     if (token) {
-      // TODO: Validate whether data satisfies requirements to complete onboarding.
-      const success = await updateAccount({ ...data, onboarding_complete: true }, token)
-      if (success) {
-        router.push('/')
+      setIsLoading(true)
+      try {
+        // TODO: Validate whether data satisfies requirements to complete onboarding.
+        const success = await updateAccount({ ...data, is_onboarded: true }, token)
+
+        if (success) {
+          router.push('/')
+        }
+      } catch (ex) {
+        console.error(ex)
+      } finally {
+        setIsLoading(false)
       }
     }
   }
 
   useEffect(() => {
-    if (!isLoading && account && account.is_onboarded) {
+    if (!isAccountLoading && account && account.is_onboarded) {
       router.push('/')
     }
-  }, [isLoading, account, router])
+  }, [isAccountLoading, account, router])
 
-  if (isLoading || (account && account.is_onboarded)) {
+  if (isAccountLoading || !account || (account && account.is_onboarded)) {
     return (
-      <Container>
+      <ContentContainer>
         <div className="itemc-center flex justify-center">
           <Loader />
         </div>
-      </Container>
-    )
-  }
-
-  if (!account) {
-    return (
-      <Container>
-        <div className="itemc-center flex justify-center">Unauthorized</div>
-      </Container>
+      </ContentContainer>
     )
   }
 
   return (
-    <Container>
+    <ContentContainer>
       <h1>Complete your account</h1>
-      <Form className="mt-8 gap-8" onSubmit={handleSubmit}>
+      <Form className="mt-8 gap-8" onSubmit={handleSubmit} disabled={isLoading}>
         <Form.Field>
           <Form.Field.Label htmlFor="username">Username</Form.Field.Label>
           <Input type="text" name="username" defaultValue={account.username} />
@@ -69,6 +72,8 @@ export default function Onboard() {
 
         <Form.Submit>Continue &rarr;</Form.Submit>
       </Form>
-    </Container>
+    </ContentContainer>
   )
 }
+
+export default protect(Onboard)

@@ -12,13 +12,13 @@ interface AccountContextType {
   account?: Account
   token?: string
   isLoading: boolean
-  login: (email: string) => Promise<boolean>
+  login: (email: string, returnUrl?: string) => Promise<boolean>
   logout: () => void
 }
 
 const AccountContext = React.createContext<AccountContextType>({
   isLoading: true,
-  login: (_: string) => Promise.resolve(false),
+  login: (_email: string, _returnUrl?: string) => Promise.resolve(false),
   logout: () => {},
 })
 
@@ -32,8 +32,8 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  const login = async (email: string) => {
-    return doLogin(email)
+  const login = async (email: string, returnUrl?: string) => {
+    return doLogin(email, returnUrl)
   }
 
   const logout = () => {
@@ -61,6 +61,10 @@ export default function AccountProvider({ children }: { children: React.ReactNod
 
           const account = await getAccount(token)
           setAccount(account)
+
+          if (params.return_url) {
+            return router.replace(`/${params.return_url}`)
+          }
 
           // window.history.pushState({}, document.title, window.location.pathname)
           router.replace('/')
@@ -95,7 +99,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
       }
       authorize()
     }
-  }, [pathName])
+  }, [pathName, router])
 
   return <AccountContext.Provider value={{ account, token, isLoading, login, logout }}>{children}</AccountContext.Provider>
 }

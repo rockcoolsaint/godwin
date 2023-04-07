@@ -7,6 +7,7 @@ import Footer from 'src/components/shared/Footer'
 import AccountProvider from 'src/providers/AccountProvider'
 import NotificationProvider from 'src/core/providers/NotificationProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
+import Root from 'src/components/Root'
 
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
@@ -19,11 +20,13 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
         <NotificationProvider>
           <AccountProvider>
             <WebsocketProvider>
-              <section className="flex h-screen w-screen flex-col justify-between">
-                <Header />
-                <div className="mb-auto grow bg-white">{children}</div>
-                <Footer />
-              </section>
+              <Root>
+                <section className="flex h-screen w-screen flex-col justify-between">
+                  <Header />
+                  <div className="mb-auto grow bg-white">{children}</div>
+                  <Footer />
+                </section>
+              </Root>
             </WebsocketProvider>
           </AccountProvider>
         </NotificationProvider>
