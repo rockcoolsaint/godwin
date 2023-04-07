@@ -4,7 +4,7 @@ import 'react-medium-image-zoom/dist/styles.css'
 import { PropsWithChildren } from 'react'
 import Header from 'src/components/shared/Header'
 import Footer from 'src/components/shared/Footer'
-import AuthProvider from 'src/providers/AuthProvider'
+import AccountProvider from 'src/providers/AccountProvider'
 import NotificationProvider from 'src/core/providers/NotificationProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
 
@@ -17,15 +17,15 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
       </head>
       <body>
         <NotificationProvider>
-          <AuthProvider>
+          <AccountProvider>
             <WebsocketProvider>
               <section className="flex h-screen w-screen flex-col justify-between">
                 <Header />
-                <div className="mb-auto bg-white">{children}</div>
+                <div className="mb-auto grow bg-white">{children}</div>
                 <Footer />
               </section>
             </WebsocketProvider>
-          </AuthProvider>
+          </AccountProvider>
         </NotificationProvider>
       </body>
     </html>

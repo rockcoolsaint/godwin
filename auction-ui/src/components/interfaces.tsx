@@ -67,7 +67,7 @@ export interface productProfileProps {
     payment_address_qr: string
 
     slug_category: string
-    user: number | string
+    account: number | string
     category: number | string
     key?: number | string
   }
@@ -115,12 +115,12 @@ export interface productProps {
   payment_address_qr: string
 
   slug_category: string
-  user: number | string
+  account: number | string
   category: number | string
   key?: number | string
 }
 
-export interface userProps {
+export interface accountProps {
   id?: number | string
   first_name?: string
   email?: string
@@ -138,7 +138,7 @@ export interface userProps {
 
 export interface bidProps {
   id: number | string
-  user: userProps
+  account: accountProps
   created_at: string | Date
   updated_at: string | Date
   deleted?: boolean | string
@@ -161,7 +161,7 @@ export interface collectionProps {
 
 export interface winnerProps {
   id: number | string
-  user: userProps
+  account: accountProps
   created_at: string
   updated_at: string
   deleted: boolean

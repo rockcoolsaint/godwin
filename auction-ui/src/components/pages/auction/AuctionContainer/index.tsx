@@ -14,7 +14,7 @@ import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
 import ContentContainer from 'src/components/shared/ContentContainer'
 import BidWidget from 'src/components/pages/auction/BidWidget'
 import { Button, Loader } from 'src/core'
-import { Auction, Order } from 'src/types'
+import { Auction, Order, OrderStatus } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
 function classNames(...classes: string[]) {
@@ -23,9 +23,9 @@ function classNames(...classes: string[]) {
 
 function handleSelect({ selected }: { selected: boolean }) {
   return clsx(
-    'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark-100',
+    'text-dark-100 w-full rounded-lg py-2.5 text-sm font-medium leading-5',
     ' ring-offset-blue-400 ',
-    selected ? 'bg-gradient !text-white' : 'text-dark-100 hover:bg-white/[0.52] hover:text-dark-100',
+    selected ? 'bg-gradient !text-white' : 'text-dark-100 hover:text-dark-100 hover:bg-white/[0.52]',
   )
 }
 
@@ -40,7 +40,7 @@ interface AuctionContainerProps {
 }
 
 export default function AuctionContainer({ auction, order, bids, current_bid }: AuctionContainerProps) {
-  const { account, loading } = useAccountContext()
+  const { account, isLoading } = useAccountContext()
 
   const categories = {
     Bids: [
@@ -81,7 +81,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
     ],
   }
 
-  if (loading) {
+  if (isLoading) {
     return (
       <ContentContainer>
         <div className="flex items-center justify-center">
@@ -135,7 +135,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
         <div className="ml-4 mt-4 flex flex-col lg:mt-0 lg:w-[25%]">
           <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
 
-          {order && account && order.user_id === account.id && (
+          {order && account && order.account_id === account.id && order.status !== OrderStatus.PaymentTwoComplete && (
             <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">
               <Button>Checkout</Button>
             </a>

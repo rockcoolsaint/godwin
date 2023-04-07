@@ -6,11 +6,12 @@ import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
 import { Button, Loader, Input, formatAuctionType, Container } from 'src/core'
-import { useAccount, usePayments } from 'src/hooks'
+import { usePayments } from 'src/hooks'
+import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order, OrderStatus, PaymentStatus } from 'src/types'
 
 function PaymentOne({ order }: { order: Order }) {
-  const { token, loading: tokenLoading } = useAccount()
+  const { token, isLoading: tokenLoading } = useAccountContext()
   const [currentOrder, setCurrentOrder] = useState(order)
   const [promoCode, setPromoCode] = useState('')
   const [loading, setLoading] = useState(true)

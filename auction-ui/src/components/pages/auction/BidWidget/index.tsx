@@ -25,7 +25,7 @@ interface Props {
 }
 
 const BidWidget = ({ auction, current_bid }: Props) => {
-  const { loading, token } = useAccountContext()
+  const { isLoading, token } = useAccountContext()
   const { success, error } = useNotificationContext()
 
   const [bidAmount, setBidAmount] = useState<string>('')
@@ -140,9 +140,9 @@ const BidWidget = ({ auction, current_bid }: Props) => {
               </div>
             )}
 
-            {!loading && !token && <p className="mt-8 text-red-500">You need to be logged in to place a bid</p>}
+            {!isLoading && !token && <p className="mt-8 text-red-500">You need to be logged in to place a bid</p>}
 
-            {!loading && token && (
+            {!isLoading && token && (
               <>
                 <div className="mt-5 w-full">
                   <p className="text-base font-semibold text-dark-100">Enter your bid</p>

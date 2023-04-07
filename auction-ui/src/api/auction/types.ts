@@ -19,7 +19,7 @@ export interface Auction {
   slug: string
   payment_address: string
   payment_address_qr: string
-  user: number
+  account: number
   category: number
 }
 
@@ -66,7 +66,7 @@ export interface AuctionOfTheDayResponse {
 
 export interface BidsEntityOrCurrentBid {
   id: number
-  user: User
+  account: Account
   created_at: string
   updated_at: string
   deleted: boolean
@@ -74,31 +74,31 @@ export interface BidsEntityOrCurrentBid {
   bid: number
   auction_list: number
 }
-export interface User {
+export interface Account {
   id: number
-  first_name: string
-  uploaded_profile: string
-  date_joined: string
-  bidding_name: string
-  email: string
   username: string
-  last_name: string
+  first_name?: string
+  last_name?: string
+  email: string
+  is_staff: boolean
+  is_verified: boolean
   is_paid: boolean
-  is_coupon_used: boolean
-  coupon?: null
-  profile_pik: string
-  phone_number?: null
-  address: string
-  newsletter_subscribe: boolean
-  telegram_username?: null
-  mining_pool_stratum_address: string
-  mining_pool_username?: null
-  refer_code: string
-  referral_code?: null
+  is_onboarded: boolean
+  is_subscribed: boolean
+  avatar?: string
+  referral_code?: string
+  mining_pool_address?: string
+  mining_pool_username?: string
+  phone_number?: string
+  address?: string
+  telegram_username?: string
+  created_at: string
+  updated_at: string
 }
+
 export interface Winner {
   id: number
-  user: User
+  account: Account
   created_at: string
   updated_at: string
   deleted: boolean
