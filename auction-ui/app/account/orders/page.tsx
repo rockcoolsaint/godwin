@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -7,8 +8,9 @@ import AccountView from 'src/components/pages/account/AccountView'
 import Link from 'src/components/shared/Link'
 import { getOrders } from 'src/api/account/getOrders'
 import { Order, OrderStatus } from 'src/types'
-import { Loader } from 'src/core'
+import { Loader, Table } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import protect from 'src/hoc/protect'
 
 function formatOrderStatus(status: string) {
   switch (status) {
@@ -23,7 +25,7 @@ function formatOrderStatus(status: string) {
   }
 }
 
-export default function Orders() {
+function Orders() {
   const { token } = useAccountContext()
 
   const [loading, setLoading] = useState<boolean>(true)
@@ -61,64 +63,52 @@ export default function Orders() {
       {!loading && (
         <>
           {orders.length > 0 && (
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-300">
-                  <th className="py-4 pl-4 text-left text-sm">Auction</th>
-                  <th className="py-4 text-left text-sm">Payment status</th>
-                  <th className="py-4 pr-4 text-right text-sm">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order, i) => {
-                  return (
-                    <tr key={i} className="border-b border-gray-300">
-                      <td className="pl-2 text-left text-sm">
-                        <Link href={`/auctions/${order.auction.slug}`} className="group flex items-center justify-start gap-4 py-1">
-                          <div className="h-10 w-10 rounded-lg bg-gray-300">
-                            {order.auction.auction_meta.site_photo && (
-                              <Image src={order.auction.auction_meta.site_photo} alt={order.auction.title} />
-                            )}
-                          </div>
-                          <span className="group-hover:text-primary">{order.auction.title}</span>
-                        </Link>
-                      </td>
-                      <td className="text-left text-sm">{formatOrderStatus(order.status)}</td>
-                      <td className="pr-4 text-right">
-                        <div className="flex h-full items-center justify-end">
-                          {order.status !== OrderStatus.PaymentTwoComplete ? (
-                            <Link href={`/checkout/${order.id}`} className="text-sm text-blue-500 hover:text-blue-700">
-                              Pay
-                            </Link>
-                          ) : (
-                            <span className="text-sm text-gray-500">-</span>
+            <Table
+              data={orders}
+              cols={[
+                { title: 'Auction', name: 'auction' },
+                { title: 'Payment status', name: 'payment_status' },
+                { title: 'Actions', name: 'actions', align: 'right' },
+              ]}
+              row={(order, col) => {
+                switch (col) {
+                  case 'auction': {
+                    return (
+                      <Link href={`/auctions/${order.auction.slug}`} className="group flex items-center justify-start gap-4 py-1">
+                        <div className="h-10 w-10 rounded-lg bg-gray-300">
+                          {order.auction.auction_meta.site_photo && (
+                            <Image src={order.auction.auction_meta.site_photo} alt={order.auction.title} />
                           )}
                         </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          )}
-          {orders.length === 0 && (
-            <>
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-gray-300">
-                    <th className="py-4 pl-4 text-left text-sm">Auction</th>
-                    <th className="py-4 text-left text-sm">Payment status</th>
-                    <th className="py-4 pr-4 text-right text-sm">Actions</th>
-                  </tr>
-                </thead>
-              </table>
-              <div className="flex h-[10vh] items-center justify-center">
-                <span className="text-sm text-gray-500">No orders found</span>
-              </div>
-            </>
+                        <span className="group-hover:text-primary">{order.auction.title}</span>
+                      </Link>
+                    )
+                  }
+                  case 'payment_status': {
+                    return <>{formatOrderStatus(order.status)}</>
+                  }
+                  case 'actions': {
+                    return (
+                      <div className="flex h-full items-center justify-end">
+                        {order.status !== OrderStatus.PaymentTwoComplete ? (
+                          <Link href={`/checkout/${order.id}`} className="text-sm text-blue-500 hover:text-blue-700">
+                            Pay
+                          </Link>
+                        ) : (
+                          <span className="text-sm text-gray-500">-</span>
+                        )}
+                      </div>
+                    )
+                  }
+                }
+              }}
+              empty={() => <span className="text-sm text-gray-500">No orders found</span>}
+            />
           )}
         </>
       )}
     </AccountView>
   )
 }
+
+export default protect(Orders)

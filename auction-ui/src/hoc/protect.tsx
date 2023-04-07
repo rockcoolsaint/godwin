@@ -2,11 +2,12 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
+import ContentContainer from 'src/components/shared/ContentContainer'
 import Link from 'src/components/shared/Link'
-import { Button, Container, Loader } from 'src/core'
+import { Button, Loader } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
-export const protectedRoutes = ['/checkout']
+export const protectedRoutes = ['/checkout', '/account', '/account/hashrate', '/account/orders']
 
 const isRouteProtected = (pathName: string): boolean => {
   return protectedRoutes.some(route => pathName.startsWith(route))
@@ -24,25 +25,21 @@ export default function protect(Component: any) {
 
     if (isLoading) {
       return (
-        <Container>
-          <div className="flex items-center justify-center">
-            <Loader />
-          </div>
-        </Container>
+        <ContentContainer className="flex h-full items-center justify-center">
+          <Loader />
+        </ContentContainer>
       )
     }
 
     if (!account) {
       return (
-        <Container>
-          <div className="flex flex-col items-center gap-4">
-            <h1>Unauthorized</h1>
-            <p className="">You need to be signed in to access this page.</p>
-            <Link href="/login">
-              <Button>Sign in</Button>
-            </Link>
-          </div>
-        </Container>
+        <ContentContainer className="flex h-full flex-col items-center justify-center gap-4">
+          <h1>Unauthorized</h1>
+          <p className="">You need to be signed in to access this page.</p>
+          <Link href="/login">
+            <Button>Sign in</Button>
+          </Link>
+        </ContentContainer>
       )
     }
 

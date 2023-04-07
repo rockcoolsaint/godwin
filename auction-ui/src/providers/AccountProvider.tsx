@@ -3,7 +3,7 @@
 
 import React, { useContext, useEffect, useState } from 'react'
 import { getAccount } from 'src/api/auth/getAccount'
-import { redirect, usePathname } from 'next/navigation'
+import { redirect, usePathname, useRouter } from 'next/navigation'
 import { getToken } from 'src/api/auth/getToken'
 import { Account } from 'src/api/auction/types'
 import { login as doLogin } from 'src/api/auth/login'
@@ -26,6 +26,7 @@ export const useAccountContext = () => useContext(AccountContext)
 
 export default function AccountProvider({ children }: { children: React.ReactNode }) {
   const pathName = usePathname()
+  const router = useRouter()
 
   const [token, setToken] = useState<string | undefined>(undefined)
   const [account, setAccount] = useState<Account | undefined>(undefined)
@@ -61,10 +62,12 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           const account = await getAccount(token)
           setAccount(account)
 
-          window.history.pushState({}, document.title, window.location.pathname)
+          // window.history.pushState({}, document.title, window.location.pathname)
+          router.replace('/')
         } catch (ex) {
           console.error(ex)
           window.localStorage.removeItem('rigly_token')
+          router.replace('/login')
         } finally {
           setIsLoading(false)
         }

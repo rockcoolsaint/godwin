@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from 'react'
 
-import AccountView from 'src/components/pages/account/AccountView'
-import { useAccount } from 'src/hooks'
 import { Loader } from 'src/core'
+import AccountView from 'src/components/pages/account/AccountView'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 export default function HashrateDetail() {
-  const { token } = useAccount()
-
+  const { token } = useAccountContext()
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
@@ -17,12 +16,10 @@ export default function HashrateDetail() {
 
   return (
     <AccountView>
-      {loading && (
-        <div className="flex min-h-[30vh] items-center justify-center">
-          <Loader />
-        </div>
-      )}
-      {!loading && <>Auction detail view</>}
+      <div className="flex min-h-[30vh] items-center justify-center">
+        {loading && <Loader />}
+        {!loading && <span>Auction detail view</span>}
+      </div>
     </AccountView>
   )
 }

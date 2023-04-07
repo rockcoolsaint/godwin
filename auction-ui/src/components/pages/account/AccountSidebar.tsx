@@ -11,14 +11,24 @@ const pages = [
   { label: 'Orders', path: '/account/orders', icon: 'cart' },
 ]
 
+function getActiveRoute(pathName: string) {
+  const pathData = pathName.split('/').slice(2, 3)
+
+  if (pathData[0]) {
+    return `/${pathData[0]}`
+  }
+
+  return ''
+}
+
 export default function AccountSidebar() {
   const pathName = usePathname()
-  const accountPath = pathName.replace('/account', '')
+  const activeRoute = getActiveRoute(pathName)
 
   return (
     <div className="flex w-1/5 flex-col gap-1 rounded-xl bg-blue-100 p-6">
       {pages.map((page, i) => {
-        const isActive = accountPath === page.path.replace('/account', '')
+        const isActive = activeRoute === page.path.replace('/account', '')
 
         return (
           <Link

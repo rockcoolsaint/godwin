@@ -6,9 +6,10 @@ import { updateAccount } from 'src/api/auth/updateAccount'
 import AccountView from 'src/components/pages/account/AccountView'
 import { Form, Input, Loader } from 'src/core'
 import { useNotificationContext } from 'src/core/providers/NotificationProvider'
+import protect from 'src/hoc/protect'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
-export default function Account() {
+function Account() {
   const { account, isLoading: isAccountLoading, token } = useAccountContext()
   const { success } = useNotificationContext()
   const [loading, setLoading] = useState<boolean>(false)
@@ -102,8 +103,12 @@ export default function Account() {
           </Form.Field>
         </Form.Section>
 
-        <Form.Submit>Save</Form.Submit>
+        <div className="flex w-full justify-end px-4 pb-4">
+          <Form.Submit>Save</Form.Submit>
+        </div>
       </Form>
     </AccountView>
   )
 }
+
+export default protect(Account)
