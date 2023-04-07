@@ -7,7 +7,7 @@ export async function login(email: string, returnUrl?: string): Promise<boolean>
     body: {
       email,
       url: process.env.NEXT_PUBLIC_APP_LOGIN_CALLBACK_URL,
-      returnUrl,
+      return_url: returnUrl,
     },
   })
 
