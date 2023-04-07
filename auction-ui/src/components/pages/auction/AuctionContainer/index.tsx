@@ -140,6 +140,11 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
               <Button>Checkout</Button>
             </a>
           )}
+          {order && account && order.account_id === account.id && order.status === OrderStatus.PaymentTwoComplete && (
+            <a href={`/account/hashrate/${order.auction.id}`} className="mt-4 flex w-full flex-col">
+              <Button>Manage</Button>
+            </a>
+          )}
         </div>
       </section>
     </>

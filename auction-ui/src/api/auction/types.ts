@@ -1,3 +1,5 @@
+import { Bid } from 'src/types'
+
 export interface Auction {
   id: number
   auction_meta: AuctionMeta
@@ -58,8 +60,8 @@ export interface HomePageDataResponse {
 
 export interface AuctionOfTheDayResponse {
   auction: Auction
-  bids?: BidsEntityOrCurrentBid[] | null
-  current_bid: BidsEntityOrCurrentBid
+  bids?: Bid[] | null
+  current_bid: Bid
   proxy_bid?: null[] | null
   winner: Winner
 }
@@ -74,6 +76,7 @@ export interface BidsEntityOrCurrentBid {
   bid: number
   auction_list: number
 }
+
 export interface Account {
   id: number
   username: string

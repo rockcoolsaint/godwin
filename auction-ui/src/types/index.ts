@@ -95,5 +95,7 @@ export interface Auction {
   payment_address: string
   payment_address_qr: string
   auction_meta: AuctionMeta
+  is_featured: boolean
+  is_dummy: boolean
   current_bid?: number
 }
