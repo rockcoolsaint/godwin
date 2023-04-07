@@ -12,13 +12,13 @@ interface AccountContextType {
   account?: Account
   token?: string
   isLoading: boolean
-  login: (email: string, returnUrl?: string) => Promise<boolean>
+  login: (email: string, returnUrl: string | null) => Promise<boolean>
   logout: () => void
 }
 
 const AccountContext = React.createContext<AccountContextType>({
   isLoading: true,
-  login: (_email: string, _returnUrl?: string) => Promise.resolve(false),
+  login: (_email: string, _returnUrl: string | null) => Promise.resolve(false),
   logout: () => {},
 })
 

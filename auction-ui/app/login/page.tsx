@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import ContentContainer from 'src/components/shared/ContentContainer'
 import { Form, Input } from 'src/core'
@@ -12,7 +13,8 @@ enum LoginView {
   EmailSent = 1,
 }
 
-export default function Login({ searchParams }: { searchParams: { return_url?: string } }) {
+export default function Login() {
+  const searchParams = useSearchParams()
   const { login } = useAccountContext()
   const [loading, setLoading] = useState<boolean>(false)
   const [email, setEmail] = useState<string | undefined>(undefined)
@@ -21,7 +23,8 @@ export default function Login({ searchParams }: { searchParams: { return_url?: s
   const handleSubmit = async (data: any) => {
     setLoading(true)
     try {
-      const loginSuccess = await login(data.email, searchParams?.return_url)
+      const returnUrl = searchParams.get('return_url')
+      const loginSuccess = await login(data.email, returnUrl)
 
       if (loginSuccess) {
         setEmail(data.email)
