@@ -10,7 +10,7 @@ import Unauthorized from './Unauthorized'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
 export default function HeaderNav() {
-  const { account, loading } = useAccountContext()
+  const { account, isLoading } = useAccountContext()
 
   return (
     <Disclosure as="nav" className="bg-white px-6 md:px-40">
@@ -51,7 +51,7 @@ export default function HeaderNav() {
               <Link className="hidden items-center sm:flex" href="/">
                 <span>List your mining</span> <MiningSvg className="ml-4" />
               </Link>
-              {!loading && (
+              {!isLoading && (
                 <>
                   {account && <Authorized />}
                   {!account && <Unauthorized />}

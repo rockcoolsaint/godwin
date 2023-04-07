@@ -41,7 +41,7 @@ export interface Order {
   status: OrderStatus
   payments: Payment[]
   can_apply_promo_code: boolean
-  user_id: number
+  account_id: number
   checkout_url?: string
   promo_code?: PromoCode
 }
@@ -80,7 +80,7 @@ export interface AuctionMeta {
 
 export interface Auction {
   id: number
-  user: number
+  account: number
   title: string
   sub_title: string
   description: string
@@ -98,34 +98,4 @@ export interface Auction {
   is_featured: boolean
   is_dummy: boolean
   current_bid?: number
-}
-
-export interface Account {
-  id: number
-  email: string
-  bidding_name: string
-  username: string
-  first_name: string
-  last_name: string
-  is_paid: boolean
-  avatar?: string
-  phone_number?: string
-  address?: string
-  newsletter_subscribe: boolean
-  telegram_username?: string
-  mining_pool_stratum_address?: string
-  mining_pool_username?: string
-  referral_code: string
-  onboarding_complete: boolean
-}
-
-export interface Bid {
-  id: number
-  user: Account
-  auction: number
-  bid: number
-  created_at: string
-  updated_at: string
-  deleted: boolean
-  version: string
 }

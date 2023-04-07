@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation'
 
 import { Container, Form, Input, Loader } from 'src/core'
 import { updateAccount } from 'src/api/auth/updateAccount'
-import { useAccount } from 'src/hooks'
 import { useEffect } from 'react'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 export default function Onboard() {
-  const { account, token, loading, isOnboardingComplete } = useAccount()
+  const { account, token, isLoading } = useAccountContext()
   const router = useRouter()
 
   const handleSubmit = async (data: object) => {
@@ -23,12 +23,12 @@ export default function Onboard() {
   }
 
   useEffect(() => {
-    if (!loading && isOnboardingComplete) {
+    if (!isLoading && account && account.is_onboarded) {
       router.push('/')
     }
-  }, [loading, isOnboardingComplete, router])
+  }, [isLoading, account, router])
 
-  if (loading || isOnboardingComplete) {
+  if (isLoading || (account && account.is_onboarded)) {
     return (
       <Container>
         <div className="itemc-center flex justify-center">
@@ -51,8 +51,8 @@ export default function Onboard() {
       <h1>Complete your account</h1>
       <Form className="mt-8 gap-8" onSubmit={handleSubmit}>
         <Form.Field>
-          <Form.Field.Label htmlFor="bidding_name">Bidding Name</Form.Field.Label>
-          <Input type="text" name="bidding_name" defaultValue={account.username} />
+          <Form.Field.Label htmlFor="username">Username</Form.Field.Label>
+          <Input type="text" name="username" defaultValue={account.username} />
         </Form.Field>
         <Form.Field>
           <Form.Field.Label htmlFor="mining_pool_username">Mining Pool Username</Form.Field.Label>

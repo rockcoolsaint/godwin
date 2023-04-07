@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { useAuth0 } from '@auth0/auth0-react'
 import { usePathname } from 'next/navigation'
+import Link from 'src/components/shared/Link'
 import { Button, Container, Loader } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
@@ -14,20 +14,15 @@ const isRouteProtected = (pathName: string): boolean => {
 
 export default function protect(Component: any) {
   return function HocChildComponent(props: any) {
-    const { loginWithRedirect } = useAuth0()
     const pathName = usePathname()
     const isProtectedRoute = isRouteProtected(pathName)
-    const { account, loading } = useAccountContext()
-
-    const handleLogin = () => {
-      loginWithRedirect()
-    }
+    const { account, isLoading } = useAccountContext()
 
     if (!isProtectedRoute) {
       return <Component {...props} />
     }
 
-    if (loading) {
+    if (isLoading) {
       return (
         <Container>
           <div className="flex items-center justify-center">
@@ -43,7 +38,9 @@ export default function protect(Component: any) {
           <div className="flex flex-col items-center gap-4">
             <h1>Unauthorized</h1>
             <p className="">You need to be signed in to access this page.</p>
-            <Button onClick={handleLogin}>Sign in</Button>
+            <Link href="/login">
+              <Button>Sign in</Button>
+            </Link>
           </div>
         </Container>
       )

@@ -40,7 +40,7 @@ interface AuctionContainerProps {
 }
 
 export default function AuctionContainer({ auction, order, bids, current_bid }: AuctionContainerProps) {
-  const { account, loading } = useAccountContext()
+  const { account, isLoading } = useAccountContext()
 
   const categories = {
     Bids: [
@@ -81,7 +81,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
     ],
   }
 
-  if (loading) {
+  if (isLoading) {
     return (
       <ContentContainer>
         <div className="flex items-center justify-center">
@@ -135,12 +135,12 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
         <div className="ml-4 mt-4 flex flex-col lg:mt-0 lg:w-[25%]">
           <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
 
-          {order && account && order.user_id === account.id && order.status !== OrderStatus.PaymentTwoComplete && (
+          {order && account && order.account_id === account.id && order.status !== OrderStatus.PaymentTwoComplete && (
             <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">
               <Button>Checkout</Button>
             </a>
           )}
-          {order && account && order.user_id === account.id && order.status === OrderStatus.PaymentTwoComplete && (
+          {order && account && order.account_id === account.id && order.status === OrderStatus.PaymentTwoComplete && (
             <a href={`/account/hashrate/${order.auction.id}`} className="mt-4 flex w-full flex-col">
               <Button>Manage</Button>
             </a>

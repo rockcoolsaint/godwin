@@ -7,6 +7,7 @@ interface InputProps {
   name: string
   placeholder?: string
   required?: boolean
+  disabled?: boolean
   onChange?: (val: string | number) => void
   onInput?: (val: string | number) => void
   onBlur?: (val: string | number) => void
@@ -43,9 +44,13 @@ function Input(props: InputProps) {
     <input
       {...props}
       id={name}
-      className={clsx(className, 'mb-0 flex h-12 items-center justify-center rounded-lg border border-gray-300 px-5 outline-none', {
-        'border border-red-500': errors && errors.length > 0,
-      })}
+      className={clsx(
+        className,
+        'mb-0 flex h-10 items-center justify-center rounded-lg border border-gray-300 px-3 text-sm outline-none disabled:text-gray-500',
+        {
+          'border border-red-500': errors && errors.length > 0,
+        },
+      )}
       onChange={handleChange}
       onInput={handleInput}
       onBlur={handleBlur}
