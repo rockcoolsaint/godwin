@@ -3,8 +3,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import ContentContainer from 'src/components/shared/ContentContainer'
-import { Form, Input } from 'src/core'
+import { Container, Form, Input } from 'src/core'
 import Icon from 'src/core/components/Icon'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
@@ -38,7 +37,7 @@ export default function Login() {
   }
 
   return (
-    <ContentContainer className="flex h-full justify-center">
+    <Container className="flex h-full justify-center py-40">
       {view === LoginView.Login && (
         <div className="flex flex-col">
           <h1 className="mb-2 text-2xl font-bold tracking-tight">Sign in</h1>
@@ -68,7 +67,7 @@ export default function Login() {
           </span>
         </div>
       )}
-    </ContentContainer>
+    </Container>
   )
 }
 

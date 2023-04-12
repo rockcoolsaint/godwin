@@ -9,6 +9,7 @@ import Link from 'src/components/shared/Link'
 import hero_image from 'src/assets/png/auctioneer.png'
 import Image from 'next/image'
 import Testimonials from 'src/components/pages/home/Testimonial'
+import { Container } from 'src/core'
 
 interface Props {
   auctions: Auction[]
@@ -19,8 +20,8 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
   const { t } = useTranslation()
 
   return (
-    <div>
-      <section className="mt-20 flex items-center px-5 md:justify-between md:px-40">
+    <Container className="pt-20">
+      <section className="flex items-center">
         <div className="mr-4 flex flex-col items-center justify-start sm:items-start">
           <h1 className="gradient-text text-center text-8xl leading-[7rem] text-gradient sm:text-left ">Start mining smarter</h1>
           <p className="my-6 text-4xl font-semibold">Mining for the future</p>
@@ -40,6 +41,6 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
         </div>
       </section>
       <Testimonials />
-    </div>
+    </Container>
   )
 }

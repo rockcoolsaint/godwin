@@ -2,10 +2,10 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import ContentContainer from 'src/components/shared/ContentContainer'
 import Link from 'src/components/shared/Link'
 import { Button, Loader } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import Container from 'src/core/components/Container'
 
 export const protectedRoutes = ['/checkout', '/account', '/account/hashrate', '/account/orders']
 
@@ -25,21 +25,28 @@ export default function protect(Component: any) {
 
     if (isLoading) {
       return (
-        <ContentContainer className="flex h-full items-center justify-center">
+        <Container className="flex h-full items-center justify-center">
           <Loader />
-        </ContentContainer>
+        </Container>
       )
     }
 
     if (!account) {
       return (
-        <ContentContainer className="flex h-full flex-col items-center justify-center gap-4">
+        <Container className="flex h-full flex-col items-center justify-center gap-4">
           <h1>Unauthorized</h1>
           <p className="">You need to be signed in to access this page.</p>
-          <Link href="/login">
-            <Button>Sign in</Button>
-          </Link>
-        </ContentContainer>
+
+          <div className="flex items-center justify-center gap-2">
+            <Link href="/login">
+              <Button>Sign in</Button>
+            </Link>
+
+            <Link href="/register">
+              <Button>Create an account</Button>
+            </Link>
+          </div>
+        </Container>
       )
     }
 

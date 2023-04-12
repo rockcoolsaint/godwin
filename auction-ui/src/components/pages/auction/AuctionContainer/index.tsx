@@ -11,7 +11,7 @@ import AuctionLiveFeed from 'src/components/pages/auction/AuctionLiveFeed'
 import AuctionSitePhotos from 'src/components/pages/auction/AuctionSitePhotos'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
 import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
-import ContentContainer from 'src/components/shared/ContentContainer'
+import Container from 'src/core/components/Container'
 import BidWidget from 'src/components/pages/auction/BidWidget'
 import { Button, Loader } from 'src/core'
 import { Auction, Order, OrderStatus } from 'src/types'
@@ -83,19 +83,19 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
 
   if (isLoading) {
     return (
-      <ContentContainer>
+      <Container className="flex h-full grow items-center justify-center">
         <div className="flex items-center justify-center">
           <Loader />
         </div>
-      </ContentContainer>
+      </Container>
     )
   }
 
   if (!auction) {
     return (
-      <ContentContainer>
+      <Container className="flex h-full grow items-center justify-center">
         <div className="flex items-center justify-center">Error loading auction</div>
-      </ContentContainer>
+      </Container>
     )
   }
 

@@ -33,8 +33,8 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <Container>
-        <div className="flex items-center justify-center">
+      <Container className="h-full">
+        <div className="flex h-full items-center justify-center">
           <Loader />
         </div>
       </Container>
