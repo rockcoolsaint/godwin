@@ -43,9 +43,6 @@ export default function Login() {
           <h1 className="mb-2 text-2xl font-bold tracking-tight">Sign in</h1>
           <div className="flex items-center justify-start gap-1">
             <span className="text-sm text-gray-500">To sign in enter your email and you&apos;ll receive a magic login link.</span>
-            {/* <button onClick={() => {}} className="cursor-pointer text-sm font-bold text-primary">
-              Create an account
-            </button> */}
           </div>
           <Form className="mt-8 min-w-[30vw] items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
             <Form.Field className="w-full" required>

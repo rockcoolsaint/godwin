@@ -105,11 +105,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
     )
   }
 
-  if (!slug || slug === 'undefined') {
-    return <Container className="h-full py-40">Error loading auction</Container>
-  }
-
-  if (!auction) {
+  if (!slug || !auction) {
     return <Container className="h-full py-40">Error loading auction</Container>
   }
 
