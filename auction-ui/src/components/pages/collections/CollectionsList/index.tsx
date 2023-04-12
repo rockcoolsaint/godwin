@@ -13,9 +13,9 @@ export default function CollectionList({ auction }: Props) {
   const { t } = useTranslation()
 
   return (
-    <Container className="h-full grow py-5">
+    <Container className="my-20 h-full grow py-5 ">
       <h1 className="capitalize">{t('common.auctions')}</h1>
-      <ul className="mt-20 grid grid-cols-3 space-y-4 ">
+      <ul className="mt-10 grid grid-cols-3 items-center gap-6 ">
         {auction.map((auction, index) => (
           <AuctionCard key={`activity-card-${index}`} auction={auction} />
         ))}
