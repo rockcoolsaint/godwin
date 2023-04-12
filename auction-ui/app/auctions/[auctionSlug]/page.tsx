@@ -1,14 +1,14 @@
 'use client'
 
 import AuctionContainer from 'src/components/pages/auction/AuctionContainer'
-import ContentContainer from 'src/components/shared/ContentContainer'
+import Container from 'src/core/components/Container'
 import { getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
 import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
 import { useEffect, useRef, useState } from 'react'
 
-import { Auction, Bid, Order } from 'src/types'
+import { Auction, Order } from 'src/types'
 import { Loader } from 'src/core'
-import { AuctionStatus } from 'src/api/auction/types'
+import { AuctionStatus, BidsEntityOrCurrentBid } from 'src/api/auction/types'
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
@@ -16,7 +16,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
   const { socket, isSocketReady } = useWebsocketContext()
 
-  const bids = useRef<Bid[]>([])
+  const bids = useRef<BidsEntityOrCurrentBid[]>([])
 
   const [auction, setAuction] = useState<Auction | undefined>(undefined)
   const [currentBid, setCurrentBid] = useState<any>(undefined)
@@ -97,24 +97,20 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
   if (loading) {
     return (
-      <ContentContainer>
+      <Container className="h-full py-40">
         <div className="flex items-center justify-center">
           <Loader />
         </div>
-      </ContentContainer>
+      </Container>
     )
   }
 
-  if (!slug || slug === 'undefined') {
-    return <ContentContainer title="Auction">Error loading auction</ContentContainer>
-  }
-
-  if (!auction) {
-    return <ContentContainer title="Auction">Error loading auction</ContentContainer>
+  if (!slug || !auction) {
+    return <Container className="h-full py-40">Error loading auction</Container>
   }
 
   return (
-    <ContentContainer className="py-5">
+    <Container className="h-full py-5">
       <AuctionContainer
         auction={auction}
         bids={bids.current}
@@ -124,6 +120,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         order={order}
         slug={slug}
       />
-    </ContentContainer>
+    </Container>
   )
 }

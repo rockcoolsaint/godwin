@@ -3,8 +3,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import ContentContainer from 'src/components/shared/ContentContainer'
-import { Form, Input } from 'src/core'
+import { Container, Form, Input } from 'src/core'
 import Icon from 'src/core/components/Icon'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
@@ -38,15 +37,12 @@ export default function Login() {
   }
 
   return (
-    <ContentContainer className="flex h-full justify-center">
+    <Container className="flex h-full justify-center py-40">
       {view === LoginView.Login && (
         <div className="flex flex-col">
           <h1 className="mb-2 text-2xl font-bold tracking-tight">Sign in</h1>
           <div className="flex items-center justify-start gap-1">
             <span className="text-sm text-gray-500">To sign in enter your email and you&apos;ll receive a magic login link.</span>
-            {/* <button onClick={() => {}} className="cursor-pointer text-sm font-bold text-primary">
-              Create an account
-            </button> */}
           </div>
           <Form className="mt-8 min-w-[30vw] items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
             <Form.Field className="w-full" required>
@@ -68,7 +64,7 @@ export default function Login() {
           </span>
         </div>
       )}
-    </ContentContainer>
+    </Container>
   )
 }
 

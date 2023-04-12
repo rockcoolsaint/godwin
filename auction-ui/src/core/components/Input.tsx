@@ -41,20 +41,22 @@ function Input(props: InputProps) {
   }
 
   return (
-    <input
-      {...props}
-      id={name}
-      className={clsx(
-        className,
-        'mb-0 flex h-10 items-center justify-center rounded-lg border border-gray-300 px-3 outline-none disabled:text-gray-500',
-        {
-          'border border-red-500': errors && errors.length > 0,
-        },
-      )}
-      onChange={handleChange}
-      onInput={handleInput}
-      onBlur={handleBlur}
-    />
+    <>
+      <input
+        {...props}
+        id={name}
+        className={clsx(
+          className,
+          'mb-0 flex h-10 items-center justify-center rounded-lg border border-gray-300 px-3 outline-none disabled:text-gray-500',
+          {
+            'border border-red-500': errors && errors.length > 0,
+          },
+        )}
+        onChange={handleChange}
+        onInput={handleInput}
+        onBlur={handleBlur}
+      />
+    </>
   )
 }
 

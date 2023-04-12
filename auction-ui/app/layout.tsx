@@ -13,6 +13,8 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
     <html lang="en" className="bg-page-background">
       <head>
+        <meta charSet="UTF-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Rigly</title>
       </head>
@@ -21,9 +23,9 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
           <AccountProvider>
             <WebsocketProvider>
               <Root>
-                <section className="flex h-screen w-screen flex-col justify-between">
+                <section className="flex h-screen flex-col justify-between">
                   <Header />
-                  <div className="mb-auto grow bg-white">{children}</div>
+                  {children}
                   <Footer />
                 </section>
               </Root>

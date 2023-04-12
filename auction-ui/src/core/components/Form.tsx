@@ -79,17 +79,19 @@ function Label({
   className,
   htmlFor,
   required,
+  hideSuffix,
 }: {
   children: React.ReactNode
   className?: string
-  htmlFor: string
+  htmlFor?: string
   required?: boolean
+  hideSuffix?: boolean
 }) {
   return (
     <label htmlFor={htmlFor} className={clsx('flex justify-start gap-1 text-sm text-gray-500', className)}>
       {children}
-      {required && <span className="text-red-500">*</span>}
-      {!required && <span className="">(Optional)</span>}
+      {!hideSuffix && required && <span className="text-red-500">*</span>}
+      {!hideSuffix && !required && <span className="">(Optional)</span>}
     </label>
   )
 }

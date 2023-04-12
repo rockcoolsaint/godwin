@@ -37,7 +37,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
   }
 
   return (
-    <section className="mt-28 flex w-full items-center justify-center px-5 md:px-0">
+    <section className="mt-28 flex w-full items-center justify-center">
       <div className="shadow-level-2 rounded-3xl border px-3 py-14 shadow-md md:px-12">
         <h1 className="mb-9 text-center text-4xl">{t('home.auction_of_the_day')}</h1>
         <div className="flex flex-col md:flex-row">
