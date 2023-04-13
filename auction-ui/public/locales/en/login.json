@@ -1,0 +1,6 @@
+{
+  "sign_in": "Sign in",
+  "description": "To sign in enter your email and you'll receive a magic login link.",
+  "email": "E-mail",
+  "email_sent_note": "An e-mail containing your login url<br />has been sent to <b>{{email}}</b>"
+}

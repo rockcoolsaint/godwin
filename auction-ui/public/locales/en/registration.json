@@ -1,0 +1,12 @@
+{
+  "sign_up": "Sign up",
+  "description": "Create your Rigly account and connect to a mining pool",
+  "email": "E-mail",
+  "mining_pool_account": "Mining pool account",
+  "mining_pool_username": "Mining pool username",
+  "mining_pool_address": "Mining pool address",
+  "referral_code": "Referral code",
+  "use_existing_pool_account": "Use existing pool account",
+  "create_pool_account": "Create pool account",
+  "mining_pool_details_note": "Your mining pool account details will be e-mailed to you after registration."
+}

@@ -6,12 +6,14 @@ export async function login(email: string, returnUrl?: string): Promise<boolean>
     path: `/api/auth/login`,
     body: {
       email,
-      url: process.env.NEXT_PUBLIC_APP_LOGIN_CALLBACK_URL,
+      url: process.env.NEXT_PUBLIC_APP_CALLBACK_URL,
       return_url: returnUrl,
     },
   })
 
   if (res.error) {
+    console.error(res.error)
+
     return false
   }
 

@@ -6,8 +6,10 @@ import { Input, Tabs } from 'src/core'
 
 import Container from 'src/core/components/Container'
 import Form from 'src/core/components/Form'
+import { useTranslation } from 'src/hooks'
 
 export default function Register() {
+  const { t } = useTranslation()
   const [loading, setLoading] = useState<boolean>(false)
   const [tab, setTab] = useState<string>('input')
 
@@ -33,26 +35,26 @@ export default function Register() {
   return (
     <Container className="flex h-full justify-center py-40">
       <div className="flex flex-col">
-        <h1 className="mb-2 text-2xl font-bold tracking-tight">Sign up</h1>
+        <h1 className="mb-2 text-2xl font-bold tracking-tight">{t('registration.sign_up')}</h1>
         <div className="flex items-center justify-start gap-1">
-          <span className="text-sm text-gray-500">Create your Rigly account and connect to a mining pool</span>
+          <span className="text-sm text-gray-500">{t('registration.description')}</span>
         </div>
 
         <Form className="mt-8 min-w-[30vw] items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
           <Form.Field className="w-full" required>
-            <Form.Field.Label htmlFor="email">E-mail</Form.Field.Label>
+            <Form.Field.Label htmlFor="email">{t('registration.email')}</Form.Field.Label>
             <Input type="email" name="email" placeholder="satoshi@gmx.com" />
           </Form.Field>
 
           <div className="flex w-full flex-col gap-2">
-            <Form.Field.Label hideSuffix>Mining pool account</Form.Field.Label>
+            <Form.Field.Label hideSuffix>{t('registration.mining_pool_account')}</Form.Field.Label>
             <Tabs value={tab} onChange={setTab}>
               <Tabs.Tab value="input">
-                <span className="text-xs">Use existing pool account</span>
+                <span className="text-xs">{t('registration.use_existing_pool_account')}</span>
               </Tabs.Tab>
 
               <Tabs.Tab value="generate">
-                <span className="text-xs">Create pool account</span>
+                <span className="text-xs">{t('registration.create_pool_account')}</span>
               </Tabs.Tab>
             </Tabs>
           </div>
@@ -60,29 +62,29 @@ export default function Register() {
           {tab === 'input' && (
             <>
               <Form.Field className="w-full">
-                <Form.Field.Label htmlFor="mining_pool_username">Mining pool username</Form.Field.Label>
+                <Form.Field.Label htmlFor="mining_pool_username">{t('registration.mining_pool_username')}</Form.Field.Label>
                 <Input type="text" name="mining_pool_username" placeholder="satoshi.worker" />
               </Form.Field>
 
               <Form.Field className="w-full">
-                <Form.Field.Label htmlFor="mining_pool_address">Mining pool address</Form.Field.Label>
+                <Form.Field.Label htmlFor="mining_pool_address">{t('registration.mining_pool_address')}</Form.Field.Label>
                 <Input type="text" name="mining_pool_address" placeholder="stratum+tcp://stratum.braiins.com:3333" />
               </Form.Field>
             </>
           )}
 
           <Form.Field className="w-full">
-            <Form.Field.Label htmlFor="referral_code">Referral code</Form.Field.Label>
+            <Form.Field.Label htmlFor="referral_code">{t('registration.referral_code')}</Form.Field.Label>
             <Input type="text" name="referral_code" placeholder="012ABC" />
           </Form.Field>
 
           {tab === 'generate' && (
             <div className="flex w-full">
-              <span className="text-sm text-gray-500">Your mining pool account details will be e-mailed to you after registration.</span>
+              <span className="text-sm text-gray-500">{t('registration.mining_pool_details_note')}</span>
             </div>
           )}
 
-          <Form.Submit className="w-full">Sign in</Form.Submit>
+          <Form.Submit className="w-full">{t('registration.sign_up')}</Form.Submit>
         </Form>
       </div>
     </Container>
