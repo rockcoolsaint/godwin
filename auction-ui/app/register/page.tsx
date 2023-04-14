@@ -2,6 +2,7 @@
 'use client'
 import { useState } from 'react'
 import { register } from 'src/api/auth/register'
+import Link from 'src/components/shared/Link'
 import { Input, Tabs } from 'src/core'
 
 import Container from 'src/core/components/Container'
@@ -33,8 +34,8 @@ export default function Register() {
   }
 
   return (
-    <Container className="flex h-full justify-center py-40">
-      <div className="flex flex-col">
+    <Container className="flex justify-center py-20">
+      <div className="flex w-2/4  flex-col">
         <h1 className="mb-2 text-2xl font-bold tracking-tight">{t('registration.sign_up')}</h1>
         <div className="flex items-center justify-start gap-1">
           <span className="text-sm text-gray-500">{t('registration.description')}</span>
@@ -86,6 +87,12 @@ export default function Register() {
 
           <Form.Submit className="w-full">{t('registration.sign_up')}</Form.Submit>
         </Form>
+
+        <div className="mt-8 flex justify-center border-t border-gray-300 pt-6">
+          <Link href="/login" className="text-primary underline">
+            {t('registration.has_account_already')}
+          </Link>
+        </div>
       </div>
     </Container>
   )

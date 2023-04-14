@@ -8,5 +8,6 @@
   "referral_code": "Referral code",
   "use_existing_pool_account": "Use existing pool account",
   "create_pool_account": "Create pool account",
-  "mining_pool_details_note": "Your mining pool account details will be e-mailed to you after registration."
+  "mining_pool_details_note": "Your mining pool account details will be e-mailed to you after registration.",
+  "has_account_already": "Already have an account?"
 }

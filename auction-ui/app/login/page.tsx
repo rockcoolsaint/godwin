@@ -3,6 +3,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import Link from 'src/components/shared/Link'
 import { Container, Form, Input } from 'src/core'
 import Icon from 'src/core/components/Icon'
 import { useTranslation } from 'src/hooks'
@@ -23,15 +24,14 @@ export default function Login() {
   const [view, setView] = useState(LoginView.Login)
 
   const handleSubmit = async (data: any) => {
-    setLoading(true)
     try {
-      const returnUrl = searchParams.get('return_url')
-      const loginSuccess = await login(data.email, returnUrl)
+      setLoading(true)
+      setEmail(data.email)
+      setView(LoginView.EmailSent)
 
-      if (loginSuccess) {
-        setEmail(data.email)
-        setView(LoginView.EmailSent)
-      }
+      const returnUrl = searchParams.get('return_url')
+
+      await login(data.email, returnUrl)
     } catch (ex) {
       console.error(ex)
     } finally {
@@ -42,7 +42,7 @@ export default function Login() {
   return (
     <Container className="flex h-full justify-center py-40">
       {view === LoginView.Login && (
-        <div className="flex flex-col">
+        <div className="flex w-2/4 flex-col">
           <h1 className="mb-2 text-2xl font-bold tracking-tight">{t('login.sign_in')}</h1>
           <div className="flex items-center justify-start gap-1">
             <span className="text-sm text-gray-500">{t('login.description')}</span>
@@ -55,12 +55,22 @@ export default function Login() {
 
             <Form.Submit className="w-full">{t('login.sign_in')}</Form.Submit>
           </Form>
+          <div className="mt-8 flex justify-center border-t border-gray-300 pt-6">
+            <Link href="/register" className="text-primary underline">
+              {t('login.no_account_yet')}
+            </Link>
+          </div>
         </div>
       )}
       {view === LoginView.EmailSent && (
-        <div className="flex h-full flex-col items-center justify-center gap-4">
+        <div className="flex h-full w-2/4 flex-col items-center justify-center gap-4">
           <Icon icon="envelopeCircleCheck" className="h-20 w-20 text-gray-300" />
           <span className="text-center text-gray-500" dangerouslySetInnerHTML={{ __html: t('login.email_sent_note', { email }) }}></span>
+          <div className="mt-8 flex justify-center border-t border-gray-300 pt-6">
+            <Link href="/register" className="text-primary underline">
+              {t('login.no_account_yet')}
+            </Link>
+          </div>
         </div>
       )}
     </Container>
