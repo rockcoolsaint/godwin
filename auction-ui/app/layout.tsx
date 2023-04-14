@@ -23,11 +23,11 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
           <AccountProvider>
             <WebsocketProvider>
               <Root>
-                <section className="flex h-screen flex-col justify-between">
+                <div className="flex h-screen flex-col justify-between">
                   <Header />
                   {children}
                   <Footer />
-                </section>
+                </div>
               </Root>
             </WebsocketProvider>
           </AccountProvider>

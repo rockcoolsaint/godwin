@@ -40,7 +40,7 @@ export default function Login() {
   }
 
   return (
-    <Container className="flex h-full justify-center py-40">
+    <Container className="flex h-full justify-center py-20">
       {view === LoginView.Login && (
         <div className="flex w-full flex-col sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
           <h1 className="mb-2 text-2xl font-bold tracking-tight">{t('login.sign_in')}</h1>
