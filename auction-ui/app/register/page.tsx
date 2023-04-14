@@ -35,13 +35,13 @@ export default function Register() {
 
   return (
     <Container className="flex justify-center py-20">
-      <div className="flex w-2/4  flex-col">
+      <div className="flex w-full flex-col sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
         <h1 className="mb-2 text-2xl font-bold tracking-tight">{t('registration.sign_up')}</h1>
         <div className="flex items-center justify-start gap-1">
           <span className="text-sm text-gray-500">{t('registration.description')}</span>
         </div>
 
-        <Form className="mt-8 min-w-[30vw] items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
+        <Form className="mt-8 items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
           <Form.Field className="w-full" required>
             <Form.Field.Label htmlFor="email">{t('registration.email')}</Form.Field.Label>
             <Input type="email" name="email" placeholder="satoshi@gmx.com" />

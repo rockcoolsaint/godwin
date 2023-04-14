@@ -42,12 +42,12 @@ export default function Login() {
   return (
     <Container className="flex h-full justify-center py-40">
       {view === LoginView.Login && (
-        <div className="flex w-2/4 flex-col">
+        <div className="flex w-full flex-col sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
           <h1 className="mb-2 text-2xl font-bold tracking-tight">{t('login.sign_in')}</h1>
           <div className="flex items-center justify-start gap-1">
             <span className="text-sm text-gray-500">{t('login.description')}</span>
           </div>
-          <Form className="mt-8 min-w-[30vw] items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
+          <Form className="mt-8 items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
             <Form.Field className="w-full" required>
               <Form.Field.Label htmlFor="email">{t('login.email')}</Form.Field.Label>
               <Input type="email" name="email" placeholder="satoshi@gmx.com" />
@@ -63,7 +63,7 @@ export default function Login() {
         </div>
       )}
       {view === LoginView.EmailSent && (
-        <div className="flex h-full w-2/4 flex-col items-center justify-center gap-4">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-4 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
           <Icon icon="envelopeCircleCheck" className="h-20 w-20 text-gray-300" />
           <span className="text-center text-gray-500" dangerouslySetInnerHTML={{ __html: t('login.email_sent_note', { email }) }}></span>
           <div className="mt-8 flex justify-center border-t border-gray-300 pt-6">
