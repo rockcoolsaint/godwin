@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.QA_HOST }}
-          username: ${{ secrets.QA_USERNAME }}
-          password: ${{ secrets.QA_PASSWORD }}
-          port: ${{ secrets.QA_PORT }}
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USERNAME }}
+          password: ${{ secrets.PROD_PASSWORD }}
+          port: ${{ secrets.PROD_PORT }}
           script: |
             ./deploy_server.sh
