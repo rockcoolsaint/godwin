@@ -7,7 +7,7 @@ interface RegisterPayload {
   referral_code: string
 }
 
-export async function register(payload: RegisterPayload): Promise<boolean> {
+export async function register(payload: RegisterPayload): Promise<[boolean, string | undefined]> {
   const res = await makeClientRequest({
     method: 'POST',
     path: `/api/auth/register`,
@@ -20,8 +20,8 @@ export async function register(payload: RegisterPayload): Promise<boolean> {
   if (res.error) {
     console.error(res.error)
 
-    return false
+    return [false, res.error]
   }
 
-  return true
+  return [true, undefined]
 }

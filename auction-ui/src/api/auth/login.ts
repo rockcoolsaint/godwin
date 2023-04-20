@@ -1,6 +1,6 @@
 import { makeClientRequest } from 'src/api/clientRequest'
 
-export async function login(email: string, returnUrl?: string): Promise<boolean> {
+export async function login(email: string, returnUrl?: string): Promise<[boolean, string | undefined]> {
   const res = await makeClientRequest({
     method: 'POST',
     path: `/api/auth/login`,
@@ -12,10 +12,8 @@ export async function login(email: string, returnUrl?: string): Promise<boolean>
   })
 
   if (res.error) {
-    console.error(res.error)
-
-    return false
+    return [false, res.error]
   }
 
-  return true
+  return [true, undefined]
 }

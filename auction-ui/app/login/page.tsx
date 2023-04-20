@@ -6,6 +6,7 @@ import { useState } from 'react'
 import Link from 'src/components/shared/Link'
 import { Container, Form, Input } from 'src/core'
 import Icon from 'src/core/components/Icon'
+import { useNotificationContext } from 'src/core/providers/NotificationProvider'
 import { useTranslation } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
@@ -18,6 +19,7 @@ export default function Login() {
   const searchParams = useSearchParams()
   const { login } = useAccountContext()
   const { t } = useTranslation()
+  const { error } = useNotificationContext()
 
   const [loading, setLoading] = useState<boolean>(false)
   const [email, setEmail] = useState<string | undefined>(undefined)
@@ -27,12 +29,20 @@ export default function Login() {
     try {
       setLoading(true)
       setEmail(data.email)
+
+      const returnUrl = searchParams.get('return_url') as string
+
+      const [success, error] = await login(data.email, returnUrl)
+      if (!success) {
+        throw error
+      }
+
       setView(LoginView.EmailSent)
-
-      const returnUrl = searchParams.get('return_url')
-
-      await login(data.email, returnUrl)
-    } catch (ex) {
+    } catch (ex: any) {
+      error({
+        title: 'Error',
+        content: ex.message,
+      })
       console.error(ex)
     } finally {
       setLoading(false)
