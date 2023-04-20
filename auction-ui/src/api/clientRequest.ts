@@ -7,11 +7,17 @@ interface MakeClientRequestProps {
   body?: object
   blob?: boolean
   abortSignal?: AbortSignal
+  headers?: object
 }
 
-export const makeClientRequest = async ({ method = 'GET', blob, path, body, abortSignal }: MakeClientRequestProps) => {
+export const makeClientRequest = async ({ method = 'GET', blob, path, body, abortSignal, headers }: MakeClientRequestProps) => {
   let response: Response | undefined = undefined
   let json: any = undefined
+  const requestHeaders = {
+    'Content-Type': 'application/json',
+    ...headers,
+  }
+
   try {
     response = await fetch(url(path), {
       method,
@@ -19,7 +25,7 @@ export const makeClientRequest = async ({ method = 'GET', blob, path, body, abor
         body: JSON.stringify(body),
       }),
       ...(abortSignal && { signal: abortSignal }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: requestHeaders,
     })
 
     if (blob) {
@@ -32,6 +38,7 @@ export const makeClientRequest = async ({ method = 'GET', blob, path, body, abor
     }
   } catch (error) {
     // fall through
+    console.error(error)
   }
 
   // this change is temporary until Backend is fixed

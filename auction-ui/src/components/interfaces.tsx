@@ -1,3 +1,5 @@
+import { AuctionStatus } from 'src/api/auction/types'
+
 export interface RendererProps {
   days?: string | number
   hours?: string | number
@@ -57,17 +59,15 @@ export interface productProfileProps {
 
     description: string
     starting_bid: number
-    auction_start_date: string
-    expiry_at: string
-    is_expired: boolean
+    start_at: string
+    end_at: string
+    status: AuctionStatus
     proxy_increement: number
     payment_address: string
     payment_address_qr: string
 
-    is_auction_active: boolean
-    auction_status: string
     slug_category: string
-    user: number | string
+    account: number | string
     category: number | string
     key?: number | string
   }
@@ -107,22 +107,20 @@ export interface productProps {
 
   description: string
   starting_bid: number
-  auction_start_date: string
-  expiry_at: string
-  is_expired: boolean
+  start_at: string
+  end_at: string
+  status: AuctionStatus
   proxy_increement: number
   payment_address: string
   payment_address_qr: string
 
-  is_auction_active: boolean
-  auction_status: string
   slug_category: string
-  user: number | string
+  account: number | string
   category: number | string
   key?: number | string
 }
 
-export interface userProps {
+export interface accountProps {
   id?: number | string
   first_name?: string
   email?: string
@@ -140,7 +138,7 @@ export interface userProps {
 
 export interface bidProps {
   id: number | string
-  user: userProps
+  account: accountProps
   created_at: string | Date
   updated_at: string | Date
   deleted?: boolean | string
@@ -163,7 +161,7 @@ export interface collectionProps {
 
 export interface winnerProps {
   id: number | string
-  user: userProps
+  account: accountProps
   created_at: string
   updated_at: string
   deleted: boolean

@@ -20,7 +20,7 @@ import {
   proxyBid,
 } from "./interfaces";
 import { Link } from "react-router-dom";
-import Loader from "./Loader";
+import { Loader } from "src/core/Loader";
 import AlertDismissible from "./Alert";
 
 import ToastAlert from "../components/Toast";

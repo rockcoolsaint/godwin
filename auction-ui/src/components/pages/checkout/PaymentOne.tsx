@@ -1,0 +1,300 @@
+/* eslint-disable react/jsx-no-bind */
+'use client'
+
+import { useEffect, useState } from 'react'
+import createPayment from 'src/api/checkout/createPayment'
+import refreshPayment from 'src/api/checkout/refreshPayment'
+import { makeClientRequest } from 'src/api/clientRequest'
+import { Button, Loader, Input, formatAuctionType, Container } from 'src/core'
+import { usePayments } from 'src/hooks'
+import { useAccountContext } from 'src/providers/AccountProvider'
+import { Order, OrderStatus, PaymentStatus } from 'src/types'
+
+function PaymentOne({ order }: { order: Order }) {
+  const { token, isLoading: tokenLoading } = useAccountContext()
+  const [currentOrder, setCurrentOrder] = useState(order)
+  const [promoCode, setPromoCode] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
+
+  const { first, paymentId, amountPaid, amountRemaining, isPaymentComplete, checkoutUrl } = usePayments(currentOrder)
+
+  const applyPromoCode = async () => {
+    if (!promoCode || promoCode === '' || !first || !currentOrder.id) {
+      return
+    }
+
+    try {
+      setLoading(true)
+      const newOrder = await makeClientRequest({
+        method: 'PUT',
+        path: '/api/orders/update',
+        body: {
+          order_id: currentOrder.id,
+          update: {
+            promo_code: promoCode,
+          },
+        },
+      })
+      setCurrentOrder(newOrder)
+      setPromoCode('')
+    } catch (ex) {
+      console.error(ex)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const clearPromoCode = async () => {
+    if (!first || !currentOrder.id) {
+      return
+    }
+
+    try {
+      setLoading(true)
+
+      const newOrder = await makeClientRequest({
+        method: 'PUT',
+        path: '/api/orders/update',
+        body: {
+          order_id: currentOrder.id,
+          update: {
+            promo_code: null,
+          },
+        },
+      })
+
+      setCurrentOrder(newOrder)
+      setPromoCode('')
+    } catch (ex) {
+      console.error(ex)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handlePromoCodeChange = (val: string) => {
+    setPromoCode(val)
+  }
+
+  const handleCheckout = async () => {
+    setCheckoutLoading(true)
+    try {
+      await makeClientRequest({
+        method: 'PUT',
+        path: '/api/orders/update',
+        body: {
+          order_id: currentOrder.id,
+          update: {
+            status: 'processing',
+          },
+        },
+      })
+
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl
+      }
+    } catch (ex) {
+      console.error(ex)
+    } finally {
+      setCheckoutLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    const prepareCheckout = async () => {
+      if (!token) {
+        return console.error('Cannot prepare checkout, missing token.')
+      }
+
+      setLoading(true)
+      if (!order.payments[0]) {
+        // If order does not have any payments, we need to create one.
+        const res = await createPayment(order.id, token)
+
+        setCurrentOrder({
+          ...order,
+          payments: [res],
+        })
+      } else if (order.status !== OrderStatus.Processing) {
+        // If order already has payments, we need to refresh the payment.
+        const lastIdx = order.payments.length - 1
+        const lastPayment = order.payments[lastIdx]
+        const res = await refreshPayment(lastPayment.id, token)
+
+        setCurrentOrder({
+          ...order,
+          payments: order.payments.map(payment => {
+            return payment.id === res.id ? res : payment
+          }),
+        })
+      }
+      setLoading(false)
+    }
+
+    if (!tokenLoading && token) {
+      prepareCheckout()
+    }
+  }, [order, tokenLoading, token])
+
+  if (!first || loading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader />
+      </div>
+    )
+  }
+
+  const showRemaining =
+    currentOrder &&
+    currentOrder.payments &&
+    currentOrder.payments.length > 1 &&
+    !isPaymentComplete &&
+    first &&
+    first.status !== PaymentStatus.Processing
+
+  return (
+    <Container>
+      <h1>Checkout</h1>
+      <h2>Mining deposit & auction fee</h2>
+
+      <div className="mt-4">
+        <span>PaymentID:</span> <b>{paymentId}</b>
+      </div>
+      <div>
+        <span>Your bid: </span>
+        <b>
+          {currentOrder.price}
+          <i className="fak fa-regular" />
+        </b>
+      </div>
+      <div>
+        <span>
+          Mining deposit ({formatAuctionType(currentOrder.auction.auction_type.type)} {currentOrder.auction.auction_type.percentage}%):
+        </span>{' '}
+        <b>
+          {currentOrder.mining_deposit}
+          <i className="fak fa-regular" />
+        </b>
+      </div>
+      <div>
+        <span>Auction fee (3.5%): </span>
+        <b>
+          {currentOrder.auction_fee}
+          <i className="fak fa-regular" />
+        </b>
+      </div>
+      <div>
+        <span>Total: </span>
+        <b>{first.original_amount}</b>
+      </div>
+      {currentOrder.promo_code && (
+        <div>
+          <span>Discount: </span>
+          <b>{currentOrder.promo_code.discount}%</b>
+        </div>
+      )}
+
+      <div className="my-4 border-t border-gray-300" />
+
+      {currentOrder.promo_code && (
+        <div>
+          <span>Amount due: </span>
+          <b>
+            {first.amount}
+            <i className="fak fa-regular" />
+          </b>
+        </div>
+      )}
+
+      {!currentOrder.promo_code && (
+        <div>
+          <span>Amount due: </span>
+          <b>
+            {currentOrder.mining_deposit + currentOrder.auction_fee}
+            <i className="fak fa-regular" />
+          </b>
+        </div>
+      )}
+
+      {currentOrder.status === OrderStatus.Processing && (
+        <div className="my-5 flex gap-2">
+          <span>Payment for this order has already been started, unable to apply promo codes.</span>
+        </div>
+      )}
+
+      {currentOrder.can_apply_promo_code && (
+        <div style={{ display: 'flex', gap: '1rem', marginTop: '20px' }}>
+          <Input className="form-control mb-3" name="promo_code" value={promoCode} onChange={handlePromoCodeChange} type="text" />
+
+          <Button onClick={applyPromoCode} disabled={loading}>
+            <span style={{ whiteSpace: 'nowrap' }}>Apply code</span>
+          </Button>
+        </div>
+      )}
+
+      {currentOrder.promo_code && (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '8px',
+            background: '#E8F6FF',
+            borderRadius: '8px',
+            padding: '16px',
+            marginTop: '20px',
+            marginBottom: '20px',
+          }}
+        >
+          <div>
+            <div>Promo code applied:</div>
+            <b>
+              {currentOrder.promo_code.code} ({currentOrder.promo_code.discount}% OFF)
+            </b>
+          </div>
+
+          {currentOrder.can_apply_promo_code && (
+            <Button onClick={clearPromoCode} disabled={loading}>
+              Clear
+            </Button>
+          )}
+        </div>
+      )}
+
+      {showRemaining && (
+        <div style={{ margin: '20px 0' }}>
+          <b style={{ color: 'red' }}>You still need to complete payment for this order:</b>
+          <div>
+            <span>Paid: </span>
+            <b>
+              {amountPaid}
+              <i className="fak fa-regular" />
+            </b>
+          </div>
+          <div>
+            <span>Remaining: </span>
+            <b>
+              {amountRemaining}
+              <i className="fak fa-regular" />
+            </b>
+          </div>
+        </div>
+      )}
+
+      {currentOrder.status !== OrderStatus.Processing && (
+        <Button disabled={checkoutLoading} onClick={handleCheckout}>
+          Checkout
+        </Button>
+      )}
+
+      {currentOrder.status === OrderStatus.Processing && (
+        <a href={checkoutUrl} rel="noreferrer">
+          <Button>Checkout</Button>
+        </a>
+      )}
+    </Container>
+  )
+}
+
+export default PaymentOne

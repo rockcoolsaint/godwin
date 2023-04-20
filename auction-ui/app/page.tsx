@@ -1,15 +1,45 @@
-import ActivityCard from 'src/components/shared/ActivityCard'
-import NotFoundComponent from 'src/components/shared/NotFoundComponent'
-import { useTranslation } from 'src/hooks/useTranslation'
+'use client'
 
-export default function Home() {
-  const { t } = useTranslation()
+import { useEffect, useState } from 'react'
+import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
+import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
+import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
+import Home from 'src/components/pages/home'
+import { Container, Loader } from 'src/core'
 
-  return (
-    <div className="flex h-screen w-full items-center justify-center">
-      <h1>Hello {t('home.loading')}</h1>
-      <ActivityCard />
-      <NotFoundComponent message="We couldn't find this page" />
-    </div>
-  )
+export default function HomePage() {
+  const [auctions, setAuctions] = useState<Auction[] | undefined>(undefined)
+  const [auctionOfTheDay, setAuctionOfTheDay] = useState<AuctionOfTheDayResponse | undefined>(undefined)
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    const prepareHomepage = async () => {
+      setLoading(true)
+
+      try {
+        const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay()])
+
+        setAuctions(auctions)
+        setAuctionOfTheDay(auctionOfTheDay)
+      } catch (ex) {
+        console.error(ex)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    prepareHomepage()
+  }, [])
+
+  if (loading) {
+    return (
+      <Container className="h-full">
+        <div className="flex h-full items-center justify-center">
+          <Loader />
+        </div>
+      </Container>
+    )
+  }
+
+  return <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} />
 }

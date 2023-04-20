@@ -3,10 +3,23 @@ require('dotenv').config()
 
 const isProd = process.env.NODE_ENV === 'production'
 
+// eslint-disable-next-line no-console
+console.log(`Building for ${isProd ? 'production' : 'development'}`)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   output: 'standalone',
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   experimental: {
     appDir: true,

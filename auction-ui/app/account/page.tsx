@@ -1,0 +1,114 @@
+/* eslint-disable react/jsx-no-bind */
+'use client'
+
+import { useState } from 'react'
+import { updateAccount } from 'src/api/auth/updateAccount'
+import AccountView from 'src/components/pages/account/AccountView'
+import { Form, Input, Loader } from 'src/core'
+import { useNotificationContext } from 'src/core/providers/NotificationProvider'
+import protect from 'src/hoc/protect'
+import { useAccountContext } from 'src/providers/AccountProvider'
+
+function Account() {
+  const { account, isLoading: isAccountLoading, token } = useAccountContext()
+  const { success } = useNotificationContext()
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const handleSubmit = async (data: object) => {
+    if (!token) {
+      return
+    }
+
+    try {
+      setLoading(true)
+
+      const updateSuccess = await updateAccount(data, token)
+      if (updateSuccess) {
+        success({
+          title: 'Account saved',
+          content: 'Your changes have been saved.',
+        })
+      }
+    } catch (ex) {
+      console.error(ex)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (isAccountLoading) {
+    return (
+      <AccountView>
+        <div className="flex items-center justify-center">
+          <Loader />
+        </div>
+      </AccountView>
+    )
+  }
+
+  if (!account) {
+    return <AccountView>Unauthorized</AccountView>
+  }
+
+  return (
+    <AccountView>
+      <Form className="items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
+        <Form.Section title="General">
+          <Form.Field className="w-full">
+            <Form.Field.Label htmlFor="username">Username</Form.Field.Label>
+            <Input type="text" name="username" defaultValue={account.username} placeholder="Anonymous" />
+          </Form.Field>
+
+          <Form.Horizontal>
+            <Form.Field className="w-full">
+              <Form.Field.Label htmlFor="first_name">First name</Form.Field.Label>
+              <Input type="text" name="first_name" defaultValue={account.first_name} placeholder="Satoshi" />
+            </Form.Field>
+
+            <Form.Field className="w-full">
+              <Form.Field.Label htmlFor="last_name">Last name</Form.Field.Label>
+              <Input type="text" name="last_name" defaultValue={account.last_name} placeholder="Nakamoto" />
+            </Form.Field>
+          </Form.Horizontal>
+        </Form.Section>
+
+        <Form.Section title="Mining pool">
+          <Form.Field className="w-full">
+            <Form.Field.Label htmlFor="mining_pool_address">Mining pool address</Form.Field.Label>
+            <Input type="text" name="mining_pool_address" defaultValue={account.mining_pool_address} placeholder="-" />
+          </Form.Field>
+
+          <Form.Field className="w-full">
+            <Form.Field.Label htmlFor="mining_pool_username">Mining pool username</Form.Field.Label>
+            <Input type="text" name="mining_pool_username" defaultValue={account.mining_pool_username} placeholder="-" />
+          </Form.Field>
+        </Form.Section>
+
+        <Form.Section title="Contact details">
+          <Form.Field className="w-full">
+            <Form.Field.Label htmlFor="phone_number">Phone no.</Form.Field.Label>
+            <Input type="text" name="phone_number" defaultValue={account.phone_number} placeholder="-" />
+          </Form.Field>
+
+          <Form.Field className="w-full">
+            <Form.Field.Label htmlFor="telegram_username">Telegram username</Form.Field.Label>
+            <Input type="text" name="telegram_username" defaultValue={account.telegram_username} placeholder="-" />
+          </Form.Field>
+        </Form.Section>
+
+        <Form.Section title="Other">
+          <Form.Field className="w-full" disabled={true}>
+            <Form.Field.Label htmlFor="referral_code">Referral code</Form.Field.Label>
+            <Input type="text" name="referral_code" defaultValue={account.referral_code} placeholder="-" />
+          </Form.Field>
+        </Form.Section>
+
+        <div className="flex w-full justify-end px-4 pb-4">
+          <Form.Submit>Save</Form.Submit>
+        </div>
+      </Form>
+    </AccountView>
+  )
+}
+
+export default protect(Account)
