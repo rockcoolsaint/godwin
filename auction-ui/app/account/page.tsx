@@ -75,12 +75,17 @@ function Account() {
         <Form.Section title="Mining pool">
           <Form.Field className="w-full">
             <Form.Field.Label htmlFor="mining_pool_address">Mining pool address</Form.Field.Label>
-            <Input type="text" name="mining_pool_address" defaultValue={account.mining_pool_address} placeholder="-" />
+            <Input
+              type="text"
+              name="mining_pool_address"
+              defaultValue={account.pool_user?.pool}
+              placeholder="stratum+tcp://stratum.braiins.com:3333"
+            />
           </Form.Field>
 
           <Form.Field className="w-full">
             <Form.Field.Label htmlFor="mining_pool_username">Mining pool username</Form.Field.Label>
-            <Input type="text" name="mining_pool_username" defaultValue={account.mining_pool_username} placeholder="-" />
+            <Input type="text" name="mining_pool_username" defaultValue={account.pool_user?.username} placeholder="satoshi.worker" />
           </Form.Field>
         </Form.Section>
 

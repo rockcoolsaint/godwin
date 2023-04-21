@@ -1,5 +1,3 @@
-import { Bid } from 'src/types'
-
 export interface Auction {
   id: number
   auction_meta: AuctionMeta
@@ -60,8 +58,8 @@ export interface HomePageDataResponse {
 
 export interface AuctionOfTheDayResponse {
   auction: Auction
-  bids?: Bid[] | null
-  current_bid: Bid
+  bids?: BidsEntityOrCurrentBid[] | null
+  current_bid: BidsEntityOrCurrentBid
   proxy_bid?: null[] | null
   winner: Winner
 }
@@ -77,6 +75,11 @@ export interface BidsEntityOrCurrentBid {
   auction_list: number
 }
 
+export interface PoolUser {
+  pool: string
+  username: string
+}
+
 export interface Account {
   id: number
   username: string
@@ -90,8 +93,7 @@ export interface Account {
   is_subscribed: boolean
   avatar?: string
   referral_code?: string
-  mining_pool_address?: string
-  mining_pool_username?: string
+  pool_user?: PoolUser
   phone_number?: string
   address?: string
   telegram_username?: string
