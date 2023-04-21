@@ -23,6 +23,7 @@ export default function Register() {
         mining_pool_username: data.mining_pool_username || '',
         mining_pool_address: data.mining_pool_address || '',
         referral_code: data.referral_code || '',
+        create_pool_account: tab === 'generate',
       })
     } catch (ex) {
       console.error(ex)
