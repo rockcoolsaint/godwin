@@ -31,6 +31,11 @@ export enum OrderStatus {
   PaymentTwoComplete = 'paid_2',
 }
 
+export enum OrderType {
+  Auction = 'auction',
+  Direct = 'direct',
+}
+
 export interface Order {
   id: number
   auction: Auction
@@ -44,6 +49,7 @@ export interface Order {
   account_id: number
   checkout_url?: string
   promo_code?: PromoCode
+  type: OrderType
 }
 
 export interface Collection {

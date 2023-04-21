@@ -1,7 +1,7 @@
 'use client'
 
 import { Container, Loader } from 'src/core'
-import { Order, OrderStatus } from 'src/types'
+import { Order, OrderStatus, OrderType } from 'src/types'
 
 import PaymentOne from 'src/components/pages/checkout/PaymentOne'
 import PaymentTwo from 'src/components/pages/checkout/PaymentTwo'
@@ -86,7 +86,8 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
       <Container>
         <div className="flex h-full w-full items-center justify-center">
           <div className="flex flex-col items-center">
-            <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment #1</span>
+            {order.type === OrderType.Auction && <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment #1</span>}
+            {order.type === OrderType.Direct && <span className="mb-4 text-2xl font-semibold">Your payment is processing</span>}
             <span className="mb-2">Please wait for confirmation on this page, or check back later.</span>
           </div>
         </div>
@@ -115,8 +116,9 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
         <Container>
           <div className="flex h-full w-full items-center justify-center">
             <div className="flex flex-col items-center">
-              <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment #2</span>
-              <span className="mb-2">TODO: Add some guidance for users here on how to access their hashrate.</span>
+              {order.type === OrderType.Auction && <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment #2</span>}
+              {order.type === OrderType.Direct && <span className="mb-4 text-2xl font-semibold">Your payment is complete</span>}
+              <span className="mb-2">You should receive an email about your hashrate soon.</span>
             </div>
           </div>
         </Container>
