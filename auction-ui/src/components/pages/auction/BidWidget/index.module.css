@@ -1,0 +1,45 @@
+.range-slider[type='range'] {
+  -webkit-appearance: none;
+}
+
+.range-slider[type='range']:focus {
+  outline: none;
+}
+
+.range-slider[type='range']::-webkit-slider-runnable-track {
+  background: #0672f7;
+  height: 5px;
+  border-radius: 20px;
+}
+
+.range-slider[type='range']::-moz-range-track {
+  background: #0672f7;
+  height: 5px;
+  border-radius: 20px;
+}
+
+.range-slider[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  background: #60a5fa;
+  margin-top: -8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.range-slider[type='range']::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  background: #60a5fa;
+  margin-top: -8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.range-slider[type='range']::-webkit-slider-thumb:hover {
+  background-color: #72a0d7;
+  transform: scale(1.2);
+}

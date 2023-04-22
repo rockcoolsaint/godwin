@@ -10,7 +10,7 @@ const Footer = () => {
 
   return (
     <Container>
-      <section className="px-6">
+      <section className="sm:px-6">
         <div>
           <div>
             <div className="mb-16 flex items-center justify-between border-t border-gray-300 pt-16">

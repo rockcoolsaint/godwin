@@ -1,5 +1,3 @@
-'use client'
-
 // import { usePathname } from 'next/navigation'
 import React from 'react'
 // import Banner from 'src/components/Banner'

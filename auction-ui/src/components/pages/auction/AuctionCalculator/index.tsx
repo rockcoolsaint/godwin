@@ -2,11 +2,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Tooltip } from 'react-tooltip'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import SatsSvg from 'src/assets/svg/sats.svg'
 
-import { Auction } from 'src/types'
+import { Auction } from 'src/api/auction/types'
 
 interface calculatorProps {
   data: Auction

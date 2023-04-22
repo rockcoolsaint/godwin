@@ -18,7 +18,8 @@ export interface Auction {
   proxy_increement: number
   slug: string
   payment_address: string
-  payment_address_qr: string
+  is_featured: boolean
+  is_dummy: boolean
   account: number
   category: number
 }
@@ -31,9 +32,9 @@ export enum AuctionStatus {
 
 export interface AuctionMeta {
   id: number
-  profile_image_1: string
-  profile_image_2: string
-  profile_image_3: string
+  image_1: string
+  image_2: string
+  image_3: string
   site_photo: string
   live_feed_image: string
   hash_price_image: string
@@ -59,7 +60,7 @@ export interface HomePageDataResponse {
 export interface AuctionOfTheDayResponse {
   auction: Auction
   bids?: BidsEntityOrCurrentBid[] | null
-  current_bid: BidsEntityOrCurrentBid
+  current_bid: BidsEntityOrCurrentBid | null
   proxy_bid?: null[] | null
   winner: Winner
 }

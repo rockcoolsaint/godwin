@@ -1,3 +1,4 @@
+'use client'
 import FeaturedAuctions from 'src/components/pages/home/FeaturedAuctions'
 import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
 import asic from 'src/assets/png/asic.png'
@@ -9,7 +10,6 @@ import Link from 'src/components/shared/Link'
 import hero_image from 'src/assets/png/auctioneer.png'
 import Image from 'next/image'
 import Testimonials from 'src/components/pages/home/Testimonial'
-import { Container } from 'src/core'
 
 interface Props {
   auctions: Auction[]
@@ -20,10 +20,12 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
   const { t } = useTranslation()
 
   return (
-    <Container className="pt-20">
-      <section className="flex items-center">
-        <div className="mr-4 flex flex-col items-center justify-start sm:items-start">
-          <h1 className="gradient-text text-center text-8xl leading-[7rem] text-gradient sm:text-left ">Start mining smarter</h1>
+    <div>
+      <section className="md:px-25 mx-auto mt-20 flex max-w-[1824px] items-center px-5 md:flex-col md:items-center md:justify-between lg:flex-row lg:px-40">
+        <div className="mr-4 flex flex-col items-center justify-start md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 lg:items-start">
+          <h1 className="gradient-text text-center text-8xl leading-[7rem] text-gradient sm:text-left md:text-center lg:text-left ">
+            Start mining smarter
+          </h1>
           <p className="my-6 text-4xl font-semibold">Mining for the future</p>
           <Link className=" rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover" href="/collections">
             start mining now
@@ -41,6 +43,6 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
         </div>
       </section>
       <Testimonials />
-    </Container>
+    </div>
   )
 }

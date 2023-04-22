@@ -1,7 +1,8 @@
 'use client'
 
 import { makeClientRequest } from 'src/api/clientRequest'
-import { Auction, Bid } from 'src/types'
+import { Auction, BidsEntityOrCurrentBid as Bid } from 'src/api/auction/types'
+
 import { Winner } from './types'
 
 export interface AuctionResponse {

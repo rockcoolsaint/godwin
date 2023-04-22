@@ -1,4 +1,4 @@
-import { AuctionStatus } from 'src/api/auction/types'
+import { Auction } from 'src/api/auction/types'
 
 export enum PaymentStatus {
   Processing = 'processing',
@@ -65,43 +65,4 @@ export enum AuctionTypeChoice {
 export interface AuctionType {
   type: AuctionTypeChoice
   percentage: number
-}
-
-export interface AuctionMeta {
-  image_1: string
-  image_2: string
-  image_3: string
-  site_photo: string
-  live_feed_image: string
-  hash_price_image: string
-  power_source: string
-  asic_model: string
-  terms_link: string
-  hashrate: string
-  location: string
-  current_hash_price: string
-  days_of_mining: string
-  hours_per_day: string
-}
-
-export interface Auction {
-  id: number
-  account: number
-  title: string
-  sub_title: string
-  description: string
-  starting_bid: number
-  start_at: string
-  end_at: string
-  status: AuctionStatus
-  category: Collection
-  proxy_increment: number
-  slug: string
-  auction_type: AuctionType
-  payment_address: string
-  payment_address_qr: string
-  auction_meta: AuctionMeta
-  is_featured: boolean
-  is_dummy: boolean
-  current_bid?: number
 }

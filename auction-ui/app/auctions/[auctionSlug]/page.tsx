@@ -6,10 +6,10 @@ import { getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
 import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
 import { useEffect, useRef, useState } from 'react'
 
-import { Auction, Order } from 'src/types'
 import { Loader } from 'src/core'
-import { AuctionStatus, BidsEntityOrCurrentBid } from 'src/api/auction/types'
+import { AuctionStatus, Auction, BidsEntityOrCurrentBid } from 'src/api/auction/types'
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
+import { Order } from 'src/types'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
   const slug = params.auctionSlug
