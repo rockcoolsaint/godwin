@@ -45,3 +45,21 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
+const { withSentryConfig } = require('@sentry/nextjs')
+
+module.exports = withSentryConfig(
+  module.exports,
+  {
+    silent: true,
+    org: 'rigly',
+    project: 'rigly',
+  },
+  {
+    widenClientFileUpload: true,
+    transpileClientSDK: true,
+    tunnelRoute: '/monitoring',
+    hideSourceMaps: true,
+    disableLogger: true,
+  },
+)
