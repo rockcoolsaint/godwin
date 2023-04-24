@@ -71,6 +71,10 @@ function Orders() {
           row={(order, col) => {
             switch (col) {
               case 'auction': {
+                if (!order.auction) {
+                  return <>-</>
+                }
+
                 return (
                   <Link href={`/auctions/${order.auction.slug}`} className="group flex items-center justify-start gap-4 py-1">
                     <div className="h-10 w-10 rounded-lg bg-gray-300">
