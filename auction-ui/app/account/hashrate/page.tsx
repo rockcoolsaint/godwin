@@ -64,7 +64,7 @@ function Hashrate() {
             switch (col) {
               case 'auction': {
                 if (!order.auction) {
-                  return <>-</>
+                  return <div className="h-[51px]">-</div>
                 }
 
                 return (
