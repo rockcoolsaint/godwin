@@ -7,7 +7,7 @@ import Image from 'next/image'
 import AccountView from 'src/components/pages/account/AccountView'
 import Link from 'src/components/shared/Link'
 import { getOrders } from 'src/api/account/getOrders'
-import { Order, OrderStatus } from 'src/types'
+import { Order, OrderStatus, OrderType } from 'src/types'
 import { Loader, Table } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import protect from 'src/hoc/protect'
@@ -64,27 +64,18 @@ function Orders() {
         <Table
           data={orders}
           cols={[
-            { title: 'Auction', name: 'auction' },
+            { title: 'Order ID', name: 'order_id' },
+            { title: 'Order Type', name: 'order_type' },
             { title: 'Payment status', name: 'payment_status' },
             { title: 'Actions', name: 'actions', align: 'right' },
           ]}
           row={(order, col) => {
             switch (col) {
-              case 'auction': {
-                if (!order.auction) {
-                  return <div className="h-[51px]">-</div>
-                }
-
-                return (
-                  <Link href={`/auctions/${order.auction.slug}`} className="group flex items-center justify-start gap-4 py-1">
-                    <div className="h-10 w-10 rounded-lg bg-gray-300">
-                      {order.auction.auction_meta.site_photo && (
-                        <Image src={order.auction.auction_meta.site_photo} alt={order.auction.title} />
-                      )}
-                    </div>
-                    <span className="group-hover:text-primary">{order.auction.title}</span>
-                  </Link>
-                )
+              case 'order_id': {
+                return <div className="flex h-12 items-center">{order.id}</div>
+              }
+              case 'order_type': {
+                return <div className="flex h-12 items-center">{order.type === OrderType.Direct ? 'Direct' : 'Auction'}</div>
               }
               case 'payment_status': {
                 return <>{formatOrderStatus(order.status)}</>
