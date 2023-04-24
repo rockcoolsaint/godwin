@@ -20,7 +20,7 @@ enum RegisterView {
 export default function Register() {
   const { t } = useTranslation()
   const { error } = useNotificationContext()
-  const returnUrl = useReturnUrl(true)
+  const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
   const [loading, setLoading] = useState<boolean>(false)
   const [tab, setTab] = useState<string>('input')

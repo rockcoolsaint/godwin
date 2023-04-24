@@ -19,7 +19,7 @@ export default function Login() {
   const { login } = useAccountContext()
   const { t } = useTranslation()
   const { error } = useNotificationContext()
-  const returnUrl = useReturnUrl(true)
+  const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
   const [loading, setLoading] = useState<boolean>(false)
   const [email, setEmail] = useState<string | undefined>(undefined)
