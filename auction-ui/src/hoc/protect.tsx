@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { usePathname } from 'next/navigation'
-import Link from 'src/components/shared/Link'
-import { Button, Loader } from 'src/core'
+import { usePathname, useRouter } from 'next/navigation'
+import { Loader } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import Container from 'src/core/components/Container'
+import { useEffect } from 'react'
+import useReturnUrl from 'src/hooks/useReturnUrl'
 
 export const protectedRoutes = ['/checkout', '/account', '/account/hashrate', '/account/orders']
 
@@ -15,9 +16,17 @@ const isRouteProtected = (pathName: string): boolean => {
 
 export default function protect(Component: any) {
   return function HocChildComponent(props: any) {
+    const router = useRouter()
     const pathName = usePathname()
     const isProtectedRoute = isRouteProtected(pathName)
     const { account, isLoading } = useAccountContext()
+    const returnUrl = useReturnUrl()
+
+    useEffect(() => {
+      if (isProtectedRoute && !isLoading && !account) {
+        router.push(`/login${returnUrl}`)
+      }
+    }, [isProtectedRoute, isLoading, account, router, returnUrl])
 
     if (!isProtectedRoute) {
       return <Component {...props} />
@@ -33,19 +42,8 @@ export default function protect(Component: any) {
 
     if (!account) {
       return (
-        <Container className="flex h-full flex-col items-center justify-center gap-4">
-          <h1>Unauthorized</h1>
-          <p className="">You need to be signed in to access this page.</p>
-
-          <div className="flex items-center justify-center gap-2">
-            <Link href="/login">
-              <Button>Sign in</Button>
-            </Link>
-
-            <Link href="/register">
-              <Button>Create an account</Button>
-            </Link>
-          </div>
+        <Container className="flex h-full items-center justify-center">
+          <Loader />
         </Container>
       )
     }

@@ -7,28 +7,22 @@ import Footer from 'src/components/shared/Footer'
 import AccountProvider from 'src/providers/AccountProvider'
 import NotificationProvider from 'src/core/providers/NotificationProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
-import Root from 'src/components/Root'
 
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
     <html lang="en" className="bg-page-background">
       <head>
-        <meta charSet="UTF-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Rigly</title>
       </head>
       <body>
         <NotificationProvider>
           <AccountProvider>
             <WebsocketProvider>
-              <Root>
-                <div className="flex h-screen flex-col justify-between">
-                  <Header />
-                  {children}
-                  <Footer />
-                </div>
-              </Root>
+              <div className="flex flex-col justify-between">
+                <Header />
+                {children}
+                <Footer />
+              </div>
             </WebsocketProvider>
           </AccountProvider>
         </NotificationProvider>

@@ -63,7 +63,9 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           setAccount(account)
 
           if (params.return_url) {
-            return router.replace(`/${params.return_url}`)
+            const returnUrl = decodeURIComponent(params.return_url)
+
+            return router.replace(returnUrl)
           }
 
           // window.history.pushState({}, document.title, window.location.pathname)

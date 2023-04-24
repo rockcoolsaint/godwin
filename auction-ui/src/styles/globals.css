@@ -69,4 +69,8 @@
     background-clip: text;
     text-fill-color: transparent;
   }
+
+  .plotly-notifier {
+    display: none !important;
+  }
 }

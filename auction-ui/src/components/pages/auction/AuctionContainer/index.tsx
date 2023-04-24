@@ -8,13 +8,12 @@ import { BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
 import AuctionBids from 'src/components/pages/auction/AuctionBids'
 import AuctionProfile from 'src/components/pages/auction/AuctionProfile'
 import AuctionLiveFeed from 'src/components/pages/auction/AuctionLiveFeed'
-import AuctionSitePhotos from 'src/components/pages/auction/AuctionSitePhotos'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
-import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
 import Container from 'src/core/components/Container'
 import BidWidget from 'src/components/pages/auction/BidWidget'
 import { Button, Loader } from 'src/core'
-import { Auction, Order, OrderStatus } from 'src/types'
+import { Auction } from 'src/api/auction/types'
+import { Order, OrderStatus } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
 function classNames(...classes: string[]) {
@@ -33,7 +32,7 @@ interface AuctionContainerProps {
   auction: Auction
   order?: Order
   bids: BidsEntityOrCurrentBid[]
-  current_bid: BidsEntityOrCurrentBid | null
+  current_bid: BidsEntityOrCurrentBid
   proxy_bids: BidsEntityOrCurrentBid[]
   winner: Winner
   slug: string
@@ -61,22 +60,10 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
         component: <AuctionLiveFeed />,
       },
     ],
-    Calculator: [
-      {
-        id: 4,
-        component: <AuctionCalculator data={auction} />,
-      },
-    ],
     'Hash price': [
       {
         id: 5,
         component: <AuctionHashPrice />,
-      },
-    ],
-    'Site photos': [
-      {
-        id: 6,
-        component: <AuctionSitePhotos />,
       },
     ],
   }
@@ -102,11 +89,10 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
-      <p></p>
       <section className="flex flex-col rounded-xl bg-gray-50 p-3 lg:flex-row">
-        <div className=" px-2 sm:px-0 lg:w-[75%]">
+        <div className="lg:w-[75%]">
           <Tab.Group>
-            <Tab.Panels className=" h-[640px] overflow-scroll ">
+            <Tab.Panels className=" h-[440px] overflow-scroll ">
               {Object.values(categories).map((posts, idx) => (
                 <Tab.Panel
                   key={idx}
@@ -132,7 +118,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
             </Tab.List>
           </Tab.Group>
         </div>
-        <div className="ml-4 mt-4 flex flex-col lg:mt-0 lg:w-[25%]">
+        <div className=" mt-4 flex min-w-fit flex-col lg:ml-4 lg:mt-0 lg:w-[25%]">
           <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
 
           {order && account && order.account_id === account.id && order.status !== OrderStatus.PaymentTwoComplete && (
