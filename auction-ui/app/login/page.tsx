@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import Link from 'src/components/shared/Link'
 import { Container, Form, Input } from 'src/core'
 import Icon from 'src/core/components/Icon'
 import { useNotificationContext } from 'src/core/providers/NotificationProvider'
 import { useTranslation } from 'src/hooks'
+import useReturnUrl from 'src/hooks/useReturnUrl'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
 enum LoginView {
@@ -16,10 +16,10 @@ enum LoginView {
 }
 
 export default function Login() {
-  const searchParams = useSearchParams()
   const { login } = useAccountContext()
   const { t } = useTranslation()
   const { error } = useNotificationContext()
+  const returnUrl = useReturnUrl()
 
   const [loading, setLoading] = useState<boolean>(false)
   const [email, setEmail] = useState<string | undefined>(undefined)
@@ -29,8 +29,6 @@ export default function Login() {
     try {
       setLoading(true)
       setEmail(data.email)
-
-      const returnUrl = searchParams.get('return_url') as string
 
       const [success, error] = await login(data.email, returnUrl)
       if (!success) {

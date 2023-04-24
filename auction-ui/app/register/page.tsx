@@ -10,6 +10,7 @@ import Form from 'src/core/components/Form'
 import Icon from 'src/core/components/Icon'
 import { useNotificationContext } from 'src/core/providers/NotificationProvider'
 import { useTranslation } from 'src/hooks'
+import useReturnUrl from 'src/hooks/useReturnUrl'
 
 enum RegisterView {
   Register = 0,
@@ -19,6 +20,7 @@ enum RegisterView {
 export default function Register() {
   const { t } = useTranslation()
   const { error } = useNotificationContext()
+  const returnUrl = useReturnUrl(true)
 
   const [loading, setLoading] = useState<boolean>(false)
   const [tab, setTab] = useState<string>('input')
@@ -30,13 +32,16 @@ export default function Register() {
       setLoading(true)
       setEmail(data.email)
 
-      const [success, error] = await register({
-        email: data.email,
-        mining_pool_username: data.mining_pool_username || '',
-        mining_pool_address: data.mining_pool_address || '',
-        referral_code: data.referral_code || '',
-        create_pool_account: tab === 'generate',
-      })
+      const [success, error] = await register(
+        {
+          email: data.email,
+          mining_pool_username: data.mining_pool_username || '',
+          mining_pool_address: data.mining_pool_address || '',
+          referral_code: data.referral_code || '',
+          create_pool_account: tab === 'generate',
+        },
+        returnUrl,
+      )
 
       if (!success) {
         throw error

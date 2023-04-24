@@ -8,12 +8,13 @@ interface RegisterPayload {
   create_pool_account: boolean
 }
 
-export async function register(payload: RegisterPayload): Promise<[boolean, string | undefined]> {
+export async function register(payload: RegisterPayload, returnUrl?: string): Promise<[boolean, string | undefined]> {
   const res = await makeClientRequest({
     method: 'POST',
     path: `/api/auth/register`,
     body: {
       ...payload,
+      return_url: returnUrl,
       url: process.env.NEXT_PUBLIC_APP_CALLBACK_URL,
     },
   })

@@ -11,10 +11,12 @@ import { useAccountContext } from 'src/providers/AccountProvider'
 import Container from 'src/core/components/Container'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import useReturnUrl from 'src/hooks/useReturnUrl'
 
 export default function HeaderNav() {
   const router = useRouter()
   const { account, isLoading } = useAccountContext()
+  const returnUrl = useReturnUrl()
 
   const [active, setActive] = useState<boolean>(false)
 
@@ -26,12 +28,13 @@ export default function HeaderNav() {
 
   const handleRegisterClick = () => {
     toggleMobileMenu()
-    router.push('/register')
+    router.push(`/register${returnUrl}`)
   }
 
   const handleLoginClick = () => {
     toggleMobileMenu()
-    router.push('/login')
+
+    router.push(`/login${returnUrl}`)
   }
 
   return (
