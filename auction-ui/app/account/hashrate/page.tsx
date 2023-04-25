@@ -63,6 +63,10 @@ function Hashrate() {
           row={(order, col) => {
             switch (col) {
               case 'auction': {
+                if (!order.auction) {
+                  return <div className="h-[51px]">-</div>
+                }
+
                 return (
                   <Link href={`/auctions/${order.auction.slug}`} className="group flex items-center justify-start gap-4 py-1">
                     <div className="h-10 w-10 rounded-lg bg-gray-300">
@@ -78,10 +82,10 @@ function Hashrate() {
                 return <>{order.auction.auction_meta.hashrate}</>
               }
               case 'asic_model': {
-                return <>{order.auction.auction_meta.asic_model}</>
+                return <>{order.auction.auction_meta.asic_model.name}</>
               }
               case 'power_source': {
-                return <>{order.auction.auction_meta.power_source}</>
+                return <>{order.auction.auction_meta.power_source.name}</>
               }
               case 'days_of_mining': {
                 return <>{order.auction.auction_meta.days_of_mining} days</>

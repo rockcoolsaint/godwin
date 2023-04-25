@@ -18,6 +18,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/T
 import { useSatsToFiat } from 'src/hooks'
 import { CountdownWidget } from 'src/components/pages/auction/BidWidget/countdownWidget'
 import styles from './index.module.css'
+import { useWebsocketContext } from 'src/providers/WebsocketProvider'
 
 interface Props {
   auction: Auction
@@ -31,6 +32,7 @@ interface Props {
 const BidWidget = ({ auction, current_bid }: Props) => {
   const { isLoading, token } = useAccountContext()
   const { success, error } = useNotificationContext()
+  const { isSocketReady } = useWebsocketContext()
 
   const [bidAmount, setBidAmount] = useState<string>('')
   const [bidAmountErrors, setBidAmountErrors] = useState<string[] | undefined>(undefined)
@@ -167,7 +169,7 @@ const BidWidget = ({ auction, current_bid }: Props) => {
                   <div className="mt-5 w-full">
                     <p className="text-base font-semibold text-dark-100">Enter your bid</p>
                     <div className="mt-2 flex flex-col">
-                      <Form className="gap-4" onSubmit={handlePlaceBid} disabled={loadingPlaceBid}>
+                      <Form className="gap-4" onSubmit={handlePlaceBid} disabled={loadingPlaceBid || !isSocketReady}>
                         <Form.Field required errors={bidAmountErrors}>
                           <Input
                             type="number"

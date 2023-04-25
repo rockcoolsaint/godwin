@@ -1,4 +1,4 @@
-import { AuctionStatus } from 'src/api/auction/types'
+import { Auction, AuctionMeta, AuctionStatus } from 'src/api/auction/types'
 
 export interface RendererProps {
   days?: string | number
@@ -44,56 +44,12 @@ export interface HomePageProps {
 }
 
 export interface productProfileProps {
-  data: {
-    auction_meta: productMetaProps
-    auction_type: string
-    bid_count: number | string
-    id?: number | string
-    created_at: string
-    current_bid?: number | string
-    updated_at: string
-    deleted: boolean
-    version: string
-    title: string
-    sub_title: string
-
-    description: string
-    starting_bid: number
-    start_at: string
-    end_at: string
-    status: AuctionStatus
-    proxy_increement: number
-    payment_address: string
-    payment_address_qr: string
-
-    slug_category: string
-    account: number | string
-    category: number | string
-    key?: number | string
-  }
+  data: Auction
   currentBid?: number
 }
 
-export interface productMetaProps {
-  id: number | string
-  profile_image_1: string
-  profile_image_2: string
-  profile_image_3: string
-  site_photo: string
-  live_feed_image: string
-  hash_price_image: string
-  power_source: string
-  asic_model: string
-  terms_link: string
-  hashrate: string
-  location: string
-  current_hash_price: string
-  days_of_mining: string
-  hours_per_day: string
-}
-
 export interface productProps {
-  auction_meta: productMetaProps
+  auction_meta: AuctionMeta
   auction_type: string
   bid_count: number | string
   id?: number | string
