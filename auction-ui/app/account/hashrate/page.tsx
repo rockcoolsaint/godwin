@@ -82,10 +82,10 @@ function Hashrate() {
                 return <>{order.auction.auction_meta.hashrate}</>
               }
               case 'asic_model': {
-                return <>{order.auction.auction_meta.asic_model}</>
+                return <>{order.auction.auction_meta.asic_model.name}</>
               }
               case 'power_source': {
-                return <>{order.auction.auction_meta.power_source}</>
+                return <>{order.auction.auction_meta.power_source.name}</>
               }
               case 'days_of_mining': {
                 return <>{order.auction.auction_meta.days_of_mining} days</>
