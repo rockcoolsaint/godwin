@@ -116,7 +116,7 @@ function Section({ children, className, title }: { children: React.ReactNode; cl
 }
 
 function Horizontal({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={clsx(className, 'flex justify-between gap-4')}>{children}</div>
+  return <div className={clsx(className, 'flex flex-col justify-between gap-4 lg:flex-row')}>{children}</div>
 }
 
 Form.Field = Field
