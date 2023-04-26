@@ -1,5 +1,5 @@
 export function url(path?: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_API_SERVER_URL
+  const baseUrl = process.env.NEXT_PUBLIC_APP_API_SERVER_URL || ''
 
   if (!path) {
     return baseUrl

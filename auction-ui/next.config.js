@@ -16,6 +16,18 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'qa.auctions.rigly.io',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'auctions.rigly.io',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   output: 'standalone',
