@@ -2,7 +2,7 @@
 
 import AuctionContainer from 'src/components/pages/auction/AuctionContainer'
 import Container from 'src/core/components/Container'
-import { getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
+import { getAuctionBySlug, Livefeed } from 'src/api/auction/getAuctionBySlug'
 import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
 import { useEffect, useRef, useState } from 'react'
 
@@ -22,7 +22,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
   const [currentBid, setCurrentBid] = useState<any>(undefined)
   const [proxyBids, setProxyBids] = useState<any>(undefined)
   const [winner, setWinner] = useState<any>(undefined)
-
+  const [livefeedData, setLivefeedData] = useState<Livefeed>({ x: [], y: [] })
   const [order, setOrder] = useState<Order | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -31,7 +31,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
       setLoading(true)
 
       try {
-        const { auction, bids: auction_bids, current_bid, proxy_bids, winner } = await getAuctionBySlug(slug)
+        const { auction, livefeed, bids: auction_bids, current_bid, proxy_bids, winner } = await getAuctionBySlug(slug)
         if (!auction) {
           setLoading(false)
 
@@ -43,6 +43,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         setProxyBids(proxy_bids)
         setCurrentBid(current_bid)
         setWinner(winner)
+        setLivefeedData(livefeed)
 
         if (auction.status === AuctionStatus.Completed) {
           const order = await getOrderByAuctionId(auction.id)
@@ -113,6 +114,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
     <Container className="h-full py-5">
       <AuctionContainer
         auction={auction}
+        livefeed={livefeedData}
         bids={bids.current}
         current_bid={currentBid}
         proxy_bids={proxyBids}
