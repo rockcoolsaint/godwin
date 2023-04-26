@@ -1,15 +1,15 @@
-export async function getDifficultyAdjustment() {
-  const data = await fetch(`https://mempool.space/api/v1/difficulty-adjustment`)
-  const response = await data.json()
+import { get } from 'utils'
 
-  return response
+export async function getDifficultyAdjustment() {
+  const data = await get(`https://mempool.space/api/v1/difficulty-adjustment`)
+
+  return data
 }
 
 export async function getBlockTipHeight() {
-  const data = await fetch(`https://mempool.space/api/blocks/tip/height`)
-  const response = await data.json()
+  const data = get(`https://mempool.space/api/blocks/tip/height`)
 
-  return response
+  return data
 }
 
 export interface HashRateResponse {
@@ -30,8 +30,7 @@ export interface MonthlyAvgHashrateChange1Year {
 }
 
 export async function getHashRate() {
-  const data = await fetch(`https://insights.braiins.com/api/v1.0/hash-rate-stats`)
-  const response: HashRateResponse = await data.json()
+  const data: HashRateResponse = await get(`https://insights.braiins.com/api/v1.0/hash-rate-stats`)
 
-  return response
+  return data
 }
