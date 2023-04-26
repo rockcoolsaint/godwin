@@ -233,7 +233,8 @@ function BidWidgetCalculator({ auction }: BidWidgetCalculatorProps) {
           id="#hashprice"
           name="volume"
           min="0"
-          max="100000000"
+          max="800"
+          value={hashPrice}
         />
       </label>
       <div className="mt-4">
