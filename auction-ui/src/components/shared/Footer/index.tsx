@@ -22,10 +22,18 @@ const Footer = () => {
                 </div>
               </div>
               <div className="flex">
-                <Link className=" flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]" href="/">
+                <Link
+                  className=" flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+                  href="https://www.linkedin.com/company/rigly/about/"
+                  target="_blank"
+                >
                   <LinkedInSvg className="h-6 w-6" />
                 </Link>
-                <Link className="ml-2 flex items-center justify-center rounded-lg bg-gradient p-3 hover:bg-gradient-hover" href="/">
+                <Link
+                  target="_blank"
+                  className="ml-2 flex items-center justify-center rounded-lg bg-gradient p-3 hover:bg-gradient-hover"
+                  href="https://twitter.com/TrustlessMining"
+                >
                   <TwitterSvg className="h-6 w-6" />
                 </Link>
               </div>
@@ -50,27 +58,27 @@ const Footer = () => {
               <h4 className="mb-5 text-lg font-medium text-dark-200">Quick Link</h4>
               <ul>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
-                    Auctions
+                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/pages/trustless-mining">
+                    Trustless Mining Escrow
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
+                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/pages/about">
                     About us
                   </Link>
                 </li>
-                <li className="mb-3">
+                {/* <li className="mb-3">
                   <Link className="font-normal text-dark-100 hover:underline" href="/">
                     How it Works
                   </Link>
-                </li>
+                </li> */}
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
+                  <Link className="font-normal text-dark-100 hover:underline" href="mailto:hello@rigly.io">
                     Contact us
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
+                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/pages/learn">
                     Learn
                   </Link>
                 </li>
@@ -82,27 +90,22 @@ const Footer = () => {
               <h4 className="mb-5 text-lg font-medium text-dark-200">Support</h4>
               <ul>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
-                    Help Center
-                  </Link>
-                </li>
-                <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
+                  <Link className="font-normal text-dark-100 hover:underline" href="/register">
                     Create Account
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
+                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/policies/privacy-policy">
                     Privacy policy
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
+                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/policies/terms-of-service">
                     Terms & Conditions
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
+                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/a/faq">
                     FAQ
                   </Link>
                 </li>

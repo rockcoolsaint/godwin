@@ -5,8 +5,13 @@ import { Auction, BidsEntityOrCurrentBid as Bid } from 'src/api/auction/types'
 
 import { Winner } from './types'
 
+export interface Livefeed {
+  x: string[]
+  y: number[]
+}
 export interface AuctionResponse {
   auction: Auction
+  livefeed: Livefeed
   bids: Bid[]
   current_bid: Bid
   proxy_bids: Bid[]

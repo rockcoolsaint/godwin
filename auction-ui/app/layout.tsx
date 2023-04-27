@@ -7,10 +7,17 @@ import Footer from 'src/components/shared/Footer'
 import AccountProvider from 'src/providers/AccountProvider'
 import NotificationProvider from 'src/core/providers/NotificationProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
+import { Poppins } from 'next/font/google'
+
+const poppins = Poppins({
+  display: 'swap',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
+})
 
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
-    <html lang="en" className="bg-page-background">
+    <html lang="en" className={poppins.className}>
       <head>
         <title>Rigly</title>
       </head>

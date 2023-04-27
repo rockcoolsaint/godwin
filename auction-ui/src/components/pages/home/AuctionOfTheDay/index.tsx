@@ -7,6 +7,7 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 import Container from 'src/core/components/Container'
 import { formatMoney } from 'src/utils/currency'
 import { isDateBefore } from 'src/utils/date'
+import { imageUrl } from 'utils'
 interface AuctionOfTheDay {
   auction: AuctionOfTheDayResponse
 }
@@ -41,22 +42,30 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
       <div className="shadow-level-2 rounded-3xl border px-3 py-14 shadow-md md:px-12">
         <h1 className="mb-9 text-center text-4xl">{t('home.auction_of_the_day')}</h1>
         <div className="flex flex-col md:flex-row">
-          <Image className="rounded-3xl" src="https://via.placeholder.com/352x230" alt="auction of the day" width={550} height={415} />
-          <div className="ml-0 mt-4 flex flex-col items-start md:mt-0 md:ml-9">
+          <Image
+            className="rounded-3xl"
+            src={imageUrl(auction.auction_meta.site_photo, '352x230')}
+            alt="auction of the day"
+            width={550}
+            height={415}
+          />
+          <div className="ml-0 mt-4 flex flex-col items-start md:ml-9 md:mt-0">
             {renderAuctionStatusTag()}
             <h1 className="mb-6 text-2xl font-semibold">{auction.title}</h1>
             <div className="flex justify-between">
               <aside>
                 <p className="text-base text-dark-100">{t('home.bid_start_date')}:</p>
-                <p className="text-base font-semibold">{start}</p>
+                <p className="text-base font-medium">{start}</p>
               </aside>
               <aside className="md:ml-9">
                 <p className="text-base text-dark-100">{t('home.bid_end_date')}:</p>
-                <p className="text-base font-semibold">{end}</p>
+                <p className="text-base font-medium">{end}</p>
               </aside>
             </div>
             <hr className="my-5 block w-full border" />
-            <p className="mb-4 rounded bg-tag-blue/[.2] p-2 px-5 text-base font-semibold text-tag-blue">{auction.bid_count} bid</p>
+            <p className="mb-4 rounded bg-tag-blue/[.2] p-2 px-5 text-base font-semibold text-tag-blue">
+              {auction.bid_count} {auction.bid_count > 1 ? 'bids' : 'bid'}
+            </p>
             <div className="mt-4 flex w-full justify-between">
               <aside>
                 <p className="mb-1 text-base text-dark-100">{t('home.start_bid_amount')}:</p>

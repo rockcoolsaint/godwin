@@ -23,25 +23,31 @@ export default function Authorized() {
             {account.email}
           </span>
 
-          <Dropdown target="accountDropdown" active={dropdownActive} onClose={() => setDropdownActive(false)}>
-            <Dropdown.Item href="/account">
+          <Dropdown
+            target="accountDropdown"
+            active={dropdownActive}
+            onClose={() => setDropdownActive(false)}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          >
+            <Dropdown.Item className="h-8 px-3" href="/account">
               <Icon icon="user" className="h-3 w-3 text-gray-600" />
               <span className="text-sm text-gray-600">Account</span>
             </Dropdown.Item>
 
-            <Dropdown.Item href="/account/hashrate">
+            {/* <Dropdown.Item className='h-8 px-3' href="/account/hashrate">
               <Icon icon="helmetSafety" className="h-3 w-3 text-gray-600" />
               <span className="text-sm text-gray-600">Hashrate</span>
-            </Dropdown.Item>
+            </Dropdown.Item> */}
 
-            <Dropdown.Item href="/account/orders">
+            <Dropdown.Item className="h-8 px-3" href="/account/orders">
               <Icon icon="cart" className="h-3 w-3 text-gray-600" />
               <span className="text-sm text-gray-600">Orders</span>
             </Dropdown.Item>
 
             <Dropdown.Seperator />
 
-            <Dropdown.Item onClick={logout}>
+            <Dropdown.Item className="h-8 px-3" onClick={logout}>
               <Icon icon="arrowRightFromBracket" className="h-3 w-3 text-gray-600" />
               <span className="text-sm text-gray-600">Sign out</span>
             </Dropdown.Item>

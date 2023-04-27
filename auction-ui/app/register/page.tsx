@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { register } from 'src/api/auth/register'
 import Link from 'src/components/shared/Link'
-import { Input, Tabs } from 'src/core'
+import { Input } from 'src/core'
 
 import Container from 'src/core/components/Container'
 import Form from 'src/core/components/Form'
@@ -23,7 +23,8 @@ export default function Register() {
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
   const [loading, setLoading] = useState<boolean>(false)
-  const [tab, setTab] = useState<string>('input')
+  // const [tab, setTab] = useState<string>('input')
+  const tab = 'input'
   const [email, setEmail] = useState<string | undefined>(undefined)
   const [view, setView] = useState(RegisterView.Register)
 
@@ -38,7 +39,8 @@ export default function Register() {
           mining_pool_username: data.mining_pool_username || '',
           mining_pool_address: data.mining_pool_address || '',
           referral_code: data.referral_code || '',
-          create_pool_account: tab === 'generate',
+          // create_pool_account: tab === 'generate',
+          create_pool_account: false,
         },
         returnUrl,
       )
@@ -76,7 +78,7 @@ export default function Register() {
               <Input type="email" name="email" placeholder="satoshi@gmx.com" />
             </Form.Field>
 
-            <div className="flex w-full flex-col gap-2">
+            {/* <div className="flex w-full flex-col gap-2">
               <Form.Field.Label hideSuffix>{t('registration.mining_pool_account')}</Form.Field.Label>
               <Tabs value={tab} onChange={setTab}>
                 <Tabs.Tab value="input">
@@ -87,7 +89,7 @@ export default function Register() {
                   <span className="text-xs">{t('registration.create_pool_account')}</span>
                 </Tabs.Tab>
               </Tabs>
-            </div>
+            </div> */}
 
             {tab === 'input' && (
               <>

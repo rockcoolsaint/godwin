@@ -7,6 +7,7 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 import { useTranslation } from 'src/hooks'
 import { formatDate } from 'src/utils/date'
 import { formatMoney } from 'src/utils/currency'
+import { imageUrl } from 'utils'
 
 interface ProductProps {
   auction: Auction
@@ -18,7 +19,9 @@ const AuctionCard = ({ auction }: ProductProps) => {
   const { auction_meta } = auction
 
   const renderAuctionMeta = () => {
-    return <span>{`${auction_meta.days_of_mining} days | ${auction_meta.hashrate} `}</span>
+    return (
+      <span>{`${auction_meta.days_of_mining} ${auction_meta.days_of_mining > 1 ? 'days' : 'day'}  | ${auction_meta.hashrate}TH/s `}</span>
+    )
   }
 
   return (
@@ -28,7 +31,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
           className="mb-4 block w-full overflow-hidden rounded-xl"
           width={352}
           height={230}
-          src="https://via.placeholder.com/352x230"
+          src={imageUrl(auction.auction_meta.site_photo, '352x230')}
           alt={auction.title + ' Image'}
         />
         <h3 className="mb-3 text-center text-2xl">{auction.title}</h3>
@@ -37,11 +40,11 @@ const AuctionCard = ({ auction }: ProductProps) => {
         <div className="mt-6 flex justify-between">
           <div className="flex flex-col items-start">
             <h5 className="mb-2 text-sm text-dark-100">{t('home.bid_end_date')}:</h5>
-            <strong className="text-left">{formatDate(auction.end_at)}</strong>
+            <p className="text-left font-medium">{formatDate(auction.end_at)}</p>
           </div>
           <div className="flex flex-col items-end">
             <h5 className="mb-2 text-sm text-dark-100">{t('home.number_of_bids')}</h5>
-            <strong className="text-right">{auction.bid_count}</strong>
+            <p className="text-right font-medium">{auction.bid_count}</p>
           </div>
         </div>
       </div>

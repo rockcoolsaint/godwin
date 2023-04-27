@@ -23,7 +23,7 @@ function getHeaders(headers: Headers | undefined): Headers {
 export async function get(url: string, headers?: Headers) {
   const res = await fetch(url, {
     method: 'GET',
-    headers: getHeaders(headers),
+    ...(Boolean(headers) && { headers: getHeaders(headers) }),
   })
 
   return await res.json()

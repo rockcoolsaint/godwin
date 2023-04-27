@@ -26,8 +26,8 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
           <h1 className="gradient-text text-center text-8xl leading-[7rem] text-gradient sm:text-left md:text-center lg:text-left ">
             Start mining smarter
           </h1>
-          <p className="my-6 text-4xl font-semibold">Mining for the future</p>
-          <Link className=" rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover" href="/collections">
+          <p className="my-6 text-4xl font-semibold lg:w-3/4">Buy bitcoin mining at an open market price</p>
+          <Link className=" rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover " href="/collections">
             start mining now
           </Link>
         </div>
@@ -38,8 +38,19 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
       <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-40 md:px-0">
         <h1 className="mb-20 text-center text-7xl text-primary">{t('home.start_mining_today')}</h1>
         <div className="flex flex-col items-center justify-center md:flex-row">
-          <Details title={t('home.title_mining')} imageSrc={asic} description={t('home.details_description')} />
-          <Details className="md:ml-14" title={t('home.title_bid')} imageSrc={bid} description={t('home.details_description')} />
+          <Details
+            title={t('home.title_mining')}
+            imageSrc={asic}
+            description={t('home.details_description')}
+            link="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
+          />
+          <Details
+            className="md:ml-14"
+            title={t('home.title_bid')}
+            imageSrc={bid}
+            description={t('home.details_description')}
+            link="https://blog.rigly.io/how-to-bid-on-hashrate/"
+          />
         </div>
       </section>
       <Testimonials />

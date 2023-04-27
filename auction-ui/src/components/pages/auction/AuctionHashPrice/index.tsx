@@ -1,13 +1,14 @@
-import Plot from 'react-plotly.js'
-import data from 'src/assets/json/auction_live_feed.json'
-import { PlotDataType } from 'src/components/pages/auction/types'
+'use client'
+
+import HashPriceStats from './HashPriceStats'
 
 export default function AuctionHashPrice() {
-  const plot = data as PlotDataType
-
   return (
-    <div className="flex h-full items-center justify-center overflow-scroll">
-      <Plot data={plot.data} layout={plot.layout} />
+    <div className="flex flex-col items-center justify-center overflow-scroll bg-gray-100">
+      <div>
+        <HashPriceStats />
+      </div>
+      <div />
     </div>
   )
 }

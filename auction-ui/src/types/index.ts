@@ -38,7 +38,7 @@ export enum OrderType {
 
 export interface Order {
   id: number
-  auction: Auction
+  auction?: Auction
   price: number
   total: number
   mining_deposit: number

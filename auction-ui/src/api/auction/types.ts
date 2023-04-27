@@ -4,10 +4,6 @@ export interface Auction {
   auction_type: AuctionType
   bid_count: number
   current_bid: number
-  created_at: string
-  updated_at: string
-  deleted: boolean
-  version: string
   title: string
   sub_title: string
   description: string
@@ -22,12 +18,39 @@ export interface Auction {
   is_dummy: boolean
   account: number
   category: number
+  epoch?: MiningEpoch
+  created_at: string
+  updated_at: string
+  deleted: boolean
+  version: string
+}
+
+export interface MiningEpoch {
+  start_time: string
+  end_time: string
+  start_block_height: number
+  epoch_number: number
+  difficulty: number
+  block_reward: number
+  total_hash_rate: number
+  total_blocks_found: number
 }
 
 export enum AuctionStatus {
   Scheduled = 'scheduled',
   Active = 'active',
   Completed = 'completed',
+}
+
+export interface AsicModel {
+  id: number
+  name: string
+  hashrate: number
+}
+
+export interface PowerSource {
+  id: number
+  name: string
 }
 
 export interface AuctionMeta {
@@ -38,14 +61,14 @@ export interface AuctionMeta {
   site_photo: string
   live_feed_image: string
   hash_price_image: string
-  power_source: string
-  asic_model: string
+  power_source: PowerSource
+  asic_model: AsicModel
   terms_link: string
-  hashrate: string
+  hashrate: number
   location: string
   current_hash_price: string
-  days_of_mining: string
-  hours_per_day: string
+  days_of_mining: number
+  hours_per_day: number
 }
 export interface AuctionType {
   id: number

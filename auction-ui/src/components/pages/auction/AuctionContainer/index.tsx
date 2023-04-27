@@ -15,6 +15,7 @@ import { Button, Loader } from 'src/core'
 import { Auction } from 'src/api/auction/types'
 import { Order, OrderStatus } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import { Livefeed } from 'src/api/auction/getAuctionBySlug'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -30,6 +31,7 @@ function handleSelect({ selected }: { selected: boolean }) {
 
 interface AuctionContainerProps {
   auction: Auction
+  livefeed: Livefeed
   order?: Order
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
@@ -38,7 +40,7 @@ interface AuctionContainerProps {
   slug: string
 }
 
-export default function AuctionContainer({ auction, order, bids, current_bid }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, livefeed, order, bids, current_bid }: AuctionContainerProps) {
   const { account, isLoading } = useAccountContext()
 
   const categories = {
@@ -57,7 +59,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
     'Live feed': [
       {
         id: 3,
-        component: <AuctionLiveFeed />,
+        component: <AuctionLiveFeed data={livefeed} />,
       },
     ],
     'Hash price': [

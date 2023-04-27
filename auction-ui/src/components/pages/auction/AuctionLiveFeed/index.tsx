@@ -1,9 +1,21 @@
+import { PlotData } from 'plotly.js'
 import Plot from 'react-plotly.js'
-import data from 'src/assets/json/auction_live_feed.json'
+import graphData from 'src/assets/json/auction_live_feed.json'
 import { PlotDataType } from 'src/components/pages/auction/types'
 
-export default function AuctionLiveFeed() {
-  const plot = data as unknown as PlotDataType
+interface StratumsHashrate {
+  average: number
+  reported: number
+  calculated: number
+  normalized: number
+  median: number
+}
+
+export default function AuctionLiveFeed({ data }: { data: { x: string[]; y: StratumsHashrate[] } }) {
+  const plot = graphData as unknown as PlotDataType
+  const plotData = plot.data[0] as PlotData
+  plotData.x = data.x
+  plotData.y = data.y.map((hashrate: StratumsHashrate) => hashrate.calculated)
 
   return (
     <div className="flex h-full items-center justify-center overflow-scroll ">

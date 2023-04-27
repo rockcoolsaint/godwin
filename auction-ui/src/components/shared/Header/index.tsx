@@ -12,10 +12,11 @@ import Container from 'src/core/components/Container'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useReturnUrl from 'src/hooks/useReturnUrl'
+import Icon from 'src/core/components/Icon'
 
 export default function HeaderNav() {
   const router = useRouter()
-  const { account, isLoading } = useAccountContext()
+  const { account, isLoading, logout } = useAccountContext()
   const returnUrl = useReturnUrl()
 
   const [active, setActive] = useState<boolean>(false)
@@ -33,8 +34,11 @@ export default function HeaderNav() {
 
   const handleLoginClick = () => {
     toggleMobileMenu()
-
     router.push(`/login${returnUrl}`)
+  }
+
+  const handleLogoutClick = () => {
+    logout()
   }
 
   return (
@@ -62,19 +66,16 @@ export default function HeaderNav() {
                 Home
               </Link>
               <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/collections">
-                Collections
+                Auctions
               </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
-                Individuals
-              </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
-                Businesses
+              <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="https:/rigly.io/pages/learn">
+                Learn more
               </Link>
             </aside>
           </div>
-          <div className="ml-8 flex items-center">
-            <Link className="hidden items-center lg:flex" href="/">
-              <span>List </span> <MiningSvg className="ml-4" />
+          <div className="ml-8 hidden items-center lg:flex">
+            <Link className="flex items-center" href="https://rigly.io/pages/selling-on-rigly">
+              <span>List your mining </span> <MiningSvg className="ml-4" />
             </Link>
             {!isLoading && (
               <div className="hidden md:block">
@@ -94,37 +95,68 @@ export default function HeaderNav() {
             </Link>
 
             <Link className="px-5 py-4 text-base  text-dark-300 hover:text-blue-500" href="/collections">
-              Collections
+              Auctions
+            </Link>
+            <Link className="px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="https:/rigly.io/pages/learn">
+              Learn more
             </Link>
 
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="/">
-              Individuals
-            </Link>
-
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="/">
-              Businesses
-            </Link>
-
-            <Link className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="/">
+            <Link
+              className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-blue-500"
+              href="https://rigly.io/pages/selling-on-rigly"
+            >
               <span>List your mining</span>
               <MiningSvg className="ml-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-5 border-t border-gray-300 p-5">
-            <button
-              onClick={handleLoginClick}
-              className="flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 px-3 text-blue-400 hover:text-blue-600"
-            >
-              <span className="whitespace-nowrap">Sign In</span>
-            </button>
+          {account && (
+            <>
+              <div className="border-y border-gray-300">
+                <div className="p-5">
+                  Signed in as <span className="text-blue-500">{account.email}</span>
+                </div>
+                <Link
+                  className="flex items-center justify-start gap-3 px-5 py-4 text-base text-dark-300 hover:text-blue-500"
+                  href="/account"
+                >
+                  <Icon icon="user" className="h-3 w-3 text-gray-600" />
+                  <span>Account</span>
+                </Link>
+                <Link
+                  className="flex items-center justify-start gap-3 px-5 py-4 text-base text-dark-300 hover:text-blue-500"
+                  href="/account/orders"
+                >
+                  <Icon icon="cart" className="h-3 w-3 text-gray-600" />
+                  <span>Orders</span>
+                </Link>
+              </div>
+              <div className="p-5">
+                <button
+                  onClick={handleLogoutClick}
+                  className="flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 px-3 text-blue-400 hover:text-blue-600"
+                >
+                  <span className="whitespace-nowrap">Sign Out</span>
+                </button>
+              </div>
+            </>
+          )}
+          {!account && (
+            <div className="grid grid-cols-2 gap-5 border-t border-gray-300 p-5">
+              <button
+                onClick={handleLoginClick}
+                className="flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 px-3 text-blue-400 hover:text-blue-600"
+              >
+                <span className="whitespace-nowrap">Sign In</span>
+              </button>
 
-            <button
-              onClick={handleRegisterClick}
-              className="flex h-10 w-full items-center justify-center rounded-lg bg-gradient px-3 text-white hover:bg-gradient-hover"
-            >
-              <span className="whitespace-nowrap font-semibold">Sign up</span>
-            </button>
-          </div>
+              <button
+                onClick={handleRegisterClick}
+                className="flex h-10 w-full items-center justify-center rounded-lg bg-gradient px-3 text-white hover:bg-gradient-hover"
+              >
+                <span className="whitespace-nowrap font-semibold">Sign up</span>
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>
