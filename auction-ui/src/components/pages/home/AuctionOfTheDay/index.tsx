@@ -55,15 +55,17 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
             <div className="flex justify-between">
               <aside>
                 <p className="text-base text-dark-100">{t('home.bid_start_date')}:</p>
-                <p className="text-base font-semibold">{start}</p>
+                <p className="text-base font-medium">{start}</p>
               </aside>
               <aside className="md:ml-9">
                 <p className="text-base text-dark-100">{t('home.bid_end_date')}:</p>
-                <p className="text-base font-semibold">{end}</p>
+                <p className="text-base font-medium">{end}</p>
               </aside>
             </div>
             <hr className="my-5 block w-full border" />
-            <p className="mb-4 rounded bg-tag-blue/[.2] p-2 px-5 text-base font-semibold text-tag-blue">{auction.bid_count} bid</p>
+            <p className="mb-4 rounded bg-tag-blue/[.2] p-2 px-5 text-base font-semibold text-tag-blue">
+              {auction.bid_count} {auction.bid_count > 1 ? 'bids' : 'bid'}
+            </p>
             <div className="mt-4 flex w-full justify-between">
               <aside>
                 <p className="mb-1 text-base text-dark-100">{t('home.start_bid_amount')}:</p>

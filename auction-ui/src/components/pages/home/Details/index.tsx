@@ -3,15 +3,17 @@ import Image, { StaticImageData } from 'next/image'
 import { useTranslation } from 'src/hooks'
 import styles from './index.module.css'
 import clsx from 'clsx'
+import { UrlObject } from 'url'
 
 interface Props {
   title: string
   description: string
   imageSrc: string | StaticImageData
   className?: string
+  link: string | (UrlObject & string)
 }
 
-export default function Details({ title, imageSrc, className, description }: Props) {
+export default function Details({ title, imageSrc, className, description, link }: Props) {
   const { t } = useTranslation()
 
   return (
@@ -24,7 +26,7 @@ export default function Details({ title, imageSrc, className, description }: Pro
         <p className="text-sm text-dark-200 md:text-lg">{description}</p>
       </div>
       <div className="mt-9 flex w-full justify-center border-t border-t-gray-400 py-7">
-        <Link className="text-sm text-primary hover:text-primary/[.85] md:text-lg" href="#">
+        <Link className="text-sm text-primary hover:text-primary/[.85] md:text-lg" href={link} target="_blank">
           {t('home.learn_details')}
         </Link>
       </div>

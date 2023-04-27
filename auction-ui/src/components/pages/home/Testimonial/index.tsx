@@ -10,33 +10,26 @@ const testimonials = [
         author: {
           name: 'Devon Lane',
           handle: 'Customer',
-          imageUrl:
-            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
       },
     ],
     [
       {
-        body: 'The Rigly experience is quick and seamless, giving you the opportunity to start mining right away - I can’t wait to watch the team build out this great platform',
+        body: 'It was a lot easier than I thought and helped me quickly understand the basics of mining.  Easy and fast way to start messing around with the mining and understanding the basics.  Rigly has huge potential to get more mining online throughout the world',
         author: {
-          name: 'Eleanor Pena',
+          name: 'Matt Kolbinsky',
           handle: 'Customer',
-          imageUrl:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
       },
     ],
     [
       {
-        body: 'The Rigly experience is quick and seamless, giving you the opportunity to start mining right away - I can’t wait to watch the team build out this great platform',
+        body: 'Rigly is a perfect way to dip my toes in to the world of bitcoin mining without the need to commit to an expensive mining rig upfront. It feels great to support the network and earn bitcoin rewards',
         author: {
-          name: 'Ralph Edwards',
+          name: 'Tyler T.',
           handle: 'Customer',
-          imageUrl:
-            'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
       },
-      // More testimonials...
     ],
   ],
 ]
@@ -45,7 +38,7 @@ export default function Example() {
   const { t } = useTranslation()
 
   return (
-    <div className="relative isolate bg-white pt-24 pb-32 sm:pt-32">
+    <div className="relative isolate bg-white pb-32 pt-24 sm:pt-32">
       <div className="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl">
         <svg viewBox="0 0 1313 771" aria-hidden="true" className="ml-[max(50%,38rem)] w-[82.0625rem]">
           <path
@@ -102,7 +95,6 @@ export default function Example() {
                       </blockquote>
                       <div className="mt-4 flex items-center justify-between border-t">
                         <figcaption className="mt-6 flex items-center gap-x-4 ">
-                          <img className="h-10 w-10 rounded-full bg-gray-50" src={testimonial.author.imageUrl} alt="" />
                           <div>
                             <div className="font-semibold">{testimonial.author.name}</div>
                             <div className="text-gray-600">{testimonial.author.handle}</div>

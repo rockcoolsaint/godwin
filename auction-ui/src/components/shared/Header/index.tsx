@@ -66,19 +66,16 @@ export default function HeaderNav() {
                 Home
               </Link>
               <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/collections">
-                Collections
+                Auctions
               </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
-                Individuals
-              </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
-                Businesses
+              <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="https:/rigly.io/pages/learn">
+                Learn more
               </Link>
             </aside>
           </div>
           <div className="ml-8 hidden items-center lg:flex">
-            <Link className="flex items-center" href="/">
-              <span>List </span> <MiningSvg className="ml-4" />
+            <Link className="flex items-center" href="https://rigly.io/pages/selling-on-rigly">
+              <span>List your mining </span> <MiningSvg className="ml-4" />
             </Link>
             {!isLoading && (
               <div className="hidden md:block">
@@ -98,18 +95,16 @@ export default function HeaderNav() {
             </Link>
 
             <Link className="px-5 py-4 text-base  text-dark-300 hover:text-blue-500" href="/collections">
-              Collections
+              Auctions
+            </Link>
+            <Link className="px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="https:/rigly.io/pages/learn">
+              Learn more
             </Link>
 
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="/">
-              Individuals
-            </Link>
-
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="/">
-              Businesses
-            </Link>
-
-            <Link className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="/">
+            <Link
+              className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-blue-500"
+              href="https://rigly.io/pages/selling-on-rigly"
+            >
               <span>List your mining</span>
               <MiningSvg className="ml-4" />
             </Link>
