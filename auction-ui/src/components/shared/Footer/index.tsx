@@ -6,8 +6,9 @@ import LogoSvg from 'src/assets/svg/logo_dark.svg'
 import LinkedInSvg from 'src/assets/svg/linkedin.svg'
 import TwitterSvg from 'src/assets/svg/twitter.svg'
 import Container from 'src/core/components/Container'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import clsx from 'clsx'
+import { subscribeNewsletter } from 'src/api/subscribe/subscribe'
 
 const Footer = () => {
   const year = new Date().getFullYear()
@@ -15,19 +16,21 @@ const Footer = () => {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleSubscribe = () => {
+  const handleSubscribe = useCallback(async () => {
     setLoading(true)
-    setTimeout(() => {
+    try {
+      await subscribeNewsletter(email)
       setSubscribe(true)
       setEmail('')
       setLoading(false)
-    }, 1000)
 
-    setTimeout(() => {
-      setSubscribe(false)
+      setTimeout(() => {
+        setSubscribe(false)
+      }, 3000)
+    } catch (error) {
       setLoading(false)
-    }, 3000)
-  }
+    }
+  }, [email])
 
   const handleInputChange = (e: { target: { value: any } }) => {
     const { value } = e.target
