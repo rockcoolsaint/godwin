@@ -38,7 +38,7 @@ const BidWidget = ({ auction, current_bid }: Props) => {
   const [bidAmountErrors, setBidAmountErrors] = useState<string[] | undefined>(undefined)
   const [loadingPlaceBid, setLoadingPlaceBid] = useState<boolean>(false)
 
-  const priceInFiat = useSatsToFiat({ initialValue: 0, bid: current_bid })
+  const priceInFiat = useSatsToFiat({ initialValue: 0, bid: current_bid || 0 })
 
   // TODO: move to reusable utils.
   function validateBidAmount(val: string | number) {
