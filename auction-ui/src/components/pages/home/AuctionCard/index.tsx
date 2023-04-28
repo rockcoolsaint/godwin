@@ -7,7 +7,7 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 import { useTranslation } from 'src/hooks'
 import { formatDate } from 'src/utils/date'
 import { formatMoney } from 'src/utils/currency'
-import { imageUrl } from 'utils'
+import * as miner from 'src/assets/jpg/mining.jpeg'
 
 interface ProductProps {
   auction: Auction
@@ -31,7 +31,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
           className="mb-4 block w-full overflow-hidden rounded-xl"
           width={352}
           height={230}
-          src={imageUrl(auction.auction_meta.site_photo, '352x230')}
+          src={miner}
           alt={auction.title + ' Image'}
         />
         <h3 className="mb-3 text-center text-2xl">{auction.title}</h3>
