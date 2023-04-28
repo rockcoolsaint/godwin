@@ -1,12 +1,38 @@
+'use client'
+
 import Link from 'src/components/shared/Link'
-import { ArrowLongRightIcon } from '@heroicons/react/24/outline'
+import { ArrowLongRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 import LogoSvg from 'src/assets/svg/logo_dark.svg'
 import LinkedInSvg from 'src/assets/svg/linkedin.svg'
 import TwitterSvg from 'src/assets/svg/twitter.svg'
 import Container from 'src/core/components/Container'
+import { useState } from 'react'
+import clsx from 'clsx'
 
 const Footer = () => {
   const year = new Date().getFullYear()
+  const [subscribe, setSubscribe] = useState(false)
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleSubscribe = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setSubscribe(true)
+      setEmail('')
+      setLoading(false)
+    }, 1000)
+
+    setTimeout(() => {
+      setSubscribe(false)
+      setLoading(false)
+    }, 3000)
+  }
+
+  const handleInputChange = (e: { target: { value: any } }) => {
+    const { value } = e.target
+    setEmail(value)
+  }
 
   return (
     <Container>
@@ -23,7 +49,7 @@ const Footer = () => {
               </div>
               <div className="flex">
                 <Link
-                  className=" flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+                  className="block  items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
                   href="https://www.linkedin.com/company/rigly/about/"
                   target="_blank"
                 >
@@ -115,23 +141,37 @@ const Footer = () => {
           <div className="col-span-2 ">
             <div className="subscribe-bx">
               <h4 className="mb-5 text-lg font-medium text-dark-200">Sign up for updates</h4>
-              <form className="flex">
+              <div className="flex">
                 <div className="w-full">
                   <input
-                    type="text"
+                    type="email"
                     name=""
+                    onChange={handleInputChange}
                     placeholder="Enter your email"
                     className="h-input-tall w-full rounded-lg border px-4 placeholder:text-dark-100 focus:border-gradient focus:ring-0"
+                    value={email}
                   />
                 </div>
                 <button
-                  className=" ml-2 flex items-center justify-center rounded-lg bg-gradient px-4 text-white hover:bg-gradient-hover"
+                  // className={`ml-2 flex items-center justify-center rounded-lg bg-gradient px-4 text-white hover:bg-gradient-hover ${
+                  //   subscribe && 'bg-gray-500'
+                  // }`}
+                  className={clsx(
+                    'ml-2 flex items-center justify-center rounded-lg  px-4 text-white ',
+                    loading ? '!bg-gray-400' : 'bg-gradient hover:bg-gradient-hover',
+                  )}
                   type="submit"
+                  onClick={handleSubscribe}
                 >
                   <span>Send</span>
                   <ArrowLongRightIcon className="ml-2 h-5 w-5" />
                 </button>
-              </form>
+              </div>
+              {subscribe && (
+                <p className="mt-3 flex items-center text-sm text-gray-600">
+                  <CheckCircleIcon className="mr-1 h-5 w-5 text-green-600" /> Thanks for subscribing
+                </p>
+              )}
             </div>
           </div>
         </div>
