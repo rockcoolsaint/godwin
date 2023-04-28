@@ -12,15 +12,19 @@ export default function HashPriceStats() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const difficultyEstimate = await getDifficultyAdjustment()
-      const hashrate = await getHashRate()
+      try {
+        const difficultyEstimate = await getDifficultyAdjustment()
+        const hashrate = await getHashRate()
+        const blockHeight = await getBlockTipHeight()
 
-      const blockHeight = await getBlockTipHeight()
-      const difficultyPeriod = blockHeight / 2016
-      setHashrate(hashrate.current_hashrate)
-      setDifficultyEstimate(difficultyEstimate.difficultyChange)
-      setBlockHeight(blockHeight)
-      setDifficultyPeriod(difficultyPeriod)
+        const difficultyPeriod = blockHeight / 2016
+        setHashrate(hashrate.currentHashrate / 1_000_000_000_000_000_000)
+        setDifficultyEstimate(difficultyEstimate.difficultyChange)
+        setBlockHeight(blockHeight)
+        setDifficultyPeriod(difficultyPeriod)
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     fetchData()
