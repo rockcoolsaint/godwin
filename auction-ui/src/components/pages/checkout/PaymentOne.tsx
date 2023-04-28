@@ -8,7 +8,7 @@ import { makeClientRequest } from 'src/api/clientRequest'
 import { Button, Loader, Input, formatAuctionType, Container } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Order, OrderStatus, PaymentStatus } from 'src/types'
+import { Order, OrderStatus, OrderType, PaymentStatus } from 'src/types'
 
 function PaymentOne({ order }: { order: Order }) {
   const { token, isLoading: tokenLoading } = useAccountContext()
@@ -73,8 +73,8 @@ function PaymentOne({ order }: { order: Order }) {
     }
   }
 
-  const handlePromoCodeChange = (val: string) => {
-    setPromoCode(val)
+  const handlePromoCodeChange = (val: string | number) => {
+    setPromoCode(val.toString())
   }
 
   const handleCheckout = async () => {
@@ -168,26 +168,36 @@ function PaymentOne({ order }: { order: Order }) {
           <i className="fak fa-regular" />
         </b>
       </div>
-      <div>
-        <span>
-          Mining deposit ({formatAuctionType(currentOrder.auction.auction_type.type)} {currentOrder.auction.auction_type.percentage}%):
-        </span>{' '}
-        <b>
-          {currentOrder.mining_deposit}
-          <i className="fak fa-regular" />
-        </b>
-      </div>
-      <div>
-        <span>Auction fee (3.5%): </span>
-        <b>
-          {currentOrder.auction_fee}
-          <i className="fak fa-regular" />
-        </b>
-      </div>
+      {currentOrder.type === OrderType.Auction && (
+        <>
+          <div>
+            {currentOrder.auction && (
+              <span>
+                Mining deposit ({formatAuctionType(currentOrder.auction.auction_type.type)} {currentOrder.auction.auction_type.percentage}
+                %):
+              </span>
+            )}
+            {!currentOrder.auction && <span>Mining deposit:</span>}
+            <b>
+              {currentOrder.mining_deposit}
+              <i className="fak fa-regular" />
+            </b>
+          </div>
+          <div>
+            <span>Auction fee (3.5%): </span>
+            <b>
+              {currentOrder.auction_fee}
+              <i className="fak fa-regular" />
+            </b>
+          </div>
+        </>
+      )}
+
       <div>
         <span>Total: </span>
         <b>{first.original_amount}</b>
       </div>
+
       {currentOrder.promo_code && (
         <div>
           <span>Discount: </span>
@@ -207,7 +217,7 @@ function PaymentOne({ order }: { order: Order }) {
         </div>
       )}
 
-      {!currentOrder.promo_code && (
+      {!currentOrder.promo_code && currentOrder.type === OrderType.Auction && (
         <div>
           <span>Amount due: </span>
           <b>
@@ -216,50 +226,53 @@ function PaymentOne({ order }: { order: Order }) {
           </b>
         </div>
       )}
-
-      {currentOrder.status === OrderStatus.Processing && (
-        <div className="my-5 flex gap-2">
-          <span>Payment for this order has already been started, unable to apply promo codes.</span>
-        </div>
-      )}
-
-      {currentOrder.can_apply_promo_code && (
-        <div style={{ display: 'flex', gap: '1rem', marginTop: '20px' }}>
-          <Input className="form-control mb-3" name="promo_code" value={promoCode} onChange={handlePromoCodeChange} type="text" />
-
-          <Button onClick={applyPromoCode} disabled={loading}>
-            <span style={{ whiteSpace: 'nowrap' }}>Apply code</span>
-          </Button>
-        </div>
-      )}
-
-      {currentOrder.promo_code && (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '8px',
-            background: '#E8F6FF',
-            borderRadius: '8px',
-            padding: '16px',
-            marginTop: '20px',
-            marginBottom: '20px',
-          }}
-        >
-          <div>
-            <div>Promo code applied:</div>
-            <b>
-              {currentOrder.promo_code.code} ({currentOrder.promo_code.discount}% OFF)
-            </b>
-          </div>
+      {currentOrder.type === OrderType.Auction && (
+        <>
+          {currentOrder.status === OrderStatus.Processing && (
+            <div className="my-5 flex gap-2">
+              <span>Payment for this order has already been started, unable to apply promo codes.</span>
+            </div>
+          )}
 
           {currentOrder.can_apply_promo_code && (
-            <Button onClick={clearPromoCode} disabled={loading}>
-              Clear
-            </Button>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '20px' }}>
+              <Input className="form-control mb-3" name="promo_code" value={promoCode} onChange={handlePromoCodeChange} type="text" />
+
+              <Button onClick={applyPromoCode} disabled={loading}>
+                <span style={{ whiteSpace: 'nowrap' }}>Apply code</span>
+              </Button>
+            </div>
           )}
-        </div>
+
+          {currentOrder.promo_code && (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                gap: '8px',
+                background: '#E8F6FF',
+                borderRadius: '8px',
+                padding: '16px',
+                marginTop: '20px',
+                marginBottom: '20px',
+              }}
+            >
+              <div>
+                <div>Promo code applied:</div>
+                <b>
+                  {currentOrder.promo_code.code} ({currentOrder.promo_code.discount}% OFF)
+                </b>
+              </div>
+
+              {currentOrder.can_apply_promo_code && (
+                <Button onClick={clearPromoCode} disabled={loading}>
+                  Clear
+                </Button>
+              )}
+            </div>
+          )}
+        </>
       )}
 
       {showRemaining && (
