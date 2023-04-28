@@ -26,7 +26,7 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
           <h1 className="gradient-text text-center text-8xl leading-[7rem] text-gradient sm:text-left md:text-center lg:text-left ">
             Start mining smarter
           </h1>
-          <p className="my-6 text-4xl font-semibold lg:w-3/4">Buy bitcoin mining at an open market price</p>
+          <p className="my-6 text-4xl font-normal lg:w-3/4">Buy your hashrate at an open market price</p>
           <Link className=" rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover " href="/collections">
             start mining now
           </Link>

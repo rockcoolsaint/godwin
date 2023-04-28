@@ -61,7 +61,7 @@ export default function Example() {
           </defs>
         </svg>
       </div>
-      <div className="absolute inset-x-0 top-0 -z-10 flex transform-gpu overflow-hidden pt-32 opacity-25 blur-3xl sm:pt-40 xl:justify-end">
+      <div className="absolute top-0 -z-10 flex transform-gpu overflow-hidden pt-32 opacity-25 blur-3xl sm:pt-40 xl:justify-end">
         <svg
           viewBox="0 0 1313 771"
           aria-hidden="true"
