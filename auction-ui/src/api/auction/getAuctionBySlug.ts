@@ -5,9 +5,17 @@ import { Auction, BidsEntityOrCurrentBid as Bid } from 'src/api/auction/types'
 
 import { Winner } from './types'
 
+export interface StratumsHashrate {
+  average: number
+  reported: number
+  calculated: number
+  normalized: number
+  median: number
+}
+
 export interface Livefeed {
   x: string[]
-  y: number[]
+  y: StratumsHashrate[]
 }
 export interface AuctionResponse {
   auction: Auction
