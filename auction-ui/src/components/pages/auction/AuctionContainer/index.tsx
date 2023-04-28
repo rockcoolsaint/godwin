@@ -13,9 +13,10 @@ import Container from 'src/core/components/Container'
 import BidWidget from 'src/components/pages/auction/BidWidget'
 import { Button, Loader } from 'src/core'
 import { Auction } from 'src/api/auction/types'
-import { Order, OrderStatus } from 'src/types'
+import { Order } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Livefeed } from 'src/api/auction/getAuctionBySlug'
+import isOrderFulfilled from 'src/utils/isOrderFulfilled'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -123,12 +124,12 @@ export default function AuctionContainer({ auction, livefeed, order, bids, curre
         <div className=" mt-4 flex min-w-fit flex-col lg:ml-4 lg:mt-0 lg:w-[25%]">
           <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
 
-          {order && account && order.account_id === account.id && order.status !== OrderStatus.PaymentTwoComplete && (
+          {order && account && order.account_id === account.id && !isOrderFulfilled(order.status) && (
             <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">
               <Button>Checkout</Button>
             </a>
           )}
-          {order && account && order.account_id === account.id && order.status === OrderStatus.PaymentTwoComplete && (
+          {order && order.auction && account && order.account_id === account.id && isOrderFulfilled(order.status) && (
             <a href={`/account/hashrate/${order.auction.id}`} className="mt-4 flex w-full flex-col">
               <Button>Manage</Button>
             </a>

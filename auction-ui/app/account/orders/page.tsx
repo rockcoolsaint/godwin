@@ -2,7 +2,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
 
 import AccountView from 'src/components/pages/account/AccountView'
 import Link from 'src/components/shared/Link'
@@ -11,6 +10,7 @@ import { Order, OrderStatus, OrderType } from 'src/types'
 import { Loader, Table } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import protect from 'src/hoc/protect'
+import { isOrderFulfilled } from 'utils'
 
 function formatOrderStatus(status: string) {
   switch (status) {
@@ -83,7 +83,7 @@ function Orders() {
               case 'actions': {
                 return (
                   <div className="flex h-full items-center justify-end">
-                    {order.status !== OrderStatus.PaymentTwoComplete ? (
+                    {!isOrderFulfilled(order.status) ? (
                       <Link href={`/checkout/${order.id}`} className="text-sm text-blue-500 hover:text-blue-700">
                         Pay
                       </Link>

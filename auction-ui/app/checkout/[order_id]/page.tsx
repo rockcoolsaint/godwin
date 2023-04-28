@@ -8,6 +8,7 @@ import PaymentTwo from 'src/components/pages/checkout/PaymentTwo'
 import { useEffect, useState } from 'react'
 import getOrder from 'src/api/checkout/getOrder'
 import protect from 'src/hoc/protect'
+import { isOrderFulfilled } from 'utils'
 
 function Checkout({ params, searchParams }: { params: { order_id?: string }; searchParams: { success?: string } }) {
   const { order_id } = params
@@ -48,7 +49,7 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
         }
       }
 
-      if (order && order.status !== OrderStatus.PaymentTwoComplete) {
+      if (order && !isOrderFulfilled(order.status)) {
         poll()
         interval = setInterval(() => poll(), 5000)
       }
