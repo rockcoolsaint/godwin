@@ -29,6 +29,8 @@ export enum OrderStatus {
   Processing = 'processing',
   PaymentOneComplete = 'paid_1',
   PaymentTwoComplete = 'paid_2',
+  DeliveryStarted = 'delivery_started',
+  DeliveryEnded = 'delivery_ended',
 }
 
 export enum OrderType {

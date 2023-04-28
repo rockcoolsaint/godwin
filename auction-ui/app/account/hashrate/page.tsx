@@ -8,9 +8,10 @@ import Image from 'next/image'
 import AccountView from 'src/components/pages/account/AccountView'
 import { Loader, Table } from 'src/core'
 import { getOrders } from 'src/api/account/getOrders'
-import { Order, OrderStatus } from 'src/types'
+import { Order } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import protect from 'src/hoc/protect'
+import { isOrderFulfilled } from 'utils'
 
 function Hashrate() {
   const { token } = useAccountContext()
@@ -30,7 +31,7 @@ function Hashrate() {
       try {
         const res = await getOrders(token)
 
-        setOrders(res.filter((o: Order) => o.status === OrderStatus.PaymentTwoComplete))
+        setOrders(res.filter((o: Order) => isOrderFulfilled(o.status)))
       } catch (ex) {
         console.error(ex)
       } finally {
