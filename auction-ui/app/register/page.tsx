@@ -1,5 +1,6 @@
-/* eslint-disable react/jsx-no-bind */
 'use client'
+
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { register } from 'src/api/auth/register'
 import Link from 'src/components/shared/Link'
@@ -71,8 +72,28 @@ export default function Register() {
           <div className="flex items-center justify-start gap-1">
             <span className="text-sm text-gray-500">{t('registration.description')}</span>
           </div>
+          <div className="mt-4 flex">
+            <Link className="isolate mr-2 inline-flex rounded-md shadow-sm" href="https://app.luxor.tech/register" target="_blank">
+              <button
+                type="button"
+                className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+              >
+                Luxor Pool
+                <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+              </button>
+            </Link>
+            <Link href="https://pool.braiins.com/signup" target="_blank" className="isolate inline-flex rounded-md shadow-sm">
+              <button
+                type="button"
+                className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+              >
+                Braiins Pool
+                <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+              </button>
+            </Link>
+          </div>
 
-          <Form className="mt-8 items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
+          <Form className="mt-4 items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
             <Form.Field className="w-full" required>
               <Form.Field.Label htmlFor="email">{t('registration.email')}</Form.Field.Label>
               <Input type="email" name="email" placeholder="satoshi@gmx.com" />

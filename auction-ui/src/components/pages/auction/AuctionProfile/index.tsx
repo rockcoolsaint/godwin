@@ -32,7 +32,9 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-4 font-semibold capitalize text-dark-100">{t('home.duration')}</p>
             </aside>
             <aside>
-              <p className="p-3 pl-4">{data.auction_meta?.days_of_mining}</p>
+              <p className="p-3 pl-4">
+                {data.auction_meta?.days_of_mining} {data.auction_meta?.days_of_mining > 1 ? 'days' : 'day'}
+              </p>
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
