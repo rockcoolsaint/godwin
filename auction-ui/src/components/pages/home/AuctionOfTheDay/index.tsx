@@ -7,7 +7,8 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 import Container from 'src/core/components/Container'
 import { formatMoney } from 'src/utils/currency'
 import { isDateBefore } from 'src/utils/date'
-import { imageUrl } from 'utils'
+import * as miner from 'src/assets/jpg/mining.jpeg'
+
 interface AuctionOfTheDay {
   auction: AuctionOfTheDayResponse
 }
@@ -42,13 +43,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
       <div className="shadow-level-2 rounded-3xl border px-3 py-14 shadow-md md:px-12">
         <h1 className="mb-9 text-center text-4xl">{t('home.auction_of_the_day')}</h1>
         <div className="flex flex-col md:flex-row">
-          <Image
-            className="rounded-3xl"
-            src={imageUrl(auction.auction_meta.site_photo, '352x230')}
-            alt="auction of the day"
-            width={550}
-            height={415}
-          />
+          <Image className="rounded-3xl" src={miner} alt="auction of the day" width={550} height={415} />
           <div className="ml-0 mt-4 flex flex-col items-start md:ml-9 md:mt-0">
             {renderAuctionStatusTag()}
             <h1 className="mb-6 text-2xl font-semibold">{auction.title}</h1>

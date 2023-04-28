@@ -30,7 +30,9 @@ export interface MonthlyAvgHashrateChange1Year {
 }
 
 export async function getHashRate() {
-  const data: HashRateResponse = await get(`https://insights.braiins.com/api/v1.0/hash-rate-stats`)
+  const data = await fetch(`https://insights.braiins.com/api/v1.0/hashrate-stats`)
 
-  return data
+  const _data: HashRateResponse = await data.json()
+
+  return _data
 }
