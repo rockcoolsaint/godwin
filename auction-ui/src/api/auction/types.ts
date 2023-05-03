@@ -13,7 +13,6 @@ export interface Auction {
   status: AuctionStatus
   proxy_increement: number
   slug: string
-  payment_address: string
   is_featured: boolean
   is_dummy: boolean
   account: number

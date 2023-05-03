@@ -4,7 +4,7 @@ import { Button, Container, formatAuctionType, QR } from 'src/core'
 
 function PaymentTwo({ order }: { order: Order }) {
   const amount_remaining = order.total - order.mining_deposit - order.auction_fee
-  const payment_url = `bitcoin:${order.auction.payment_address}?amount=${amount_remaining / 10 ** 8}`
+  const payment_url = `bitcoin:${order.payment_address}?amount=${amount_remaining / 10 ** 8}`
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(payment_url)
@@ -19,7 +19,7 @@ function PaymentTwo({ order }: { order: Order }) {
         <QR code={payment_url} />
         <div className="flex items-center">
           <span className="mr-1">Payment address:</span>
-          <b className="mr-2">{order.auction.payment_address}</b>
+          <b className="mr-2">{order.payment_address}</b>
           <button className="h-7 rounded bg-gradient px-2 hover:bg-gradient-hover" onClick={handleCopyAddress}>
             <span className="text-xs uppercase tracking-wide text-white">Copy</span>
           </button>
