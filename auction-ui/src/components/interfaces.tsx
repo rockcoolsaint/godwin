@@ -67,7 +67,6 @@ export interface productProps {
   end_at: string
   status: AuctionStatus
   proxy_increement: number
-  payment_address: string
   payment_address_qr: string
 
   slug_category: string
