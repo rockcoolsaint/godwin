@@ -12,9 +12,7 @@ export default function AuctionLiveFeed({ hashrate }: { hashrate: Hashrate[] }) 
   oneDayAgo.setDate(oneDayAgo.getDate() - 1)
 
   const sanitizedHashrate = hashrate
-    .filter(({ timestamp, hashrate }) => {
-      return hashrate.calculated !== -1 && new Date(timestamp) >= oneDayAgo
-    })
+    .filter(({ hashrate }) => hashrate.calculated !== -1)
     .map(({ timestamp, hashrate }) => {
       return {
         timestamp: new Date(timestamp),
