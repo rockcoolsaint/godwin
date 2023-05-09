@@ -13,13 +13,13 @@ export interface StratumsHashrate {
   median: number
 }
 
-export interface Livefeed {
-  x: string[]
-  y: StratumsHashrate[]
+export interface Hashrate {
+  hashrate: StratumsHashrate
+  timestamp: string
 }
 export interface AuctionResponse {
   auction: Auction
-  livefeed: Livefeed
+  hashrate: Hashrate[]
   bids: Bid[]
   current_bid: Bid
   proxy_bids: Bid[]
