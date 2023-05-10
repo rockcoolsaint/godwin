@@ -1,27 +1,31 @@
 import { PlotData } from 'plotly.js'
+import { useEffect, useState } from 'react'
 import Plot from 'react-plotly.js'
-import { Hashrate } from 'src/api/auction/getAuctionBySlug'
+import { Auction } from 'src/api/auction/types'
 import graphData from 'src/assets/json/auction_live_feed.json'
 import { PlotDataType } from 'src/components/pages/auction/types'
 
-export default function AuctionLiveFeed({ hashrate }: { hashrate: Hashrate[] }) {
+export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
   const plot = graphData as unknown as PlotDataType
   const plotData = plot.data[0] as PlotData
+  const [hashrate, setHashrate] = useState([])
 
-  const oneDayAgo = new Date()
-  oneDayAgo.setDate(oneDayAgo.getDate() - 1)
+  useEffect(() => {
+    const stratums_id = auction.auction_meta.proxy?.stratums_id
 
-  const sanitizedHashrate = hashrate
-    .filter(({ hashrate }) => hashrate.calculated !== -1)
-    .map(({ timestamp, hashrate }) => {
-      return {
-        timestamp: new Date(timestamp),
-        hashrate: hashrate.calculated,
+    if (stratums_id) {
+      const getPlotData = async () => {
+        const res = await fetch(`https://data.rigly.io/stratum/${stratums_id}`)
+        const data = await res.json()
+        setHashrate(data)
       }
-    })
 
-  plotData.x = sanitizedHashrate.map(({ timestamp }) => timestamp)
-  plotData.y = sanitizedHashrate.map(({ hashrate }) => hashrate)
+      getPlotData()
+    }
+  }, [auction.auction_meta.proxy])
+
+  plotData.x = hashrate.map(({ timestamp }) => timestamp)
+  plotData.y = hashrate.map(({ hashrate }) => hashrate)
 
   return (
     <div className="flex h-full items-center justify-center overflow-scroll ">

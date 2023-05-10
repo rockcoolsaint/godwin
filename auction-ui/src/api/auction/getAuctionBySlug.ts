@@ -5,21 +5,8 @@ import { Auction, BidsEntityOrCurrentBid as Bid } from 'src/api/auction/types'
 
 import { Winner } from './types'
 
-export interface StratumsHashrate {
-  average: number
-  reported: number
-  calculated: number
-  normalized: number
-  median: number
-}
-
-export interface Hashrate {
-  hashrate: StratumsHashrate
-  timestamp: string
-}
 export interface AuctionResponse {
   auction: Auction
-  hashrate: Hashrate[]
   bids: Bid[]
   current_bid: Bid
   proxy_bids: Bid[]

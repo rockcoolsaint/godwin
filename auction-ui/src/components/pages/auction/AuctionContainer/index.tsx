@@ -41,7 +41,7 @@ interface AuctionContainerProps {
   slug: string
 }
 
-export default function AuctionContainer({ auction, hashrate, order, bids, current_bid }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, order, bids, current_bid }: AuctionContainerProps) {
   const { account, isLoading } = useAccountContext()
 
   const categories = {
@@ -60,7 +60,7 @@ export default function AuctionContainer({ auction, hashrate, order, bids, curre
     'Live feed': [
       {
         id: 3,
-        component: <AuctionLiveFeed hashrate={hashrate} />,
+        component: <AuctionLiveFeed auction={auction} />,
       },
     ],
     'Hash price': [
