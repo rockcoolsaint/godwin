@@ -1,6 +1,7 @@
 import { PlotData } from 'plotly.js'
 import { useEffect, useState } from 'react'
 import Plot from 'react-plotly.js'
+import { getHashrateData, HashrateData } from 'src/api/auction/getHashrateData'
 import { Auction } from 'src/api/auction/types'
 import graphData from 'src/assets/json/auction_live_feed.json'
 import { PlotDataType } from 'src/components/pages/auction/types'
@@ -8,16 +9,19 @@ import { PlotDataType } from 'src/components/pages/auction/types'
 export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
   const plot = graphData as unknown as PlotDataType
   const plotData = plot.data[0] as PlotData
-  const [hashrate, setHashrate] = useState([])
+  const [hashrate, setHashrate] = useState<HashrateData[]>([])
 
   useEffect(() => {
     const stratums_id = auction.auction_meta.proxy?.stratums_id
 
     if (stratums_id) {
       const getPlotData = async () => {
-        const res = await fetch(`https://data.rigly.io/stratum/${stratums_id}`)
-        const data = await res.json()
-        setHashrate(data)
+        try {
+          const hashrateData = await getHashrateData(stratums_id)
+          setHashrate(hashrateData)
+        } catch (ex) {
+          console.error(ex)
+        }
       }
 
       getPlotData()

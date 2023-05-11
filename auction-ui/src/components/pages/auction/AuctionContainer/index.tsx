@@ -15,7 +15,6 @@ import { Button, Loader } from 'src/core'
 import { Auction } from 'src/api/auction/types'
 import { Order } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Hashrate } from 'src/api/auction/getAuctionBySlug'
 import isOrderFulfilled from 'src/utils/isOrderFulfilled'
 
 function classNames(...classes: string[]) {
@@ -32,7 +31,6 @@ function handleSelect({ selected }: { selected: boolean }) {
 
 interface AuctionContainerProps {
   auction: Auction
-  hashrate: Hashrate[]
   order?: Order
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
