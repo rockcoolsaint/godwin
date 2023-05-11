@@ -48,6 +48,7 @@ export interface Order {
   status: OrderStatus
   payments: Payment[]
   can_apply_promo_code: boolean
+  payment_address: string
   account_id: number
   checkout_url?: string
   promo_code?: PromoCode

@@ -1,3 +1,5 @@
+import { OrderType } from 'src/types'
+
 export interface Auction {
   id: number
   auction_meta: AuctionMeta
@@ -13,7 +15,6 @@ export interface Auction {
   status: AuctionStatus
   proxy_increement: number
   slug: string
-  payment_address: string
   is_featured: boolean
   is_dummy: boolean
   account: number
@@ -53,6 +54,20 @@ export interface PowerSource {
   name: string
 }
 
+export enum ProxyType {
+  Mask = 'mask',
+  Switch = 'switch',
+}
+
+export interface Proxy {
+  name: string
+  type: ProxyType
+  order_type: OrderType
+  stratums_id: number
+  stratum: string
+  algorithm: string
+}
+
 export interface AuctionMeta {
   id: number
   image_1: string
@@ -69,6 +84,7 @@ export interface AuctionMeta {
   current_hash_price: string
   days_of_mining: number
   hours_per_day: number
+  proxy?: Proxy
 }
 export interface AuctionType {
   id: number
