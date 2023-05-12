@@ -8,16 +8,14 @@ import { Input } from 'src/core'
 import Form from 'src/core/components/Form'
 
 enum Step {
-  SignUp = 'Rigly sign up',
-  Pool = 'Pool',
-  Multisig = 'Multisig',
+  SignUp = 'Sign up',
+  Pool = 'Pool Account',
 }
 
 export default function SignUp() {
   const DEFAULT_STEPS = [
     { id: '01', name: Step.SignUp, status: 'current' },
     { id: '02', name: Step.Pool, status: 'upcoming' },
-    { id: '03', name: Step.Multisig, status: 'upcoming' },
   ]
 
   const [steps, setSteps] = useState(DEFAULT_STEPS)
@@ -81,7 +79,7 @@ export default function SignUp() {
         </ol>
       </nav>
       <div className="flex flex-col items-center ">
-        {currentStep.name === 'Rigly sign up' && (
+        {currentStep.name === 'Sign up' && (
           <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
             <div className="flex items-center justify-start gap-1">
               <span className="text-base text-gray-500">Create your Rigly account</span>
@@ -108,7 +106,7 @@ export default function SignUp() {
             </div>
           </div>
         )}
-        {currentStep.name === 'Pool' && (
+        {currentStep.name === 'Pool Account' && (
           <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
             <div>
               <h3 className="font-medium ">Do you already own a pool account?</h3>
@@ -224,7 +222,70 @@ export default function SignUp() {
               </>
             ) : (
               <div>
-                <Form className="mt-4 items-start gap-8" onSubmit={() => {}} disabled={false}>
+                <Form className="items-start gap-4" onSubmit={() => {}} disabled={false}>
+                  <div className=" flex flex-wrap">
+                    <Link
+                      className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm"
+                      href="https://app.luxor.tech/register"
+                      target="_blank"
+                    >
+                      <button
+                        type="button"
+                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                      >
+                        Luxor Pool
+                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+                      </button>
+                    </Link>
+                    <Link
+                      href="https://pool.braiins.com/signup"
+                      target="_blank"
+                      className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm"
+                    >
+                      <button
+                        type="button"
+                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                      >
+                        Braiins Pool
+                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+                      </button>
+                    </Link>
+                    <Link
+                      href="https://www.f2pool.com/user/signup"
+                      target="_blank"
+                      className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm"
+                    >
+                      <button
+                        type="button"
+                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                      >
+                        F2pool
+                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+                      </button>
+                    </Link>
+                    <Link
+                      href="https://app.lincoin.com/user/login"
+                      target="_blank"
+                      className="isolate mb-2 mr-2 inline-flex  rounded-md shadow-sm"
+                    >
+                      <button
+                        type="button"
+                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                      >
+                        Lincoin
+                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+                      </button>
+                    </Link>
+                    <Link href="https://solo.ckpool.org/" target="_blank" className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm">
+                      <button
+                        type="button"
+                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                      >
+                        CKPool
+                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
+                      </button>
+                    </Link>
+                  </div>
                   <div className="flex w-full flex-col">
                     <p className="mb-4 text-sm text-gray-500">
                       Rigly routes hash rate directly to a stratum address that you control through a mining pool account of your choice.
@@ -257,7 +318,6 @@ export default function SignUp() {
             </div>
           </div>
         )}
-        {currentStep.name === 'Multisig' && <h1 className="h-80 p-10">Multisig</h1>}
       </div>
     </section>
   )
