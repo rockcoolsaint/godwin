@@ -35,7 +35,7 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
     <div className="flex h-full items-center justify-center overflow-scroll ">
       <Plot
         data={plot.data}
-        layout={{ ...plot.layout, autosize: false, width: 800 }}
+        layout={{ ...plot.layout, autosize: false, width: 800, title: 'Hashrate data' }}
         config={{
           displayModeBar: false,
         }}
