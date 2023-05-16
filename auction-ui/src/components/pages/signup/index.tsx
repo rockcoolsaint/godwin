@@ -212,7 +212,7 @@ export default function SignUp({ setView, setEmail }: any) {
                 defaultValue={signUpInfo.referral_code}
                 errorMessage={errors.referral_code?.message}
                 placeholder="Referral Code"
-                label={t('registration.referral_code')}
+                label={t('registration.referral_code') + ' (optional)'}
                 {...register('referral_code')}
               />
             </div>
