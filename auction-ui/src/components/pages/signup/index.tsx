@@ -1,18 +1,32 @@
-import { CheckIcon } from '@heroicons/react/24/solid'
-import { SetStateAction, useState } from 'react'
-
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
+import { Fragment, useCallback, useEffect, useState } from 'react'
+import clsx from 'clsx'
+import { Listbox, Transition } from '@headlessui/react'
 import Link from 'src/components/shared/Link'
 import { useTranslation } from 'src/hooks'
-import { Input } from 'src/core'
-import Form from 'src/core/components/Form'
+import { Button, Input } from 'src/core'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useSignUpSchema } from './validation'
+import { register as postRegister } from 'src/api/auth/register'
+import useReturnUrl from 'src/hooks/useReturnUrl'
+import { toast } from 'react-hot-toast'
+import { MINING_POOLS, IMiningPool } from 'src/constants/pools'
+import { SignUpPoolDetails } from './SignUpPoolDetails'
 
 enum Step {
   SignUp = 'Sign up',
   Pool = 'Pool Account',
 }
 
-export default function SignUp() {
+interface FormInputs {
+  email: string
+  referral_code: string
+  mining_pool_username: string
+  mining_pool_address: string
+}
+
+export default function SignUp({ setView, setEmail }: any) {
   const DEFAULT_STEPS = [
     { id: '01', name: Step.SignUp, status: 'current' },
     { id: '02', name: Step.Pool, status: 'upcoming' },
@@ -21,16 +35,96 @@ export default function SignUp() {
   const [steps, setSteps] = useState(DEFAULT_STEPS)
   const [currentStep, setCurrentStep] = useState(DEFAULT_STEPS[0])
   const [poolOwner, setPoolOwner] = useState<string>('yes')
+  const [selectedPool, setSelectedPool] = useState(MINING_POOLS[0])
+  const [poolAddress, setPoolAddress] = useState<string>(selectedPool.address)
   const { t } = useTranslation()
+  const [loading, setLoading] = useState(false)
+  const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
   function handleSetCurrentStep(step: any) {
-    // const currentStepIndex = this.steps.findIndex(step => step.status === 'current')
-    // this.steps[currentStepIndex].status = 'complete'
-    // this.steps[currentStepIndex + 1].status = 'current'
     setCurrentStep(step)
-    // setSteps(steps.map(s => (s.id === step.id ? { ...s, status: 'current' } : { ...s, status: 'complete' })))
     setSteps(steps.map(s => (s.id === step.id ? { ...s, status: 'current' } : { ...s, status: 'upcoming' })))
   }
+
+  const handleSetSelectedPool = (val: IMiningPool) => {
+    setSelectedPool(val)
+    setPoolAddress(val.address)
+  }
+
+  const signUpInfo = {
+    email: '',
+    mining_pool_username: '',
+    mining_pool_address: '',
+    referral_code: '',
+    poolAccountOwner: true,
+    create_pool_account: false,
+  }
+
+  const signUpSchema = useSignUpSchema(signUpInfo)
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isDirty },
+    setValue,
+  } = useForm<FormInputs>({
+    resolver: yupResolver(signUpSchema),
+    defaultValues: {
+      ...signUpInfo,
+      mining_pool_address: poolAddress,
+    },
+  })
+
+  useEffect(() => {
+    if (poolAddress) {
+      setValue('mining_pool_address', poolAddress)
+    } else {
+      setValue('mining_pool_address', '')
+    }
+  }, [poolAddress, setValue])
+
+  const onSubmit: SubmitHandler<FormInputs> = useCallback(
+    async value => {
+      try {
+        setLoading(true)
+
+        const [success, _] = await postRegister(
+          {
+            email: value.email,
+            mining_pool_username: value.mining_pool_username,
+            mining_pool_address: value.mining_pool_address,
+            referral_code: value.referral_code,
+            create_pool_account: false,
+          },
+          returnUrl,
+        )
+
+        if (!success) {
+          toast.error('Sign up error', { position: 'bottom-center' })
+        }
+
+        reset(
+          {
+            email: '',
+            mining_pool_username: '',
+            mining_pool_address: '',
+            referral_code: '',
+          },
+          { keepTouched: false, keepDirty: false },
+        )
+        setSelectedPool(MINING_POOLS[0])
+        setView()
+        setEmail(value.email)
+        toast.success('Sign up success', { position: 'bottom-center' })
+        setLoading(false)
+      } catch (err) {
+        setLoading(false)
+        toast.error('Sign up error', { position: 'bottom-center' })
+      }
+    },
+    [reset, returnUrl, setEmail, setView],
+  )
 
   return (
     <section className="">
@@ -41,7 +135,7 @@ export default function SignUp() {
               {step.status === 'complete' ? (
                 <button className="group flex w-full items-center">
                   <span className="flex items-center px-6 py-4 text-sm font-medium">
-                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary group-hover:bg-indigo-800">
                       <CheckIcon className="h-6 w-6 text-white" aria-hidden="true" />
                     </span>
                     <span className="ml-4 text-sm font-medium text-gray-900">{step.name}</span>
@@ -49,15 +143,15 @@ export default function SignUp() {
                 </button>
               ) : step.status === 'current' ? (
                 <button className="flex items-center px-6 py-4 text-sm font-medium" aria-current="step">
-                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-indigo-600">
-                    <span className="text-indigo-600">{step.id}</span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-primary">
+                    <span className="text-primary">{step.id}</span>
                   </span>
-                  <span className="ml-4 text-sm font-medium text-indigo-600">{step.name}</span>
+                  <span className="ml-4 text-sm font-medium text-primary">{step.name}</span>
                 </button>
               ) : (
                 <button onClick={() => handleSetCurrentStep(step)} className="group flex items-center">
                   <span className="flex items-center px-6 py-4 text-sm font-medium">
-                    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
                       <span className="text-gray-500 group-hover:text-gray-900">{step.id}</span>
                     </span>
                     <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">{step.name}</span>
@@ -78,26 +172,47 @@ export default function SignUp() {
           ))}
         </ol>
       </nav>
-      <div className="flex flex-col items-center ">
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
         {currentStep.name === 'Sign up' && (
-          <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
+          <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-3/4 xl:w-[25vw]">
             <div className="flex items-center justify-start gap-1">
-              <span className="text-base text-gray-500">Create your Rigly account</span>
+              <span className="text-xl text-gray-500">Create your Rigly account</span>
             </div>
 
-            <Form className="mt-4 items-start gap-8" onSubmit={() => {}} disabled={false}>
-              <Form.Field className="w-full" required>
-                <Form.Field.Label htmlFor="email">{t('registration.email')}</Form.Field.Label>
-                <Input type="email" name="email" placeholder="satoshi@gmx.com" />
-              </Form.Field>
+            <div>
+              <Input
+                className="w-full"
+                id="email"
+                type="text"
+                autoComplete="off"
+                autoCorrect="off"
+                defaultValue={signUpInfo.email}
+                errorMessage={errors.email?.message}
+                placeholder="satoshi@gmx.com"
+                label={t('registration.email')}
+                {...register('email')}
+              />
+            </div>
 
-              <Form.Field className="w-full">
-                <Form.Field.Label htmlFor="referral_code">{t('registration.referral_code')}</Form.Field.Label>
-                <Input type="text" name="referral_code" placeholder="012ABC" />
-              </Form.Field>
+            <div className="flex w-full flex-col gap-2">
+              <Input
+                className="w-full"
+                id="referral_code"
+                type="text"
+                autoComplete="off"
+                autoCorrect="off"
+                defaultValue={signUpInfo.referral_code}
+                errorMessage={errors.referral_code?.message}
+                placeholder="satoshi@gmx.com"
+                label={t('registration.referral_code')}
+                {...register('referral_code')}
+              />
+            </div>
 
-              <Form.Submit className="w-full">Next</Form.Submit>
-            </Form>
+            <Button onClick={() => handleSetCurrentStep(DEFAULT_STEPS[1])} className="bg-gray-30 mt-8 w-full">
+              Next
+            </Button>
 
             <div className="mt-8 flex justify-center border-t border-gray-300 pt-6 text-sm">
               <Link href="/login" className="text-primary underline">
@@ -106,10 +221,11 @@ export default function SignUp() {
             </div>
           </div>
         )}
+
         {currentStep.name === 'Pool Account' && (
-          <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
+          <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-3/4 xl:w-[25vw]">
             <div>
-              <h3 className="font-medium ">Do you already own a pool account?</h3>
+              <span className="text-xl text-gray-500">Do you already own a pool account?</span>
               <fieldset className="mb-4 mt-4">
                 <legend className="sr-only">Notification method</legend>
                 <div className="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
@@ -120,10 +236,10 @@ export default function SignUp() {
                         onClick={() => setPoolOwner(notificationMethod.id)}
                         name="notification-method"
                         type="radio"
-                        defaultChecked={notificationMethod.id === 'yes'}
-                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                        defaultChecked={notificationMethod.id === poolOwner}
+                        className="h-4 w-4 border-gray-300 text-primary focus:ring-primary"
                       />
-                      <label htmlFor={notificationMethod.id} className="ml-3 block text-sm font-medium leading-6 text-gray-900">
+                      <label htmlFor={notificationMethod.id} className="ml-3 block text-sm font-medium leading-6 text-gray-500 ">
                         {notificationMethod.title}
                       </label>
                     </div>
@@ -133,182 +249,103 @@ export default function SignUp() {
             </div>
             {poolOwner === 'yes' ? (
               <>
-                <div className="flex items-center justify-start gap-1">
-                  <span className="text-base text-gray-500">Enter your pool details</span>
-                </div>
-                <div className="mt-4 flex flex-wrap">
-                  <Link
-                    className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm"
-                    href="https://app.luxor.tech/register"
-                    target="_blank"
-                  >
-                    <button
-                      type="button"
-                      className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                    >
-                      Luxor Pool
-                      <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                    </button>
-                  </Link>
-                  <Link
-                    href="https://pool.braiins.com/signup"
-                    target="_blank"
-                    className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm"
-                  >
-                    <button
-                      type="button"
-                      className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                    >
-                      Braiins Pool
-                      <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                    </button>
-                  </Link>
-                  <Link
-                    href="https://www.f2pool.com/user/signup"
-                    target="_blank"
-                    className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm"
-                  >
-                    <button
-                      type="button"
-                      className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                    >
-                      F2pool
-                      <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                    </button>
-                  </Link>
-                  <Link
-                    href="https://app.lincoin.com/user/login"
-                    target="_blank"
-                    className="isolate mb-2 mr-2 inline-flex  rounded-md shadow-sm"
-                  >
-                    <button
-                      type="button"
-                      className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                    >
-                      Lincoin
-                      <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                    </button>
-                  </Link>
-                  <Link href="https://solo.ckpool.org/" target="_blank" className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm">
-                    <button
-                      type="button"
-                      className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                    >
-                      CKPool
-                      <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                    </button>
-                  </Link>
-                </div>
+                <Listbox value={selectedPool} onChange={handleSetSelectedPool}>
+                  {({ open }) => (
+                    <>
+                      <Listbox.Label className="flex justify-start gap-1 text-sm text-gray-500">Select Mining Pool</Listbox.Label>
+                      <div className="relative mt-2">
+                        <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm sm:leading-6">
+                          <span className="block truncate">{selectedPool.name}</span>
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                            <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                          </span>
+                        </Listbox.Button>
 
-                <Form className="mt-4 items-start gap-8" onSubmit={() => {}} disabled={false}>
-                  <>
-                    <Form.Field className="w-full">
-                      <Form.Field.Label htmlFor="mining_pool_username">{t('registration.mining_pool_username')}</Form.Field.Label>
-                      <Input type="text" name="mining_pool_username" placeholder="satoshi.worker" />
-                    </Form.Field>
+                        <Transition
+                          show={open}
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/50 focus:outline-none sm:text-sm">
+                            {MINING_POOLS.map(value => (
+                              <Listbox.Option
+                                key={value.id}
+                                className={({ active }) =>
+                                  clsx(
+                                    active ? 'bg-primary text-white' : 'text-gray-900',
+                                    'relative cursor-default select-none py-2 pl-3 pr-9',
+                                  )
+                                }
+                                value={value}
+                              >
+                                {({ selected, active }) => (
+                                  <>
+                                    <span className={clsx(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>{value.name}</span>
 
-                    <Form.Field className="w-full">
-                      <Form.Field.Label htmlFor="mining_pool_address">{t('registration.mining_pool_address')}</Form.Field.Label>
-                      <Input type="text" name="mining_pool_address" placeholder="stratum+tcp://stratum.braiins.com:3333" />
-                    </Form.Field>
-                  </>
+                                    {selected ? (
+                                      <span
+                                        className={clsx(
+                                          active ? 'text-white' : 'text-primary',
+                                          'absolute inset-y-0 right-0 flex items-center pr-4',
+                                        )}
+                                      >
+                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </>
+                  )}
+                </Listbox>
+                <div className="items-start gap-8">
+                  <Input
+                    className="w-full"
+                    id="mining_pool_username"
+                    type="text"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    defaultValue={signUpInfo.mining_pool_username}
+                    errorMessage={errors.mining_pool_username?.message}
+                    placeholder="satoshi"
+                    label={t('registration.mining_pool_username')}
+                    {...register('mining_pool_username')}
+                  />
+                  <Input
+                    className="w-full"
+                    disabled={Boolean(selectedPool.address)}
+                    id="mining_pool_address"
+                    type="text"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    defaultValue={signUpInfo.mining_pool_address}
+                    errorMessage={errors.mining_pool_address?.message}
+                    placeholder="satoshi@gmx.com"
+                    label={t('registration.mining_pool_address')}
+                    {...register('mining_pool_address')}
+                  />
 
-                  <div className="flex w-full">
+                  <div className="mb-2 mt-8 flex w-full">
                     <span className="text-sm text-gray-500">{t('registration.mining_pool_details_note')}</span>
                   </div>
 
-                  <Form.Submit className="w-full">Next</Form.Submit>
-                </Form>
+                  <button
+                    disabled={loading || !isDirty}
+                    type="submit"
+                    className="mt-8 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
+                  >
+                    Submit
+                  </button>
+                </div>
               </>
             ) : (
-              <div>
-                <Form className="items-start gap-4" onSubmit={() => {}} disabled={false}>
-                  <div className=" flex flex-wrap">
-                    <Link
-                      className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm"
-                      href="https://app.luxor.tech/register"
-                      target="_blank"
-                    >
-                      <button
-                        type="button"
-                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                      >
-                        Luxor Pool
-                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                      </button>
-                    </Link>
-                    <Link
-                      href="https://pool.braiins.com/signup"
-                      target="_blank"
-                      className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm"
-                    >
-                      <button
-                        type="button"
-                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                      >
-                        Braiins Pool
-                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                      </button>
-                    </Link>
-                    <Link
-                      href="https://www.f2pool.com/user/signup"
-                      target="_blank"
-                      className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm"
-                    >
-                      <button
-                        type="button"
-                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                      >
-                        F2pool
-                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                      </button>
-                    </Link>
-                    <Link
-                      href="https://app.lincoin.com/user/login"
-                      target="_blank"
-                      className="isolate mb-2 mr-2 inline-flex  rounded-md shadow-sm"
-                    >
-                      <button
-                        type="button"
-                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                      >
-                        Lincoin
-                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                      </button>
-                    </Link>
-                    <Link href="https://solo.ckpool.org/" target="_blank" className="isolate mb-2 mr-2 inline-flex rounded-md shadow-sm">
-                      <button
-                        type="button"
-                        className="relative inline-flex items-center gap-x-1.5 rounded-lg bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                      >
-                        CKPool
-                        <ArrowTopRightOnSquareIcon className="-mr-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                      </button>
-                    </Link>
-                  </div>
-                  <div className="flex w-full flex-col">
-                    <p className="mb-4 text-sm text-gray-500">
-                      Rigly routes hash rate directly to a stratum address that you control through a mining pool account of your choice.
-                    </p>
-                    <p className="mb-4 text-sm text-gray-500">
-                      Mining pools servers connect directly to mining rigs to coordinate their work with others in a joint effort to find
-                      blocks. Pools then distribute block rewards proportionate to the share of work each miner delivered to the pool.
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Read more about how mining pools work{' '}
-                      <Link
-                        className="text-blue-700 underline"
-                        href="https://braiins.com/blog/bitcoin-mining-pools-luck-shares-estimated-hashrate"
-                        target="_blank"
-                      >
-                        here
-                      </Link>
-                    </p>
-                  </div>
-
-                  <Form.Submit className="w-full">Next</Form.Submit>
-                </Form>
-              </div>
+              SignUpPoolDetails()
             )}
 
             <div className="mt-8 flex justify-center border-t border-gray-300 pt-6 text-sm">
@@ -318,7 +355,7 @@ export default function SignUp() {
             </div>
           </div>
         )}
-      </div>
+      </form>
     </section>
   )
 }
@@ -343,7 +380,7 @@ export function HasPool() {
                 name="notification-method"
                 type="radio"
                 defaultChecked={notificationMethod.id === 'email'}
-                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                className="h-4 w-4 border-gray-300 text-primary focus:ring-primary"
               />
               <label htmlFor={notificationMethod.id} className="ml-3 block text-sm font-medium leading-6 text-gray-900">
                 {notificationMethod.title}
