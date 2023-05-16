@@ -57,7 +57,7 @@ export function SignUpPoolDetails() {
             Rigly routes hashrate directly to a stratum address that you control through a mining pool account of your choice.
           </p>
           <p className="mb-4 text-sm text-gray-500">
-            You need a mining pool account to use Rigly. Please select from one of the above pools and create your account
+            You need a mining pool account to use Rigly. Please select from one of the above pools and create your account.
           </p>
           <p className="text-sm text-gray-500">
             Read more about how mining pools work{' '}
