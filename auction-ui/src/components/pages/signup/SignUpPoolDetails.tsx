@@ -54,11 +54,10 @@ export function SignUpPoolDetails() {
         </div>
         <div className="flex w-full flex-col">
           <p className="mb-4 text-sm text-gray-500">
-            Rigly routes hash rate directly to a stratum address that you control through a mining pool account of your choice.
+            Rigly routes hashrate directly to a stratum address that you control through a mining pool account of your choice.
           </p>
           <p className="mb-4 text-sm text-gray-500">
-            Mining pools servers connect directly to mining rigs to coordinate their work with others in a joint effort to find blocks.
-            Pools then distribute block rewards proportionate to the share of work each miner delivered to the pool.
+            You need a mining pool account to use Rigly. Please select from one of the above pools and create your account
           </p>
           <p className="text-sm text-gray-500">
             Read more about how mining pools work{' '}
