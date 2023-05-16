@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { Listbox, Transition } from '@headlessui/react'
 import Link from 'src/components/shared/Link'
 import { useTranslation } from 'src/hooks'
-import { Button, Input } from 'src/core'
+import { Input } from 'src/core'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useSignUpSchema } from './validation'
@@ -41,11 +41,6 @@ export default function SignUp({ setView, setEmail }: any) {
   const [loading, setLoading] = useState(false)
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
-  function handleSetCurrentStep(step: any) {
-    setCurrentStep(step)
-    setSteps(steps.map(s => (s.id === step.id ? { ...s, status: 'current' } : { ...s, status: 'upcoming' })))
-  }
-
   const handleSetSelectedPool = (val: IMiningPool) => {
     setSelectedPool(val)
     setPoolAddress(val.address)
@@ -66,7 +61,9 @@ export default function SignUp({ setView, setEmail }: any) {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isDirty },
+    trigger,
+    resetField,
+    formState: { errors, isDirty, isValid },
     setValue,
   } = useForm<FormInputs>({
     resolver: yupResolver(signUpSchema),
@@ -75,6 +72,16 @@ export default function SignUp({ setView, setEmail }: any) {
       mining_pool_address: poolAddress,
     },
   })
+
+  const handleSetCurrentStep = async (step: any) => {
+    const noError = await trigger('email')
+    if (!noError) {
+      return
+    }
+    resetField('mining_pool_username', { keepDirty: false })
+    setCurrentStep(step)
+    setSteps(steps.map(s => (s.id === step.id ? { ...s, status: 'current' } : { ...s, status: 'upcoming' })))
+  }
 
   useEffect(() => {
     if (poolAddress) {
@@ -204,15 +211,18 @@ export default function SignUp({ setView, setEmail }: any) {
                 autoCorrect="off"
                 defaultValue={signUpInfo.referral_code}
                 errorMessage={errors.referral_code?.message}
-                placeholder="satoshi@gmx.com"
+                placeholder="Referral Code"
                 label={t('registration.referral_code')}
                 {...register('referral_code')}
               />
             </div>
-
-            <Button onClick={() => handleSetCurrentStep(DEFAULT_STEPS[1])} className="bg-gray-30 mt-8 w-full">
+            <button
+              disabled={!isDirty}
+              onClick={() => handleSetCurrentStep(DEFAULT_STEPS[1])}
+              className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
+            >
               Next
-            </Button>
+            </button>
 
             <div className="mt-8 flex justify-center border-t border-gray-300 pt-6 text-sm">
               <Link href="/login" className="text-primary underline">
@@ -336,9 +346,9 @@ export default function SignUp({ setView, setEmail }: any) {
                   </div>
 
                   <button
-                    disabled={loading || !isDirty}
+                    disabled={!isDirty || !isValid || loading}
                     type="submit"
-                    className="mt-8 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
+                    className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
                   >
                     Submit
                   </button>

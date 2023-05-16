@@ -17,7 +17,7 @@ export const useSignUpSchema = (signUpInfo?: signUpInfo) => {
         .object({
           email: yup
             .string()
-            .email('Email invalid')
+            .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, () => 'Email not valid')
             .required(() => 'Email required'),
           refferal_code: yup.string(),
           mining_pool_username: signUpInfo?.poolAccountOwner
