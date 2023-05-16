@@ -4,7 +4,7 @@ interface RegisterPayload {
   email: string
   mining_pool_username: string
   mining_pool_address: string
-  referral_code: string
+  referral_code?: string
   create_pool_account: boolean
 }
 
