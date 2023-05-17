@@ -103,7 +103,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
   }, [])
 
   useEffect(() => {
-    setValue('bid', bids[0]?.bid || auction?.current_bid)
+    setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
   }, [bids])
 
   return (
@@ -160,7 +160,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
                       <form className="gap-4" onSubmit={handleSubmit(handlePlaceBid)}>
                         <Input
                           id="bid"
-                          defaultValue={auction.current_bid}
+                          defaultValue={bids[0]?.bid + 1000 || auction.starting_bid}
                           errorMessage={errors.bid?.message}
                           placeholder="Bid amount"
                           {...register('bid')}
