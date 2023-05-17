@@ -88,11 +88,12 @@ const BidWidget = ({ auction, current_bid }: Props) => {
       if (res.error) {
         throw new Error(res.error)
       }
+
       setLoadingPlaceBid(false)
       setBidAmount('')
       success({
-        title: 'Bid placed',
-        content: 'Your bid has been placed.',
+        title: res.title,
+        content: res.message,
       })
     } catch (ex: any) {
       console.error(ex)
