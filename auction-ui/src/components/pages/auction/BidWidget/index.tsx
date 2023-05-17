@@ -1,6 +1,3 @@
-/* eslint-disable tailwindcss/classnames-order */
-/* eslint-disable no-console */
-/* eslint-disable react/jsx-no-bind */
 'use client'
 
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
@@ -8,10 +5,9 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 import Countdown from 'react-countdown'
 import { AuctionStatus, Auction, BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Form, Input } from 'src/core'
-import { useState } from 'react'
+import { Input } from 'src/core'
+import { useCallback, useEffect, useState } from 'react'
 import { format, parseISO } from 'date-fns'
-import { useNotificationContext } from 'src/core/providers/NotificationProvider'
 import ws from 'src/lib/ws'
 import { formatMoney } from 'src/utils/currency'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
@@ -19,6 +15,10 @@ import { useSatsToFiat } from 'src/hooks'
 import { CountdownWidget } from 'src/components/pages/auction/BidWidget/countdownWidget'
 import styles from './index.module.css'
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { toast } from 'react-hot-toast'
 
 interface Props {
   auction: Auction
@@ -29,82 +29,27 @@ interface Props {
   slug?: string
 }
 
-const BidWidget = ({ auction, current_bid }: Props) => {
-  const { isLoading, token } = useAccountContext()
-  const { success, error } = useNotificationContext()
-  const { isSocketReady } = useWebsocketContext()
+interface FormInputs {
+  bid: number
+}
 
-  const [bidAmount, setBidAmount] = useState<string>('')
-  const [bidAmountErrors, setBidAmountErrors] = useState<string[] | undefined>(undefined)
+const validationSchema = (value = 5000) => {
+  if (value <= 5000) {
+    value = 5000
+  } else {
+    value += 1000
+  }
+  return yup.object().shape({
+    bid: yup.number().integer().positive().min(value).required().typeError('bid must be a number'),
+  })
+}
+
+const BidWidget = ({ auction, current_bid, bids }: Props) => {
+  const { isLoading, token } = useAccountContext()
+  const { isSocketReady } = useWebsocketContext()
   const [loadingPlaceBid, setLoadingPlaceBid] = useState<boolean>(false)
 
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: current_bid || 0 })
-
-  // TODO: move to reusable utils.
-  function validateBidAmount(val: string | number) {
-    const num = Number(val)
-    const errors = []
-
-    if (current_bid !== null && num <= current_bid.bid) {
-      errors.push('Bid must be higher than current highest bid')
-    }
-
-    if (num <= 0) {
-      errors.push('Bid must be higher than 0')
-    }
-
-    setBidAmountErrors(errors)
-  }
-
-  function handleBidAmountChange(val: string | number) {
-    setBidAmountErrors(undefined)
-    if (val === '') {
-      setBidAmount(val.toString())
-
-      return
-    }
-
-    setBidAmount(val.toString())
-  }
-
-  async function handlePlaceBid() {
-    if (!token || (bidAmountErrors && bidAmountErrors.length > 0)) {
-      return
-    }
-
-    validateBidAmount(bidAmount)
-
-    if (bidAmountErrors && bidAmountErrors.length > 0) return
-
-    setLoadingPlaceBid(true)
-    // setBidAmount('')
-
-    try {
-      const res: any = await ws.request('place_bid', {
-        auction_id: auction.id,
-        amount: Number(bidAmount),
-      })
-
-      if (res.error) {
-        throw new Error(res.error)
-      }
-      setLoadingPlaceBid(false)
-      setBidAmount('')
-      success({
-        title: 'Bid placed',
-        content: 'Your bid has been placed.',
-      })
-    } catch (ex: any) {
-      console.error(ex)
-      error({
-        title: 'Error',
-        content: ex.message,
-      })
-      setLoadingPlaceBid(false)
-    } finally {
-      setLoadingPlaceBid(false)
-    }
-  }
 
   const auctionStatus = () => {
     if (auction.status === AuctionStatus.Scheduled) {
@@ -117,6 +62,49 @@ const BidWidget = ({ auction, current_bid }: Props) => {
       return 'Auction ended:'
     }
   }
+
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<FormInputs>({
+    resolver: yupResolver(validationSchema(bids[0]?.bid || auction?.starting_bid)),
+    defaultValues: {
+      bid: bids[0]?.bid || auction?.starting_bid,
+    },
+  })
+
+  const handlePlaceBid: SubmitHandler<FormInputs> = useCallback(async value => {
+    try {
+      setLoadingPlaceBid(true)
+
+      const res: any = await ws.request('place_bid', {
+        auction_id: auction.id,
+        amount: value.bid,
+      })
+      if (res.error) {
+        throw new Error(res.error)
+      }
+
+      setLoadingPlaceBid(false)
+      reset(
+        {
+          bid: current_bid?.bid,
+        },
+        { keepTouched: false, keepDirty: false },
+      )
+      toast.success(res.message, { position: 'top-right' })
+    } catch (err: any) {
+      toast.error(err.message, { position: 'top-right' })
+      setLoadingPlaceBid(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
+  }, [bids])
 
   return (
     <>
@@ -169,19 +157,22 @@ const BidWidget = ({ auction, current_bid }: Props) => {
                   <div className="mt-5 w-full">
                     <p className="text-base font-semibold text-dark-100">Enter your bid</p>
                     <div className="mt-2 flex flex-col">
-                      <Form className="gap-4" onSubmit={handlePlaceBid} disabled={loadingPlaceBid || !isSocketReady}>
-                        <Form.Field required errors={bidAmountErrors}>
-                          <Input
-                            type="number"
-                            name="bid_amount"
-                            value={bidAmount}
-                            onChange={handleBidAmountChange}
-                            placeholder="Bid amount"
-                          />
-                        </Form.Field>
-
-                        <Form.Submit>Place bid</Form.Submit>
-                      </Form>
+                      <form className="gap-4" onSubmit={handleSubmit(handlePlaceBid)}>
+                        <Input
+                          id="bid"
+                          defaultValue={bids[0]?.bid + 1000 || auction.starting_bid}
+                          errorMessage={errors.bid?.message}
+                          placeholder="Bid amount"
+                          {...register('bid')}
+                        />
+                        <button
+                          className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
+                          type="submit"
+                          disabled={loadingPlaceBid || !isSocketReady}
+                        >
+                          Place bid
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </>
@@ -234,6 +225,7 @@ function BidWidgetCalculator({ auction }: BidWidgetCalculatorProps) {
           name="volume"
           min="0"
           max="800"
+          placeholder="hashprice"
           value={hashPrice}
         />
       </label>
