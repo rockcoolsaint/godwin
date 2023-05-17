@@ -9,10 +9,13 @@ import { useEffect, useState } from 'react'
 import getOrder from 'src/api/checkout/getOrder'
 import protect from 'src/hoc/protect'
 import { isOrderFulfilled } from 'utils'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 function Checkout({ params, searchParams }: { params: { order_id?: string }; searchParams: { success?: string } }) {
   const { order_id } = params
   const isSuccessPage = searchParams.success === 'true'
+
+  const { token, isLoading: tokenLoading } = useAccountContext()
 
   const [loading, setLoading] = useState<boolean>(true)
   const [order, setOrder] = useState<Order | undefined>(undefined)
@@ -23,27 +26,29 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
         return console.error('No order_id was specified')
       }
 
-      try {
-        setLoading(true)
-        const res = await getOrder(order_id)
+      if (!tokenLoading && token) {
+        try {
+          setLoading(true)
+          const res = await getOrder(order_id, token)
 
-        setOrder(res as Order)
-      } catch (ex) {
-        console.error(ex)
-      } finally {
-        setLoading(false)
+          setOrder(res as Order)
+        } catch (ex) {
+          console.error(ex)
+        } finally {
+          setLoading(false)
+        }
       }
     }
 
     prepareCheckout()
-  }, [order_id])
+  }, [order_id, tokenLoading, token])
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>
 
-    if (order) {
+    if (order && !tokenLoading && token) {
       const poll = async () => {
-        const res = await getOrder(order.id)
+        const res = await getOrder(order.id, token)
         if (res.status !== order.status) {
           setOrder(res as Order)
         }
@@ -58,7 +63,7 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
     return () => {
       clearInterval(interval)
     }
-  }, [order])
+  }, [order, tokenLoading, token])
 
   if (loading) {
     return (
