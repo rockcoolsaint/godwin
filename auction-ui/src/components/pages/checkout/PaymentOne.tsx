@@ -7,7 +7,7 @@ import { makeClientRequest } from 'src/api/clientRequest'
 import { Button, Loader, Input, formatAuctionType, Container } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Order, OrderStatus, PaymentStatus } from 'src/types'
+import { Order, OrderStatus, OrderType, PaymentStatus } from 'src/types'
 import Image from 'next/image'
 import { formatMoney } from 'src/utils/currency'
 import { formatDate } from 'src/utils/date'
@@ -168,8 +168,9 @@ function PaymentOne({ order }: Props) {
           <Image className="rounded-2xl" src={miner} alt="auction image" width={240} height={180} />
           <div className="ml-8">
             <h3 className="mb-12 text-2xl font-medium text-gray-900">{auction?.title} TH/s in USA</h3>
-
-            <p className="mb-5 text-base font-medium text-gray-900">Epoch {auction?.epoch || 390}</p>
+            {order.type === OrderType.Auction && (
+              <p className="mb-5 text-base font-medium text-gray-900">{`Epoch ${auction?.epoch || '-'}`}</p>
+            )}
             <p className="text-base font-medium text-gray-900">Estimated start {formatDate(auction!.start_at, 'MMMM d, yyyy')}</p>
           </div>
         </div>
