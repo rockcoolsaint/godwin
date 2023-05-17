@@ -9,11 +9,13 @@ import { useEffect, useRef, useState } from 'react'
 import { Loader } from 'src/core'
 import { AuctionStatus, Auction, BidsEntityOrCurrentBid } from 'src/api/auction/types'
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
+import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order } from 'src/types'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
   const slug = params.auctionSlug
 
+  const { token, isLoading: tokenLoading } = useAccountContext()
   const { socket, isSocketReady } = useWebsocketContext()
 
   const bids = useRef<BidsEntityOrCurrentBid[]>([])
@@ -43,8 +45,8 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         setCurrentBid(current_bid)
         setWinner(winner)
 
-        if (auction.status === AuctionStatus.Completed) {
-          const order = await getOrderByAuctionId(auction.id)
+        if (!tokenLoading && token && auction.status === AuctionStatus.Completed) {
+          const order = await getOrderByAuctionId(auction.id, token)
           if (!order) {
             setLoading(false)
 
@@ -60,7 +62,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
     }
 
     prepareAuction()
-  }, [slug])
+  }, [slug, tokenLoading, token])
 
   useEffect(() => {
     if (auction && isSocketReady) {
