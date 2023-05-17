@@ -34,7 +34,7 @@ interface FormInputs {
 }
 
 const validationSchema = (value = 5000) => {
-  if (value < 5000) {
+  if (value <= 5000) {
     value = 5000
   } else {
     value += 1000
@@ -70,9 +70,9 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
     formState: { errors },
     setValue,
   } = useForm<FormInputs>({
-    resolver: yupResolver(validationSchema(bids[0].bid)),
+    resolver: yupResolver(validationSchema(bids[0]?.bid || auction?.current_bid)),
     defaultValues: {
-      bid: bids[0].bid,
+      bid: bids[0]?.bid || auction?.current_bid,
     },
   })
 
@@ -103,7 +103,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
   }, [])
 
   useEffect(() => {
-    setValue('bid', bids[0].bid)
+    setValue('bid', bids[0]?.bid || auction?.current_bid)
   }, [bids])
 
   return (
