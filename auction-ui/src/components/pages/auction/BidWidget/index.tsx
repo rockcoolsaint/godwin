@@ -70,9 +70,9 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
     formState: { errors },
     setValue,
   } = useForm<FormInputs>({
-    resolver: yupResolver(validationSchema(bids[0]?.bid || auction?.current_bid)),
+    resolver: yupResolver(validationSchema(bids[0]?.bid || auction?.starting_bid)),
     defaultValues: {
-      bid: bids[0]?.bid || auction?.current_bid,
+      bid: bids[0]?.bid || auction?.starting_bid,
     },
   })
 
