@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -8,9 +7,17 @@ import { makeClientRequest } from 'src/api/clientRequest'
 import { Button, Loader, Input, formatAuctionType, Container } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Order, OrderStatus, OrderType, PaymentStatus } from 'src/types'
+import { Order, OrderStatus, PaymentStatus } from 'src/types'
+import Image from 'next/image'
+import { formatMoney } from 'src/utils/currency'
+import { formatDate } from 'src/utils/date'
+import * as miner from 'src/assets/jpg/mining.jpeg'
 
-function PaymentOne({ order }: { order: Order }) {
+interface Props {
+  order: Order
+}
+
+function PaymentOne({ order }: Props) {
   const { token, isLoading: tokenLoading } = useAccountContext()
   const [currentOrder, setCurrentOrder] = useState(order)
   const [promoCode, setPromoCode] = useState('')
@@ -18,6 +25,7 @@ function PaymentOne({ order }: { order: Order }) {
   const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   const { first, paymentId, amountPaid, amountRemaining, isPaymentComplete, checkoutUrl } = usePayments(currentOrder)
+  const { auction, auction_fee, mining_deposit, price, total } = order
 
   const applyPromoCode = async () => {
     if (!promoCode || promoCode === '' || !first || !currentOrder.id) {
@@ -155,157 +163,157 @@ function PaymentOne({ order }: { order: Order }) {
 
   return (
     <Container>
-      <h1>Checkout</h1>
-      <h2>Mining deposit & auction fee</h2>
+      <section className="mx-auto mb-28 mt-28 w-full lg:w-3/5">
+        <div className="flex items-center rounded-2xl bg-gray-100 p-5">
+          <Image className="rounded-2xl" src={miner} alt="auction image" width={240} height={180} />
+          <div className="ml-8">
+            <h3 className="mb-12 text-2xl font-medium text-gray-900">{auction?.title} TH/s in USA</h3>
 
-      <div className="mt-4">
-        <span>PaymentID:</span> <b>{paymentId}</b>
-      </div>
-      <div>
-        <span>Your bid: </span>
-        <b>
-          {currentOrder.price}
-          <i className="fak fa-regular" />
-        </b>
-      </div>
-      {currentOrder.type === OrderType.Auction && (
-        <>
-          <div>
-            {currentOrder.auction && (
-              <span>
-                Mining deposit ({formatAuctionType(currentOrder.auction.auction_type.type)} {currentOrder.auction.auction_type.percentage}
-                %):
-              </span>
-            )}
-            {!currentOrder.auction && <span>Mining deposit:</span>}
-            <b>
-              {currentOrder.mining_deposit}
-              <i className="fak fa-regular" />
-            </b>
+            <p className="mb-5 text-base font-medium text-gray-900">Epoch {auction?.epoch || 390}</p>
+            <p className="text-base font-medium text-gray-900">Estimated start {formatDate(auction!.start_at, 'MMMM d, yyyy')}</p>
           </div>
-          <div>
-            <span>Auction fee (3.5%): </span>
-            <b>
-              {currentOrder.auction_fee}
-              <i className="fak fa-regular" />
-            </b>
+        </div>
+
+        <div className="mt-10 rounded-2xl border border-gray-200 p-4 md:p-9">
+          <h1 className="text-xl font-medium text-gray-900">Confirm and pay</h1>
+
+          <div className="my-10">
+            <dl className="space-y-4">
+              <div className="flex items-center justify-between">
+                <dt className="text-sm text-gray-600">Payment Id:</dt>
+                <dd className="text-sm font-medium text-gray-900">{paymentId}</dd>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <dt className="flex items-center text-sm text-gray-600">
+                  <span>Auction bid</span>
+                </dt>
+                <dd className="text-sm font-medium text-gray-900">{formatMoney(price)} sats</dd>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <dt className="flex text-sm text-gray-600">
+                  <span>Mining deposit</span>
+                </dt>
+                <dd className="text-sm font-medium text-gray-900">{formatMoney(mining_deposit)} sats</dd>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <dt className="flex text-sm text-gray-600">
+                  <span>Rigly auction fee</span>
+                </dt>
+                <dd className="text-sm font-medium text-gray-900">{formatMoney(auction_fee)} sats</dd>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <dt className="text-base font-medium text-gray-900">Deposit & fees</dt>
+                <dd className="text-base font-medium text-gray-900">{formatMoney(total)} sats sats</dd>
+              </div>
+            </dl>
           </div>
-        </>
-      )}
 
-      <div>
-        <span>Total: </span>
-        <b>{first.original_amount}</b>
-      </div>
-
-      {currentOrder.promo_code && (
-        <div>
-          <span>Discount: </span>
-          <b>{currentOrder.promo_code.discount}%</b>
-        </div>
-      )}
-
-      <div className="my-4 border-t border-gray-300" />
-
-      {currentOrder.promo_code && (
-        <div>
-          <span>Amount due: </span>
-          <b>
-            {first.amount}
-            <i className="fak fa-regular" />
-          </b>
-        </div>
-      )}
-
-      {!currentOrder.promo_code && currentOrder.type === OrderType.Auction && (
-        <div>
-          <span>Amount due: </span>
-          <b>
-            {currentOrder.mining_deposit + currentOrder.auction_fee}
-            <i className="fak fa-regular" />
-          </b>
-        </div>
-      )}
-      {currentOrder.type === OrderType.Auction && (
-        <>
-          {currentOrder.status === OrderStatus.Processing && (
-            <div className="my-5 flex gap-2">
-              <span>Payment for this order has already been started, unable to apply promo codes.</span>
-            </div>
-          )}
-
-          {currentOrder.can_apply_promo_code && (
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '20px' }}>
-              <Input className="form-control mb-3" name="promo_code" value={promoCode} onChange={handlePromoCodeChange} type="text" />
-
-              <Button onClick={applyPromoCode} disabled={loading}>
-                <span style={{ whiteSpace: 'nowrap' }}>Apply code</span>
+          {currentOrder.status !== OrderStatus.Processing && (
+            <div className="flex justify-end">
+              <Button disabled={checkoutLoading} onClick={handleCheckout}>
+                Checkout
               </Button>
             </div>
           )}
 
-          {currentOrder.promo_code && (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                gap: '8px',
-                background: '#E8F6FF',
-                borderRadius: '8px',
-                padding: '16px',
-                marginTop: '20px',
-                marginBottom: '20px',
-              }}
-            >
-              <div>
-                <div>Promo code applied:</div>
-                <b>
-                  {currentOrder.promo_code.code} ({currentOrder.promo_code.discount}% OFF)
-                </b>
-              </div>
+          {currentOrder.status === OrderStatus.Processing && (
+            <a className="flex justify-end" href={checkoutUrl} rel="noreferrer">
+              <Button>Checkout</Button>
+            </a>
+          )}
+        </div>
 
-              {currentOrder.can_apply_promo_code && (
-                <Button onClick={clearPromoCode} disabled={loading}>
-                  Clear
-                </Button>
-              )}
+        {/* <>
+          {currentOrder.promo_code && (
+            <div>
+              <span>Discount: </span>
+              <b>{currentOrder.promo_code.discount}%</b>
             </div>
           )}
-        </>
-      )}
 
-      {showRemaining && (
-        <div style={{ margin: '20px 0' }}>
-          <b style={{ color: 'red' }}>You still need to complete payment for this order:</b>
-          <div>
-            <span>Paid: </span>
-            <b>
-              {amountPaid}
-              <i className="fak fa-regular" />
-            </b>
+          {currentOrder.promo_code && (
+            <div>
+              <span>Amount due: </span>
+              <b>
+                {first.amount}
+                <i className="fak fa-regular" />
+              </b>
+            </div>
+          )}
+
+          {!currentOrder.promo_code && currentOrder.type === OrderType.Auction && (
+            <div>
+              <span>Amount due: </span>
+              <b>
+                {currentOrder.mining_deposit + currentOrder.auction_fee}
+                <i className="fak fa-regular" />
+              </b>
+            </div>
+          )}
+          {currentOrder.type === OrderType.Auction && (
+            <>
+              {currentOrder.status === OrderStatus.Processing && (
+                <div className="my-5 flex gap-2">
+                  <span>Payment for this order has already been started, unable to apply promo codes.</span>
+                </div>
+              )}
+
+              {currentOrder.can_apply_promo_code && (
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '20px' }}>
+                  <Input className="form-control mb-3" name="promo_code" value={promoCode} onChange={handlePromoCodeChange} type="text" />
+
+                  <Button onClick={applyPromoCode} disabled={loading}>
+                    <span style={{ whiteSpace: 'nowrap' }}>Apply code</span>
+                  </Button>
+                </div>
+              )}
+
+              {currentOrder.promo_code && (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                    background: '#E8F6FF',
+                    borderRadius: '8px',
+                    padding: '16px',
+                    marginTop: '20px',
+                    marginBottom: '20px',
+                  }}
+                >
+                  <div>
+                    <div>Promo code applied:</div>
+                    <b>
+                      {currentOrder.promo_code.code} ({currentOrder.promo_code.discount}% OFF)
+                    </b>
+                  </div>
+
+                  {currentOrder.can_apply_promo_code && (
+                    <Button onClick={clearPromoCode} disabled={loading}>
+                      Clear
+                    </Button>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </> */}
+
+        {showRemaining && (
+          <div className=" pt-4">
+            <p className="flex items-center text-base text-red-600">You still need to complete payment for this order:</p>
+            <div>
+              <span className="text-sm text-gray-600">Paid: </span>
+              <span className="text-sm font-medium text-gray-900">{amountPaid} sats</span>
+            </div>
+            <div>
+              <span className="text-sm text-gray-600">Remaining: </span>
+              <span className="text-sm font-medium text-gray-900">{amountRemaining} sats</span>
+            </div>
           </div>
-          <div>
-            <span>Remaining: </span>
-            <b>
-              {amountRemaining}
-              <i className="fak fa-regular" />
-            </b>
-          </div>
-        </div>
-      )}
-
-      {currentOrder.status !== OrderStatus.Processing && (
-        <Button disabled={checkoutLoading} onClick={handleCheckout}>
-          Checkout
-        </Button>
-      )}
-
-      {currentOrder.status === OrderStatus.Processing && (
-        <a href={checkoutUrl} rel="noreferrer">
-          <Button>Checkout</Button>
-        </a>
-      )}
+        )}
+      </section>
     </Container>
   )
 }
