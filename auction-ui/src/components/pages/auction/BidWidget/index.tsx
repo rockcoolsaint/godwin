@@ -40,7 +40,7 @@ const validationSchema = (value = 5000) => {
     value += 1000
   }
   return yup.object().shape({
-    bid: yup.number().integer().positive().min(value, 'haba naw').required().typeError('bid must be a number'),
+    bid: yup.number().integer().positive().min(value).required().typeError('bid must be a number'),
   })
 }
 
