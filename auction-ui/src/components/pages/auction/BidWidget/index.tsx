@@ -40,7 +40,7 @@ const validationSchema = (value = 5000) => {
     value += 1000
   }
   return yup.object().shape({
-    bid: yup.number().integer().positive().min(value).required().typeError('bid must be a number'),
+    bid: yup.number().integer().positive().min(value, 'haba naw').required().typeError('bid must be a number'),
   })
 }
 
@@ -95,7 +95,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
         },
         { keepTouched: false, keepDirty: false },
       )
-      toast.success('Your bid has been placed.', { position: 'top-right' })
+      toast.success(res.message, { position: 'top-right' })
     } catch (err: any) {
       toast.error(err.message, { position: 'top-right' })
       setLoadingPlaceBid(false)
