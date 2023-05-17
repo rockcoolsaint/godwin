@@ -87,6 +87,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
       if (res.error) {
         throw new Error(res.error)
       }
+
       setLoadingPlaceBid(false)
       reset(
         {
