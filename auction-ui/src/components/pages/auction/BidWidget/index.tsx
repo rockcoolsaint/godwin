@@ -34,7 +34,7 @@ interface FormInputs {
 }
 
 const validationSchema = (value = 5000) => {
-  if (value < 5000) {
+  if (value <= 5000) {
     value = 5000
   } else {
     value += 1000
@@ -70,9 +70,9 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
     formState: { errors },
     setValue,
   } = useForm<FormInputs>({
-    resolver: yupResolver(validationSchema(bids[0].bid)),
+    resolver: yupResolver(validationSchema(bids[0]?.bid || auction?.starting_bid)),
     defaultValues: {
-      bid: bids[0].bid,
+      bid: bids[0]?.bid || auction?.starting_bid,
     },
   })
 
@@ -103,7 +103,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
   }, [])
 
   useEffect(() => {
-    setValue('bid', bids[0].bid)
+    setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
   }, [bids])
 
   return (
@@ -160,7 +160,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
                       <form className="gap-4" onSubmit={handleSubmit(handlePlaceBid)}>
                         <Input
                           id="bid"
-                          defaultValue={auction.current_bid}
+                          defaultValue={bids[0]?.bid + 1000 || auction.starting_bid}
                           errorMessage={errors.bid?.message}
                           placeholder="Bid amount"
                           {...register('bid')}
