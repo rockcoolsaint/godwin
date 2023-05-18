@@ -28,7 +28,7 @@ export interface HashpriceDict {
   [epoch: number]: EpochData
 }
 
-export async function getEpoch() {
+export async function getHashPrice() {
   const data: HashpriceDict = await get(`https://auctions.rigly.io/api/data/hashprice`)
 
   return data

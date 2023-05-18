@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getDifficultyAdjustment, getBlockTipHeight, getHashRate, getEpoch, HashpriceDict } from 'src/api/hashprice'
+import { getDifficultyAdjustment, getBlockTipHeight, getHashRate, getHashPrice, HashpriceDict } from 'src/api/hashprice'
 import { formatDistance, fromUnixTime } from 'date-fns'
 
 export default function HashPriceStats() {
@@ -17,7 +17,7 @@ export default function HashPriceStats() {
         const difficultyEstimate = await getDifficultyAdjustment()
         const hashrate = await getHashRate()
         const blockHeight = await getBlockTipHeight()
-        const epochData = await getEpoch()
+        const epochData = await getHashPrice()
 
         const difficultyPeriod = blockHeight / 2016
 
@@ -27,7 +27,7 @@ export default function HashPriceStats() {
         setEpoch(epochData)
 
         const parseDate = fromUnixTime(difficultyEstimate.estimatedRetargetDate / 1000)
-        let distanceFromNow = formatDistance(parseDate, new Date())
+        const distanceFromNow = formatDistance(parseDate, new Date())
 
         setTimeToNextDifficulty(distanceFromNow)
       } catch (error) {
