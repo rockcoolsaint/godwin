@@ -86,10 +86,18 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
       </Container>
     )
   }
+  const renderAuctionMeta = () => {
+    return (
+      <span>{`${auction.auction_meta.days_of_mining} ${auction.auction_meta.days_of_mining > 1 ? 'days' : 'day'}  | ${
+        auction.auction_meta.hashrate
+      }TH/s `}</span>
+    )
+  }
 
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
+      <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
       <section className="flex flex-col rounded-xl bg-gray-50 p-3 lg:flex-row">
         <div className="lg:w-[75%]">
           <Tab.Group>
