@@ -10,14 +10,14 @@ export default function Unauthorized() {
   return (
     <div className="ml-8 flex items-center justify-end gap-2">
       <Link href={`/login${returnUrl}`}>
-        <button className="flex h-10 items-center justify-center rounded-lg border border-transparent px-3 text-blue-400 hover:text-blue-600">
-          <span className="whitespace-nowrap">Sign In</span>
+        <button className="flex h-10 items-center justify-center rounded-lg border border-transparent px-3 text-primary hover:text-primary/70">
+          <span className="whitespace-nowrap font-normal">Sign In</span>
         </button>
       </Link>
 
       <Link href={`/register${returnUrl}`}>
         <button className="flex h-10 items-center justify-center rounded-lg bg-gradient px-3 text-white hover:bg-gradient-hover">
-          <span className="whitespace-nowrap font-semibold">Sign up</span>
+          <span className="whitespace-nowrap font-normal">Sign up</span>
         </button>
       </Link>
     </div>
