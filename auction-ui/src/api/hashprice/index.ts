@@ -19,6 +19,21 @@ export interface HashRateResponse {
   currentDifficulty: number
 }
 
+interface EpochData {
+  mean: number
+  median: number
+}
+
+export interface HashpriceDict {
+  [epoch: number]: EpochData
+}
+
+export async function getEpoch() {
+  const data: HashpriceDict = await get(`https://auctions.rigly.io/api/data/hashprice`)
+
+  return data
+}
+
 export async function getHashRate() {
   const data: HashRateResponse = await get(`https://mempool.space/api/v1/mining/hashrate/1m`)
 
