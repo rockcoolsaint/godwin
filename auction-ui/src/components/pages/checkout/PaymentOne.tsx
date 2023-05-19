@@ -164,14 +164,19 @@ function PaymentOne({ order }: Props) {
   return (
     <Container>
       <section className="mx-auto my-28 w-full lg:w-3/5">
-        <div className="flex items-center rounded-2xl bg-gray-100 p-5">
+        <div className="flex rounded-2xl bg-gray-100 p-5">
           <Image className="rounded-2xl" src={miner} alt="auction image" width={240} height={180} />
-          <div className="ml-8">
-            <h3 className="mb-12 text-2xl font-medium text-gray-900">{auction?.title}</h3>
-            {order.type === OrderType.Auction && (
-              <p className="mb-5 text-base font-medium text-gray-900">{`Epoch ${auction?.epoch || '-'}`}</p>
-            )}
-            <p className="text-base font-medium text-gray-900">Estimated start {formatDate(auction!.start_at, 'MMMM d, yyyy')}</p>
+          <div className="ml-8 flex flex-col justify-between">
+            <div className="mb-12">
+              <h3 className="text-2xl font-medium text-gray-900">{auction?.title}</h3>
+              <span className="text-sm font-normal text-gray-700">{`${auction!.auction_meta.days_of_mining} ${
+                auction!.auction_meta.days_of_mining > 1 ? 'days' : 'day'
+              }  | ${auction!.auction_meta.hashrate}TH/s `}</span>
+            </div>
+            <div>
+              {order.type === OrderType.Auction && <p className="text-sm font-normal text-gray-700">{`Epoch ${auction?.epoch || '-'}`}</p>}
+              <p className="text-sm font-normal text-gray-900">Estimated start {formatDate(auction!.start_at, 'MMMM d, yyyy')}</p>
+            </div>
           </div>
         </div>
 
