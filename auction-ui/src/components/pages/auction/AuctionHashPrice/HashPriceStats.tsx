@@ -1,14 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { getDifficultyAdjustment, getBlockTipHeight, getHashRate } from 'src/api/hashprice'
-import { formatMoney } from 'src/utils/currency'
+import { getDifficultyAdjustment, getBlockTipHeight, getHashRate, getHashPrice, HashpriceDict } from 'src/api/hashprice'
+import { formatDistance, fromUnixTime } from 'date-fns'
 
 export default function HashPriceStats() {
-  const [blockHeight, setBlockHeight] = useState(0)
   const [difficultyPeriod, setDifficultyPeriod] = useState(0)
   const [difficultyEstimate, setDifficultyEstimate] = useState(0)
   const [hashrate, setHashrate] = useState(0)
+  const [epoch, setEpoch] = useState<HashpriceDict>({})
+  const [timeToNextDifficulty, setTimeToNextDifficulty] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,12 +17,19 @@ export default function HashPriceStats() {
         const difficultyEstimate = await getDifficultyAdjustment()
         const hashrate = await getHashRate()
         const blockHeight = await getBlockTipHeight()
+        const epochData = await getHashPrice()
 
         const difficultyPeriod = blockHeight / 2016
+
         setHashrate(hashrate.currentHashrate / 1_000_000_000_000_000_000)
         setDifficultyEstimate(difficultyEstimate.difficultyChange)
-        setBlockHeight(blockHeight)
         setDifficultyPeriod(difficultyPeriod)
+        setEpoch(epochData)
+
+        const parseDate = fromUnixTime(difficultyEstimate.estimatedRetargetDate / 1000)
+        const distanceFromNow = formatDistance(parseDate, new Date())
+
+        setTimeToNextDifficulty(distanceFromNow)
       } catch (error) {
         console.log(error)
       }
@@ -32,23 +40,11 @@ export default function HashPriceStats() {
 
   return (
     <div className="py-3">
-      <dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-4 md:divide-x md:divide-y-0">
-        <div className="px-4 py-5 sm:p-6">
-          <dt className="text-sm font-normal text-gray-900">Block height</dt>
-          <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-            <div className="flex items-baseline text-lg font-semibold text-indigo-600">{formatMoney(blockHeight + 1)}</div>
-          </dd>
-        </div>
+      <dl className="grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-4 md:divide-x md:divide-y-0">
         <div className="px-4 py-5 sm:p-6">
           <dt className="text-sm font-normal text-gray-900">Difficulty period</dt>
           <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
             <div className="flex items-baseline text-lg font-semibold text-indigo-600">{Math.floor(difficultyPeriod)}</div>
-          </dd>
-        </div>
-        <div className="px-4 py-5 sm:p-6">
-          <dt className="text-sm font-normal text-gray-900">Difficulty adjustment</dt>
-          <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-            <div className="flex items-baseline text-lg font-semibold text-indigo-600">{parseFloat(difficultyEstimate.toFixed(2))}</div>
           </dd>
         </div>
         <div className="px-4 py-5 sm:p-6">
@@ -57,23 +53,26 @@ export default function HashPriceStats() {
             <div className="flex items-baseline text-lg font-semibold text-indigo-600">{Math.floor(hashrate)} EH/s</div>
           </dd>
         </div>
+        <div className="px-4 py-5 sm:p-6">
+          <dt className="text-sm font-normal text-gray-900">Difficulty adjustment</dt>
+          <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
+            <div className="flex items-baseline text-lg font-semibold text-indigo-600">{parseFloat(difficultyEstimate.toFixed(2))}%</div>
+          </dd>
+        </div>
+        <div className="px-4 py-5 sm:p-6">
+          <dt className="text-sm font-normal text-gray-900">Next Difficulty (Time to)</dt>
+          <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
+            <div className="flex items-baseline text-lg font-semibold text-indigo-600">{timeToNextDifficulty}</div>
+          </dd>
+        </div>
       </dl>
-      <EpochTable />
+      <EpochTable epoch={epoch} />
     </div>
   )
 }
 
-const epoch = [
-  { epoch: 'Epoch 384', hashprice: 324 },
-  { epoch: 'Epoch 385', hashprice: 329 },
-  { epoch: 'Epoch 386', hashprice: 297 },
-  { epoch: 'Epoch 387', hashprice: 301 },
-  { epoch: 'Epoch 388', hashprice: 276 },
-  { epoch: 'Epoch 389', hashprice: 283 },
-  { epoch: 'Epoch 390', hashprice: 264 },
-]
-
-export function EpochTable() {
+export function EpochTable(props: { epoch: HashpriceDict }) {
+  if (Object.keys(props.epoch).length === 0) return null
   return (
     <div className="mt-8 flow-root">
       <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -90,12 +89,14 @@ export function EpochTable() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {epoch.map((data, index) => (
-                <tr key={index} className="divide-x divide-gray-200">
-                  <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 ">{data.epoch}</td>
-                  <td className="whitespace-nowrap p-4 text-sm text-gray-500">{data.hashprice} sats per TH/s/day</td>
-                </tr>
-              ))}
+              {Object.entries(props.epoch)
+                .reverse()
+                .map(([epoch, data]) => (
+                  <tr key={epoch} className="divide-x divide-gray-200">
+                    <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 ">{epoch}</td>
+                    <td className="whitespace-nowrap p-4 text-sm text-gray-500">{Math.floor(data!.mean)} sats per TH/s/day</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

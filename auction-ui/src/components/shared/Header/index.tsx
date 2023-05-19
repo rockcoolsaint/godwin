@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 'use client'
 
 import Link from 'src/components/shared/Link'
@@ -62,13 +61,13 @@ export default function HeaderNav() {
               <LogoSvg />
             </Link>
             <aside className="hidden lg:block">
-              <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/">
+              <Link className="ml-8 text-base font-normal text-dark-300 hover:text-primary" href="/">
                 Home
               </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="/collections">
+              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/collections">
                 Auctions
               </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-blue-500" href="https:/rigly.io/pages/learn">
+              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="https:/rigly.io/pages/learn">
                 Learn more
               </Link>
             </aside>
@@ -90,19 +89,19 @@ export default function HeaderNav() {
       {active && (
         <div className="absolute inset-0 top-20 z-10 h-screen bg-white lg:hidden">
           <div className="flex flex-col">
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="/">
+            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="/">
               Home
             </Link>
 
-            <Link className="px-5 py-4 text-base  text-dark-300 hover:text-blue-500" href="/collections">
+            <Link className="px-5 py-4 text-base  text-dark-300 hover:text-primary" href="/collections">
               Auctions
             </Link>
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-blue-500" href="https:/rigly.io/pages/learn">
+            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="https:/rigly.io/pages/learn">
               Learn more
             </Link>
 
             <Link
-              className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-blue-500"
+              className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-primary"
               href="https://rigly.io/pages/selling-on-rigly"
             >
               <span>List your mining</span>
@@ -153,7 +152,7 @@ export default function HeaderNav() {
                 onClick={handleRegisterClick}
                 className="flex h-10 w-full items-center justify-center rounded-lg bg-gradient px-3 text-white hover:bg-gradient-hover"
               >
-                <span className="whitespace-nowrap font-semibold">Sign up</span>
+                <span className="whitespace-nowrap font-normal">Sign up</span>
               </button>
             </div>
           )}
