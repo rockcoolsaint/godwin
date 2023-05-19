@@ -163,11 +163,11 @@ function PaymentOne({ order }: Props) {
 
   return (
     <Container>
-      <section className="mx-auto mb-28 mt-28 w-full lg:w-3/5">
+      <section className="mx-auto my-28 w-full lg:w-3/5">
         <div className="flex items-center rounded-2xl bg-gray-100 p-5">
           <Image className="rounded-2xl" src={miner} alt="auction image" width={240} height={180} />
           <div className="ml-8">
-            <h3 className="mb-12 text-2xl font-medium text-gray-900">{auction?.title} TH/s in USA</h3>
+            <h3 className="mb-12 text-2xl font-medium text-gray-900">{auction?.title}</h3>
             {order.type === OrderType.Auction && (
               <p className="mb-5 text-base font-medium text-gray-900">{`Epoch ${auction?.epoch || '-'}`}</p>
             )}
