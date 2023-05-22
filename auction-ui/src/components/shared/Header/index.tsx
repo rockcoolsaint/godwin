@@ -67,8 +67,11 @@ export default function HeaderNav() {
               <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/collections">
                 Auctions
               </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="https:/rigly.io/pages/learn">
-                Learn more
+              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="https://rigly.io/a/faq">
+                FAQ
+              </Link>
+              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="https://blog.rigly.io/">
+                Blog
               </Link>
             </aside>
           </div>
@@ -96,8 +99,11 @@ export default function HeaderNav() {
             <Link className="px-5 py-4 text-base  text-dark-300 hover:text-primary" href="/collections">
               Auctions
             </Link>
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="https:/rigly.io/pages/learn">
-              Learn more
+            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="https://rigly.io/a/faq">
+              FAQ
+            </Link>
+            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="https://blog.rigly.io/">
+              Blog
             </Link>
 
             <Link

@@ -19,6 +19,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { toast } from 'react-hot-toast'
+import { getHashPrice, HashpriceDict } from 'src/api/hashprice'
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid'
 
 interface Props {
   auction: Auction
@@ -39,6 +41,7 @@ const validationSchema = (value = 5000) => {
   } else {
     value += 1000
   }
+
   return yup.object().shape({
     bid: yup.number().integer().positive().min(value).required().typeError('bid must be a number'),
   })
@@ -48,6 +51,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
   const { isLoading, token } = useAccountContext()
   const { isSocketReady } = useWebsocketContext()
   const [loadingPlaceBid, setLoadingPlaceBid] = useState<boolean>(false)
+  const [epoch, setEpoch] = useState<HashpriceDict>({})
 
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: current_bid || 0 })
 
@@ -76,35 +80,48 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
     },
   })
 
-  const handlePlaceBid: SubmitHandler<FormInputs> = useCallback(async value => {
-    try {
-      setLoadingPlaceBid(true)
+  const handlePlaceBid: SubmitHandler<FormInputs> = useCallback(
+    async value => {
+      try {
+        setLoadingPlaceBid(true)
 
-      const res: any = await ws.request('place_bid', {
-        auction_id: auction.id,
-        amount: value.bid,
-      })
-      if (res.error) {
-        throw new Error(res.error)
+        const res: any = await ws.request('place_bid', {
+          auction_id: auction.id,
+          amount: value.bid,
+        })
+        if (res.error) {
+          throw new Error(res.error)
+        }
+
+        setLoadingPlaceBid(false)
+        reset(
+          {
+            bid: current_bid?.bid,
+          },
+          { keepTouched: false, keepDirty: false },
+        )
+        toast.success(res.message, { position: 'top-right' })
+      } catch (err: any) {
+        toast.error(err.message, { position: 'top-right' })
+        setLoadingPlaceBid(false)
       }
-
-      setLoadingPlaceBid(false)
-      reset(
-        {
-          bid: current_bid?.bid,
-        },
-        { keepTouched: false, keepDirty: false },
-      )
-      toast.success(res.message, { position: 'top-right' })
-    } catch (err: any) {
-      toast.error(err.message, { position: 'top-right' })
-      setLoadingPlaceBid(false)
-    }
-  }, [])
+    },
+    [auction.id, current_bid?.bid, reset],
+  )
 
   useEffect(() => {
-    setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
-  }, [bids])
+    const fetchData = async () => {
+      try {
+        const epochData = await getHashPrice()
+        setEpoch(epochData)
+        setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
+      } catch (error: any) {
+        toast.error(error.message, { position: 'top-right' })
+      }
+    }
+
+    fetchData()
+  }, [auction?.starting_bid, bids, setValue])
 
   return (
     <>
@@ -181,39 +198,51 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
           )}
         </div>
       </div>
-      <BidWidgetCalculator auction={auction} />
+      <BidWidgetCalculator auction={auction} epoch={epoch} bids={bids} />
     </>
   )
 }
 
 interface BidWidgetCalculatorProps {
   auction: Auction
+  epoch: HashpriceDict
+  bids: BidsEntityOrCurrentBid[]
 }
 
-function BidWidgetCalculator({ auction }: BidWidgetCalculatorProps) {
-  const [hashPrice, setHashPrice] = useState(0)
-  const [speed, setSpeed] = useState(auction.auction_meta.hashrate)
-  const [duration, setDuration] = useState(auction.auction_meta.days_of_mining)
-  const futureMiningPayout = hashPrice * Number(speed) * Number(duration) || 0
+function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps) {
+  const [hashPrice, setHashPrice] = useState(800)
+  const [speed] = useState(auction.auction_meta.hashrate)
+  const [duration] = useState(auction.auction_meta.days_of_mining)
+  const payout = hashPrice * Number(speed) * Number(duration) - Number(bids[0]?.bid) || 0
+
+  const futureMiningPayout = payout > 0 ? payout : 0
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: futureMiningPayout })
+
+  let filteredEpoch: any = {}
+  if (Object.keys(epoch).length > 0) {
+    filteredEpoch = Object.values(epoch).reduce((a, b) => (a > b ? a : b))
+  }
 
   return (
     <div className="mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-3 opacity-70">
       <h1 className="mb-2 text-base">Hash price</h1>
-      <div className="flex items-center justify-between">
-        <input
-          onChange={e => {
-            setHashPrice(parseInt(e.target.value) || 0)
-          }}
-          type="text"
-          disabled
-          className="w-full rounded-lg border border-gray-400 p-2 text-center text-lg"
-          id="#1"
-          placeholder="0"
-          value={formatMoney(hashPrice)}
-        />
-        <p className="ml-1 text-right text-sm text-dark-100">Sats per TH/s/Day</p>
-      </div>
+      {Object.keys(filteredEpoch).length > 0 && (
+        <div className="flex items-center justify-between">
+          <input
+            onChange={e => {
+              setHashPrice(parseInt(e.target.value))
+            }}
+            type="text"
+            disabled
+            className="w-full rounded-lg border border-gray-400 p-2 text-center text-lg disabled:bg-gradient-disabled"
+            id="#1"
+            placeholder="0"
+            value={Math.floor(filteredEpoch.mean)}
+          />
+          <p className="ml-1 text-right text-sm text-dark-100">Sats per TH/s/Day</p>
+        </div>
+      )}
+
       <label htmlFor="#hashprice" className="mt-4 flex w-full max-w-[336px] items-center">
         <input
           onChange={e => {
@@ -230,7 +259,17 @@ function BidWidgetCalculator({ auction }: BidWidgetCalculatorProps) {
         />
       </label>
       <div className="mt-4">
-        <h1 className="text-base">Future returns</h1>
+        <h1 className="flex items-center text-base">
+          Future returns
+          <Tooltip placement="bottom">
+            <TooltipTrigger>
+              <QuestionMarkCircleIcon className="ml-2 h-6 w-6" />
+            </TooltipTrigger>
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+              Based on latest bid
+            </TooltipContent>
+          </Tooltip>{' '}
+        </h1>
 
         <Tooltip>
           <TooltipTrigger>
