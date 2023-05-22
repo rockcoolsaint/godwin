@@ -23,10 +23,12 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
     <div>
       <section className="md:px-25 mx-auto mt-20 flex max-w-[1824px] items-center px-5 md:flex-col md:items-center md:justify-between lg:flex-row lg:px-40">
         <div className="mr-4 flex flex-col items-center justify-start md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 lg:items-start">
-          <h1 className="gradient-text text-center text-8xl leading-[7rem] text-gradient sm:text-left md:text-center lg:text-left ">
+          <h1 className="gradient-text text-center text-7xl text-gradient sm:text-left sm:text-8xl md:text-center lg:text-left ">
             Start mining smarter
           </h1>
-          <p className="my-6 text-4xl font-normal lg:w-3/4">Buy your hashrate at an open market price</p>
+          <p className="my-6 text-center text-3xl font-normal sm:text-left sm:text-4xl lg:w-3/4">
+            Buy your hashrate at an open market price
+          </p>
           <Link className=" rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover " href="/collections">
             start mining now
           </Link>
@@ -35,8 +37,8 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
       </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
       <FeaturedAuctions auctions={auctions} />
-      <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-40 md:px-0">
-        <h1 className="mb-20 text-center text-7xl text-primary">{t('home.start_mining_today')}</h1>
+      <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 md:px-0">
+        <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
         <div className="flex flex-col items-center justify-center md:flex-row">
           <Details
             title={t('home.title_mining')}
