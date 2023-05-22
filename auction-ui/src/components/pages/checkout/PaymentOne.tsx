@@ -164,10 +164,10 @@ function PaymentOne({ order }: Props) {
   return (
     <Container>
       <section className="mx-auto my-28 w-full lg:w-3/5">
-        <div className="flex rounded-2xl bg-gray-100 p-5">
-          <Image className="rounded-2xl" src={miner} alt="auction image" width={240} height={180} />
-          <div className="ml-8 flex flex-col justify-between">
-            <div className="mb-12">
+        <div className="flex flex-col rounded-2xl bg-gray-100 p-5 sm:flex-row">
+          <Image className="w-full rounded-2xl sm:w-auto" src={miner} alt="auction image" width={240} height={180} />
+          <div className="ml-0 mt-4 flex flex-col justify-between sm:ml-8 sm:mt-0">
+            <div className="mb-6 sm:mb-12">
               <h3 className="text-2xl font-medium text-gray-900">{auction?.title}</h3>
               <span className="text-sm font-normal text-gray-700">{`${auction!.auction_meta.days_of_mining} ${
                 auction!.auction_meta.days_of_mining > 1 ? 'days' : 'day'

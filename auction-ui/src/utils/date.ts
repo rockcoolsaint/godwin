@@ -1,6 +1,6 @@
 import { format, parseISO, isBefore } from 'date-fns'
 
-export function formatDate(timeStamp: string, dateFormat = 'do MMMM, yyyy hh:mmaaa') {
+export function formatDate(timeStamp: string, dateFormat = 'do MMMM, yyyy h:mmaa') {
   return format(parseISO(timeStamp), dateFormat)
 }
 

@@ -25,8 +25,8 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
   const start_iso = parseISO(auction.start_at)
   const end_iso = parseISO(auction.end_at)
 
-  const start = format(start_iso, 'do MMMM, yyyy hh:mm aaa')
-  const end = format(end_iso, 'do MMMM, yyyy hh:mm aaa')
+  const start = format(start_iso, 'do MMMM, yyyy h:mmaa')
+  const end = format(end_iso, 'do MMMM, yyyy h:mmaa')
 
   const isAuctionEnded = isDateBefore(auction.end_at)
 
@@ -41,7 +41,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
   return (
     <section className="mt-28 flex w-full items-center justify-center">
       <div className="shadow-level-2 rounded-3xl border px-3 py-14 shadow-md md:px-12">
-        <h1 className="mb-9 text-center text-4xl">{t('home.auction_of_the_day')}</h1>
+        <h1 className="mb-9 text-center text-4xl text-primary">{t('home.auction_of_the_day')}</h1>
         <div className="flex flex-col md:flex-row">
           <Image className="rounded-3xl" src={miner} alt="auction of the day" width={550} height={415} />
           <div className="ml-0 mt-4 flex flex-col items-start md:ml-9 md:mt-0">
@@ -52,7 +52,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
                 <p className="text-base text-dark-100">{t('home.bid_start_date')}:</p>
                 <p className="text-base font-medium">{start}</p>
               </aside>
-              <aside className="md:ml-9">
+              <aside className="ml-4 md:ml-1 lg:ml-8">
                 <p className="text-base text-dark-100">{t('home.bid_end_date')}:</p>
                 <p className="text-base font-medium">{end}</p>
               </aside>
