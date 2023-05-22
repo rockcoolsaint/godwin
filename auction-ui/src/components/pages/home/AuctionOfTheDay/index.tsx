@@ -52,7 +52,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
                 <p className="text-base text-dark-100">{t('home.bid_start_date')}:</p>
                 <p className="text-base font-medium">{start}</p>
               </aside>
-              <aside className="md:ml-9">
+              <aside className="ml-4 md:ml-1 lg:ml-8">
                 <p className="text-base text-dark-100">{t('home.bid_end_date')}:</p>
                 <p className="text-base font-medium">{end}</p>
               </aside>
