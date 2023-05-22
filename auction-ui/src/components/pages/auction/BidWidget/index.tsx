@@ -211,9 +211,9 @@ interface BidWidgetCalculatorProps {
 
 function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps) {
   const [hashPrice, setHashPrice] = useState(800)
-  const [speed, setSpeed] = useState(auction.auction_meta.hashrate)
-  const [duration, setDuration] = useState(auction.auction_meta.days_of_mining)
-  const payout = hashPrice * Number(speed) * Number(duration) - Number(bids[0].bid) || 0
+  const [speed] = useState(auction.auction_meta.hashrate)
+  const [duration] = useState(auction.auction_meta.days_of_mining)
+  const payout = hashPrice * Number(speed) * Number(duration) - Number(bids[0]?.bid) || 0
 
   const futureMiningPayout = payout > 0 ? payout : 0
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: futureMiningPayout })
