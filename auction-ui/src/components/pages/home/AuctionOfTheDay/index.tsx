@@ -25,8 +25,8 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
   const start_iso = parseISO(auction.start_at)
   const end_iso = parseISO(auction.end_at)
 
-  const start = format(start_iso, 'do MMMM, yyyy hh:mm aaa')
-  const end = format(end_iso, 'do MMMM, yyyy hh:mm aaa')
+  const start = format(start_iso, 'do MMMM, yyyy h:mmaa')
+  const end = format(end_iso, 'do MMMM, yyyy h:mmaa')
 
   const isAuctionEnded = isDateBefore(auction.end_at)
 
