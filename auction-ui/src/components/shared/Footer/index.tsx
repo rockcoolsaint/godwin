@@ -47,7 +47,7 @@ const Footer = () => {
                 <LogoSvg />
                 <div className="ml-3 border-l pl-3">
                   <span className="block text-dark-200/[.7]">Bitcoin Mining</span>
-                  <span className="block text-dark-200/[.7]">Auction</span>
+                  <span className="block text-dark-200/[.7]">Auctions</span>
                 </div>
               </div>
               <div className="flex">
@@ -96,11 +96,6 @@ const Footer = () => {
                     About us
                   </Link>
                 </li>
-                {/* <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/">
-                    How it Works
-                  </Link>
-                </li> */}
                 <li className="mb-3">
                   <Link className="font-normal text-dark-100 hover:underline" href="mailto:hello@rigly.io">
                     Contact us
@@ -156,9 +151,6 @@ const Footer = () => {
                   />
                 </div>
                 <button
-                  // className={`ml-2 flex items-center justify-center rounded-lg bg-gradient px-4 text-white hover:bg-gradient-hover ${
-                  //   subscribe && 'bg-gray-500'
-                  // }`}
                   className={clsx(
                     'ml-2 flex items-center justify-center rounded-lg  px-4 text-white ',
                     loading ? '!bg-gray-400' : 'bg-gradient hover:bg-gradient-hover',

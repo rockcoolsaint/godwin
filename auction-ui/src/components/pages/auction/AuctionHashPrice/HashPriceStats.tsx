@@ -71,8 +71,9 @@ export default function HashPriceStats() {
   )
 }
 
-export function EpochTable(props: { epoch: HashpriceDict }) {
-  if (Object.keys(props.epoch).length === 0) return null
+export function EpochTable({ epoch }: { epoch: HashpriceDict }) {
+  if (Object.keys(epoch).length === 0) return null
+
   return (
     <div className="mt-8 flow-root">
       <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -80,7 +81,7 @@ export function EpochTable(props: { epoch: HashpriceDict }) {
           <table className="min-w-full divide-y divide-gray-300">
             <thead>
               <tr className="divide-x divide-gray-200">
-                <th scope="col" className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 ">
+                <th scope="col" className="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Epoch
                 </th>
                 <th scope="col" className="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
@@ -89,11 +90,11 @@ export function EpochTable(props: { epoch: HashpriceDict }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {Object.entries(props.epoch)
+              {Object.entries(epoch)
                 .reverse()
                 .map(([epoch, data]) => (
                   <tr key={epoch} className="divide-x divide-gray-200">
-                    <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 ">{epoch}</td>
+                    <td className="whitespace-nowrap p-4 text-sm font-medium text-gray-900 ">{epoch}</td>
                     <td className="whitespace-nowrap p-4 text-sm text-gray-500">{Math.floor(data!.mean)} sats per TH/s/day</td>
                   </tr>
                 ))}
