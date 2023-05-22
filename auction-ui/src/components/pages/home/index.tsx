@@ -37,8 +37,8 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
       </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
       <FeaturedAuctions auctions={auctions} />
-      <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-40 md:px-0">
-        <h1 className="mb-20 text-center text-7xl text-primary">{t('home.start_mining_today')}</h1>
+      <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 md:px-0">
+        <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
         <div className="flex flex-col items-center justify-center md:flex-row">
           <Details
             title={t('home.title_mining')}

@@ -74,7 +74,7 @@ export default function Example() {
         <div className="mx-auto max-w-xl text-center">
           <h2 className="gradient-text text-5xl font-semibold leading-relaxed tracking-tight sm:text-7xl">{t('home.testimonials')}</h2>
         </div>
-        <div className="mx-auto mt-16 grid max-w-sm grid-cols-1 grid-rows-1 gap-8 text-sm leading-6 text-gray-900 sm:mt-20  xl:mx-0 xl:max-w-none xl:grid-flow-col xl:grid-cols-3">
+        <div className="mx-auto mt-10 grid max-w-sm grid-cols-1 grid-rows-1 gap-8 text-sm leading-6 text-gray-900 sm:mt-20  xl:mx-0 xl:max-w-none xl:grid-flow-col xl:grid-cols-3">
           {testimonials.map((columnGroup, columnGroupIdx) => (
             <div key={columnGroupIdx} className="space-y-8 xl:contents xl:space-y-0">
               {columnGroup.map((column, columnIdx) => (
