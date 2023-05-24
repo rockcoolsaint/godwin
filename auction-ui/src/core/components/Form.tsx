@@ -88,7 +88,7 @@ function Label({
   hideSuffix?: boolean
 }) {
   return (
-    <label htmlFor={htmlFor} className={clsx('flex justify-start gap-1 text-sm text-gray-500', className)}>
+    <label htmlFor={htmlFor} className={clsx('flex items-center justify-start gap-1 text-sm text-gray-500', className)}>
       {children}
       {!hideSuffix && required && <span className="text-red-500">*</span>}
       {!hideSuffix && !required && <span className="">(Optional)</span>}

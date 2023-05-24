@@ -9,6 +9,7 @@ import NotificationProvider from 'src/core/providers/NotificationProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
 import { Poppins } from 'next/font/google'
 import Toaster from 'src/components/shared/Toaster'
+import CompleteAccountBanner from 'src/components/CompleteAccountBanner'
 
 const poppins = Poppins({
   display: 'swap',
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
       <body>
         <NotificationProvider>
           <AccountProvider>
+            <CompleteAccountBanner />
             <Toaster />
             <WebsocketProvider>
               <div className="flex flex-col justify-between">
