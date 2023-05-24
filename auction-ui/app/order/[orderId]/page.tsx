@@ -1,7 +1,7 @@
 import { BellIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 
-export default function Example() {
+export default function OrderDetail() {
   return (
     <div>
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
