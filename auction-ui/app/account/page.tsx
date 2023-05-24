@@ -83,7 +83,7 @@ function Account() {
               placeholder="xpub661MyMwAqRbcGjFB7GhGVVtib1BoHoFWLpFKcvnKdmbq6Z5oXLZxyG486JQQBx3N1vXF1JgcvCiXqRXbMBTi46y8QUdNE6on1HyVYpTkcS4"
             />
             <span className="text-sm text-gray-500">
-              Some auctions use a 2-of-3 multisig wallet to send/receive payments, to sign transactions we&apos;ll need your public key
+              Some auctions use a 2-of-3 multisig wallet, to sign transactions we&apos;ll need your public key
             </span>
           </Form.Field>
         </Form.Section>
