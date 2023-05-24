@@ -139,6 +139,7 @@ export interface Account {
   telegram_username?: string
   created_at: string
   updated_at: string
+  public_key?: string
 }
 
 export interface Winner {

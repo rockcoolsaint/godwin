@@ -12,7 +12,7 @@ export async function getAccount(token: string): Promise<Account> {
 
   // TODO: Error handling
 
-  const { account } = res
+  const { account, public_key } = res
 
-  return account
+  return { ...account, public_key }
 }
