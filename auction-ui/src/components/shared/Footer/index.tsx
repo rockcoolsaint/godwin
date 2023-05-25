@@ -3,7 +3,7 @@
 import Link from 'src/components/shared/Link'
 import { ArrowLongRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 import LogoSvg from 'src/assets/svg/logo_dark.svg'
-import LinkedInSvg from 'src/assets/svg/linkedin.svg'
+import NostrSvg from 'src/assets/svg/nostr.svg'
 import TwitterSvg from 'src/assets/svg/twitter.svg'
 import Container from 'src/core/components/Container'
 import { useCallback, useState } from 'react'
@@ -53,10 +53,10 @@ const Footer = () => {
               <div className="flex">
                 <Link
                   className="block  items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
-                  href="https://www.linkedin.com/company/rigly/about/"
+                  href="https://primal.net/profile/npub1t6el40knsq8hmrpr0m6tt3t0tr4pdeyhlt2qelwhgtwawddqx0xsv03scu"
                   target="_blank"
                 >
-                  <LinkedInSvg className="h-6 w-6" />
+                  <NostrSvg className="h-6 w-6" />
                 </Link>
                 <Link
                   target="_blank"
