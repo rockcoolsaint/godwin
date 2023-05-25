@@ -22,6 +22,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
     <html lang="en" className={poppins.className}>
       <head>
         <title>Rigly</title>
+        <link rel="icon" href="/icon.png?latest" type="image/png" sizes="32x32" />
       </head>
       <body>
         <NotificationProvider>
