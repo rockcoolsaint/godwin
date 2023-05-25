@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
-import { Button, Loader, Input, formatAuctionType, Container } from 'src/core'
+import { Button, Loader, Container } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order, OrderStatus, OrderType, PaymentStatus } from 'src/types'
@@ -25,7 +25,7 @@ function PaymentOne({ order }: Props) {
   const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   const { first, paymentId, amountPaid, amountRemaining, isPaymentComplete, checkoutUrl } = usePayments(currentOrder)
-  const { auction, auction_fee, mining_deposit, price, total } = order
+  const { auction, auction_fee, mining_deposit, price } = order
 
   const applyPromoCode = async () => {
     if (!promoCode || promoCode === '' || !first || !currentOrder.id) {
@@ -211,7 +211,7 @@ function PaymentOne({ order }: Props) {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="text-base font-medium text-gray-900">Due now</dt>
-                <dd className="text-base font-medium text-gray-900">{formatMoney(total)} sats</dd>
+                <dd className="text-base font-medium text-gray-900">{formatMoney(mining_deposit + auction_fee)} sats</dd>
               </div>
             </dl>
           </div>
