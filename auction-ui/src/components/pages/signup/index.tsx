@@ -108,7 +108,7 @@ export default function SignUp({ setView, setEmail }: any) {
         )
 
         if (!success) {
-          toast.error('Sign up error', { position: 'bottom-center' })
+          toast.error('Sign up error')
         }
 
         reset(
@@ -123,11 +123,11 @@ export default function SignUp({ setView, setEmail }: any) {
         setSelectedPool(MINING_POOLS[0])
         setView()
         setEmail(value.email)
-        toast.success('Sign up success', { position: 'bottom-center' })
+        toast.success('Sign up success')
         setLoading(false)
       } catch (err) {
         setLoading(false)
-        toast.error('Sign up error', { position: 'bottom-center' })
+        toast.error('Sign up error')
       }
     },
     [reset, returnUrl, setEmail, setView],

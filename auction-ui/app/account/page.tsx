@@ -5,13 +5,12 @@ import { useState } from 'react'
 import { updateAccount } from 'src/api/auth/updateAccount'
 import AccountView from 'src/components/pages/account/AccountView'
 import { Form, Input, Loader } from 'src/core'
-import { useNotificationContext } from 'src/core/providers/NotificationProvider'
 import protect from 'src/hoc/protect'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import { toast } from 'react-hot-toast'
 
 function Account() {
   const { account, isLoading: isAccountLoading, token } = useAccountContext()
-  const { success } = useNotificationContext()
   const [loading, setLoading] = useState<boolean>(false)
 
   const handleSubmit = async (data: object) => {
@@ -24,10 +23,7 @@ function Account() {
 
       const updateSuccess = await updateAccount(data, token)
       if (updateSuccess) {
-        success({
-          title: 'Account saved',
-          content: 'Your changes have been saved.',
-        })
+        toast.success('Your changes have been saved.')
       }
     } catch (ex) {
       console.error(ex)
