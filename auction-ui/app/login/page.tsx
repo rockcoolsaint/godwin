@@ -5,10 +5,10 @@ import { useState } from 'react'
 import Link from 'src/components/shared/Link'
 import { Container, Form, Input } from 'src/core'
 import Icon from 'src/core/components/Icon'
-import { useNotificationContext } from 'src/core/providers/NotificationProvider'
 import { useTranslation } from 'src/hooks'
 import useReturnUrl from 'src/hooks/useReturnUrl'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import { toast } from 'react-hot-toast'
 
 enum LoginView {
   Login = 0,
@@ -18,7 +18,6 @@ enum LoginView {
 export default function Login() {
   const { login } = useAccountContext()
   const { t } = useTranslation()
-  const { error } = useNotificationContext()
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -37,10 +36,7 @@ export default function Login() {
 
       setView(LoginView.EmailSent)
     } catch (ex: any) {
-      error({
-        title: 'Error',
-        content: ex.message,
-      })
+      toast.error(ex.message, { position: 'top-right' })
       console.error(ex)
     } finally {
       setLoading(false)
