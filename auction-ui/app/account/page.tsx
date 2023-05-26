@@ -23,7 +23,7 @@ function Account() {
 
       const updateSuccess = await updateAccount(data, token)
       if (updateSuccess) {
-        toast.success('Your changes have been saved.', { position: 'top-right' })
+        toast.success('Your changes have been saved.')
       }
     } catch (ex) {
       console.error(ex)

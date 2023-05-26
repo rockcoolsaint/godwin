@@ -36,7 +36,7 @@ export default function Login() {
 
       setView(LoginView.EmailSent)
     } catch (ex: any) {
-      toast.error(ex.message, { position: 'top-right' })
+      toast.error(ex.message)
       console.error(ex)
     } finally {
       setLoading(false)

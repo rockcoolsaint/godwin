@@ -100,9 +100,9 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
           },
           { keepTouched: false, keepDirty: false },
         )
-        toast.success(res.message, { position: 'top-right' })
+        toast.success(res.message)
       } catch (err: any) {
-        toast.error(err.message, { position: 'top-right' })
+        toast.error(err.message)
         setLoadingPlaceBid(false)
       }
     },
@@ -116,7 +116,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
         setEpoch(epochData)
         setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
       } catch (error: any) {
-        toast.error(error.message, { position: 'top-right' })
+        toast.error(error.message)
       }
     }
 
