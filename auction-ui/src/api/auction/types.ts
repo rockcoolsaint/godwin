@@ -1,5 +1,9 @@
 import { OrderType } from 'src/types'
 
+export enum PaymentType {
+  single = 'single',
+  multisig = 'multisig',
+}
 export interface Auction {
   id: number
   auction_meta: AuctionMeta
@@ -24,6 +28,7 @@ export interface Auction {
   updated_at: string
   deleted: boolean
   version: string
+  payment_type: PaymentType
 }
 
 export interface MiningEpoch {

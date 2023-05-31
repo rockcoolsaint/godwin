@@ -1,6 +1,7 @@
 'use client'
 
 import AuctionContainer from 'src/components/pages/auction/AuctionContainer'
+import CompleteAccountBanner from 'src/components/CompleteAccountBanner'
 import Container from 'src/core/components/Container'
 import { getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
 import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
@@ -111,16 +112,19 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
   }
 
   return (
-    <Container className="h-full py-5">
-      <AuctionContainer
-        auction={auction}
-        bids={bids.current}
-        current_bid={currentBid}
-        proxy_bids={proxyBids}
-        winner={winner}
-        order={order}
-        slug={slug}
-      />
-    </Container>
+    <>
+      <CompleteAccountBanner auction={auction} />
+      <Container className="h-full py-5">
+        <AuctionContainer
+          auction={auction}
+          bids={bids.current}
+          current_bid={currentBid}
+          proxy_bids={proxyBids}
+          winner={winner}
+          order={order}
+          slug={slug}
+        />
+      </Container>
+    </>
   )
 }
