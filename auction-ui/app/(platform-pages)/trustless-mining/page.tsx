@@ -20,11 +20,16 @@ function TrustlessMining() {
               <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
                 <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Safety through security (deposits)</h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  When you rent an apartment, you put down a security deposit when you take the lease. Landlords require this because if the
-                  market changes, they would lose out on the rent promised in the lease agreement.
+                  When you rent an apartment, you put down a security deposit when you take the lease. Landlords require this deposit
+                  because if the market changes, they could lose out on the rent promised in the lease agreement.
                 </p>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  In a similar way, marketplace sellers on Rigly receive payout deposits in multisig escrow.
+                  In a similar way, your auction payment and a security deposit from the seller is held in escrow until after your hashrate
+                  is delivered to your mining pool account.
+                </p>
+                <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
+                  If you fail to receive your hashrate due to changing market conditions, you receive your money back and the seller’s
+                  deposit.
                 </p>
               </div>
             </div>
@@ -43,20 +48,16 @@ function TrustlessMining() {
               <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
                 <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">How Escrow Works</h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  When you pay for your mining plan, the funds are deposited in a 2:3 multisig with three keys:
-                </p>
-                <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">- Rigly </p>
-                <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">- Marketplace Seller</p>
-                <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">- 3rd party observer</p>
-                <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  The Seller may only withdraw funds after hashrate is delivered.
+                  When you pay for your mining, the funds are deposited in a multisig wallet on the bitcoin blockchain. These funds are held
+                  in escrow and the seller receives their payment after your hashrate is delivered.
                 </p>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  If your miner goes away, Rigly performs a refund request - and if necessary, the 3rd party applies their key to approve
-                  the refund based on hashrate monitoring data
+                  If you get less hashrate than you paid for, you receive make-up hashrate or a refund. And soon, buyers will have direct
+                  access to the escrow via public key.
                 </p>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  Soon, we plan to add support for Buyers to directly participate in the multisig escrow.
+                  If you fail to receive your hashrate due to an outage or changing market conditions, you will receive make-up hashrate
+                  from another source or your money back.
                 </p>
               </div>
             </div>

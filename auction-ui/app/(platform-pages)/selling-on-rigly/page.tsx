@@ -116,7 +116,7 @@ function SellingOnRigly() {
           <div className="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-center">
             <div className="px-6 lg:px-0 lg:pr-4 lg:pt-4">
               <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
-                <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Where do I sign up??</h1>
+                <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Where do I sign up?</h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
                   We are working with select miners as we develop Rigly. Please send us an email to learn more
                 </p>

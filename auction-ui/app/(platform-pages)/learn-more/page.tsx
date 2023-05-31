@@ -81,10 +81,8 @@ function LearnMore() {
               <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
                 <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">How does your mining plan start?</h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  After you win a mining auction, you receive a mining pool account and login to a web portal to configure your hashrate.
-                </p>
-                <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  Already have a mining pool account Great! You may configure your hashrate to go there
+                  Your hashrate is forwarded to your mining pool account on the <b>start date</b> of your auction&apos;s mining agreement.
+                  Auctions for hashrate with <b>immediate availability</b> start as soon as you complete your payment!
                 </p>
               </div>
             </div>
@@ -106,8 +104,8 @@ function LearnMore() {
                   If you don&apos;t get the hashrate you paid for, we&apos;ve got your back.
                 </p>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  All mining plans have a daily performance and uptime service level agreement (SLA) from the seller. If your mining
-                  subscription fails to meet the SLA, you receive make-up hashrate. If your miner disappears, you receive a refund
+                  All mining purchased via Rigly is monitored for speed and uptime. If your mining fails to deliver, you receive make-up
+                  hashrate or a refund.
                 </p>
               </div>
             </div>
@@ -126,7 +124,10 @@ function LearnMore() {
               <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
                 <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">How can I trust Rigly?</h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  We are a new project started by people who are passionate about bitcoin. Read our story
+                  We are a new project started by people who are passionate about bitcoin.{' '}
+                  <Link href="https://rigly.io/pages/about" target="_blank">
+                    Read our story
+                  </Link>
                 </p>
               </div>
             </div>
