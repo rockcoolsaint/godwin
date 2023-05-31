@@ -236,7 +236,7 @@ export default function SignUp({ setView, setEmail }: any) {
           <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-3/4 xl:w-[25vw]">
             <div>
               <span className="text-xl text-gray-500">Do you already own a pool account?</span>
-              <fieldset className="mb-4 mt-4">
+              <fieldset className="my-4">
                 <legend className="sr-only">Notification method</legend>
                 <div className="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
                   {notificationMethods.map(notificationMethod => (
