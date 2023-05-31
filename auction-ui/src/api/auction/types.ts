@@ -4,6 +4,7 @@ export enum PaymentType {
   single = 'single',
   multisig = 'multisig',
 }
+
 export interface Auction {
   id: number
   auction_meta: AuctionMeta
