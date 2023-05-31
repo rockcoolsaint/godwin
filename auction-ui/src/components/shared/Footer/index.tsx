@@ -87,7 +87,7 @@ const Footer = () => {
               <h4 className="mb-5 text-lg font-medium text-dark-200">Quick Link</h4>
               <ul>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/pages/trustless-mining">
+                  <Link className="font-normal text-dark-100 hover:underline" href="/trustless-mining">
                     Trustless Mining Escrow
                   </Link>
                 </li>
@@ -102,7 +102,7 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/pages/learn">
+                  <Link className="font-normal text-dark-100 hover:underline" href="/learn-more">
                     Learn
                   </Link>
                 </li>
