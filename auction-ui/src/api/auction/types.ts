@@ -1,8 +1,8 @@
 import { OrderType } from 'src/types'
 
 export enum PaymentType {
-  single = 'single',
-  multisig = 'multisig',
+  Single = 'single',
+  Multisig = 'multisig',
 }
 
 export interface Auction {
