@@ -4,26 +4,35 @@ import 'react-medium-image-zoom/dist/styles.css'
 import { PropsWithChildren } from 'react'
 import Header from 'src/components/shared/Header'
 import Footer from 'src/components/shared/Footer'
-import AuthProvider from 'src/providers/AuthProvider'
-import NotificationProvider from 'src/core/providers/NotificationProvider'
+import AccountProvider from 'src/providers/AccountProvider'
+import WebsocketProvider from 'src/providers/WebsocketProvider'
+import { Poppins } from 'next/font/google'
+import Toaster from 'src/components/shared/Toaster'
+
+const poppins = Poppins({
+  display: 'swap',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
+})
 
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
-    <html lang="en" className="bg-page-background">
+    <html lang="en" className={poppins.className}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Rigly</title>
+        <link rel="icon" href="/icon.png?latest" type="image/png" sizes="32x32" />
       </head>
       <body>
-        <NotificationProvider>
-          <AuthProvider>
-            <section className="flex h-screen w-screen flex-col justify-between">
+        <AccountProvider>
+          <Toaster />
+          <WebsocketProvider>
+            <div className="flex flex-col justify-between">
               <Header />
-              <div className="mb-auto bg-white">{children}</div>
+              {children}
               <Footer />
-            </section>
-          </AuthProvider>
-        </NotificationProvider>
+            </div>
+          </WebsocketProvider>
+        </AccountProvider>
       </body>
     </html>
   )

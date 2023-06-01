@@ -7,7 +7,7 @@ import CollectionList from 'src/components/pages/collections/CollectionsList'
 import { Loader } from 'src/core'
 import Container from 'src/core/components/Container'
 
-export default function HomePage() {
+export default function CollectionsPage() {
   const [auctions, setAuctions] = useState<AllAuctionsResponse | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
 

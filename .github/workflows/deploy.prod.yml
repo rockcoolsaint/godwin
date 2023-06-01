@@ -1,0 +1,17 @@
+name: Deploy PROD
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USERNAME }}
+          password: ${{ secrets.PROD_PASSWORD }}
+          port: ${{ secrets.PROD_PORT }}
+          script: |
+            ./deploy_server.sh

@@ -1,56 +1,107 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 'use client'
 
 import React, { useContext, useEffect, useState } from 'react'
-import { useAuth0 } from '@auth0/auth0-react'
-import { Account } from 'src/types'
 import { getAccount } from 'src/api/auth/getAccount'
-import { usePathname, useRouter } from 'next/navigation'
+import { redirect, usePathname, useRouter } from 'next/navigation'
+import { getToken } from 'src/api/auth/getToken'
+import { Account } from 'src/api/auction/types'
+import { login as doLogin } from 'src/api/auth/login'
 
 interface AccountContextType {
   account?: Account
   token?: string
-  loading: boolean
+  isLoading: boolean
+  login: (email: string, returnUrl?: string) => Promise<[boolean, string | undefined]>
+  logout: () => void
 }
 
-const AccountContext = React.createContext<AccountContextType>({ loading: true })
+const AccountContext = React.createContext<AccountContextType>({
+  isLoading: true,
+  login: (_email: string, _returnUrl?: string) => Promise.resolve([false, undefined]),
+  logout: () => {},
+})
 
 export const useAccountContext = () => useContext(AccountContext)
 
 export default function AccountProvider({ children }: { children: React.ReactNode }) {
-  const { getIdTokenClaims } = useAuth0()
   const pathName = usePathname()
   const router = useRouter()
 
   const [token, setToken] = useState<string | undefined>(undefined)
   const [account, setAccount] = useState<Account | undefined>(undefined)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  const login = async (email: string, returnUrl?: string) => {
+    return doLogin(email, returnUrl)
+  }
+
+  const logout = () => {
+    window.localStorage.removeItem('rigly_token')
+
+    setAccount(undefined)
+    setToken(undefined)
+
+    redirect('/')
+  }
 
   useEffect(() => {
-    const authorize = async () => {
-      try {
-        const claims = await getIdTokenClaims()
-        if (claims) {
-          const token = claims.__raw
-          try {
-            const account = await getAccount(token)
-            setToken(token)
-            setAccount(account)
+    if (pathName === '/login/callback') {
+      const authorize = async () => {
+        try {
+          setIsLoading(true)
 
-            setLoading(false)
-          } catch (ex: any) {
-            throw ex
+          const params: any = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop: string) => searchParams.get(prop),
+          })
+
+          const token = await getToken(params.email, params.code)
+          window.localStorage.setItem('rigly_token', token)
+          setToken(token)
+
+          const account = await getAccount(token)
+          setAccount(account)
+
+          if (params.return_url) {
+            const returnUrl = decodeURIComponent(params.return_url)
+
+            return router.replace(returnUrl)
           }
-        } else {
-          throw new Error(`Couldn't get account claims`)
+
+          // window.history.pushState({}, document.title, window.location.pathname)
+          router.replace('/')
+        } catch (ex) {
+          console.error(ex)
+          window.localStorage.removeItem('rigly_token')
+          router.replace('/login')
+        } finally {
+          setIsLoading(false)
         }
-      } catch (ex) {
-        // console.error(ex)
-        setLoading(false)
       }
+
+      authorize()
+    } else {
+      const authorize = async () => {
+        try {
+          setIsLoading(true)
+
+          const token = window.localStorage.getItem('rigly_token')
+          if (token) {
+            setToken(token)
+
+            const account = await getAccount(token)
+            setAccount(account)
+          }
+        } catch (ex) {
+          console.error(ex)
+          window.localStorage.removeItem('rigly_token')
+        } finally {
+          setIsLoading(false)
+        }
+      }
+      authorize()
     }
+  }, [pathName, router])
 
-    authorize()
-  }, [getIdTokenClaims, pathName, router])
-
-  return <AccountContext.Provider value={{ account, token, loading }}>{children}</AccountContext.Provider>
+  return <AccountContext.Provider value={{ account, token, isLoading, login, logout }}>{children}</AccountContext.Provider>
 }

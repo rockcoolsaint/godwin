@@ -35,7 +35,13 @@
     ],
     "no-only-tests/no-only-tests": "error",
     // "import/order": ["error", { "groups": ["builtin", "external", "internal", "type", "parent", "sibling", "object", "index"] }], TODO: Fix this https://github.com/francoismassart/eslint-plugin-tailwindcss/issues/173
-    "react/jsx-no-bind": "error",
+    "react/jsx-no-bind": [
+      "error",
+      {
+        "allowArrowFunctions": true,
+        "ignoreRefs": true
+      }
+    ],
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     "react/destructuring-assignment": [
       "error",

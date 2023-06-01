@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-imports */
 import NextLink, { LinkProps } from 'next/link'
 import { forwardRef, PropsWithChildren } from 'react'
-import { twMerge } from 'tailwind-merge'
+import clsx from 'clsx'
 
 type PropsToExtend = LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>
 interface Props extends PropsToExtend {
@@ -13,7 +13,7 @@ const Link = forwardRef<HTMLAnchorElement, Props>(function LinkInner(
   ref,
 ) {
   return (
-    <NextLink className={twMerge(`${styled && `text-primary underline outline-primary`}`, className)} {...props} ref={ref}>
+    <NextLink className={clsx(`${styled && `text-primary underline outline-primary`}`, className)} {...props} ref={ref}>
       {children}
     </NextLink>
   )

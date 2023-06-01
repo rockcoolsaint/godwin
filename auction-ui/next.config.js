@@ -16,6 +16,18 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'qa.auctions.rigly.io',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'auctions.rigly.io',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   output: 'standalone',
@@ -33,7 +45,6 @@ const nextConfig = {
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
       use: [{ loader: '@svgr/webpack' }],
     })
 
@@ -46,3 +57,21 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
+const { withSentryConfig } = require('@sentry/nextjs')
+
+module.exports = withSentryConfig(
+  module.exports,
+  {
+    silent: true,
+    org: 'rigly',
+    project: 'rigly',
+  },
+  {
+    widenClientFileUpload: true,
+    transpileClientSDK: true,
+    tunnelRoute: '/monitoring',
+    hideSourceMaps: true,
+    disableLogger: true,
+  },
+)

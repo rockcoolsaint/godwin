@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-bind */
-import { useAuth0 } from '@auth0/auth0-react'
 import { useState } from 'react'
 import { Alert, Button } from 'react-bootstrap'
 import { useRouter } from 'next/navigation'
@@ -12,16 +11,16 @@ interface Props {
 }
 
 const AlertDismissible = ({ heading, description, button, button_arg }: Props) => {
-  const { loginWithRedirect } = useAuth0()
   const [show, setShow] = useState(true)
 
   const router = useRouter()
   const handleLogin = async () => {
-    await loginWithRedirect({
-      appState: {
-        returnTo: '/payment',
-      },
-    })
+    // TODO: Refactor using new auth system
+    // await loginWithRedirect({
+    //   appState: {
+    //     returnTo: '/payment',
+    //   },
+    // })
   }
 
   function handleClick(button_arg: string) {

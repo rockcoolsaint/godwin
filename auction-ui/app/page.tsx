@@ -1,45 +1,40 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
 import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
-import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
 import Home from 'src/components/pages/home'
-import { Container, Loader } from 'src/core'
+import { Metadata } from 'next'
 
-export default function HomePage() {
-  const [auctions, setAuctions] = useState<Auction[] | undefined>(undefined)
-  const [auctionOfTheDay, setAuctionOfTheDay] = useState<AuctionOfTheDayResponse | undefined>(undefined)
-  const [loading, setLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-    const prepareHomepage = async () => {
-      setLoading(true)
-
-      try {
-        const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay()])
-
-        setAuctions(auctions)
-        setAuctionOfTheDay(auctionOfTheDay)
-      } catch (ex) {
-        console.error(ex)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    prepareHomepage()
-  }, [])
-
-  if (loading) {
-    return (
-      <Container>
-        <div className="flex items-center justify-center">
-          <Loader />
-        </div>
-      </Container>
-    )
-  }
+export default async function HomePage() {
+  const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay()])
 
   return <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} />
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    category: 'technology',
+    viewport: {
+      width: 'device-width',
+      initialScale: 1,
+      maximumScale: 1,
+    },
+    title: 'Rigly',
+    keywords: ['bitcoin', 'mining', 'hashrate', 'bitcoin mining', 'rigly'],
+    openGraph: {
+      images: [{ url: 'https://cdn.shopify.com/s/files/1/0603/6648/7720/files/Rigly_1.png?v=1654535433', width: 800, height: 600 }],
+      title: 'Rigly - Your Bitcoin Mining Marketplace',
+      description:
+        "Rigly is your marketplace for bitcoin mining. Buy hashrate from miners around the world. All plans include Trustless Mining escrow to ensure hashrate delivery. Don't get rugged, get Rigly.",
+      url: 'https://rigly.io',
+      siteName: 'Rigly',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Rigly - Your Bitcoin Mining Marketplace',
+      description:
+        "Rigly is your marketplace for bitcoin mining. Buy hashrate from miners around the world. All plans include Trustless Mining escrow to ensure hashrate delivery. Don't get rugged, get Rigly.",
+      creator: '@trustlessmining',
+      images: [{ url: 'https://cdn.shopify.com/s/files/1/0603/6648/7720/files/Rigly_1.png?v=1654535433', width: 800, height: 600 }],
+    },
+  }
 }

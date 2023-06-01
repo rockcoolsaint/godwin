@@ -1,43 +1,80 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { useAuth0 } from '@auth0/auth0-react'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { Button, Container, Loader } from 'src/core'
+import { useState } from 'react'
+import Link from 'src/components/shared/Link'
+import { Container, Form, Input } from 'src/core'
+import Icon from 'src/core/components/Icon'
+import { useTranslation } from 'src/hooks'
+import useReturnUrl from 'src/hooks/useReturnUrl'
+import { useAccountContext } from 'src/providers/AccountProvider'
+import { toast } from 'react-hot-toast'
 
-const LOGIN_REDIRECT_TIMEOUT = Number(process.env.NEXT_PUBLIC_LOGIN_REDIRECT_TIMEOUT) || 0
+enum LoginView {
+  Login = 0,
+  EmailSent = 1,
+}
 
-// { searchParams }: { searchParams: { code: string; state: string } }
-export default function Login({ searchParams }: { searchParams: { error?: string; error_description?: string } }) {
-  const { loginWithRedirect } = useAuth0()
-  const router = useRouter()
+export default function Login() {
+  const { login } = useAccountContext()
+  const { t } = useTranslation()
+  const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
-  const handleLogin = () => {
-    loginWithRedirect()
+  const [loading, setLoading] = useState<boolean>(false)
+  const [email, setEmail] = useState<string | undefined>(undefined)
+  const [view, setView] = useState(LoginView.Login)
+
+  const handleSubmit = async (data: any) => {
+    try {
+      setLoading(true)
+      setEmail(data.email)
+
+      const [success, error] = await login(data.email, returnUrl)
+      if (!success) {
+        throw error
+      }
+
+      setView(LoginView.EmailSent)
+    } catch (ex: any) {
+      toast.error(ex.message)
+      console.error(ex)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  useEffect(() => {
-    if (!searchParams.error) {
-      setTimeout(() => {
-        router.push('/')
-      }, LOGIN_REDIRECT_TIMEOUT)
-    }
-  }, [searchParams.error, router])
-
   return (
-    <Container>
-      {searchParams.error && (
-        <div className="flex flex-col items-start gap-4">
-          <span className="text-lg text-red-500">{searchParams.error_description}</span>
-          <Button onClick={handleLogin}>Sign in</Button>
+    <Container className="flex h-full justify-center py-20">
+      {view === LoginView.Login && (
+        <div className="flex w-full flex-col sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
+          <h1 className="mb-2 text-2xl font-bold tracking-tight">{t('login.sign_in')}</h1>
+          <div className="flex items-center justify-start gap-1">
+            <span className="text-sm text-gray-500">{t('login.description')}</span>
+          </div>
+          <Form className="mt-8 items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
+            <Form.Field className="w-full" required>
+              <Form.Field.Label htmlFor="email">{t('login.email')}</Form.Field.Label>
+              <Input type="email" name="email" placeholder="satoshi@gmx.com" />
+            </Form.Field>
+
+            <Form.Submit className="w-full">{t('login.sign_in')}</Form.Submit>
+          </Form>
+          <div className="mt-8 flex justify-center border-t border-gray-300 pt-6">
+            <Link href="/register" className="text-primary underline">
+              {t('login.no_account_yet')}
+            </Link>
+          </div>
         </div>
       )}
-
-      {!searchParams.error && (
-        <div className="flex flex-col items-center justify-center">
-          <Loader />
-          <span className="mt-8">Redirecting after {LOGIN_REDIRECT_TIMEOUT / 1000} seconds</span>
+      {view === LoginView.EmailSent && (
+        <div className="flex h-full w-full flex-col items-center justify-center gap-4 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
+          <Icon icon="envelopeCircleCheck" className="h-20 w-20 text-gray-300" />
+          <span className="text-center text-gray-500" dangerouslySetInnerHTML={{ __html: t('login.email_sent_note', { email }) }}></span>
+          <div className="mt-8 flex justify-center border-t border-gray-300 pt-6">
+            <Link href="/register" className="text-primary underline">
+              {t('login.no_account_yet')}
+            </Link>
+          </div>
         </div>
       )}
     </Container>

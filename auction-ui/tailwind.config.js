@@ -29,6 +29,7 @@ module.exports = {
           200: '#252628',
           300: '#070707',
         },
+        error: 'rgb(255, 0, 0)',
         tag: {
           red: '#D92D20',
           blue: '#316AEF',
@@ -38,6 +39,7 @@ module.exports = {
       backgroundImage: {
         gradient: 'linear-gradient(to right, #035DF2, #258AF7, #41ADFD)',
         'gradient-hover': 'linear-gradient(to right, #258AF7, #258AF7, #258AF7)',
+        'gradient-disabled': 'linear-gradient(to right, #DCE2E5, #DCE2E5, #DCE2E5)',
       },
       height: {
         'input-tall': `${StyleConstants.inputHeight.tall}px`,
@@ -45,5 +47,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }

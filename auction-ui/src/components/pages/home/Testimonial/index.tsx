@@ -10,33 +10,26 @@ const testimonials = [
         author: {
           name: 'Devon Lane',
           handle: 'Customer',
-          imageUrl:
-            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
       },
     ],
     [
       {
-        body: 'The Rigly experience is quick and seamless, giving you the opportunity to start mining right away - I can’t wait to watch the team build out this great platform',
+        body: 'It was a lot easier than I thought and helped me quickly understand the basics of mining.  Easy and fast way to start messing around with the mining and understanding the basics.  Rigly has huge potential to get more mining online throughout the world',
         author: {
-          name: 'Eleanor Pena',
+          name: 'Matt Kolbinsky',
           handle: 'Customer',
-          imageUrl:
-            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
       },
     ],
     [
       {
-        body: 'The Rigly experience is quick and seamless, giving you the opportunity to start mining right away - I can’t wait to watch the team build out this great platform',
+        body: 'Rigly is a perfect way to dip my toes in to the world of bitcoin mining without the need to commit to an expensive mining rig upfront. It feels great to support the network and earn bitcoin rewards',
         author: {
-          name: 'Ralph Edwards',
+          name: 'Tyler T.',
           handle: 'Customer',
-          imageUrl:
-            'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
         },
       },
-      // More testimonials...
     ],
   ],
 ]
@@ -45,9 +38,9 @@ export default function Example() {
   const { t } = useTranslation()
 
   return (
-    <div className="relative isolate bg-white pt-24 pb-32 sm:pt-32">
+    <div className="relative isolate bg-white pb-32 pt-24 sm:pt-32">
       <div className="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl">
-        <svg viewBox="0 0 1313 771" aria-hidden="true" className="ml-[max(50%,38rem)] w-[82.0625rem]">
+        <svg viewBox="0 0 1313 771" aria-hidden="true" className="ml-[max(50%,38rem)] hidden w-[82.0625rem] sm:block">
           <path
             id="bc169a03-3518-42d4-ab1e-d3eadac65edc"
             fill="url(#85a0eca5-25f1-4ab9-af84-4e2d8d9cdbf3)"
@@ -68,11 +61,11 @@ export default function Example() {
           </defs>
         </svg>
       </div>
-      <div className="absolute inset-x-0 top-0 -z-10 flex transform-gpu overflow-hidden pt-32 opacity-25 blur-3xl sm:pt-40 xl:justify-end">
+      <div className="absolute top-0 -z-10 flex transform-gpu overflow-hidden pt-32 opacity-25 blur-3xl sm:pt-40 xl:justify-end">
         <svg
           viewBox="0 0 1313 771"
           aria-hidden="true"
-          className="ml-[-22rem] w-[82.0625rem] flex-none origin-top-right rotate-[30deg] xl:ml-0 xl:mr-[calc(50%-12rem)]"
+          className="ml-[-22rem] hidden w-[82.0625rem] flex-none origin-top-right rotate-[30deg] sm:block xl:ml-0 xl:mr-[calc(50%-12rem)]"
         >
           <use href="#bc169a03-3518-42d4-ab1e-d3eadac65edc" />
         </svg>
@@ -81,7 +74,7 @@ export default function Example() {
         <div className="mx-auto max-w-xl text-center">
           <h2 className="gradient-text text-5xl font-semibold leading-relaxed tracking-tight sm:text-7xl">{t('home.testimonials')}</h2>
         </div>
-        <div className="mx-auto mt-16 grid max-w-sm grid-cols-1 grid-rows-1 gap-8 text-sm leading-6 text-gray-900 sm:mt-20  xl:mx-0 xl:max-w-none xl:grid-flow-col xl:grid-cols-3">
+        <div className="mx-auto mt-10 grid max-w-sm grid-cols-1 grid-rows-1 gap-8 text-sm leading-6 text-gray-900 sm:mt-20  xl:mx-0 xl:max-w-none xl:grid-flow-col xl:grid-cols-3">
           {testimonials.map((columnGroup, columnGroupIdx) => (
             <div key={columnGroupIdx} className="space-y-8 xl:contents xl:space-y-0">
               {columnGroup.map((column, columnIdx) => (
@@ -102,7 +95,6 @@ export default function Example() {
                       </blockquote>
                       <div className="mt-4 flex items-center justify-between border-t">
                         <figcaption className="mt-6 flex items-center gap-x-4 ">
-                          <img className="h-10 w-10 rounded-full bg-gray-50" src={testimonial.author.imageUrl} alt="" />
                           <div>
                             <div className="font-semibold">{testimonial.author.name}</div>
                             <div className="text-gray-600">{testimonial.author.handle}</div>

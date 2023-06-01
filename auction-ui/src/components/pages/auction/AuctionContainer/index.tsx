@@ -8,14 +8,14 @@ import { BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
 import AuctionBids from 'src/components/pages/auction/AuctionBids'
 import AuctionProfile from 'src/components/pages/auction/AuctionProfile'
 import AuctionLiveFeed from 'src/components/pages/auction/AuctionLiveFeed'
-import AuctionSitePhotos from 'src/components/pages/auction/AuctionSitePhotos'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
-import AuctionCalculator from 'src/components/pages/auction/AuctionCalculator'
-import ContentContainer from 'src/components/shared/ContentContainer'
+import Container from 'src/core/components/Container'
 import BidWidget from 'src/components/pages/auction/BidWidget'
 import { Button, Loader } from 'src/core'
-import { Auction, Order } from 'src/types'
+import { Auction } from 'src/api/auction/types'
+import { Order } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import isOrderFulfilled from 'src/utils/isOrderFulfilled'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -23,9 +23,9 @@ function classNames(...classes: string[]) {
 
 function handleSelect({ selected }: { selected: boolean }) {
   return clsx(
-    'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark-100',
+    'text-dark-100 w-full rounded-lg py-2.5 text-sm font-medium leading-5',
     ' ring-offset-blue-400 ',
-    selected ? 'bg-gradient !text-white' : 'text-dark-100 hover:bg-white/[0.52] hover:text-dark-100',
+    selected ? 'bg-gradient !text-white' : 'text-dark-100 hover:text-dark-100 hover:bg-white/[0.52]',
   )
 }
 
@@ -33,14 +33,14 @@ interface AuctionContainerProps {
   auction: Auction
   order?: Order
   bids: BidsEntityOrCurrentBid[]
-  current_bid: BidsEntityOrCurrentBid | null
-  proxy_bid: BidsEntityOrCurrentBid[]
+  current_bid: BidsEntityOrCurrentBid
+  proxy_bids: BidsEntityOrCurrentBid[]
   winner: Winner
   slug: string
 }
 
 export default function AuctionContainer({ auction, order, bids, current_bid }: AuctionContainerProps) {
-  const { account, loading } = useAccountContext()
+  const { account, isLoading } = useAccountContext()
 
   const categories = {
     Bids: [
@@ -58,13 +58,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
     'Live feed': [
       {
         id: 3,
-        component: <AuctionLiveFeed />,
-      },
-    ],
-    Calculator: [
-      {
-        id: 4,
-        component: <AuctionCalculator data={auction} />,
+        component: <AuctionLiveFeed auction={auction} />,
       },
     ],
     'Hash price': [
@@ -73,40 +67,41 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
         component: <AuctionHashPrice />,
       },
     ],
-    'Site photos': [
-      {
-        id: 6,
-        component: <AuctionSitePhotos />,
-      },
-    ],
   }
 
-  if (loading) {
+  if (isLoading) {
     return (
-      <ContentContainer>
+      <Container className="flex h-full grow items-center justify-center">
         <div className="flex items-center justify-center">
           <Loader />
         </div>
-      </ContentContainer>
+      </Container>
     )
   }
 
   if (!auction) {
     return (
-      <ContentContainer>
+      <Container className="flex h-full grow items-center justify-center">
         <div className="flex items-center justify-center">Error loading auction</div>
-      </ContentContainer>
+      </Container>
+    )
+  }
+  const renderAuctionMeta = () => {
+    return (
+      <span>{`${auction.auction_meta.days_of_mining} ${auction.auction_meta.days_of_mining > 1 ? 'days' : 'day'}  | ${
+        auction.auction_meta.hashrate
+      }TH/s `}</span>
     )
   }
 
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
-      <p></p>
+      <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
       <section className="flex flex-col rounded-xl bg-gray-50 p-3 lg:flex-row">
-        <div className=" px-2 sm:px-0 lg:w-[75%]">
+        <div className="lg:w-[75%]">
           <Tab.Group>
-            <Tab.Panels className=" h-[640px] overflow-scroll ">
+            <Tab.Panels className=" h-[440px] overflow-scroll ">
               {Object.values(categories).map((posts, idx) => (
                 <Tab.Panel
                   key={idx}
@@ -132,12 +127,17 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
             </Tab.List>
           </Tab.Group>
         </div>
-        <div className="ml-4 mt-4 flex flex-col lg:mt-0 lg:w-[25%]">
+        <div className=" mt-4 flex min-w-fit flex-col lg:ml-4 lg:mt-0 lg:w-[25%]">
           <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
 
-          {order && account && order.user_id === account.id && (
+          {order && account && order.account_id === account.id && !isOrderFulfilled(order.status) && (
             <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">
               <Button>Checkout</Button>
+            </a>
+          )}
+          {order && order.auction && account && order.account_id === account.id && isOrderFulfilled(order.status) && (
+            <a href={`/account/hashrate/${order.auction.id}`} className="mt-4 flex w-full flex-col">
+              <Button>Manage</Button>
             </a>
           )}
         </div>

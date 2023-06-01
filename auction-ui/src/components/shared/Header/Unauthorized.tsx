@@ -1,19 +1,25 @@
 /* eslint-disable react/jsx-no-bind */
-import { useAuth0 } from '@auth0/auth0-react'
+'use client'
+
+import Link from 'src/components/shared/Link'
+import useReturnUrl from 'src/hooks/useReturnUrl'
 
 export default function Unauthorized() {
-  const { loginWithRedirect } = useAuth0()
-
-  const handleLogin = () => {
-    loginWithRedirect()
-  }
+  const returnUrl = useReturnUrl()
 
   return (
-    <button
-      className="ml-8 flex items-center justify-center rounded-lg bg-gradient p-3 px-5 text-white hover:bg-gradient-hover"
-      onClick={handleLogin}
-    >
-      <span className="whitespace-nowrap text-sm">Sign In</span>
-    </button>
+    <div className="ml-8 flex items-center justify-end gap-2">
+      <Link href={`/login${returnUrl}`}>
+        <button className="flex h-10 items-center justify-center rounded-lg border border-transparent px-3 text-primary hover:text-primary/70">
+          <span className="whitespace-nowrap font-normal">Sign In</span>
+        </button>
+      </Link>
+
+      <Link href={`/register${returnUrl}`}>
+        <button className="flex h-10 items-center justify-center rounded-lg bg-gradient px-3 text-white hover:bg-gradient-hover">
+          <span className="whitespace-nowrap font-normal">Sign up</span>
+        </button>
+      </Link>
+    </div>
   )
 }

@@ -1,5 +1,5 @@
 import { makeClientRequest } from 'src/api/clientRequest'
-import { Account } from 'src/types'
+import { Account } from 'src/api/auction/types'
 
 export async function getAccount(token: string): Promise<Account> {
   const res = await makeClientRequest({
@@ -12,7 +12,7 @@ export async function getAccount(token: string): Promise<Account> {
 
   // TODO: Error handling
 
-  const { account } = res
+  const { account, public_key } = res
 
-  return account
+  return { ...account, public_key }
 }

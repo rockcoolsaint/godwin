@@ -32,7 +32,7 @@ function Form({
           return null
         }
 
-        return React.cloneElement(Child as ReactElement, { disabled })
+        return React.cloneElement(Child as ReactElement, { disabled: disabled })
       })}
     </form>
   )
@@ -42,11 +42,13 @@ function Field({
   children,
   className,
   required,
+  disabled,
   errors,
 }: {
   children: React.ReactNode
   className?: string
   required?: boolean
+  disabled?: boolean
   errors?: string[]
 }) {
   return (
@@ -56,7 +58,7 @@ function Field({
           return null
         }
 
-        return React.cloneElement(Child as ReactElement, { required, errors })
+        return React.cloneElement(Child as ReactElement, { required, disabled, errors })
       })}
 
       {errors && (
@@ -77,17 +79,19 @@ function Label({
   className,
   htmlFor,
   required,
+  hideSuffix,
 }: {
   children: React.ReactNode
   className?: string
-  htmlFor: string
+  htmlFor?: string
   required?: boolean
+  hideSuffix?: boolean
 }) {
   return (
-    <label htmlFor={htmlFor} className={clsx('flex justify-start gap-1 text-sm text-gray-500', className)}>
+    <label htmlFor={htmlFor} className={clsx('flex items-center justify-start gap-1 text-sm text-gray-500', className)}>
       {children}
-      {required && <span className="text-red-500">*</span>}
-      {!required && <span className="">(Optional)</span>}
+      {!hideSuffix && required && <span className="text-red-500">*</span>}
+      {!hideSuffix && !required && <span className="">(Optional)</span>}
     </label>
   )
 }
@@ -100,8 +104,25 @@ function Submit({ children, className, disabled }: { children: React.ReactNode; 
   )
 }
 
+function Section({ children, className, title }: { children: React.ReactNode; className?: string; title?: React.ReactNode }) {
+  return (
+    <div className={clsx(className, 'w-full border-t border-gray-300 first-of-type:border-none last-of-type:border-b last-of-type:pb-8')}>
+      <div className="flex h-10 w-full items-center justify-start border-b border-gray-300 px-4">
+        <span className="text-xs font-semibold text-black">{title}</span>
+      </div>
+      <div className="flex flex-col gap-4 px-4 pt-4">{children}</div>
+    </div>
+  )
+}
+
+function Horizontal({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={clsx(className, 'flex flex-col justify-between gap-4 lg:flex-row')}>{children}</div>
+}
+
 Form.Field = Field
 Form.Submit = Submit
+Form.Section = Section
+Form.Horizontal = Horizontal
 Field.Label = Label
 
 export default Form

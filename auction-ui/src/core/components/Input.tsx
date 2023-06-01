@@ -1,56 +1,68 @@
-/* eslint-disable react/jsx-no-bind */
-import clsx from 'clsx'
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
+import { forwardRef } from 'react'
+import { styled } from '@slicknode/stylemapper'
 
-interface InputProps {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string
-  type: string
-  name: string
-  placeholder?: string
-  required?: boolean
-  onChange?: (val: string | number) => void
-  onInput?: (val: string | number) => void
-  onBlur?: (val: string | number) => void
-  value?: string | number
-  min?: string
-  step?: string
-  max?: string
-  defaultValue?: string
-  errors?: string[]
+  /**
+   * The label above the input
+   */
+  label?: string
+  /**
+   * Error message for an invalid value
+   */
+  errorMessage?: React.ReactNode
 }
 
-function Input(props: InputProps) {
-  const { onChange, onInput, onBlur, className, name, errors } = props
+const StyledInput = styled(
+  'input',
+  'mb-0 flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 px-3 outline-none placeholder:text-sm placeholder:opacity-75 disabled:bg-gray-300 disabled:text-gray-500 focus:ring-0',
+  {
+    variants: {
+      error: {
+        true: 'border-error focus:border-error',
+        false: 'focus:border-gray-500',
+      },
+    },
+  },
+)
 
-  const handleChange = (e: any) => {
-    if (typeof onChange === 'function') {
-      onChange(e.target.value)
-    }
-  }
+const StyledErrorMessage = styled(
+  'div',
+  'line-clamp-2 absolute inset-x-0 -bottom-1 mx-1 translate-y-full text-error text-sm transition-opacity',
+  {
+    variants: {
+      error: {
+        true: 'opacity-100',
+        false: 'opacity-0',
+      },
+    },
+  },
+)
 
-  const handleBlur = (e: any) => {
-    if (typeof onBlur === 'function') {
-      onBlur(e.target.value)
-    }
-  }
-
-  const handleInput = (e: any) => {
-    if (typeof onInput === 'function') {
-      onInput(e.target.value)
-    }
-  }
-
+const Input = forwardRef<HTMLInputElement, InputProps>(function InputComponentInner(
+  { className, errorMessage, label, ...props }: InputProps,
+  ref,
+) {
   return (
-    <input
-      {...props}
-      id={name}
-      className={clsx(className, 'mb-0 flex h-12 items-center justify-center rounded-lg border border-gray-300 px-5 outline-none', {
-        'border border-red-500': errors && errors.length > 0,
-      })}
-      onChange={handleChange}
-      onInput={handleInput}
-      onBlur={handleBlur}
-    />
+    <div className={className}>
+      {label && (
+        <label htmlFor={props.id} className="mb-2 mt-8 flex justify-start gap-1 text-sm text-gray-500">
+          {label}
+        </label>
+      )}
+      <div className="relative rounded-md">
+        <StyledInput error={Boolean(errorMessage)} type="text" ref={ref} {...props} />
+        {Boolean(errorMessage) && props.type !== 'date' && (
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <ExclamationCircleIcon className="h-5 w-5 text-error" />
+          </div>
+        )}
+        <StyledErrorMessage error={Boolean(errorMessage)}>{errorMessage}</StyledErrorMessage>
+      </div>
+    </div>
   )
-}
+})
+Input.displayName = 'Input'
 
 export default Input
