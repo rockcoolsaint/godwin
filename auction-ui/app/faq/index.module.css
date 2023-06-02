@@ -1,0 +1,12 @@
+.faq_body ul {
+  list-style: circle;
+  @apply px-5;
+}
+
+.faq_body p {
+  @apply my-4;
+}
+
+.faq_body a {
+  @apply underline;
+}
