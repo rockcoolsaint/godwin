@@ -92,7 +92,7 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/pages/about">
+                  <Link className="font-normal text-dark-100 hover:underline" href="/about-us">
                     About us
                   </Link>
                 </li>
