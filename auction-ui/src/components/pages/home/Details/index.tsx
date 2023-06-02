@@ -18,7 +18,7 @@ export default function Details({ title, imageSrc, className, description, link 
 
   return (
     <div className={clsx('mb-12 flex max-w-xl flex-col items-center rounded-xl border border-gray-400 bg-white md:mb-0', className)}>
-      <Image width={250} height={280} className="mt-16" src={imageSrc} alt="asic mining rig" />
+      <Image width={250} height={280} className="mt-16 h-56" src={imageSrc} alt="asic mining rig" />
       <div className="mt-9 px-8 md:px-14">
         <h2 className="mb-5 text-3xl font-semibold md:w-9/12 md:text-4xl">
           <p className={styles['text-callout']} dangerouslySetInnerHTML={{ __html: title }} />

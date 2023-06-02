@@ -45,7 +45,6 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
             imageSrc={rig}
             description={t('home.details_description')}
             link="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
-            className="pt-0 sm:pt-14"
           />
           <Details
             className="md:ml-14"
