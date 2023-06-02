@@ -3,6 +3,7 @@
 import { Disclosure } from '@headlessui/react'
 import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
 import styles from './index.module.css'
+import clsx from 'clsx'
 
 const faqs = [
   {
@@ -96,8 +97,44 @@ const faqs = [
       },
     ],
   },
-
-  // More questions...
+  {
+    title: 'Mining Plans',
+    data: [
+      {
+        question: 'Is electricity cost included in the price?',
+        answer: `<p>Yes. Your mining hashrate price includes all electricity and hosting facility costs.</p>`,
+      },
+      {
+        question: "Why would someone rent out their bitcoin rigs? Isn't bitcoin mining profitable?",
+        answer: `<p>No one knows where mining difficulty and hashprice will be in the future. Rigly offers a way for bitcoin miners to potentially earn more from their hashrate, over the long term, than they would by mining themselves.</p>`,
+      },
+      {
+        question: 'What fees does Rigly charge?',
+        answer: `<p>Our auction platform fee is 3% and is paid by the buyer. The fee is paid via hashrate. During your mining term, you will see a periodic drop in received hashrate when the fee is paid.</p>`,
+      },
+      {
+        question: 'Are mining plans paid in USD or BTC?',
+        answer: `<p>All payments are in bitcoin (BTC) based on the transaction price in bitcoin.</p>`,
+      },
+    ],
+  },
+  {
+    title: 'Payment And Deposits',
+    data: [
+      {
+        question: 'What happens if my mining rig goes offline?',
+        answer: `<p>If your plan's ASIC mining rigs fail to perform within the Service Level Agreement or go offline for an extended period of time, you receive an extension or a refund based on the percentage downtime.</p>`,
+      },
+      {
+        question: 'What if I change my mind? Can I get a refund?',
+        answer: `<p>If your mining experiences an outage, is below the speed average/day, or otherwise fails to deliver, you will receive a refund based on the TH/s you should have received. However, Rigly is not able to refund if you change your mind or otherwise want to cancel your mining.</p>`,
+      },
+      {
+        question: 'Is this cloud mining?',
+        answer: `<p>Rigly is not cloud mining. All our mining plan listings are backed by real machines. Your mining fee is held in escrow while hashrate is delivered.</p>`,
+      },
+    ],
+  },
 ]
 
 export default function Example() {
@@ -115,7 +152,12 @@ export default function Example() {
                     {({ open }) => (
                       <>
                         <dt>
-                          <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
+                          <Disclosure.Button
+                            className={clsx(
+                              'flex w-full items-start justify-between p-4 text-left text-gray-900 hover:bg-blue-100',
+                              open ? 'bg-blue-200' : '',
+                            )}
+                          >
                             <span className="text-base font-semibold leading-7">{faq.question}</span>
                             <span className="ml-6 flex h-7 items-center">
                               {open ? (
@@ -126,7 +168,7 @@ export default function Example() {
                             </span>
                           </Disclosure.Button>
                         </dt>
-                        <Disclosure.Panel as="dd" className="mt-2 pr-12">
+                        <Disclosure.Panel as="dd" className="bg-slate-100 p-4 pr-12">
                           <div
                             dangerouslySetInnerHTML={{ __html: faq.answer }}
                             className={`${styles['faq_body']} text-base leading-7 text-gray-600`}
