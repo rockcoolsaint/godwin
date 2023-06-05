@@ -225,9 +225,9 @@ function PaymentOne({ order }: Props) {
           )}
 
           {currentOrder.status === OrderStatus.Processing && (
-            <a className="flex justify-end" href={checkoutUrl} rel="noreferrer">
-              <Button>Checkout</Button>
-            </a>
+            <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-sm font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+              Your payment is processing, please check back later
+            </span>
           )}
         </div>
 
