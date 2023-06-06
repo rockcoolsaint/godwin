@@ -99,7 +99,7 @@ export default function HeaderNav() {
             <Link className="px-5 py-4 text-base  text-dark-300 hover:text-primary" href="/collections">
               Auctions
             </Link>
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="https://rigly.io/a/faq">
+            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="/faq">
               FAQ
             </Link>
             <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="https://blog.rigly.io/">
