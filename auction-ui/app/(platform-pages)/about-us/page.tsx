@@ -125,7 +125,7 @@ function AboutUs() {
               </p>
             </li>
             <li className="rounded-2xl bg-gray-800 px-8 py-10">
-              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={kevin} width={100} height={100} alt="Adam Jonas" />
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={kevin} width={100} height={100} alt="Kevin" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Kevin Karsopawiro</h3>
               <p className="text-sm leading-6 text-gray-400">
                 Kevin is an experienced software engineer with over a decade of industry experience. Prior to joining Rigly, he spearheaded
@@ -135,16 +135,16 @@ function AboutUs() {
               </p>
             </li>
             <li className="rounded-2xl bg-gray-800 px-8 py-10">
-              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={tobi} width={100} height={100} alt="Adam Jonas" />
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={tobi} width={100} height={100} alt="Tobi" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Tobi Adeyemi</h3>
               <p className="text-sm leading-6 text-gray-400">
                 Tobi is a dedicated frontend engineer with a passion for clean and intuitive designs who thrives on crafting seamless user
-                experiences. He previously worked as a frontend engineer in one of Africa's biggest fintech before leaving it all behind to
-                work in the Bitcoin industry after going through the Chaincode affiliated Qala program.
+                experiences. He previously worked as a frontend engineer in one of Africa&apos;s biggest fintech before leaving it all
+                behind to work in the Bitcoin industry after going through the Chaincode affiliated Qala program.
               </p>
             </li>
             <li className="rounded-2xl bg-gray-800 px-8 py-10">
-              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={damian} width={100} height={100} alt="Adam Jonas" />
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={damian} width={100} height={100} alt="Damian" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Damian</h3>
               <p className="text-sm leading-6 text-gray-400">
                 Damian, a former heavy equipment operator educated in holistic nutrition, gets the word out about Rigly to all the plebs. He
@@ -152,7 +152,7 @@ function AboutUs() {
               </p>
             </li>
             <li className="rounded-2xl bg-gray-800 px-8 py-10">
-              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={karo} width={100} height={100} alt="Adam Jonas" />
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={karo} width={100} height={100} alt="karo" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Karo Zagorus</h3>
               <p className="text-sm leading-6 text-gray-400">
                 Bitcoin Maximalist and Privacy Advocate, Author of Bitcoin and the Trust Problem. Karo previously worked both in the
