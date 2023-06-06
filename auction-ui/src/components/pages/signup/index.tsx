@@ -108,7 +108,7 @@ export default function SignUp({ setView, setEmail }: any) {
         )
 
         if (!success) {
-          toast.error('Sign up error', { position: 'bottom-center' })
+          toast.error('Sign up error')
         }
 
         reset(
@@ -123,11 +123,11 @@ export default function SignUp({ setView, setEmail }: any) {
         setSelectedPool(MINING_POOLS[0])
         setView()
         setEmail(value.email)
-        toast.success('Sign up success', { position: 'bottom-center' })
+        toast.success('Sign up success')
         setLoading(false)
       } catch (err) {
         setLoading(false)
-        toast.error('Sign up error', { position: 'bottom-center' })
+        toast.error('Sign up error')
       }
     },
     [reset, returnUrl, setEmail, setView],
@@ -236,7 +236,7 @@ export default function SignUp({ setView, setEmail }: any) {
           <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-3/4 xl:w-[25vw]">
             <div>
               <span className="text-xl text-gray-500">Do you already own a pool account?</span>
-              <fieldset className="mb-4 mt-4">
+              <fieldset className="my-4">
                 <legend className="sr-only">Notification method</legend>
                 <div className="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
                   {notificationMethods.map(notificationMethod => (

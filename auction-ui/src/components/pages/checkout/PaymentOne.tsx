@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
-import { Button, Loader, Input, formatAuctionType, Container } from 'src/core'
+import { Button, Loader, Container } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order, OrderStatus, OrderType, PaymentStatus } from 'src/types'
@@ -25,7 +25,7 @@ function PaymentOne({ order }: Props) {
   const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   const { first, paymentId, amountPaid, amountRemaining, isPaymentComplete, checkoutUrl } = usePayments(currentOrder)
-  const { auction, auction_fee, mining_deposit, price, total } = order
+  const { auction, auction_fee, mining_deposit, price } = order
 
   const applyPromoCode = async () => {
     if (!promoCode || promoCode === '' || !first || !currentOrder.id) {
@@ -174,7 +174,9 @@ function PaymentOne({ order }: Props) {
               }  | ${auction!.auction_meta.hashrate}TH/s `}</span>
             </div>
             <div>
-              {order.type === OrderType.Auction && <p className="text-sm font-normal text-gray-700">{`Epoch ${auction?.epoch || '-'}`}</p>}
+              {order.type === OrderType.Auction && (
+                <p className="text-sm font-normal text-gray-700">{`Epoch ${auction?.epoch?.epoch_number || '-'}`}</p>
+              )}
               <p className="text-sm font-normal text-gray-900">Estimated start {formatDate(auction!.start_at, 'MMMM d, yyyy')}</p>
             </div>
           </div>
@@ -209,7 +211,7 @@ function PaymentOne({ order }: Props) {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="text-base font-medium text-gray-900">Due now</dt>
-                <dd className="text-base font-medium text-gray-900">{formatMoney(total)} sats</dd>
+                <dd className="text-base font-medium text-gray-900">{formatMoney(mining_deposit + auction_fee)} sats</dd>
               </div>
             </dl>
           </div>
@@ -223,9 +225,9 @@ function PaymentOne({ order }: Props) {
           )}
 
           {currentOrder.status === OrderStatus.Processing && (
-            <a className="flex justify-end" href={checkoutUrl} rel="noreferrer">
-              <Button>Checkout</Button>
-            </a>
+            <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-sm font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+              Your payment is processing, please check back later
+            </span>
           )}
         </div>
 

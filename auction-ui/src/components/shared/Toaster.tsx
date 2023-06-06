@@ -6,7 +6,7 @@ import { ClientOnly } from 'src/components/shared/ClientOnly'
 export default function Toaster() {
   return (
     <ClientOnly>
-      <ReactHotToaster position="top-left" />
+      <ReactHotToaster position="top-right" />
     </ClientOnly>
   )
 }

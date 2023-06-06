@@ -1,8 +1,8 @@
 'use client'
 import FeaturedAuctions from 'src/components/pages/home/FeaturedAuctions'
 import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
-import asic from 'src/assets/png/asic.png'
-import bid from 'src/assets/png/how_to_bid.png'
+import rig from 'src/assets/png/rig.png'
+import placard from 'src/assets/png/placard.png'
 import Details from 'src/components/pages/home/Details'
 import { useTranslation } from 'src/hooks'
 import AuctionOfTheDay from './AuctionOfTheDay'
@@ -42,14 +42,14 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
         <div className="flex flex-col items-center justify-center md:flex-row">
           <Details
             title={t('home.title_mining')}
-            imageSrc={asic}
+            imageSrc={rig}
             description={t('home.details_description')}
             link="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
           />
           <Details
             className="md:ml-14"
             title={t('home.title_bid')}
-            imageSrc={bid}
+            imageSrc={placard}
             description={t('home.details_description')}
             link="https://blog.rigly.io/how-to-bid-on-hashrate/"
           />
