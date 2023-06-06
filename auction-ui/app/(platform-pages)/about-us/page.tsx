@@ -156,7 +156,7 @@ function AboutUs() {
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Karo Zagorus</h3>
               <p className="text-sm leading-6 text-gray-400">
                 Bitcoin Maximalist and Privacy Advocate, Author of Bitcoin and the Trust Problem. Karo previously worked both in the
-                Hardware Wallet and the Bitcoin Privacy space. He have a Master&apos;s degree in a Social Psychology related field.
+                Hardware Wallet and the Bitcoin Privacy space. He has a Master&apos;s degree in a Social Psychology related field.
               </p>
             </li>
           </ul>
