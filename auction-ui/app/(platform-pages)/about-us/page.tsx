@@ -2,6 +2,12 @@ import Image from 'next/image'
 import Container from 'src/core/components/Container'
 import trustlessMining from 'src/assets/webp/trustless_mining.webp'
 import sla from 'src/assets/webp/sla.webp'
+import damian from 'src/assets/jpg/damian.jpg'
+import karo from 'src/assets/png/karo.png'
+import tobi from 'src/assets/png/tobi.png'
+import evan from 'src/assets/webp/evan.webp'
+import jonas from 'src/assets/webp/jonas.webp'
+import nico from 'src/assets/webp/nico.webp'
 
 function AboutUs() {
   return (
@@ -71,13 +77,7 @@ function AboutUs() {
             className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-8"
           >
             <li className="rounded-2xl bg-gray-800 px-8 py-10">
-              <Image
-                className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56"
-                src="https://cdn.shopify.com/s/files/1/0603/6648/7720/files/evanprofilepic_2.png?v=1645191411"
-                width={100}
-                height={100}
-                alt="Evan Baer"
-              />
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={evan} width={100} height={100} alt="Evan Baer" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Evan Baer</h3>
               <p className="text-sm leading-6 text-gray-400">
                 Evan iterates on Rigly each day. Previously he led the R&D infrastructure group at a global trading firm. In his early
@@ -107,13 +107,7 @@ function AboutUs() {
               </ul> */}
             </li>
             <li className="rounded-2xl bg-gray-800 px-8 py-10">
-              <Image
-                className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56"
-                src="https://cdn.shopify.com/s/files/1/0603/6648/7720/files/nico_635aa67e-ca86-43c6-8021-c4e3ecbc88c2.png?v=1667918755"
-                width={100}
-                height={100}
-                alt="Nico Preti"
-              />
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={nico} width={100} height={100} alt="Nico Preti" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Nico Preti</h3>
               <p className="text-sm leading-6 text-gray-400">
                 Nico grows Rigly each day. Previously he managed communications for Poolin and btc.com. He is a long-time writer in the
@@ -121,13 +115,7 @@ function AboutUs() {
               </p>
             </li>
             <li className="rounded-2xl bg-gray-800 px-8 py-10">
-              <Image
-                className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56"
-                src="https://cdn.shopify.com/s/files/1/0603/6648/7720/files/profile.png?v=1645145985"
-                width={100}
-                height={100}
-                alt="Adam Jonas"
-              />
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={jonas} width={100} height={100} alt="Adam Jonas" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Adam Jonas</h3>
               <p className="text-sm leading-6 text-gray-400">
                 Jonas spearheads educational initiatives and brings things to life at Chaincode Labs. He previously worked as an engineer in
@@ -135,8 +123,41 @@ function AboutUs() {
                 preferred nonce is 42.
               </p>
             </li>
-
-            {/* <!-- More people... --> */}
+            <li className="rounded-2xl bg-gray-800 px-8 py-10">
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={damian} width={100} height={100} alt="Adam Jonas" />
+              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Kevin Karsopawiro</h3>
+              <p className="text-sm leading-6 text-gray-400">
+                Kevin is an experienced software engineer with over a decade of industry experience. Prior to joining Rigly, he spearheaded
+                the development of multiple high-frequency cryptocurrency exchanges. His experience from these endeavors allow him to
+                deliver innovative solutions that combine performance, security, and decentralization. After being orange-pilled, he made
+                the decision to dedicate the majority of his efforts to building Rigly.
+              </p>
+            </li>
+            <li className="rounded-2xl bg-gray-800 px-8 py-10">
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={tobi} width={100} height={100} alt="Adam Jonas" />
+              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Tobi Adeyemi</h3>
+              <p className="text-sm leading-6 text-gray-400">
+                Tobi is a dedicated frontend engineer with a passion for clean and intuitive designs who thrives on crafting seamless user
+                experiences. He previously worked as a frontend engineer in one of Africa's biggest fintech before leaving it all behind to
+                work in the Bitcoin industry after going through the Chaincode affiliated Qala program.
+              </p>
+            </li>
+            <li className="rounded-2xl bg-gray-800 px-8 py-10">
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={damian} width={100} height={100} alt="Adam Jonas" />
+              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Damian</h3>
+              <p className="text-sm leading-6 text-gray-400">
+                Damian, a former heavy equipment operator educated in holistic nutrition, gets the word out about Rigly to all the plebs. He
+                works to build the bright orange future as he iterates on his skills and knowledge every day.
+              </p>
+            </li>
+            <li className="rounded-2xl bg-gray-800 px-8 py-10">
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={karo} width={100} height={100} alt="Adam Jonas" />
+              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Karo Zagorus</h3>
+              <p className="text-sm leading-6 text-gray-400">
+                Bitcoin Maximalist and Privacy Advocate, Author of Bitcoin and the Trust Problem. Karo previously worked both in the
+                Hardware Wallet and the Bitcoin Privacy space. He have a Master&apos;s degree in a Social Psychology related field.
+              </p>
+            </li>
           </ul>
         </div>
       </div>
