@@ -119,17 +119,17 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/policies/privacy-policy">
+                  <Link className="font-normal text-dark-100 hover:underline" href="/privacy-policy">
                     Privacy policy
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/policies/terms-of-service">
+                  <Link className="font-normal text-dark-100 hover:underline" href="/tos">
                     Terms & Conditions
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="https://rigly.io/a/faq">
+                  <Link className="font-normal text-dark-100 hover:underline" href="/faq">
                     FAQ
                   </Link>
                 </li>

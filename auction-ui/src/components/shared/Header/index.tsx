@@ -67,7 +67,7 @@ export default function HeaderNav() {
               <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/collections">
                 Auctions
               </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="https://rigly.io/a/faq">
+              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/faq">
                 FAQ
               </Link>
               <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="https://blog.rigly.io/">
@@ -76,7 +76,7 @@ export default function HeaderNav() {
             </aside>
           </div>
           <div className="ml-8 hidden items-center lg:flex">
-            <Link className="flex items-center" href="https://rigly.io/pages/selling-on-rigly">
+            <Link className="flex items-center" href="/selling-on-rigly">
               <span>List your mining </span> <MiningSvg className="ml-4" />
             </Link>
             {!isLoading && (
@@ -99,17 +99,14 @@ export default function HeaderNav() {
             <Link className="px-5 py-4 text-base  text-dark-300 hover:text-primary" href="/collections">
               Auctions
             </Link>
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="https://rigly.io/a/faq">
+            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="/faq">
               FAQ
             </Link>
             <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="https://blog.rigly.io/">
               Blog
             </Link>
 
-            <Link
-              className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-primary"
-              href="https://rigly.io/pages/selling-on-rigly"
-            >
+            <Link className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-primary" href="/selling-on-rigly">
               <span>List your mining</span>
               <MiningSvg className="ml-4" />
             </Link>
