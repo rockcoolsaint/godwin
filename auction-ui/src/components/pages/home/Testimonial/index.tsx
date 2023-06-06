@@ -8,7 +8,7 @@ const testimonials = [
       {
         body: 'The Rigly experience is quick and seamless, giving you the opportunity to start mining right away - I can’t wait to watch the team build out this great platform',
         author: {
-          name: 'Devon Lane',
+          name: 'Harrison Geldermann',
           handle: 'Customer',
         },
       },
