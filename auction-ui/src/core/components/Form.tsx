@@ -22,11 +22,11 @@ function Form({
     const formData = new FormData(e.currentTarget)
     const data: { [key: string]: any } = Object.fromEntries(formData.entries())
 
-    const radioInputs = e.currentTarget.querySelectorAll('input[type="radio"]')
-    radioInputs.forEach(el => {
-      const radioInput = el as HTMLInputElement
-      const key = radioInput.name
-      const value = radioInput.checked
+    const checkboxes = e.currentTarget.querySelectorAll('input[type="checkbox"]')
+    checkboxes.forEach(el => {
+      const checkbox = el as HTMLInputElement
+      const key = checkbox.name
+      const value = checkbox.checked
       data[key] = value
     })
 

@@ -82,20 +82,20 @@ function Preferences() {
 
           <Form.Horizontal className="justify-start">
             <Form.Field className="items-center justify-start">
-              <Form.Field.Label htmlFor="email" hideSuffix>
+              <Form.Field.Label className="cursor-pointer" htmlFor="email" hideSuffix>
                 E-mail
               </Form.Field.Label>
               <Checkbox name="email" defaultValue={preferences.email} onChange={val => updatePreferences('email', val)} />
             </Form.Field>
             <Form.Field className="items-center justify-start">
-              <Form.Field.Label htmlFor="sms" hideSuffix>
+              <Form.Field.Label className="cursor-pointer" htmlFor="sms" hideSuffix>
                 SMS
               </Form.Field.Label>
               <Checkbox name="sms" defaultValue={preferences.sms} onChange={val => updatePreferences('sms', val)} />
             </Form.Field>
 
             <Form.Field className="items-center justify-start">
-              <Form.Field.Label htmlFor="telegram" hideSuffix>
+              <Form.Field.Label className="cursor-pointer" htmlFor="telegram" hideSuffix>
                 Telegram
               </Form.Field.Label>
               <Checkbox name="telegram" defaultValue={preferences.telegram} onChange={val => updatePreferences('telegram', val)} />
@@ -125,7 +125,7 @@ function Preferences() {
           {events.map((field, i) => {
             return (
               <Form.Field className="flex w-full items-center" key={i}>
-                <Form.Field.Label htmlFor={field.key} hideSuffix>
+                <Form.Field.Label className="cursor-pointer" htmlFor={field.key} hideSuffix>
                   {field.label}
                 </Form.Field.Label>
                 <Checkbox
