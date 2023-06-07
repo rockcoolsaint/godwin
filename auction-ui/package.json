@@ -42,7 +42,8 @@
     "react-plotly.js": "^2.6.0",
     "react-slick": "^0.29.0",
     "react-tooltip": "^5.10.0",
-    "rosetta": "^1.1.0"
+    "rosetta": "^1.1.0",
+    "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
