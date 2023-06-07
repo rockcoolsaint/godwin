@@ -23,9 +23,9 @@ function classNames(...classes: string[]) {
 
 function handleSelect({ selected }: { selected: boolean }) {
   return clsx(
-    'text-dark-100 w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+    'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark-100',
     ' ring-offset-blue-400 ',
-    selected ? 'bg-gradient !text-white' : 'text-dark-100 hover:text-dark-100 hover:bg-white/[0.52]',
+    selected ? 'bg-gradient !text-white' : 'text-dark-100 hover:bg-white/[0.52] hover:text-dark-100',
   )
 }
 
