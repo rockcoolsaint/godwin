@@ -52,7 +52,7 @@ export default function Login() {
             <span className="text-sm text-gray-500">{t('login.description')}</span>
           </div>
           <Form className="mt-8 items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
-            <Form.Field className="w-full" required>
+            <Form.Field className="w-full flex-col" required>
               <Form.Field.Label htmlFor="email">{t('login.email')}</Form.Field.Label>
               <Input type="email" name="email" placeholder="satoshi@gmx.com" />
             </Form.Field>

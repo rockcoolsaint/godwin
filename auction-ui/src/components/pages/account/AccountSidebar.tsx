@@ -9,6 +9,7 @@ import Select from 'src/core/components/Select'
 
 const pages = [
   { label: 'Account', path: '/account', icon: 'user' },
+  { label: 'Preferences', path: '/account/preferences', icon: 'cog' },
   // { label: 'Hashrate', path: '/account/hashrate', icon: 'helmetSafety' },
   { label: 'Orders', path: '/account/orders', icon: 'cart' },
 ]
@@ -25,6 +26,7 @@ function getActiveRoute(pathName: string) {
 
 const menuItems = [
   { path: '/account', label: 'Account', icon: 'user' },
+  { path: '/account/preferences', label: 'Preferences', icon: 'cog' },
   // { path: '/account/hashrate', label: 'Hashrate', icon: 'helmetSafety' },
   { path: '/account/orders', label: 'Orders', icon: 'cart' },
 ]

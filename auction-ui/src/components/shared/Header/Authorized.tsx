@@ -35,6 +35,11 @@ export default function Authorized() {
               <span className="text-sm text-gray-600">Account</span>
             </Dropdown.Item>
 
+            <Dropdown.Item className="h-8 px-3" href="/account/preferences">
+              <Icon icon="cog" className="h-3 w-3 text-gray-600" />
+              <span className="text-sm text-gray-600">Preferences</span>
+            </Dropdown.Item>
+
             {/* <Dropdown.Item className='h-8 px-3' href="/account/hashrate">
               <Icon icon="helmetSafety" className="h-3 w-3 text-gray-600" />
               <span className="text-sm text-gray-600">Hashrate</span>

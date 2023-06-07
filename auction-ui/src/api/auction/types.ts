@@ -146,6 +146,16 @@ export interface Account {
   created_at: string
   updated_at: string
   public_key?: string
+  preferences: AccountPreferences
+}
+
+export interface AccountPreferences {
+  email: boolean
+  sms: boolean
+  telegram: boolean
+  event_bid_placed: boolean
+  event_auction_start: boolean
+  event_auction_end: boolean
 }
 
 export interface Winner {
