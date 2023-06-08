@@ -1,13 +1,26 @@
 import { get } from 'utils'
 
+// TO DO - use react-query for fetching and caching
 export async function getDifficultyAdjustment() {
-  const data = await get(`https://mempool.space/api/v1/difficulty-adjustment`)
+  const data = await get({
+    url: `https://mempool.space/api/v1/difficulty-adjustment`,
+    cache: 'force-cache',
+    nextFetchRequestConfig: {
+      revalidate: 10000,
+    },
+  })
 
   return data
 }
 
 export async function getBlockTipHeight() {
-  const data = get(`https://mempool.space/api/blocks/tip/height`)
+  const data = get({
+    url: `https://mempool.space/api/blocks/tip/height`,
+    cache: 'force-cache',
+    nextFetchRequestConfig: {
+      revalidate: 10000,
+    },
+  })
 
   return data
 }
@@ -29,13 +42,25 @@ export interface HashpriceDict {
 }
 
 export async function getHashPrice() {
-  const data: HashpriceDict = await get(`https://auctions.rigly.io/api/data/hashprice`)
+  const data: HashpriceDict = await get({
+    url: `https://auctions.rigly.io/api/data/hashprice`,
+    cache: 'force-cache',
+    nextFetchRequestConfig: {
+      revalidate: 10000,
+    },
+  })
 
   return data
 }
 
 export async function getHashRate() {
-  const data: HashRateResponse = await get(`https://mempool.space/api/v1/mining/hashrate/1m`)
+  const data: HashRateResponse = await get({
+    url: `https://mempool.space/api/v1/mining/hashrate/1m`,
+    cache: 'force-cache',
+    nextFetchRequestConfig: {
+      revalidate: 10000,
+    },
+  })
 
   return data
 }
