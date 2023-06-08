@@ -105,11 +105,6 @@ function Account() {
             <Form.Field.Label htmlFor="phone_number">Phone no.</Form.Field.Label>
             <Input type="text" name="phone_number" defaultValue={account.phone_number} placeholder="-" />
           </Form.Field>
-
-          <Form.Field className="w-full flex-col">
-            <Form.Field.Label htmlFor="telegram_username">Telegram username</Form.Field.Label>
-            <Input type="text" name="telegram_username" defaultValue={account.telegram_username} placeholder="-" />
-          </Form.Field>
         </Form.Section>
 
         <Form.Section title="Other">

@@ -14,12 +14,14 @@ interface AccountContextType {
   isLoading: boolean
   login: (email: string, returnUrl?: string) => Promise<[boolean, string | undefined]>
   logout: () => void
+  refresh: () => void
 }
 
 const AccountContext = React.createContext<AccountContextType>({
   isLoading: true,
   login: (_email: string, _returnUrl?: string) => Promise.resolve([false, undefined]),
   logout: () => {},
+  refresh: () => {},
 })
 
 export const useAccountContext = () => useContext(AccountContext)
@@ -43,6 +45,14 @@ export default function AccountProvider({ children }: { children: React.ReactNod
     setToken(undefined)
 
     redirect('/')
+  }
+
+  const refresh = async () => {
+    const token = window.localStorage.getItem('rigly_token')
+    if (token) {
+      const account = await getAccount(token)
+      setAccount(account)
+    }
   }
 
   useEffect(() => {
@@ -103,5 +113,5 @@ export default function AccountProvider({ children }: { children: React.ReactNod
     }
   }, [pathName, router])
 
-  return <AccountContext.Provider value={{ account, token, isLoading, login, logout }}>{children}</AccountContext.Provider>
+  return <AccountContext.Provider value={{ account, token, isLoading, login, logout, refresh }}>{children}</AccountContext.Provider>
 }

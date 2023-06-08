@@ -143,6 +143,7 @@ export interface Account {
   phone_number?: string
   address?: string
   telegram_username?: string
+  telegram_code: string
   created_at: string
   updated_at: string
   public_key?: string
