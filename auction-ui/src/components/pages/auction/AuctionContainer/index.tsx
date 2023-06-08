@@ -98,7 +98,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
       <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
-      <section className="flex flex-col rounded-xl bg-gray-50 p-3 lg:flex-row">
+      <section className="auction-container flex flex-col rounded-xl bg-gray-50 p-3 lg:flex-row">
         <div className="lg:w-[75%]">
           <Tab.Group>
             <Tab.Panels className=" h-[440px] overflow-scroll scrollbar-hide">
