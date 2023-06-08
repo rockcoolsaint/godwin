@@ -101,17 +101,17 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
       <section className="auction-container flex flex-col rounded-xl bg-gray-50 p-3 lg:flex-row">
         <div className="lg:w-[75%]">
           <Tab.Group>
-            <Tab.Panels className=" h-[440px] overflow-scroll scrollbar-hide">
+            <Tab.Panels className=" scrollbar-hide h-[440px] overflow-scroll">
               {Object.values(categories).map((posts, idx) => (
                 <Tab.Panel
                   key={idx}
                   className={classNames(
                     'rounded-xl bg-white',
-                    'h-full ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                    'scrollbar-hide h-full ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                   )}
                 >
                   {posts.map(post => (
-                    <div key={post.id} className="relative h-full rounded-md scrollbar-hide">
+                    <div key={post.id} className="scrollbar-hide relative h-full rounded-md">
                       {post.component}
                     </div>
                   ))}
