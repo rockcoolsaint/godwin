@@ -72,4 +72,13 @@
   .plotly-notifier {
     display: none !important;
   }
+
+  .auction-container .scrollbar-hide {
+    scrollbar-width: none;
+  }
+
+  .auction-container .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+    -webkit-appearance: none;
+  }
 }

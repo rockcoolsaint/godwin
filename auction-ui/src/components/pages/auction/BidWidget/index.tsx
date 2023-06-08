@@ -21,6 +21,7 @@ import * as yup from 'yup'
 import { toast } from 'react-hot-toast'
 import { getHashPrice, HashpriceDict } from 'src/api/hashprice'
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid'
+import clsx from 'clsx'
 
 interface Props {
   auction: Auction
@@ -215,8 +216,7 @@ function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps)
   const [duration] = useState(auction.auction_meta.days_of_mining)
   const payout = hashPrice * Number(speed) * Number(duration) - Number(bids[0]?.bid) || 0
 
-  const futureMiningPayout = payout > 0 ? payout : 0
-  const priceInFiat = useSatsToFiat({ initialValue: 0, bid: futureMiningPayout })
+  const priceInFiat = useSatsToFiat({ initialValue: 0, bid: payout })
 
   let filteredEpoch: any = {}
   if (Object.keys(epoch).length > 0) {
@@ -274,7 +274,8 @@ function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps)
         <Tooltip>
           <TooltipTrigger>
             <h3 className="flex items-center" id="formula-result-#11">
-              <span>{formatMoney(futureMiningPayout) || 0}</span> <SatsSvg className="ml-2" />
+              <span className={clsx('text-black', payout < 0 ? 'text-red-500' : '')}>{formatMoney(payout)}</span>{' '}
+              <SatsSvg className="ml-2" />
             </h3>
           </TooltipTrigger>
           <TooltipContent className="w-max max-w-fit rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">

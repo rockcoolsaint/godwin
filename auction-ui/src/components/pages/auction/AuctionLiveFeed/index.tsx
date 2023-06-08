@@ -32,7 +32,7 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
   plotData.y = hashrate.map(({ hashrate }) => hashrate)
 
   return (
-    <div className="flex h-full items-center justify-center overflow-scroll ">
+    <div className="scrollbar-hide flex h-full items-center justify-center overflow-scroll ">
       <Plot
         data={plot.data}
         layout={{ ...plot.layout, autosize: false, width: 800, title: 'Hashrate data' }}

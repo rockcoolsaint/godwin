@@ -23,9 +23,9 @@ function classNames(...classes: string[]) {
 
 function handleSelect({ selected }: { selected: boolean }) {
   return clsx(
-    'text-dark-100 w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+    'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark-100',
     ' ring-offset-blue-400 ',
-    selected ? 'bg-gradient !text-white' : 'text-dark-100 hover:text-dark-100 hover:bg-white/[0.52]',
+    selected ? 'bg-gradient !text-white' : 'text-dark-100 hover:bg-white/[0.52] hover:text-dark-100',
   )
 }
 
@@ -98,20 +98,20 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
       <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
-      <section className="flex flex-col rounded-xl bg-gray-50 p-3 lg:flex-row">
+      <section className="auction-container flex flex-col rounded-xl bg-gray-50 p-3 lg:flex-row">
         <div className="lg:w-[75%]">
           <Tab.Group>
-            <Tab.Panels className=" h-[440px] overflow-scroll ">
+            <Tab.Panels className=" scrollbar-hide h-[440px] overflow-scroll">
               {Object.values(categories).map((posts, idx) => (
                 <Tab.Panel
                   key={idx}
                   className={classNames(
                     'rounded-xl bg-white',
-                    'h-full ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                    'scrollbar-hide h-full ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                   )}
                 >
                   {posts.map(post => (
-                    <div key={post.id} className="relative h-full rounded-md">
+                    <div key={post.id} className="scrollbar-hide relative h-full rounded-md">
                       {post.component}
                     </div>
                   ))}

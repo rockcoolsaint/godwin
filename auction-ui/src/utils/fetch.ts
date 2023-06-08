@@ -20,10 +20,24 @@ function getHeaders(headers: Headers | undefined): Headers {
   return result
 }
 
-export async function get(url: string, headers?: Headers) {
+export async function get({
+  url,
+  headers,
+  cache,
+  nextFetchRequestConfig,
+}: {
+  url: string
+  headers?: Headers
+  cache?: RequestCache
+  nextFetchRequestConfig?: NextFetchRequestConfig
+}) {
   const res = await fetch(url, {
     method: 'GET',
+    cache: cache,
     ...(Boolean(headers) && { headers: getHeaders(headers) }),
+    ...(nextFetchRequestConfig && {
+      next: nextFetchRequestConfig,
+    }),
   })
 
   return await res.json()
