@@ -8,5 +8,5 @@ export default async function LatestAuctionPage() {
     return redirect('/')
   }
 
-  return redirect(`/auctions/${auction.slug}`)
+  return redirect(`/demo/auctions/${auction.slug}`)
 }
