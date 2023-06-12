@@ -1,5 +1,10 @@
 import { OrderType } from 'src/types'
 
+export enum PaymentProvider {
+  BitGo = 'bitgo',
+  OpenNode = 'opennode',
+}
+
 export enum PaymentType {
   Single = 'single',
   Multisig = 'multisig',

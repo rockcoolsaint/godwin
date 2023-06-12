@@ -1,4 +1,4 @@
-import { Auction } from 'src/api/auction/types'
+import { Auction, PaymentProvider } from 'src/api/auction/types'
 
 export enum PaymentStatus {
   Processing = 'processing',
@@ -22,6 +22,8 @@ export interface Payment {
   is_first: boolean
   has_initiated_payment: boolean
   missing_amount?: number
+  provider: PaymentProvider
+  created_at: number
 }
 
 export enum OrderStatus {
