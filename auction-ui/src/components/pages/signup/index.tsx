@@ -103,6 +103,7 @@ export default function SignUp({ setView, setEmail }: any) {
             mining_pool_address: value.mining_pool_address,
             referral_code: value.referral_code,
             create_pool_account: false,
+            is_demo: true,
           },
           returnUrl,
         )
