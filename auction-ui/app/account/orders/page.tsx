@@ -11,6 +11,7 @@ import { Loader, Table } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import protect from 'src/hoc/protect'
 import { isOrderFulfilled } from 'utils'
+import hasPassedOrderStatus from 'src/utils/hasPassedOrderStatus'
 
 function formatOrderStatus(status: string) {
   switch (status) {
@@ -71,10 +72,7 @@ function Orders() {
             { title: 'Actions', name: 'actions', align: 'right' },
           ]}
           row={(order, col) => {
-            const hasManageAccess =
-              order.status === OrderStatus.PaymentTwoComplete ||
-              order.status === OrderStatus.DeliveryStarted ||
-              order.status === OrderStatus.DeliveryEnded
+            const hasManageAccess = hasPassedOrderStatus(order.status, OrderStatus.PaymentTwoComplete)
 
             switch (col) {
               case 'order_id': {

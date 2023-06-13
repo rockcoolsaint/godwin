@@ -13,14 +13,22 @@ function Form({
 }: {
   children: React.ReactNode
   className?: string
-  onSubmit: (data: object) => void
+  onSubmit: (data: any) => Promise<void>
   disabled?: boolean
 }) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData.entries())
+    const data: { [key: string]: any } = Object.fromEntries(formData.entries())
+
+    const checkboxes = e.currentTarget.querySelectorAll('input[type="checkbox"]')
+    checkboxes.forEach(el => {
+      const checkbox = el as HTMLInputElement
+      const key = checkbox.name
+      const value = checkbox.checked
+      data[key] = value
+    })
 
     onSubmit(data)
   }
@@ -52,7 +60,7 @@ function Field({
   errors?: string[]
 }) {
   return (
-    <div className={clsx('flex flex-col gap-2', className)}>
+    <div className={clsx('flex gap-2', className)}>
       {React.Children.map(children, Child => {
         if (!Child) {
           return null
@@ -126,7 +134,7 @@ function Section({ children, className, title }: { children: React.ReactNode; cl
 }
 
 function Horizontal({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={clsx(className, 'flex flex-col justify-between gap-4 lg:flex-row')}>{children}</div>
+  return <div className={clsx(className, 'flex flex-col gap-4 lg:flex-row')}>{children}</div>
 }
 
 Form.Field = Field

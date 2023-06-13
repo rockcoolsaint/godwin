@@ -45,7 +45,7 @@ export default function OrderDetail({ params }: { params: any }) {
   }, [orderId, token, tokenLoading, setOrder])
 
   if (!order || !account) {
-    // TODO: Redirect
+    // TODO: Unauthorized page or redirect
     return null
   }
 
