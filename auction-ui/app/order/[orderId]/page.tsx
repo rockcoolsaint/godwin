@@ -1,51 +1,31 @@
 'use client'
 
 import { format } from 'date-fns'
-import toast from 'react-hot-toast'
 import { BellIcon } from '@heroicons/react/24/outline'
 import { satoshisToFiat } from 'bitcoin-conversion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { PaymentProvider } from 'src/api/auction/types'
-import { cancel } from 'src/api/orders/escrow/cancel'
-import { release } from 'src/api/orders/escrow/release'
 import { getOrder } from 'src/api/orders/getOrder'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order } from 'src/types'
+import OrderStatusMessage from 'src/components/pages/order/OrderStatusMessage'
+import OrderActions from 'src/components/pages/order/OrderActions'
 
 export default function OrderDetail({ params }: { params: any }) {
-  const { token, isLoading: tokenLoading } = useAccountContext()
+  const { account, token, isLoading: tokenLoading } = useAccountContext()
   const { orderId } = params
 
   const [order, setOrder] = useState<Order | undefined>(undefined)
   const [amountPaidUsd, setAmountPaidUsd] = useState<number | undefined>(undefined)
   const { amountPaid } = usePayments(order)
 
-  const handleCancel = async () => {
-    if (tokenLoading || !token) {
-      return
-    }
-
-    await cancel(orderId, token)
-  }
-
-  const handleReview = () => {
-    if (tokenLoading || !token) {
-      return
-    }
-  }
-
-  const handleRelease = async () => {
-    if (tokenLoading || !token) {
-      return
-    }
-
-    try {
-      await release(orderId, token)
-    } catch (ex: any) {
-      toast.error(ex.message)
+  const fetchOrder = async () => {
+    if (!tokenLoading && token) {
+      const res = await getOrder(orderId, token)
+      setOrder(res)
     }
   }
 
@@ -60,25 +40,17 @@ export default function OrderDetail({ params }: { params: any }) {
   }, [amountPaid])
 
   useEffect(() => {
-    const prepare = async () => {
-      if (!tokenLoading && token) {
-        const res = await getOrder(orderId, token)
-        setOrder(res)
-      }
-    }
-
-    prepare()
+    fetchOrder()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId, token, tokenLoading, setOrder])
 
-  if (!order) {
+  if (!order || !account) {
     // TODO: Redirect
     return null
   }
 
   const paymentOne = order.payments.find(payment => payment.provider === PaymentProvider.OpenNode)
   const paymentTwo = order.payments.find(payment => payment.provider === PaymentProvider.BitGo)
-
-  console.log(paymentOne, paymentTwo, amountPaid)
 
   return (
     <div>
@@ -142,27 +114,8 @@ export default function OrderDetail({ params }: { params: any }) {
                   <dd className="text-base font-semibold">${amountPaidUsd}</dd>
                 </div>
               </dl>
-              <div className="my-6 flex items-center justify-between">
-                <button
-                  onClick={handleCancel}
-                  className="relative mr-4 inline-flex flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-white px-3 py-4 text-base font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleReview}
-                  className="relative mr-4 inline-flex flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-white px-3 py-4 text-base font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                >
-                  Review
-                </button>
-                <button
-                  onClick={handleRelease}
-                  className="relative inline-flex flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient px-3 py-4 text-base font-normal text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10"
-                >
-                  Release
-                </button>
-              </div>
-              <p className="text-sm">Your mining payment is held in escrow</p>
+              <OrderStatusMessage account={account} order={order} />
+              <OrderActions account={account} order={order} onRefresh={fetchOrder} />
               <hr className="my-4" />
               <div className="flex items-center text-sm">
                 <BellIcon className="mr-2 h-8 w-8" />

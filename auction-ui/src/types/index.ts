@@ -1,4 +1,4 @@
-import { Auction, PaymentProvider } from 'src/api/auction/types'
+import { Account, Auction, PaymentProvider } from 'src/api/auction/types'
 
 export enum PaymentStatus {
   Processing = 'processing',
@@ -33,11 +33,24 @@ export enum OrderStatus {
   PaymentTwoComplete = 'paid_2',
   DeliveryStarted = 'delivery_started',
   DeliveryEnded = 'delivery_ended',
+  EscrowRequestRefund = 'escrow_request_refund',
+  EscrowRequestCancel = 'escrow_request_cancel',
+  EscrowRequestRelease = 'escrow_request_release',
+  EscrowRefunded = 'escrow_refunded',
+  EscrowCancelled = 'escrow_cancelled',
+  EscrowReleased = 'escrow_released',
 }
 
 export enum OrderType {
   Auction = 'auction',
   Direct = 'direct',
+}
+
+export interface OrderMessage {
+  order: Order
+  account: Account
+  content: string
+  sender: 'system' | 'buyer' | 'seller'
 }
 
 export interface Order {
@@ -48,6 +61,7 @@ export interface Order {
   mining_deposit: number
   auction_fee: number
   status: OrderStatus
+  previous_status: OrderStatus
   payments: Payment[]
   can_apply_promo_code: boolean
   payment_address: string
@@ -55,6 +69,8 @@ export interface Order {
   checkout_url?: string
   promo_code?: PromoCode
   type: OrderType
+  cancellation_reason?: string
+  messages: OrderMessage[]
 }
 
 export interface Collection {

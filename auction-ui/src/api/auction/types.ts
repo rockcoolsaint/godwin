@@ -131,6 +131,11 @@ export interface PoolUser {
   username: string
 }
 
+export enum AccountType {
+  Buyer = 'buyer',
+  Seller = 'seller',
+}
+
 export interface Account {
   id: number
   username: string
@@ -151,6 +156,7 @@ export interface Account {
   created_at: string
   updated_at: string
   public_key?: string
+  type: AccountType
 }
 
 export interface Winner {

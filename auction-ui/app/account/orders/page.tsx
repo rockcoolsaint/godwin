@@ -66,16 +66,25 @@ function Orders() {
           cols={[
             { title: 'Order ID', name: 'order_id' },
             { title: 'Order Type', name: 'order_type' },
-            { title: 'Payment status', name: 'payment_status' },
+            { title: 'Auction Name', name: 'name' },
+            { title: 'Payment Status', name: 'payment_status' },
             { title: 'Actions', name: 'actions', align: 'right' },
           ]}
           row={(order, col) => {
+            const hasManageAccess =
+              order.status === OrderStatus.PaymentTwoComplete ||
+              order.status === OrderStatus.DeliveryStarted ||
+              order.status === OrderStatus.DeliveryEnded
+
             switch (col) {
               case 'order_id': {
                 return <div className="flex h-12 items-center">{order.id}</div>
               }
               case 'order_type': {
                 return <div className="flex h-12 items-center">{order.type === OrderType.Direct ? 'Direct' : 'Auction'}</div>
+              }
+              case 'name': {
+                return <div className="flex h-12 items-center">{order.auction.title}</div>
               }
               case 'payment_status': {
                 return <>{formatOrderStatus(order.status)}</>
@@ -86,6 +95,10 @@ function Orders() {
                     {!isOrderFulfilled(order.status) ? (
                       <Link href={`/checkout/${order.id}`} className="text-sm text-blue-500 hover:text-blue-700">
                         Pay
+                      </Link>
+                    ) : hasManageAccess ? (
+                      <Link href={`/order/${order.id}`} className="text-sm text-blue-500 hover:text-blue-700">
+                        Manage
                       </Link>
                     ) : (
                       <span className="text-sm text-gray-500">-</span>
