@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { getAccount } from 'src/api/auth/getAccount'
 import { redirect, usePathname, useRouter } from 'next/navigation'
 import { getToken } from 'src/api/auth/getToken'
-import { Account } from 'src/api/auction/types'
+import { Account, AccountType } from 'src/api/auction/types'
 import { login as doLogin } from 'src/api/auth/login'
 
 interface AccountContextType {
@@ -70,6 +70,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           setToken(token)
 
           const account = await getAccount(token)
+          account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
           setAccount(account)
 
           if (params.return_url) {
@@ -100,6 +101,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
             setToken(token)
 
             const account = await getAccount(token)
+            account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
             setAccount(account)
           }
         } catch (ex) {
