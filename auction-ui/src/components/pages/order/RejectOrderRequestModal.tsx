@@ -5,7 +5,7 @@ import { Account } from 'src/api/auction/types'
 import { reject } from 'src/api/orders/escrow/reject'
 import Form from 'src/core/components/Form'
 import Input from 'src/core/components/Input'
-import Modal from 'src/core/components/ModalNew'
+import Modal from 'src/core/components/Modal'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order } from 'src/types'
 
