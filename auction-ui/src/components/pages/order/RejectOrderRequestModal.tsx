@@ -51,7 +51,7 @@ export default function RejectOrderRequestModal({
 
       <Form className="items-start" onSubmit={handleSubmit} disabled={loading}>
         <Modal.Content className="w-full p-4">
-          <Form.Field className="w-full" required>
+          <Form.Field className="w-full flex-col" required>
             <Form.Field.Label htmlFor="refund_reason">Why do you want to reject this request?</Form.Field.Label>
             <Input type="text" name="refund_reason" placeholder="Reason for rejecting the request" />
           </Form.Field>

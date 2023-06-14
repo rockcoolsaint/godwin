@@ -42,7 +42,7 @@ export default function RefundOrderModal({ open, onClose, order }: { open: boole
 
       <Form className="items-start" onSubmit={handleSubmit} disabled={loading}>
         <Modal.Content className="w-full p-4">
-          <Form.Field className="w-full" required>
+          <Form.Field className="w-full flex-col" required>
             <Form.Field.Label htmlFor="refund_reason">Why do you want to refund your order?</Form.Field.Label>
             <Input type="text" name="refund_reason" placeholder="Reason for refunding your order" />
           </Form.Field>
