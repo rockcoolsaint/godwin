@@ -12,13 +12,13 @@ interface AccountContextType {
   account?: Account
   token?: string
   isLoading: boolean
-  login: (email: string, returnUrl?: string) => Promise<[boolean, string | undefined]>
+  login: (email: string, returnUrl?: string, code?: string) => Promise<[boolean, string | undefined]>
   logout: () => void
 }
 
 const AccountContext = React.createContext<AccountContextType>({
   isLoading: true,
-  login: (_email: string, _returnUrl?: string) => Promise.resolve([false, undefined]),
+  login: (_email: string, _returnUrl?: string, _code?: string) => Promise.resolve([false, undefined]),
   logout: () => {},
 })
 
@@ -32,8 +32,8 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  const login = async (email: string, returnUrl?: string) => {
-    return doLogin(email, returnUrl)
+  const login = async (email: string, returnUrl?: string, code?: string) => {
+    return doLogin(email, returnUrl, code)
   }
 
   const logout = () => {

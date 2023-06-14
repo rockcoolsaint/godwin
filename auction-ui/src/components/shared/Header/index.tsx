@@ -13,10 +13,15 @@ import { useRouter } from 'next/navigation'
 import useReturnUrl from 'src/hooks/useReturnUrl'
 import Icon from 'src/core/components/Icon'
 
-export default function HeaderNav() {
+interface Props {
+  isDemo?: boolean
+}
+
+export default function HeaderNav({ isDemo }: Props) {
   const router = useRouter()
   const { account, isLoading, logout } = useAccountContext()
   const returnUrl = useReturnUrl()
+  const homeURL = isDemo ? '/demo/' : '/'
 
   const [active, setActive] = useState<boolean>(false)
 
@@ -28,12 +33,21 @@ export default function HeaderNav() {
 
   const handleRegisterClick = () => {
     toggleMobileMenu()
-    router.push(`/register${returnUrl}`)
+
+    if (isDemo) {
+      router.push(`/register${returnUrl}`)
+    } else {
+      router.push(`/register${returnUrl}`)
+    }
   }
 
   const handleLoginClick = () => {
     toggleMobileMenu()
-    router.push(`/login${returnUrl}`)
+    if (isDemo) {
+      router.push(`demo/login${returnUrl}`)
+    } else {
+      router.push(`/login${returnUrl}`)
+    }
   }
 
   const handleLogoutClick = () => {
@@ -57,23 +71,25 @@ export default function HeaderNav() {
             </button>
           </div>
           <div className="relative flex items-center">
-            <Link href="/">
+            <Link href={homeURL}>
               <LogoSvg />
             </Link>
-            <aside className="hidden lg:block">
-              <Link className="ml-8 text-base font-normal text-dark-300 hover:text-primary" href="/">
-                Home
-              </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/collections">
-                Auctions
-              </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/faq">
-                FAQ
-              </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="https://blog.rigly.io/">
-                Blog
-              </Link>
-            </aside>
+            {!isDemo && (
+              <aside className="hidden lg:block">
+                <Link className="ml-8 text-base font-normal text-dark-300 hover:text-primary" href="/">
+                  Home
+                </Link>
+                <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/collections">
+                  Auctions
+                </Link>
+                <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/faq">
+                  FAQ
+                </Link>
+                <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="https://blog.rigly.io/">
+                  Blog
+                </Link>
+              </aside>
+            )}
           </div>
           <div className="ml-8 hidden items-center lg:flex">
             <Link className="flex items-center" href="/selling-on-rigly">
@@ -81,8 +97,8 @@ export default function HeaderNav() {
             </Link>
             {!isLoading && (
               <div className="hidden md:block">
-                {account && <Authorized />}
-                {!account && <Unauthorized />}
+                {account && <Authorized isDemo={isDemo} />}
+                {!account && <Unauthorized isDemo={isDemo} />}
               </div>
             )}
           </div>

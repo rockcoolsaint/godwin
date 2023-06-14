@@ -14,9 +14,10 @@ import Testimonials from 'src/components/pages/home/Testimonial'
 interface Props {
   auctions: Auction[]
   auctionOfTheDay: AuctionOfTheDayResponse
+  isDemo?: boolean
 }
 
-export default function Home({ auctions, auctionOfTheDay }: Props) {
+export default function Home({ auctions, auctionOfTheDay, isDemo }: Props) {
   const { t } = useTranslation()
 
   return (
@@ -36,26 +37,30 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
         <Image className="hidden max-w-[60%] md:block" width={660} height={440} src={hero_image} alt="hero image" />
       </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
-      <FeaturedAuctions auctions={auctions} />
-      <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 md:px-0">
-        <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
-        <div className="flex flex-col items-center justify-center md:flex-row">
-          <Details
-            title={t('home.title_mining')}
-            imageSrc={rig}
-            description={t('home.details_description')}
-            link="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
-          />
-          <Details
-            className="md:ml-14"
-            title={t('home.title_bid')}
-            imageSrc={placard}
-            description={t('home.details_description')}
-            link="https://blog.rigly.io/how-to-bid-on-hashrate/"
-          />
-        </div>
-      </section>
-      <Testimonials />
+      {!isDemo && (
+        <>
+          <FeaturedAuctions auctions={auctions} />
+          <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 md:px-0">
+            <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
+            <div className="flex flex-col items-center justify-center md:flex-row">
+              <Details
+                title={t('home.title_mining')}
+                imageSrc={rig}
+                description={t('home.details_description')}
+                link="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
+              />
+              <Details
+                className="md:ml-14"
+                title={t('home.title_bid')}
+                imageSrc={placard}
+                description={t('home.details_description')}
+                link="https://blog.rigly.io/how-to-bid-on-hashrate/"
+              />
+            </div>
+          </section>
+          <Testimonials />
+        </>
+      )}
     </div>
   )
 }

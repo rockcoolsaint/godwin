@@ -2,7 +2,6 @@ import 'src/styles/globals.css'
 import 'react-medium-image-zoom/dist/styles.css'
 
 import { PropsWithChildren } from 'react'
-import Header from 'src/components/shared/Header'
 import Footer from 'src/components/shared/Footer'
 import AccountProvider from 'src/providers/AccountProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
@@ -27,7 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
           <Toaster />
           <WebsocketProvider>
             <div className="flex flex-col justify-between">
-              <Header />
+              {/* <Header /> */}
               {children}
               <Footer />
             </div>

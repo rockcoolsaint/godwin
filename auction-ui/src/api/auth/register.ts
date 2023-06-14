@@ -6,6 +6,7 @@ interface RegisterPayload {
   mining_pool_address: string
   referral_code?: string
   create_pool_account: boolean
+  code?: string
 }
 
 export async function register(payload: RegisterPayload, returnUrl?: string): Promise<[boolean, string | undefined]> {

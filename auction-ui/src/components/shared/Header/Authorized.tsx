@@ -6,7 +6,11 @@ import Icon from 'src/core/components/Icon'
 import Dropdown from 'src/core/components/Dropdown'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
-export default function Authorized() {
+interface Props {
+  isDemo?: boolean
+}
+
+export default function Authorized({ isDemo }: Props) {
   const { account, isLoading, logout } = useAccountContext()
 
   const [dropdownActive, setDropdownActive] = useState<boolean>(false)
@@ -34,11 +38,6 @@ export default function Authorized() {
               <Icon icon="user" className="h-3 w-3 text-gray-600" />
               <span className="text-sm text-gray-600">Account</span>
             </Dropdown.Item>
-
-            {/* <Dropdown.Item className='h-8 px-3' href="/account/hashrate">
-              <Icon icon="helmetSafety" className="h-3 w-3 text-gray-600" />
-              <span className="text-sm text-gray-600">Hashrate</span>
-            </Dropdown.Item> */}
 
             <Dropdown.Item className="h-8 px-3" href="/account/orders">
               <Icon icon="cart" className="h-3 w-3 text-gray-600" />

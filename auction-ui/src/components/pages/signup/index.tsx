@@ -13,6 +13,7 @@ import useReturnUrl from 'src/hooks/useReturnUrl'
 import { toast } from 'react-hot-toast'
 import { MINING_POOLS, IMiningPool } from 'src/constants/pools'
 import { SignUpPoolDetails } from './SignUpPoolDetails'
+import { useSearchParams } from 'next/navigation'
 
 enum Step {
   SignUp = 'Sign up',
@@ -40,6 +41,8 @@ export default function SignUp({ setView, setEmail }: any) {
   const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
+  const params = useSearchParams()
+  const code = params?.get('code')
 
   const handleSetSelectedPool = (val: IMiningPool) => {
     setSelectedPool(val)
@@ -103,6 +106,7 @@ export default function SignUp({ setView, setEmail }: any) {
             mining_pool_address: value.mining_pool_address,
             referral_code: value.referral_code,
             create_pool_account: false,
+            code,
           },
           returnUrl,
         )
