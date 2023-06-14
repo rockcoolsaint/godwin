@@ -1,5 +1,10 @@
 import { OrderType } from 'src/types'
 
+export enum PaymentProvider {
+  BitGo = 'bitgo',
+  OpenNode = 'opennode',
+}
+
 export enum PaymentType {
   Single = 'single',
   Multisig = 'multisig',
@@ -126,6 +131,11 @@ export interface PoolUser {
   username: string
 }
 
+export enum AccountType {
+  Buyer = 'buyer',
+  Seller = 'seller',
+}
+
 export interface Account {
   id: number
   username: string
@@ -147,6 +157,7 @@ export interface Account {
   created_at: string
   updated_at: string
   public_key?: string
+  type: AccountType
   preferences: AccountPreferences
 }
 

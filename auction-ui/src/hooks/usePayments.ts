@@ -17,20 +17,11 @@ function getAmountRemaining(payments: Payment[]) {
 }
 
 function getAmountPaid(payments: Payment[]) {
-  if (payments.length === 0) {
-    return 0
-  }
-
-  if (payments.length === 1) {
-    const first = payments[0]
-
-    return first.status === PaymentStatus.Paid ? first.amount : 0
-  }
-
-  const first = payments[0]
-  const last = payments[payments.length - 1]
-
-  return last.status === PaymentStatus.Paid ? first.amount : first.amount - last.amount
+  return payments
+    .filter(payment => payment.status === PaymentStatus.Paid)
+    .reduce((acc, payment) => {
+      return (acc += payment.amount)
+    }, 0)
 }
 
 function getFeesPaid(order: Order) {
