@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-sync-scripts */
 import 'src/styles/globals.css'
 import 'react-medium-image-zoom/dist/styles.css'
 
