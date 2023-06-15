@@ -1,6 +1,5 @@
 import { PlotData } from 'plotly.js'
 import { useEffect, useState } from 'react'
-import Plot from 'react-plotly.js'
 import { getHashrateData, HashrateData } from 'src/api/auction/getHashrateData'
 import { Auction } from 'src/api/auction/types'
 import graphData from 'src/assets/json/auction_live_feed.json'
@@ -33,13 +32,13 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
 
   return (
     <div className="scrollbar-hide flex h-full items-center justify-center overflow-scroll ">
-      <Plot
+      {/* <Plot
         data={plot.data}
         layout={{ ...plot.layout, autosize: false, width: 800, title: 'Hashrate data' }}
         config={{
           displayModeBar: false,
         }}
-      />
+      /> */}
     </div>
   )
 }
