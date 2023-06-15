@@ -1,7 +1,7 @@
 import 'src/styles/globals.css'
 import 'react-medium-image-zoom/dist/styles.css'
 
-import Script from 'next/script'
+// import Script from 'next/script'
 import { PropsWithChildren } from 'react'
 import Header from 'src/components/shared/Header'
 import Footer from 'src/components/shared/Footer'
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
       <head>
         <title>Rigly</title>
         <link rel="icon" href="/icon.png?latest" type="image/png" sizes="32x32" />
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZGN73NY72S" strategy="afterInteractive" />
+        {/* <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZGN73NY72S" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
 
             gtag('config', 'G-ZGN73NY72S');
           `}
-        </Script>
+        </Script> */}
       </head>
       <body>
         <AccountProvider>
