@@ -28,7 +28,7 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
   return (
     <div className="scrollbar-hide flex h-full items-center justify-center overflow-scroll ">
       <Chart
-        title={auction.auction_meta.proxy?.stratums_id || 'Hashrate data'}
+        title={auction.auction_meta.proxy?.stratums_id.toString() || 'Hashrate data'}
         data={hashrate.map(({ hashrate, timestamp }) => ({ x: timestamp, y: hashrate }))}
       />
     </div>
