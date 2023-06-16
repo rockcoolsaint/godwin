@@ -2,32 +2,33 @@
 
 import { useEffect, useRef } from 'react'
 
-import { Chart } from 'chart.js/auto'
+declare const Plotly: any
 
 export default function ChartComponent({ title, data }: { title: string; data: any[] }) {
   const chartRef = useRef<any>()
 
   useEffect(() => {
     if (chartRef.current) {
-      const ctx = chartRef.current.getContext('2d')
-      new Chart(ctx, {
-        type: 'scatter',
-        data: {
-          datasets: [
-            {
-              label: title,
-              data,
-            },
-          ],
+      Plotly.newPlot(
+        chartRef.current,
+        data,
+        {
+          title: title,
+          xaxis: {
+            // showgrid: false,
+            // zeroline: false,
+          },
+          yaxis: {
+            ticksuffix: 'TH/sec  ',
+          },
+          margin: { t: 0, r: 20 },
         },
-        options: {
-          animation: false,
-          showLine: true,
-          responsive: true,
+        {
+          displayModeBar: false,
         },
-      })
+      )
     }
-  }, [title, data, chartRef])
+  }, [chartRef, title, data])
 
-  return <canvas className="h-full w-full" ref={chartRef}></canvas>
+  return <div ref={chartRef} />
 }
