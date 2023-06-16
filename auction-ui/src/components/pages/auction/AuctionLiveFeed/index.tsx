@@ -1,13 +1,11 @@
-import { PlotData } from 'plotly.js'
+'use client'
+
 import { useEffect, useState } from 'react'
 import { getHashrateData, HashrateData } from 'src/api/auction/getHashrateData'
 import { Auction } from 'src/api/auction/types'
-import graphData from 'src/assets/json/auction_live_feed.json'
-import { PlotDataType } from 'src/components/pages/auction/types'
+import Chart from './Chart'
 
 export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
-  const plot = graphData as unknown as PlotDataType
-  const plotData = plot.data[0] as PlotData
   const [hashrate, setHashrate] = useState<HashrateData[]>([])
 
   useEffect(() => {
@@ -27,18 +25,12 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
     }
   }, [auction.auction_meta.proxy])
 
-  plotData.x = hashrate.map(({ timestamp }) => timestamp)
-  plotData.y = hashrate.map(({ hashrate }) => hashrate)
-
   return (
     <div className="scrollbar-hide flex h-full items-center justify-center overflow-scroll ">
-      {/* <Plot
-        data={plot.data}
-        layout={{ ...plot.layout, autosize: false, width: 800, title: 'Hashrate data' }}
-        config={{
-          displayModeBar: false,
-        }}
-      /> */}
+      <Chart
+        title={auction.auction_meta.proxy?.stratums_id || 'Hashrate data'}
+        data={hashrate.map(({ hashrate, timestamp }) => ({ x: timestamp, y: hashrate }))}
+      />
     </div>
   )
 }
