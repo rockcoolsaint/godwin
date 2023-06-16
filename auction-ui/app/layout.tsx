@@ -9,6 +9,7 @@ import AccountProvider from 'src/providers/AccountProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
 import { Poppins } from 'next/font/google'
 import Toaster from 'src/components/shared/Toaster'
+import Script from 'next/script'
 
 const poppins = Poppins({
   display: 'swap',
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
             gtag('config', 'G-ZGN73NY72S');
           `}
         </Script> */}
+        <Script src="https://cdn.plot.ly/plotly-2.24.1.min.js" />
       </head>
       <body>
         <AccountProvider>
