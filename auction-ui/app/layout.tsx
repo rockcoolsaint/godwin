@@ -39,7 +39,6 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
           <Toaster />
           <WebsocketProvider>
             <div className="flex flex-col justify-between">
-              {/* <Header /> */}
               {children}
               <Footer />
             </div>
