@@ -10,8 +10,8 @@ interface Props {
 
 export default function Unauthorized({ isDemo }: Props) {
   const returnUrl = useReturnUrl()
-  const loginUrl = isDemo ? `demo/login` : `/login${returnUrl}`
-  const registerUrl = isDemo ? `demo/register` : `/register${returnUrl}`
+  const loginUrl = isDemo ? `/demo/login` : `/login${returnUrl}`
+  const registerUrl = isDemo ? `/demo/register` : `/register${returnUrl}`
 
   return (
     <div className="ml-8 flex items-center justify-end gap-2">
