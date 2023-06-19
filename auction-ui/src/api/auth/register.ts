@@ -6,6 +6,7 @@ interface RegisterPayload {
   mining_pool_address: string
   referral_code?: string
   create_pool_account: boolean
+  code?: string
   is_demo?: boolean
 }
 

@@ -2,15 +2,16 @@ import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
 import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
 import Home from 'src/components/pages/home'
 import { Metadata } from 'next'
-import Header from 'src/components/shared/Header'
+import DemoModal from 'src/components/demo/Modal'
 
 export default async function HomePage() {
   const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay()])
 
   return (
     <>
-      <Header />
-      <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} />
+      <DemoModal />
+      <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} isDemo={true} />
+      <div className="mb-24" />
     </>
   )
 }
