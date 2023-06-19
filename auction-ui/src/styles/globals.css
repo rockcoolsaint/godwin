@@ -13,6 +13,7 @@
   #__next {
     height: 100%;
   }
+
   body #__next {
     min-height: 100vh;
   }
@@ -40,6 +41,7 @@
     line-height: 2.25rem;
     font-weight: 400;
   }
+
   .prose h1,
   .prose h2,
   .prose h3,
@@ -50,6 +52,7 @@
   i {
     font-style: italic;
   }
+
   b {
     font-weight: 700;
   }

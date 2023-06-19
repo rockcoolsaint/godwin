@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { getAccount } from 'src/api/auth/getAccount'
 import { redirect, usePathname, useRouter } from 'next/navigation'
 import { getToken } from 'src/api/auth/getToken'
-import { Account } from 'src/api/auction/types'
+import { Account, AccountType } from 'src/api/auction/types'
 import { login as doLogin } from 'src/api/auth/login'
 
 interface AccountContextType {
@@ -14,12 +14,14 @@ interface AccountContextType {
   isLoading: boolean
   login: (email: string, returnUrl?: string, code?: string) => Promise<[boolean, string | undefined]>
   logout: () => void
+  refresh: () => void
 }
 
 const AccountContext = React.createContext<AccountContextType>({
   isLoading: true,
   login: (_email: string, _returnUrl?: string, _code?: string) => Promise.resolve([false, undefined]),
   logout: () => {},
+  refresh: () => {},
 })
 
 export const useAccountContext = () => useContext(AccountContext)
@@ -45,6 +47,14 @@ export default function AccountProvider({ children }: { children: React.ReactNod
     redirect('/')
   }
 
+  const refresh = async () => {
+    const token = window.localStorage.getItem('rigly_token')
+    if (token) {
+      const account = await getAccount(token)
+      setAccount(account)
+    }
+  }
+
   useEffect(() => {
     if (pathName === '/login/callback') {
       const authorize = async () => {
@@ -60,6 +70,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           setToken(token)
 
           const account = await getAccount(token)
+          account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
           setAccount(account)
 
           if (params.return_url) {
@@ -90,6 +101,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
             setToken(token)
 
             const account = await getAccount(token)
+            account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
             setAccount(account)
           }
         } catch (ex) {
@@ -103,5 +115,5 @@ export default function AccountProvider({ children }: { children: React.ReactNod
     }
   }, [pathName, router])
 
-  return <AccountContext.Provider value={{ account, token, isLoading, login, logout }}>{children}</AccountContext.Provider>
+  return <AccountContext.Provider value={{ account, token, isLoading, login, logout, refresh }}>{children}</AccountContext.Provider>
 }

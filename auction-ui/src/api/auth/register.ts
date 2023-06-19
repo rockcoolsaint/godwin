@@ -7,6 +7,7 @@ interface RegisterPayload {
   referral_code?: string
   create_pool_account: boolean
   code?: string
+  is_demo?: boolean
 }
 
 export async function register(payload: RegisterPayload, returnUrl?: string): Promise<[boolean, string | undefined]> {

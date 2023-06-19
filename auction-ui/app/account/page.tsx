@@ -50,25 +50,25 @@ function Account() {
     <AccountView>
       <Form className="items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
         <Form.Section title="General">
-          <Form.Field className="w-full">
+          <Form.Field className="w-full flex-col">
             <Form.Field.Label htmlFor="username">Username</Form.Field.Label>
             <Input type="text" name="username" defaultValue={account.username} placeholder="Anonymous" />
           </Form.Field>
 
-          <Form.Horizontal>
-            <Form.Field className="w-full">
+          <Form.Horizontal className="justify-between">
+            <Form.Field className="w-full flex-col">
               <Form.Field.Label htmlFor="first_name">First name</Form.Field.Label>
               <Input type="text" name="first_name" defaultValue={account.first_name} placeholder="Satoshi" />
             </Form.Field>
 
-            <Form.Field className="w-full">
+            <Form.Field className="w-full flex-col">
               <Form.Field.Label htmlFor="last_name">Last name</Form.Field.Label>
               <Input type="text" name="last_name" defaultValue={account.last_name} placeholder="Nakamoto" />
             </Form.Field>
           </Form.Horizontal>
         </Form.Section>
         <Form.Section title="Payments">
-          <Form.Field className="w-full">
+          <Form.Field className="w-full flex-col">
             <Form.Field.Label htmlFor="public_key" hideSuffix>
               Public key
             </Form.Field.Label>
@@ -84,7 +84,7 @@ function Account() {
           </Form.Field>
         </Form.Section>
         <Form.Section title="Mining pool">
-          <Form.Field className="w-full">
+          <Form.Field className="w-full flex-col">
             <Form.Field.Label htmlFor="mining_pool_address">Mining pool address</Form.Field.Label>
             <Input
               type="text"
@@ -94,26 +94,21 @@ function Account() {
             />
           </Form.Field>
 
-          <Form.Field className="w-full">
+          <Form.Field className="w-full flex-col">
             <Form.Field.Label htmlFor="mining_pool_username">Mining pool username</Form.Field.Label>
             <Input type="text" name="mining_pool_username" defaultValue={account.pool_user?.username} placeholder="satoshi.worker" />
           </Form.Field>
         </Form.Section>
 
         <Form.Section title="Contact details">
-          <Form.Field className="w-full">
+          <Form.Field className="w-full flex-col">
             <Form.Field.Label htmlFor="phone_number">Phone no.</Form.Field.Label>
             <Input type="text" name="phone_number" defaultValue={account.phone_number} placeholder="-" />
-          </Form.Field>
-
-          <Form.Field className="w-full">
-            <Form.Field.Label htmlFor="telegram_username">Telegram username</Form.Field.Label>
-            <Input type="text" name="telegram_username" defaultValue={account.telegram_username} placeholder="-" />
           </Form.Field>
         </Form.Section>
 
         <Form.Section title="Other">
-          <Form.Field className="w-full" disabled={true}>
+          <Form.Field className="w-full flex-col" disabled={true}>
             <Form.Field.Label htmlFor="referral_code">Referral code</Form.Field.Label>
             <Input type="text" name="referral_code" defaultValue={account.referral_code} placeholder="-" />
           </Form.Field>

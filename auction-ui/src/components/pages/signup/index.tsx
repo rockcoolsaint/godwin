@@ -42,7 +42,7 @@ export default function SignUp({ setView, setEmail }: any) {
   const [loading, setLoading] = useState(false)
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
   const params = useSearchParams()
-  const code = params?.get('code')
+  const code = params?.get('code') || ''
 
   const handleSetSelectedPool = (val: IMiningPool) => {
     setSelectedPool(val)
@@ -106,7 +106,8 @@ export default function SignUp({ setView, setEmail }: any) {
             mining_pool_address: value.mining_pool_address,
             referral_code: value.referral_code,
             create_pool_account: false,
-            code,
+            code: code,
+            is_demo: true,
           },
           returnUrl,
         )
@@ -134,7 +135,7 @@ export default function SignUp({ setView, setEmail }: any) {
         toast.error('Sign up error')
       }
     },
-    [reset, returnUrl, setEmail, setView],
+    [code, reset, returnUrl, setEmail, setView],
   )
 
   return (

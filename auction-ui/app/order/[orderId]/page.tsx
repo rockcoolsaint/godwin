@@ -1,7 +1,57 @@
-import { BellIcon } from '@heroicons/react/24/outline'
-import Image from 'next/image'
+'use client'
 
-export default function OrderDetail() {
+import { format } from 'date-fns'
+import { BellIcon } from '@heroicons/react/24/outline'
+import { satoshisToFiat } from 'bitcoin-conversion'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+
+import { PaymentProvider } from 'src/api/auction/types'
+import { getOrder } from 'src/api/orders/getOrder'
+import { usePayments } from 'src/hooks'
+import { useAccountContext } from 'src/providers/AccountProvider'
+import { Order } from 'src/types'
+import OrderStatusMessage from 'src/components/pages/order/OrderStatusMessage'
+import OrderActions from 'src/components/pages/order/OrderActions'
+
+export default function OrderDetail({ params }: { params: any }) {
+  const { account, token, isLoading: tokenLoading } = useAccountContext()
+  const { orderId } = params
+
+  const [order, setOrder] = useState<Order | undefined>(undefined)
+  const [amountPaidUsd, setAmountPaidUsd] = useState<number | undefined>(undefined)
+  const { amountPaid } = usePayments(order)
+
+  const fetchOrder = async () => {
+    if (!tokenLoading && token) {
+      const res = await getOrder(orderId, token)
+      setOrder(res)
+    }
+  }
+
+  useEffect(() => {
+    if (amountPaid != undefined) {
+      const convert = async () => {
+        const amountPaidUsd = await satoshisToFiat(amountPaid, 'USD')
+        setAmountPaidUsd(Number(amountPaidUsd.toFixed(2)))
+      }
+      convert()
+    }
+  }, [amountPaid])
+
+  useEffect(() => {
+    fetchOrder()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderId, token, tokenLoading, setOrder])
+
+  if (!order || !account) {
+    // TODO: Unauthorized page or redirect
+    return null
+  }
+
+  const paymentOne = order.payments.find(payment => payment.provider === PaymentProvider.OpenNode)
+  const paymentTwo = order.payments.find(payment => payment.provider === PaymentProvider.BitGo)
+
   return (
     <div>
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -19,55 +69,53 @@ export default function OrderDetail() {
               <dl className="mt-2 space-y-4">
                 <div className="flex items-center justify-between">
                   <dt className="text-base text-gray-600">Rigly auction fee</dt>
-                  <dd className="text-base font-medium text-gray-900">120,000 sats</dd>
+                  <dd className="text-base font-medium text-gray-900">{order.auction_fee} sats</dd>
                 </div>
                 <div className="flex items-center justify-between">
                   <dt className="text-base text-gray-600">Mining deposit</dt>
-                  <dd className="text-base font-medium text-gray-900">305,500 sats</dd>
+                  <dd className="text-base font-medium text-gray-900">{order.mining_deposit} sats</dd>
                 </div>
                 <div className="flex items-center justify-between">
-                  <dt className="text-base text-gray-600">Rigly auction fee</dt>
-                  <dd className="text-base font-medium text-gray-900">900,500 sats</dd>
+                  <dt className="text-base text-gray-600">Bid</dt>
+                  <dd className="text-base font-medium text-gray-900">{order.price} sats</dd>
                 </div>
               </dl>
               {/* <hr className="mt-4" /> */}
               <div className="-mb-2 mt-4 text-base font-semibold text-gray-900">Payments</div>
               <dl className="mt-0 space-y-4">
-                <div className="flex items-center justify-between pt-4">
-                  <dt className="text-base text-gray-600">Deposit + fees on 03.05.2023</dt>
-                  <dd className="text-base font-medium text-gray-900">425,000 sats</dd>
-                </div>
-                <div className="flex items-center justify-between">
-                  <dt className="text-base text-gray-600">Auction balance on 03.18.2023</dt>
-                  <dd className="text-base font-medium text-gray-900">925,000 sats</dd>
-                </div>
+                {paymentOne && (
+                  <div className="flex items-center justify-between pt-4">
+                    <dt className="text-base text-gray-600">Deposit + fees on {format(new Date(paymentOne.created_at), 'LL.dd.yyyy')}</dt>
+                    <dd className="text-base font-medium text-gray-900">{paymentOne.amount} sats</dd>
+                  </div>
+                )}
+                {paymentTwo && (
+                  <div className="flex items-center justify-between">
+                    <dt className="text-base text-gray-600">Auction balance on {format(new Date(paymentTwo.created_at), 'LL.dd.yyyy')}</dt>
+                    <dd className="text-base font-medium text-gray-900">{paymentTwo.amount} sats</dd>
+                  </div>
+                )}
               </dl>
               <hr className="mt-4" />
               <dl className=" text-base font-semibold text-gray-900">
                 <div className="flex items-center justify-between border-b border-gray-200 py-4">
                   <dt className="text-base text-gray-600">Balance</dt>
-                  <dd className="text-base font-medium italic text-green-400">Your mining is paid in full, no balance due</dd>
+                  {paymentOne && paymentTwo && amountPaid === paymentOne.amount + paymentTwo.amount ? (
+                    <dd className="text-base font-medium italic text-green-400">Your mining is paid in full, no balance due</dd>
+                  ) : (
+                    <dd className="text-base font-medium italic text-red-400">Your mining still requires payment</dd>
+                  )}
                 </div>
               </dl>
               <h4 className="mt-4 text-xl font-semibold text-primary">Escrow</h4>
               <dl className="space-y-2">
                 <div className="flex items-center justify-between pt-4">
                   <dt className="text-base font-semibold">Funds in escrow</dt>
-                  <dd className="text-base font-semibold">$1,350,000</dd>
+                  <dd className="text-base font-semibold">${amountPaidUsd}</dd>
                 </div>
               </dl>
-              <div className="my-6 flex items-center justify-between">
-                <button className="relative mr-4 inline-flex flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-white px-3 py-4 text-base font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
-                  Cancel
-                </button>
-                <button className="relative mr-4 inline-flex flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-white px-3 py-4 text-base font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
-                  Review
-                </button>
-                <button className="relative inline-flex flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient px-3 py-4 text-base font-normal text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10">
-                  Release
-                </button>
-              </div>
-              <p className="text-sm">Your mining payment is held in escrow</p>
+              <OrderStatusMessage account={account} order={order} />
+              <OrderActions account={account} order={order} onRefresh={fetchOrder} />
               <hr className="my-4" />
               <div className="flex items-center text-sm">
                 <BellIcon className="mr-2 h-8 w-8" />
