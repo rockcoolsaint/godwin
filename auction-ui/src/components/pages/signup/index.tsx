@@ -1,3 +1,5 @@
+'use client'
+
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
@@ -37,11 +39,16 @@ export default function SignUp({ setView, setEmail }: any) {
   const [currentStep, setCurrentStep] = useState(DEFAULT_STEPS[0])
   const [poolOwner, setPoolOwner] = useState<string>('yes')
   const [selectedPool, setSelectedPool] = useState(MINING_POOLS[0])
+  const [code, setCode] = useState<string | undefined>('')
   const [poolAddress, setPoolAddress] = useState<string>(selectedPool.address)
   const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
-  const code = localStorage.getItem(LocalStorageKeys.Referral.plebtern) || undefined
+
+  useEffect(() => {
+    const code = window.localStorage.getItem(LocalStorageKeys.Referral.plebtern) || undefined
+    setCode(code)
+  }, [])
 
   const handleSetSelectedPool = (val: IMiningPool) => {
     setSelectedPool(val)
