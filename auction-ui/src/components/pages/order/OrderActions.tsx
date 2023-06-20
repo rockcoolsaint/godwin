@@ -10,7 +10,6 @@ import { useAccountContext } from 'src/providers/AccountProvider'
 import hasPassedOrderStatus from 'src/utils/hasPassedOrderStatus'
 import CancelOrderModal from './CancelOrderModal'
 import RefundOrderModal from './RefundOrderModal'
-import { review } from 'src/api/orders/escrow/review'
 import { approve } from 'src/api/orders/escrow/approve'
 import RejectOrderRequestModal from './RejectOrderRequestModal'
 

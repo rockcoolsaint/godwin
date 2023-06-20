@@ -34,7 +34,7 @@ function PaymentTwo({ order }: { order: Order }) {
       </div>
       <div>
         <span>
-          Mining deposit ({formatAuctionType(order.auction.auction_type.type)} {order.auction.auction_type.percentage}%):
+          Mining deposit ({formatAuctionType(order.auction!.auction_type.type)} {order.auction?.auction_type.percentage}%):
         </span>{' '}
         <b>
           {order.mining_deposit}

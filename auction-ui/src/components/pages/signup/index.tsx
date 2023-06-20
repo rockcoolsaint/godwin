@@ -41,7 +41,7 @@ export default function SignUp({ setView, setEmail }: any) {
   const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
-  const code = localStorage.getItem(LocalStorageKeys.Referral.plebtern)
+  const code = localStorage.getItem(LocalStorageKeys.Referral.plebtern) || undefined
 
   const handleSetSelectedPool = (val: IMiningPool) => {
     setSelectedPool(val)

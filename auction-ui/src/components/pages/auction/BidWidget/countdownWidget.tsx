@@ -10,9 +10,9 @@ interface CountdownWidgetProps {
   completed?: boolean | number
 }
 
-export const CountdownWidget = ({ days, hours, minutes, seconds, completed }: CountdownWidgetProps, auction: Auction): JSX.Element => {
+export const CountdownWidget = ({ days, hours, minutes, seconds, completed }: CountdownWidgetProps, { status }: Auction): JSX.Element => {
   if (completed) {
-    if (auction.status === AuctionStatus.Scheduled) {
+    if (status === AuctionStatus.Scheduled) {
       return <></>
     }
 
