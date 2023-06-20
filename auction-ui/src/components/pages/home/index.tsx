@@ -10,15 +10,21 @@ import Link from 'src/components/shared/Link'
 import hero_image from 'src/assets/png/auctioneer.png'
 import Image from 'next/image'
 import Testimonials from 'src/components/pages/home/Testimonial'
+import { LocalStorageKeys } from 'src/constants/localStorage'
 
 interface Props {
   auctions: Auction[]
   auctionOfTheDay: AuctionOfTheDayResponse
   isDemo?: boolean
+  code?: string
 }
 
-export default function Home({ auctions, auctionOfTheDay, isDemo }: Props) {
+export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props) {
   const { t } = useTranslation()
+
+  if (code) {
+    localStorage.setItem(LocalStorageKeys.Referral.plebtern, code)
+  }
 
   return (
     <div>
