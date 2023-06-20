@@ -5,4 +5,7 @@ export const LocalStorageKeys = {
   Account: {
     accountType: 'rg_a_t',
   },
+  Auth: {
+    riglyToken: 'rigly_token',
+  },
 }

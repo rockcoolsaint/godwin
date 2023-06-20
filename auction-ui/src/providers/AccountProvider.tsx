@@ -40,8 +40,8 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   }
 
   const logout = () => {
-    window.localStorage.removeItem('rigly_token')
-
+    localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
+    localStorage.removeItem(LocalStorageKeys.Account.accountType)
     setAccount(undefined)
     setToken(undefined)
 
@@ -49,7 +49,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   }
 
   const refresh = async () => {
-    const token = window.localStorage.getItem('rigly_token')
+    const token = localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
     if (token) {
       const account = await getAccount(token)
       setAccount(account)
@@ -62,12 +62,12 @@ export default function AccountProvider({ children }: { children: React.ReactNod
         try {
           setIsLoading(true)
 
-          const params: any = new Proxy(new URLSearchParams(window.location.search), {
+          const params: any = new Proxy(new URLSearchParams(location.search), {
             get: (searchParams, prop: string) => searchParams.get(prop),
           })
 
           const token = await getToken(params.email, params.code)
-          window.localStorage.setItem('rigly_token', token)
+          localStorage.setItem(LocalStorageKeys.Auth.riglyToken, token)
           setToken(token)
 
           const account = await getAccount(token)
@@ -81,11 +81,10 @@ export default function AccountProvider({ children }: { children: React.ReactNod
             return router.replace(returnUrl)
           }
 
-          // window.history.pushState({}, document.title, window.location.pathname)
           router.replace('/')
         } catch (ex) {
           console.error(ex)
-          window.localStorage.removeItem('rigly_token')
+          localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
           router.replace('/login')
         } finally {
           setIsLoading(false)
@@ -98,7 +97,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
         try {
           setIsLoading(true)
 
-          const token = window.localStorage.getItem('rigly_token')
+          const token = window.localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
           if (token) {
             setToken(token)
 
@@ -108,7 +107,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           }
         } catch (ex) {
           console.error(ex)
-          window.localStorage.removeItem('rigly_token')
+          window.localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
         } finally {
           setIsLoading(false)
         }
