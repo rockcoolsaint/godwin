@@ -35,7 +35,6 @@ export default function HashPriceStats() {
         setTimeToNextDifficulty(distanceFromNow)
         setLoading(false)
       } catch (error) {
-        console.log(error)
         setLoading(false)
       }
     }

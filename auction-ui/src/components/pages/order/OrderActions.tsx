@@ -40,21 +40,6 @@ export default function OrderActions({ account, order, onRefresh }: { account: A
     onRefresh()
   }
 
-  const handleReview = async () => {
-    if (tokenLoading || !token) {
-      return
-    }
-
-    try {
-      setLoading(true)
-      await review(order.id, token)
-    } catch (err: any) {
-      toast.error(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const handleRelease = async () => {
     if (tokenLoading || !token) {
       return
@@ -149,14 +134,6 @@ export default function OrderActions({ account, order, onRefresh }: { account: A
               Cancel order
             </button>
           )}
-          {/* {account.type === AccountType.Seller && order.status === OrderStatus.DeliveryEnded && (
-            <button
-              onClick={handleReview}
-              className="relative inline-flex flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-white px-3 py-4 text-base font-normal text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-            >
-              Review
-            </button>
-          )} */}
           {account.type === AccountType.Seller && order.status === OrderStatus.DeliveryEnded && (
             <button
               onClick={handleRelease}

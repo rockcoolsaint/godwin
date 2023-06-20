@@ -91,7 +91,7 @@ const CalculatorWidget = ({ data, currentBid }: calculatorProps) => {
                 id="#1"
                 placeholder="0"
               />
-              <span className="ms-1 text-secondary">Sats</span>
+              <span className="text-secondary ms-1">Sats</span>
             </div>
           </div>
           <div className="mb-3">
@@ -112,7 +112,7 @@ const CalculatorWidget = ({ data, currentBid }: calculatorProps) => {
                 min="0"
                 max="800"
               />
-              <span className="ms-1 text-secondary">Sats per TH/s/Day</span>
+              <span className="text-secondary ms-1">Sats per TH/s/Day</span>
             </div>
           </div>
           <div className="mb-3">
@@ -131,7 +131,7 @@ const CalculatorWidget = ({ data, currentBid }: calculatorProps) => {
                 defaultValue={data.auction_meta?.hashrate}
                 placeholder="0"
               />
-              <span className="ms-1 text-secondary">TH/s</span>
+              <span className="text-secondary ms-1">TH/s</span>
             </div>
           </div>
           <div className="mb-3">
@@ -150,7 +150,7 @@ const CalculatorWidget = ({ data, currentBid }: calculatorProps) => {
                 id="#7"
                 placeholder="0"
               />
-              <span className="ms-1 text-secondary">Days</span>
+              <span className="text-secondary ms-1">Days</span>
             </div>
           </div>
         </div>
@@ -166,8 +166,8 @@ const CalculatorWidget = ({ data, currentBid }: calculatorProps) => {
             <h3 id="formula-result-#10" ref={myContainer}>
               {Math.round(
                 (currentBid ? currentBid : data.starting_bid ? data.starting_bid : 1) /
-                  parseInt(data.auction_meta.hashrate ? data.auction_meta.hashrate : '1') /
-                  parseInt(data.auction_meta.days_of_mining ? data.auction_meta.days_of_mining : '1'),
+                  (data.auction_meta.hashrate ? data.auction_meta.hashrate : 1) /
+                  (data.auction_meta.days_of_mining ? data.auction_meta.days_of_mining : 1),
               )}
             </h3>
           </div>
@@ -180,8 +180,8 @@ const CalculatorWidget = ({ data, currentBid }: calculatorProps) => {
           <div>
             <small>Estimate future mining payout</small>
             <h3 id="formula-result-#11" ref={myContainer3}>
-              {parseInt(data.auction_meta.hashrate ? data.auction_meta?.hashrate : '1') *
-                parseInt(data.auction_meta.days_of_mining ? data.auction_meta?.days_of_mining : '1') *
+              {(data.auction_meta.hashrate ? data.auction_meta?.hashrate : 1) *
+                (data.auction_meta.days_of_mining ? data.auction_meta?.days_of_mining : 1) *
                 parseInt(data?.auction_meta.current_hash_price ? data?.auction_meta.current_hash_price : '1')}
             </h3>
           </div>
