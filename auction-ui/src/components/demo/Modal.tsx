@@ -2,6 +2,7 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ShieldExclamationIcon } from '@heroicons/react/24/outline'
+import Link from 'src/components/shared/Link'
 
 export default function DemoModal() {
   const [open, setOpen] = useState(true)
@@ -41,45 +42,39 @@ export default function DemoModal() {
                   </div>
                   <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <Dialog.Title as="h3" className="text-xl font-semibold leading-6 text-gray-900">
-                      Rigly Demo
+                      Welcome to the Rigly demo!
                     </Dialog.Title>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-500">Hi! Thanks for participating in the demo of our beta!</p>
+                      <p className="text-sm text-gray-500">Get hashrate for testing our product.</p>
                     </div>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        We are conducting market testing and research to iron out any kinks in our product and improve the UX. You will be
-                        compensated for your time in hashrate.
-                      </p>
-                    </div>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">In order to use this demo you will need to:</p>
+                      <p className="text-sm text-gray-500">To participate you need to:</p>
                       <ol className="list-decimal pl-8 pt-2">
-                        <li className="text-sm text-gray-500">
-                          Sign up (no cost, additional commitments or strings attached, we just need it for our backend)
-                        </li>
-                        <li className="text-sm text-gray-500">
-                          Provide a mining pool account username (we guide you through how to open one if you don&apos;t already have one)
-                        </li>
+                        <li className="text-sm text-gray-500">Sign up with Rigly</li>
+                        <li className="text-sm text-gray-500">Provide a mining pool account username</li>
                       </ol>
                     </div>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        After you have signed in, you can place bids in a dummy auction with fake bids, which you will NOT have to pay for
-                        upon completion, i.e. feel free to bid it up as much as you want.
+                        After signup, place fake bids in a dummy auction that you <b>WON&apos;T</b> have to pay for
                       </p>
                     </div>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Once the auction is complete you will receive an email to buy hashrate (~140 Th/s) for a day at a cost of ~5000
-                        sats. The cost is symbolic and simply there to test out our back-end. The amount of hashrate you receive should more
-                        than payback the cost incurred.
+                        Once the auction is complete, check email to buy hashrate for a day: Pay 5000 sats to mine ~30,000 sats.
                       </p>
                     </div>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Please provide any feedback on our outreach pitch, business idea, sign-up process, auction, and hashrate delivery to
-                        karo@rigly.io or damian@rigly.io.
+                        Please reach out to{' '}
+                        <Link className="hover:underline" href="mailto:karo@rigly.io">
+                          karo@rigly.io
+                        </Link>{' '}
+                        or{' '}
+                        <Link className="hover:underline" href="mailto:damian@rigly.io">
+                          damian@rigly.io
+                        </Link>{' '}
+                        if you have any questions.
                       </p>
                     </div>
                     <div className="mt-2">
