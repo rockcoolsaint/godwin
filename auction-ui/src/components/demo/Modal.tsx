@@ -3,11 +3,17 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ShieldExclamationIcon } from '@heroicons/react/24/outline'
 import Link from 'src/components/shared/Link'
+import { LocalStorageKeys } from 'src/constants/localStorage'
 
 export default function DemoModal() {
   const [open, setOpen] = useState(true)
 
   const cancelButtonRef = useRef(null)
+  const accountType = localStorage.getItem(LocalStorageKeys.Account.accountType)
+
+  if (Boolean(accountType)) {
+    return null
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>

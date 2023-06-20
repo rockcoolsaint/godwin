@@ -7,6 +7,7 @@ import { redirect, usePathname, useRouter } from 'next/navigation'
 import { getToken } from 'src/api/auth/getToken'
 import { Account, AccountType } from 'src/api/auction/types'
 import { login as doLogin } from 'src/api/auth/login'
+import { LocalStorageKeys } from 'src/constants/localStorage'
 
 interface AccountContextType {
   account?: Account
@@ -72,6 +73,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           const account = await getAccount(token)
           account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
           setAccount(account)
+          localStorage.setItem(LocalStorageKeys.Account.accountType, JSON.stringify(account.is_demo))
 
           if (params.return_url) {
             const returnUrl = decodeURIComponent(params.return_url)
