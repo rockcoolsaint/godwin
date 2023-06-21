@@ -1,4 +1,4 @@
-import { Auction, AuctionMeta, AuctionStatus } from 'src/api/auction/types'
+import { AuctionMeta, AuctionStatus } from 'src/api/auction/types'
 
 export interface RendererProps {
   days?: string | number
@@ -41,11 +41,6 @@ export interface HomePageProps {
   about_us_3_title: string
   about_us_3_sub_title: string
   about_us_3_url: string
-}
-
-export interface productProfileProps {
-  data: Auction
-  currentBid?: number
 }
 
 export interface productProps {
@@ -101,10 +96,6 @@ export interface bidProps {
   bid: number
   auction_list: string | number
   key?: string | number
-}
-
-export interface StringProps {
-  data: string
 }
 
 export interface collectionProps {
