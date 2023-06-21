@@ -23,7 +23,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
         <GoogleAnalytics />
         <title>Rigly</title>
         <link rel="icon" href="/icon.png?latest" type="image/png" sizes="32x32" />
-        <Script src="https://cdn.plot.ly/plotly-2.24.1.min.js" />
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js" />
       </head>
       <body>
         <AccountProvider>
