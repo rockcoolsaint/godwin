@@ -147,7 +147,9 @@ export interface Account {
   is_paid: boolean
   is_onboarded: boolean
   is_subscribed: boolean
+  is_demo: boolean
   avatar?: string
+  demo_expiration?: string
   referral_code?: string
   pool_user?: PoolUser
   phone_number?: string

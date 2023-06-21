@@ -1,5 +1,5 @@
 import { makeServerRequest } from 'src/api/serverRequest'
-import { Auction } from 'src/types'
+import { Auction } from 'src/api/auction/types'
 
 export async function getLatestRollingAuction(): Promise<Auction> {
   const auction = await makeServerRequest({

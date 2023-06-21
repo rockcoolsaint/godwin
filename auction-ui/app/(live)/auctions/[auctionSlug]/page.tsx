@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import AuctionContainer from 'src/components/pages/auction/AuctionContainer'
@@ -12,6 +13,7 @@ import { AuctionStatus, Auction, BidsEntityOrCurrentBid } from 'src/api/auction/
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order } from 'src/types'
+import toast from 'react-hot-toast'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
   const slug = params.auctionSlug
@@ -28,35 +30,61 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
   const [order, setOrder] = useState<Order | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
 
+  const loadAuction = async () => {
+    try {
+      setLoading(true)
+      const result = await getAuctionBySlug(slug)
+      if (!result.auction) {
+        throw new Error(`Couldn't load auction`)
+      }
+
+      return result
+    } catch (ex: any) {
+      toast.error(ex.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const loadOrder = async () => {
+    if (!auction || !token) {
+      return
+    }
+
+    try {
+      setLoading(true)
+      const order = await getOrderByAuctionId(auction.id, token)
+      if (!order) {
+        throw new Error(`Couldn't load order`)
+      }
+      setOrder(order)
+    } catch (ex: any) {
+      toast.error(ex.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     const prepareAuction = async () => {
-      setLoading(true)
-
       try {
-        const { auction, bids: auction_bids, current_bid, proxy_bids, winner } = await getAuctionBySlug(slug)
-        if (!auction) {
-          setLoading(false)
-
-          return console.error('Couldnt load auction')
+        setLoading(true)
+        const auctionResult = await loadAuction()
+        if (!auctionResult) {
+          throw new Error(`Couldn't load auction`)
         }
 
-        setAuction(auction)
-        bids.current = auction_bids
-        setProxyBids(proxy_bids)
-        setCurrentBid(current_bid)
-        setWinner(winner)
+        setAuction(auctionResult.auction)
+        bids.current = auctionResult.bids
+        setProxyBids(auctionResult.proxy_bids)
+        setCurrentBid(auctionResult.current_bid)
+        setWinner(auctionResult.winner)
 
-        if (!tokenLoading && token && auction.status === AuctionStatus.Completed) {
-          const order = await getOrderByAuctionId(auction.id, token)
-          if (!order) {
-            setLoading(false)
-
-            return console.error('Couldnt load order')
-          }
-          setOrder(order)
+        if (!tokenLoading && token && auctionResult.auction.status === AuctionStatus.Completed) {
+          loadOrder()
         }
-      } catch (ex) {
-        console.error(ex)
+      } catch (ex: any) {
+        toast.error(ex.message)
       } finally {
         setLoading(false)
       }
@@ -67,7 +95,11 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
   useEffect(() => {
     if (auction && isSocketReady) {
-      const handleAuctionsUpdate = (update: any) => {
+      const handleAuctionsUpdate = async (update: any) => {
+        if (auction.status === AuctionStatus.Active && update === AuctionStatus.Completed) {
+          await loadOrder()
+        }
+
         setAuction({ ...auction, status: update })
       }
 

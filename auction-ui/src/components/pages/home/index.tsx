@@ -10,14 +10,34 @@ import Link from 'src/components/shared/Link'
 import hero_image from 'src/assets/png/auctioneer.png'
 import Image from 'next/image'
 import Testimonials from 'src/components/pages/home/Testimonial'
+import { LocalStorageKeys } from 'src/constants/localStorage'
+import { useAccountContext } from 'src/providers/AccountProvider'
+import { isDateBefore } from 'src/utils/date'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 interface Props {
   auctions: Auction[]
   auctionOfTheDay: AuctionOfTheDayResponse
+  isDemo?: boolean
+  code?: string
 }
 
-export default function Home({ auctions, auctionOfTheDay }: Props) {
+export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props) {
   const { t } = useTranslation()
+  const { account } = useAccountContext()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (account?.demo_expiration) {
+      const isExpired = isDateBefore(account.demo_expiration)
+      if (isExpired) router.push('/')
+    }
+  }, [account?.demo_expiration, router])
+
+  if (code) {
+    localStorage.setItem(LocalStorageKeys.Referral.plebtern, code)
+  }
 
   return (
     <div>
@@ -36,26 +56,30 @@ export default function Home({ auctions, auctionOfTheDay }: Props) {
         <Image className="hidden max-w-[60%] md:block" width={660} height={440} src={hero_image} alt="hero image" />
       </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
-      <FeaturedAuctions auctions={auctions} />
-      <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 md:px-0">
-        <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
-        <div className="flex flex-col items-center justify-center md:flex-row">
-          <Details
-            title={t('home.title_mining')}
-            imageSrc={rig}
-            description={t('home.details_description')}
-            link="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
-          />
-          <Details
-            className="md:ml-14"
-            title={t('home.title_bid')}
-            imageSrc={placard}
-            description={t('home.details_description')}
-            link="https://blog.rigly.io/how-to-bid-on-hashrate/"
-          />
-        </div>
-      </section>
-      <Testimonials />
+      {!isDemo && (
+        <>
+          <FeaturedAuctions auctions={auctions} />
+          <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 md:px-0">
+            <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
+            <div className="flex flex-col items-center justify-center md:flex-row">
+              <Details
+                title={t('home.title_mining')}
+                imageSrc={rig}
+                description={t('home.details_description')}
+                link="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
+              />
+              <Details
+                className="md:ml-14"
+                title={t('home.title_bid')}
+                imageSrc={placard}
+                description={t('home.details_description')}
+                link="https://blog.rigly.io/how-to-bid-on-hashrate/"
+              />
+            </div>
+          </section>
+          <Testimonials />
+        </>
+      )}
     </div>
   )
 }

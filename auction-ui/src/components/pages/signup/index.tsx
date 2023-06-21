@@ -1,3 +1,5 @@
+'use client'
+
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import clsx from 'clsx'
@@ -13,6 +15,7 @@ import useReturnUrl from 'src/hooks/useReturnUrl'
 import { toast } from 'react-hot-toast'
 import { MINING_POOLS, IMiningPool } from 'src/constants/pools'
 import { SignUpPoolDetails } from './SignUpPoolDetails'
+import { LocalStorageKeys } from 'src/constants/localStorage'
 
 enum Step {
   SignUp = 'Sign up',
@@ -36,10 +39,16 @@ export default function SignUp({ setView, setEmail }: any) {
   const [currentStep, setCurrentStep] = useState(DEFAULT_STEPS[0])
   const [poolOwner, setPoolOwner] = useState<string>('yes')
   const [selectedPool, setSelectedPool] = useState(MINING_POOLS[0])
+  const [code, setCode] = useState<string | undefined>('')
   const [poolAddress, setPoolAddress] = useState<string>(selectedPool.address)
   const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
+
+  useEffect(() => {
+    const code = window.localStorage.getItem(LocalStorageKeys.Referral.plebtern) || undefined
+    setCode(code)
+  }, [])
 
   const handleSetSelectedPool = (val: IMiningPool) => {
     setSelectedPool(val)
@@ -103,6 +112,7 @@ export default function SignUp({ setView, setEmail }: any) {
             mining_pool_address: value.mining_pool_address,
             referral_code: value.referral_code,
             create_pool_account: false,
+            code: code,
             is_demo: true,
           },
           returnUrl,
@@ -131,7 +141,7 @@ export default function SignUp({ setView, setEmail }: any) {
         toast.error('Sign up error')
       }
     },
-    [reset, returnUrl, setEmail, setView],
+    [code, reset, returnUrl, setEmail, setView],
   )
 
   return (

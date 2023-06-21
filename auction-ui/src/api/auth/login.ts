@@ -1,6 +1,6 @@
 import { makeClientRequest } from 'src/api/clientRequest'
 
-export async function login(email: string, returnUrl?: string): Promise<[boolean, string | undefined]> {
+export async function login(email: string, returnUrl?: string, code?: string): Promise<[boolean, string | undefined]> {
   const res = await makeClientRequest({
     method: 'POST',
     path: `/api/auth/login`,
@@ -8,6 +8,7 @@ export async function login(email: string, returnUrl?: string): Promise<[boolean
       email,
       url: process.env.NEXT_PUBLIC_APP_CALLBACK_URL,
       return_url: returnUrl,
+      code: code,
     },
   })
 

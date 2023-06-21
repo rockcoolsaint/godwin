@@ -13,10 +13,31 @@ import { useRouter } from 'next/navigation'
 import useReturnUrl from 'src/hooks/useReturnUrl'
 import Icon from 'src/core/components/Icon'
 
-export default function HeaderNav() {
+interface Props {
+  isDemo?: boolean
+}
+
+const headerNavURL = {
+  live: [
+    { id: 1, name: 'Home', url: '/' },
+    { id: 2, name: 'Auctions', url: '/collections' },
+    { id: 3, name: 'FAQ', url: '/faq' },
+    { id: 4, name: 'Blog', url: 'https://blog.rigly.io/' },
+  ],
+  demo: [
+    { id: 1, name: 'Home', url: '/demo' },
+    { id: 2, name: 'Auctions', url: '/collections' },
+    { id: 3, name: 'FAQ', url: '/faq' },
+    { id: 4, name: 'Blog', url: 'https://blog.rigly.io/' },
+  ],
+}
+
+export default function HeaderNav({ isDemo }: Props) {
   const router = useRouter()
   const { account, isLoading, logout } = useAccountContext()
   const returnUrl = useReturnUrl()
+  const homeURL = isDemo ? '/demo/' : '/'
+  const navigationURL = isDemo ? headerNavURL.demo : headerNavURL.live
 
   const [active, setActive] = useState<boolean>(false)
 
@@ -28,12 +49,21 @@ export default function HeaderNav() {
 
   const handleRegisterClick = () => {
     toggleMobileMenu()
-    router.push(`/register${returnUrl}`)
+
+    if (isDemo) {
+      router.push(`/register${returnUrl}`)
+    } else {
+      router.push(`/register${returnUrl}`)
+    }
   }
 
   const handleLoginClick = () => {
     toggleMobileMenu()
-    router.push(`/login${returnUrl}`)
+    if (isDemo) {
+      router.push(`demo/login${returnUrl}`)
+    } else {
+      router.push(`/login${returnUrl}`)
+    }
   }
 
   const handleLogoutClick = () => {
@@ -57,22 +87,16 @@ export default function HeaderNav() {
             </button>
           </div>
           <div className="relative flex items-center">
-            <Link href="/">
+            <Link href={homeURL}>
               <LogoSvg />
             </Link>
+
             <aside className="hidden lg:block">
-              <Link className="ml-8 text-base font-normal text-dark-300 hover:text-primary" href="/">
-                Home
-              </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/collections">
-                Auctions
-              </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="/faq">
-                FAQ
-              </Link>
-              <Link className="ml-8 text-base text-dark-300 hover:text-primary" href="https://blog.rigly.io/">
-                Blog
-              </Link>
+              {navigationURL.map(nav => (
+                <Link key={nav.id} className="ml-8 text-base font-normal text-dark-300 hover:text-primary" href={nav.url}>
+                  {nav.name}
+                </Link>
+              ))}
             </aside>
           </div>
           <div className="ml-8 hidden items-center lg:flex">
@@ -82,7 +106,7 @@ export default function HeaderNav() {
             {!isLoading && (
               <div className="hidden md:block">
                 {account && <Authorized />}
-                {!account && <Unauthorized />}
+                {!account && <Unauthorized isDemo={isDemo} />}
               </div>
             )}
           </div>
@@ -92,19 +116,11 @@ export default function HeaderNav() {
       {active && (
         <div className="absolute inset-0 top-20 z-10 h-screen bg-white lg:hidden">
           <div className="flex flex-col">
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="/">
-              Home
-            </Link>
-
-            <Link className="px-5 py-4 text-base  text-dark-300 hover:text-primary" href="/collections">
-              Auctions
-            </Link>
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="/faq">
-              FAQ
-            </Link>
-            <Link className="px-5 py-4 text-base text-dark-300 hover:text-primary" href="https://blog.rigly.io/">
-              Blog
-            </Link>
+            {navigationURL.map(nav => (
+              <Link key={nav.id} className="px-5 py-4 text-base text-dark-300 hover:text-primary" href={nav.url}>
+                {nav.name}
+              </Link>
+            ))}
 
             <Link className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-primary" href="/selling-on-rigly">
               <span>List your mining</span>

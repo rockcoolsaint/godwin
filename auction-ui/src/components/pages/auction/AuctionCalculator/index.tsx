@@ -5,14 +5,7 @@ import { useEffect, useState } from 'react'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import SatsSvg from 'src/assets/svg/sats.svg'
 
-import { Auction } from 'src/api/auction/types'
-
-interface calculatorProps {
-  data: Auction
-  currentBid?: number
-}
-
-export default function AuctionCalculator({ data, currentBid = 0 }: calculatorProps) {
+export default function AuctionCalculator() {
   const [bid, setBid] = useState(0)
   const [futureHashPrice, setFutureHashPrice] = useState(0)
   const [speed, setSpeed] = useState(0)

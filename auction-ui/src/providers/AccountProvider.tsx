@@ -7,19 +7,20 @@ import { redirect, usePathname, useRouter } from 'next/navigation'
 import { getToken } from 'src/api/auth/getToken'
 import { Account, AccountType } from 'src/api/auction/types'
 import { login as doLogin } from 'src/api/auth/login'
+import { LocalStorageKeys } from 'src/constants/localStorage'
 
 interface AccountContextType {
   account?: Account
   token?: string
   isLoading: boolean
-  login: (email: string, returnUrl?: string) => Promise<[boolean, string | undefined]>
+  login: (email: string, returnUrl?: string, code?: string) => Promise<[boolean, string | undefined]>
   logout: () => void
   refresh: () => void
 }
 
 const AccountContext = React.createContext<AccountContextType>({
   isLoading: true,
-  login: (_email: string, _returnUrl?: string) => Promise.resolve([false, undefined]),
+  login: (_email: string, _returnUrl?: string, _code?: string) => Promise.resolve([false, undefined]),
   logout: () => {},
   refresh: () => {},
 })
@@ -34,13 +35,13 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  const login = async (email: string, returnUrl?: string) => {
-    return doLogin(email, returnUrl)
+  const login = async (email: string, returnUrl?: string, code?: string) => {
+    return doLogin(email, returnUrl, code)
   }
 
   const logout = () => {
-    window.localStorage.removeItem('rigly_token')
-
+    localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
+    localStorage.removeItem(LocalStorageKeys.Account.accountType)
     setAccount(undefined)
     setToken(undefined)
 
@@ -48,7 +49,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   }
 
   const refresh = async () => {
-    const token = window.localStorage.getItem('rigly_token')
+    const token = localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
     if (token) {
       const account = await getAccount(token)
       setAccount(account)
@@ -61,17 +62,18 @@ export default function AccountProvider({ children }: { children: React.ReactNod
         try {
           setIsLoading(true)
 
-          const params: any = new Proxy(new URLSearchParams(window.location.search), {
+          const params: any = new Proxy(new URLSearchParams(location.search), {
             get: (searchParams, prop: string) => searchParams.get(prop),
           })
 
           const token = await getToken(params.email, params.code)
-          window.localStorage.setItem('rigly_token', token)
+          localStorage.setItem(LocalStorageKeys.Auth.riglyToken, token)
           setToken(token)
 
           const account = await getAccount(token)
           account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
           setAccount(account)
+          localStorage.setItem(LocalStorageKeys.Account.accountType, JSON.stringify(account.is_demo))
 
           if (params.return_url) {
             const returnUrl = decodeURIComponent(params.return_url)
@@ -79,11 +81,10 @@ export default function AccountProvider({ children }: { children: React.ReactNod
             return router.replace(returnUrl)
           }
 
-          // window.history.pushState({}, document.title, window.location.pathname)
           router.replace('/')
         } catch (ex) {
           console.error(ex)
-          window.localStorage.removeItem('rigly_token')
+          localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
           router.replace('/login')
         } finally {
           setIsLoading(false)
@@ -96,7 +97,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
         try {
           setIsLoading(true)
 
-          const token = window.localStorage.getItem('rigly_token')
+          const token = window.localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
           if (token) {
             setToken(token)
 
@@ -106,7 +107,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           }
         } catch (ex) {
           console.error(ex)
-          window.localStorage.removeItem('rigly_token')
+          window.localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
         } finally {
           setIsLoading(false)
         }
