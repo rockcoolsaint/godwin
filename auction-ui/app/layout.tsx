@@ -32,7 +32,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
             gtag('config', 'G-ZGN73NY72S');
           `}
         </Script>
-        <Script src="https://cdn.plot.ly/plotly-2.24.1.min.js" />
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js" />
       </head>
       <body>
         <AccountProvider>

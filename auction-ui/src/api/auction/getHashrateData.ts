@@ -8,7 +8,7 @@ export interface HashrateData {
 }
 
 export async function getHashrateData(stratums_id: number): Promise<HashrateData[]> {
-  const url = `https://data.rigly.io/stratum/${stratums_id}?resolution=7`
+  const url = `https://auctions.rigly.io/api/data/hashrate/${stratums_id}?resolution=7`
   const response = await fetch(url)
   const json = await response.json()
 
