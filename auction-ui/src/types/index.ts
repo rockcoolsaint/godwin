@@ -39,6 +39,7 @@ export enum OrderStatus {
   EscrowRefunded = 'escrow_refunded',
   EscrowCancelled = 'escrow_cancelled',
   EscrowReleased = 'escrow_released',
+  EscrowReview = 'escrow_review',
 }
 
 export enum OrderType {

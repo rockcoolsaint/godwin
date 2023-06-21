@@ -26,7 +26,7 @@ export default function Login() {
   const [email, setEmail] = useState<string | undefined>(undefined)
   const [view, setView] = useState(LoginView.Login)
 
-  const code = params?.get('code')
+  const code = params?.get('code') || ''
 
   const handleSubmit = async (data: any) => {
     try {

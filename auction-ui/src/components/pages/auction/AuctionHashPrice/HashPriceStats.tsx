@@ -35,7 +35,6 @@ export default function HashPriceStats() {
         setTimeToNextDifficulty(distanceFromNow)
         setLoading(false)
       } catch (error) {
-        console.log(error)
         setLoading(false)
       }
     }
@@ -48,7 +47,7 @@ export default function HashPriceStats() {
       {loading ? (
         <HashPriceLoader />
       ) : (
-        <div className="py-3">
+        <div className="h-full w-11/12 py-3">
           <dl className="grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-4 md:divide-x md:divide-y-0">
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">Difficulty period</dt>
@@ -91,7 +90,7 @@ export function EpochTable({ epoch }: { epoch: HashpriceDict }) {
     <div className="mt-8 flow-root">
       <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-          <table className="min-w-full divide-y divide-gray-300">
+          <table className="m-auto divide-y divide-gray-300 sm:min-w-full">
             <thead>
               <tr className="divide-x divide-gray-200">
                 <th scope="col" className="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">

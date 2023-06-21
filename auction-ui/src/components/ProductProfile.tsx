@@ -53,9 +53,9 @@ const ProductProfile = ({ data }: productProfileProps) => {
         </div>
         <div className="col-md-4">
           <div className="d-flex justify-content-center flex-column align-items-center py-2">
-            <Image className="w-75 mb-1" src={data.auction_meta.profile_image_1} alt="Profile" />
-            <Image className="w-75 mb-1" src={data.auction_meta.profile_image_2} alt="Profile" />
-            <Image className="w-75 mb-1" src={data.auction_meta.profile_image_3} alt="Profile" />
+            <Image className="w-75 mb-1" src={data.auction_meta.image_1} alt="Profile" />
+            <Image className="w-75 mb-1" src={data.auction_meta.image_2} alt="Profile" />
+            <Image className="w-75 mb-1" src={data.auction_meta.image_3} alt="Profile" />
           </div>
         </div>
       </div>

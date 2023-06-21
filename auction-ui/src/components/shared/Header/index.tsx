@@ -105,7 +105,7 @@ export default function HeaderNav({ isDemo }: Props) {
             </Link>
             {!isLoading && (
               <div className="hidden md:block">
-                {account && <Authorized isDemo={isDemo} />}
+                {account && <Authorized />}
                 {!account && <Unauthorized isDemo={isDemo} />}
               </div>
             )}

@@ -20,13 +20,13 @@ interface Props {
 function PaymentOne({ order }: Props) {
   const { token, isLoading: tokenLoading } = useAccountContext()
   const [currentOrder, setCurrentOrder] = useState(order)
-  const [promoCode, setPromoCode] = useState('')
   const [loading, setLoading] = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   const { first, paymentId, amountPaid, amountRemaining, isPaymentComplete, checkoutUrl } = usePayments(currentOrder)
   const { auction, auction_fee, mining_deposit, price } = order
 
+  /**
   const applyPromoCode = async () => {
     if (!promoCode || promoCode === '' || !first || !currentOrder.id) {
       return
@@ -84,6 +84,7 @@ function PaymentOne({ order }: Props) {
   const handlePromoCodeChange = (val: string | number) => {
     setPromoCode(val.toString())
   }
+  **/
 
   const handleCheckout = async () => {
     setCheckoutLoading(true)

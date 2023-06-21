@@ -6,11 +6,7 @@ import Icon from 'src/core/components/Icon'
 import Dropdown from 'src/core/components/Dropdown'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
-interface Props {
-  isDemo?: boolean
-}
-
-export default function Authorized({ isDemo }: Props) {
+export default function Authorized() {
   const { account, isLoading, logout } = useAccountContext()
 
   const [dropdownActive, setDropdownActive] = useState<boolean>(false)

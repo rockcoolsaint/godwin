@@ -4,13 +4,15 @@ import Home from 'src/components/pages/home'
 import { Metadata } from 'next'
 import DemoModal from 'src/components/demo/Modal'
 
-export default async function HomePage() {
+export default async function HomePage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
   const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay()])
+
+  const { code } = searchParams
 
   return (
     <>
       <DemoModal />
-      <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} isDemo={true} />
+      <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} isDemo={true} code={code} />
       <div className="mb-24" />
     </>
   )
