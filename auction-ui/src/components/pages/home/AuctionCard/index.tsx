@@ -31,7 +31,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
           className="mb-4 block w-full overflow-hidden rounded-xl"
           width={352}
           height={230}
-          src={miner}
+          src={auction.auction_meta.site_photo || miner}
           alt={auction.title + ' Image'}
         />
         <h3 className="mb-3 text-center text-2xl">{auction.title}</h3>
