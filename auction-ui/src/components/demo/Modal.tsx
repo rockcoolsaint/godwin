@@ -95,7 +95,7 @@ export default function DemoModal() {
                     onClick={() => setOpen(false)}
                     ref={cancelButtonRef}
                   >
-                    Cancel
+                    Continue
                   </button>
                 </div>
               </Dialog.Panel>
