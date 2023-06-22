@@ -28,6 +28,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'rigly-backend.s3.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   output: 'standalone',

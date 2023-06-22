@@ -166,7 +166,13 @@ function PaymentOne({ order }: Props) {
     <Container>
       <section className="mx-auto my-28 w-full lg:w-3/5">
         <div className="flex flex-col rounded-2xl bg-gray-100 p-5 sm:flex-row">
-          <Image className="w-full rounded-2xl sm:w-auto" src={miner} alt="auction image" width={240} height={180} />
+          <Image
+            className="w-full rounded-2xl sm:w-auto"
+            src={auction?.auction_meta.site_photo || miner}
+            alt="auction image"
+            width={240}
+            height={180}
+          />
           <div className="ml-0 mt-4 flex flex-col justify-between sm:ml-8 sm:mt-0">
             <div className="mb-6 sm:mb-12">
               <h3 className="text-2xl font-medium text-gray-900">{auction?.title}</h3>
