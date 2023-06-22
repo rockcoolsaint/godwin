@@ -9,7 +9,11 @@ interface Props {
 
 const FeaturedAuctions = ({ auctions }: Props) => {
   if (!auctions || !auctions.length) {
-    return <Container>Could not load auctions</Container>
+    return (
+      <Container className="flex items-center justify-center py-20">
+        <span className="text-red-500">No auctions available</span>
+      </Container>
+    )
   }
 
   return (
