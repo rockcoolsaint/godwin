@@ -65,14 +65,14 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
               <Details
                 title={t('home.title_mining')}
                 imageSrc={rig}
-                description={t('home.details_description')}
+                description={t('home.details_mining_description')}
                 link="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
               />
               <Details
                 className="md:ml-14"
                 title={t('home.title_bid')}
                 imageSrc={placard}
-                description={t('home.details_description')}
+                description={t('home.details_bidding_description')}
                 link="https://blog.rigly.io/how-to-bid-on-hashrate/"
               />
             </div>
