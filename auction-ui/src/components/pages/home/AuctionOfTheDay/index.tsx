@@ -17,7 +17,11 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
   const { t } = useTranslation()
 
   if (!auctionResponse || !auctionResponse.auction) {
-    return <Container>Could not load auction of the day</Container>
+    return (
+      <Container className="flex items-center justify-center py-20">
+        <span className="text-red-500">Could not load auction of the day</span>
+      </Container>
+    )
   }
 
   const { auction } = auctionResponse

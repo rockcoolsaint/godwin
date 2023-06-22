@@ -39,8 +39,8 @@ export default function CollectionsPage() {
 
   if (!auctions) {
     return (
-      <Container>
-        <div className="flex items-center justify-center">Could not load auctions</div>
+      <Container className="flex items-center justify-center py-20">
+        <span className="text-red-500">No auctions available</span>
       </Container>
     )
   }
