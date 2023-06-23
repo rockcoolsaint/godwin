@@ -34,7 +34,7 @@ export default function protect(Component: any) {
 
     if (isLoading) {
       return (
-        <Container className="flex h-full items-center justify-center">
+        <Container className="flex h-full items-center justify-center py-16">
           <Loader />
         </Container>
       )
@@ -42,7 +42,7 @@ export default function protect(Component: any) {
 
     if (!account) {
       return (
-        <Container className="flex h-full items-center justify-center">
+        <Container className="flex h-full items-center justify-center py-16">
           <Loader />
         </Container>
       )
