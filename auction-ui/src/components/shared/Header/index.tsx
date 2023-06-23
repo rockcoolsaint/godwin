@@ -19,16 +19,16 @@ interface Props {
 
 const headerNavURL = {
   live: [
-    { id: 1, name: 'Home', url: '/' },
-    { id: 2, name: 'Auctions', url: '/collections' },
-    { id: 3, name: 'FAQ', url: '/faq' },
-    { id: 4, name: 'Blog', url: 'https://blog.rigly.io/' },
+    { id: 1, name: 'Home', url: '/', show: true },
+    { id: 2, name: 'Auctions', url: '/collections', show: true },
+    { id: 3, name: 'FAQ', url: '/faq', show: true },
+    { id: 4, name: 'Blog', url: 'https://blog.rigly.io/', show: true },
   ],
   demo: [
-    { id: 1, name: 'Home', url: '/demo' },
-    { id: 2, name: 'Auctions', url: '/collections' },
-    { id: 3, name: 'FAQ', url: '/faq' },
-    { id: 4, name: 'Blog', url: 'https://blog.rigly.io/' },
+    { id: 1, name: 'Home', url: '/demo', show: true },
+    { id: 2, name: 'Auctions', url: '/collections', show: false },
+    { id: 3, name: 'FAQ', url: '/faq', show: true },
+    { id: 4, name: 'Blog', url: 'https://blog.rigly.io/', show: true },
   ],
 }
 
@@ -37,7 +37,7 @@ export default function HeaderNav({ isDemo }: Props) {
   const { account, isLoading, logout } = useAccountContext()
   const returnUrl = useReturnUrl()
   const homeURL = isDemo ? '/demo/' : '/'
-  const navigationURL = isDemo ? headerNavURL.demo : headerNavURL.live
+  const navigationURL = isDemo ? headerNavURL.demo.filter(nav => nav.show) : headerNavURL.live.filter(nav => nav.show)
 
   const [active, setActive] = useState<boolean>(false)
 
@@ -68,6 +68,10 @@ export default function HeaderNav({ isDemo }: Props) {
 
   const handleLogoutClick = () => {
     logout()
+  }
+
+  function filterNavUrl(nav: any) {
+    return nav.show
   }
 
   return (

@@ -5,7 +5,7 @@ import { Metadata } from 'next'
 import Header from 'src/components/shared/Header'
 
 export default async function HomePage() {
-  const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay()])
+  const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay({ isDemo: false })])
 
   return (
     <>
