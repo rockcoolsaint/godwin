@@ -199,7 +199,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
           )}
         </div>
       </div>
-      <BidWidgetCalculator auction={auction} epoch={epoch} bids={bids} />
+      <BidWidgetCalculator auction={auction} epoch={epoch} />
     </>
   )
 }
@@ -207,10 +207,9 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
 interface BidWidgetCalculatorProps {
   auction: Auction
   epoch: HashpriceDict
-  bids: BidsEntityOrCurrentBid[]
 }
 
-function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps) {
+function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   let filteredEpoch: any = {}
   if (Object.keys(epoch).length > 0) {
     filteredEpoch = Object.values(epoch).reduce((a, b) => (a > b ? a : b))
@@ -219,7 +218,7 @@ function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps)
   const [hashPrice, setHashPrice] = useState<number>(Math.floor(filteredEpoch.mean || 0) || 0)
   const [speed] = useState(auction.auction_meta.hashrate)
   const [duration] = useState(auction.auction_meta.days_of_mining)
-  const payout = hashPrice * Number(speed) * Number(duration) - (Number(bids[0]?.bid) || Number(auction.starting_bid))
+  const payout = hashPrice * Number(speed) * Number(duration)
 
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: payout || 0 })
 
@@ -267,7 +266,7 @@ function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps)
       </label>
       <div className="mt-14">
         <h1 className="flex items-center text-base">
-          Estimated profit
+          Estimated revenue
           <Tooltip placement="bottom">
             <TooltipTrigger>
               <QuestionMarkCircleIcon className="ml-2 h-6 w-6" />
@@ -281,7 +280,7 @@ function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps)
         <Tooltip>
           <TooltipTrigger>
             <h3 className="flex items-center" id="formula-result-#11">
-              <span className={clsx('text-black', payout < 0 ? 'text-red-500' : '')}>{formatMoney(payout)}</span>{' '}
+              <span className={clsx('text-black', payout < 0 ? 'text-red-500' : '')}>{Boolean(payout) ? formatMoney(payout) : 0}</span>{' '}
               <SatsSvg className="ml-2" />
             </h3>
           </TooltipTrigger>

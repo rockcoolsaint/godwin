@@ -28,7 +28,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
     <Link href={'/auctions/' + auction.slug} className="mb-4 rounded-xl border border-gray-100">
       <div className=" px-5 pt-5">
         <Image
-          className="mb-4 block w-full overflow-hidden rounded-xl"
+          className="mb-4 block w-full overflow-hidden rounded-xl sm:h-64"
           width={352}
           height={230}
           src={auction.auction_meta.site_photo || miner}
