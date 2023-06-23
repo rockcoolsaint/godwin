@@ -211,17 +211,24 @@ interface BidWidgetCalculatorProps {
 }
 
 function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps) {
-  const [hashPrice, setHashPrice] = useState(800)
-  const [speed] = useState(auction.auction_meta.hashrate)
-  const [duration] = useState(auction.auction_meta.days_of_mining)
-  const payout = hashPrice * Number(speed) * Number(duration) - Number(bids[0]?.bid) || 0
-
-  const priceInFiat = useSatsToFiat({ initialValue: 0, bid: payout })
-
   let filteredEpoch: any = {}
   if (Object.keys(epoch).length > 0) {
     filteredEpoch = Object.values(epoch).reduce((a, b) => (a > b ? a : b))
   }
+
+  const [hashPrice, setHashPrice] = useState<number>(Math.floor(filteredEpoch.mean || 0) || 0)
+  const [speed] = useState(auction.auction_meta.hashrate)
+  const [duration] = useState(auction.auction_meta.days_of_mining)
+  const payout = hashPrice * Number(speed) * Number(duration) - (Number(bids[0]?.bid) || Number(auction.starting_bid))
+
+  const priceInFiat = useSatsToFiat({ initialValue: 0, bid: payout || 0 })
+
+  useEffect(() => {
+    setHashPrice(Math.floor(filteredEpoch.mean))
+  }, [filteredEpoch.mean])
+
+  const min = 1
+  const max = 800
 
   return (
     <div className="mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-3 opacity-70">
@@ -230,14 +237,14 @@ function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps)
         <div className="flex items-center justify-between">
           <input
             onChange={e => {
-              setHashPrice(parseInt(e.target.value))
+              setHashPrice(Math.max(min, Math.min(max, Number(e.target.value))) || 0)
             }}
-            type="text"
-            disabled
+            type="number"
             className="w-full rounded-lg border border-gray-400 p-2 text-center text-lg disabled:bg-gradient-disabled"
-            id="#1"
+            id="hashprice"
+            max={800}
             placeholder="0"
-            value={Math.floor(filteredEpoch.mean)}
+            value={formatMoney(hashPrice)}
           />
           <p className="ml-1 text-right text-sm text-dark-100">Sats per TH/s/Day</p>
         </div>
@@ -255,12 +262,12 @@ function BidWidgetCalculator({ auction, epoch, bids }: BidWidgetCalculatorProps)
           min="0"
           max="800"
           placeholder="hashprice"
-          value={hashPrice}
+          value={hashPrice.toString()}
         />
       </label>
-      <div className="mt-4">
+      <div className="mt-14">
         <h1 className="flex items-center text-base">
-          Future returns
+          Estimated profit
           <Tooltip placement="bottom">
             <TooltipTrigger>
               <QuestionMarkCircleIcon className="ml-2 h-6 w-6" />

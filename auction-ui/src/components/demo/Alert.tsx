@@ -8,12 +8,7 @@ export default function DemoAlert() {
           <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
         </div>
         <div className="ml-3">
-          <p className="text-sm text-yellow-700">
-            You are currently on a demo version of Rigly.{' '}
-            <a href="#" className="font-medium text-yellow-700 underline hover:text-yellow-600">
-              Upgrade to participate in auctions.
-            </a>
-          </p>
+          <p className="text-sm text-yellow-700">You are currently on a demo version of Rigly.</p>
         </div>
       </div>
     </div>

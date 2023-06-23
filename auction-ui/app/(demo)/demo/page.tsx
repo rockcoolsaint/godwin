@@ -5,7 +5,7 @@ import { Metadata } from 'next'
 import DemoModal from 'src/components/demo/Modal'
 
 export default async function HomePage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
-  const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay()])
+  const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay({ isDemo: true })])
 
   const { code } = searchParams
 
