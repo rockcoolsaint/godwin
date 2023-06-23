@@ -30,7 +30,13 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'rigly-backend.s3.amazonaws.com',
+        hostname: 'rigly-backend-prod.s3.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'rigly-backend-qa.s3.amazonaws.com',
         port: '',
         pathname: '/**',
       },
