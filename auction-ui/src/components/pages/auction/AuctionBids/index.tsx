@@ -6,6 +6,7 @@ import { format, parseISO } from 'date-fns'
 import { BidsEntityOrCurrentBid } from 'src/api/auction/types'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import { useSatsToFiat } from 'src/hooks'
+import { useAccountContext } from 'src/providers/AccountProvider'
 import { formatMoney } from 'src/utils/currency'
 
 interface Props {
@@ -36,11 +37,15 @@ interface AuctionBidListProps {
 
 const AuctionBidList = ({ bid }: AuctionBidListProps) => {
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid })
+  const { account } = useAccountContext()
 
   return (
     <div className="flex items-center justify-between  px-3 pt-3">
       <div className="col-md-8">
-        <h6 className="mb-1 w-32 truncate text-sm font-bold capitalize sm:w-96 lg:w-80 lg:text-xl">{bid.account.username}</h6>
+        <h6 className="mb-1 w-32 truncate text-sm font-bold capitalize sm:w-96 lg:w-80 lg:text-xl">
+          {bid.account.username}
+          {account && bid.account.id === account.id ? ' (You)' : ''}
+        </h6>
         <p className="text-sm font-medium text-dark-100/[.8]">{format(parseISO(bid.created_at), 'do MMMM, yy hh:mmaaa')}</p>
       </div>
       <div className="col-md-4 flex flex-col items-end">
