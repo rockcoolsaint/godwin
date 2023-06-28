@@ -33,7 +33,18 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
       const isExpired = isDateBefore(account.demo_expiration)
       if (isExpired) router.push('/')
     }
-  }, [account?.demo_expiration, router])
+
+    if (account?.email) {
+      window.Intercom('boot', {
+        user_id: account.id,
+        email: account.email,
+        // keep name undefined instead of an empty string so that intercom auto assigns a name
+        name,
+      })
+    } else {
+      window.Intercom('shutdown')
+    }
+  }, [account, router])
 
   if (code) {
     localStorage.setItem(LocalStorageKeys.Referral.plebtern, code)
