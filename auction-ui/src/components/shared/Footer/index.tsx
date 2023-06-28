@@ -4,6 +4,7 @@ import Link from 'src/components/shared/Link'
 import { ArrowLongRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 import LogoSvg from 'src/assets/svg/logo_dark.svg'
 import NostrSvg from 'src/assets/svg/nostr.svg'
+import Telegram from 'src/assets/svg/telegram.svg'
 import TwitterSvg from 'src/assets/svg/twitter.svg'
 import Container from 'src/core/components/Container'
 import { useCallback, useState } from 'react'
@@ -40,33 +41,36 @@ const Footer = () => {
   return (
     <Container>
       <section className="sm:px-6">
-        <div>
-          <div>
-            <div className="mb-16 flex items-center justify-between border-t border-gray-300 pt-16">
-              <div className="flex items-center">
-                <LogoSvg />
-                <div className="ml-3 border-l pl-3">
-                  <span className="block text-dark-200/[.7]">Bitcoin Mining</span>
-                  <span className="block text-dark-200/[.7]">Auctions</span>
-                </div>
-              </div>
-              <div className="flex">
-                <Link
-                  className="block  items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
-                  href="https://primal.net/profile/npub1t6el40knsq8hmrpr0m6tt3t0tr4pdeyhlt2qelwhgtwawddqx0xsv03scu"
-                  target="_blank"
-                >
-                  <NostrSvg className="h-6 w-6" />
-                </Link>
-                <Link
-                  target="_blank"
-                  className="ml-2 flex items-center justify-center rounded-lg bg-gradient p-3 hover:bg-gradient-hover"
-                  href="https://twitter.com/TrustlessMining"
-                >
-                  <TwitterSvg className="h-6 w-6" />
-                </Link>
-              </div>
+        <div className="mb-16 flex flex-wrap items-center justify-between border-t border-gray-300 pt-16">
+          <div className="flex items-center">
+            <LogoSvg />
+            <div className="ml-3 border-l pl-3">
+              <span className="block text-dark-200/[.7]">Bitcoin Mining</span>
+              <span className="block text-dark-200/[.7]">Auctions</span>
             </div>
+          </div>
+          <div className="mt-4 flex sm:mt-0">
+            <Link
+              className="block  items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+              href="https://t.me/+AEvub_E_9hNiYzAx"
+              target="_blank"
+            >
+              <Telegram className="h-6 w-6" />
+            </Link>
+            <Link
+              className="ml-2 block  items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+              href="https://primal.net/profile/npub1t6el40knsq8hmrpr0m6tt3t0tr4pdeyhlt2qelwhgtwawddqx0xsv03scu"
+              target="_blank"
+            >
+              <NostrSvg className="h-6 w-6" />
+            </Link>
+            <Link
+              target="_blank"
+              className="ml-2 flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+              href="https://twitter.com/TrustlessMining"
+            >
+              <TwitterSvg className="h-6 w-6" />
+            </Link>
           </div>
         </div>
         <div className="flex grid-cols-5 flex-col gap-4 md:grid">
