@@ -67,11 +67,9 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
 
   if (loading) {
     return (
-      <Container>
-        <div className="flex h-full w-full items-center justify-center">
-          <Loader />
-        </div>
-      </Container>
+      <div className="flex items-center justify-center p-12">
+        <Loader />
+      </div>
     )
   }
 
@@ -90,11 +88,9 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
   if ((order.status === OrderStatus.Unpaid || order.status === OrderStatus.Processing) && isSuccessPage) {
     return (
       <Container>
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="flex flex-col items-center">
-            <span className="mb-4 text-2xl font-semibold">Your payment is processing</span>
-            <span className="mb-2">Please wait for confirmation on this page, or check back later.</span>
-          </div>
+        <div className="flex flex-col items-center justify-center p-12">
+          <span className="mb-4 text-2xl font-semibold">Your payment is processing</span>
+          <span className="mb-2">Please wait for confirmation on this page, or check back later.</span>
         </div>
       </Container>
     )
