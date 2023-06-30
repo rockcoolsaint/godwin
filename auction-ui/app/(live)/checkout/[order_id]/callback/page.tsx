@@ -2,18 +2,16 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { makeClientRequest } from 'src/api/clientRequest'
 import { Loader } from 'src/core'
 
 export default function CheckoutCallback({ params }: { params: { order_id?: string } }) {
   const { order_id } = params
-  const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
 
   const updateOrderStatus = async () => {
     try {
-      setLoading(true)
       await makeClientRequest({
         method: 'PUT',
         path: '/api/orders/update',
@@ -28,8 +26,6 @@ export default function CheckoutCallback({ params }: { params: { order_id?: stri
     } catch (ex) {
       // TODO: Log error somewhere
       router.push(`/checkout/${order_id}?error=true`)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -37,13 +33,9 @@ export default function CheckoutCallback({ params }: { params: { order_id?: stri
     updateOrderStatus()
   }, [order_id])
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center p-12">
-        <Loader />
-      </div>
-    )
-  }
-
-  return <>Checkout callback</>
+  return (
+    <div className="flex items-center justify-center p-12">
+      <Loader />
+    </div>
+  )
 }
