@@ -67,11 +67,9 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
 
   if (loading) {
     return (
-      <Container>
-        <div className="flex h-full w-full items-center justify-center">
-          <Loader />
-        </div>
-      </Container>
+      <div className="flex items-center justify-center p-12">
+        <Loader />
+      </div>
     )
   }
 

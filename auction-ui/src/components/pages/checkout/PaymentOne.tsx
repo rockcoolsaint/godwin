@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
-import { makeClientRequest } from 'src/api/clientRequest'
 import { Button, Loader, Container } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
@@ -89,16 +88,16 @@ function PaymentOne({ order }: Props) {
   const handleCheckout = async () => {
     setCheckoutLoading(true)
     try {
-      await makeClientRequest({
-        method: 'PUT',
-        path: '/api/orders/update',
-        body: {
-          order_id: currentOrder.id,
-          update: {
-            status: 'processing',
-          },
-        },
-      })
+      // await makeClientRequest({
+      //   method: 'PUT',
+      //   path: '/api/orders/update',
+      //   body: {
+      //     order_id: currentOrder.id,
+      //     update: {
+      //       status: 'processing',
+      //     },
+      //   },
+      // })
 
       if (checkoutUrl) {
         window.location.href = checkoutUrl
@@ -117,6 +116,7 @@ function PaymentOne({ order }: Props) {
       }
 
       setLoading(true)
+
       if (!order.payments[0]) {
         // If order does not have any payments, we need to create one.
         const res = await createPayment(order.id, token)
@@ -148,7 +148,7 @@ function PaymentOne({ order }: Props) {
 
   if (!first || loading) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex items-center justify-center p-12">
         <Loader />
       </div>
     )

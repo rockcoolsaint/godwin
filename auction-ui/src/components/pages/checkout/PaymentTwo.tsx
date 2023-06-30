@@ -11,7 +11,7 @@ function PaymentTwo({ order }: { order: Order }) {
   }
 
   return (
-    <Container>
+    <Container className="py-12">
       <h1>Checkout page</h1>
       <h2>Remaining balance</h2>
 
