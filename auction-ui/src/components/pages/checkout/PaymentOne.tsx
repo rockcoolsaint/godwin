@@ -6,11 +6,12 @@ import refreshPayment from 'src/api/checkout/refreshPayment'
 import { Button, Loader, Container } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Order, OrderStatus, OrderType, PaymentStatus } from 'src/types'
+import { Order, OrderType, PaymentStatus } from 'src/types'
 import Image from 'next/image'
 import { formatMoney } from 'src/utils/currency'
 import { formatDate } from 'src/utils/date'
 import * as miner from 'src/assets/jpg/mining.jpeg'
+import { PaymentProvider } from 'src/api/auction/types'
 
 interface Props {
   order: Order
@@ -125,7 +126,7 @@ function PaymentOne({ order }: Props) {
           ...order,
           payments: [res],
         })
-      } else if (order.status !== OrderStatus.Processing) {
+      } else if (order.payments[0].status === PaymentStatus.Unpaid) {
         // If order already has payments, we need to refresh the payment.
         const lastIdx = order.payments.length - 1
         const lastPayment = order.payments[lastIdx]
@@ -153,6 +154,13 @@ function PaymentOne({ order }: Props) {
       </div>
     )
   }
+
+  const lastOpenNodePayment =
+    currentOrder.payments.length > 0
+      ? currentOrder.payments
+          .filter(payment => payment.provider === PaymentProvider.OpenNode)
+          .reduce((highest, current) => (current.id > highest.id ? current : highest))
+      : undefined
 
   const showRemaining =
     currentOrder &&
@@ -223,7 +231,7 @@ function PaymentOne({ order }: Props) {
             </dl>
           </div>
 
-          {currentOrder.status !== OrderStatus.Processing && (
+          {lastOpenNodePayment && lastOpenNodePayment.status === PaymentStatus.Unpaid && (
             <div className="flex justify-end">
               <Button disabled={checkoutLoading} onClick={handleCheckout}>
                 Checkout
@@ -231,7 +239,7 @@ function PaymentOne({ order }: Props) {
             </div>
           )}
 
-          {currentOrder.status === OrderStatus.Processing && (
+          {lastOpenNodePayment && lastOpenNodePayment.status === PaymentStatus.Processing && (
             <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-sm font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
               Your payment is processing, please check back later
             </span>

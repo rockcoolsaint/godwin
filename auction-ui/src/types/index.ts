@@ -4,6 +4,7 @@ export enum PaymentStatus {
   Processing = 'processing',
   Underpaid = 'underpaid',
   Paid = 'paid',
+  Unpaid = 'unpaid',
 }
 
 export interface PromoCode {
