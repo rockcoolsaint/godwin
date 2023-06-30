@@ -8,4 +8,7 @@ export const LocalStorageKeys = {
   Auth: {
     riglyToken: 'rigly_token',
   },
+  Auction: {
+    auctionView: 'rg_a_v',
+  },
 }

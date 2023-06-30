@@ -30,7 +30,7 @@ export default function CollectionsPage() {
   if (loading) {
     return (
       <Container>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center p-12">
           <Loader />
         </div>
       </Container>
@@ -45,9 +45,5 @@ export default function CollectionsPage() {
     )
   }
 
-  return (
-    <section>
-      <CollectionList auction={auctions.results} />
-    </section>
-  )
+  return <CollectionList auction={auctions.results} />
 }
