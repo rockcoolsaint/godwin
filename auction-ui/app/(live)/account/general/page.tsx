@@ -54,18 +54,6 @@ function Account() {
             <Form.Field.Label htmlFor="username">Username</Form.Field.Label>
             <Input type="text" name="username" defaultValue={account.username} placeholder="Anonymous" />
           </Form.Field>
-
-          <Form.Horizontal className="justify-between">
-            <Form.Field className="w-full flex-col">
-              <Form.Field.Label htmlFor="first_name">First name</Form.Field.Label>
-              <Input type="text" name="first_name" defaultValue={account.first_name} placeholder="Satoshi" />
-            </Form.Field>
-
-            <Form.Field className="w-full flex-col">
-              <Form.Field.Label htmlFor="last_name">Last name</Form.Field.Label>
-              <Input type="text" name="last_name" defaultValue={account.last_name} placeholder="Nakamoto" />
-            </Form.Field>
-          </Form.Horizontal>
         </Form.Section>
         <Form.Section title="Payments">
           <Form.Field className="w-full flex-col">
@@ -81,22 +69,6 @@ function Account() {
             <span className="text-sm text-gray-500">
               Some auctions use a 2-of-3 multisig wallet, to sign transactions we&apos;ll need your public key
             </span>
-          </Form.Field>
-        </Form.Section>
-        <Form.Section title="Mining pool">
-          <Form.Field className="w-full flex-col">
-            <Form.Field.Label htmlFor="mining_pool_address">Mining pool address</Form.Field.Label>
-            <Input
-              type="text"
-              name="mining_pool_address"
-              defaultValue={account.pool_user?.pool}
-              placeholder="stratum+tcp://stratum.braiins.com:3333"
-            />
-          </Form.Field>
-
-          <Form.Field className="w-full flex-col">
-            <Form.Field.Label htmlFor="mining_pool_username">Mining pool username</Form.Field.Label>
-            <Input type="text" name="mining_pool_username" defaultValue={account.pool_user?.username} placeholder="satoshi.worker" />
           </Form.Field>
         </Form.Section>
 
