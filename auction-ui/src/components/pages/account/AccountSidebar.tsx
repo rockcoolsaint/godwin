@@ -8,7 +8,7 @@ import Icon from 'src/core/components/Icon'
 import Select from 'src/core/components/Select'
 
 const pages = [
-  { label: 'Account', path: '/account', icon: 'user' },
+  { label: 'General', path: '/account/general', icon: 'user' },
   { label: 'Preferences', path: '/account/preferences', icon: 'cog' },
   // { label: 'Hashrate', path: '/account/hashrate', icon: 'helmetSafety' },
   { label: 'Orders', path: '/account/orders', icon: 'cart' },
