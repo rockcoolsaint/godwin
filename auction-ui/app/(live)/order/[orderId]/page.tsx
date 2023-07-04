@@ -45,7 +45,7 @@ export default function OrderDetail({ params }: { params: any }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId, token, tokenLoading, setOrder])
 
-  if (!order || !account) {
+  if (!order || !account || order.account_id !== account.id) {
     return <NotFoundComponent message="Order not found" />
   }
 
