@@ -192,7 +192,9 @@ function PaymentOne({ order }: Props) {
               {order.type === OrderType.Auction && (
                 <p className="text-sm font-normal text-gray-700">{`Epoch ${auction?.epoch?.epoch_number || '-'}`}</p>
               )}
-              <p className="text-sm font-normal text-gray-900">Estimated start {formatDate(auction!.start_at, 'MMMM d, yyyy')}</p>
+              <p className="text-sm font-normal text-gray-900">
+                Estimated start {formatDate(auction!.auction_meta.hashrate_start, 'MMMM d, yyyy')}
+              </p>
             </div>
           </div>
         </div>
