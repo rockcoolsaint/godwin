@@ -13,6 +13,7 @@ import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order } from 'src/types'
 import OrderStatusMessage from 'src/components/pages/order/OrderStatusMessage'
 import OrderActions from 'src/components/pages/order/OrderActions'
+import NotFoundComponent from 'src/components/shared/NotFoundComponent'
 
 export default function OrderDetail({ params }: { params: any }) {
   const { account, token, isLoading: tokenLoading } = useAccountContext()
@@ -45,8 +46,7 @@ export default function OrderDetail({ params }: { params: any }) {
   }, [orderId, token, tokenLoading, setOrder])
 
   if (!order || !account) {
-    // TODO: Unauthorized page or redirect
-    return null
+    return <NotFoundComponent message="Order not found" />
   }
 
   const paymentOne = order.payments.find(payment => payment.provider === PaymentProvider.OpenNode)
