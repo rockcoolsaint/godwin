@@ -52,7 +52,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
     }
 
     try {
-      setLoading(true)
       const order = await getOrderByAuctionId(auction.id, token)
       if (!order) {
         throw new Error(`Couldn't load order`)
@@ -60,8 +59,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
       setOrder(order)
     } catch (ex: any) {
       toast.error(ex.message)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -79,10 +76,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         setProxyBids(auctionResult.proxy_bids)
         setCurrentBid(auctionResult.current_bid)
         setWinner(auctionResult.winner)
-
-        if (!tokenLoading && token && auctionResult.auction.status === AuctionStatus.Completed) {
-          loadOrder()
-        }
       } catch (ex: any) {
         toast.error(ex.message)
       } finally {
@@ -92,6 +85,12 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
     prepareAuction()
   }, [slug, tokenLoading, token])
+
+  useEffect(() => {
+    if (auction && auction.status === AuctionStatus.Completed && !tokenLoading && token) {
+      loadOrder()
+    }
+  }, [tokenLoading, token, auction])
 
   useEffect(() => {
     if (auction && isSocketReady) {
