@@ -52,7 +52,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
     }
 
     try {
-      setLoading(true)
       const order = await getOrderByAuctionId(auction.id, token)
       if (!order) {
         throw new Error(`Couldn't load order`)
@@ -60,8 +59,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
       setOrder(order)
     } catch (ex: any) {
       toast.error(ex.message)
-    } finally {
-      setLoading(false)
     }
   }
 
