@@ -10,6 +10,8 @@ import { Poppins } from 'next/font/google'
 import Toaster from 'src/components/shared/Toaster'
 import Script from 'next/script'
 import GoogleAnalytics from 'src/components/shared/GoogleAnalytics'
+import NotificationsProvider from 'src/providers/NotificationsProvider'
+import Notifier from 'src/components/shared/Notifier'
 const intercom = process.env.NEXT_PUBLIC_INTERCOM_ID
 
 const poppins = Poppins({
@@ -42,10 +44,13 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
         <AccountProvider>
           <Toaster />
           <WebsocketProvider>
-            <div className="flex flex-col justify-between">
-              {children}
-              <Footer />
-            </div>
+            <NotificationsProvider>
+              <Notifier />
+              <div className="flex flex-col justify-between">
+                {children}
+                <Footer />
+              </div>
+            </NotificationsProvider>
           </WebsocketProvider>
         </AccountProvider>
       </body>

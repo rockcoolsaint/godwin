@@ -40,7 +40,8 @@
     "react-medium-image-zoom": "^5.1.2",
     "react-slick": "^0.29.0",
     "react-tooltip": "^5.10.0",
-    "rosetta": "^1.1.0"
+    "rosetta": "^1.1.0",
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -60,6 +61,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-tailwindcss": "^3.10.1",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "file-loader": "^6.2.0",
     "postcss": "^8.4.20",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.2.4",
