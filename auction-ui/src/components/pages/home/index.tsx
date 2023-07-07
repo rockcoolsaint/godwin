@@ -56,11 +56,11 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
   return (
     <div>
       <section className="md:px-25 mx-auto mt-20 flex max-w-[1824px] flex-col items-center px-5 md:flex-col md:items-center md:justify-between lg:flex-row lg:px-40">
-        <div className="lg:w-3/5 mr-4 flex flex-col items-center justify-start md:mb-12 md:mr-0 lg:mb-0 lg:items-start">
+        <div className="mr-4 flex flex-col items-center justify-start md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 lg:items-start">
           <h1 className="gradient-text text-center text-7xl text-gradient sm:text-left sm:text-8xl md:text-center lg:text-left ">
             Start mining smarter
           </h1>
-          <p className="lg:w-3/4 my-4 text-center text-3xl font-normal sm:text-left sm:text-4xl">
+          <p className="my-4 text-center text-3xl font-normal sm:text-left sm:text-4xl lg:w-3/4">
             Buy your hashrate at an open market price
           </p>
           <Link className=" rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover " href="/collections">
@@ -76,7 +76,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
           channel="vimeo"
           vimeo={{ mute: 0, autoplay: true }}
           isOpen={videoOpen}
-          videoId="842239902"
+          videoId="843070054"
           onClose={() => setVideoOpen(false)}
         />
       </section>
