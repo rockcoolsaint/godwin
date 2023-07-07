@@ -34,7 +34,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-4 font-semibold capitalize text-dark-100">{t('home.epoch')} start date</p>
             </aside>
             <aside>
-              <p className="p-3 pl-4">{formatDate(data.auction_meta.hashrate_start, 'MMMM d, yyyy')}</p>
+              <p className="p-3 pl-4">{formatDate(data.auction.epoch.start_time, 'MMMM d, yyyy')}</p>
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
