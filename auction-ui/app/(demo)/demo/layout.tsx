@@ -6,7 +6,7 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
     <section>
       <Header isDemo={true} />
       <div className="mt-8" />
-      <DemoAlert />
+      <DemoAlert msg="You are currently on a demo version of Rigly" />
 
       {children}
     </section>
