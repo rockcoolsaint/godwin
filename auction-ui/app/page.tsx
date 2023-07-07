@@ -3,6 +3,7 @@ import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
 import Home from 'src/components/pages/home'
 import { Metadata } from 'next'
 import Header from 'src/components/shared/Header'
+import DemoAlert from 'src/components/demo/Alert'
 
 export default async function HomePage() {
   const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay({ isDemo: false })])
@@ -10,6 +11,7 @@ export default async function HomePage() {
   return (
     <>
       <Header />
+      <DemoAlert msg="Product in beta please report bugs using the intercom below" />
       <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} />
     </>
   )

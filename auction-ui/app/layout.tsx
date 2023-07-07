@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/inline-script-id */
 import 'src/styles/globals.css'
 import 'react-medium-image-zoom/dist/styles.css'
+import 'node_modules/react-modal-video/css/modal-video.min.css'
 
 import { PropsWithChildren } from 'react'
 import Footer from 'src/components/shared/Footer'

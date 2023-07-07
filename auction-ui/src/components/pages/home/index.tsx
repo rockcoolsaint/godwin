@@ -14,7 +14,9 @@ import { LocalStorageKeys } from 'src/constants/localStorage'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { isDateBefore } from 'src/utils/date'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import ModalVideo from 'react-modal-video'
+import { PlayCircleIcon } from '@heroicons/react/20/solid'
 
 interface Props {
   auctions: Auction[]
@@ -27,6 +29,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
   const { t } = useTranslation()
   const { account } = useAccountContext()
   const router = useRouter()
+  const [videoOpen, setVideoOpen] = useState(false)
 
   useEffect(() => {
     if (account?.demo_expiration) {
@@ -52,19 +55,30 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
 
   return (
     <div>
-      <section className="md:px-25 mx-auto mt-20 flex max-w-[1824px] items-center px-5 md:flex-col md:items-center md:justify-between lg:flex-row lg:px-40">
+      <section className="md:px-25 mx-auto mt-20 flex max-w-[1824px] flex-col items-center px-5 md:flex-col md:items-center md:justify-between lg:flex-row lg:px-40">
         <div className="mr-4 flex flex-col items-center justify-start md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 lg:items-start">
           <h1 className="gradient-text text-center text-7xl text-gradient sm:text-left sm:text-8xl md:text-center lg:text-left ">
             Start mining smarter
           </h1>
-          <p className="my-6 text-center text-3xl font-normal sm:text-left sm:text-4xl lg:w-3/4">
+          <p className="my-4 text-center text-3xl font-normal sm:text-left sm:text-4xl lg:w-3/4">
             Buy your hashrate at an open market price
           </p>
           <Link className=" rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover " href="/collections">
             start mining now
           </Link>
         </div>
-        <Image className="hidden max-w-[60%] md:block" width={660} height={440} src={hero_image} alt="hero image" />
+        <div className="relative mt-16 flex items-center justify-center rounded-lg border border-dark-100/50 sm:mt-0">
+          <Image className=" max-w-[60%] md:block" width={660} height={440} src={hero_image} alt="hero image" />
+          <PlayCircleIcon className="absolute h-20 w-20 hover:cursor-pointer hover:opacity-50" onClick={() => setVideoOpen(true)} />
+        </div>
+
+        <ModalVideo
+          channel="vimeo"
+          vimeo={{ mute: 0, autoplay: true }}
+          isOpen={videoOpen}
+          videoId="843070054"
+          onClose={() => setVideoOpen(false)}
+        />
       </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
       {!isDemo && (
