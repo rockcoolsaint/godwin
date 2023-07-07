@@ -19,7 +19,7 @@ import { useNotificationsContext } from 'src/providers/NotificationsProvider'
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
   const slug = params.auctionSlug
 
-  const { token, isLoading: tokenLoading } = useAccountContext()
+  const { token, isLoading: tokenLoading, account } = useAccountContext()
   const { socket, isSocketReady } = useWebsocketContext()
 
   const bids = useRef<BidsEntityOrCurrentBid[]>([])
@@ -30,7 +30,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
   const [winner, setWinner] = useState<any>(undefined)
   const [order, setOrder] = useState<Order | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
-  const { setAuction: handleSetAuction, setAuctionStatus } = useNotificationsContext()
+  const { setAuction: handleSetAuction, setAuctionStatus, setAuctionEndNotification, setCheckoutNotification } = useNotificationsContext()
 
   const loadAuction = async () => {
     try {
@@ -83,7 +83,9 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         setWinner(auctionResult.winner)
 
         if (!tokenLoading && token && auctionResult.auction.status === AuctionStatus.Completed) {
-          loadOrder()
+          if (account?.id === auctionResult.winner.account.id) {
+            await loadOrder()
+          }
         }
       } catch (ex: any) {
         toast.error(ex.message)
@@ -99,13 +101,20 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
     if (auction && isSocketReady) {
       const handleAuctionsUpdate = async (update: any) => {
         if (auction.status === AuctionStatus.Active && update === AuctionStatus.Completed) {
-          await loadOrder()
+          const result = await getAuctionBySlug(slug)
+          if (account?.id === result.winner.account.id) {
+            await loadOrder()
+            setCheckoutNotification(true)
+          } else {
+            setAuctionEndNotification(true)
+          }
         }
 
         setAuction({ ...auction, status: update })
         handleSetAuction(auction)
         setAuctionStatus(update)
       }
+      setAuctionEndNotification(false)
 
       const handleBidsUpdate = (update: any) => {
         bids.current = [update, ...bids.current]
