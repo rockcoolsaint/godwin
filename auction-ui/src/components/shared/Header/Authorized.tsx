@@ -30,7 +30,7 @@ export default function Authorized() {
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
-            <Dropdown.Item className="h-8 px-3" href="/account">
+            <Dropdown.Item className="h-8 px-3" href="/account/general">
               <Icon icon="user" className="h-3 w-3 text-gray-600" />
               <span className="text-sm text-gray-600">Account</span>
             </Dropdown.Item>
