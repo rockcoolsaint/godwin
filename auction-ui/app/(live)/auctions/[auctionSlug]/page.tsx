@@ -12,7 +12,7 @@ import { Loader } from 'src/core'
 import { AuctionStatus, Auction, BidsEntityOrCurrentBid } from 'src/api/auction/types'
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Order } from 'src/types'
+import { Order, ProxyBidUpdate } from 'src/types'
 import toast from 'react-hot-toast'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
@@ -110,9 +110,16 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         setCurrentBid(update)
       }
 
+      const handleProxyBidsUpdate = (update: ProxyBidUpdate) => {
+        // TODO: @Jeezman handle proxy bid update
+        // eslint-disable-next-line no-console
+        console.log(update)
+      }
+
       const prepare = async () => {
         socket.subscribe(`auction_status_${auction.id}`, handleAuctionsUpdate)
         socket.subscribe(`bids_${auction.id}`, handleBidsUpdate)
+        socket.subscribe(`proxy_bids_${auction.id}`, handleProxyBidsUpdate)
         socket.subscribe(`current_bid_${auction.id}`, handleCurrentBidUpdate)
       }
 
@@ -121,6 +128,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
       return () => {
         socket.unsubscribe(`auction_status_${auction.id}`, handleAuctionsUpdate)
         socket.unsubscribe(`bids_${auction.id}`, handleBidsUpdate)
+        socket.unsubscribe(`proxy_bids_${auction.id}`, handleProxyBidsUpdate)
         socket.unsubscribe(`current_bid_${auction.id}`, handleCurrentBidUpdate)
       }
     }
