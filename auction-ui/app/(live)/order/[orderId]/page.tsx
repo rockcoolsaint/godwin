@@ -13,6 +13,7 @@ import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order } from 'src/types'
 import OrderStatusMessage from 'src/components/pages/order/OrderStatusMessage'
 import OrderActions from 'src/components/pages/order/OrderActions'
+import NotFoundComponent from 'src/components/shared/NotFoundComponent'
 import { formatMoney } from 'src/utils/currency'
 import { formatDate } from 'src/utils/date'
 import * as miner from 'src/assets/jpg/mining.jpeg'
@@ -47,9 +48,8 @@ export default function OrderDetail({ params }: { params: any }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId, token, tokenLoading, setOrder])
 
-  if (!order || !account) {
-    // TODO: Unauthorized page or redirect
-    return null
+  if (!order || !account || order.account_id !== account.id) {
+    return <NotFoundComponent message="Order not found" />
   }
 
   const paymentOne = order.payments.find(payment => payment.provider === PaymentProvider.OpenNode)
