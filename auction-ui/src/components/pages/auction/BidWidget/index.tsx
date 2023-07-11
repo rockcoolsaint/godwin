@@ -41,7 +41,11 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
       return 'Start date:'
     }
     if (auction.status === AuctionStatus.Active) {
-      return 'End date:'
+      return (
+        <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+          End date
+        </span>
+      )
     }
     if (auction.status === AuctionStatus.Completed) {
       return 'Auction ended:'
@@ -66,7 +70,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
       <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
         <p className="mb-4 flex items-center text-sm text-dark-100">
           {auctionStatus()}
-          <span className="ml-1 text-sm font-medium text-black">{format(parseISO(auction.end_at), 'MMMM dd, yy - h:mm aa')}</span>
+          <span className="ml-1 text-sm font-normal text-dark-100">- {format(parseISO(auction.end_at), 'MMMM dd, yy - h:mm aa')}</span>
           <ExclamationCircleIcon className="ml-1 h-4 w-4" />
         </p>
         {auction.status === AuctionStatus.Scheduled && (
