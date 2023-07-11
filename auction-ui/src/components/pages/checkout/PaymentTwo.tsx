@@ -3,7 +3,8 @@ import { Order } from 'src/types'
 import { Button, Container, formatAuctionType, QR } from 'src/core'
 
 function PaymentTwo({ order }: { order: Order }) {
-  const amount_remaining = order.total - order.mining_deposit - order.auction_fee
+  console.log(order)
+  const amount_remaining = order.total
   const payment_url = `bitcoin:${order.payment_address}?amount=${amount_remaining / 10 ** 8}`
 
   const handleCopyAddress = () => {
@@ -49,8 +50,12 @@ function PaymentTwo({ order }: { order: Order }) {
         </b>
       </div>
       <div>
-        <span>Total: </span>
+        <span>Balance: </span>
         <b>{order.total}</b>
+      </div>
+      <div>
+        <span>Total: </span>
+        <b>{order.total + order.mining_deposit + order.auction_fee}</b>
       </div>
       <div className="my-4 border-t border-gray-300" />
       <div>

@@ -14,6 +14,9 @@ import { Order } from 'src/types'
 import OrderStatusMessage from 'src/components/pages/order/OrderStatusMessage'
 import OrderActions from 'src/components/pages/order/OrderActions'
 import NotFoundComponent from 'src/components/shared/NotFoundComponent'
+import { formatMoney } from 'src/utils/currency'
+import { formatDate } from 'src/utils/date'
+import * as miner from 'src/assets/jpg/mining.jpeg'
 
 export default function OrderDetail({ params }: { params: any }) {
   const { account, token, isLoading: tokenLoading } = useAccountContext()
@@ -69,15 +72,15 @@ export default function OrderDetail({ params }: { params: any }) {
               <dl className="mt-2 space-y-4">
                 <div className="flex items-center justify-between">
                   <dt className="text-base text-gray-600">Rigly auction fee</dt>
-                  <dd className="text-base font-medium text-gray-900">{order.auction_fee} sats</dd>
+                  <dd className="text-base font-medium text-gray-900">{formatMoney(order.auction_fee)} sats</dd>
                 </div>
                 <div className="flex items-center justify-between">
                   <dt className="text-base text-gray-600">Mining deposit</dt>
-                  <dd className="text-base font-medium text-gray-900">{order.mining_deposit} sats</dd>
+                  <dd className="text-base font-medium text-gray-900">{formatMoney(order.mining_deposit)} sats</dd>
                 </div>
                 <div className="flex items-center justify-between">
                   <dt className="text-base text-gray-600">Bid</dt>
-                  <dd className="text-base font-medium text-gray-900">{order.price} sats</dd>
+                  <dd className="text-base font-medium text-gray-900">{formatMoney(order.price)} sats</dd>
                 </div>
               </dl>
               {/* <hr className="mt-4" /> */}
@@ -86,13 +89,13 @@ export default function OrderDetail({ params }: { params: any }) {
                 {paymentOne && (
                   <div className="flex items-center justify-between pt-4">
                     <dt className="text-base text-gray-600">Deposit + fees on {format(new Date(paymentOne.created_at), 'LL.dd.yyyy')}</dt>
-                    <dd className="text-base font-medium text-gray-900">{paymentOne.amount} sats</dd>
+                    <dd className="text-base font-medium text-gray-900">{formatMoney(paymentOne.amount)} sats</dd>
                   </div>
                 )}
                 {paymentTwo && (
                   <div className="flex items-center justify-between">
                     <dt className="text-base text-gray-600">Auction balance on {format(new Date(paymentTwo.created_at), 'LL.dd.yyyy')}</dt>
-                    <dd className="text-base font-medium text-gray-900">{paymentTwo.amount} sats</dd>
+                    <dd className="text-base font-medium text-gray-900">{formatMoney(paymentTwo.amount)} sats</dd>
                   </div>
                 )}
               </dl>
@@ -131,50 +134,32 @@ export default function OrderDetail({ params }: { params: any }) {
             aria-labelledby="summary-heading"
             className="mt-16 rounded-lg border border-gray-300 p-4 sm:p-4 lg:col-span-5 lg:mt-0 lg:p-8"
           >
-            <Image src="https://via.placeholder.com/600x300/png" alt="placeholder" width={500} height={500} className="mb-4 rounded-md" />
+            <Image
+              src={order.auction?.auction_meta.site_photo || miner}
+              alt="placeholder"
+              width={500}
+              height={500}
+              className="mb-4 rounded-md"
+            />
             <h4 id="summary-heading" className="text-base text-gray-900">
               280 TH/s in USA
             </h4>
-            <h4 className="mt-2 text-base font-normal text-gray-500">Epoch 390</h4>
+            {order.auction?.epoch?.epoch_number && (
+              <h4 className="mt-2 text-base font-normal text-gray-500">Epoch {order.auction.epoch.epoch_number}</h4>
+            )}
             <dl className="mt-2 space-y-2">
-              <div className="flex items-center justify-between">
-                <dt className="text-base text-gray-600">Start</dt>
-                <dd className="text-base font-medium text-gray-900">April 18th, 2023 02:24 UTC</dd>
-              </div>
-              <div className="flex items-center justify-between">
-                <dt className="text-base text-gray-600">End</dt>
-                <dd className="text-base font-medium text-gray-900">April 18th, 2023 02:24 UTC</dd>
-              </div>
-            </dl>
-            <hr className="mt-4" />
-            <div className="-mb-2 mt-4 text-base font-semibold text-gray-900">Details</div>
-            <dl className="mt-0 space-y-2">
-              <div className="flex items-center justify-between pt-4">
-                <dt className="text-base text-gray-600">Hashrate days</dt>
-                <dd className="text-base font-medium text-gray-900">8.4 days @ 175 TH/s</dd>
-              </div>
-              <div className="flex items-center justify-between">
-                <dt className="text-base text-gray-600">Offline days</dt>
-                <dd className="text-base font-medium text-gray-900">0.4 days @ 0 TH/s</dd>
-              </div>
-            </dl>
-            <dl className="mt-4 space-y-2">
-              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                <dt className="text-base text-gray-600">Speed max</dt>
-                <dd className="text-base font-medium text-gray-900">189 TH/s</dd>
-              </div>
-              <div className="flex items-center justify-between">
-                <dt className="text-base text-gray-600">Speed min</dt>
-                <dd className="text-base font-medium text-gray-900">142 TH/s</dd>
-              </div>
-              <div className="flex items-center justify-between">
-                <dt className="text-base text-gray-600">Speed avg</dt>
-                <dd className="text-base font-medium text-gray-900">175 TH/s</dd>
-              </div>
-              <div className="flex items-center justify-between font-semibold">
-                <dt className="text-base text-gray-600">Days remaining</dt>
-                <dd className="text-base text-gray-900">5 days @ 175 TH/s</dd>
-              </div>
+              {order.auction?.epoch?.start_time && (
+                <div className="flex items-center justify-between">
+                  <dt className="text-base text-gray-600">Start</dt>
+                  <dd className="text-base font-medium text-gray-900">{formatDate(order.auction.epoch.start_time, 'MMMM d, yyyy')}</dd>
+                </div>
+              )}
+              {order.auction?.epoch?.end_time && (
+                <div className="flex items-center justify-between">
+                  <dt className="text-base text-gray-600">End</dt>
+                  <dd className="text-base font-medium text-gray-900">{formatDate(order.auction.epoch.end_time, 'MMMM d, yyyy')}</dd>
+                </div>
+              )}
             </dl>
           </section>
         </div>

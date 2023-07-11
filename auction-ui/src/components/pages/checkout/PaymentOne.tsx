@@ -24,7 +24,7 @@ function PaymentOne({ order }: Props) {
   const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   const { first, paymentId, amountPaid, amountRemaining, isPaymentComplete, checkoutUrl } = usePayments(currentOrder)
-  const { auction, auction_fee, mining_deposit, price } = order
+  const { auction, auction_fee, mining_deposit, total, price } = order
 
   /**
   const applyPromoCode = async () => {
@@ -192,7 +192,10 @@ function PaymentOne({ order }: Props) {
               {order.type === OrderType.Auction && (
                 <p className="text-sm font-normal text-gray-700">{`Epoch ${auction?.epoch?.epoch_number || '-'}`}</p>
               )}
-              <p className="text-sm font-normal text-gray-900">Estimated start {formatDate(auction!.start_at, 'MMMM d, yyyy')}</p>
+              <p className="text-sm font-normal text-gray-900">
+                Estimated start{' '}
+                {auction && auction.auction_meta.hashrate_start ? formatDate(auction.auction_meta.hashrate_start, 'MMMM d, yyyy') : '-'}
+              </p>
             </div>
           </div>
         </div>
@@ -211,6 +214,12 @@ function PaymentOne({ order }: Props) {
                   <span>Auction bid</span>
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">{formatMoney(price)} sats</dd>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <dt className="flex text-sm text-gray-600">
+                  <span>Balance</span>
+                </dt>
+                <dd className="text-sm font-medium text-gray-900">{formatMoney(total)} sats</dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">

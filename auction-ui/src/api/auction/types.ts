@@ -87,6 +87,14 @@ export interface AuctionMeta {
   site_photo: string
   live_feed_image: string
   hash_price_image: string
+  hashrate_end: string
+  hashrate_start: string
+  name: string
+  notes: string
+  graphite_id: number
+  stratum_url: string
+  duration: string
+  bonus_time: string
   power_source: PowerSource
   asic_model: AsicModel
   terms_link: string

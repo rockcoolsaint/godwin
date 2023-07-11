@@ -12,6 +12,7 @@
   "dependencies": {
     "@floating-ui/react": "^0.23.0",
     "@headlessui/react": "^1.7.13",
+    "@headlessui/tailwindcss": "^0.1.3",
     "@heroicons/react": "^2.0.16",
     "@hookform/resolvers": "^3.1.0",
     "@sentry/nextjs": "^7.49.0",
@@ -38,9 +39,11 @@
     "react-hot-toast": "^2.4.1",
     "react-loader-spinner": "^5.3.4",
     "react-medium-image-zoom": "^5.1.2",
+    "react-modal-video": "^2.0.1",
     "react-slick": "^0.29.0",
     "react-tooltip": "^5.10.0",
-    "rosetta": "^1.1.0"
+    "rosetta": "^1.1.0",
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -49,6 +52,7 @@
     "@svgr/webpack": "^7.0.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/qrcode": "^1.5.0",
+    "@types/react-modal-video": "^1.2.0",
     "@types/react-slick": "^0.23.10",
     "@types/yup": "^0.32.0",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
@@ -60,6 +64,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-tailwindcss": "^3.10.1",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "file-loader": "^6.2.0",
     "postcss": "^8.4.20",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.2.4",

@@ -66,6 +66,19 @@ const nextConfig = {
       use: [{ loader: '@svgr/webpack' }],
     })
 
+    config.module.rules.push({
+      test: /\.(mp3)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/audio/',
+          outputPath: 'static/audio/',
+          name: '[name].[ext]',
+          esModule: false,
+        },
+      },
+    })
+
     config.resolve.alias = {
       ...config.resolve.alias,
     }

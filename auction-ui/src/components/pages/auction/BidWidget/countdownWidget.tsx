@@ -16,7 +16,11 @@ export const CountdownWidget = ({ days, hours, minutes, seconds, completed }: Co
       return <></>
     }
 
-    return <span className="text-center text-red-400">Auction ended</span>
+    return (
+      <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+        Auction ended
+      </span>
+    )
   } else {
     return (
       <section className="flex w-full flex-col items-center justify-center">
