@@ -160,7 +160,7 @@ function PaymentOne({ order }: Props) {
       ? currentOrder.payments
           .filter(payment => payment.provider === PaymentProvider.OpenNode)
           .reduce((highest, current) => (current.id > highest.id ? current : highest))
-      : currentOrder.payments[0]
+      : undefined
 
   const showRemaining =
     currentOrder &&
