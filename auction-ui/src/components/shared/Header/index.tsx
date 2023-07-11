@@ -139,7 +139,7 @@ export default function HeaderNav({ isDemo }: Props) {
                 </div>
                 <Link
                   className="flex items-center justify-start gap-3 px-5 py-4 text-base text-dark-300 hover:text-blue-500"
-                  href="/account"
+                  href="/account/general"
                 >
                   <Icon icon="user" className="h-3 w-3 text-gray-600" />
                   <span>Account</span>

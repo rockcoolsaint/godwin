@@ -1,27 +1,25 @@
 'use client'
 
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
-import SatsSvg from 'src/assets/svg/sats.svg'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { format, parseISO } from 'date-fns'
+import clsx from 'clsx'
+import { Tab } from '@headlessui/react'
 import Countdown from 'react-countdown'
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
+
+import SatsSvg from 'src/assets/svg/sats.svg'
 import { AuctionStatus, Auction, BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Input } from 'src/core'
-import { useCallback, useEffect, useState } from 'react'
-import { format, parseISO } from 'date-fns'
-import ws from 'src/lib/ws'
 import { formatMoney } from 'src/utils/currency'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import { useSatsToFiat } from 'src/hooks'
 import { CountdownWidget } from 'src/components/pages/auction/BidWidget/countdownWidget'
 import styles from './index.module.css'
-import { useWebsocketContext } from 'src/providers/WebsocketProvider'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { toast } from 'react-hot-toast'
 import { getHashPrice, HashpriceDict } from 'src/api/hashprice'
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid'
-import clsx from 'clsx'
+import RegularBid from './RegularBid'
+import ProxyBid from './ProxyBid'
 
 interface Props {
   auction: Auction
@@ -32,26 +30,8 @@ interface Props {
   slug?: string
 }
 
-interface FormInputs {
-  bid: number
-}
-
-const validationSchema = (value = 5000) => {
-  if (value <= 5000) {
-    value = 5000
-  } else {
-    value += 1000
-  }
-
-  return yup.object().shape({
-    bid: yup.number().integer().positive().min(value).required().typeError('bid must be a number'),
-  })
-}
-
 const BidWidget = ({ auction, current_bid, bids }: Props) => {
   const { isLoading, token } = useAccountContext()
-  const { isSocketReady } = useWebsocketContext()
-  const [loadingPlaceBid, setLoadingPlaceBid] = useState<boolean>(false)
   const [epoch, setEpoch] = useState<HashpriceDict>({})
 
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: current_bid || 0 })
@@ -72,61 +52,18 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
     }
   }
 
-  const {
-    reset,
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<FormInputs>({
-    resolver: yupResolver(validationSchema(bids[0]?.bid || auction?.starting_bid)),
-    defaultValues: {
-      bid: bids[0]?.bid || auction?.starting_bid,
-    },
-  })
-
-  const handlePlaceBid: SubmitHandler<FormInputs> = useCallback(
-    async value => {
-      try {
-        setLoadingPlaceBid(true)
-
-        const res: any = await ws.request('place_bid', {
-          auction_id: auction.id,
-          amount: value.bid,
-        })
-        if (res.error) {
-          throw new Error(res.error)
-        }
-
-        setLoadingPlaceBid(false)
-        reset(
-          {
-            bid: current_bid?.bid,
-          },
-          { keepTouched: false, keepDirty: false },
-        )
-        toast.success(res.message)
-      } catch (err: any) {
-        toast.error(err.message)
-        setLoadingPlaceBid(false)
-      }
-    },
-    [auction.id, current_bid?.bid, reset],
-  )
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const epochData = await getHashPrice()
         setEpoch(epochData)
-        setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
       } catch (error: any) {
         toast.error(error.message)
       }
     }
 
     fetchData()
-  }, [auction?.starting_bid, bids, setValue])
+  }, [auction?.starting_bid, bids])
 
   return (
     <>
@@ -177,25 +114,23 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
               {!isLoading && token && (
                 <>
                   <div className="mt-5 w-full">
-                    <p className="text-base font-semibold text-dark-100">Enter your bid</p>
-                    <div className="mt-2 flex flex-col">
-                      <form className="gap-4" onSubmit={handleSubmit(handlePlaceBid)}>
-                        <Input
-                          id="bid"
-                          defaultValue={bids[0]?.bid + 1000 || auction.starting_bid}
-                          errorMessage={errors.bid?.message}
-                          placeholder="Bid amount"
-                          {...register('bid')}
-                        />
-                        <button
-                          className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
-                          type="submit"
-                          disabled={loadingPlaceBid}
-                        >
-                          Place bid
-                        </button>
-                      </form>
-                    </div>
+                    <Tab.Group>
+                      <Tab.List className="flex items-center rounded-xl bg-gray-200 p-1">
+                        {[{ label: 'Bid' }, { label: 'Proxy' }].map((tab, i) => (
+                          <Tab key={i} className="h-10 w-full rounded-lg px-4 outline-none ui-selected:bg-blue-500">
+                            <span className="ui-selected:text-white">{tab.label}</span>
+                          </Tab>
+                        ))}
+                      </Tab.List>
+                      <Tab.Panels>
+                        <Tab.Panel className="pt-4">
+                          <RegularBid auction={auction} bids={bids} current_bid={current_bid} />
+                        </Tab.Panel>
+                        <Tab.Panel className="pt-4">
+                          <ProxyBid auction={auction} bids={bids} current_bid={current_bid} />
+                        </Tab.Panel>
+                      </Tab.Panels>
+                    </Tab.Group>
                   </div>
                 </>
               )}
