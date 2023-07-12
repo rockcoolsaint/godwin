@@ -89,3 +89,8 @@ export interface AuctionType {
   type: AuctionTypeChoice
   percentage: number
 }
+
+export interface ProxyBidUpdate {
+  maximum_amount: number
+  account: Account
+}

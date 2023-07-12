@@ -70,10 +70,6 @@ export default function HeaderNav({ isDemo }: Props) {
     logout()
   }
 
-  function filterNavUrl(nav: any) {
-    return nav.show
-  }
-
   return (
     <>
       <header className="h-20 min-h-[80px]">

@@ -12,13 +12,14 @@ import { Loader } from 'src/core'
 import { AuctionStatus, Auction, BidsEntityOrCurrentBid } from 'src/api/auction/types'
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Order } from 'src/types'
+import { Order, ProxyBidUpdate } from 'src/types'
 import toast from 'react-hot-toast'
+import { useNotificationsContext } from 'src/providers/NotificationsProvider'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
   const slug = params.auctionSlug
 
-  const { token, isLoading: tokenLoading } = useAccountContext()
+  const { token, isLoading: tokenLoading, account } = useAccountContext()
   const { socket, isSocketReady } = useWebsocketContext()
 
   const bids = useRef<BidsEntityOrCurrentBid[]>([])
@@ -29,6 +30,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
   const [winner, setWinner] = useState<any>(undefined)
   const [order, setOrder] = useState<Order | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
+  const { setAuction: handleSetAuction, setAuctionStatus, setAuctionEndNotification, setCheckoutNotification } = useNotificationsContext()
 
   const loadAuction = async () => {
     try {
@@ -76,6 +78,12 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         setProxyBids(auctionResult.proxy_bids)
         setCurrentBid(auctionResult.current_bid)
         setWinner(auctionResult.winner)
+
+        if (!tokenLoading && token && auctionResult.auction.status === AuctionStatus.Completed) {
+          if (account?.id === auctionResult.winner.account.id) {
+            await loadOrder()
+          }
+        }
       } catch (ex: any) {
         toast.error(ex.message)
       } finally {
@@ -96,11 +104,20 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
     if (auction && isSocketReady) {
       const handleAuctionsUpdate = async (update: any) => {
         if (auction.status === AuctionStatus.Active && update === AuctionStatus.Completed) {
-          await loadOrder()
+          const result = await getAuctionBySlug(slug)
+          if (account?.id === result.winner.account.id) {
+            await loadOrder()
+            setCheckoutNotification(true)
+          } else {
+            setAuctionEndNotification(true)
+          }
         }
 
         setAuction({ ...auction, status: update })
+        handleSetAuction(auction)
+        setAuctionStatus(update)
       }
+      setAuctionEndNotification(false)
 
       const handleBidsUpdate = (update: any) => {
         bids.current = [update, ...bids.current]
@@ -110,23 +127,24 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         setCurrentBid(update)
       }
 
+      const handleProxyBidsUpdate = (update: ProxyBidUpdate) => {
+        // TODO: @Jeezman handle proxy bid update
+        // eslint-disable-next-line no-console
+        console.log(update)
+      }
+
       const prepare = async () => {
         socket.subscribe(`auction_status_${auction.id}`, handleAuctionsUpdate)
         socket.subscribe(`bids_${auction.id}`, handleBidsUpdate)
+        socket.subscribe(`proxy_bids_${auction.id}`, handleProxyBidsUpdate)
         socket.subscribe(`current_bid_${auction.id}`, handleCurrentBidUpdate)
       }
 
       prepare()
-
-      return () => {
-        socket.unsubscribe(`auction_status_${auction.id}`, handleAuctionsUpdate)
-        socket.unsubscribe(`bids_${auction.id}`, handleBidsUpdate)
-        socket.unsubscribe(`current_bid_${auction.id}`, handleCurrentBidUpdate)
-      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auction?.id, socket, isSocketReady])
+  }, [auction?.id, auction?.status, socket, isSocketReady])
 
   if (loading) {
     return (
