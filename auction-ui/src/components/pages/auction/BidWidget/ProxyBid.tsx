@@ -8,6 +8,8 @@ import ws from 'src/lib/ws'
 import { Input } from 'src/core'
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
 import { Auction, BidsEntityOrCurrentBid } from 'src/api/auction/types'
+import { getAuctionBySlug } from 'src/api/auction/getAuctionBySlug'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 interface FormInputs {
   bid: number
@@ -25,16 +27,19 @@ const validationSchema = (value = 5000) => {
   })
 }
 
-export default function RegularBid({
+export default function ProxyBid({
   auction,
   bids,
   current_bid,
+  handleSetProxyBid
 }: {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
-  current_bid: BidsEntityOrCurrentBid
+    current_bid: BidsEntityOrCurrentBid
+  handleSetProxyBid: any
 }) {
   const { isSocketReady } = useWebsocketContext()
+  const { account, isLoading } = useAccountContext()
   const [loadingPlaceProxyBid, setLoadingPlaceProxyBid] = useState<boolean>(false)
 
   const {
@@ -64,6 +69,9 @@ export default function RegularBid({
           throw new Error(res.error)
         }
 
+        let result = await getAuctionBySlug(auction.slug)
+        let proxy = result.proxy_bid.find((bid) => account?.id === bid.account.id)
+        handleSetProxyBid(proxy)
         reset({ bid: current_bid?.bid }, { keepTouched: false, keepDirty: false })
         toast.success(res.message)
       } catch (err: any) {

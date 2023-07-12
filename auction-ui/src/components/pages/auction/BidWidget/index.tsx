@@ -9,7 +9,7 @@ import Countdown from 'react-countdown'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
 
 import SatsSvg from 'src/assets/svg/sats.svg'
-import { AuctionStatus, Auction, BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
+import { AuctionStatus, Auction, BidsEntityOrCurrentBid, Winner, ProxyBid as ProxyBidType } from 'src/api/auction/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { formatMoney } from 'src/utils/currency'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
@@ -25,16 +25,18 @@ interface Props {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
-  proxy_bid?: BidsEntityOrCurrentBid[]
+  proxy_bid: ProxyBidType
   winner?: Winner
   slug?: string
 }
 
-const BidWidget = ({ auction, current_bid, bids }: Props) => {
+const BidWidget = ({ auction, current_bid, bids, proxy_bid }: Props) => {
   const { isLoading, token } = useAccountContext()
   const [epoch, setEpoch] = useState<HashpriceDict>({})
+  const [proxyBid, setProxyBid] = useState(proxy_bid)
 
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: current_bid || 0 })
+  const proxyFiat = useSatsToFiat({ initialValue: 0, bid: proxyBid.maximum_amount || 0 })
 
   const auctionStatus = () => {
     if (auction.status === AuctionStatus.Scheduled) {
@@ -61,6 +63,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
         toast.error(error.message)
       }
     }
+    setProxyBid(proxy_bid)
 
     fetchData()
   }, [auction?.starting_bid, bids])
@@ -89,7 +92,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
           {auction.status === AuctionStatus.Active && (
             <>
               {current_bid && (
-                <div className="mt-7 w-full rounded-xl bg-gray-200 p-4">
+                <div className="mt-7 w-full rounded-xl flex flex-col items-center bg-gray-200 p-4">
                   <h5>Current bid</h5>
                   <Tooltip placement="left">
                     <TooltipTrigger>
@@ -101,6 +104,22 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
                       ${formatMoney(priceInFiat)}
                     </TooltipContent>
                   </Tooltip>
+                  {proxyBid?.maximum_amount && 
+                  <>
+                  <h6 className='mt-2 items-center rounded-md bg-gray-50 px-2 py-1 text-xs w-4/12 font-semibold text-gray-600 ring-1 ring-inset ring-gray-500/30'>Proxy bid</h6>
+                    <Tooltip placement="left">
+                      <TooltipTrigger>
+                        <h5 className="flex items-center justify-center rounded-md px-2 py-1 text-sm font-semibold text-gray-600 ">
+                          {formatMoney(proxyBid.maximum_amount)} <SatsSvg className="ml-2" />
+                        </h5>
+                      </TooltipTrigger>
+                      <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                        ${formatMoney(proxyFiat)}
+                      </TooltipContent>
+                    </Tooltip>
+                  </>
+                  }
+
                 </div>
               )}
               {current_bid === null && (
@@ -115,9 +134,9 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
                 <>
                   <div className="mt-5 w-full">
                     <Tab.Group>
-                      <Tab.List className="flex items-center rounded-xl bg-gray-200 p-1">
+                      <Tab.List className="flex items-center rounded-xl bg-gray-300 p-1">
                         {[{ label: 'Bid' }, { label: 'Proxy' }].map((tab, i) => (
-                          <Tab key={i} className="h-10 w-full rounded-lg px-4 outline-none ui-selected:bg-blue-500">
+                          <Tab key={i} className="h-8 w-full rounded-lg px-4 outline-none ui-selected:bg-gray-500">
                             <span className="ui-selected:text-white">{tab.label}</span>
                           </Tab>
                         ))}
@@ -127,7 +146,7 @@ const BidWidget = ({ auction, current_bid, bids }: Props) => {
                           <RegularBid auction={auction} bids={bids} current_bid={current_bid} />
                         </Tab.Panel>
                         <Tab.Panel className="pt-4">
-                          <ProxyBid auction={auction} bids={bids} current_bid={current_bid} />
+                          <ProxyBid auction={auction} bids={bids} current_bid={current_bid} handleSetProxyBid={setProxyBid} />
                         </Tab.Panel>
                       </Tab.Panels>
                     </Tab.Group>
