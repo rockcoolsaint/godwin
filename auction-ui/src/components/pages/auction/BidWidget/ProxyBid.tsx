@@ -35,7 +35,7 @@ export default function ProxyBid({
 }: {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
-    current_bid: BidsEntityOrCurrentBid
+  current_bid: BidsEntityOrCurrentBid
   handleSetProxyBid: any
 }) {
   const { isSocketReady } = useWebsocketContext()
@@ -69,8 +69,8 @@ export default function ProxyBid({
           throw new Error(res.error)
         }
 
-        let result = await getAuctionBySlug(auction.slug)
-        let proxy = result.proxy_bid.find((bid) => account?.id === bid.account.id)
+        const result = await getAuctionBySlug(auction.slug)
+        const proxy = result.proxy_bid.find((bid) => account?.id === bid.account.id)
         handleSetProxyBid(proxy)
         reset({ bid: current_bid?.bid }, { keepTouched: false, keepDirty: false })
         toast.success(res.message)

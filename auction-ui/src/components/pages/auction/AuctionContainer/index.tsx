@@ -46,7 +46,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
   
    useEffect(() => {
     const getProxyBid = async () => {
-      let proxy = proxy_bid.find((bid) => account?.id === bid.account.id)
+      const proxy = proxy_bid.find((bid) => account?.id === bid.account.id)
       setUserProxyBid(proxy)
     }
     
