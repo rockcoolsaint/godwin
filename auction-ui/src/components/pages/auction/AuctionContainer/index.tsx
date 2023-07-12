@@ -4,7 +4,7 @@
 import clsx from 'clsx'
 import { Tab } from '@headlessui/react'
 
-import { BidsEntityOrCurrentBid, Winner } from 'src/api/auction/types'
+import { BidsEntityOrCurrentBid, ProxyBid, Winner } from 'src/api/auction/types'
 import AuctionBids from 'src/components/pages/auction/AuctionBids'
 import AuctionProfile from 'src/components/pages/auction/AuctionProfile'
 import AuctionLiveFeed from 'src/components/pages/auction/AuctionLiveFeed'
@@ -16,6 +16,7 @@ import { Auction } from 'src/api/auction/types'
 import { Order } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import isOrderFulfilled from 'src/utils/isOrderFulfilled'
+import { useEffect, useState } from 'react'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -34,13 +35,23 @@ interface AuctionContainerProps {
   order?: Order
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
-  proxy_bids: BidsEntityOrCurrentBid[]
+  proxy_bid: ProxyBid[]
   winner: Winner
   slug: string
 }
 
-export default function AuctionContainer({ auction, order, bids, current_bid }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, order, bids, current_bid, proxy_bid }: AuctionContainerProps) {
   const { account, isLoading } = useAccountContext()
+  const [userProxyBid, setUserProxyBid] = useState<ProxyBid | undefined>(undefined)
+  
+   useEffect(() => {
+    const getProxyBid = async () => {
+      const proxy = proxy_bid.find((bid) => account?.id === bid.account.id)
+      setUserProxyBid(proxy)
+    }
+    
+    getProxyBid()
+  }, [])
 
   const categories = {
     Bids: [
@@ -94,6 +105,8 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
     )
   }
 
+ 
+
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
@@ -128,7 +141,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid }: 
           </Tab.Group>
         </div>
         <div className=" mt-4 flex min-w-fit flex-col lg:ml-4 lg:mt-0 lg:w-[25%]">
-          <BidWidget auction={auction} bids={bids} current_bid={current_bid} />
+          <BidWidget auction={auction} bids={bids} current_bid={current_bid} proxy_bid={userProxyBid!} />
 
           {order && account && order.account_id === account.id && !isOrderFulfilled(order.status) && (
             <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">

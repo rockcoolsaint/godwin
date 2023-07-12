@@ -75,7 +75,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
         setAuction(auctionResult.auction)
         bids.current = auctionResult.bids
-        setProxyBids(auctionResult.proxy_bids)
+        setProxyBids(auctionResult.proxy_bid)
         setCurrentBid(auctionResult.current_bid)
         setWinner(auctionResult.winner)
 
@@ -168,7 +168,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
           auction={auction}
           bids={bids.current}
           current_bid={currentBid}
-          proxy_bids={proxyBids}
+          proxy_bid={proxyBids}
           winner={winner}
           order={order}
           slug={slug}

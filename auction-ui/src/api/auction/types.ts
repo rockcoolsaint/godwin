@@ -119,7 +119,7 @@ export interface AuctionOfTheDayResponse {
   auction: Auction
   bids?: BidsEntityOrCurrentBid[] | null
   current_bid: BidsEntityOrCurrentBid | null
-  proxy_bid?: null[] | null
+  proxy_bid?: ProxyBid
   winner: Winner
 }
 
@@ -132,6 +132,11 @@ export interface BidsEntityOrCurrentBid {
   version: string
   bid: number
   auction_list: number
+}
+
+export interface ProxyBid {
+  account: Account
+  maximum_amount: number
 }
 
 export interface PoolUser {
