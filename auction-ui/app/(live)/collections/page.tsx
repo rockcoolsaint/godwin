@@ -15,7 +15,7 @@ export default function CollectionsPage() {
     const prepareCollections = async () => {
       setLoading(true)
       try {
-        const res = await getAllAuctions({ limit: 10 })
+        const res = await getAllAuctions({ limit: 21 })
 
         setAuctions(res)
       } catch (ex) {
