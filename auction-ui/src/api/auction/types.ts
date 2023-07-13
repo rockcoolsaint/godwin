@@ -124,6 +124,7 @@ export interface AuctionOfTheDayResponse {
 }
 
 export interface BidsEntityOrCurrentBid {
+  is_proxy: boolean
   id: number
   account: Account
   created_at: string

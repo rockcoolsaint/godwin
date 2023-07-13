@@ -143,14 +143,14 @@ export default function Example() {
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
         <div className="max-w-4x mx-auto">
           <h1 className="mb-5 text-center text-4xl font-bold leading-10 tracking-tight text-gray-900">Frequently asked questions</h1>
-          <dl className="mt-10 space-y-6 ">
+          <div className="mt-10 space-y-6 ">
             {faqs.map((faq, index) => (
               <div key={index} className="mb-10">
                 <h1>{faq.title}</h1>
                 {faq.data.map((faq, idx) => (
                   <Disclosure as="div" key={idx} className="pt-6">
                     {({ open }) => (
-                      <>
+                      <dl>
                         <dt>
                           <Disclosure.Button
                             className={clsx(
@@ -158,14 +158,14 @@ export default function Example() {
                               open ? 'bg-blue-200' : '',
                             )}
                           >
-                            <span className="text-base font-semibold leading-7">{faq.question}</span>
-                            <span className="ml-6 flex h-7 items-center">
+                            <dd className="text-base font-semibold leading-7">{faq.question}</dd>
+                            <dd className="ml-6 flex h-7 items-center">
                               {open ? (
                                 <MinusSmallIcon className="h-6 w-6" aria-hidden="true" />
                               ) : (
                                 <PlusSmallIcon className="h-6 w-6" aria-hidden="true" />
                               )}
-                            </span>
+                            </dd>
                           </Disclosure.Button>
                         </dt>
                         <Disclosure.Panel as="dd" className="bg-slate-100 p-4 pr-12">
@@ -174,13 +174,13 @@ export default function Example() {
                             className={`${styles['faq_body']} text-base leading-7 text-gray-600`}
                           />
                         </Disclosure.Panel>
-                      </>
+                      </dl>
                     )}
                   </Disclosure>
                 ))}
               </div>
             ))}
-          </dl>
+          </div>
         </div>
       </div>
     </div>
