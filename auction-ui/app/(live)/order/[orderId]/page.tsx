@@ -87,10 +87,10 @@ export default function OrderDetail({ params }: { params: any }) {
               <div className="-mb-2 mt-4 text-base font-semibold text-gray-900">Payments</div>
               <dl className="mt-0 space-y-4">
                 {paymentOne && (
-                  <div className="flex items-center justify-between pt-4">
+                  <dt className="flex items-center justify-between pt-4">
                     <dt className="text-base text-gray-600">Deposit + fees on {format(new Date(paymentOne.created_at), 'LL.dd.yyyy')}</dt>
                     <dd className="text-base font-medium text-gray-900">{formatMoney(paymentOne.amount)} sats</dd>
-                  </div>
+                  </dt>
                 )}
                 {paymentTwo && (
                   <div className="flex items-center justify-between">
@@ -100,16 +100,16 @@ export default function OrderDetail({ params }: { params: any }) {
                 )}
               </dl>
               <hr className="mt-4" />
-              <dl className=" text-base font-semibold text-gray-900">
-                <div className="flex items-center justify-between border-b border-gray-200 py-4">
+              <div className=" text-base font-semibold text-gray-900">
+                <dl className="flex items-center justify-between border-b border-gray-200 py-4">
                   <dt className="text-base text-gray-600">Balance</dt>
                   {paymentOne && paymentTwo && amountPaid === paymentOne.amount + paymentTwo.amount ? (
                     <dd className="text-base font-medium italic text-green-400">Your mining is paid in full, no balance due</dd>
                   ) : (
                     <dd className="text-base font-medium italic text-red-400">Your mining still requires payment</dd>
                   )}
-                </div>
-              </dl>
+                </dl>
+              </div>
               <h4 className="mt-4 text-xl font-semibold text-primary">Escrow</h4>
               <dl className="space-y-2">
                 <div className="flex items-center justify-between pt-4">
