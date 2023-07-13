@@ -95,7 +95,8 @@ const AuctionCard = ({ auction }: ProductProps) => {
             <div>
               <span className="text-sm font-medium text-red-500">Hash price</span>
               <span className="flex items-center text-sm">
-                {formatMoney(calculateAuctionHashPrice(auction.current_bid, auction.auction_meta.hashrate))} TH/s/day
+                {formatMoney(calculateAuctionHashPrice(auction.current_bid, auction.auction_meta.hashrate))} <SatsSvg className="ml-1" />
+                /TH/s/day
               </span>
             </div>
           </div>
