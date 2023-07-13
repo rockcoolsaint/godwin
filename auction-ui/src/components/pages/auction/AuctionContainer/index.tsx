@@ -40,16 +40,16 @@ interface AuctionContainerProps {
   slug: string
 }
 
-export default function AuctionContainer({ auction, order, bids, current_bid, proxy_bid }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, order, bids, current_bid, proxy_bid, winner }: AuctionContainerProps) {
   const { account, isLoading } = useAccountContext()
   const [userProxyBid, setUserProxyBid] = useState<ProxyBid | undefined>(undefined)
-  
-   useEffect(() => {
+
+  useEffect(() => {
     const getProxyBid = async () => {
-      const proxy = proxy_bid.find((bid) => account?.id === bid.account.id)
+      const proxy = proxy_bid.find(bid => account?.id === bid.account.id)
       setUserProxyBid(proxy)
     }
-    
+
     getProxyBid()
   }, [])
 
@@ -105,8 +105,6 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
     )
   }
 
- 
-
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
@@ -141,7 +139,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
           </Tab.Group>
         </div>
         <div className=" mt-4 flex min-w-fit flex-col lg:ml-4 lg:mt-0 lg:w-[25%]">
-          <BidWidget auction={auction} bids={bids} current_bid={current_bid} proxy_bid={userProxyBid!} />
+          <BidWidget auction={auction} bids={bids} current_bid={current_bid} proxy_bid={userProxyBid!} winner={winner} />
 
           {order && account && order.account_id === account.id && !isOrderFulfilled(order.status) && (
             <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">
