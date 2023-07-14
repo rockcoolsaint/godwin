@@ -1,6 +1,5 @@
 'use client'
 
-import { BellIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'src/components/shared/Link'
@@ -9,9 +8,9 @@ import Select from 'src/core/components/Select'
 
 const pages = [
   { label: 'General', path: '/account/general', icon: 'user' },
-  { label: 'Notifications', path: '/account/preferences', icon: <BellIcon className="ml-[-4px] h-6 w-5" /> },
-  // { label: 'Hashrate', path: '/account/hashrate', icon: 'helmetSafety' },
   { label: 'Orders', path: '/account/orders', icon: 'cart' },
+  { label: 'Hashrate', path: '/account/hashrate', icon: 'helmetSafety' },
+  { label: 'Notifications', path: '/account/preferences', icon: 'bell' },
 ]
 
 function getActiveRoute(pathName: string) {
@@ -26,9 +25,9 @@ function getActiveRoute(pathName: string) {
 
 const menuItems = [
   { path: '/account/general', label: 'General', icon: 'user' },
-  { path: '/account/preferences', label: 'Notifications', icon: <BellIcon className="ml-[-3px] h-4 w-4" /> },
-  // { path: '/account/hashrate', label: 'Hashrate', icon: 'helmetSafety' },
   { path: '/account/orders', label: 'Orders', icon: 'cart' },
+  { path: '/account/hashrate', label: 'Hashrate', icon: 'helmetSafety' },
+  { path: '/account/notifications', label: 'Notifications', icon: 'bell' },
 ]
 
 export default function AccountSidebar() {

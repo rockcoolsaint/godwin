@@ -20,17 +20,19 @@ import { getHashPrice, HashpriceDict } from 'src/api/hashprice'
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid'
 import RegularBid from './RegularBid'
 import ProxyBid from './ProxyBid'
+import { calculateAuctionHashPrice } from 'utils'
+import MiningSvg from 'src/assets/svg/mine.svg'
 
 interface Props {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
   proxy_bid: ProxyBidType
-  winner?: Winner
+  winner: Winner
   slug?: string
 }
 
-const BidWidget = ({ auction, current_bid, bids, proxy_bid }: Props) => {
+const BidWidget = ({ auction, current_bid, bids, proxy_bid, winner }: Props) => {
   const { isLoading, token } = useAccountContext()
   const [epoch, setEpoch] = useState<HashpriceDict>({})
   const [proxyBid, setProxyBid] = useState(proxy_bid)
@@ -67,6 +69,29 @@ const BidWidget = ({ auction, current_bid, bids, proxy_bid }: Props) => {
 
     fetchData()
   }, [auction?.starting_bid, bids])
+
+  const hasWinner = Object.keys(winner).length > 0
+
+  const renderCalculator = () => {
+    if (auction.status !== AuctionStatus.Completed) {
+      return <BidWidgetCalculator auction={auction} epoch={epoch} />
+    }
+
+    if (auction.status === AuctionStatus.Completed && hasWinner) {
+      return (
+        <div className="mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-3 opacity-70">
+          <p className="flex items-center text-sm font-semibold">
+            <span className="mr-2">🎉</span> Winning bid - {formatMoney(auction.current_bid)} <SatsSvg className="ml-2" />
+          </p>
+          <p className="mt-2 flex items-center text-sm font-semibold">
+            <MiningSvg className="mr-2 h-5" /> Hash price -{' '}
+            {formatMoney(calculateAuctionHashPrice(auction.current_bid, auction.auction_meta.hashrate))} <SatsSvg className="ml-2" />
+            /TH/s/day
+          </p>
+        </div>
+      )
+    }
+  }
 
   return (
     <>
@@ -158,7 +183,7 @@ const BidWidget = ({ auction, current_bid, bids, proxy_bid }: Props) => {
           )}
         </div>
       </div>
-      <BidWidgetCalculator auction={auction} epoch={epoch} />
+      {renderCalculator()}
     </>
   )
 }

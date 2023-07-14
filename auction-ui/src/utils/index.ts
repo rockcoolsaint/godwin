@@ -6,3 +6,7 @@ export { default as isOrderFulfilled } from './isOrderFulfilled'
 export function underscoreToSpaceAndCapitalize(str: string) {
   return str.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
 }
+
+export function calculateAuctionHashPrice(bid: number, hashrate: number) {
+  return bid / (hashrate * 14)
+}

@@ -15,10 +15,9 @@ interface Props {
 
 const AuctionBids = ({ bids }: Props) => {
   return (
-    <section className=" rounded-xl bg-white px-4 py-3">
-      <h5 className="mb-4 text-3xl">Bids</h5>
-      <div className="px-3"></div>
-      <div className="mb-4 rounded-xl border">
+    <section className="rounded-xl p-1 sm:px-4 sm:py-3">
+      <h5 className="text-3xl sm:mb-4">Bids</h5>
+      <div className="mb-4 rounded-xl sm:border">
         {bids.length > 0 ? (
           bids.map((bid, idx) => <AuctionBidList key={idx} bid={bid} />)
         ) : (
@@ -40,15 +39,22 @@ const AuctionBidList = ({ bid }: AuctionBidListProps) => {
   const { account } = useAccountContext()
 
   return (
-    <div className="flex items-center justify-between  px-3 pt-3">
+    <div className="flex flex-wrap items-center justify-between pt-3 sm:px-3">
       <div className="col-md-8">
-        <h6 className="mb-1 w-32 truncate text-sm font-bold capitalize sm:w-96 lg:w-80 lg:text-xl">
-          {bid.account.username}
+        <h6 className="mb-1 flex w-48 items-center text-sm font-bold capitalize sm:w-96 lg:w-80 lg:text-xl">
+          <span className="truncate">
+            {bid.account.username} {bid.account.username.toLocaleLowerCase() === 'anonymous' ? bid.account.id : ''}
+          </span>
           {account && bid.account.id === account.id ? ' (You)' : ''}
+          {bid.is_proxy && (
+            <span className="ml-2 items-center rounded-md bg-blue-50 px-2 text-xs font-normal leading-5 text-gray-600 ring-1 ring-inset ring-blue-500/30">
+              Proxy
+            </span>
+          )}
         </h6>
         <p className="text-sm font-medium text-dark-100/[.8]">{format(parseISO(bid.created_at), 'do MMMM, yy hh:mmaaa')}</p>
       </div>
-      <div className="col-md-4 flex flex-col items-end">
+      <div className="col-md-4 mt-2 flex flex-col items-end sm:mt-0">
         <Tooltip placement="left">
           <TooltipTrigger>
             <h6 className="mb-1 text-sm font-bold capitalize lg:text-xl">{formatMoney(bid.bid)} sats</h6>
