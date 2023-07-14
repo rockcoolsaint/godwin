@@ -84,9 +84,9 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
             }
           }
         }
-        setLoading(false)
       } catch (ex: any) {
         toast.error(ex.message)
+      } finally {
         setLoading(false)
       }
     }
