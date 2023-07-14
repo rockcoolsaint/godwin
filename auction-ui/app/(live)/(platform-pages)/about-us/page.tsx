@@ -9,6 +9,7 @@ import tobi from 'src/assets/png/tobi.png'
 import evan from 'src/assets/webp/evan.webp'
 import jonas from 'src/assets/webp/jonas.webp'
 import nico from 'src/assets/webp/nico.webp'
+import asher from 'src/assets/jpg/asher.jpg'
 
 function AboutUs() {
   return (
@@ -155,6 +156,15 @@ function AboutUs() {
               <p className="text-sm leading-6 text-gray-400">
                 Bitcoin Maximalist and Privacy Advocate, Author of Bitcoin and the Trust Problem. Karo previously worked both in the
                 Hardware Wallet and the Bitcoin Privacy space. He has a Master&apos;s degree in a Social Psychology related field.
+              </p>
+            </li>
+            <li className="rounded-2xl bg-gray-800 px-8 py-10">
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={asher} width={100} height={100} alt="asher" />
+              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Asher Pembroke</h3>
+              <p className="text-sm leading-6 text-gray-400">
+                Asher is an experienced Postdoctoral Researcher with a demonstrated history of working in the Research industry. Skilled in
+                Mathematical Modeling, Python, data analysis and visualization, he is a strong research professional with a Doctorate of
+                Philosophy focused in Space Weather Modeling from Rice University.
               </p>
             </li>
           </ul>
