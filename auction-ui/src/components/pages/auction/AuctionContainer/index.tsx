@@ -80,16 +80,6 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
     ],
   }
 
-  if (isLoading) {
-    return (
-      <Container className="flex h-full grow items-center justify-center">
-        <div className="flex items-center justify-center">
-          <Loader />
-        </div>
-      </Container>
-    )
-  }
-
   if (!auction) {
     return (
       <Container className="flex h-full grow items-center justify-center">

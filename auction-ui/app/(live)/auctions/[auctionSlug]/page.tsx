@@ -34,7 +34,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
   const loadAuction = async () => {
     try {
-      setLoading(true)
       const result = await getAuctionBySlug(slug)
       if (!result.auction) {
         throw new Error(`Couldn't load auction`)
@@ -43,7 +42,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
       return result
     } catch (ex: any) {
       toast.error(ex.message)
-    } finally {
       setLoading(false)
     }
   }
@@ -66,8 +64,8 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
 
   useEffect(() => {
     const prepareAuction = async () => {
+      setLoading(true)
       try {
-        setLoading(true)
         const auctionResult = await loadAuction()
         if (!auctionResult) {
           throw new Error(`Couldn't load auction`)
@@ -79,20 +77,22 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
         setCurrentBid(auctionResult.current_bid)
         setWinner(auctionResult.winner)
 
-        if (!tokenLoading && token && auctionResult.auction.status === AuctionStatus.Completed) {
-          if (account?.id === auctionResult.winner.account.id) {
-            await loadOrder()
+        if (token && auctionResult.auction.status === AuctionStatus.Completed) {
+          if (account && auctionResult.winner.account) {
+            if (account.id === auctionResult.winner.account.id) {
+              await loadOrder()
+            }
           }
         }
+        setLoading(false)
       } catch (ex: any) {
         toast.error(ex.message)
-      } finally {
         setLoading(false)
       }
     }
 
     prepareAuction()
-  }, [slug, tokenLoading, token])
+  }, [slug, token])
 
   useEffect(() => {
     if (auction && auction.status === AuctionStatus.Completed && !tokenLoading && token) {
