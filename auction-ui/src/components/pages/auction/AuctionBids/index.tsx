@@ -42,7 +42,9 @@ const AuctionBidList = ({ bid }: AuctionBidListProps) => {
     <div className="flex flex-wrap items-center justify-between pt-3 sm:px-3">
       <div className="col-md-8">
         <h6 className="mb-1 flex w-48 items-center text-sm font-bold capitalize sm:w-96 lg:w-80 lg:text-xl">
-          <span className="truncate">{bid.account.username}</span>
+          <span className="truncate">
+            {bid.account.username} {bid.account.username.toLocaleLowerCase() === 'anonymous' ? bid.account.id : ''}
+          </span>
           {account && bid.account.id === account.id ? ' (You)' : ''}
           {bid.is_proxy && (
             <span className="ml-2 items-center rounded-md bg-blue-50 px-2 text-xs font-normal leading-5 text-gray-600 ring-1 ring-inset ring-blue-500/30">
