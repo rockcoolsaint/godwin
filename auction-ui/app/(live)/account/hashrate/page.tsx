@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
 import { updateAccount } from 'src/api/auth/updateAccount'
@@ -9,6 +9,7 @@ import AccountView from 'src/components/pages/account/AccountView'
 import { Form, Input, Loader } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import protect from 'src/hoc/protect'
+import { getHashrateDeliveries } from 'src/api/account/getHashrateDeliveries'
 
 function Hashrate() {
   const { account, isLoading: isAccountLoading, token } = useAccountContext()
@@ -32,6 +33,27 @@ function Hashrate() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const loadHashrateDeliveries = async () => {
+      if (!token) {
+        return
+      }
+
+      try {
+        const res = await getHashrateDeliveries(token)
+        // TODO: @Jeezman to use response for completing https://github.com/RiglyCorp/rigly-auction/issues/282
+        // eslint-disable-next-line no-console
+        console.log(res)
+      } catch (ex) {
+        console.error(ex)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadHashrateDeliveries()
+  }, [token])
 
   if (isAccountLoading) {
     return (
