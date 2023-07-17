@@ -20,13 +20,12 @@ function Account() {
 
     try {
       setLoading(true)
-
       const updateSuccess = await updateAccount(data, token)
       if (updateSuccess) {
         toast.success('Your changes have been saved.')
       }
-    } catch (ex) {
-      console.error(ex)
+    } catch (ex: any) {
+      toast.error(ex.message)
     } finally {
       setLoading(false)
     }
