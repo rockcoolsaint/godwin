@@ -10,7 +10,7 @@
   "bid_start_date": "Bid start date",
   "bid_end_date": "Bid end date",
   "bid_closed": "Bidding closed for this auction",
-  "bid_open": "Bidding open for this auction",
+  "bid_open": "Bidding open",
   "current_bid": "Current bid",
   "winning_bid": "Winning bid",
   "place_bid": "Place a bid",
