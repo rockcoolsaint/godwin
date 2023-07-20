@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { AuctionOfTheDayResponse } from 'src/api/auction/types'
+import { AuctionOfTheDayResponse, AuctionStatus } from 'src/api/auction/types'
 import Link from 'src/components/shared/Link'
 import { useTranslation } from 'src/hooks'
 import { format, parseISO } from 'date-fns'
@@ -39,7 +39,23 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
       return <p className="mb-4 rounded bg-tag-red/[.2] p-2 text-base font-semibold text-tag-red">{t('home.bid_closed')}</p>
     }
 
+    if (auction.status === AuctionStatus.Scheduled) {
+      return (
+        <p className="text-tag-yellow mb-4 rounded bg-yellow-50  p-2 py-1 text-base font-semibold text-yellow-700 ring-1 ring-inset ring-yellow-600/20">
+          Upcoming auction
+        </p>
+      )
+    }
+
     return <p className="mb-4 rounded bg-tag-green/[.2] p-2 text-base font-semibold text-tag-green">{t('home.bid_open')}</p>
+  }
+
+  const renderBidCount = () => {
+    if (auction.bid_count === 1) {
+      return 'bid'
+    }
+
+    return 'bids'
   }
 
   return (
@@ -63,7 +79,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
             </div>
             <hr className="my-5 block w-full border" />
             <p className="mb-4 rounded bg-tag-blue/[.2] p-2 px-5 text-base font-semibold text-tag-blue">
-              {auction.bid_count} {auction.bid_count > 1 ? 'bids' : 'bid'}
+              {auction.bid_count} {renderBidCount()}
             </p>
             <div className="mt-4 flex w-full justify-between">
               <aside>
@@ -72,12 +88,14 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
                   {formatMoney(auction.starting_bid)} <SatsSvg className="ml-2" />
                 </p>
               </aside>
-              <aside className="md:mr-9">
-                <p className="mb-1 text-base text-dark-100">{t('home.auction_end_amount')}:</p>
-                <p className="flex items-center text-base font-semibold">
-                  {formatMoney(auction.current_bid)} <SatsSvg className="ml-2" />
-                </p>
-              </aside>
+              {auction.bid_count > 0 && (
+                <aside className="md:mr-9">
+                  <p className="mb-1 text-base text-dark-100">Current bid:</p>
+                  <p className="flex items-center text-base font-semibold">
+                    {formatMoney(auction.current_bid)} <SatsSvg className="ml-2" />
+                  </p>
+                </aside>
+              )}
             </div>
             <Link
               className="mt-8 flex w-full items-center justify-center rounded-lg bg-gradient p-3 text-base text-white hover:bg-gradient-hover"

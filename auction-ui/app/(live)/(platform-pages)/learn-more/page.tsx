@@ -125,7 +125,7 @@ function LearnMore() {
                 <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">How can I trust Rigly?</h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
                   We are a new project started by people who are passionate about bitcoin.{' '}
-                  <Link href="https://rigly.io/pages/about" target="_blank">
+                  <Link className="hover:underline" href="https://rigly.io/pages/about-us" target="_blank">
                     Read our story
                   </Link>
                 </p>
