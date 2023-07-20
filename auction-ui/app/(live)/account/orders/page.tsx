@@ -81,7 +81,11 @@ function Orders() {
                 return <div className="flex h-12 items-center">{order.type === OrderType.Direct ? 'Direct' : 'Auction'}</div>
               }
               case 'name': {
-                return <Link href={`/auctions/${order.auction.slug}`} className="flex h-12 items-center text-blue-500 hover:underline">{order.auction.title}</Link>
+                return (
+                  <Link href={`/auctions/${order.auction.slug}`} className="flex h-12 items-center text-blue-500 hover:underline">
+                    {order.auction.title}
+                  </Link>
+                )
               }
               case 'payment_status': {
                 return <>{formatOrderStatus(order.status)}</>

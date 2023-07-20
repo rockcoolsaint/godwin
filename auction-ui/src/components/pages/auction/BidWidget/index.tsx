@@ -85,7 +85,10 @@ const BidWidget = ({ auction, current_bid, bids, proxy_bid, winner }: Props) => 
           </p>
           <p className="mt-2 flex items-center text-sm font-semibold">
             <MiningSvg className="mr-2 h-5" /> Hash price -{' '}
-            {formatMoney(calculateAuctionHashPrice(auction.current_bid, auction.auction_meta.hashrate))} <SatsSvg className="ml-2" />
+            {formatMoney(
+              calculateAuctionHashPrice(auction.current_bid, auction.auction_meta.hashrate, auction.auction_meta.days_of_mining),
+            )}
+            <SatsSvg className="ml-2" />
             /TH/s/day
           </p>
         </div>
