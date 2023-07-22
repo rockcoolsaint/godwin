@@ -19,6 +19,7 @@ import Modal from 'src/core/components/Modal'
 import { formatMoney } from 'src/utils/currency'
 import SatsSvg from 'src/assets/svg/sats.svg'
 import { useRouter } from 'next/navigation'
+import mempoolTxUrl from 'src/utils/mempoolUrl'
 
 function formatOrderStatus(status: string) {
   switch (status) {
@@ -253,7 +254,15 @@ export function OrderPayments({ payments, open, onClose }: { payments: Payment[]
                 return <div className="flex h-12 items-center">{formatOrderStatus(payment.status)}</div>
               }
               case 'tx_id': {
-                return <div className="flex h-12 items-center">{payment.tx_id}</div>
+                return (
+                  <Link
+                    target="_blank"
+                    href={mempoolTxUrl(payment.tx_id)}
+                    className="flex h-12 items-center text-blue-500 underline hover:no-underline"
+                  >
+                    {payment.tx_id}
+                  </Link>
+                )
               }
             }
           }}
