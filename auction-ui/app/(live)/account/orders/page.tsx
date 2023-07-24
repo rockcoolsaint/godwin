@@ -18,6 +18,8 @@ import clsx from 'clsx'
 import Modal from 'src/core/components/Modal'
 import { formatMoney } from 'src/utils/currency'
 import SatsSvg from 'src/assets/svg/sats.svg'
+import { useRouter } from 'next/navigation'
+import mempoolTxUrl from 'src/utils/mempoolUrl'
 
 function formatOrderStatus(status: string) {
   switch (status) {
@@ -144,6 +146,8 @@ export function OrderAction({
   hasManageAccess: boolean
   handleShowPaymentModal: (id: number) => void
 }) {
+  const router = useRouter()
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -196,6 +200,16 @@ export function OrderAction({
                 </span>
               )}
             </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <span
+                  onClick={() => router.push(`/account/orders/${order.id}`)}
+                  className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
+                >
+                  View Details
+                </span>
+              )}
+            </Menu.Item>
           </div>
         </Menu.Items>
       </Transition>
@@ -240,7 +254,15 @@ export function OrderPayments({ payments, open, onClose }: { payments: Payment[]
                 return <div className="flex h-12 items-center">{formatOrderStatus(payment.status)}</div>
               }
               case 'tx_id': {
-                return <div className="flex h-12 items-center">{payment.tx_id}</div>
+                return (
+                  <Link
+                    target="_blank"
+                    href={mempoolTxUrl(payment.tx_id)}
+                    className="flex h-12 items-center text-blue-500 underline hover:no-underline"
+                  >
+                    {payment.tx_id}
+                  </Link>
+                )
               }
             }
           }}
