@@ -57,8 +57,16 @@ export interface OrderMessage {
 }
 
 export interface Order {
+  created_at: string
   id: number
   auction?: Auction
+  account?: Account
+  deleted: boolean
+  expires_at: string
+  original_total: number
+  proxy: string | null
+  version: string
+  wallet: string
   price: number
   total: number
   mining_deposit: number
@@ -74,6 +82,56 @@ export interface Order {
   type: OrderType
   cancellation_reason?: string
   messages: OrderMessage[]
+}
+
+export interface Invoice {
+  report: InvoiceReport
+  figure: any
+}
+
+export interface InvoiceReport {
+  body: string
+  subject: string
+  duration: string
+  auction_url: string
+  uptime_days: number
+  balance_sats: number
+  deposit_sats: number
+  epoch_number: number
+  hashrate_end: string
+  pool_account: string
+  auction_title: string
+  downtime_days: number
+  hashrate_days: number
+  hashrate_thps: number
+  mining_status: string
+  bid_price_sats: number
+  hashrate_start: string
+  remaining_days: number
+  deposit_percent: number
+  payment_address: string
+  stratum_address: string
+  auction_fee_sats: number
+  percent_complete: number
+  pool_worker_name: string
+  remaining_status: string
+  time_of_completion: any
+  anticipated_hashrate: number
+  average_hashrate_thps: number
+  expected_time_of_completion: any
+}
+
+export interface OrderDetail {
+  invoice: Invoice
+  order: Order
+  shares: Shares
+}
+export interface Shares {
+  id: number
+  timestamp: string
+  stratums_id: number
+  accepted: number
+  rejected: number
 }
 
 export interface Collection {
