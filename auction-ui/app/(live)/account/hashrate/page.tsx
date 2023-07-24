@@ -9,7 +9,7 @@ import AccountView from 'src/components/pages/account/AccountView'
 import { Form, Input, Loader } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import protect from 'src/hoc/protect'
-import { getHashrateDeliveries } from 'src/api/account/getHashrateDeliveries'
+import { getOngoingDeliveries } from 'src/api/account/getOngoingDeliveries'
 
 function Hashrate() {
   const { account, isLoading: isAccountLoading, token } = useAccountContext()
@@ -41,7 +41,7 @@ function Hashrate() {
       }
 
       try {
-        const res = await getHashrateDeliveries(token)
+        const res = await getOngoingDeliveries(token)
         // TODO: @Jeezman to use response for completing https://github.com/RiglyCorp/rigly-auction/issues/282
         // eslint-disable-next-line no-console
         console.log(res)
