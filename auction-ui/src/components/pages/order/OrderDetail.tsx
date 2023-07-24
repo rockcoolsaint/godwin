@@ -7,7 +7,8 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 
 export default function OrderDetail({ order }: { order: Order }) {
   return (
-    <>
+    <div className="mb-6 mt-2">
+      <h3 className="mb-1 font-normal">Order details</h3>
       <div className="lg:col-start-3 lg:row-end-1">
         <div className="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5">
           <dl className="flex flex-wrap">
@@ -54,7 +55,7 @@ export default function OrderDetail({ order }: { order: Order }) {
         </div>
       </div>
 
-      <div className="my-6 border-t border-gray-100">
+      <div className="border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
           <div className="bg-gray-50 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
             <dt className="text-sm font-medium leading-6 text-gray-900">Order type</dt>
@@ -94,6 +95,6 @@ export default function OrderDetail({ order }: { order: Order }) {
           </div>
         </dl>
       </div>
-    </>
+    </div>
   )
 }
