@@ -1,4 +1,4 @@
-export type Network = 'bitcoin'
+export type Network = 'bitcoin' | 'testnet'
 
 export default function mempoolTxUrl(txid?: string, network?: Network) {
   if (!txid) {
@@ -11,6 +11,8 @@ export default function mempoolTxUrl(txid?: string, network?: Network) {
     switch (network) {
       case 'bitcoin':
         return `https://mempool.space/tx/${txid}`
+      case 'testnet':
+        return `https://mempool.space/testnet/tx/${txid}`
       default:
         return `https://mempool.space/tx/${txid}`
     }
