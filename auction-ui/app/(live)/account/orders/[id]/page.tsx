@@ -7,8 +7,8 @@ import clsx from 'clsx'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { getOrderById } from 'src/api/account/getOrderById'
 import { Order, OrderDetail as OrderDetailType } from 'src/types'
-import SatsSvg from 'src/assets/svg/sats.svg'
 import OrderDetail from 'src/components/pages/order/OrderDetail'
+import { OrderInvoice } from 'src/components/pages/order/OrderInvoice'
 
 function OrderIdPage({ params }: { params: { [key: string]: string | undefined } }) {
   const { token } = useAccountContext()
@@ -75,12 +75,14 @@ function OrderIdPage({ params }: { params: { [key: string]: string | undefined }
           </Tab>
         </Tab.List>
         <Tab.Panels>
-          <Tab.Panel className="px-8">{orderDetail && <OrderDetail order={orderDetail?.order} />}</Tab.Panel>
           <Tab.Panel className="px-8">
-            <OrderHashrate order={orderDetail?.order} />
+            <OrderDetail order={orderDetail!.order} />
           </Tab.Panel>
           <Tab.Panel className="px-8">
-            <OrderInvoice order={orderDetail?.order} />
+            <OrderHashrate order={orderDetail!.order} />
+          </Tab.Panel>
+          <Tab.Panel className="px-8">
+            <OrderInvoice invoice={orderDetail!.invoice} />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
@@ -91,9 +93,5 @@ function OrderIdPage({ params }: { params: { [key: string]: string | undefined }
 export default protect(OrderIdPage)
 
 export function OrderHashrate({ order }: { order: Order }) {
-  return <h1>Order Hash rate</h1>
-}
-
-export function OrderInvoice({ order }: { order: Order }) {
   return <h1>Order Hash rate</h1>
 }
