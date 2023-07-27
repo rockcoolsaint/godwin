@@ -10,6 +10,8 @@ import { Form, Input, Loader } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import protect from 'src/hoc/protect'
 import { getOngoingDeliveries } from 'src/api/account/getOngoingDeliveries'
+import Chart from 'src/components/pages/auction/AuctionLiveFeed/Chart'
+import sampleFigure from 'src/assets/json/sample_figure.json'
 
 function Hashrate() {
   const { account, isLoading: isAccountLoading, token } = useAccountContext()
@@ -97,6 +99,10 @@ function Hashrate() {
           <Form.Submit>Save</Form.Submit>
         </div>
       </Form>
+      <div className="px-4">
+        <h3>Hashrate live feed</h3>
+        <Chart title="Hashrate data" data={sampleFigure.data} />
+      </div>
     </AccountView>
   )
 }
