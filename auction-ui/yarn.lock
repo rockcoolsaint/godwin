@@ -4788,6 +4788,13 @@ react-modal-video@^2.0.1:
     react-transition-group "^4.4.2"
     stringify "^5.2.0"
 
+react-number-format@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-5.2.2.tgz#60ee1152b33fee9e522e13846da9c9bf30993404"
+  integrity sha512-wCh64Z1HCwXcO2dbgkeYIaB+Rmp/fcsH8kAeRtUkc46dv1pIrgDjie2WkOqKBw8YqyqhwNdYgNFNQuuY+iGJ/g==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-property@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-property/-/react-property-2.0.0.tgz#2156ba9d85fa4741faf1918b38efc1eae3c6a136"
