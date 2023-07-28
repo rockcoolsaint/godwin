@@ -130,9 +130,6 @@ export default function HeaderNav({ isDemo }: Props) {
           {account && (
             <>
               <div className="border-y border-gray-300">
-                <div className="p-5">
-                  Signed in as <span className="text-blue-500">{account.email}</span>
-                </div>
                 <Link
                   className="flex items-center justify-start gap-3 px-5 py-4 text-base text-dark-300 hover:text-blue-500"
                   href="/account/general"
@@ -147,6 +144,9 @@ export default function HeaderNav({ isDemo }: Props) {
                   <Icon icon="cart" className="h-3 w-3 text-gray-600" />
                   <span>Orders</span>
                 </Link>
+                <div className="p-5">
+                  Signed in as <span className="text-blue-500">{account.email}</span>
+                </div>
               </div>
               <div className="p-5">
                 <button
