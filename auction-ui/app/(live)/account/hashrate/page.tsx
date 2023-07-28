@@ -12,6 +12,7 @@ import protect from 'src/hoc/protect'
 import { getOngoingDeliveries } from 'src/api/account/getOngoingDeliveries'
 import Chart from 'src/components/pages/auction/AuctionLiveFeed/Chart'
 import sampleFigure from 'src/assets/json/sample_figure.json'
+import { useInterval } from 'src/hooks/useInterval'
 
 function Hashrate() {
   const { account, isLoading: isAccountLoading, token } = useAccountContext()
@@ -56,6 +57,20 @@ function Hashrate() {
 
     loadHashrateDeliveries()
   }, [token])
+
+  useInterval(async () => {
+    if (!token) {
+      return
+    }
+
+    try {
+      const res = await getOngoingDeliveries(token)
+    } catch (ex) {
+      console.error(ex)
+    } finally {
+      setLoading(false)
+    }
+  }, 10000)
 
   if (isAccountLoading) {
     return (
