@@ -80,6 +80,7 @@ function Hashrate() {
               name="mining_pool_username"
               defaultValue={account.pool_user ? account.pool_user.username : ''}
               placeholder="satoshi"
+              isDisabled={true}
             />
           </Form.Field>
           <Form.Field className="w-full flex-col">
@@ -89,12 +90,18 @@ function Hashrate() {
               name="mining_pool_address"
               defaultValue={account.pool_user ? account.pool_user.pool : ''}
               placeholder="stratum+tcp://stratum.braiins.com:3333"
+              isDisabled={true}
             />
           </Form.Field>
         </Form.Section>
 
-        <div className="flex w-full justify-end px-4 pb-4">
-          <Form.Submit>Save</Form.Submit>
+        <div className="flex w-full justify-start px-4 pb-4">
+          <span className="inline-flex items-center gap-x-1.5 rounded-md bg-yellow-50/40 px-2 py-4 text-sm font-normal text-gray-600 ring-1 ring-inset ring-yellow-600/20">
+            <svg className="h-1.5 w-1.5 fill-yellow-500" viewBox="0 0 6 6" aria-hidden="true">
+              <circle cx="3" cy="3" r="3" />
+            </svg>
+            You cannot change pools while hash rate is being delivered. Please contact us via intercom if you need to change pools
+          </span>
         </div>
       </Form>
     </AccountView>

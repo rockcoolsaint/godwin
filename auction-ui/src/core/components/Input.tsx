@@ -12,6 +12,8 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
    * Error message for an invalid value
    */
   errorMessage?: React.ReactNode
+
+  isDisabled?: boolean
 }
 
 const StyledInput = styled(
@@ -41,7 +43,7 @@ const StyledErrorMessage = styled(
 )
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function InputComponentInner(
-  { className, errorMessage, label, ...props }: InputProps,
+  { className, errorMessage, label, disabled, isDisabled, ...props }: InputProps,
   ref,
 ) {
   return (
@@ -52,7 +54,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function InputComponentIn
         </label>
       )}
       <div className="relative rounded-md">
-        <StyledInput error={Boolean(errorMessage)} type="text" ref={ref} {...props} />
+        <StyledInput disabled={isDisabled || disabled} error={Boolean(errorMessage)} type="text" ref={ref} {...props} />
         {Boolean(errorMessage) && props.type !== 'date' && (
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <ExclamationCircleIcon className="h-5 w-5 text-error" />
