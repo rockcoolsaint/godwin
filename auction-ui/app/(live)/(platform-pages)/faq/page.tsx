@@ -110,7 +110,7 @@ const faqs = [
       },
       {
         question: 'What fees does Rigly charge?',
-        answer: `<p>Our auction platform fee is 3% and is paid by the buyer. The fee is paid via hashrate. During your mining term, you will see a periodic drop in received hashrate when the fee is paid.</p>`,
+        answer: `<p>Our auction platform fee is 3.5% and is paid by the buyer. The fee is paid along with your deposit when you win an auction.</p>`,
       },
       {
         question: 'Are mining plans paid in USD or BTC?',

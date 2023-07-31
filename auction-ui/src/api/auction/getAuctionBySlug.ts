@@ -14,7 +14,7 @@ export interface AuctionResponse {
 }
 
 export async function getAuctionBySlug(slug: string): Promise<AuctionResponse> {
-  const auction: AuctionResponse = await makeClientRequest({ method: 'GET', path: `/api/auctions?slug=${slug}` })
+  const auction: AuctionResponse = await makeClientRequest({ method: 'GET', path: `/api/auctions/${slug}` })
 
   // TODO: Error handling
 

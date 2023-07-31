@@ -2,10 +2,10 @@
 
 import { makeClientRequest } from 'src/api/clientRequest'
 
-export async function getHashrateDeliveries(token: string): Promise<any> {
+export async function getOngoingDeliveries(token: string): Promise<any> {
   const hashrateDeliveries = await makeClientRequest({
     method: 'GET',
-    path: '/api/account/hashrate-deliveries',
+    path: '/api/account/deliveries/ongoing',
     headers: {
       Authorization: `Bearer ${token}`,
     },
