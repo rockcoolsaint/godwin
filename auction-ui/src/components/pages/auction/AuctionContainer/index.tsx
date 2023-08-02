@@ -30,6 +30,25 @@ function handleSelect({ selected }: { selected: boolean }) {
   )
 }
 
+export interface Tab {
+  bids: TabProps
+  profile: TabProps
+  'live-feed': TabProps
+  'hash-price': TabProps
+}
+
+export interface TabProps {
+  name: string
+  index: number
+}
+
+const TAB_PANEL: Tab = {
+  bids: { name: 'Bids', index: 0 },
+  profile: { name: 'Profile', index: 1 },
+  'live-feed': { name: 'Live Feed', index: 2 },
+  'hash-price': { name: 'Hash Price', index: 3 },
+}
+
 interface AuctionContainerProps {
   auction: Auction
   order?: Order
@@ -38,11 +57,13 @@ interface AuctionContainerProps {
   proxy_bid: ProxyBid[]
   winner: Winner
   slug: string
+  tab?: 'bids' | 'profile' | 'live-feed' | 'hash-price'
 }
 
-export default function AuctionContainer({ auction, order, bids, current_bid, proxy_bid, winner }: AuctionContainerProps) {
-  const { account, isLoading } = useAccountContext()
+export default function AuctionContainer({ auction, order, bids, current_bid, proxy_bid, winner, tab }: AuctionContainerProps) {
+  const { account } = useAccountContext()
   const [userProxyBid, setUserProxyBid] = useState<ProxyBid | undefined>(undefined)
+  const [currentTab] = useState(TAB_PANEL[tab || 'bids'])
 
   useEffect(() => {
     const getProxyBid = async () => {
@@ -101,7 +122,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
       <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
       <section className="auction-container flex flex-col rounded-xl bg-gray-50 sm:p-3 lg:flex-row">
         <div className="lg:w-[75%]">
-          <Tab.Group>
+          <Tab.Group defaultIndex={currentTab?.index || 0}>
             <Tab.Panels className=" scrollbar-hide h-[440px] overflow-scroll">
               {Object.values(categories).map((posts, idx) => (
                 <Tab.Panel
