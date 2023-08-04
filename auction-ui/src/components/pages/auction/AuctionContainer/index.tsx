@@ -243,6 +243,11 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
         disableCloseOnEsc
         disableOverlayClose
         hideCloseButton={false}
+        styles={{
+          options: {
+            primaryColor: '#035DF2',
+          },
+        }}
       ></Joyride>
     </>
   )
