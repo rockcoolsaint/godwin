@@ -220,7 +220,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
     <div className="mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-3 opacity-70">
       <h1 className="mb-2 text-base">Hash price</h1>
       {Object.keys(filteredEpoch).length > 0 && (
-        <div className="flex items-center justify-between">
+        <div data-test-id="step-hashprice" className="flex items-center justify-between">
           <input
             onChange={e => {
               setHashPrice(Math.max(min, Math.min(max, Number(e.target.value))) || 0)
@@ -236,7 +236,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         </div>
       )}
 
-      <label htmlFor="#hashprice" className="mt-4 flex w-full max-w-[336px] items-center">
+      <label data-test-id="step-range" htmlFor="#hashprice" className="mt-4 flex w-full max-w-[336px] items-center">
         <input
           onChange={e => {
             setHashPrice(parseInt(e.target.value) || 0)
@@ -251,7 +251,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
           value={hashPrice.toString()}
         />
       </label>
-      <div className="mt-14">
+      <div data-test-id="step-estimate" className="mt-14">
         <h1 className="flex items-center text-base">
           Estimated revenue
           <Tooltip placement="bottom">

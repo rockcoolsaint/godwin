@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 'use client'
 
 import clsx from 'clsx'
@@ -11,18 +10,18 @@ import AuctionLiveFeed from 'src/components/pages/auction/AuctionLiveFeed'
 import AuctionHashPrice from 'src/components/pages/auction/AuctionHashPrice'
 import Container from 'src/core/components/Container'
 import BidWidget from 'src/components/pages/auction/BidWidget'
-import { Button, Loader } from 'src/core'
+import { Button } from 'src/core'
 import { Auction } from 'src/api/auction/types'
 import { Order } from 'src/types'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import isOrderFulfilled from 'src/utils/isOrderFulfilled'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import Joyride, { ACTIONS, CallBackProps, EVENTS, STATUS } from 'react-joyride'
+import { useIsMounted } from 'src/hooks/useIsMounted'
+import { LocalStorageKeys } from 'src/constants/localStorage'
+import { TAB_PANEL, TourState } from './types'
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
-function handleSelect({ selected }: { selected: boolean }) {
+function tabClass({ selected }: { selected: boolean }) {
   return clsx(
     'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-dark-100',
     ' ring-offset-blue-400 ',
@@ -30,23 +29,11 @@ function handleSelect({ selected }: { selected: boolean }) {
   )
 }
 
-export interface Tab {
-  bids: TabProps
-  profile: TabProps
-  'live-feed': TabProps
-  'hash-price': TabProps
-}
-
-export interface TabProps {
-  name: string
-  index: number
-}
-
-const TAB_PANEL: Tab = {
-  bids: { name: 'Bids', index: 0 },
-  profile: { name: 'Profile', index: 1 },
-  'live-feed': { name: 'Live Feed', index: 2 },
-  'hash-price': { name: 'Hash Price', index: 3 },
+function panelClass() {
+  return clsx(
+    'rounded-xl bg-white',
+    'scrollbar-hide h-full ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+  )
 }
 
 interface AuctionContainerProps {
@@ -64,6 +51,17 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
   const { account } = useAccountContext()
   const [userProxyBid, setUserProxyBid] = useState<ProxyBid | undefined>(undefined)
   const [currentTab] = useState(TAB_PANEL[tab || 'bids'])
+  const [selectedIndex, setSelectedIndex] = useState(currentTab?.index || 0)
+  const isMounted = useIsMounted()
+  const [{ run, steps }, setState] = useState<TourState>({
+    run: false,
+    steps: [],
+  })
+
+  const bidRef = useRef<HTMLButtonElement>(null)
+  const profileRef = useRef<HTMLButtonElement>(null)
+  const liveFeedRef = useRef<HTMLButtonElement>(null)
+  const hashPriceRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const getProxyBid = async () => {
@@ -72,34 +70,67 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
     }
 
     getProxyBid()
-  }, [])
+  }, [account?.id, proxy_bid])
 
-  const categories = {
-    Bids: [
-      {
-        id: 1,
-        component: <AuctionBids bids={bids} />,
-      },
-    ],
-    Profile: [
-      {
-        id: 2,
-        component: <AuctionProfile data={auction} />,
-      },
-    ],
-    'Live feed': [
-      {
-        id: 3,
-        component: <AuctionLiveFeed auction={auction} />,
-      },
-    ],
-    'Hash price': [
-      {
-        id: 5,
-        component: <AuctionHashPrice />,
-      },
-    ],
-  }
+  useEffect(() => {
+    const prepareSteps = () => {
+      const hasGuide = localStorage.getItem(LocalStorageKeys.Guide.bid)
+      if (isMounted() && account?.id && !hasGuide) {
+        setState(prevState => ({
+          ...prevState,
+          run: true,
+          steps: [
+            {
+              disableBeacon: true,
+              content: <div>View your bids here and the bids of other users</div>,
+              placement: 'left',
+              target: '[data-test-id="digest-step-settings-interval"]',
+              title: <p className="font-bold">Bids</p>,
+            },
+            {
+              content: <div>View hashrate delivery terms</div>,
+              placement: 'left',
+              target: profileRef.current!,
+              title: <p className="font-bold">Profile</p>,
+            },
+            {
+              content: <div>Check live feed of hashrate from our proxy</div>,
+              placement: 'left',
+              target: liveFeedRef.current!,
+              title: <p className="font-bold">Livefeed</p>,
+            },
+            {
+              content: <div>Consult on-chain data to calculate hash price</div>,
+              placement: 'left',
+              target: hashPriceRef.current!,
+              title: <p className="font-bold">Hash price</p>,
+            },
+            {
+              content: <div>Hashprice = (block subsidy + tx fees) / network hashrate</div>,
+              placement: 'left',
+              target: '[data-test-id="step-hashprice"]',
+            },
+            {
+              content: <div>Adjust hashprice for forward dated epochs</div>,
+              placement: 'left',
+              target: '[data-test-id="step-range"]',
+            },
+            {
+              content: <div>Compare estimate and bid price</div>,
+              placement: 'left',
+              target: '[data-test-id="step-estimate"]',
+            },
+            {
+              content: <div>Enter your bid and click button to place bid</div>,
+              placement: 'left',
+              target: '[data-test-id="step-bid-input"]',
+            },
+          ],
+        }))
+      }
+    }
+    prepareSteps()
+  }, [account?.id, isMounted])
 
   if (!auction) {
     return (
@@ -116,36 +147,74 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
     )
   }
 
+  const handleCallback = (data: CallBackProps) => {
+    const { action, index, status, type } = data
+
+    if (([ACTIONS.CLOSE, ACTIONS.SKIP] as string[]).includes(action)) {
+      localStorage.setItem(LocalStorageKeys.Guide.bid, JSON.stringify(true))
+      setSelectedIndex(0)
+      setState(prevState => ({ ...prevState, run: false }))
+    }
+
+    if (status === STATUS.FINISHED && type === EVENTS.TOUR_END) {
+      localStorage.setItem(LocalStorageKeys.Guide.bid, JSON.stringify(true))
+      setSelectedIndex(0)
+      setState(prevState => ({ ...prevState, run: false }))
+    }
+
+    if (type === EVENTS.STEP_AFTER && index <= 4) {
+      if (action === ACTIONS.NEXT) {
+        setSelectedIndex(index + 1)
+
+        setState(prevState => ({ ...prevState }))
+      } else {
+        setSelectedIndex(index - 1)
+      }
+    }
+  }
+
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
       <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
       <section className="auction-container flex flex-col rounded-xl bg-gray-50 sm:p-3 lg:flex-row">
-        <div className="lg:w-[75%]">
-          <Tab.Group defaultIndex={currentTab?.index || 0}>
-            <Tab.Panels className=" scrollbar-hide h-[440px] overflow-scroll">
-              {Object.values(categories).map((posts, idx) => (
-                <Tab.Panel
-                  key={idx}
-                  className={classNames(
-                    'rounded-xl bg-white',
-                    'scrollbar-hide h-full ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-                  )}
-                >
-                  {posts.map(post => (
-                    <div key={post.id} className="scrollbar-hide relative h-full rounded-md">
-                      {post.component}
-                    </div>
-                  ))}
-                </Tab.Panel>
-              ))}
+        <div data-test-id="digest-step-settings-interval" className="lg:w-[75%]">
+          <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+            <Tab.Panels className="scrollbar-hide h-[600px] overflow-scroll">
+              <Tab.Panel className={panelClass()}>
+                <div className="scrollbar-hide relative h-full rounded-md">
+                  <AuctionBids bids={bids} />
+                </div>
+              </Tab.Panel>
+              <Tab.Panel className={panelClass()}>
+                <div className="scrollbar-hide relative h-full rounded-md">
+                  <AuctionProfile data={auction} />
+                </div>
+              </Tab.Panel>
+              <Tab.Panel className={panelClass()}>
+                <div className="scrollbar-hide relative h-full rounded-md">
+                  <AuctionLiveFeed auction={auction} />
+                </div>
+              </Tab.Panel>
+              <Tab.Panel className={panelClass()}>
+                <div className="scrollbar-hide relative h-full rounded-md">
+                  <AuctionHashPrice />
+                </div>
+              </Tab.Panel>
             </Tab.Panels>
             <Tab.List className="mt-4 flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-              {Object.keys(categories).map(category => (
-                <Tab key={category} className={handleSelect}>
-                  {category}
-                </Tab>
-              ))}
+              <Tab ref={bidRef} className={tabClass}>
+                Bids
+              </Tab>
+              <Tab ref={profileRef} className={tabClass}>
+                Profile
+              </Tab>
+              <Tab ref={liveFeedRef} className={tabClass}>
+                Live feed
+              </Tab>
+              <Tab ref={hashPriceRef} className={tabClass}>
+                Hash price
+              </Tab>
             </Tab.List>
           </Tab.Group>
         </div>
@@ -164,6 +233,17 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
           )}
         </div>
       </section>
+      <Joyride
+        callback={handleCallback}
+        steps={steps}
+        continuous
+        showProgress
+        run={run}
+        showSkipButton
+        disableCloseOnEsc
+        disableOverlayClose
+        hideCloseButton={false}
+      ></Joyride>
     </>
   )
 }
