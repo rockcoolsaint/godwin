@@ -2,10 +2,10 @@ import { formatMoney } from 'src/utils/currency'
 import { formatDate } from 'src/utils/date'
 import { CalendarDaysIcon, CreditCardIcon, UserCircleIcon } from '@heroicons/react/20/solid'
 import { underscoreToSpaceAndCapitalize } from 'utils'
-import { Order } from 'src/types'
+import { InvoiceReport, Order } from 'src/types'
 import SatsSvg from 'src/assets/svg/sats.svg'
 
-export default function OrderDetail({ order }: { order: Order }) {
+export default function OrderDetail({ order, report }: { order: Order; report: InvoiceReport }) {
   return (
     <div className="mb-6 mt-2">
       <h3 className="mb-1 font-normal">Order details</h3>
@@ -92,6 +92,20 @@ export default function OrderDetail({ order }: { order: Order }) {
           <div className="bg-gray-50 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
             <dt className="text-sm font-medium leading-6 text-gray-900">Wallet</dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{order.wallet}</dd>
+          </div>
+          <div className="bg-gray-50 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+            <dt className="text-sm font-medium leading-6 text-gray-900">Hashrate delivered</dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{report.hashrate_thps}</dd>
+          </div>
+          <div className="bg-gray-50 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+            <dt className="text-sm font-medium leading-6 text-gray-900">Hashrate end date</dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{report.hashrate_end}</dd>
+          </div>
+          <div className="bg-gray-50 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
+            <dt className="text-sm font-medium leading-6 text-gray-900">Hashrate days</dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {Math.floor(report.remaining_days)} day{`${report.remaining_days > 1 ? 's' : ''}`}
+            </dd>
           </div>
         </dl>
       </div>
