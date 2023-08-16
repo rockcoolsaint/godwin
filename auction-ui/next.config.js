@@ -6,6 +6,8 @@ const isProd = process.env.NODE_ENV === 'production'
 
 console.log(`Building for ${isProd ? 'production' : 'development'}`)
 
+console.log('NEXT_PUBLIC_APP_API_SERVER_URL', process.env.NEXT_PUBLIC_APP_API_SERVER_URL)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
