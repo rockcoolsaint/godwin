@@ -45,5 +45,3 @@ jobs:
           password: ${{ secrets.QA_PASSWORD }}
           port: ${{ secrets.QA_PORT }}
           script: ./deploy_server.sh
-
-aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 686795470659.dkr.ecr.us-east-2.amazonaws.com
