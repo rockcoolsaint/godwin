@@ -15,7 +15,6 @@ export default function ChartComponent({ title, data, layout }: { title: string;
           ticksuffix: 'TH/sec  ',
         },
         margin: { t: 0, r: 20 },
-        displayModeBar: false,
       })
     }
   }, [chartRef, title, data, layout])
