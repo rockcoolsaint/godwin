@@ -83,7 +83,9 @@ function OrderIdPage({ params }: { params: { [key: string]: string | undefined }
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel className="px-8">{orderDetail && <OrderDetail order={orderDetail?.order} />}</Tab.Panel>
-          <Tab.Panel className="px-8">{orderDetail && <OrderHashrate />}</Tab.Panel>
+          <Tab.Panel className="px-8">
+            {orderDetail && <OrderHashrate invoice={orderDetail?.invoice} shares={orderDetail.shares} />}
+          </Tab.Panel>
           <Tab.Panel className="px-8">{orderDetail && <OrderInvoice invoice={orderDetail?.invoice} />}</Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

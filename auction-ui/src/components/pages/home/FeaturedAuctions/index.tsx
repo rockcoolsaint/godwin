@@ -2,6 +2,7 @@
 
 import { Auction } from 'src/api/auction/types'
 import AuctionCard from 'src/components/pages/home/AuctionCard'
+import Link from 'src/components/shared/Link'
 import { Container } from 'src/core'
 interface Props {
   auctions: Auction[]
@@ -25,6 +26,9 @@ const FeaturedAuctions = ({ auctions }: Props) => {
             <AuctionCard key={idx} auction={auction} />
           ))}
         </div>
+        <Link className="mt-8 underline hover:no-underline" href="/collections">
+          View all auctions
+        </Link>
       </section>
     </Container>
   )

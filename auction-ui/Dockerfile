@@ -5,20 +5,33 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
-
+RUN yarn --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ARG NODE_ENV
+ARG NEXT_PUBLIC_APP_API_SERVER_URL
+ARG NEXT_PUBLIC_APP_CALLBACK_URL
+ARG NEXT_PUBLIC_APP_WS_SERVER_URL
+ARG NEXT_PUBLIC_APP_WS_SERVER_URL
+ARG NEXT_PUBLIC_INTERCOM_ID
+
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=$NODE_ENV
+ENV NEXT_PUBLIC_APP_API_SERVER_URL=$NEXT_PUBLIC_APP_API_SERVER_URL
+ENV NEXT_PUBLIC_APP_CALLBACK_URL=$NEXT_PUBLIC_APP_CALLBACK_URL
+ENV NEXT_PUBLIC_APP_WS_SERVER_URL=$NEXT_PUBLIC_APP_WS_SERVER_URL
+ENV NEXT_PUBLIC_INTERCOM_ID=$NEXT_PUBLIC_INTERCOM_ID
+
+RUN echo "NODE_ENV=$NODE_ENV"; \
+  echo "NEXT_PUBLIC_APP_API_SERVER_URL=$NEXT_PUBLIC_APP_API_SERVER_URL"; \
+  echo "NEXT_PUBLIC_APP_CALLBACK_URL=$NEXT_PUBLIC_APP_CALLBACK_URL"; \
+  echo "NEXT_PUBLIC_APP_WS_SERVER_URL=$NEXT_PUBLIC_APP_WS_SERVER_URL"; \
+  echo "NEXT_PUBLIC_INTERCOM_ID=$NEXT_PUBLIC_INTERCOM_ID"; \
+  sleep 10;
 
 RUN yarn install
 RUN NODE_ENV=production yarn build
