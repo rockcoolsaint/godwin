@@ -4,11 +4,7 @@ require('dotenv').config()
 
 const isProd = process.env.NODE_ENV === 'production'
 
-console.log(`Building for ${isProd ? 'production' : 'development'} using env:`)
-
-Object.entries(process.env).map(([key, value]) => {
-  console.log(`${key}: ${value}`)
-})
+console.log(`Building for ${isProd ? 'production' : 'development'}`)
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
