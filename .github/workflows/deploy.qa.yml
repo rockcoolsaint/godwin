@@ -1,18 +1,40 @@
 name: Deploy QA
+
 on:
   push:
-    branches: ["develop"]
+    branches:
+      - develop
 
 jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: appleboy/ssh-action@master
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          host: ${{ secrets.QA_HOST }}
-          username: ${{ secrets.QA_USERNAME }}
-          # key: ${{ secrets.QA_PRIVATE_KEY }}
-          password: ${{ secrets.QA_PASSWORD }}
-          port: ${{ secrets.QA_PORT }}
-          script: |
-            ./deploy_server.sh
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag and push the Docker image to AWS ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: rigly-frontend
+          IMAGE_TAG: latest
+        run: |
+          docker build --build-arg PORT=${{ secrets.APP_PORT }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Configure AWS EC2 deployment
+        run: sudo apt-get install -y sshpass
+
+      - name: Pull and run the Docker image on AWS EC2
+        run: |
+          sshpass -p '${{ secrets.QA_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p ${{ secrets.QA_PORT }} ${{ secrets.QA_USERNAME }}@${{ secrets.QA_HOST }} "./deploy_server.sh"
