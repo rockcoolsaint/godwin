@@ -33,9 +33,11 @@ jobs:
           docker build --build-arg PORT=${{ secrets.APP_PORT }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      - name: Configure AWS EC2 deployment
-        run: sudo apt-get install -y sshpass
-
       - name: Pull and run the Docker image on AWS EC2
-        run: |
-          sshpass -p '${{ secrets.QA_PASSWORD }}' ssh -o StrictHostKeyChecking=no -p ${{ secrets.QA_PORT }} ${{ secrets.QA_USERNAME }}@${{ secrets.QA_HOST }} "./deploy_server.sh"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.QA_HOST }}
+          username: ${{ secrets.QA_USERNAME }}
+          password: ${{ secrets.QA_PASSWORD }}
+          port: ${{ secrets.QA_PORT }}
+          script: ./deploy_server.sh
