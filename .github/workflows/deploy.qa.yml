@@ -37,11 +37,11 @@ jobs:
         run: |
           cd auction-ui
           docker build \
-            --build-arg NODE_ENV=${{ secrets.NODE_ENV }} \
-            --build-arg NEXT_PUBLIC_APP_API_SERVER_URL=${{ secrets.APP_NEXT_PUBLIC_APP_API_SERVER_URL }} \
-            --build-arg NEXT_PUBLIC_APP_WS_SERVER_URL=${{ secrets.APP_NEXT_PUBLIC_APP_WS_SERVER_URL }} \
-            --build-arg NEXT_PUBLIC_APP_CALLBACK_URL=${{ secrets.APP_NEXT_PUBLIC_APP_CALLBACK_URL }} \
-            --build-arg NEXT_PUBLIC_INTERCOM_ID=${{ secrets.APP_NEXT_PUBLIC_INTERCOM_ID }} \
+            --build-arg NODE_ENV=$NODE_ENV \
+            --build-arg NEXT_PUBLIC_APP_API_SERVER_URL=$NEXT_PUBLIC_APP_API_SERVER_URL \
+            --build-arg NEXT_PUBLIC_APP_WS_SERVER_URL=$NEXT_PUBLIC_APP_WS_SERVER_URL \
+            --build-arg NEXT_PUBLIC_APP_CALLBACK_URL=$NEXT_PUBLIC_APP_CALLBACK_URL \
+            --build-arg NEXT_PUBLIC_INTERCOM_ID=$NEXT_PUBLIC_INTERCOM_ID \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
