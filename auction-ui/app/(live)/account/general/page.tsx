@@ -69,6 +69,10 @@ function Account() {
               Some auctions use a 2-of-3 multisig wallet, to sign transactions we&apos;ll need your public key
             </span>
           </Form.Field>
+          <Form.Field className="w-full flex-col">
+            <Form.Field.Label htmlFor="refund_address">Refund address</Form.Field.Label>
+            <Input type="text" name="refund_address" defaultValue={account.refund_address} placeholder="-" />
+          </Form.Field>
         </Form.Section>
 
         <Form.Section title="Contact details">
