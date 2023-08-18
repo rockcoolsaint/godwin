@@ -151,6 +151,7 @@ export enum AccountType {
 }
 
 export interface Account {
+  refund_address: string
   id: number
   username: string
   first_name?: string

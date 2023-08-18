@@ -70,7 +70,7 @@ export default function RegularBid({
     <>
       <p className="text-base font-semibold text-dark-100">Enter your bid</p>
       <div className="mt-2 flex flex-col">
-        <form className="gap-4" onSubmit={handleSubmit(handlePlaceBid)}>
+        <form data-test-id="step-bid-input" className="gap-4" onSubmit={handleSubmit(handlePlaceBid)}>
           <Controller
             name="bid"
             control={control}
