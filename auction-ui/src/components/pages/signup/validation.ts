@@ -20,16 +20,8 @@ export const useSignUpSchema = (signUpInfo?: signUpInfo) => {
             .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, () => 'Email not valid')
             .required(() => 'Email required'),
           referral_code: yup.string(),
-          mining_pool_username: signUpInfo?.poolAccountOwner
-            ? yup
-                .string()
-                .trim()
-                .required(() => 'Mining pool username is required')
-            : yup.string(),
-          mining_pool_address: yup
-            .string()
-            .trim()
-            .required(() => 'Mining pool address is required'),
+          mining_pool_username: signUpInfo?.poolAccountOwner ? yup.string().trim() : yup.string(),
+          mining_pool_address: yup.string().trim(),
         })
         .required(),
     [signUpInfo?.poolAccountOwner],
