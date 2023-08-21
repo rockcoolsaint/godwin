@@ -17,6 +17,7 @@ import NotFoundComponent from 'src/components/shared/NotFoundComponent'
 import { formatMoney } from 'src/utils/currency'
 import { formatDate } from 'src/utils/date'
 import * as miner from 'src/assets/jpg/mining.jpeg'
+import Link from 'src/components/shared/Link'
 
 export default function OrderDetail({ params }: { params: any }) {
   const { account, token, isLoading: tokenLoading } = useAccountContext()
@@ -141,9 +142,9 @@ export default function OrderDetail({ params }: { params: any }) {
               height={500}
               className="mb-4 rounded-md"
             />
-            <h4 id="summary-heading" className="text-base text-gray-900">
-              280 TH/s in USA
-            </h4>
+            <Link href={`/auctions/${order.auction!.slug} || "#"`} id="summary-heading" className="text-base text-gray-900 hover:underline">
+              {order.auction?.title}
+            </Link>
             {order.auction?.epoch?.epoch_number && (
               <h4 className="mt-2 text-base font-normal text-gray-500">Epoch {order.auction.epoch.epoch_number}</h4>
             )}
