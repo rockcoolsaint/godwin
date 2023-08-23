@@ -121,10 +121,6 @@ function Hashrate() {
           </span>
         </div>
       </Form>
-      <div className="px-4">
-        <h3>Hashrate live feed</h3>
-        <Chart title="Hashrate data" data={sampleFigure.data} />
-      </div>
     </AccountView>
   )
 }
