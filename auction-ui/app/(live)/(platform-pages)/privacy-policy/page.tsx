@@ -37,7 +37,7 @@ export default function PrivacyPolicy() {
             tags, or pixels
           </li>
           {/* <li>
-            <strong>Disclosure for a business purpose:</strong> shared with our processor Shopify and Google (Google Analytics)
+            <strong>Disclosure for a business purpose:</strong> shared with Google (Google Analytics)
           </li> */}
         </ul>
         <p className="my-4">
@@ -55,7 +55,7 @@ export default function PrivacyPolicy() {
             <strong>Source of collection:</strong> collected from you
           </li>
           {/* <li>
-            <strong>Disclosure for a business purpose:</strong> shared with our processors Shopify and Webkul Software
+            <strong>Disclosure for a business purpose:</strong> stored on our servers
           </li> */}
         </ul>
         <p className="my-4">
@@ -200,10 +200,6 @@ export default function PrivacyPolicy() {
                 <td>storefront_digest</td>
                 <td>Used in connection with customer login.</td>
               </tr>
-              <tr>
-                <td>_shopify_u</td>
-                <td>Used to facilitate updating customer account information.</td>
-              </tr>
             </tbody>
           </table>
           <h2></h2>
@@ -229,30 +225,6 @@ export default function PrivacyPolicy() {
               <tr>
                 <td>_orig_referrer</td>
                 <td>Track landing pages</td>
-              </tr>
-              <tr>
-                <td>_s</td>
-                <td>Shopify analytics.</td>
-              </tr>
-              <tr>
-                <td>_shopify_s</td>
-                <td>Shopify analytics.</td>
-              </tr>
-              <tr>
-                <td>_shopify_sa_p</td>
-                <td>Shopify analytics relating to marketing &amp; referrals.</td>
-              </tr>
-              <tr>
-                <td>_shopify_sa_t</td>
-                <td>Shopify analytics relating to marketing &amp; referrals.</td>
-              </tr>
-              <tr>
-                <td>_shopify_y</td>
-                <td>Shopify analytics.</td>
-              </tr>
-              <tr>
-                <td>_y</td>
-                <td>Shopify analytics.</td>
               </tr>
             </tbody>
           </table>
@@ -300,7 +272,7 @@ export default function PrivacyPolicy() {
           <strong>99 Hudson St, 5th Floor, New York NY 10013, United States</strong>
         </p>
         <p className="my-4">
-          Last updated: <strong>August 30, 2022</strong>
+          Last updated: <strong>August 24, 2023</strong>
         </p>
         <p>
           If you are not satisfied with our response to your complaint, you have the right to lodge your complaint with the relevant data
