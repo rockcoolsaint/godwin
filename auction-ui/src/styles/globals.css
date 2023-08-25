@@ -6,6 +6,7 @@
   /* https://css-tricks.com/custom-tailwind-css/ */
   html {
     -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
   }
 
   html,
