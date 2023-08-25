@@ -27,7 +27,7 @@ export default function TOS() {
           You can review the most current version of the Terms of Service at any time on this page. We reserve the right to update, change
           or replace any part of these Terms of Service by posting updates and/or changes to our website. It is your responsibility to check
           this page periodically for changes. Your continued use of or access to the website following the posting of any changes
-          constitutes acceptance of those changes. <br /> <br /> Our marketplace is hosted on Shopify Inc.
+          constitutes acceptance of those changes. <br /> <br />
           <br /> <br /> <strong>SECTION 1 - ONLINE MARKETPLACE TERMS</strong> <br /> By agreeing to these Terms of Service, you represent
           that you are at least the age of majority in your state or province of residence, or that you are the age of majority in your
           state or province of residence and you have given us your consent to allow any of your minor dependents to use this site. <br />{' '}
