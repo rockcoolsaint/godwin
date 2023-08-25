@@ -47,10 +47,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
           <WebsocketProvider>
             <NotificationsProvider>
               <Notifier />
-              <div className="flex flex-col justify-between">
-                {children}
-                <Footer />
-              </div>
+              <div className="flex flex-col justify-between">{children}</div>
             </NotificationsProvider>
           </WebsocketProvider>
         </AccountProvider>

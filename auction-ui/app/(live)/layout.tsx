@@ -1,4 +1,5 @@
 import DemoAlert from 'src/components/demo/Alert'
+import Footer from 'src/components/shared/Footer'
 import Header from 'src/components/shared/Header'
 
 export default function LiveLayout({ children }: { children: React.ReactNode }) {
@@ -8,6 +9,7 @@ export default function LiveLayout({ children }: { children: React.ReactNode }) 
       <DemoAlert msg="Product in beta please report bugs using the intercom below" />
 
       {children}
+      <Footer />
     </section>
   )
 }
