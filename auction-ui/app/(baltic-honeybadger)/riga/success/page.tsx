@@ -6,6 +6,7 @@ import { Container } from '../components/Container'
 import { useSearchParams } from 'next/navigation'
 import NotFoundComponent from 'src/components/shared/NotFoundComponent'
 import { Loader } from 'src/core'
+import { formatDistance, parseISO } from 'date-fns'
 
 interface Status {
   worker: any
@@ -13,6 +14,7 @@ interface Status {
   pool_user: any
   email?: string
   proxy?: string
+  assigned_at: string
 }
 
 export default function BalticSuccessPage() {
@@ -33,6 +35,10 @@ export default function BalticSuccessPage() {
         const status = await getOrderStatus(order_id)
         setStatus(status)
         setLoading(false)
+
+        if (status?.payment?.status === 'paid') {
+          clearInterval(interval)
+        }
       } catch (error) {
         console.error('error is ', (error as Error).message)
         setErrorMsg((error as Error).message)
@@ -41,7 +47,7 @@ export default function BalticSuccessPage() {
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [order_id])
+  }, [order_id, status?.payment?.status])
 
   if (!Boolean(order_id)) {
     return (
@@ -49,6 +55,17 @@ export default function BalticSuccessPage() {
         <NotFoundComponent message="Ooops! No detail for this order" return_url="/riga" />
       </Container>
     )
+  }
+
+  const renderPaymentStatus = () => {
+    if (status?.payment?.status === 'paid') {
+      return <span className="text-sm font-medium uppercase text-green-700 ">Paid</span>
+    }
+    if (status?.payment?.status === 'processing') {
+      return <span className="text-sm font-medium uppercase text-yellow-700 ">Processing</span>
+    }
+
+    return <span className="text-sm font-medium uppercase text-red-700 ">Unpaid</span>
   }
 
   const renderOrderStatus = () => {
@@ -81,7 +98,7 @@ export default function BalticSuccessPage() {
         </div>
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
           <dt className="text-sm font-medium leading-6 text-gray-500">Payment</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.payment?.status}</dd>
+          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{renderPaymentStatus()}</dd>
         </div>
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
           <dt className="text-sm font-medium leading-6 text-gray-500">Proxy</dt>
@@ -97,7 +114,9 @@ export default function BalticSuccessPage() {
         </div>
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
           <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">-</dd>
+          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+            {formatDistance(parseISO(status!.assigned_at), new Date(), { addSuffix: true }) || '-'}
+          </dd>
         </div>
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
           <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
