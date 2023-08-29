@@ -35,10 +35,6 @@ export default function BalticSuccessPage() {
         const status = await getOrderStatus(order_id)
         setStatus(status)
         setLoading(false)
-
-        if (status?.payment?.status === 'paid') {
-          clearInterval(interval)
-        }
       } catch (error) {
         console.error('error is ', (error as Error).message)
         setErrorMsg((error as Error).message)
