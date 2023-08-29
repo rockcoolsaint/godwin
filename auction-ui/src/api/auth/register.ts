@@ -1,4 +1,5 @@
 import { makeClientRequest } from 'src/api/clientRequest'
+import { Account } from 'src/api/auction/types'
 
 interface RegisterPayload {
   email: string
@@ -10,7 +11,7 @@ interface RegisterPayload {
   is_demo?: boolean
 }
 
-export async function register(payload: RegisterPayload, returnUrl?: string): Promise<[boolean, string | undefined]> {
+export async function register(payload: RegisterPayload, returnUrl?: string): Promise<[boolean, Account | undefined]> {
   const res = await makeClientRequest({
     method: 'POST',
     path: `/api/auth/register`,
@@ -27,5 +28,5 @@ export async function register(payload: RegisterPayload, returnUrl?: string): Pr
     return [false, res.error]
   }
 
-  return [true, undefined]
+  return [true, res]
 }
