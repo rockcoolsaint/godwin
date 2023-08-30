@@ -65,6 +65,22 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-4 pl-4">{data.auction_meta.power_source.name}</p>
             </aside>
           </div>
+          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
+            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
+              <p className="p-3 py-4 font-semibold text-dark-100">Fee</p>
+            </aside>
+            <aside>
+              <p className="p-3 py-4 pl-4">3.5% of final bid amount</p>
+            </aside>
+          </div>
+          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
+            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
+              <p className="p-3 py-4 font-semibold text-dark-100">Deposit</p>
+            </aside>
+            <aside>
+              <p className="p-3 py-4 pl-4">10%</p>
+            </aside>
+          </div>
         </div>
       </div>
     </section>
