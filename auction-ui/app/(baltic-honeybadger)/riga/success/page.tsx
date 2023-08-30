@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 'use client'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
@@ -26,6 +27,7 @@ export default function BalticSuccessPage() {
   const order_id = params?.get('order_id') || ''
 
   useEffect(() => {
+    window.Intercom('shutdown')
     if (!Boolean(order_id)) {
       return
     }

@@ -7,7 +7,7 @@ import BalticSignUp from 'src/components/pages/signup/balticSignup'
 export default async function BalticHomePage() {
   return (
     <>
-      <Container className="h-screen ">
+      <Container className="h-screen bg-[#c684f5] ">
         <div className="flex flex-col items-center">
           <Image className="w-full" alt="Baltic honeybadger" src={baltic} width={500} height={500} />
           <div className={`${styles['terminal']} mt-24`}>
