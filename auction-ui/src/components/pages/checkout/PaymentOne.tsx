@@ -126,7 +126,7 @@ function PaymentOne({ order }: Props) {
           ...order,
           payments: [res],
         })
-      } else if (order.payments[0].status === PaymentStatus.Unpaid) {
+      } else if (order.payments[0].status === PaymentStatus.Unpaid || order.payments[0].status === PaymentStatus.Expired) {
         // If order already has payments, we need to refresh the payment.
         const lastIdx = order.payments.length - 1
         const lastPayment = order.payments[lastIdx]

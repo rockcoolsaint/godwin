@@ -5,6 +5,7 @@ export enum PaymentStatus {
   Underpaid = 'underpaid',
   Paid = 'paid',
   Unpaid = 'unpaid',
+  Expired = 'expired',
 }
 
 export interface PromoCode {
