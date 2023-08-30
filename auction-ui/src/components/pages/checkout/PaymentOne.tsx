@@ -240,13 +240,14 @@ function PaymentOne({ order }: Props) {
             </dl>
           </div>
 
-          {lastOpenNodePayment && lastOpenNodePayment.status === PaymentStatus.Unpaid && (
-            <div className="flex justify-end">
-              <Button disabled={checkoutLoading} onClick={handleCheckout}>
-                Checkout
-              </Button>
-            </div>
-          )}
+          {lastOpenNodePayment &&
+            (lastOpenNodePayment.status === PaymentStatus.Unpaid || lastOpenNodePayment.status === PaymentStatus.Expired) && (
+              <div className="flex justify-end">
+                <Button disabled={checkoutLoading} onClick={handleCheckout}>
+                  Checkout
+                </Button>
+              </div>
+            )}
 
           {lastOpenNodePayment && lastOpenNodePayment.status === PaymentStatus.Processing && (
             <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-sm font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
