@@ -26,6 +26,7 @@ export default function BalticSuccessPage() {
   const order_id = params?.get('order_id') || ''
 
   useEffect(() => {
+    window.Intercom('shutdown')
     if (!Boolean(order_id)) {
       return
     }

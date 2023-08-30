@@ -84,6 +84,7 @@ export default function BalticSignUp() {
   })
 
   useEffect(() => {
+    window.Intercom('shutdown')
     if (poolAddress) {
       setValue('mining_pool_address', poolAddress)
     } else {
@@ -113,7 +114,7 @@ export default function BalticSignUp() {
         let payment = undefined
         if (order?.id) {
           setStatus(2)
-          payment = await createBalticPayment(order.id, `http://localhost:3000/riga/success?order_id=${order.id}`)
+          payment = await createBalticPayment(order.id, `${process.env.NEXT_PUBLIC_APP_CALLBACK_URL}/riga/success?order_id=${order.id}`)
         }
 
         if (payment?.payment_id) {
