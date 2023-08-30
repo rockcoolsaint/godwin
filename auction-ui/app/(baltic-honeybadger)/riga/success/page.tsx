@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 'use client'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'

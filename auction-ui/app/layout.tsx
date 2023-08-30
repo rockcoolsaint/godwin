@@ -4,7 +4,6 @@ import 'react-medium-image-zoom/dist/styles.css'
 import 'node_modules/react-modal-video/css/modal-video.min.css'
 
 import { PropsWithChildren } from 'react'
-import Footer from 'src/components/shared/Footer'
 import AccountProvider from 'src/providers/AccountProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
 import { Poppins } from 'next/font/google'

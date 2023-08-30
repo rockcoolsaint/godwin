@@ -138,7 +138,6 @@ export default function BalticSignUp() {
         setLoading(false)
       } catch (err) {
         setLoading(false)
-        console.log('err is ', { err })
         toast.error('Sign up error')
       }
     },
