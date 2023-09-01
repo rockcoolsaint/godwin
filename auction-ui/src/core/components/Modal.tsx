@@ -30,7 +30,7 @@ function Modal({
   }
 
   return (
-    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-40 p-4">
+    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/40 p-4">
       <div className={clsx('rounded-lg bg-white shadow-lg', className)}>
         {React.Children.map(children, (Child: any) => {
           return React.cloneElement(Child, { modal })
@@ -42,7 +42,7 @@ function Modal({
 
 Modal.Header = function ModalHeader({ children, modal }: { children?: ReactNode; modal?: ModalContext }) {
   return (
-    <div className="flex h-12 w-full items-center justify-between border-b border-gray-300 px-4">
+    <div className="flex w-full items-center justify-between border-b border-gray-300 px-4">
       {React.Children.map(children, (Child: any) => {
         return React.cloneElement(Child, { modal })
       })}
@@ -51,12 +51,12 @@ Modal.Header = function ModalHeader({ children, modal }: { children?: ReactNode;
 }
 
 Modal.Title = function ModalTitle({ children }: { children?: ReactNode }) {
-  return <span className="font-bold">{children}</span>
+  return <span className="text-lg font-bold">{children}</span>
 }
 
 Modal.Close = function ModalClose({ modal }: { modal?: ModalContext }) {
   return (
-    <button onClick={modal?.close}>
+    <button type="button" onClick={modal?.close}>
       <Icon icon="times" className="h-5 w-5 text-black" />
     </button>
   )
@@ -67,7 +67,7 @@ Modal.Content = function ModalContent({ children, className }: { children?: Reac
 }
 
 Modal.Footer = function ModalFooter({ children }: { children?: ReactNode }) {
-  return <div className="flex h-12 w-full items-center justify-between border-t border-gray-300 px-4">{children}</div>
+  return <div className="flex min-h-[12px] w-full items-center justify-between border-t border-gray-300 px-4">{children}</div>
 }
 
 export default Modal
