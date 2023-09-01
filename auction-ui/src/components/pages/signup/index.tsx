@@ -26,7 +26,7 @@ interface FormInputs {
   email: string
   referral_code: string | undefined
   mining_pool_username: string | undefined
-  mining_pool_address: string
+  mining_pool_address: string | undefined
 }
 
 export default function SignUp({ setView, setEmail }: any) {
@@ -131,6 +131,7 @@ export default function SignUp({ setView, setEmail }: any) {
           },
           { keepTouched: false, keepDirty: false },
         )
+        window.localStorage.removeItem(LocalStorageKeys.Referral.plebtern)
         setSelectedPool(MINING_POOLS[0])
         setView()
         setEmail(value.email)
