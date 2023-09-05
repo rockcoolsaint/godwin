@@ -5,7 +5,6 @@ import { toast } from 'react-hot-toast'
 import { Auction, BidsEntityOrCurrentBid, AuctionStatus } from 'src/api/auction/types'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { showReportDialog } from '@sentry/nextjs/types/server'
 
 export interface INotificationsContext {
   showAuctionNotification(): void

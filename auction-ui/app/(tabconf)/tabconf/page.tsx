@@ -20,7 +20,7 @@ export default async function BalticHomePage() {
       <Container className="h-screen items-center justify-center bg-slate-50 pt-12">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-4xl">Start mining now</h1>
-          <p>Buy 100TH/s of hashrate for 1 day</p>
+          <p>Buy 100TH/s of hashrate for a few hours</p>
         </div>
         <div id="new-order">
           <BalticSignUp />
