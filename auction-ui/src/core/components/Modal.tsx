@@ -54,11 +54,14 @@ Modal.Title = function ModalTitle({ children }: { children?: ReactNode }) {
   return <span className="text-lg font-bold">{children}</span>
 }
 
-Modal.Close = function ModalClose({ modal }: { modal?: ModalContext }) {
+Modal.Close = function ModalClose({ children, modal }: { children?: ReactNode; modal?: ModalContext }) {
   return (
-    <button type="button" onClick={modal?.close}>
-      <Icon icon="times" className="h-5 w-5 text-black" />
-    </button>
+    <div className="flex items-center">
+      <div>{children}</div>
+      <button type="button" onClick={() => modal?.close()} title="close">
+        <Icon icon="times" className="h-5 w-5 text-black" />
+      </button>
+    </div>
   )
 }
 
