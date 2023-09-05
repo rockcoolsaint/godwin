@@ -1,15 +1,15 @@
 import { Container } from './components/Container'
 import Image from 'next/image'
-import baltic from 'src/assets/jpg/baltic.jpeg'
+import tabconfImg from 'src/assets/png/tabconf.png'
 import styles from './index.module.css'
 import BalticSignUp from 'src/components/pages/signup/balticSignup'
 
 export default async function BalticHomePage() {
   return (
     <>
-      <Container className="h-screen bg-[#c684f5] ">
+      <Container className="h-screen bg-[#ffffff] ">
         <div className="flex flex-col items-center">
-          <Image className="w-full" alt="Baltic honeybadger" src={baltic} width={500} height={500} />
+          <Image className="w-3/4" alt="Baltic honeybadger" src={tabconfImg} width={400} height={400} />
           <div className={`${styles['terminal']} mt-24`}>
             <a href="#new-order" className={`${styles['new-order']} relative rounded-sm  px-8 py-4 text-lg font-semibold`}>
               Open new order
