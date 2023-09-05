@@ -6,6 +6,14 @@ import { InvoiceReport, Order } from 'src/types'
 import SatsSvg from 'src/assets/svg/sats.svg'
 
 export default function OrderDetail({ order, report }: { order: Order; report: InvoiceReport }) {
+  if (!report || Object.keys(report).length === 0) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <span className="text-gray-500">No order data available</span>
+      </div>
+    )
+  }
+
   return (
     <div className="mb-6 mt-2">
       <h3 className="mb-1 font-normal">Order details</h3>
