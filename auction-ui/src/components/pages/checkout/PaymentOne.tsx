@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
-import { Button, Loader, Container } from 'src/core'
+import { Button, Loader, Container, formatAuctionType } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order, OrderType, PaymentStatus } from 'src/types'
@@ -152,13 +152,15 @@ function PaymentOne({ order }: Props) {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">
-                  <span>Mining deposit</span>
+                  <span>
+                    Mining deposit ({formatAuctionType(order.auction!.auction_type.type)} {order.auction?.auction_type.percentage}%)
+                  </span>
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">{formatMoney(mining_deposit)} sats</dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">
-                  <span>Rigly auction fee</span>
+                  <span>Auction fee (3.5%): </span>
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">{formatMoney(auction_fee)} sats</dd>
               </div>
