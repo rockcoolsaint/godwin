@@ -11,7 +11,7 @@ export default function LiveLayout({ children }: { children: React.ReactNode }) 
       <DemoAlert
         msg={
           <div>
-            🦡 Baltic Honeybadger attendees: <Link href="https://rigly.io/riga">sign up here</Link> for your hashrate 🦡
+            Tabconf attendees: <Link href="https://rigly.io/tabconf">sign up here</Link> for your hashrate
           </div>
         }
       />
