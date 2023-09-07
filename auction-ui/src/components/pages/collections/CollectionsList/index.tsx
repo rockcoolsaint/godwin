@@ -83,7 +83,6 @@ export default function CollectionList({ auction, setAuctions, setLoading }: Pro
             ))}
           </>
         )}
-        <CollectionsFilter setAuctions={setAuctions} showModal={showModal} setShowModal={setShowModal} setLoading={setLoading} />
       </>
     )
   }
@@ -92,6 +91,7 @@ export default function CollectionList({ auction, setAuctions, setLoading }: Pro
     <Container className="mb-20 h-full grow py-5 ">
       {renderCollectionsHeader()}
       {renderView()}
+      <CollectionsFilter setAuctions={setAuctions} showModal={showModal} setShowModal={setShowModal} setLoading={setLoading} />
     </Container>
   )
 }
