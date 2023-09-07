@@ -16,7 +16,7 @@ interface Props {
   showModal: boolean
   setShowModal: (showModal: boolean) => void
   setAuctions: (auctions: AllAuctionsResponse) => void
-  setLoading?: (loading: boolean) => void
+  setLoading: (loading: boolean) => void
 }
 
 export default function CollectionsFilter({ showModal, setShowModal, setAuctions, setLoading }: Props) {
@@ -53,11 +53,6 @@ export default function CollectionsFilter({ showModal, setShowModal, setAuctions
 
         setAuctions(res)
 
-        console.log(' <<<<<  response ', res)
-
-        if (!res) {
-          console.log('error ooooo')
-        }
         setLoading(false)
       } catch (err) {
         setLoading(false)
