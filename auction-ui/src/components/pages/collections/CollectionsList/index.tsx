@@ -12,9 +12,9 @@ import { LocalStorageKeys } from 'src/constants/localStorage'
 import CollectionsFilter from 'src/components/pages/collections/CollectionsFilter'
 
 interface Props {
-  auction: Auction[]
+  auction: Auction[] | undefined
   setAuctions: (auctions: AllAuctionsResponse) => void
-  setLoading?: (loading: boolean) => void
+  setLoading: (loading: boolean) => void
 }
 
 export default function CollectionList({ auction, setAuctions, setLoading }: Props) {
@@ -24,8 +24,8 @@ export default function CollectionList({ auction, setAuctions, setLoading }: Pro
   const [viewType, setViewType] = useState<ViewTypes | null>(view)
   const [showModal, setShowModal] = useState<boolean>(false)
 
-  return (
-    <Container className="mb-20 h-full grow py-5 ">
+  const renderCollectionsHeader = () => {
+    return (
       <div className="mb-10 flex items-center justify-between">
         <h1 className="capitalize">{t('common.auctions')}</h1>
         <div className="flex items-center">
@@ -55,21 +55,43 @@ export default function CollectionList({ auction, setAuctions, setLoading }: Pro
           />
         </div>
       </div>
-      {viewType === 'card' && (
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
-          {auction.map((auction, index) => (
-            <AuctionCard key={`activity-card-${index}`} auction={auction} />
-          ))}
-        </ul>
-      )}
-      {viewType === 'list' && (
-        <>
-          {auction.map((auction, index) => (
-            <AuctionList key={`activity-card-${index}`} auction={auction} />
-          ))}
-        </>
-      )}
-      <CollectionsFilter setAuctions={setAuctions} showModal={showModal} setShowModal={setShowModal} setLoading={setLoading} />
+    )
+  }
+
+  const renderView = () => {
+    if (!auction || auction.length === 0) {
+      return (
+        <Container className="flex items-center justify-center py-20">
+          <span className="text-xl text-gray-500">No auctions available</span>
+        </Container>
+      )
+    }
+
+    return (
+      <>
+        {viewType === 'card' && (
+          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
+            {auction.map((auction, index) => (
+              <AuctionCard key={`activity-card-${index}`} auction={auction} />
+            ))}
+          </ul>
+        )}
+        {viewType === 'list' && (
+          <>
+            {auction.map((auction, index) => (
+              <AuctionList key={`activity-card-${index}`} auction={auction} />
+            ))}
+          </>
+        )}
+        <CollectionsFilter setAuctions={setAuctions} showModal={showModal} setShowModal={setShowModal} setLoading={setLoading} />
+      </>
+    )
+  }
+
+  return (
+    <Container className="mb-20 h-full grow py-5 ">
+      {renderCollectionsHeader()}
+      {renderView()}
     </Container>
   )
 }

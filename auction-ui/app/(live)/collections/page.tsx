@@ -37,13 +37,5 @@ export default function CollectionsPage() {
     )
   }
 
-  if (!auctions || auctions.results.length === 0) {
-    return (
-      <Container className="flex items-center justify-center py-20">
-        <span className="text-red-500">No auctions available</span>
-      </Container>
-    )
-  }
-
-  return <CollectionList setLoading={setLoading} setAuctions={setAuctions} auction={auctions.results} />
+  return <CollectionList setLoading={setLoading} setAuctions={setAuctions} auction={auctions?.results} />
 }
