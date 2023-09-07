@@ -16,11 +16,11 @@ export default async function HomePage() {
       <DemoAlert
         msg={
           <div>
-            🦡 Baltic Honeybadger attendees:{' '}
-            <Link className="underline hover:no-underline" href="https://rigly.io/riga">
+            Tabconf attendees:{' '}
+            <Link className="underline hover:no-underline" href="https://rigly.io/tabconf">
               sign up here
             </Link>{' '}
-            for your hashrate 🦡
+            for your hashrate
           </div>
         }
       />

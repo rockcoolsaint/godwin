@@ -5,6 +5,14 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 export function OrderInvoice({ invoice }: { invoice: Invoice }) {
   const { report } = invoice
 
+  if (!report || Object.keys(report).length === 0) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <span className="text-gray-500">No invoice data available</span>
+      </div>
+    )
+  }
+
   return (
     <>
       <h3 className="mb-1 font-normal">Invoice</h3>

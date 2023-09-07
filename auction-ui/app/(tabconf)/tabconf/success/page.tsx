@@ -50,7 +50,7 @@ export default function BalticSuccessPage() {
   if (!Boolean(order_id)) {
     return (
       <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
-        <NotFoundComponent message="Ooops! No detail for this order" return_url="/riga" />
+        <NotFoundComponent message="Ooops! No detail for this order" return_url="/tabconf" />
       </Container>
     )
   }

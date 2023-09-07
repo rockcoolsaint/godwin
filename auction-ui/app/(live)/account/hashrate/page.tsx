@@ -10,8 +10,6 @@ import { Form, Input, Loader } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import protect from 'src/hoc/protect'
 import { getOngoingDeliveries } from 'src/api/account/getOngoingDeliveries'
-import Chart from 'src/components/pages/auction/AuctionLiveFeed/Chart'
-import sampleFigure from 'src/assets/json/sample_figure.json'
 import { useInterval } from 'src/hooks/useInterval'
 
 function Hashrate() {
@@ -64,7 +62,7 @@ function Hashrate() {
     }
 
     try {
-      const res = await getOngoingDeliveries(token)
+      const _ = await getOngoingDeliveries(token)
     } catch (ex) {
       console.error(ex)
     } finally {
