@@ -32,16 +32,16 @@ function PaymentTwo({ order }: { order: Order }) {
   }, [copied])
 
   return (
-    <Container className="py-12">
-      <section className="mx-auto my-28 w-full max-w-3xl lg:w-3/5">
+    <Container className="!px-0 py-12">
+      <section className="lg:w-5/5 mx-auto my-28 w-full min-w-min max-w-3xl">
         <h1 className="mb-2 flex items-center text-sm uppercase text-dark-200">Checkout - Remaining balance</h1>
 
-        <div className="flex items-end justify-start gap-4 rounded-2xl bg-gray-100 p-5">
+        <div className="flex flex-col items-start justify-start gap-4 rounded-2xl bg-gray-100 p-5 lg:flex-row lg:items-end">
           <QR code={payment_url} />
           <div className="ml-0 flex flex-col justify-end sm:mt-0">
             <span>Payment address:</span>
             <div className="flex items-center ">
-              <code className="mr-2">{order.payment_address}</code>
+              <code className="mr-2 w-52 truncate sm:w-auto">{order.payment_address}</code>
               {copied ? (
                 <ClipboardDocumentCheckIcon className="h-6 w-6" />
               ) : (
