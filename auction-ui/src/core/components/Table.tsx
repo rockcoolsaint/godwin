@@ -88,7 +88,7 @@ function Table({
                                           {payment.tx_id}
                                         </Link>
                                       ) : (
-                                        '-'
+                                        'N/A'
                                       )}
                                     </>
                                   )
