@@ -76,7 +76,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
             className="animate__animated animate__shakeX animate__slow animate__repeat-3 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
             href="/collections"
           >
-            start mining now
+            start hashing
           </Link>
         </div>
         <div className="relative mt-16 flex items-center justify-center rounded-lg border border-dark-100/50 sm:mt-0">
