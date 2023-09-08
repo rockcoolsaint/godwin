@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: ['bitcoin', 'mining', 'hashrate', 'bitcoin mining', 'rigly'],
     openGraph: {
       images: [{ url: 'https://cdn.shopify.com/s/files/1/0603/6648/7720/files/Rigly_1.png?v=1654535433', width: 800, height: 600 }],
-      title: 'Rigly - Your Bitcoin Mining Marketplace',
+      title: 'Rigly - Your  Bitcoin only Hashrate Market',
       description:
         "Rigly is your marketplace for bitcoin mining. Buy hashrate from miners around the world. All plans include Trustless Mining escrow to ensure hashrate delivery. Don't get rugged, get Rigly.",
       url: 'https://rigly.io',
@@ -39,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Rigly - Your Bitcoin Mining Marketplace',
+      title: 'Rigly - Your  Bitcoin only Hashrate Market',
       description:
         "Rigly is your marketplace for bitcoin mining. Buy hashrate from miners around the world. All plans include Trustless Mining escrow to ensure hashrate delivery. Don't get rugged, get Rigly.",
       creator: '@trustlessmining',
