@@ -27,7 +27,7 @@ const menuItems = [
   { path: '/account/general', label: 'General', icon: 'user' },
   { path: '/account/orders', label: 'Orders', icon: 'cart' },
   { path: '/account/hashrate', label: 'Hashrate', icon: 'helmetSafety' },
-  { path: '/account/notifications', label: 'Notifications', icon: 'bell' },
+  { path: '/account/preferences', label: 'Notifications', icon: 'bell' },
 ]
 
 export default function AccountSidebar() {
