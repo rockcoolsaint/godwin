@@ -103,7 +103,7 @@ export default function OrderDetail({ order, report }: { order: Order; report: I
           </div>
           <div className="bg-gray-50 px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
             <dt className="text-sm font-medium leading-6 text-gray-900">Hashrate delivery %</dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{report.percent_complete * 100}%</dd>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{report.percent_complete}%</dd>
           </div>
           <div className="bg-white px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3">
             <dt className="text-sm font-medium leading-6 text-gray-900">Hashrate end date</dt>
