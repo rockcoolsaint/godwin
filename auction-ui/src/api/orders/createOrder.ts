@@ -10,7 +10,7 @@ export async function createOrder(payload: CreateOrderPayload): Promise<Order> {
     const res = await makeClientRequest({
       method: 'POST',
       path: `/api/orders/create`,
-      body: { ...payload },
+      body: { ...payload, order_type: 'direct', amount_sats: 500, duration_days: 0.125 },
     })
 
     return res
