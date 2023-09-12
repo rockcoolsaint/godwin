@@ -36,7 +36,7 @@ interface FormInputs {
 
 export default function Mining() {
   const { t } = useTranslation()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(0)
   const router = useRouter()
 
