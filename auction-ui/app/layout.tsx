@@ -2,7 +2,7 @@
 import 'src/styles/globals.css'
 import 'react-medium-image-zoom/dist/styles.css'
 import 'node_modules/react-modal-video/css/modal-video.min.css'
-
+import 'animate.css'
 import { PropsWithChildren } from 'react'
 import AccountProvider from 'src/providers/AccountProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
