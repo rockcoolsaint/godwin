@@ -67,7 +67,7 @@ export default function Mining() {
           email: value.email,
           mining_pool_address: '',
           mining_pool_username: '',
-          create_pool_account: false,
+          create_pool_account: true,
         })
 
         let order = undefined
