@@ -73,12 +73,21 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
           <p className="animate__animated animate__fadeInLeftBig animate__slower my-2 flex w-full max-w-fit items-start justify-center text-center text-sm font-normal text-dark-200 sm:items-center sm:text-left sm:text-xl md:justify-start lg:w-3/4">
             <UserGroupIcon className="mr-2 h-5 w-5 text-primary/[0.9]" /> <span>Pricing set by an open market</span>
           </p>
-          <a
-            className="animate__animated animate__shakeX animate__slow animate__repeat-3 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
-            href="#test-mine"
-          >
-            start hashing
-          </a>
+          {!account?.email ? (
+            <a
+              className="animate__animated animate__shakeX animate__slow animate__repeat-3 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
+              href="#test-mine"
+            >
+              start hashing
+            </a>
+          ) : (
+            <Link
+              className="animate__animated animate__shakeX animate__slow animate__repeat-3 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
+              href="/collections"
+            >
+              start hashing
+            </Link>
+          )}
         </div>
         <div className="relative mt-16 flex items-center justify-center rounded-lg border border-dark-100/50 md:mt-0">
           <Image className=" max-w-[60%] md:block" width={660} height={440} src={hero_image} alt="hero image" />
@@ -94,9 +103,12 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
         />
       </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
-      <section className=" mt-10 bg-slate-50">
-        <Mining />
-      </section>
+      {!account?.email && (
+        <section className=" mt-10 bg-slate-50">
+          <Mining />
+        </section>
+      )}
+
       {!isDemo && (
         <>
           <FeaturedAuctions auctions={auctions} />
