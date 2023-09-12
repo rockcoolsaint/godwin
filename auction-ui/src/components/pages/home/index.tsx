@@ -94,7 +94,9 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
         />
       </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
-      <Mining />
+      <section className=" mt-10 bg-slate-50">
+        <Mining />
+      </section>
       {!isDemo && (
         <>
           <FeaturedAuctions auctions={auctions} />
