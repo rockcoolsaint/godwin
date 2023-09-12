@@ -82,7 +82,7 @@ export default function Mining() {
           setStatus(2)
           payment = await createDirectOrderPayment(
             order.id,
-            `${process.env.NEXT_PUBLIC_APP_CALLBACK_URL}/tabconf/success?order_id=${order.id}`,
+            `${process.env.NEXT_PUBLIC_APP_CALLBACK_URL}/direct-order/success?order_id=${order.id}`,
           )
         }
 
