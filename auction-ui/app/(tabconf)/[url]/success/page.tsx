@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-imports */
 'use client'
-import { CheckCircleIcon } from '@heroicons/react/24/outline'
+
 import { useEffect, useState } from 'react'
 import getOrderStatus from 'src/api/checkout/getOrderStatus'
 import { Container } from '../components/Container'
@@ -8,6 +8,8 @@ import { useSearchParams } from 'next/navigation'
 import NotFoundComponent from 'src/components/shared/NotFoundComponent'
 import { Loader } from 'src/core'
 import { formatDistance, parseISO } from 'date-fns'
+import { BoltIcon } from '@heroicons/react/20/solid'
+import clsx from 'clsx'
 
 interface Status {
   worker: any
@@ -18,13 +20,13 @@ interface Status {
   assigned_at: string
 }
 
-export default function BalticSuccessPage() {
+export default function BalticSuccessPage({ params }: { params: any }) {
   const [status, setStatus] = useState<Status | null | undefined>(null)
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined)
 
-  const params = useSearchParams()
-  const order_id = params?.get('order_id') || ''
+  const searchParam = useSearchParams()
+  const order_id = searchParam?.get('order_id') || ''
 
   useEffect(() => {
     window.Intercom('shutdown')
@@ -89,52 +91,70 @@ export default function BalticSuccessPage() {
     }
 
     return (
-      <dl className="mx-auto mt-8 grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-          <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.email}</dd>
-        </div>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-          <dt className="text-sm font-medium leading-6 text-gray-500">Payment</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{renderPaymentStatus()}</dd>
-        </div>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-          <dt className="text-sm font-medium leading-6 text-gray-500">Proxy</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.proxy}</dd>
-        </div>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-          <dt className="text-sm font-medium leading-6 text-gray-500">Pool</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.pool_user?.pool}</dd>
-        </div>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-          <dt className="text-sm font-medium leading-6 text-gray-500">Account</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">riglycorp</dd>
-        </div>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-          <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-            {(status?.assigned_at && formatDistance(parseISO(status?.assigned_at), new Date())) || '-'}
-          </dd>
-        </div>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-          <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.worker?.accepted_shares}</dd>
-        </div>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-          <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
-          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.worker?.difficulty}</dd>
-        </div>
-      </dl>
+      <>
+        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px overflow-scroll bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+            <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.email}</dd>
+          </div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+            <dt className="text-sm font-medium leading-6 text-gray-500">Payment</dt>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{renderPaymentStatus()}</dd>
+          </div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+            <dt className="text-sm font-medium leading-6 text-gray-500">Proxy</dt>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.proxy}</dd>
+          </div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+            <dt className="text-sm font-medium leading-6 text-gray-500">Pool</dt>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.pool_user?.pool}</dd>
+          </div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+            <dt className="text-sm font-medium leading-6 text-gray-500">Account</dt>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">riglycorp</dd>
+          </div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+            <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+              {(status?.assigned_at && formatDistance(parseISO(status?.assigned_at), new Date())) || '-'}
+            </dd>
+          </div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+            <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+              {status?.worker?.accepted_shares}
+            </dd>
+          </div>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+            <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.worker?.difficulty}</dd>
+          </div>
+        </dl>
+        {params.url !== 'tabconf' && (
+          <div className="mt-10">
+            <h2>Next steps:</h2>
+            <h3>Claim your Braiins account</h3>
+            <p className="mt-4">
+              We are currently assigning you this{' '}
+              <code>
+                <b>riglycorp</b>
+              </code>{' '}
+              Braiins account
+            </p>
+            <p className="mt-4">You will receive an email to verify shortly</p>
+            <p>Please click this email and log in to claim your mining rewards</p>
+          </div>
+        )}
+      </>
     )
   }
 
   return (
     <>
-      <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
+      <Container className="flex h-screen flex-col items-center justify-center overflow-scroll bg-slate-50 sm:pt-12">
         <div className="flex flex-col items-center justify-center">
-          <CheckCircleIcon className="mb-8 h-24 w-24 text-green-600" />
-          <h1 className="mb-2 text-4xl">Congratulations</h1>
-          <p>Hashrate will be sent to your pool in a few minutes</p>
+          <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-8 h-24  w-24')} />
+          <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>
         </div>
 
         {loading ? (
