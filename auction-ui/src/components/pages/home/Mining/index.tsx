@@ -144,8 +144,8 @@ export default function Mining() {
 
   return (
     <Container id="test-mine" className="flex h-screen items-center justify-center">
-      <section className="flex w-3/12 flex-col items-center justify-center">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center">
+      <section className="flex w-full flex-col items-center justify-center sm:w-3/12">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
           <h1 className="mb-4">Test Drive</h1>
           <div className="flex">
             <div>
