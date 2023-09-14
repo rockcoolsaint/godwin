@@ -19,6 +19,7 @@ import ModalVideo from 'react-modal-video'
 import { BoltIcon, PlayCircleIcon, LockClosedIcon, UserGroupIcon } from '@heroicons/react/20/solid'
 import Gradient from 'src/components/shared/Gradient'
 import Mining from './Mining'
+import InstantHashrate from './InstantHashrate'
 
 interface Props {
   auctions: Auction[]
@@ -108,6 +109,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
           <Mining />
         </section>
       )}
+      <InstantHashrate />
 
       {!isDemo && (
         <>
