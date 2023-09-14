@@ -19,6 +19,7 @@ import ModalVideo from 'react-modal-video'
 import { BoltIcon, PlayCircleIcon, LockClosedIcon, UserGroupIcon } from '@heroicons/react/20/solid'
 import Gradient from 'src/components/shared/Gradient'
 import Mining from './Mining'
+import { useSearchParams } from 'next/navigation'
 
 interface Props {
   auctions: Auction[]
@@ -32,6 +33,9 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
   const { account } = useAccountContext()
   const router = useRouter()
   const [videoOpen, setVideoOpen] = useState(false)
+  const searchParam = useSearchParams()
+
+  const testMine = searchParam.get('testMine') || ''
 
   useEffect(() => {
     if (account?.demo_expiration) {
@@ -103,7 +107,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
         />
       </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
-      {!account?.email && (
+      {!account?.email && Boolean(testMine) && (
         <section className=" mt-10 bg-slate-50">
           <Mining />
         </section>
