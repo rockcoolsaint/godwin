@@ -4,24 +4,22 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useCallback, useMemo, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Container, Loader } from 'src/core'
-import { Input } from 'src/core'
-import { useTranslation } from 'src/hooks'
 import * as yup from 'yup'
 import { toast } from 'react-hot-toast'
 import { createOrder } from 'src/api/orders/createOrder'
 import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
 import { useRouter } from 'next/navigation'
-import { register as postRegister } from 'src/api/auth/register'
+import Image from 'next/image'
+import chart from 'src/assets/webp/chart.webp'
+import { formatMoney } from 'src/utils/currency'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 const useSignUpSchema = () => {
   const schema = useMemo(
     () =>
       yup
         .object({
-          email: yup
-            .string()
-            .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, () => 'Email not valid')
-            .required(() => 'Email required'),
+          duration: yup.string().required(() => 'Duration required'),
         })
         .required(),
     [],
@@ -31,25 +29,26 @@ const useSignUpSchema = () => {
 }
 
 interface FormInputs {
-  email: string
+  duration: string
 }
 
 export default function InstantHashrate() {
-  const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(0)
   const router = useRouter()
+  const { account } = useAccountContext()
 
   const signUpSchema = useSignUpSchema()
 
   const signUpInfo = {
-    email: '',
+    duration: '',
   }
 
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isDirty, isValid },
   } = useForm<FormInputs>({
     resolver: yupResolver(signUpSchema),
@@ -58,24 +57,25 @@ export default function InstantHashrate() {
     },
   })
 
+  const watchShowDuration = watch('duration', '0')
+
   const onSubmit: SubmitHandler<FormInputs> = useCallback(
     async value => {
       try {
         setLoading(true)
 
-        const [success, data] = await postRegister({
-          email: value.email,
-          mining_pool_address: '',
-          mining_pool_username: '',
-          create_pool_account: true,
-        })
+        if (!account?.id) {
+          toast.error('Redirecting to login...')
+          router.push('/login')
 
-        let order = undefined
-
-        if (data?.id) {
-          setStatus(1)
-          order = await createOrder({ account_id: data?.id })
+          return
         }
+
+        const order = await createOrder({
+          account_id: account?.id,
+          amount_sats: Number(value.duration) * 88 * 300,
+          duration_days: Number(value.duration),
+        })
 
         let payment = undefined
         if (order?.id) {
@@ -90,13 +90,9 @@ export default function InstantHashrate() {
           router.push(payment?.checkout_url)
         }
 
-        if (!success) {
-          toast.error('Error')
-        }
-
         reset(
           {
-            email: '',
+            duration: '',
           },
           { keepTouched: false, keepDirty: false },
         )
@@ -107,17 +103,13 @@ export default function InstantHashrate() {
         toast.error('Error')
       }
     },
-    [reset, router],
+    [account?.id, reset, router],
   )
 
   const renderStatus = () => {
-    if (status === 0) {
-      return <p className="mt-1 text-sm text-dark-200">Creating your account...</p>
-    }
     if (status === 1) {
       return (
         <div className="flex flex-col items-center justify-center">
-          <p className="mt-1 text-sm text-green-500">Account created</p>
           <p className="mt-1 text-sm text-dark-200">Creating order...</p>
         </div>
       )
@@ -125,7 +117,6 @@ export default function InstantHashrate() {
     if (status === 2) {
       return (
         <div className="flex flex-col items-center justify-center">
-          <p className="mt-1 text-sm text-green-500">Account created</p>
           <p className="mt-1 text-sm text-green-500">Order created</p>
           <p className="mt-1 text-sm text-dark-200">Creating payment...</p>
         </div>
@@ -143,35 +134,68 @@ export default function InstantHashrate() {
   }
 
   return (
-    <Container id="test-mine" className="flex h-screen items-center justify-center">
-      <section className="flex w-full flex-col items-center justify-center sm:w-3/12">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
+    <Container className="flex h-screen items-center justify-center md:w-6/12">
+      <section className="flex w-full flex-row items-center justify-center gap-28">
+        <div className="w-full overflow-hidden rounded-xl border border-gray-50 shadow-lg">
+          <Image className="mb-4 block w-full overflow-hidden  sm:h-64" src={chart} width={352} height={230} alt="chart" />
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col">
           <h1 className="mb-4">Instant hashrate</h1>
-          <div className="flex">
-            <div>
-              <h5 className="font-semibold">Buy hashrate and start mining</h5>
+
+          <div>
+            <h5 className="font-semibold">Buy hashrate and start mining in an hour</h5>
+            <div className="mt-2 grid gap-4">
+              <div className="grid grid-cols-2">
+                <div className="col-span-1">
+                  <p className="text-sm font-semibold text-gray-700">Hashrate</p>
+                </div>
+                <div className="col-span-1">
+                  <p className="text-sm font-normal text-gray-600">88 TH/s</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2">
+                <div className="col-span-1">
+                  <p className="text-sm font-semibold text-gray-700">Hash price</p>
+                </div>
+                <div className="col-span-1">
+                  <p className="text-sm font-normal text-gray-600">300 sats per TH/s/day</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 items-center">
+                <div className="col-span-1">
+                  <p className="text-sm font-semibold text-gray-700">Duration</p>
+                </div>
+                <div className="col-span-1">
+                  <select
+                    {...register('duration')}
+                    className="block w-9/12 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  >
+                    <option value="1">1 day</option>
+                    <option value="2">2 days</option>
+                    <option value="3">3 days</option>
+                    <option value="4">4 days</option>
+                    <option value="5">5 days</option>
+                    <option value="6">6 days</option>
+                    <option value="7">7 days</option>
+                    <option value="8">8 days</option>
+                    <option value="9">9 days</option>
+                    <option value="10">10 days</option>
+                    <option value="11">11 days</option>
+                    <option value="12">12 days</option>
+                    <option value="13">13 days</option>
+                    <option value="14">14 days</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="w-full">
-            <Input
-              className="text-gray-600"
-              id="email"
-              type="text"
-              autoComplete="off"
-              autoCorrect="off"
-              defaultValue={signUpInfo.email}
-              errorMessage={errors.email?.message}
-              placeholder="satoshi@gmx.com"
-              label={t('registration.email')}
-              {...register('email')}
-            />
-          </div>
+
           <button
             disabled={!isDirty || !isValid}
             type="submit"
-            className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
+            className="mt-8 flex h-12 w-8/12 items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
           >
-            Zap to hash
+            {formatMoney(Number(watchShowDuration) * 88 * 300)} sats - Buy now
           </button>
         </form>
       </section>
