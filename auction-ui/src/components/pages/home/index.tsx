@@ -75,14 +75,14 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
           </p>
           {!account?.email ? (
             <a
-              className="animate__animated animate__shakeX animate__slow animate__repeat-3 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
+              className="animate__animated animate__shakeX animate__slow animate__repeat-1 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
               href="#test-mine"
             >
               start hashing
             </a>
           ) : (
             <Link
-              className="animate__animated animate__shakeX animate__slow animate__repeat-3 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
+              className="animate__animated animate__shakeX animate__slow animate__repeat-1 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
               href="/collections"
             >
               start hashing
