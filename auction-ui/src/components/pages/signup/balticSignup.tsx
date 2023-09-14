@@ -12,7 +12,7 @@ import { register as postRegister } from 'src/api/auth/register'
 import { toast } from 'react-hot-toast'
 import { MINING_POOLS, IMiningPool } from 'src/constants/pools'
 import { createOrder } from 'src/api/orders/createOrder'
-import createBalticPayment from 'src/api/checkout/createBalticPayment'
+import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
 import { useRouter } from 'next/navigation'
 import { Loader } from 'src/core'
 import * as yup from 'yup'
@@ -114,7 +114,10 @@ export default function BalticSignUp() {
         let payment = undefined
         if (order?.id) {
           setStatus(2)
-          payment = await createBalticPayment(order.id, `${process.env.NEXT_PUBLIC_APP_CALLBACK_URL}/tabconf/success?order_id=${order.id}`)
+          payment = await createDirectOrderPayment(
+            order.id,
+            `${process.env.NEXT_PUBLIC_APP_CALLBACK_URL}/tabconf/success?order_id=${order.id}`,
+          )
         }
 
         if (payment?.payment_id) {
