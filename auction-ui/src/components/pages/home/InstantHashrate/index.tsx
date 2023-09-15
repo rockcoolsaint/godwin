@@ -1,7 +1,7 @@
 'use client'
 
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Container, Loader } from 'src/core'
 import * as yup from 'yup'
@@ -13,6 +13,7 @@ import Image from 'next/image'
 import chart from 'src/assets/webp/chart.webp'
 import { formatMoney } from 'src/utils/currency'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import { getProductRate } from 'src/api/orders/getProductRate'
 
 const useSignUpSchema = () => {
   const schema = useMemo(
@@ -37,6 +38,8 @@ export default function InstantHashrate() {
   const [status, setStatus] = useState(0)
   const router = useRouter()
   const { account } = useAccountContext()
+  const [hashprice, setHashprice] = useState(0)
+  const [hashrate, setHashrate] = useState(0)
 
   const signUpSchema = useSignUpSchema()
 
@@ -59,6 +62,16 @@ export default function InstantHashrate() {
 
   const watchShowDuration = watch('duration', '0')
 
+  useEffect(() => {
+    const fetchRates = async () => {
+      const rate = await getProductRate()
+      setHashprice(rate?.hashprice)
+      setHashrate(rate?.hashrate / 10 ** 12)
+    }
+
+    fetchRates()
+  }, [])
+
   const onSubmit: SubmitHandler<FormInputs> = useCallback(
     async value => {
       try {
@@ -73,7 +86,7 @@ export default function InstantHashrate() {
 
         const order = await createOrder({
           account_id: account?.id,
-          amount_sats: Number(value.duration) * 88 * 300,
+          amount_sats: Number(value.duration) * hashrate * hashprice,
           duration_days: Number(value.duration),
         })
 
@@ -103,7 +116,7 @@ export default function InstantHashrate() {
         toast.error('Error')
       }
     },
-    [account?.id, reset, router],
+    [account?.id, hashprice, hashrate, reset, router],
   )
 
   const renderStatus = () => {
@@ -150,7 +163,7 @@ export default function InstantHashrate() {
                   <p className="text-sm font-semibold text-gray-700">Hashrate</p>
                 </div>
                 <div className="col-span-1">
-                  <p className="text-sm font-normal text-gray-600">88 TH/s</p>
+                  <p className="text-sm font-normal text-gray-600">{hashrate} TH/s</p>
                 </div>
               </div>
               <div className="grid grid-cols-2">
@@ -158,7 +171,7 @@ export default function InstantHashrate() {
                   <p className="text-sm font-semibold text-gray-700">Hash price</p>
                 </div>
                 <div className="col-span-1">
-                  <p className="text-sm font-normal text-gray-600">300 sats per TH/s/day</p>
+                  <p className="text-sm font-normal text-gray-600">{hashprice} sats per TH/s/day</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 items-center">
@@ -195,7 +208,7 @@ export default function InstantHashrate() {
             type="submit"
             className="mt-8 flex h-12 w-8/12 items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
           >
-            {formatMoney(Number(watchShowDuration) * 88 * 300)} sats - Buy now
+            {formatMoney(Number(watchShowDuration) * hashrate * hashprice)} sats - Buy now
           </button>
         </form>
       </section>
