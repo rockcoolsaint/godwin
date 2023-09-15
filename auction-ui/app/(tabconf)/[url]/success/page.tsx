@@ -10,6 +10,7 @@ import { Loader } from 'src/core'
 import { formatDistance, parseISO } from 'date-fns'
 import { BoltIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
+import Link from 'src/components/shared/Link'
 
 interface Status {
   worker: any
@@ -92,7 +93,7 @@ export default function BalticSuccessPage({ params }: { params: any }) {
 
     return (
       <>
-        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px overflow-scroll bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px overflow-scroll rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
             <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.email}</dd>
@@ -111,7 +112,9 @@ export default function BalticSuccessPage({ params }: { params: any }) {
           </div>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Account</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">riglycorp</dd>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+              {status?.pool_user?.username || '-'}
+            </dd>
           </div>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
@@ -122,27 +125,34 @@ export default function BalticSuccessPage({ params }: { params: any }) {
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
             <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-              {status?.worker?.accepted_shares}
+              {status?.worker?.accepted_shares || '-'}
             </dd>
           </div>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.worker?.difficulty}</dd>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+              {status?.worker?.difficulty || '-'}
+            </dd>
           </div>
         </dl>
-        {params.url !== 'tabconf' && (
+        {params.url !== 'tabconf' && status?.pool_user?.username && (
           <div className="mt-10">
             <h2>Next steps:</h2>
-            <h3>Claim your Braiins account</h3>
+            <h3>Claim your Braiins mining pool account</h3>
             <p className="mt-4">
-              We are currently assigning you this{' '}
+              Your account username at Braiins is{' '}
               <code>
-                <b>riglycorp</b>
-              </code>{' '}
-              Braiins account
+                <b>{status?.pool_user?.username || 'N/A'}</b>
+              </code>
             </p>
-            <p className="mt-4">You will receive an email to verify shortly</p>
-            <p>Please click this email and log in to claim your mining rewards</p>
+            <p className="mt-4">You will receive a verification email shortly.</p>
+            <p>
+              Please check your email to{' '}
+              <Link className="underline" href="https://pool.braiins.com/mining/">
+                login to Braiins
+              </Link>{' '}
+              and claim your mining rewards.
+            </p>
           </div>
         )}
       </>
@@ -151,9 +161,9 @@ export default function BalticSuccessPage({ params }: { params: any }) {
 
   return (
     <>
-      <Container className="flex h-screen flex-col items-center justify-center overflow-scroll bg-slate-50 sm:pt-12">
+      <Container className="flex h-screen flex-col items-center justify-center overflow-scroll bg-slate-50 pt-4 sm:pt-12">
         <div className="flex flex-col items-center justify-center">
-          <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-8 h-24  w-24')} />
+          <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-4 mt-8 h-24 w-24')} />
           <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>
         </div>
 
