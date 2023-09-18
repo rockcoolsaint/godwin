@@ -8,7 +8,7 @@ export default function DemoAlert({ msg }: { msg: string | ReactNode }) {
           <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
         </div> */}
         <div className="ml-3">
-          <p className="text-sm text-purple-950">{msg}</p>
+          <div className="text-sm text-purple-950">{msg}</div>
         </div>
       </div>
     </div>
