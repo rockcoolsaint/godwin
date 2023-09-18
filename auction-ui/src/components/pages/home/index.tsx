@@ -19,6 +19,7 @@ import ModalVideo from 'react-modal-video'
 import { BoltIcon, PlayCircleIcon, LockClosedIcon, UserGroupIcon } from '@heroicons/react/20/solid'
 import Gradient from 'src/components/shared/Gradient'
 import Mining from './Mining'
+import InstantHashrate from './InstantHashrate'
 import { useSearchParams } from 'next/navigation'
 
 interface Props {
@@ -77,7 +78,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
           <p className="animate__animated animate__fadeInLeftBig animate__slower my-2 flex w-full max-w-fit items-start justify-center text-center text-sm font-normal text-dark-200 sm:items-center sm:text-left sm:text-xl md:justify-start lg:w-3/4">
             <UserGroupIcon className="mr-2 h-5 w-5 text-primary/[0.9]" /> <span>Pricing set by an open market</span>
           </p>
-          {!account?.email ? (
+          {!account?.email && Boolean(testMine) ? (
             <a
               className="animate__animated animate__shakeX animate__slow animate__repeat-1 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
               href="#test-mine"
@@ -112,6 +113,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
           <Mining />
         </section>
       )}
+      <InstantHashrate />
 
       {!isDemo && (
         <>
