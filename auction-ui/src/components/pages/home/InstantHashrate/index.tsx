@@ -10,7 +10,7 @@ import { createOrder } from 'src/api/orders/createOrder'
 import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import chart from 'src/assets/webp/chart.webp'
+import chart from 'src/assets/png/chart.png'
 import { formatMoney } from 'src/utils/currency'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { getProductRate } from 'src/api/orders/getProductRate'
@@ -171,7 +171,7 @@ export default function InstantHashrate() {
                   <p className="text-sm font-semibold text-gray-700">Hash price</p>
                 </div>
                 <div className="col-span-1">
-                  <p className="text-sm font-normal text-gray-600">{hashprice} sats per TH/s/day</p>
+                  <p className="text-sm font-normal text-gray-600">{Math.round(hashprice)} sats per TH/s/day</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 items-center">
@@ -208,7 +208,7 @@ export default function InstantHashrate() {
             type="submit"
             className="mt-8 flex h-12 w-8/12 items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
           >
-            {formatMoney(Number(watchShowDuration) * hashrate * hashprice)} sats - Buy now
+            {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice))} sats - Buy now
           </button>
         </form>
       </section>
