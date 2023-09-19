@@ -5,7 +5,6 @@ import { Metadata } from 'next'
 import Header from 'src/components/shared/Header'
 import DemoAlert from 'src/components/demo/Alert'
 import Footer from 'src/components/shared/Footer'
-import Link from 'src/components/shared/Link'
 
 export default async function HomePage() {
   const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay({ isDemo: false })])
@@ -13,17 +12,7 @@ export default async function HomePage() {
   return (
     <>
       <Header />
-      <DemoAlert
-        msg={
-          <div>
-            Tabconf attendees:{' '}
-            <Link className="underline hover:no-underline" href="https://rigly.io/tabconf">
-              sign up here
-            </Link>{' '}
-            for your hashrate
-          </div>
-        }
-      />
+      <DemoAlert msg={<div>Product in beta, please report bugs using the intercom below</div>} />
       <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} />
       <Footer />
     </>
