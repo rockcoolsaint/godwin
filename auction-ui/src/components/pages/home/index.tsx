@@ -1,6 +1,6 @@
 'use client'
 import FeaturedAuctions from 'src/components/pages/home/FeaturedAuctions'
-import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
+import { Auction, AuctionOfTheDayResponse, AllAuctionsResponse } from 'src/api/auction/types'
 import rig from 'src/assets/png/rig.png'
 import placard from 'src/assets/png/placard.png'
 import Details from 'src/components/pages/home/Details'
@@ -21,6 +21,8 @@ import Gradient from 'src/components/shared/Gradient'
 import Mining from './Mining'
 import InstantHashrate from './InstantHashrate'
 import { useSearchParams } from 'next/navigation'
+import AuctionSchedule from './AuctionSchedule'
+import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 
 interface Props {
   auctions: Auction[]
@@ -35,6 +37,8 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
   const router = useRouter()
   const [videoOpen, setVideoOpen] = useState(false)
   const searchParam = useSearchParams()
+  const [loading, setLoading] = useState(false)
+  // const [auc, setAuctions] = useState<AllAuctionsResponse | undefined>(undefined)
 
   const testMine = searchParam.get('testMine') || ''
 
@@ -114,6 +118,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
         </section>
       )}
       <InstantHashrate />
+      <AuctionSchedule auctionsData={auctions} />
 
       {!isDemo && (
         <>
