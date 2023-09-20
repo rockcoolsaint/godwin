@@ -82,6 +82,7 @@ function Hashrate() {
       }
 
       try {
+        setLoading(true)
         const data = await getPoolInfo(token)
         const _ = await getOngoingDeliveries(token)
         // TODO: @Jeezman to use response for completing https://github.com/RiglyCorp/rigly-auction/issues/282
@@ -105,8 +106,6 @@ function Hashrate() {
       const _ = await getOngoingDeliveries(token)
     } catch (ex) {
       console.error(ex)
-    } finally {
-      setLoading(false)
     }
   }, 10000)
 
@@ -185,10 +184,10 @@ function Hashrate() {
     [reset, token],
   )
 
-  if (isAccountLoading) {
+  if (isAccountLoading || loading) {
     return (
       <AccountView>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center py-12">
           <Loader />
         </div>
       </AccountView>
@@ -201,7 +200,7 @@ function Hashrate() {
 
   return (
     <AccountView>
-      {poolInfo.has_pool_account && (
+      {poolInfo.has_pool_account ? (
         <Form className="items-start gap-8" onSubmit={handleFormSubmit} disabled={loading}>
           <Form.Section title="Mining Pool">
             <Form.Field className="w-full flex-col">
@@ -241,8 +240,7 @@ function Hashrate() {
             </div>
           ) : null}
         </Form>
-      )}
-      {!poolInfo.has_pool_account && (
+      ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-start px-8 py-12">
           <div>
             <span className="text-xl text-gray-500">Do you already own a pool account?</span>
