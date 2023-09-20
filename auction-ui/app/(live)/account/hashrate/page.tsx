@@ -95,7 +95,7 @@ function Hashrate() {
               name="mining_pool_username"
               defaultValue={account.pool_user ? account.pool_user.username : ''}
               placeholder="satoshi"
-              isDisabled={true}
+              isDisabled={false}
             />
           </Form.Field>
           <Form.Field className="w-full flex-col">
@@ -105,10 +105,12 @@ function Hashrate() {
               name="mining_pool_address"
               defaultValue={account.pool_user ? account.pool_user.pool : ''}
               placeholder="stratum+tcp://stratum.braiins.com:3333"
-              isDisabled={true}
+              isDisabled={false}
             />
           </Form.Field>
         </Form.Section>
+
+        <Form.Submit>Save</Form.Submit>
 
         <div className="flex w-full justify-start px-4 pb-4">
           <span className="inline-flex items-center gap-x-1.5 rounded-md bg-yellow-50/40 px-2 py-4 text-sm font-normal text-gray-600 ring-1 ring-inset ring-yellow-600/20">
