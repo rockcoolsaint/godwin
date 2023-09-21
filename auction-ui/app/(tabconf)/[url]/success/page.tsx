@@ -175,7 +175,7 @@ export default function BalticSuccessPage({ params }: { params: any }) {
               <div className="ml-3">
                 <p className="text-sm text-yellow-800">
                   You still need to set up your pool account. Set up your pool account{' '}
-                  <Link className="underline" href="/account/hashrate?proxy_status=true">
+                  <Link className="underline" href={`/account/hashrate?proxy_status=${order_id}`}>
                     here
                   </Link>
                 </p>

@@ -18,6 +18,9 @@ import clsx from 'clsx'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { useSearchParams } from 'next/navigation'
+import Link from 'src/components/shared/Link'
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 
 interface PoolInfoModel {
   has_ongoing_deliveries: boolean
@@ -56,6 +59,8 @@ function Hashrate() {
   })
   const [selectedPool, setSelectedPool] = useState(MINING_POOLS[0])
   const [poolAddress, setPoolAddress] = useState<string>(selectedPool.address)
+  const params = useSearchParams()
+  const hasProxyStatus = params?.get('proxy_status') || ''
 
   const handleFormSubmit = async (data: object) => {
     if (!token) {
@@ -201,7 +206,7 @@ function Hashrate() {
   return (
     <AccountView>
       {poolInfo.has_pool_account ? (
-        <Form className="items-start gap-8" onSubmit={handleFormSubmit} disabled={loading}>
+        <Form className="items-start gap-4" onSubmit={handleFormSubmit} disabled={loading}>
           <Form.Section title="Mining Pool">
             <Form.Field className="w-full flex-col">
               <Form.Field.Label htmlFor="mining_pool_username">Mining Pool Username</Form.Field.Label>
@@ -225,7 +230,7 @@ function Hashrate() {
             </Form.Field>
           </Form.Section>
 
-          <div className="flex w-full justify-start px-4 pb-4">
+          <div className="flex w-full justify-start px-4">
             <Form.Submit disabled={canUpdate || loading}>Save</Form.Submit>
           </div>
 
@@ -339,6 +344,15 @@ function Hashrate() {
           </div>
         </form>
       )}
+      {Boolean(hasProxyStatus) ? (
+        <Link
+          href={`/direct-order/success?order_id=${hasProxyStatus}`}
+          target="_blank"
+          className="mb-12 flex items-center justify-start px-8 text-primary underline hover:no-underline"
+        >
+          View proxy status here <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
+        </Link>
+      ) : null}
     </AccountView>
   )
 }
