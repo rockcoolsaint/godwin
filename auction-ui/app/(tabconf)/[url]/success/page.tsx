@@ -31,7 +31,7 @@ export default function BalticSuccessPage({ params }: { params: any }) {
   const searchParam = useSearchParams()
   const order_id = searchParam?.get('order_id') || ''
 
-  const { token, account } = useAccountContext()
+  const { account } = useAccountContext()
 
   useEffect(() => {
     window.Intercom('shutdown')
@@ -57,7 +57,7 @@ export default function BalticSuccessPage({ params }: { params: any }) {
   if (!Boolean(order_id)) {
     return (
       <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
-        <NotFoundComponent message="Ooops! No detail for this order" return_url="/tabconf" />
+        <NotFoundComponent message="Ooops! No detail for this order" return_url="/" />
       </Container>
     )
   }
