@@ -4,7 +4,7 @@ import { makeServerRequest } from 'src/api/serverRequest'
 export async function getFeaturedAuctions(): Promise<Auction[]> {
   const featuredAuction: Auction[] = await makeServerRequest({
     method: 'GET',
-    path: `/api/auctions/featured?limit=6`,
+    path: `/api/auctions/featured?limit=12`,
     nextFetchRequestConfig: {
       revalidate: 0,
     },
