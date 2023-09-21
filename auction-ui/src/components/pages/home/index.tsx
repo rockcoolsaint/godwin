@@ -1,5 +1,4 @@
 'use client'
-import FeaturedAuctions from 'src/components/pages/home/FeaturedAuctions'
 import { Auction, AuctionOfTheDayResponse, AllAuctionsResponse } from 'src/api/auction/types'
 import rig from 'src/assets/png/rig.png'
 import placard from 'src/assets/png/placard.png'
@@ -37,10 +36,25 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
   const router = useRouter()
   const [videoOpen, setVideoOpen] = useState(false)
   const searchParam = useSearchParams()
-  const [loading, setLoading] = useState(false)
-  // const [auc, setAuctions] = useState<AllAuctionsResponse | undefined>(undefined)
+  const [_, setLoading] = useState(false)
+  const [auctionData, setAuctionData] = useState<Auction[]>([])
 
   const testMine = searchParam.get('testMine') || ''
+
+  useEffect(() => {
+    const prepareCollections = async () => {
+      setLoading(true)
+      try {
+        const res = await getAllAuctions({ limit: 12, auction_type: 'forward_date' })
+        setAuctionData(res.results)
+      } catch (ex) {
+        console.error(ex)
+      } finally {
+        setLoading(false)
+      }
+    }
+    prepareCollections()
+  }, [])
 
   useEffect(() => {
     if (account?.demo_expiration) {
@@ -111,19 +125,18 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
           onClose={() => setVideoOpen(false)}
         />
       </section>
-      <AuctionOfTheDay auction={auctionOfTheDay} />
       {!account?.email && Boolean(testMine) && (
         <section className=" mt-10 bg-slate-50">
           <Mining />
         </section>
       )}
       <InstantHashrate />
-      <AuctionSchedule auctionsData={auctions} />
+      <section className="elegant-gradient ">{auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}</section>
+      <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && (
         <>
-          <FeaturedAuctions auctions={auctions} />
-          <section className="flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 md:px-0">
+          <section className="mt-28 flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 sm:mt-0 md:px-0">
             <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
             <div className="flex flex-col items-center justify-center md:flex-row">
               <Details
