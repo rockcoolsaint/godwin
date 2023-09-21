@@ -10,7 +10,7 @@ import { createOrder } from 'src/api/orders/createOrder'
 import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import chart from 'src/assets/webp/chart.webp'
+import chart from 'src/assets/png/chart.png'
 import { formatMoney } from 'src/utils/currency'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { getProductRate } from 'src/api/orders/getProductRate'
@@ -47,20 +47,15 @@ export default function InstantHashrate() {
     duration: '',
   }
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors, isDirty, isValid },
-  } = useForm<FormInputs>({
+  const { register, handleSubmit, reset, watch } = useForm<FormInputs>({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
       ...signUpInfo,
+      duration: '1',
     },
   })
 
-  const watchShowDuration = watch('duration', '0')
+  const watchShowDuration = watch('duration', '')
 
   useEffect(() => {
     const fetchRates = async () => {
@@ -148,7 +143,7 @@ export default function InstantHashrate() {
 
   return (
     <Container className="flex h-screen items-center justify-center md:w-6/12">
-      <section className="flex w-full flex-row items-center justify-center gap-28">
+      <section className="flex w-full flex-col items-center justify-center gap-8 sm:flex-row sm:gap-28">
         <div className="w-full overflow-hidden rounded-xl border border-gray-50 shadow-lg">
           <Image className="mb-4 block w-full overflow-hidden  sm:h-64" src={chart} width={352} height={230} alt="chart" />
         </div>
@@ -171,7 +166,7 @@ export default function InstantHashrate() {
                   <p className="text-sm font-semibold text-gray-700">Hash price</p>
                 </div>
                 <div className="col-span-1">
-                  <p className="text-sm font-normal text-gray-600">{hashprice} sats per TH/s/day</p>
+                  <p className="text-sm font-normal text-gray-600">{Math.round(hashprice)} sats per TH/s/day</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 items-center">
@@ -204,11 +199,10 @@ export default function InstantHashrate() {
           </div>
 
           <button
-            disabled={!isDirty || !isValid}
             type="submit"
             className="mt-8 flex h-12 w-8/12 items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
           >
-            {formatMoney(Number(watchShowDuration) * hashrate * hashprice)} sats - Buy now
+            {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice))} sats - Buy now
           </button>
         </form>
       </section>
