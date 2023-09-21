@@ -115,8 +115,8 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
   })
 
   return (
-    <Container className="flex h-screen items-center justify-center md:w-8/12">
-      <section className="flex w-full flex-col items-center justify-center">
+    <Container className="w-12/12 flex items-center justify-center overflow-scroll sm:w-8/12">
+      <section className="flex w-full flex-col items-center justify-center overflow-scroll pl-[30rem] sm:pl-0">
         <h1 className="mb-4">Auction Market</h1>
         <table className="w-full border border-gray-400">
           <thead>
