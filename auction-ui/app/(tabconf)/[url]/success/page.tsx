@@ -33,8 +33,6 @@ export default function BalticSuccessPage({ params }: { params: any }) {
 
   const { token, account } = useAccountContext()
 
-  console.log('token and account is ', { token, account })
-
   useEffect(() => {
     window.Intercom('shutdown')
     if (!Boolean(order_id)) {
@@ -141,26 +139,6 @@ export default function BalticSuccessPage({ params }: { params: any }) {
             </dd>
           </div>
         </dl>
-        {params.url !== 'tabconf' && status?.pool_user?.username && (
-          <div className="mt-10">
-            <h2>Next steps:</h2>
-            <h3>Claim your Braiins mining pool account</h3>
-            <p className="mt-4">
-              Your account username at Braiins is{' '}
-              <code>
-                <b>{status?.pool_user?.username || 'N/A'}</b>
-              </code>
-            </p>
-            <p className="mt-4">You will receive a verification email shortly.</p>
-            <p>
-              Please check your email to{' '}
-              <Link className="underline" href="https://pool.braiins.com/mining/">
-                login to Braiins
-              </Link>{' '}
-              and claim your mining rewards.
-            </p>
-          </div>
-        )}
       </>
     )
   }
