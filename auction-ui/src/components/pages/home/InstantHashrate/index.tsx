@@ -156,7 +156,7 @@ export default function InstantHashrate() {
           <h1 className="mb-4">Instant hashrate</h1>
 
           <div>
-            <h5 className="font-semibold">Buy hashrate and start mining in an hour</h5>
+            <h5 className="font-semibold">Buy hashrate and start mining now</h5>
             <div className="mt-2 grid gap-4">
               <div className="grid grid-cols-2">
                 <div className="col-span-1">

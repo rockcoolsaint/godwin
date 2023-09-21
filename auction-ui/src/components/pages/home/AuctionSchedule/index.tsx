@@ -9,6 +9,8 @@ import Countdown, { CountdownRenderProps } from 'react-countdown'
 import { formatMoney } from 'src/utils/currency'
 import { useRouter } from 'next/navigation'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid'
+import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
+import useSatsToFiat from 'src/hooks/useSatsToFiat'
 
 export default function AuctionSchedule({ auctionsData }: { auctionsData: Auction[] }) {
   const [data, _] = React.useState(() => [...auctionsData])
@@ -51,7 +53,9 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
     }),
     columnHelper.accessor(row => row.current_bid, {
       id: 'bid',
-      cell: info => <p>{formatMoney(info.getValue())} sats</p>,
+      cell: info => {
+        return <ShowToolTip bid={info.getValue()} />
+      },
       header: () => <span>Bid</span>,
       footer: info => info.column.id,
     }),
@@ -168,5 +172,21 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
         </Link>
       </section>
     </Container>
+  )
+}
+
+const ShowToolTip = ({ bid }: { bid: number }) => {
+  const priceInFiat = useSatsToFiat({ initialValue: 0, bid })
+
+  return (
+    <Tooltip placement="left">
+      <TooltipTrigger>
+        <p>{formatMoney(bid)} sats</p>
+      </TooltipTrigger>
+
+      <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+        ${formatMoney(priceInFiat)}
+      </TooltipContent>
+    </Tooltip>
   )
 }

@@ -125,13 +125,13 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
           onClose={() => setVideoOpen(false)}
         />
       </section>
-      {!account?.email && Boolean(testMine) && (
-        <section className=" mt-10 bg-slate-50">
+      {!account?.email && (
+        <section className="elegant-gradient mt-10">
           <Mining />
         </section>
       )}
       <InstantHashrate />
-      <section className="elegant-gradient ">{auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}</section>
+      <section className="elegant-gradient">{auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}</section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && (
