@@ -32,9 +32,9 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
       header: () => <span>Epoch</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor(row => row.start_at, {
+    columnHelper.accessor(row => row.epoch, {
       id: 'start_at',
-      cell: info => <p>{formatDate(info.getValue(), 'MMMM d')} </p>,
+      cell: cell => <p>{formatDate(cell.row.original.epoch?.start_time, 'MMMM d')} </p>,
       header: () => <span>Estimated start</span>,
       footer: info => info.column.id,
     }),
