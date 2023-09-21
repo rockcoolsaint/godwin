@@ -8,7 +8,7 @@ interface Props {
   offset?: number
   sorting?: 'desc' | 'asc'
   auction_type?: 'immediate_delivery' | 'forward_date' | 'upfront_payment'
-  auction_status?: string
+  auction_status?: 'scheduled' | 'active' | 'completed'
 }
 
 export async function getAllAuctions({

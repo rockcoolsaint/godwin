@@ -124,11 +124,17 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
                   return (
-                    <th className="border-b border-r border-gray-400 px-8 py-2 font-semibold" key={header.id} colSpan={header.colSpan}>
+                    <th
+                      className="border-b border-r border-gray-400 px-8 py-2 text-center font-semibold"
+                      key={header.id}
+                      colSpan={header.colSpan}
+                    >
                       {header.isPlaceholder ? null : (
                         <div
                           {...{
-                            className: header.column.getCanSort() ? 'flex items-center cursor-pointer select-none' : '',
+                            className: header.column.getCanSort()
+                              ? 'flex text-center justify-center items-center cursor-pointer select-none'
+                              : '',
                             onClick: header.column.getToggleSortingHandler(),
                           }}
                         >
