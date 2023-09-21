@@ -103,13 +103,13 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
           onClose={() => setVideoOpen(false)}
         />
       </section>
-      <AuctionOfTheDay auction={auctionOfTheDay} />
       {!account?.email && (
         <section className=" mt-10 bg-slate-50">
           <Mining />
         </section>
       )}
       <InstantHashrate />
+      <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && (
         <>
