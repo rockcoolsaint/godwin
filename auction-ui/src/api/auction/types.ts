@@ -35,6 +35,7 @@ export interface Auction {
   deleted: boolean
   version: string
   payment_type: PaymentType
+  going_hashprice: number
 }
 
 export interface MiningEpoch {

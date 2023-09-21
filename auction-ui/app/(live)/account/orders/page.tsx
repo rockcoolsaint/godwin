@@ -15,6 +15,7 @@ import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 
 export function formatOrderStatus(status: string) {
   switch (status) {
@@ -73,7 +74,7 @@ function Orders() {
             cols={[
               { title: 'Order ID', name: 'order_id' },
               { title: 'Order Type', name: 'order_type' },
-              { title: 'Auction Name', name: 'name' },
+              { title: 'Name', name: 'name' },
               { title: 'Payment Status', name: 'payment_status' },
               { title: 'Actions', name: 'actions', align: 'right' },
             ]}
@@ -88,6 +89,18 @@ function Orders() {
                   return <div className="flex h-12 items-center">{order.type === OrderType.Direct ? 'Direct' : 'Auction'}</div>
                 }
                 case 'name': {
+                  if (order.type === OrderType.Direct) {
+                    return (
+                      <Link
+                        href={`/direct-order/success?order_id=${order.id}`}
+                        target="_blank"
+                        className="flex h-12 items-center justify-center text-blue-500 hover:underline"
+                      >
+                        <span>{order.auction.title}</span> <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
+                      </Link>
+                    )
+                  }
+
                   return (
                     <Link href={`/auctions/${order.auction.slug}`} className="flex h-12 items-center text-blue-500 hover:underline">
                       {order.auction.title}
@@ -161,16 +174,18 @@ function OrderAction({ order, hasManageAccess }: { order: Order; hasManageAccess
                 </div>
               )}
             </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <span
-                  onClick={() => router.push(`/account/orders/${order.id}`)}
-                  className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
-                >
-                  View Details
-                </span>
-              )}
-            </Menu.Item>
+            {order.type === OrderType.Auction && (
+              <Menu.Item>
+                {({ active }) => (
+                  <span
+                    onClick={() => router.push(`/account/orders/${order.id}`)}
+                    className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
+                  >
+                    View Details
+                  </span>
+                )}
+              </Menu.Item>
+            )}
           </div>
         </Menu.Items>
       </Transition>

@@ -7,7 +7,7 @@ interface Props {
   limit?: number
   offset?: number
   sorting?: 'desc' | 'asc'
-  auction_type?: string
+  auction_type?: 'immediate_delivery' | 'forward_date' | 'upfront_payment'
   auction_status?: string
 }
 
