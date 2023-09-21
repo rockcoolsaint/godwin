@@ -11,6 +11,8 @@ import { formatDistance, parseISO } from 'date-fns'
 import { BoltIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import Link from 'src/components/shared/Link'
+import { useAccountContext } from 'src/providers/AccountProvider'
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 interface Status {
   worker: any
@@ -28,6 +30,10 @@ export default function BalticSuccessPage({ params }: { params: any }) {
 
   const searchParam = useSearchParams()
   const order_id = searchParam?.get('order_id') || ''
+
+  const { token, account } = useAccountContext()
+
+  console.log('token and account is ', { token, account })
 
   useEffect(() => {
     window.Intercom('shutdown')
@@ -162,18 +168,37 @@ export default function BalticSuccessPage({ params }: { params: any }) {
   return (
     <>
       <Container className="flex h-screen flex-col items-center justify-center overflow-scroll bg-slate-50 pt-4 sm:pt-12">
-        <div className="flex flex-col items-center justify-center">
-          <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-4 mt-8 h-24 w-24')} />
-          <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>
-        </div>
-
-        {loading ? (
-          <div className="mt-8 flex flex-col items-center justify-center">
-            <Loader />
-            <p className="mt-1 text-lg text-dark-100">Loading order status</p>
+        {!account?.pool_user?.username && (
+          <div className="m-auto mt-8 flex w-8/12 flex-col items-center border-l-4 border-yellow-400 bg-yellow-50 p-4">
+            <InformationCircleIcon className="h-14 w-14 text-yellow-600" />
+            <div className="flex justify-center">
+              <div className="ml-3">
+                <p className="text-sm text-yellow-800">
+                  You still need to set up your pool account. Set up your pool account{' '}
+                  <Link className="underline" href="/account/hashrate?proxy_status=true">
+                    here
+                  </Link>
+                </p>
+              </div>
+            </div>
           </div>
-        ) : (
-          renderOrderStatus()
+        )}
+        {account?.pool_user?.username && (
+          <>
+            <div className="flex flex-col items-center justify-center">
+              <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-4 mt-8 h-24 w-24')} />
+              <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>
+            </div>
+
+            {loading ? (
+              <div className="mt-8 flex flex-col items-center justify-center">
+                <Loader />
+                <p className="mt-1 text-lg text-dark-100">Loading order status</p>
+              </div>
+            ) : (
+              renderOrderStatus()
+            )}
+          </>
         )}
       </Container>
     </>
