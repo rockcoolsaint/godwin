@@ -82,7 +82,7 @@ export default function Mining() {
           setStatus(2)
           payment = await createDirectOrderPayment(
             order.id,
-            `${process.env.NEXT_PUBLIC_APP_CALLBACK_URL}/direct-order/success?order_id=${order.id}`,
+            `${process.env.NEXT_PUBLIC_APP_CALLBACK_URL}/direct-order/td/success?order_id=${order.id}`,
           )
         }
 
@@ -135,7 +135,7 @@ export default function Mining() {
 
   if (loading) {
     return (
-      <div id="test-mine" className="mt-24 flex h-screen flex-col items-center justify-center">
+      <div id="test-mine" className="mt-24 flex flex-col items-center justify-center sm:h-screen">
         <Loader />
         {renderStatus()}
       </div>
@@ -143,8 +143,8 @@ export default function Mining() {
   }
 
   return (
-    <Container id="test-mine" className="flex h-screen items-center justify-center">
-      <section className="flex w-full flex-col items-center justify-center sm:w-3/12">
+    <Container id="test-mine" className="flex items-center justify-center sm:h-screen">
+      <section className="flex w-full flex-col items-center justify-center py-24 sm:w-3/12 sm:py-0">
         <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
           <h1 className="mb-4">Test Drive</h1>
           <div className="flex">

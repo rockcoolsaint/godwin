@@ -1,3 +1,5 @@
+'use client'
+
 import AccountSidebar from 'src/components/pages/account/AccountSidebar'
 import Container from 'src/core/components/Container'
 AccountSidebar

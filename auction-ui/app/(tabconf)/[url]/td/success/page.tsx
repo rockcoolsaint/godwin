@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react'
 import getOrderStatus from 'src/api/checkout/getOrderStatus'
-import { Container } from '../components/Container'
+import { Container } from '../../components/Container'
 import { useSearchParams } from 'next/navigation'
 import NotFoundComponent from 'src/components/shared/NotFoundComponent'
 import { Loader } from 'src/core'
@@ -11,8 +11,6 @@ import { formatDistance, parseISO } from 'date-fns'
 import { BoltIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import Link from 'src/components/shared/Link'
-import { useAccountContext } from 'src/providers/AccountProvider'
-import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 interface Status {
   worker: any
@@ -23,15 +21,13 @@ interface Status {
   assigned_at: string
 }
 
-export default function BalticSuccessPage({ params }: { params: any }) {
+export default function TestDriveSuccessPage({ params }: { params: any }) {
   const [status, setStatus] = useState<Status | null | undefined>(null)
   const [loading, setLoading] = useState(true)
   const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined)
 
   const searchParam = useSearchParams()
   const order_id = searchParam?.get('order_id') || ''
-
-  const { account } = useAccountContext()
 
   useEffect(() => {
     window.Intercom('shutdown')
@@ -139,46 +135,45 @@ export default function BalticSuccessPage({ params }: { params: any }) {
             </dd>
           </div>
         </dl>
+        {params.url !== 'tabconf' && status?.pool_user?.username && (
+          <div className="mt-10">
+            <h2>Next steps:</h2>
+            <h3>Claim your Braiins mining pool account</h3>
+            <p className="mt-4">
+              Your account username at Braiins is{' '}
+              <code>
+                <b>{status?.pool_user?.username || 'N/A'}</b>
+              </code>
+            </p>
+            <p className="mt-4">You will receive a verification email shortly.</p>
+            <p>
+              Please check your email to{' '}
+              <Link className="underline" href="https://pool.braiins.com/mining/">
+                login to Braiins
+              </Link>{' '}
+              and claim your mining rewards.
+            </p>
+          </div>
+        )}
       </>
     )
   }
 
   return (
-    <>
-      <Container className="flex h-screen flex-col items-center justify-center overflow-scroll bg-slate-50 pt-4 sm:pt-12">
-        {!account?.pool_user?.username && (
-          <div className="m-auto mt-8 flex w-8/12 flex-col items-center border-l-4 border-yellow-400 bg-yellow-50 p-4">
-            <InformationCircleIcon className="h-14 w-14 text-yellow-600" />
-            <div className="flex justify-center">
-              <div className="ml-3">
-                <p className="text-sm text-yellow-800">
-                  You still need to set up your pool account. Set up your pool account{' '}
-                  <Link className="underline" href={`/account/hashrate?proxy_status=${order_id}`}>
-                    here
-                  </Link>
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-        {account?.pool_user?.username && (
-          <>
-            <div className="flex flex-col items-center justify-center">
-              <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-4 mt-8 h-24 w-24')} />
-              <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>
-            </div>
+    <Container className="flex h-screen flex-col items-center justify-center overflow-scroll bg-slate-50 pt-4 sm:pt-12">
+      <div className="flex flex-col items-center justify-center">
+        <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-4 mt-8 h-24 w-24')} />
+        <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>
+      </div>
 
-            {loading ? (
-              <div className="mt-8 flex flex-col items-center justify-center">
-                <Loader />
-                <p className="mt-1 text-lg text-dark-100">Loading order status</p>
-              </div>
-            ) : (
-              renderOrderStatus()
-            )}
-          </>
-        )}
-      </Container>
-    </>
+      {loading ? (
+        <div className="mt-8 flex flex-col items-center justify-center">
+          <Loader />
+          <p className="mt-1 text-lg text-dark-100">Loading order status</p>
+        </div>
+      ) : (
+        renderOrderStatus()
+      )}
+    </Container>
   )
 }
