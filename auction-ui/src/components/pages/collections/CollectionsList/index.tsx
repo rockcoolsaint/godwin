@@ -23,6 +23,10 @@ export default function CollectionList({ auction, setAuctions, setLoading, isLoa
   const [viewType, setViewType] = useState<ViewTypes | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false)
 
+  const handleCloseModal = () => {
+    setShowModal(false)
+  }
+
   useEffect(() => {
     const view = (window.localStorage.getItem(LocalStorageKeys.Auction.auctionView) as ViewTypes) || 'card'
 
@@ -106,7 +110,13 @@ export default function CollectionList({ auction, setAuctions, setLoading, isLoa
     <Container className="mb-20 h-full grow py-5 ">
       {renderCollectionsHeader()}
       {renderView()}
-      <CollectionsFilter setAuctions={setAuctions} showModal={showModal} setShowModal={setShowModal} setLoading={setLoading} />
+      <CollectionsFilter
+        setAuctions={setAuctions}
+        onClose={handleCloseModal}
+        open={showModal}
+        setShowModal={setShowModal}
+        setLoading={setLoading}
+      />
     </Container>
   )
 }

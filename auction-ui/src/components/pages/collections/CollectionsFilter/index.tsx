@@ -14,13 +14,14 @@ interface FormInputs {
 }
 
 interface Props {
-  showModal: boolean
+  open: boolean
   setShowModal: (showModal: boolean) => void
   setAuctions: (auctions: AllAuctionsResponse) => void
   setLoading: (loading: boolean) => void
+  onClose: () => void
 }
 
-export default function CollectionsFilter({ showModal, setShowModal, setAuctions, setLoading }: Props) {
+export default function CollectionsFilter({ open, setShowModal, setAuctions, setLoading, onClose }: Props) {
   const handleCloseModal = useCallback(() => {
     setShowModal(false)
   }, [setShowModal])
@@ -37,7 +38,7 @@ export default function CollectionsFilter({ showModal, setShowModal, setAuctions
     register,
     handleSubmit,
     reset,
-    watch,
+
     formState: { isValid },
   } = useForm<FormInputs>({
     resolver: yupResolver(filterSchema),
@@ -70,20 +71,20 @@ export default function CollectionsFilter({ showModal, setShowModal, setAuctions
   )
 
   return (
-    <Modal className="w-1/4 border border-green-700 p-2" open={showModal} onClose={handleCloseModal}>
+    <Modal className="w-1/4 border border-green-700 p-2" open={open} onClose={onClose}>
+      <Modal.Header>
+        <Modal.Title>
+          <div className="w-3/3 flex items-center justify-between py-4">
+            <span>Filter by</span>
+          </div>
+        </Modal.Title>
+        <Modal.Close>
+          <TrashIcon onClick={() => reset()} title="clear" className="mr-2 h-4 w-4 hover:cursor-pointer" />
+        </Modal.Close>
+      </Modal.Header>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Modal.Header>
-          <Modal.Title>
-            <div className="w-3/3 flex items-center justify-between py-4">
-              <span>Filter by</span>
-            </div>
-          </Modal.Title>
-          <Modal.Close>
-            <TrashIcon onClick={() => reset()} title="clear" className="mr-2 h-4 w-4 hover:cursor-pointer" />
-          </Modal.Close>
-        </Modal.Header>
         <Modal.Content className="p-4">
-          <div className="mt-5 flex flex-col">
+          <div className="flex flex-col">
             <span className="text-base font-normal">Auction Type</span>
             <div className="flex flex-col">
               <label className="mt-3 inline-flex items-center text-sm text-dark-200">
@@ -138,7 +139,7 @@ export default function CollectionsFilter({ showModal, setShowModal, setAuctions
           <div className="flex w-full justify-end border-green-900 py-4">
             <button
               type="button"
-              onClick={handleCloseModal}
+              onClick={onClose}
               className="inline-flex items-center rounded bg-gray-100 px-4 py-2 text-sm text-gray-600 hover:bg-gray-200"
             >
               <span>Cancel</span>
