@@ -22,6 +22,7 @@ import InstantHashrate from './InstantHashrate'
 import { useSearchParams } from 'next/navigation'
 import AuctionSchedule from './AuctionSchedule'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
+import FeaturedAuctions from './FeaturedAuctions'
 
 interface Props {
   auctions: Auction[]
@@ -37,12 +38,15 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
   const [videoOpen, setVideoOpen] = useState(false)
   const [_, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
+  const searchParam = useSearchParams()
+
+  const trainSchedule = searchParam.get('train-schedule') || ''
 
   useEffect(() => {
     const prepareCollections = async () => {
       setLoading(true)
       try {
-        const res = await getAllAuctions({ limit: 12, auction_type: 'forward_date', auction_status: 'active' })
+        const res = await getAllAuctions({ limit: 12, auction_type: 'forward_date', group_by: 'auction_status' })
         setAuctionData(res.results)
       } catch (ex) {
         console.error(ex)
@@ -128,9 +132,11 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
         </section>
       )}
       <InstantHashrate />
-      <section className="elegant-gradient mt-28 pt-28 sm:mt-0 sm:pt-0">
-        {auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}
-      </section>
+      {Boolean(trainSchedule) && (
+        <section className="elegant-gradient mt-28 pt-28 sm:mt-0 sm:pt-0">
+          {auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}
+        </section>
+      )}
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && (
