@@ -9,6 +9,7 @@ interface Props {
   sorting?: 'desc' | 'asc'
   auction_type?: 'immediate_delivery' | 'forward_date' | 'upfront_payment'
   auction_status?: 'scheduled' | 'active' | 'completed'
+  group_by?: 'auction_status'
 }
 
 export async function getAllAuctions({
@@ -17,13 +18,15 @@ export async function getAllAuctions({
   sorting = 'desc',
   auction_type,
   auction_status,
+  group_by,
 }: Props): Promise<AllAuctionsResponse> {
   const auctions: AllAuctionsResponse = await makeClientRequest({
     method: 'GET',
     path:
       `/api/auctions?limit=${limit}&offset=${offset}&sorting=${sorting}` +
       (auction_type ? `&auction_type=${auction_type}` : ``) +
-      (auction_status ? `&auction_status=${auction_status}` : ``),
+      (auction_status ? `&auction_status=${auction_status}` : ``) +
+      (group_by ? `&group_by=${group_by}` : ``),
   })
 
   return auctions
