@@ -142,7 +142,7 @@ export default function InstantHashrate() {
   }
 
   return (
-    <Container className="flex h-screen items-center justify-center md:w-6/12">
+    <Container className="flex h-screen items-center justify-center md:w-9/12 lg:w-7/12">
       <section className="flex w-full flex-col items-center justify-center gap-8 sm:flex-row sm:gap-28">
         <div className="w-full overflow-hidden rounded-xl border border-gray-50 shadow-lg">
           <Image className="mb-4 block w-full overflow-hidden  sm:h-64" src={chart} width={352} height={230} alt="chart" />
@@ -200,7 +200,7 @@ export default function InstantHashrate() {
 
           <button
             type="submit"
-            className="mt-8 flex h-12 w-8/12 items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
+            className="w-12/12 mt-8 flex h-12 items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-8/12"
           >
             {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice))} sats - Buy now
           </button>

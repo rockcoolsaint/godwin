@@ -1,5 +1,5 @@
 'use client'
-import { Auction, AuctionOfTheDayResponse, AllAuctionsResponse } from 'src/api/auction/types'
+import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
 import rig from 'src/assets/png/rig.png'
 import placard from 'src/assets/png/placard.png'
 import Details from 'src/components/pages/home/Details'
@@ -30,22 +30,19 @@ interface Props {
   code?: string
 }
 
-export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props) {
+export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
   const { t } = useTranslation()
   const { account } = useAccountContext()
   const router = useRouter()
   const [videoOpen, setVideoOpen] = useState(false)
-  const searchParam = useSearchParams()
   const [_, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
-
-  const testMine = searchParam.get('testMine') || ''
 
   useEffect(() => {
     const prepareCollections = async () => {
       setLoading(true)
       try {
-        const res = await getAllAuctions({ limit: 12, auction_type: 'forward_date', auction_status: 'active' })
+        const res = await getAllAuctions({ limit: 12, auction_type: 'forward_date' })
         setAuctionData(res.results)
       } catch (ex) {
         console.error(ex)
@@ -131,7 +128,9 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
         </section>
       )}
       <InstantHashrate />
-      <section className="elegant-gradient">{auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}</section>
+      <section className="elegant-gradient mt-28 pt-28 sm:mt-0 sm:pt-0">
+        {auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}
+      </section>
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && (
