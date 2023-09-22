@@ -22,6 +22,7 @@ import InstantHashrate from './InstantHashrate'
 import { useSearchParams } from 'next/navigation'
 import AuctionSchedule from './AuctionSchedule'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
+import FeaturedAuctions from './FeaturedAuctions'
 
 interface Props {
   auctions: Auction[]
@@ -39,13 +40,13 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
   const [_, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
 
-  const testMine = searchParam.get('testMine') || ''
+  const trainSchedule = searchParam.get('train-schedule') || ''
 
   useEffect(() => {
     const prepareCollections = async () => {
       setLoading(true)
       try {
-        const res = await getAllAuctions({ limit: 12, auction_type: 'forward_date', auction_status: 'active' })
+        const res = await getAllAuctions({ limit: 12, auction_type: 'forward_date', group_by: 'auction_status' })
         setAuctionData(res.results)
       } catch (ex) {
         console.error(ex)
@@ -131,11 +132,14 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
         </section>
       )}
       <InstantHashrate />
-      <section className="elegant-gradient">{auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}</section>
+      {Boolean(trainSchedule) && (
+        <section className="elegant-gradient">{auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}</section>
+      )}
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && (
         <>
+          <FeaturedAuctions auctions={auctions} />
           <section className="mt-28 flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 sm:mt-0 md:px-0">
             <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
             <div className="flex flex-col items-center justify-center md:flex-row">
