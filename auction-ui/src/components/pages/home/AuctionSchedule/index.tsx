@@ -127,7 +127,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
                   {headerGroup.headers.map(header => {
                     return (
                       <th
-                        className="border-b border-r border-gray-400 px-8 py-2 text-center font-semibold"
+                        className="border-b border-r border-gray-400 px-8 py-2 text-center text-xs font-semibold sm:text-sm"
                         key={header.id}
                         colSpan={header.colSpan}
                       >
@@ -146,8 +146,8 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
                               desc: <ChevronDownIcon className="ml-2 h-4 w-4 font-extrabold" />,
                             }[header.column.getIsSorted() as string] ?? (
                               <div className="ml-2 flex flex-col">
-                                <ChevronUpIcon className="h-2 w-2" />
-                                <ChevronDownIcon className="h-2 w-2" />
+                                <ChevronUpIcon className=" h-4 w-4" />
+                                <ChevronDownIcon className=" h-4 w-4" />
                               </div>
                             )}
                           </div>
@@ -166,7 +166,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
                   onClick={() => router.push(`/auctions/${row.original.slug}`)}
                 >
                   {row.getVisibleCells().map(cell => (
-                    <td className="border-r border-gray-400 p-4 text-center" key={cell.id}>
+                    <td className="border-r border-gray-400 p-4 text-center text-xs sm:text-sm" key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -175,8 +175,8 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
             </tbody>
           </table>
         </div>
-        <i className="mt-8 text-center">Bitcoin&rsquo;s difficulty epochs are ~ 14 days (2,016 blocks) in duration </i>
-        <Link className="mb-16 mt-4 text-primary underline" href="/collections">
+        <i className="mt-8 text-center text-xs sm:text-sm">Bitcoin&rsquo;s difficulty epochs are ~ 14 days (2,016 blocks) in duration </i>
+        <Link className="mb-16 mt-4 text-xs text-primary underline sm:text-sm" href="/collections">
           View all auctions
         </Link>
       </section>
