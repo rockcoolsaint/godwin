@@ -3,21 +3,21 @@
 import { AllAuctionsResponse, Auction } from 'src/api/auction/types'
 import { useTranslation } from 'src/hooks'
 import AuctionCard from 'src/components/pages/home/AuctionCard'
-import { Container } from 'src/core'
+import { Container, Loader } from 'src/core'
 import { ListBulletIcon, ViewColumnsIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 import AuctionList from 'src/components/pages/home/AuctionList'
 import { useState } from 'react'
 import clsx from 'clsx'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import CollectionsFilter from 'src/components/pages/collections/CollectionsFilter'
-
 interface Props {
   auction: Auction[] | undefined
   setAuctions: (auctions: AllAuctionsResponse) => void
   setLoading: (loading: boolean) => void
+  isLoading?: boolean
 }
 
-export default function CollectionList({ auction, setAuctions, setLoading }: Props) {
+export default function CollectionList({ auction, setAuctions, setLoading, isLoading }: Props) {
   const { t } = useTranslation()
   type ViewTypes = 'list' | 'card'
   const view = (localStorage.getItem(LocalStorageKeys.Auction.auctionView) as ViewTypes) || 'card'
@@ -59,6 +59,16 @@ export default function CollectionList({ auction, setAuctions, setLoading }: Pro
   }
 
   const renderView = () => {
+    if (isLoading) {
+      return (
+        <Container className="h-full py-40">
+          <div className="flex items-center justify-center">
+            <Loader />
+          </div>
+        </Container>
+      )
+    }
+
     if (!auction || auction.length === 0) {
       return (
         <Container className="flex items-center justify-center py-20">

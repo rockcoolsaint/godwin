@@ -6,8 +6,9 @@ export const useCollectionsFilterSchema = () => {
     () =>
       yup
         .object({
-          auctionType: yup.string().required(),
-          auctionStatus: yup.string().required(),
+          auctionType: yup.string().oneOf(['immediate_delivery', 'forward_date', 'upfront_payment']).required(),
+          auctionStatus: yup.string().oneOf(['scheduled', 'active', 'completed']).required(),
+          sortBy: yup.string().oneOf(['epoch', 'created_at', 'hashrate', 'time_remaining', 'highest_bid', 'going_hashprice']).required(),
         })
         .required(),
     [],
