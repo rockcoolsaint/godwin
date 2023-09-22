@@ -20,7 +20,7 @@ interface Props {
 export default function CollectionList({ auction, setAuctions, setLoading, isLoading }: Props) {
   const { t } = useTranslation()
   type ViewTypes = 'list' | 'card'
-  const view = (localStorage.getItem(LocalStorageKeys.Auction.auctionView) as ViewTypes) || 'card'
+  const view = (window.localStorage.getItem(LocalStorageKeys.Auction.auctionView) as ViewTypes) || 'card'
   const [viewType, setViewType] = useState<ViewTypes | null>(view)
   const [showModal, setShowModal] = useState<boolean>(false)
 
@@ -36,7 +36,7 @@ export default function CollectionList({ auction, setAuctions, setLoading, isLoa
           <ViewColumnsIcon
             onClick={() => {
               setViewType('card')
-              localStorage.setItem(LocalStorageKeys.Auction.auctionView, 'card')
+              window.localStorage.setItem(LocalStorageKeys.Auction.auctionView, 'card')
             }}
             className={clsx(
               'mr-2 h-8 w-8 cursor-pointer rounded-sm border border-gray-400 p-1 hover:bg-gray-400',
@@ -46,7 +46,7 @@ export default function CollectionList({ auction, setAuctions, setLoading, isLoa
           <ListBulletIcon
             onClick={() => {
               setViewType('list')
-              localStorage.setItem(LocalStorageKeys.Auction.auctionView, 'list')
+              window.localStorage.setItem(LocalStorageKeys.Auction.auctionView, 'list')
             }}
             className={clsx(
               'h-8 w-8 cursor-pointer rounded-sm border border-gray-400 p-1 hover:bg-gray-400',
