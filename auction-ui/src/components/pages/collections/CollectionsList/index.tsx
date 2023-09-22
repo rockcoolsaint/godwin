@@ -6,7 +6,7 @@ import AuctionCard from 'src/components/pages/home/AuctionCard'
 import { Container, Loader } from 'src/core'
 import { ListBulletIcon, ViewColumnsIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 import AuctionList from 'src/components/pages/home/AuctionList'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import CollectionsFilter from 'src/components/pages/collections/CollectionsFilter'
@@ -20,9 +20,14 @@ interface Props {
 export default function CollectionList({ auction, setAuctions, setLoading, isLoading }: Props) {
   const { t } = useTranslation()
   type ViewTypes = 'list' | 'card'
-  const view = (window.localStorage.getItem(LocalStorageKeys.Auction.auctionView) as ViewTypes) || 'card'
-  const [viewType, setViewType] = useState<ViewTypes | null>(view)
+  const [viewType, setViewType] = useState<ViewTypes | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false)
+
+  useEffect(() => {
+    const view = (window.localStorage.getItem(LocalStorageKeys.Auction.auctionView) as ViewTypes) || 'card'
+
+    setViewType(view)
+  }, [viewType])
 
   const renderCollectionsHeader = () => {
     return (
