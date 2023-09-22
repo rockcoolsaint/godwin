@@ -39,7 +39,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
   const [_, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
 
-  const testMine = searchParam.get('testMine') || ''
+  const trainSchedule = searchParam.get('train-schedule') || ''
 
   useEffect(() => {
     const prepareCollections = async () => {
@@ -131,7 +131,9 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
         </section>
       )}
       <InstantHashrate />
-      <section className="elegant-gradient">{auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}</section>
+      {Boolean(trainSchedule) && (
+        <section className="elegant-gradient">{auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}</section>
+      )}
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && (
