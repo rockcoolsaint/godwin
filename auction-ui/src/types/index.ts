@@ -62,6 +62,7 @@ export interface Order {
   id: number
   auction?: Auction
   account?: Account
+  duration_days: number
   deleted: boolean
   expires_at: string
   original_total: number
