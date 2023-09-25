@@ -3,26 +3,35 @@
 import { AllAuctionsResponse, Auction } from 'src/api/auction/types'
 import { useTranslation } from 'src/hooks'
 import AuctionCard from 'src/components/pages/home/AuctionCard'
-import { Container } from 'src/core'
+import { Container, Loader } from 'src/core'
 import { ListBulletIcon, ViewColumnsIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
 import AuctionList from 'src/components/pages/home/AuctionList'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import CollectionsFilter from 'src/components/pages/collections/CollectionsFilter'
-
 interface Props {
   auction: Auction[] | undefined
   setAuctions: (auctions: AllAuctionsResponse) => void
   setLoading: (loading: boolean) => void
+  isLoading?: boolean
 }
 
-export default function CollectionList({ auction, setAuctions, setLoading }: Props) {
+export default function CollectionList({ auction, setAuctions, setLoading, isLoading }: Props) {
   const { t } = useTranslation()
   type ViewTypes = 'list' | 'card'
-  const view = (localStorage.getItem(LocalStorageKeys.Auction.auctionView) as ViewTypes) || 'card'
-  const [viewType, setViewType] = useState<ViewTypes | null>(view)
+  const [viewType, setViewType] = useState<ViewTypes | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false)
+
+  const handleCloseModal = () => {
+    setShowModal(false)
+  }
+
+  useEffect(() => {
+    const view = (window.localStorage.getItem(LocalStorageKeys.Auction.auctionView) as ViewTypes) || 'card'
+
+    setViewType(view)
+  }, [viewType])
 
   const renderCollectionsHeader = () => {
     return (
@@ -36,7 +45,7 @@ export default function CollectionList({ auction, setAuctions, setLoading }: Pro
           <ViewColumnsIcon
             onClick={() => {
               setViewType('card')
-              localStorage.setItem(LocalStorageKeys.Auction.auctionView, 'card')
+              window.localStorage.setItem(LocalStorageKeys.Auction.auctionView, 'card')
             }}
             className={clsx(
               'mr-2 h-8 w-8 cursor-pointer rounded-sm border border-gray-400 p-1 hover:bg-gray-400',
@@ -46,7 +55,7 @@ export default function CollectionList({ auction, setAuctions, setLoading }: Pro
           <ListBulletIcon
             onClick={() => {
               setViewType('list')
-              localStorage.setItem(LocalStorageKeys.Auction.auctionView, 'list')
+              window.localStorage.setItem(LocalStorageKeys.Auction.auctionView, 'list')
             }}
             className={clsx(
               'h-8 w-8 cursor-pointer rounded-sm border border-gray-400 p-1 hover:bg-gray-400',
@@ -59,6 +68,16 @@ export default function CollectionList({ auction, setAuctions, setLoading }: Pro
   }
 
   const renderView = () => {
+    if (isLoading) {
+      return (
+        <Container className="h-full py-40">
+          <div className="flex items-center justify-center">
+            <Loader />
+          </div>
+        </Container>
+      )
+    }
+
     if (!auction || auction.length === 0) {
       return (
         <Container className="flex items-center justify-center py-20">
@@ -91,7 +110,13 @@ export default function CollectionList({ auction, setAuctions, setLoading }: Pro
     <Container className="mb-20 h-full grow py-5 ">
       {renderCollectionsHeader()}
       {renderView()}
-      <CollectionsFilter setAuctions={setAuctions} showModal={showModal} setShowModal={setShowModal} setLoading={setLoading} />
+      <CollectionsFilter
+        setAuctions={setAuctions}
+        onClose={handleCloseModal}
+        open={showModal}
+        setShowModal={setShowModal}
+        setLoading={setLoading}
+      />
     </Container>
   )
 }
