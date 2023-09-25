@@ -315,6 +315,10 @@ function Hashrate() {
                 label="Mining pool username"
                 {...register('mining_pool_username')}
               />
+              <div className="mt-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-normal text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+                Please double check spelling and capitalization on your username
+              </div>
+
               <Input
                 className="w-full"
                 disabled={Boolean(selectedPool.address)}
@@ -328,10 +332,6 @@ function Hashrate() {
                 label="Mining pool address"
                 {...register('mining_pool_address')}
               />
-
-              <div className="mb-2 mt-8 flex w-full">
-                <span className="text-sm text-gray-500">Your mining pool account details will be e-mailed to you after registration</span>
-              </div>
 
               <button
                 disabled={!isDirty || !isValid || loading}
