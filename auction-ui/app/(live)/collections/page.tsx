@@ -13,7 +13,7 @@ export default function CollectionsPage() {
     const prepareCollections = async () => {
       setLoading(true)
       try {
-        const res = await getAllAuctions({ limit: 21 })
+        const res = await getAllAuctions({ limit: 100 })
 
         setAuctions(res)
       } catch (ex) {
