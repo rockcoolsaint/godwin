@@ -29,7 +29,7 @@ export interface Auction {
   is_dummy: boolean
   account: number
   category: number
-  epoch?: MiningEpoch
+  epoch: MiningEpoch
   created_at: string
   updated_at: string
   deleted: boolean
