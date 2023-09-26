@@ -22,7 +22,6 @@ import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import useSatsToFiat from 'src/hooks/useSatsToFiat'
 import { useMobileScreen } from 'src/hooks/useIsMobile'
-import styles from './index.module.css'
 
 export default function AuctionSchedule({ auctionsData }: { auctionsData: Auction[] }) {
   const [data, _] = React.useState(() => [...auctionsData])
@@ -143,11 +142,11 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
   })
 
   return (
-    <Container className="w-12/12 flex items-center justify-center overflow-scroll !px-1 sm:w-8/12">
-      <section className="flex flex-col items-center justify-center overflow-scroll sm:pl-0">
+    <Container className="w-12/12 flex items-center justify-center !px-1 sm:w-8/12">
+      <section className="flex flex-col items-center justify-center sm:pl-0">
         <h1 className="mb-4">Auction Market</h1>
-        <div className={`${styles['table-responsive']}`}>
-          <table className={`${styles['table']} border border-gray-400`}>
+        <div className="block w-full">
+          <table className="border border-gray-400">
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
