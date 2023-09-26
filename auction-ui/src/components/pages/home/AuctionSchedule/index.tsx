@@ -158,7 +158,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
         <section className="flex flex-col items-center justify-center sm:pl-0">
           <h1 className="mb-4 text-primary">Auction Market</h1>
           <div className="block w-full">
-            <table className="border border-gray-400">
+            <table className="w-full border border-gray-400">
               <thead>
                 {table.getHeaderGroups().map(headerGroup => (
                   <tr key={headerGroup.id}>
