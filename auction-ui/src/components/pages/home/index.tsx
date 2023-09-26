@@ -132,11 +132,11 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
         </section>
       )}
       <InstantHashrate />
-      {Boolean(trainSchedule) && (
-        <section className="elegant-gradient mt-28 pt-28 sm:mt-0 sm:pt-0">
-          {auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}
-        </section>
-      )}
+
+      <section className="elegant-gradient mt-28 pt-28 sm:mt-0 sm:pt-0">
+        {auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}
+      </section>
+
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && (
