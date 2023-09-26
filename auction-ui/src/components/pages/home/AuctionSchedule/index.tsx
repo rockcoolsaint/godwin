@@ -22,6 +22,7 @@ import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import useSatsToFiat from 'src/hooks/useSatsToFiat'
 import { useMobileScreen } from 'src/hooks/useIsMobile'
+import styles from './index.module.css'
 
 export default function AuctionSchedule({ auctionsData }: { auctionsData: Auction[] }) {
   const [data, _] = React.useState(() => [...auctionsData])
@@ -144,92 +145,94 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
 
   return (
     <Container className="w-12/12 flex items-center justify-center overflow-scroll sm:w-8/12">
-      <section className="flex w-full flex-col items-center justify-center overflow-scroll pl-[30rem] sm:pl-0">
+      <section className="flex flex-col items-center justify-center overflow-scroll sm:pl-0">
         <h1 className="mb-4">Auction Market</h1>
-        <table className="w-full border border-gray-400">
-          <thead>
-            {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <th
-                      className="border-b border-r border-gray-400 px-8 py-2 text-center font-semibold"
-                      key={header.id}
-                      colSpan={header.colSpan}
-                    >
-                      {header.isPlaceholder ? null : (
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? 'flex text-center justify-center items-center cursor-pointer select-none'
-                              : '',
-                            onClick: header.column.getToggleSortingHandler(),
-                          }}
-                        >
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                          {{
-                            asc: <ChevronUpIcon className="ml-2 h-4 w-4 font-extrabold" />,
-                            desc: <ChevronDownIcon className="ml-2 h-4 w-4 font-extrabold" />,
-                          }[header.column.getIsSorted() as string] ?? (
-                            <div className="ml-2 flex flex-col">
-                              {header.column.getCanSort() && (
-                                <>
-                                  <ChevronUpIcon className="h-2 w-2" />
-                                  <ChevronDownIcon className="h-2 w-2" />
-                                </>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </th>
-                  )
-                })}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map(row => (
-              <tr
-                className="odd:bg-white even:bg-gray-100 hover:cursor-pointer hover:bg-primary/[0.15]"
-                key={row.id}
-                onClick={() => router.push(`/auctions/${row.original.slug}`)}
-              >
-                {row.getVisibleCells().map(cell => (
-                  <td className="border-r border-gray-400 p-4 text-center" key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="mt-4">
-          <button className="rounded border p-1" onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
-            {'<<'}
-          </button>
-          <button className="rounded border p-1" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-            {'<'}
-          </button>
-          <button className="rounded border p-1" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-            {'>'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {'>>'}
-          </button>
-          <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-            </strong>
-          </span>
+        <div className={`${styles['table-responsive']}`}>
+          <table className={`${styles['table']} border border-gray-400`}>
+            <thead>
+              {table.getHeaderGroups().map(headerGroup => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map(header => {
+                    return (
+                      <th
+                        className="border-b border-r border-gray-400 px-8 py-2 text-center text-xs font-semibold sm:text-sm"
+                        key={header.id}
+                        colSpan={header.colSpan}
+                      >
+                        {header.isPlaceholder ? null : (
+                          <div
+                            {...{
+                              className: header.column.getCanSort()
+                                ? 'flex text-center justify-center items-center cursor-pointer select-none'
+                                : '',
+                              onClick: header.column.getToggleSortingHandler(),
+                            }}
+                          >
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                            {{
+                              asc: <ChevronUpIcon className="ml-2 h-4 w-4 font-extrabold" />,
+                              desc: <ChevronDownIcon className="ml-2 h-4 w-4 font-extrabold" />,
+                            }[header.column.getIsSorted() as string] ?? (
+                              <div className="ml-2 flex flex-col">
+                                {header.column.getCanSort() && (
+                                  <>
+                                    <ChevronUpIcon className="h-2 w-2" />
+                                    <ChevronDownIcon className="h-2 w-2" />
+                                  </>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </th>
+                    )
+                  })}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map(row => (
+                <tr
+                  className="odd:bg-white even:bg-gray-100 hover:cursor-pointer hover:bg-primary/[0.15]"
+                  key={row.id}
+                  onClick={() => router.push(`/auctions/${row.original.slug}`)}
+                >
+                  {row.getVisibleCells().map(cell => (
+                    <td className="border-r border-gray-400 p-4 text-center text-xs sm:text-sm" key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="mt-4 flex justify-center">
+            <button className="rounded border p-1" onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
+              {'<<'}
+            </button>
+            <button className="rounded border p-1" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+              {'<'}
+            </button>
+            <button className="rounded border p-1" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+              {'>'}
+            </button>
+            <button
+              className="rounded border p-1"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              {'>>'}
+            </button>
+            <span className="flex items-center gap-1">
+              <div>Page</div>
+              <strong>
+                {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+              </strong>
+            </span>
+          </div>
         </div>
-        <i className="mt-8">Bitcoin&rsquo;s difficulty epochs are ~ 14 days (2,016 blocks) in duration </i>
-        <Link className="mb-16 mt-4 text-primary underline" href="/collections">
+        <i className="mt-8 text-center text-xs sm:text-sm">Bitcoin&rsquo;s difficulty epochs are ~ 14 days (2,016 blocks) in duration </i>
+        <Link className="mb-16 mt-4 text-xs text-primary underline sm:text-sm" href="/collections">
           View all auctions
         </Link>
       </section>

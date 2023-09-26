@@ -1,0 +1,65 @@
+.terminal {
+  transform: translateY(calc(100% - 52px));
+  z-index: 50;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .terminal {
+    transition: transform 0.5s ease;
+  }
+}
+
+.terminal:hover {
+  transform: translateY(calc(100% - 60px));
+}
+
+.new-order {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 30 41 / var(--tw-bg-opacity));
+  position: relative;
+  @apply rounded-lg text-white;
+}
+
+.new-order::after {
+  content: '';
+  background: linear-gradient(to right, #2e3c51 0%, #2e3c51 34%, #2e3c51 49%, #fff 57%, #fff 64%, #a87ffb 66%, #25a6e9 100%);
+  background-size: 300% 100%;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  transition: background-position 0.8s ease;
+  inset: -1px;
+  pointer-events: none;
+  position: absolute;
+  z-index: -10;
+  transform: translate3d(0, 0, 0) rotate(0) skew(0) skewY(0) scaleX(1) scaleY(1);
+  @apply rounded-lg;
+}
+
+.new-order:hover::after {
+  background-position: 100% 50%;
+  animation: 0.7s pulseshimmer 1s cubic-bezier(0.8, 0, 0.2, 1) infinite alternate;
+  animation-fill-mode: backwards;
+}
+
+@keyframes pulseshimmer {
+  0% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.4;
+  }
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
