@@ -97,7 +97,7 @@ export default function BalticSuccessPage({ params }: { params: any }) {
 
     return (
       <>
-        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px overflow-scroll rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
             <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.email}</dd>
@@ -145,7 +145,7 @@ export default function BalticSuccessPage({ params }: { params: any }) {
 
   return (
     <>
-      <Container className="flex h-screen flex-col items-center justify-center overflow-scroll bg-slate-50 pt-4 sm:pt-12">
+      <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-4 sm:pt-12">
         {!account?.pool_user?.username && (
           <div className="m-auto mt-8 flex w-8/12 flex-col items-center border-l-4 border-yellow-400 bg-yellow-50 p-4">
             <InformationCircleIcon className="h-14 w-14 text-yellow-600" />
