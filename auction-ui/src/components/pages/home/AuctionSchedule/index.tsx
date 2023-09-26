@@ -1,8 +1,18 @@
 'use client'
+
 import { Container } from 'src/core'
 import * as React from 'react'
 import { Auction } from 'src/api/auction/types'
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable, SortingState, getSortedRowModel } from '@tanstack/react-table'
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  SortingState,
+  getSortedRowModel,
+  getPaginationRowModel,
+  VisibilityState,
+} from '@tanstack/react-table'
 import Link from 'src/components/shared/Link'
 import { formatDate } from 'src/utils/date'
 import Countdown, { CountdownRenderProps } from 'react-countdown'
@@ -11,30 +21,39 @@ import { useRouter } from 'next/navigation'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import useSatsToFiat from 'src/hooks/useSatsToFiat'
+import { useMobileScreen } from 'src/hooks/useIsMobile'
 
 export default function AuctionSchedule({ auctionsData }: { auctionsData: Auction[] }) {
   const [data, _] = React.useState(() => [...auctionsData])
-
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [sorting, setSorting] = React.useState<SortingState>([])
+  const isMobile = useMobileScreen()
   const columnHelper = createColumnHelper<Auction>()
   const router = useRouter()
 
   const columns = [
-    columnHelper.accessor(row => row.epoch, {
+    columnHelper.accessor(row => row.epoch.epoch_number, {
       id: 'Epoch',
       cell: cell => {
         if (cell.row.original.epoch?.epoch_number) {
           return <p>{cell.row.original.epoch?.epoch_number}</p>
         } else {
-          return <p>-</p>
+          return <p>N/A</p>
         }
       },
       header: () => <span>Epoch</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor(row => row.epoch, {
+    columnHelper.accessor(row => row.epoch.start_time, {
       id: 'start_at',
-      cell: cell => <p>{formatDate(cell.row.original.epoch?.start_time, 'MMMM d')} </p>,
+      // cell: cell => <p>{formatDate(cell.row.original.epoch.start_time, 'MMMM d')} </p>,
+      cell: cell => {
+        if (cell.row.original.epoch?.start_time) {
+          return <p>{cell.row.original.epoch?.start_time} </p>
+        } else {
+          return <p>N/A</p>
+        }
+      },
       header: () => <span>Estimated start</span>,
       footer: info => info.column.id,
     }),
@@ -50,6 +69,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
       },
       header: () => <span>Speed</span>,
       footer: info => info.column.id,
+      enableSorting: false,
     }),
     columnHelper.accessor(row => row.current_bid, {
       id: 'bid',
@@ -70,7 +90,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
         if (cell.row.original.going_hashprice) {
           return <p>{Math.round(cell.row.original.going_hashprice)}</p>
         } else {
-          return <p>-</p>
+          return <p>N/A</p>
         }
       },
       footer: info => info.column.id,
@@ -108,10 +128,18 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
     columns,
     state: {
       sorting,
+      columnVisibility: {
+        ...columnVisibility,
+        start_at: !isMobile,
+        going_hashprice: !isMobile,
+        end_at: !isMobile,
+      },
     },
     onSortingChange: setSorting,
+    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   })
 
   return (
@@ -144,8 +172,12 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
                             desc: <ChevronDownIcon className="ml-2 h-4 w-4 font-extrabold" />,
                           }[header.column.getIsSorted() as string] ?? (
                             <div className="ml-2 flex flex-col">
-                              <ChevronUpIcon className="h-2 w-2" />
-                              <ChevronDownIcon className="h-2 w-2" />
+                              {header.column.getCanSort() && (
+                                <>
+                                  <ChevronUpIcon className="h-2 w-2" />
+                                  <ChevronDownIcon className="h-2 w-2" />
+                                </>
+                              )}
                             </div>
                           )}
                         </div>
@@ -172,6 +204,30 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
             ))}
           </tbody>
         </table>
+        <div className="mt-4">
+          <button className="rounded border p-1" onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
+            {'<<'}
+          </button>
+          <button className="rounded border p-1" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+            {'<'}
+          </button>
+          <button className="rounded border p-1" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            {'>'}
+          </button>
+          <button
+            className="rounded border p-1"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            {'>>'}
+          </button>
+          <span className="flex items-center gap-1">
+            <div>Page</div>
+            <strong>
+              {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            </strong>
+          </span>
+        </div>
         <i className="mt-8">Bitcoin&rsquo;s difficulty epochs are ~ 14 days (2,016 blocks) in duration </i>
         <Link className="mb-16 mt-4 text-primary underline" href="/collections">
           View all auctions
