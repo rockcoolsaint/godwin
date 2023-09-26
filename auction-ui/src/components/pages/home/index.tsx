@@ -46,7 +46,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
     const prepareCollections = async () => {
       setLoading(true)
       try {
-        const res = await getAllAuctions({ limit: 12, auction_type: 'forward_date', group_by: 'auction_status' })
+        const res = await getAllAuctions({ limit: 100_000, auction_type: 'forward_date', group_by: 'auction_status' })
         setAuctionData(res.results)
       } catch (ex) {
         console.error(ex)

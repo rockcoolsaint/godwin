@@ -94,9 +94,10 @@ function Orders() {
                       <Link
                         href={`/direct-order/success?order_id=${order.id}`}
                         target="_blank"
-                        className="flex h-12 items-center justify-center text-blue-500 hover:underline"
+                        className="flex h-12 items-center text-blue-500 hover:underline"
                       >
-                        <span>{order.auction.title}</span> <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
+                        <span>{order.duration_days < 1 ? 'Test Drive' : 'Instant Mining'}</span>{' '}
+                        <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
                       </Link>
                     )
                   }
