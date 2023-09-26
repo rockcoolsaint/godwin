@@ -1,5 +1,5 @@
 'use client'
-import { Auction, AuctionOfTheDayResponse, AllAuctionsResponse } from 'src/api/auction/types'
+import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
 import rig from 'src/assets/png/rig.png'
 import placard from 'src/assets/png/placard.png'
 import Details from 'src/components/pages/home/Details'
@@ -46,7 +46,7 @@ export default function Home({ auctions, auctionOfTheDay, isDemo, code }: Props)
     const prepareCollections = async () => {
       setLoading(true)
       try {
-        const res = await getAllAuctions({ limit: 12, auction_type: 'forward_date', group_by: 'auction_status' })
+        const res = await getAllAuctions({ limit: 100_000, auction_type: 'forward_date', group_by: 'auction_status' })
         setAuctionData(res.results)
       } catch (ex) {
         console.error(ex)
