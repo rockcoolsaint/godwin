@@ -32,7 +32,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
   const router = useRouter()
 
   const columns = [
-    columnHelper.accessor(row => row.epoch.epoch_number, {
+    columnHelper.accessor(row => row.epoch?.epoch_number, {
       id: 'Epoch',
       cell: cell => {
         if (cell.row.original.epoch?.epoch_number) {
@@ -44,18 +44,18 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
       header: () => <span>Epoch</span>,
       footer: info => info.column.id,
     }),
-    columnHelper.accessor(row => row.epoch.start_time, {
+    columnHelper.accessor(row => row.epoch?.start_time, {
       id: 'start_at',
-      // cell: cell => <p>{formatDate(cell.row.original.epoch.start_time, 'MMMM d')} </p>,
       cell: cell => {
         if (cell.row.original.epoch?.start_time) {
-          return <p>{cell.row.original.epoch?.start_time} </p>
+          return <p>{formatDate(cell.row.original.epoch?.start_time, 'MMMM d')} </p>
         } else {
           return <p>N/A</p>
         }
       },
       header: () => <span>Estimated start</span>,
       footer: info => info.column.id,
+      enableSorting: false,
     }),
 
     columnHelper.accessor(row => row.auction_meta.hashrate, {
