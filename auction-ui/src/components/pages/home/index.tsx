@@ -19,10 +19,9 @@ import { BoltIcon, PlayCircleIcon, LockClosedIcon, UserGroupIcon } from '@heroic
 import Gradient from 'src/components/shared/Gradient'
 import Mining from './Mining'
 import InstantHashrate from './InstantHashrate'
-import { useSearchParams } from 'next/navigation'
 import AuctionSchedule from './AuctionSchedule'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
-import FeaturedAuctions from './FeaturedAuctions'
+import { TableSkeletonLoader } from 'src/components/shared/TableSkeletonLoader'
 
 interface Props {
   auctions: Auction[]
@@ -36,11 +35,8 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
   const { account } = useAccountContext()
   const router = useRouter()
   const [videoOpen, setVideoOpen] = useState(false)
-  const [_, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
-  const searchParam = useSearchParams()
-
-  const trainSchedule = searchParam.get('train-schedule') || ''
 
   useEffect(() => {
     const prepareCollections = async () => {
@@ -133,9 +129,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
       )}
       <InstantHashrate />
 
-      <section className="elegant-gradient mt-28 pt-28 sm:mt-0 sm:pt-0">
-        {auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}
-      </section>
+      {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} />}
 
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
