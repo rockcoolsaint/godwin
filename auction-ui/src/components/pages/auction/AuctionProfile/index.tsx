@@ -62,7 +62,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-4 font-semibold text-dark-100">{t('home.power_source')}</p>
             </aside>
             <aside>
-              <p className="p-3 py-4 pl-4">{data.auction_meta.power_source.name}</p>
+              <p className="p-3 py-4 pl-4">{data.auction_meta.power_source?.name || 'N/A'}</p>
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
