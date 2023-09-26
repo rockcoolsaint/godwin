@@ -77,7 +77,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
       cell: info => {
         return <ShowToolTip bid={info.getValue()} />
       },
-      header: () => <span>Bid</span>,
+      header: () => <span>Bid (sats)</span>,
       footer: info => info.column.id,
     }),
     columnHelper.accessor('going_hashprice', {
@@ -132,7 +132,6 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
       columnVisibility: {
         ...columnVisibility,
         start_at: !isMobile,
-        going_hashprice: !isMobile,
         end_at: !isMobile,
       },
     },
@@ -144,7 +143,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
   })
 
   return (
-    <Container className="w-12/12 flex items-center justify-center overflow-scroll sm:w-8/12">
+    <Container className="w-12/12 flex items-center justify-center overflow-scroll !px-1 sm:w-8/12">
       <section className="flex flex-col items-center justify-center overflow-scroll sm:pl-0">
         <h1 className="mb-4">Auction Market</h1>
         <div className={`${styles['table-responsive']}`}>
@@ -155,7 +154,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
                   {headerGroup.headers.map(header => {
                     return (
                       <th
-                        className="border-b border-r border-gray-400 px-8 py-2 text-center text-xs font-semibold sm:text-sm"
+                        className="border-b border-r border-gray-400 p-2 text-center text-xs font-semibold sm:px-8 sm:text-sm"
                         key={header.id}
                         colSpan={header.colSpan}
                       >
@@ -198,7 +197,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
                   onClick={() => router.push(`/auctions/${row.original.slug}`)}
                 >
                   {row.getVisibleCells().map(cell => (
-                    <td className="border-r border-gray-400 p-4 text-center text-xs sm:text-sm" key={cell.id}>
+                    <td className="border-r border-gray-400 p-2 text-center text-xs sm:p-4 sm:text-sm" key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -223,7 +222,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
             >
               {'>>'}
             </button>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 text-sm">
               <div>Page</div>
               <strong>
                 {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
@@ -246,7 +245,7 @@ const ShowToolTip = ({ bid }: { bid: number }) => {
   return (
     <Tooltip placement="left">
       <TooltipTrigger>
-        <p>{formatMoney(bid)} sats</p>
+        <p className="flex items-center">{formatMoney(bid)}</p>
       </TooltipTrigger>
 
       <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
