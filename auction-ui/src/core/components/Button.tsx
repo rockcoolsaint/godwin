@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import BootstrapButton from 'react-bootstrap/Button'
 
 function Button({
   className,
@@ -17,7 +16,7 @@ function Button({
   small?: boolean
 }) {
   return (
-    <BootstrapButton
+    <button
       className={clsx(className, 'flex items-center justify-center rounded-lg text-white outline-none', {
         'bg-gradient hover:bg-gradient-hover': !disabled,
         'pointer-events-none bg-gray-300': disabled,
@@ -29,7 +28,7 @@ function Button({
       type={type}
     >
       {children}
-    </BootstrapButton>
+    </button>
   )
 }
 export default Button
