@@ -34,7 +34,6 @@
     "postcss-100vh-fix": "^1.0.2",
     "qrcode": "^1.5.1",
     "react": "18.2.0",
-    "react-bootstrap": "^2.7.2",
     "react-countdown": "^2.3.5",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
@@ -44,8 +43,6 @@
     "react-medium-image-zoom": "^5.1.2",
     "react-modal-video": "^2.0.1",
     "react-number-format": "^5.2.2",
-    "react-slick": "^0.29.0",
-    "react-tooltip": "^5.10.0",
     "rosetta": "^1.1.0",
     "use-sound": "^4.0.1"
   },
