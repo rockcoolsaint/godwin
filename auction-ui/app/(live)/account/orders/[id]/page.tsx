@@ -12,11 +12,13 @@ import { OrderInvoice } from 'src/components/pages/order/OrderInvoice'
 import { OrderHashrate } from 'src/components/pages/order/OrderHashrate'
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
+import { Loader } from 'src/core'
 
 function OrderIdPage({ params }: { params: { [key: string]: string | undefined } }) {
   const { token } = useAccountContext()
   const [orderDetail, setOrderDetail] = useState<OrderDetailType | null>(null)
   const router = useRouter()
+  const [loading, setLoading] = useState<boolean>(true)
 
   const { id } = params
 
@@ -28,8 +30,10 @@ function OrderIdPage({ params }: { params: { [key: string]: string | undefined }
       try {
         const res = await getOrderById(token, id)
         setOrderDetail(res)
+        setLoading(false)
       } catch (ex) {
         console.error(ex)
+        setLoading(false)
       }
     }
 
@@ -81,15 +85,21 @@ function OrderIdPage({ params }: { params: { [key: string]: string | undefined }
             )}
           </Tab>
         </Tab.List>
-        <Tab.Panels>
-          <Tab.Panel className="px-8">
-            {orderDetail && <OrderDetail order={orderDetail?.order} report={orderDetail.invoice.report} />}
-          </Tab.Panel>
-          <Tab.Panel className="px-8">
-            {orderDetail && <OrderHashrate invoice={orderDetail?.invoice} shares={orderDetail.shares} />}
-          </Tab.Panel>
-          <Tab.Panel className="px-8">{orderDetail && <OrderInvoice invoice={orderDetail?.invoice} />}</Tab.Panel>
-        </Tab.Panels>
+        {loading ? (
+          <div className="px-8">
+            <Loader />
+          </div>
+        ) : (
+          <Tab.Panels>
+            <Tab.Panel className="px-8">
+              {orderDetail && <OrderDetail order={orderDetail?.order} report={orderDetail.invoice.report} />}
+            </Tab.Panel>
+            <Tab.Panel className="px-8">
+              {orderDetail && <OrderHashrate invoice={orderDetail?.invoice} shares={orderDetail.shares} />}
+            </Tab.Panel>
+            <Tab.Panel className="px-8">{orderDetail && <OrderInvoice invoice={orderDetail?.invoice} />}</Tab.Panel>
+          </Tab.Panels>
+        )}
       </Tab.Group>
     </div>
   )
