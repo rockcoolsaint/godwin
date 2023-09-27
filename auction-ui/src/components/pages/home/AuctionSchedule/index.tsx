@@ -251,9 +251,8 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
               </span>
             </div>
           </div>
-          <i className="mt-8 text-center text-xs sm:text-sm">Bitcoin&rsquo;s difficulty epochs are ~ 14 days (2,016 blocks) in duration </i>
           <Link className="mb-16 mt-4 text-xs text-primary underline sm:text-sm" href="/collections">
-            View all auctions
+            View previous auctions
           </Link>
         </section>
       </Container>
