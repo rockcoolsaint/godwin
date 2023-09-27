@@ -22,11 +22,21 @@ import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import useSatsToFiat from 'src/hooks/useSatsToFiat'
 import { useMobileScreen } from 'src/hooks/useIsMobile'
+import { useMemo } from 'react'
 
 export default function AuctionSchedule({ auctionsData }: { auctionsData: Auction[] }) {
+  const initialSorting = useMemo(() => {
+    return [
+      {
+        id: 'end_at',
+        desc: false, // columns sorting are inverted - so this is actually descending
+      },
+    ]
+  }, [])
+
   const [data, _] = React.useState(() => [...auctionsData])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>(initialSorting)
   const isMobile = useMobileScreen()
   const columnHelper = createColumnHelper<Auction>()
   const router = useRouter()
@@ -36,26 +46,27 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
       id: 'Epoch',
       cell: cell => {
         if (cell.row.original.epoch?.epoch_number) {
-          return <p>{cell.row.original.epoch?.epoch_number}</p>
+          return (
+            <p>
+              {formatDate(cell.row.original.epoch?.start_time, 'MMM d')} - {formatDate(cell.row.original.epoch?.end_time, 'MMM d')}
+            </p>
+          )
         } else {
           return <p>N/A</p>
         }
       },
-      header: () => <span>Epoch</span>,
+      header: () => (
+        <Tooltip placement="top">
+          <TooltipTrigger>
+            <p className="flex items-center">Epoch</p>
+          </TooltipTrigger>
+
+          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+            Bitcoin’s difficulty epochs are ~ 14 days (2,016 blocks) in duration
+          </TooltipContent>
+        </Tooltip>
+      ),
       footer: info => info.column.id,
-    }),
-    columnHelper.accessor(row => row.epoch?.start_time, {
-      id: 'start_at',
-      cell: cell => {
-        if (cell.row.original.epoch?.start_time) {
-          return <p>{formatDate(cell.row.original.epoch?.start_time, 'MMMM d')} </p>
-        } else {
-          return <p>N/A</p>
-        }
-      },
-      header: () => <span>Estimated start</span>,
-      footer: info => info.column.id,
-      enableSorting: false,
     }),
 
     columnHelper.accessor(row => row.auction_meta.hashrate, {
@@ -137,7 +148,6 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
       sorting,
       columnVisibility: {
         ...columnVisibility,
-        start_at: !isMobile,
         end_at: !isMobile,
       },
     },
@@ -208,7 +218,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
                     onClick={() => router.push(`/auctions/${row.original.slug}`)}
                   >
                     {row.getVisibleCells().map(cell => (
-                      <td className="border-r border-gray-400 p-2 text-center text-xs sm:p-4 sm:text-sm" key={cell.id}>
+                      <td className="border-r border-gray-400 p-2 text-center text-[0.6875rem] sm:p-4 sm:text-sm" key={cell.id}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
