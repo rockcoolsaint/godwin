@@ -3,9 +3,13 @@ import { useEffect, useState } from 'react'
 
 export function useWindowSize() {
   const [size, setSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 0,
+    height: 0,
   })
+
+  useEffect(() => {
+    setSize({ width: window.innerWidth, height: window.innerHeight })
+  }, [])
 
   useEffect(() => {
     const onResize = () => {
