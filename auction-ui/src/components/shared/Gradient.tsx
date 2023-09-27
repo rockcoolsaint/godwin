@@ -27,7 +27,7 @@ export default function Gradient() {
         <svg
           viewBox="0 0 1313 771"
           aria-hidden="true"
-          className="ml-[-22rem] hidden w-[82.0625rem] flex-none origin-top-right rotate-[30deg] sm:block xl:ml-0 xl:mr-[calc(50%-12rem)]"
+          className="ml-[-22rem] hidden  flex-none origin-top-right rotate-[30deg] sm:block lg:w-[82.0625rem] xl:ml-0 xl:mr-[calc(50%-12rem)]"
         >
           <use href="#bc169a03-3518-42d4-ab1e-d3eadac65edc" />
         </svg>

@@ -142,10 +142,10 @@ export default function InstantHashrate() {
   }
 
   return (
-    <Container className="flex h-screen items-center justify-center md:w-9/12 lg:w-7/12">
-      <section className="flex w-full flex-col items-center justify-center gap-8 sm:flex-row sm:gap-28">
-        <div className="w-full overflow-hidden rounded-xl border border-gray-50 shadow-lg">
-          <Image className="mb-4 block w-full overflow-hidden  sm:h-64" src={chart} width={352} height={230} alt="chart" />
+    <Container className="flex items-center justify-center py-20 md:w-9/12  lg:h-screen lg:w-7/12 lg:py-0">
+      <section className="flex w-full flex-col items-center justify-center gap-8 sm:flex-row sm:gap-28 md:gap-8 lg:gap-14">
+        <div className="w-full max-w-sm overflow-hidden rounded-xl border border-gray-50 shadow-lg">
+          <Image className="mb-4 block w-full overflow-hidden sm:h-64" src={chart} width={352} height={230} alt="chart" />
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col">
           <h1 className="mb-4">Instant hashrate</h1>

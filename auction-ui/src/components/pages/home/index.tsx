@@ -133,7 +133,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
       )}
       <InstantHashrate />
 
-      <section className="elegant-gradient mt-28 pt-28 sm:mt-0 sm:pt-0">
+      <section className="elegant-gradient pt-28 sm:mt-28 sm:pt-0 lg:mt-0">
         {auctionData.length > 0 && <AuctionSchedule auctionsData={auctionData} />}
       </section>
 
