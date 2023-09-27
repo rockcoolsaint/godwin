@@ -46,6 +46,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
           limit: 1_000,
           auction_type: 'forward_date',
           group_by: 'auction_status',
+          auction_status: 'active',
         })
         setAuctionData(res.results)
       } catch (ex) {
