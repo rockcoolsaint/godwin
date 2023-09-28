@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 
 declare const Plotly: any
 
-export default function ChartComponent({ title, data, layout }: { title: string; data: any[]; layout: any }) {
+export default function ChartComponent({ title, data, layout }: { title: string; data: any[]; layout?: any }) {
   const chartRef = useRef<any>()
 
   useEffect(() => {
