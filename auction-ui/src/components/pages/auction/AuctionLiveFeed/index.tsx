@@ -10,7 +10,7 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
   const [hashrate, setHashrate] = useState<HashrateData[]>([])
 
   useEffect(() => {
-    const stratums_id = auction.auction_meta.livefeed_stratums_id
+    const stratums_id = auction.auction_meta.livefeed_stratums_id || auction.auction_meta.proxy?.stratums_id
 
     if (stratums_id) {
       const getPlotData = async () => {
@@ -24,7 +24,7 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
 
       getPlotData()
     }
-  }, [auction.auction_meta.livefeed_stratums_id])
+  }, [auction.auction_meta.livefeed_stratums_id, auction.auction_meta.proxy?.stratums_id])
 
   if (hashrate.length === 0) {
     return (
