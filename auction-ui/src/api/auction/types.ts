@@ -87,6 +87,7 @@ export interface AuctionMeta {
   image_3: string
   site_photo: string
   live_feed_image: string
+  livefeed_stratums_id: number
   hash_price_image: string
   hashrate_end: string
   hashrate_start: string
