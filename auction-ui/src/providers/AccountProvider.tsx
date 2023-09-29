@@ -58,7 +58,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
 
   useEffect(() => {
     if (pathName === '/login/callback') {
-      const authorize = async () => {
+      const authorizeAfterCallback = async () => {
         try {
           setIsLoading(true)
 
@@ -90,10 +90,14 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           setIsLoading(false)
         }
       }
-
-      authorize()
+      authorizeAfterCallback()
     } else {
       const authorize = async () => {
+        // TODO: Implement refresh token logic instead of just accepting the account if it exists in state.
+        if (account) {
+          return
+        }
+
         try {
           setIsLoading(true)
 
@@ -114,7 +118,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
       }
       authorize()
     }
-  }, [pathName, router])
+  }, [pathName, router, account])
 
   return <AccountContext.Provider value={{ account, token, isLoading, login, logout, refresh }}>{children}</AccountContext.Provider>
 }
