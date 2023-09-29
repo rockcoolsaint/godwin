@@ -12,4 +12,7 @@ export const LocalStorageKeys = {
   Auction: {
     auctionView: 'rg_a_v',
   },
+  Guide: {
+    bid: 'rg_b_g',
+  },
 }

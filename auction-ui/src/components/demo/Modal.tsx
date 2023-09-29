@@ -77,8 +77,8 @@ export default function DemoModal() {
                           karo@rigly.io
                         </Link>{' '}
                         or{' '}
-                        <Link className="hover:underline" href="mailto:damian@rigly.io">
-                          damian@rigly.io
+                        <Link className="hover:underline" href="mailto:karo@rigly.io">
+                          karo@rigly.io
                         </Link>{' '}
                         if you have any questions.
                       </p>

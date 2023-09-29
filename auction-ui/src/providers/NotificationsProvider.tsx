@@ -5,7 +5,6 @@ import { toast } from 'react-hot-toast'
 import { Auction, BidsEntityOrCurrentBid, AuctionStatus } from 'src/api/auction/types'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { showReportDialog } from '@sentry/nextjs/types/server'
 
 export interface INotificationsContext {
   showAuctionNotification(): void
@@ -54,7 +53,7 @@ export default function NotificationsProvider({ children }: { children: React.Re
             >
               <div className="w-0 flex-1 p-4">
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 pt-0.5">
+                  <div className="shrink-0 pt-0.5">
                     <Image
                       width={60}
                       height={60}

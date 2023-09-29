@@ -5,6 +5,7 @@ export enum PaymentStatus {
   Underpaid = 'underpaid',
   Paid = 'paid',
   Unpaid = 'unpaid',
+  Expired = 'expired',
 }
 
 export interface PromoCode {
@@ -61,6 +62,7 @@ export interface Order {
   id: number
   auction?: Auction
   account?: Account
+  duration_days: number
   deleted: boolean
   expires_at: string
   original_total: number

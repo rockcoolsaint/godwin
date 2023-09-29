@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
-import { Button, Loader, Container } from 'src/core'
+import { Button, Loader, Container, formatAuctionType } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order, OrderType, PaymentStatus } from 'src/types'
@@ -26,80 +26,9 @@ function PaymentOne({ order }: Props) {
   const { first, paymentId, amountPaid, amountRemaining, isPaymentComplete, checkoutUrl } = usePayments(currentOrder)
   const { auction, auction_fee, mining_deposit, total, price } = order
 
-  /**
-  const applyPromoCode = async () => {
-    if (!promoCode || promoCode === '' || !first || !currentOrder.id) {
-      return
-    }
-
-    try {
-      setLoading(true)
-      const newOrder = await makeClientRequest({
-        method: 'PUT',
-        path: '/api/orders/update',
-        body: {
-          order_id: currentOrder.id,
-          update: {
-            promo_code: promoCode,
-          },
-        },
-      })
-      setCurrentOrder(newOrder)
-      setPromoCode('')
-    } catch (ex) {
-      console.error(ex)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const clearPromoCode = async () => {
-    if (!first || !currentOrder.id) {
-      return
-    }
-
-    try {
-      setLoading(true)
-
-      const newOrder = await makeClientRequest({
-        method: 'PUT',
-        path: '/api/orders/update',
-        body: {
-          order_id: currentOrder.id,
-          update: {
-            promo_code: null,
-          },
-        },
-      })
-
-      setCurrentOrder(newOrder)
-      setPromoCode('')
-    } catch (ex) {
-      console.error(ex)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handlePromoCodeChange = (val: string | number) => {
-    setPromoCode(val.toString())
-  }
-  **/
-
   const handleCheckout = async () => {
     setCheckoutLoading(true)
     try {
-      // await makeClientRequest({
-      //   method: 'PUT',
-      //   path: '/api/orders/update',
-      //   body: {
-      //     order_id: currentOrder.id,
-      //     update: {
-      //       status: 'processing',
-      //     },
-      //   },
-      // })
-
       if (checkoutUrl) {
         window.location.href = checkoutUrl
       }
@@ -126,7 +55,7 @@ function PaymentOne({ order }: Props) {
           ...order,
           payments: [res],
         })
-      } else if (order.payments[0].status === PaymentStatus.Unpaid) {
+      } else if (order.payments[0].status === PaymentStatus.Unpaid || order.payments[0].status === PaymentStatus.Expired) {
         // If order already has payments, we need to refresh the payment.
         const lastIdx = order.payments.length - 1
         const lastPayment = order.payments[lastIdx]
@@ -172,8 +101,8 @@ function PaymentOne({ order }: Props) {
 
   return (
     <Container>
-      <section className="mx-auto my-28 w-full lg:w-3/5">
-        <div className="flex flex-col rounded-2xl bg-gray-100 p-5 sm:flex-row">
+      <section className="mx-auto my-28 w-full max-w-3xl lg:w-3/5">
+        <div className="grid grid-cols-1 gap-3 rounded-2xl bg-gray-100 p-5 sm:grid-cols-2 lg:grid-cols-2">
           <Image
             className="w-full rounded-2xl sm:w-auto"
             src={auction?.auction_meta.site_photo || miner}
@@ -181,7 +110,7 @@ function PaymentOne({ order }: Props) {
             width={240}
             height={180}
           />
-          <div className="ml-0 mt-4 flex flex-col justify-between sm:ml-8 sm:mt-0">
+          <div className="ml-0 mt-4 flex flex-col justify-between sm:mt-0">
             <div className="mb-6 sm:mb-12">
               <h3 className="text-2xl font-medium text-gray-900">{auction?.title}</h3>
               <span className="text-sm font-normal text-gray-700">{`${auction!.auction_meta.days_of_mining} ${
@@ -207,7 +136,7 @@ function PaymentOne({ order }: Props) {
             <dl className="space-y-4">
               <div className="flex items-center justify-between">
                 <dt className="text-sm text-gray-600">Payment Id:</dt>
-                <dd className="text-sm font-medium text-gray-900">{paymentId}</dd>
+                <dd className="text-right text-sm font-medium text-gray-900">{paymentId}</dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex items-center text-sm text-gray-600">
@@ -223,13 +152,15 @@ function PaymentOne({ order }: Props) {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">
-                  <span>Mining deposit</span>
+                  <span>
+                    Mining deposit ({formatAuctionType(order.auction!.auction_type.type)} {order.auction?.auction_type.percentage}%)
+                  </span>
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">{formatMoney(mining_deposit)} sats</dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">
-                  <span>Rigly auction fee</span>
+                  <span>Auction fee (3.5%): </span>
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">{formatMoney(auction_fee)} sats</dd>
               </div>
@@ -240,13 +171,14 @@ function PaymentOne({ order }: Props) {
             </dl>
           </div>
 
-          {lastOpenNodePayment && lastOpenNodePayment.status === PaymentStatus.Unpaid && (
-            <div className="flex justify-end">
-              <Button disabled={checkoutLoading} onClick={handleCheckout}>
-                Checkout
-              </Button>
-            </div>
-          )}
+          {lastOpenNodePayment &&
+            (lastOpenNodePayment.status === PaymentStatus.Unpaid || lastOpenNodePayment.status === PaymentStatus.Expired) && (
+              <div className="flex justify-end">
+                <Button disabled={checkoutLoading} onClick={handleCheckout}>
+                  Checkout
+                </Button>
+              </div>
+            )}
 
           {lastOpenNodePayment && lastOpenNodePayment.status === PaymentStatus.Processing && (
             <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-sm font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
@@ -254,83 +186,6 @@ function PaymentOne({ order }: Props) {
             </span>
           )}
         </div>
-
-        {/* <>
-          {currentOrder.promo_code && (
-            <div>
-              <span>Discount: </span>
-              <b>{currentOrder.promo_code.discount}%</b>
-            </div>
-          )}
-
-          {currentOrder.promo_code && (
-            <div>
-              <span>Amount due: </span>
-              <b>
-                {first.amount}
-                <i className="fak fa-regular" />
-              </b>
-            </div>
-          )}
-
-          {!currentOrder.promo_code && currentOrder.type === OrderType.Auction && (
-            <div>
-              <span>Amount due: </span>
-              <b>
-                {currentOrder.mining_deposit + currentOrder.auction_fee}
-                <i className="fak fa-regular" />
-              </b>
-            </div>
-          )}
-          {currentOrder.type === OrderType.Auction && (
-            <>
-              {currentOrder.status === OrderStatus.Processing && (
-                <div className="my-5 flex gap-2">
-                  <span>Payment for this order has already been started, unable to apply promo codes.</span>
-                </div>
-              )}
-
-              {currentOrder.can_apply_promo_code && (
-                <div style={{ display: 'flex', gap: '1rem', marginTop: '20px' }}>
-                  <Input className="form-control mb-3" name="promo_code" value={promoCode} onChange={handlePromoCodeChange} type="text" />
-
-                  <Button onClick={applyPromoCode} disabled={loading}>
-                    <span style={{ whiteSpace: 'nowrap' }}>Apply code</span>
-                  </Button>
-                </div>
-              )}
-
-              {currentOrder.promo_code && (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    gap: '8px',
-                    background: '#E8F6FF',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    marginTop: '20px',
-                    marginBottom: '20px',
-                  }}
-                >
-                  <div>
-                    <div>Promo code applied:</div>
-                    <b>
-                      {currentOrder.promo_code.code} ({currentOrder.promo_code.discount}% OFF)
-                    </b>
-                  </div>
-
-                  {currentOrder.can_apply_promo_code && (
-                    <Button onClick={clearPromoCode} disabled={loading}>
-                      Clear
-                    </Button>
-                  )}
-                </div>
-              )}
-            </>
-          )}
-        </> */}
 
         {showRemaining && (
           <div className=" pt-4">

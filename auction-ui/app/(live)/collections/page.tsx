@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import { AllAuctionsResponse } from 'src/api/auction/types'
 import CollectionList from 'src/components/pages/collections/CollectionsList'
-import { Loader } from 'src/core'
-import Container from 'src/core/components/Container'
 
 export default function CollectionsPage() {
   const [auctions, setAuctions] = useState<AllAuctionsResponse | undefined>(undefined)
@@ -15,7 +13,7 @@ export default function CollectionsPage() {
     const prepareCollections = async () => {
       setLoading(true)
       try {
-        const res = await getAllAuctions({ limit: 21 })
+        const res = await getAllAuctions({ limit: 100 })
 
         setAuctions(res)
       } catch (ex) {
@@ -27,23 +25,5 @@ export default function CollectionsPage() {
     prepareCollections()
   }, [])
 
-  if (loading) {
-    return (
-      <Container className="h-full py-40">
-        <div className="flex items-center justify-center">
-          <Loader />
-        </div>
-      </Container>
-    )
-  }
-
-  if (!auctions) {
-    return (
-      <Container className="flex items-center justify-center py-20">
-        <span className="text-red-500">No auctions available</span>
-      </Container>
-    )
-  }
-
-  return <CollectionList auction={auctions.results} />
+  return <CollectionList setLoading={setLoading} isLoading={loading} setAuctions={setAuctions} auction={auctions?.results} />
 }

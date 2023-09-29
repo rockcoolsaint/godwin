@@ -16,8 +16,8 @@ import { Order, ProxyBidUpdate } from 'src/types'
 import toast from 'react-hot-toast'
 import { useNotificationsContext } from 'src/providers/NotificationsProvider'
 
-export default function AuctionPage({ params }: { params: { auctionSlug: string } }) {
-  const slug = params.auctionSlug
+export default function AuctionPage({ params }: { params: { auctionSlug: [string, 'bids' | 'profile' | 'live-feed' | 'hash-price'] } }) {
+  const [slug, tab] = params.auctionSlug
 
   const { token, isLoading: tokenLoading, account } = useAccountContext()
   const { socket, isSocketReady } = useWebsocketContext()
@@ -172,6 +172,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: string 
           winner={winner}
           order={order}
           slug={slug}
+          tab={tab}
         />
       </Container>
     </>

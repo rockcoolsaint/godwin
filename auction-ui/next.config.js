@@ -1,9 +1,9 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
 
 const isProd = process.env.NODE_ENV === 'production'
 
-// eslint-disable-next-line no-console
 console.log(`Building for ${isProd ? 'production' : 'development'}`)
 
 /** @type {import('next').NextConfig} */

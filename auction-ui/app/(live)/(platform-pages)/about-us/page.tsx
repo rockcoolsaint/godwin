@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Container from 'src/core/components/Container'
 import trustlessMining from 'src/assets/webp/trustless_mining.webp'
 import sla from 'src/assets/webp/sla.webp'
-import damian from 'src/assets/jpg/damian.jpg'
 import karo from 'src/assets/png/karo.png'
 import kevin from 'src/assets/png/kevin.png'
 import tobi from 'src/assets/png/tobi.png'
@@ -148,14 +147,6 @@ function AboutUs() {
                 Tobi is a dedicated frontend engineer with a passion for clean and intuitive designs who thrives on crafting seamless user
                 experiences. He previously worked as a frontend engineer in one of Africa&apos;s biggest fintech before leaving it all
                 behind to work in the Bitcoin industry after going through the Chaincode affiliated Qala program.
-              </p>
-            </li>
-            <li className="rounded-2xl bg-gray-800 px-8 py-10">
-              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={damian} width={100} height={100} alt="Damian" />
-              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Damian</h3>
-              <p className="text-sm leading-6 text-gray-400">
-                Damian, a former heavy equipment operator educated in holistic nutrition, gets the word out about Rigly to all the plebs. He
-                works to build the bright orange future as he iterates on his skills and knowledge every day.
               </p>
             </li>
             <li className="rounded-2xl bg-gray-800 px-8 py-10">

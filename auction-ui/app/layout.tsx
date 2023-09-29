@@ -2,9 +2,8 @@
 import 'src/styles/globals.css'
 import 'react-medium-image-zoom/dist/styles.css'
 import 'node_modules/react-modal-video/css/modal-video.min.css'
-
+import 'animate.css'
 import { PropsWithChildren } from 'react'
-import Footer from 'src/components/shared/Footer'
 import AccountProvider from 'src/providers/AccountProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
 import { Poppins } from 'next/font/google'
@@ -47,10 +46,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
           <WebsocketProvider>
             <NotificationsProvider>
               <Notifier />
-              <div className="flex flex-col justify-between">
-                {children}
-                <Footer />
-              </div>
+              <div className="flex flex-col justify-between overflow-x-hidden">{children}</div>
             </NotificationsProvider>
           </WebsocketProvider>
         </AccountProvider>
