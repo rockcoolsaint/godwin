@@ -42,7 +42,6 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   const logout = () => {
     localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
     localStorage.removeItem(LocalStorageKeys.Account.accountType)
-    localStorage.removeItem(LocalStorageKeys.Account.userAccount)
     setAccount(undefined)
     setToken(undefined)
 
@@ -74,7 +73,6 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           setToken(token)
           setAccount(account)
           localStorage.setItem(LocalStorageKeys.Account.accountType, JSON.stringify(account.is_demo))
-          localStorage.setItem(LocalStorageKeys.Account.userAccount, JSON.stringify(account))
 
           if (params.return_url) {
             const returnUrl = decodeURIComponent(params.return_url)
@@ -86,7 +84,6 @@ export default function AccountProvider({ children }: { children: React.ReactNod
         } catch (ex) {
           console.error(ex)
           localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
-          localStorage.removeItem(LocalStorageKeys.Account.userAccount)
           router.replace('/login')
         } finally {
           setIsLoading(false)
@@ -100,21 +97,15 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           setIsLoading(true)
 
           const token = window.localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
-          const _account = window.localStorage.getItem(LocalStorageKeys.Account.userAccount)
-          const account: Account = JSON.parse(_account!)
 
-          if (token && account) {
+          if (token) {
+            const account = await getAccount(token)
             account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
-            setToken(token)
             setAccount(account)
-          } else if (token) {
-            const account = await getAccount(JSON.parse(token))
-            localStorage.setItem(LocalStorageKeys.Account.userAccount, JSON.stringify(account))
           }
         } catch (ex) {
           console.error(ex)
           window.localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
-          window.localStorage.removeItem(LocalStorageKeys.Account.userAccount)
         } finally {
           setIsLoading(false)
         }
