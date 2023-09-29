@@ -29,7 +29,7 @@ export interface Auction {
   is_dummy: boolean
   account: number
   category: number
-  epoch?: MiningEpoch
+  epoch: MiningEpoch
   created_at: string
   updated_at: string
   deleted: boolean
@@ -87,6 +87,7 @@ export interface AuctionMeta {
   image_3: string
   site_photo: string
   live_feed_image: string
+  livefeed_stratums_id: number
   hash_price_image: string
   hashrate_end: string
   hashrate_start: string

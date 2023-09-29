@@ -93,7 +93,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
 
     return (
       <>
-        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px overflow-scroll rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
             <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.email}</dd>
@@ -160,7 +160,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   }
 
   return (
-    <Container className="flex h-screen flex-col items-center justify-center overflow-scroll bg-slate-50 pt-4 sm:pt-12">
+    <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-4 sm:pt-12">
       <div className="flex flex-col items-center justify-center">
         <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-4 mt-8 h-24 w-24')} />
         <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>

@@ -8,74 +8,83 @@ import { useCollectionsFilterSchema } from './validation'
 import { AllAuctionsResponse } from 'src/api/auction/types'
 
 interface FormInputs {
-  auctionType: string
-  auctionStatus: string
+  auctionType: 'immediate_delivery' | 'forward_date' | 'upfront_payment'
+  auctionStatus: 'scheduled' | 'active' | 'completed'
+  sortBy: 'epoch' | 'created_at' | 'hashrate' | 'time_remaining' | 'highest_bid' | 'going_hashprice'
 }
 
 interface Props {
-  showModal: boolean
+  open: boolean
   setShowModal: (showModal: boolean) => void
   setAuctions: (auctions: AllAuctionsResponse) => void
   setLoading: (loading: boolean) => void
+  onClose: () => void
 }
 
-export default function CollectionsFilter({ showModal, setShowModal, setAuctions, setLoading }: Props) {
-  const handleCloseModal = () => {
+export default function CollectionsFilter({ open, setShowModal, setAuctions, setLoading, onClose }: Props) {
+  const handleCloseModal = useCallback(() => {
     setShowModal(false)
-  }
+  }, [setShowModal])
 
   const filterInfo = {
     auction_type: '',
     auction_status: '',
+    sort_by: '',
   }
 
-  const signUpSchema = useCollectionsFilterSchema()
+  const filterSchema = useCollectionsFilterSchema()
 
   const {
     register,
     handleSubmit,
     reset,
+
     formState: { isValid },
   } = useForm<FormInputs>({
-    resolver: yupResolver(signUpSchema),
+    resolver: yupResolver(filterSchema),
     defaultValues: {
       ...filterInfo,
-      auctionStatus: '',
-      auctionType: '',
+      sortBy: 'created_at',
     },
   })
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(
     async value => {
       try {
+        handleCloseModal()
+        reset()
         setLoading(true)
-        const res = await getAllAuctions({ limit: 21, auction_status: value.auctionStatus, auction_type: value.auctionType })
+        const res = await getAllAuctions({
+          limit: 21,
+          auction_status: value.auctionStatus,
+          auction_type: value.auctionType,
+          sort_by: value.sortBy,
+        })
 
         setAuctions(res)
-
         setLoading(false)
       } catch (err) {
         setLoading(false)
       }
     },
-    [setAuctions, setLoading],
+    [handleCloseModal, reset, setAuctions, setLoading],
   )
 
   return (
-    <Modal className="w-1/4 border border-green-700 p-2" open={showModal} onClose={handleCloseModal}>
+    <Modal className="w-1/4 border border-green-700 p-2" open={open} onClose={onClose}>
+      <Modal.Header>
+        <Modal.Title>
+          <div className="w-3/3 flex items-center justify-between py-4">
+            <span>Filter by</span>
+          </div>
+        </Modal.Title>
+        <Modal.Close>
+          <TrashIcon onClick={() => reset()} title="clear" className="mr-2 h-4 w-4 hover:cursor-pointer" />
+        </Modal.Close>
+      </Modal.Header>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Modal.Header>
-          <Modal.Title>
-            <div className="w-3/3 flex items-center justify-between py-4">
-              <span>Filter by</span>
-            </div>
-          </Modal.Title>
-          <Modal.Close>
-            <TrashIcon onClick={() => reset()} title="clear" className="mr-2 h-4 w-4 hover:cursor-pointer" />
-          </Modal.Close>
-        </Modal.Header>
         <Modal.Content className="p-4">
-          <div className="mt-5 flex flex-col">
+          <div className="flex flex-col">
             <span className="text-base font-normal">Auction Type</span>
             <div className="flex flex-col">
               <label className="mt-3 inline-flex items-center text-sm text-dark-200">
@@ -109,13 +118,28 @@ export default function CollectionsFilter({ showModal, setShowModal, setAuctions
               </label>
             </div>
           </div>
-          {/* <div>{JSON.stringify(watch(), null, 2)}</div> */}
+          <div className="mt-5 flex flex-col">
+            <span className="text-base font-normal">Sort by</span>
+            <div className="mt-2 flex flex-col">
+              <select
+                {...register('sortBy')}
+                className="block w-9/12 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value="epoch">Epoch</option>
+                <option value="created_at">Date created</option>
+                <option value="hashrate">Hashrate</option>
+                <option value="highest_bid">Highest Bid</option>
+                <option value="going_hashprice">Hash price</option>
+                <option value="time_remaining">Time remaining</option>
+              </select>
+            </div>
+          </div>
         </Modal.Content>
         <Modal.Footer>
           <div className="flex w-full justify-end border-green-900 py-4">
             <button
               type="button"
-              onClick={handleCloseModal}
+              onClick={onClose}
               className="inline-flex items-center rounded bg-gray-100 px-4 py-2 text-sm text-gray-600 hover:bg-gray-200"
             >
               <span>Cancel</span>
