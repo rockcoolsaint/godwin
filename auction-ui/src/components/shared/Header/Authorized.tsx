@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Icon from 'src/core/components/Icon'
 import Dropdown from 'src/core/components/Dropdown'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import Link from 'src/components/shared/Link'
 
 export default function Authorized() {
   const { account, isLoading, logout } = useAccountContext()
@@ -14,7 +15,19 @@ export default function Authorized() {
   return (
     <div className="ml-4 flex items-center justify-end">
       {!isLoading && account && (
-        <>
+        <div className="flex items-center ">
+          <Link href="/account/general" className="mr-4 text-sm font-normal text-dark-300 hover:text-primary">
+            Account
+          </Link>
+          <Link href="/account/orders" className="mr-4 text-sm font-normal text-dark-300 hover:text-primary">
+            Orders
+          </Link>
+          <Link href="/account/hashrate" className="mr-4 text-sm font-normal text-dark-300 hover:text-primary">
+            Hashrate
+          </Link>
+          <Link href="/account/preferences" className="mr-4 text-sm font-normal text-dark-300 hover:text-primary">
+            Notifications
+          </Link>
           <span
             className="cursor-pointer text-sm font-bold text-blue-500 hover:text-blue-700"
             id="accountDropdown"
@@ -30,34 +43,12 @@ export default function Authorized() {
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
-            <Dropdown.Item className="h-8 px-3" href="/account/general">
-              <Icon icon="user" className="h-3 w-3 text-gray-600" />
-              <span className="text-sm text-gray-600">Account</span>
-            </Dropdown.Item>
-
-            <Dropdown.Item className="h-8 px-3" href="/account/orders">
-              <Icon icon="cart" className="h-3 w-3 text-gray-600" />
-              <span className="text-sm text-gray-600">Orders</span>
-            </Dropdown.Item>
-
-            <Dropdown.Item className="h-8 px-3" href="/account/hashrate">
-              <Icon icon="helmetSafety" className="h-3 w-3 text-gray-600" />
-              <span className="text-sm text-gray-600">Hashrate</span>
-            </Dropdown.Item>
-
-            <Dropdown.Item className="h-8 px-3" href="/account/preferences">
-              <Icon icon="bell" className="h-3 w-3 text-gray-600" />
-              <span className="text-sm text-gray-600">Notifications</span>
-            </Dropdown.Item>
-
-            <Dropdown.Seperator />
-
             <Dropdown.Item className="h-8 px-3" onClick={logout}>
               <Icon icon="arrowRightFromBracket" className="h-3 w-3 text-gray-600" />
               <span className="text-sm text-gray-600">Sign out</span>
             </Dropdown.Item>
           </Dropdown>
-        </>
+        </div>
       )}
     </div>
   )

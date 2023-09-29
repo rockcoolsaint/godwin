@@ -93,14 +93,14 @@ export default function HeaderNav({ isDemo }: Props) {
 
             <aside className="hidden lg:block">
               {navigationURL.map(nav => (
-                <Link key={nav.id} className="ml-8 text-base font-normal text-dark-300 hover:text-primary" href={nav.url}>
+                <Link key={nav.id} className="ml-8 text-sm font-normal text-dark-300 hover:text-primary" href={nav.url}>
                   {nav.name}
                 </Link>
               ))}
             </aside>
           </div>
           <div className="ml-8 hidden items-center lg:flex">
-            <Link className="flex items-center" href="/selling-on-rigly">
+            <Link className="flex items-center text-sm" href="/selling-on-rigly">
               <span>List your mining </span> <MiningSvg className="ml-4" />
             </Link>
             {!isLoading && (
@@ -117,12 +117,12 @@ export default function HeaderNav({ isDemo }: Props) {
         <div className="absolute inset-0 top-20 z-10 h-screen bg-white lg:hidden">
           <div className="flex flex-col">
             {navigationURL.map(nav => (
-              <Link key={nav.id} className="px-5 py-4 text-base text-dark-300 hover:text-primary" href={nav.url}>
+              <Link key={nav.id} className="px-5 py-4 text-sm text-dark-300 hover:text-primary" href={nav.url}>
                 {nav.name}
               </Link>
             ))}
 
-            <Link className="flex items-center px-5 py-4 text-base text-dark-300 hover:text-primary" href="/selling-on-rigly">
+            <Link className="flex items-center px-5 py-4 text-sm text-dark-300 hover:text-primary" href="/selling-on-rigly">
               <span>List your mining</span>
               <MiningSvg className="ml-4" />
             </Link>
@@ -130,28 +130,28 @@ export default function HeaderNav({ isDemo }: Props) {
           {account && (
             <>
               <div className="border-y border-gray-300">
-                <div className="p-5">
-                  Signed in as <span className="text-blue-500">{account.email}</span>
-                </div>
                 <Link
-                  className="flex items-center justify-start gap-3 px-5 py-4 text-base text-dark-300 hover:text-blue-500"
+                  className="flex items-center justify-start gap-3 px-5 py-4 text-sm text-dark-300 hover:text-blue-500"
                   href="/account/general"
                 >
                   <Icon icon="user" className="h-3 w-3 text-gray-600" />
                   <span>Account</span>
                 </Link>
                 <Link
-                  className="flex items-center justify-start gap-3 px-5 py-4 text-base text-dark-300 hover:text-blue-500"
+                  className="flex items-center justify-start gap-3 px-5 py-4 text-sm text-dark-300 hover:text-blue-500"
                   href="/account/orders"
                 >
                   <Icon icon="cart" className="h-3 w-3 text-gray-600" />
                   <span>Orders</span>
                 </Link>
+                <div className="p-5 text-sm">
+                  Signed in as <span className="text-blue-500">{account.email}</span>
+                </div>
               </div>
               <div className="p-5">
                 <button
                   onClick={handleLogoutClick}
-                  className="flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 px-3 text-blue-400 hover:text-blue-600"
+                  className="flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 px-3 text-sm text-blue-400 hover:text-blue-600"
                 >
                   <span className="whitespace-nowrap">Sign Out</span>
                 </button>
@@ -162,14 +162,14 @@ export default function HeaderNav({ isDemo }: Props) {
             <div className="grid grid-cols-2 gap-5 border-t border-gray-300 p-5">
               <button
                 onClick={handleLoginClick}
-                className="flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 px-3 text-blue-400 hover:text-blue-600"
+                className="flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 px-3 text-sm text-blue-400 hover:text-blue-600"
               >
                 <span className="whitespace-nowrap">Sign In</span>
               </button>
 
               <button
                 onClick={handleRegisterClick}
-                className="flex h-10 w-full items-center justify-center rounded-lg bg-gradient px-3 text-white hover:bg-gradient-hover"
+                className="flex h-10 w-full items-center justify-center rounded-lg bg-gradient px-3 text-sm text-white hover:bg-gradient-hover"
               >
                 <span className="whitespace-nowrap font-normal">Sign up</span>
               </button>

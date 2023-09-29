@@ -68,10 +68,9 @@ export default function AccountProvider({ children }: { children: React.ReactNod
 
           const token = await getToken(params.email, params.code)
           localStorage.setItem(LocalStorageKeys.Auth.riglyToken, token)
-          setToken(token)
-
           const account = await getAccount(token)
           account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
+          setToken(token)
           setAccount(account)
           localStorage.setItem(LocalStorageKeys.Account.accountType, JSON.stringify(account.is_demo))
 
@@ -102,9 +101,8 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           setIsLoading(true)
 
           const token = window.localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
-          if (token) {
-            setToken(token)
 
+          if (token) {
             const account = await getAccount(token)
             account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
             setAccount(account)
