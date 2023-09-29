@@ -16,16 +16,16 @@ export default function Authorized() {
     <div className="ml-4 flex items-center justify-end">
       {!isLoading && account && (
         <div className="flex items-center ">
-          <Link href="/account/general" className="mr-4 text-base font-normal text-dark-300 hover:text-primary">
+          <Link href="/account/general" className="mr-4 text-sm font-normal text-dark-300 hover:text-primary">
             Account
           </Link>
-          <Link href="/account/orders" className="mr-4 text-base font-normal text-dark-300 hover:text-primary">
+          <Link href="/account/orders" className="mr-4 text-sm font-normal text-dark-300 hover:text-primary">
             Orders
           </Link>
-          <Link href="/account/hashrate" className="mr-4 text-base font-normal text-dark-300 hover:text-primary">
+          <Link href="/account/hashrate" className="mr-4 text-sm font-normal text-dark-300 hover:text-primary">
             Hashrate
           </Link>
-          <Link href="/account/preferences" className="mr-4 text-base font-normal text-dark-300 hover:text-primary">
+          <Link href="/account/preferences" className="mr-4 text-sm font-normal text-dark-300 hover:text-primary">
             Notifications
           </Link>
           <span
