@@ -3,7 +3,6 @@ import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
 import Home from 'src/components/pages/home'
 import { Metadata } from 'next'
 import Header from 'src/components/shared/Header'
-import DemoAlert from 'src/components/demo/Alert'
 import Footer from 'src/components/shared/Footer'
 
 export default async function HomePage() {
