@@ -12,7 +12,6 @@ export default async function HomePage() {
   return (
     <>
       <Header />
-      <DemoAlert msg={<div>Product in beta, please report bugs using the intercom below</div>} />
       <Home auctions={auctions} auctionOfTheDay={auctionOfTheDay} />
       <Footer />
     </>
