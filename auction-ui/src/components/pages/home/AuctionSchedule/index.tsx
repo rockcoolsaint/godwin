@@ -115,7 +115,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
           </span>
         )
 
-        const renderer = ({ days, hours, completed }: CountdownRenderProps) => {
+        const renderer = ({ days, hours, minutes, seconds, completed }: CountdownRenderProps) => {
           if (completed) {
             return <Completionist />
           } else {
@@ -126,9 +126,20 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
                     {days} {days > 1 ? 'days' : 'day'}
                   </span>
                 )}{' '}
-                <span>
-                  {hours} {hours > 1 ? 'hours' : 'hour'}
-                </span>
+                {hours >= 1 ? (
+                  <span>
+                    {hours} {hours > 1 ? 'hours' : 'hour'}
+                  </span>
+                ) : (
+                  <span>
+                    {minutes} {minutes > 1 ? 'minutes' : 'minute'}
+                  </span>
+                )}
+                {hours < 1 && minutes < 1 && (
+                  <span>
+                    {seconds} {seconds > 1 ? 'seconds' : 'second'}
+                  </span>
+                )}
               </div>
             )
           }

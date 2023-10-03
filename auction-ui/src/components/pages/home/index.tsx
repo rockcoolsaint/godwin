@@ -22,6 +22,7 @@ import InstantHashrate from './InstantHashrate'
 import AuctionSchedule from './AuctionSchedule'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import { TableSkeletonLoader } from 'src/components/shared/TableSkeletonLoader'
+import DemoAlert from 'src/components/demo/Alert'
 
 interface Props {
   auctions: Auction[]
@@ -82,25 +83,29 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
 
   return (
     <div>
-      <section className="md:px-25 mx-auto mt-10 flex max-w-[1824px] flex-col items-center px-5 sm:mt-20 md:flex-col md:items-center md:justify-between lg:flex-row lg:px-40">
+      <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center px-5 sm:mt-14 md:px-2 lg:px-4">
         <Gradient />
-        <div className="mr-4 flex flex-col items-center justify-start md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 lg:items-start">
-          <div className="gradient-text animate__zoomIn animate__animated text-center text-4xl font-extrabold !leading-[1.3] text-gradient sm:text-6xl md:text-center lg:text-left">
-            Bitcoin only Hashrate Market
+        <div className="animate__zoomIn animate__animated mr-4 flex flex-col items-center justify-center md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 ">
+          <div className="gradient-text mb-2 text-center text-4xl font-extrabold !leading-[1.3] text-gradient sm:text-6xl md:text-center lg:text-center">
+            Bitcoin Mining Marketplace
           </div>
-          <p className="animate__animated animate__backInLeft my-2 flex w-full max-w-fit items-start justify-center text-center text-sm font-normal text-dark-200 sm:items-center sm:text-left sm:text-xl md:justify-start lg:w-3/4 lg:justify-start ">
-            <BoltIcon className="mr-2 h-5 w-5 text-yellow-400" /> <span>Hashrate delivered P2P over stratum</span>
-          </p>
-          <p className="animate__animated animate__slideInLeft animate__slow my-2 flex w-full max-w-fit items-start justify-center text-center text-sm font-normal text-dark-200 sm:items-center sm:text-left sm:text-xl md:justify-start lg:w-3/4">
-            <LockClosedIcon className="mr-2 h-5 w-5 text-black" />
-            <span>Payments held in multisig = no rug pulls</span>
-          </p>
-          <p className="animate__animated animate__fadeInLeftBig animate__slower my-2 flex w-full max-w-fit items-start justify-center text-center text-sm font-normal text-dark-200 sm:items-center sm:text-left sm:text-xl md:justify-start lg:w-3/4">
-            <UserGroupIcon className="mr-2 h-5 w-5 text-primary/[0.9]" /> <span>Pricing set by an open market</span>
-          </p>
+          <div className="flex flex-col flex-wrap sm:flex-row sm:items-center  sm:justify-center">
+            <p className="mb-2 flex w-full max-w-fit items-start justify-center text-sm font-normal text-dark-200 sm:items-center sm:text-left sm:text-lg md:justify-start lg:w-3/4 lg:justify-start ">
+              <BoltIcon className="mr-2 h-5 w-5 text-primary/[0.9]" />{' '}
+              <span className="text-dark-200">Hashrate from miners around the world</span>
+            </p>
+            <p className="mb-2 flex w-full max-w-fit items-start justify-center text-sm font-normal text-dark-200 sm:ml-4 sm:items-center sm:text-left sm:text-lg md:justify-start lg:w-3/4">
+              <LockClosedIcon className="mr-2 h-5 w-5 text-primary/[0.9]" />
+              <span className="text-dark-200">Payments held in multisig = no rug pulls</span>
+            </p>
+            <p className="mb-2 flex w-full max-w-fit items-start justify-center text-sm font-light text-dark-200 sm:items-center sm:text-left sm:text-lg md:justify-start lg:w-3/4">
+              <UserGroupIcon className="mr-2 h-5 w-5 text-primary/[0.9]" />{' '}
+              <span className="text-dark-200">Pricing set by an open market</span>
+            </p>
+          </div>
           {!account?.email ? (
             <a
-              className="animate__animated animate__shakeX animate__slow animate__repeat-1 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
+              className="animate__animated animate__shakeX animate__slow animate__repeat-1 mt-4 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover sm:mt-2"
               href="#test-mine"
             >
               start hashing
@@ -114,7 +119,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             </Link>
           )}
         </div>
-        <div className="relative mt-16 flex items-center justify-center rounded-lg border border-dark-100/50 md:mt-0">
+        <div className="relative mt-8 flex items-center justify-center rounded-lg border border-dark-100/50 sm:mt-16">
           <Image className=" max-w-[60%] md:block" width={660} height={440} src={hero_image} alt="hero image" />
           <PlayCircleIcon className="absolute h-20 w-20 hover:cursor-pointer hover:opacity-50" onClick={() => setVideoOpen(true)} />
         </div>
@@ -127,6 +132,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
           onClose={() => setVideoOpen(false)}
         />
       </section>
+      <DemoAlert className="mt-28" msg={<div>Product in beta, please report bugs using the intercom below</div>} />
       {!account?.email && (
         <section className="elegant-gradient mt-10">
           <Mining />
