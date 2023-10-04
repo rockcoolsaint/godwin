@@ -36,7 +36,8 @@ export default function WebsocketProvider({ children }: { children: React.ReactN
     }
 
     prepare()
-  }, [ready, account, token])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, token])
 
   return <WebsocketContext.Provider value={{ isSocketReady: ready, socket: ws }}>{children}</WebsocketContext.Provider>
 }
