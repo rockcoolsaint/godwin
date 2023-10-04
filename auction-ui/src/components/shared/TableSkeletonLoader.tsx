@@ -2,7 +2,7 @@
 
 export function TableSkeletonLoader({ title }: { title?: string }) {
   return (
-    <div>
+    <div id="auction-market">
       {title && <h1 className="mb-4 text-center text-primary">{title}</h1>}
       <div
         role="status"
