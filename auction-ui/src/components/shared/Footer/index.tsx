@@ -43,39 +43,41 @@ const Footer = () => {
   return (
     <Container>
       <section className="sm:px-6">
-        <div className="mb-16 flex flex-wrap items-center justify-between border-t border-gray-300 pt-16">
-          <div className="flex items-center">
+        <div className="w-12/12 mb-16 flex flex-wrap items-start justify-between border-t border-gray-300 pt-16">
+          <div className="mb-4 flex items-center sm:mb-0">
             <LogoSvg />
             <div className="ml-3 border-l pl-3">
               <span className="block text-dark-200/[.7]">Bitcoin Mining</span>
               <span className="block text-dark-200/[.7]">Auctions</span>
             </div>
           </div>
-          <div className="mt-4 flex items-center sm:mt-0">
-            <div className="mr-2">
-              <Follow username="trustlessmining" options={{ dnt: false, showCount: false }} />
+          <div className="flex flex-wrap items-center sm:mt-0">
+            <div className="w-12/12 mb-4 flex">
+              <Link
+                className="block items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+                href="https://t.me/+AEvub_E_9hNiYzAx"
+                target="_blank"
+              >
+                <Telegram className="h-6 w-6" />
+              </Link>
+              <Link
+                className="ml-2 block items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+                href="https://primal.net/profile/npub1t6el40knsq8hmrpr0m6tt3t0tr4pdeyhlt2qelwhgtwawddqx0xsv03scu"
+                target="_blank"
+              >
+                <NostrSvg className="h-6 w-6" />
+              </Link>
+              <Link
+                target="_blank"
+                className="ml-2 flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+                href="https://twitter.com/TrustlessMining"
+              >
+                <TwitterSvg className="h-6 w-6" />
+              </Link>
             </div>
-            <Link
-              className="block items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
-              href="https://t.me/+AEvub_E_9hNiYzAx"
-              target="_blank"
-            >
-              <Telegram className="h-6 w-6" />
-            </Link>
-            <Link
-              className="ml-2 block items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
-              href="https://primal.net/profile/npub1t6el40knsq8hmrpr0m6tt3t0tr4pdeyhlt2qelwhgtwawddqx0xsv03scu"
-              target="_blank"
-            >
-              <NostrSvg className="h-6 w-6" />
-            </Link>
-            <Link
-              target="_blank"
-              className="ml-2 flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
-              href="https://twitter.com/TrustlessMining"
-            >
-              <TwitterSvg className="h-6 w-6" />
-            </Link>
+            <div className="block w-10/12">
+              <Follow username="trustlessmining" options={{ dnt: true, showCount: false }} />
+            </div>
           </div>
         </div>
         <div className="flex grid-cols-5 flex-col gap-4 md:grid">
