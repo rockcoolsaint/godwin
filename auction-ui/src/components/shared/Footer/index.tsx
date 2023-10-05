@@ -10,6 +10,7 @@ import Container from 'src/core/components/Container'
 import { useCallback, useState } from 'react'
 import clsx from 'clsx'
 import { subscribeNewsletter } from 'src/api/subscribe/subscribe'
+import { Follow } from 'react-twitter-widgets'
 
 const Footer = () => {
   const year = new Date().getFullYear()
@@ -49,16 +50,19 @@ const Footer = () => {
               <span className="block text-dark-200/[.7]">Auctions</span>
             </div>
           </div>
-          <div className="mt-4 flex sm:mt-0">
+          <div className="mt-4 flex items-center sm:mt-0">
+            <div className="mr-2">
+              <Follow username="BitcoinerJobs" options={{ dnt: false, showCount: false }} />
+            </div>
             <Link
-              className="block  items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+              className="block items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
               href="https://t.me/+AEvub_E_9hNiYzAx"
               target="_blank"
             >
               <Telegram className="h-6 w-6" />
             </Link>
             <Link
-              className="ml-2 block  items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
+              className="ml-2 block items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
               href="https://primal.net/profile/npub1t6el40knsq8hmrpr0m6tt3t0tr4pdeyhlt2qelwhgtwawddqx0xsv03scu"
               target="_blank"
             >
