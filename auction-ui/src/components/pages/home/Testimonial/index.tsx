@@ -45,15 +45,14 @@ export default function Testimonial() {
                 <figure className="rounded-2xl bg-white p-6 shadow-md ring-1 ring-gray-900/5">
                   <blockquote className="text-gray-900">
                     <p>
-                      It was a lot easier than I thought and helped me quickly understand the basics of mining. Easy and fast way to start
-                      messing around with the mining and understanding the basics. Rigly has huge potential to get more mining online
-                      throughout the world
+                      Rigly is a perfect way to dip my toes in to the world of bitcoin mining without the need to commit to an expensive
+                      mining rig upfront. It feels great to support the network and earn bitcoin rewards
                     </p>
                   </blockquote>
                   <div className="mt-4 flex items-center justify-between border-t">
                     <figcaption className="mt-6 flex items-center gap-x-4 ">
                       <div>
-                        <div className="font-semibold">Matt Kolbinsky</div>
+                        <div className="font-semibold">Tyler T.</div>
                         <div className="text-gray-600">Customer</div>
                       </div>
                     </figcaption>
