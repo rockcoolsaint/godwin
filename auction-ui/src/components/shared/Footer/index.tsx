@@ -53,7 +53,7 @@ const Footer = () => {
           </div>
           <div className="mt-4 flex items-center sm:mt-0">
             <div className="mr-2">
-              <Follow username="BitcoinerJobs" options={{ dnt: false, showCount: false }} />
+              <Follow username="trustlessmining" options={{ dnt: false, showCount: false }} />
             </div>
             <Link
               className="block items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
