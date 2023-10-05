@@ -11,6 +11,7 @@ import { useCallback, useState } from 'react'
 import clsx from 'clsx'
 import { subscribeNewsletter } from 'src/api/subscribe/subscribe'
 import { Follow } from 'react-twitter-widgets'
+import MiningSvg from 'src/assets/svg/mine.svg'
 
 const Footer = () => {
   const year = new Date().getFullYear()
@@ -112,6 +113,12 @@ const Footer = () => {
                 <li className="mb-3">
                   <Link className="font-normal text-dark-100 hover:underline" href="/learn-more">
                     Learn
+                  </Link>
+                </li>
+                <li className="mb-3">
+                  <Link className="flex items-center font-normal text-dark-100 hover:underline" href="/selling-on-rigly">
+                    <span>List your mining</span>
+                    <MiningSvg className="ml-2 text-dark-100" />
                   </Link>
                 </li>
               </ul>
