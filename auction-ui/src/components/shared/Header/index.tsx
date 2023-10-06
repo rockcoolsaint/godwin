@@ -2,7 +2,6 @@
 
 import Link from 'src/components/shared/Link'
 import LogoSvg from 'src/assets/svg/logo_dark.svg'
-import MiningSvg from 'src/assets/svg/mine.svg'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Authorized from './Authorized'
 import Unauthorized from './Unauthorized'
@@ -100,9 +99,6 @@ export default function HeaderNav({ isDemo }: Props) {
             </aside>
           </div>
           <div className="ml-8 hidden items-center lg:flex">
-            <Link className="flex items-center text-sm" href="/selling-on-rigly">
-              <span>List your mining </span> <MiningSvg className="ml-4" />
-            </Link>
             {!isLoading && (
               <div className="hidden md:block">
                 {account && <Authorized />}
@@ -121,11 +117,6 @@ export default function HeaderNav({ isDemo }: Props) {
                 {nav.name}
               </Link>
             ))}
-
-            <Link className="flex items-center px-5 py-4 text-sm text-dark-300 hover:text-primary" href="/selling-on-rigly">
-              <span>List your mining</span>
-              <MiningSvg className="ml-4" />
-            </Link>
           </div>
           {account && (
             <>
@@ -135,14 +126,7 @@ export default function HeaderNav({ isDemo }: Props) {
                   href="/account/general"
                 >
                   <Icon icon="user" className="h-3 w-3 text-gray-600" />
-                  <span>Account</span>
-                </Link>
-                <Link
-                  className="flex items-center justify-start gap-3 px-5 py-4 text-sm text-dark-300 hover:text-blue-500"
-                  href="/account/orders"
-                >
-                  <Icon icon="cart" className="h-3 w-3 text-gray-600" />
-                  <span>Orders</span>
+                  <span>View my account</span>
                 </Link>
                 <div className="p-5 text-sm">
                   Signed in as <span className="text-blue-500">{account.email}</span>

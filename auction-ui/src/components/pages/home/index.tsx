@@ -95,14 +95,16 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
               Bitcoin Mining Marketplace
             </div>
             <div className="flex flex-col flex-wrap sm:flex-row sm:items-center  sm:justify-center">
-              <p className="mb-2 flex w-full max-w-fit items-start justify-center text-sm font-normal text-dark-200 sm:items-center sm:text-left sm:text-lg md:justify-start lg:w-3/4 lg:justify-start ">
-                <BoltIcon className="mr-2 h-5 w-5 text-primary/[0.9]" />{' '}
-                <span className="text-dark-200">Hashrate from miners around the world</span>
-              </p>
-              <p className="mb-2 flex w-full max-w-fit items-start justify-center text-sm font-normal text-dark-200 sm:ml-4 sm:items-center sm:text-left sm:text-lg md:justify-start lg:w-3/4">
-                <LockClosedIcon className="mr-2 h-5 w-5 text-primary/[0.9]" />
-                <span className="text-dark-200">Payments held in multisig = no rug pulls</span>
-              </p>
+              <div className="flex flex-col flex-wrap sm:flex-row sm:items-center  sm:justify-center">
+                <p className="mb-2 flex w-full max-w-fit items-start justify-center text-sm font-normal text-dark-200 sm:items-center sm:text-left sm:text-lg md:justify-start lg:w-3/4 lg:justify-start ">
+                  <BoltIcon className="mr-2 h-5 w-5 text-primary/[0.9]" />{' '}
+                  <span className="text-dark-200">Hashrate from miners around the world</span>
+                </p>
+                <p className="mb-2 flex w-full max-w-fit items-start justify-center text-sm font-normal text-dark-200 sm:ml-4 sm:items-center sm:text-left sm:text-lg md:justify-start lg:w-3/4">
+                  <LockClosedIcon className="mr-2 h-5 w-5 text-primary/[0.9]" />
+                  <span className="text-dark-200">Payments held in multisig = no rug pulls</span>
+                </p>
+              </div>
               <p className="mb-2 flex w-full max-w-fit items-start justify-center text-sm font-light text-dark-200 sm:items-center sm:text-left sm:text-lg md:justify-start lg:w-3/4">
                 <UserGroupIcon className="mr-2 h-5 w-5 text-primary/[0.9]" />{' '}
                 <span className="text-dark-200">Pricing set by an open market</span>
