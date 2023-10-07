@@ -11,46 +11,65 @@ import { formatDistance, parseISO } from 'date-fns'
 import { BoltIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import Link from 'src/components/shared/Link'
+import { OrderStatus } from 'src/types'
+import toast from 'react-hot-toast'
 
-interface Status {
+interface ProxyStatus {
   worker: any
   payment: any
   pool_user: any
   email?: string
   proxy?: string
   assigned_at: string
+  elapsed_time?: number
+  order: {
+    id: number
+    status: OrderStatus
+  }
 }
 
 export default function TestDriveSuccessPage({ params }: { params: any }) {
-  const [status, setStatus] = useState<Status | null | undefined>(null)
+  const [proxyStatus, setProxyStatus] = useState<ProxyStatus | undefined>(undefined)
   const [loading, setLoading] = useState(true)
-  const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined)
 
-  const searchParam = useSearchParams()
-  const order_id = searchParam?.get('order_id') || ''
+  const searchParams = useSearchParams()
+  const orderId = searchParams.get('order_id')
+
+  const loadStatus = async (orderId: number) => {
+    try {
+      const res = await getOrderStatus(orderId)
+      setProxyStatus(res)
+    } catch (error: any) {
+      toast.error(error.message, { position: 'bottom-right' })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!orderId) {
+      return
+    }
+
+    loadStatus(Number(orderId))
+    const interval = setInterval(() => loadStatus(Number(orderId)), 5000)
+
+    return () => clearInterval(interval)
+  }, [orderId])
 
   useEffect(() => {
     window.Intercom('shutdown')
-    if (!Boolean(order_id)) {
-      return
-    }
-    setLoading(true)
-    const interval = setInterval(async () => {
-      try {
-        const status = await getOrderStatus(order_id)
-        setStatus(status)
-        setLoading(false)
-      } catch (error) {
-        console.error('error is ', (error as Error).message)
-        setErrorMsg((error as Error).message)
-        setLoading(false)
-      }
-    }, 5000)
+  }, [])
 
-    return () => clearInterval(interval)
-  }, [order_id, status?.payment?.status])
+  if (loading) {
+    return (
+      <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
+        <Loader />
+      </Container>
+    )
+  }
 
-  if (!Boolean(order_id)) {
+  if (!proxyStatus || !orderId) {
     return (
       <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
         <NotFoundComponent message="Ooops! No detail for this order" return_url="/" />
@@ -58,112 +77,18 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
     )
   }
 
-  const renderPaymentStatus = () => {
-    if (status?.payment?.status === 'paid') {
-      return <span className="text-sm font-medium uppercase text-green-700 ">Paid</span>
-    }
-    if (status?.payment?.status === 'processing') {
-      return <span className="text-sm font-medium uppercase text-yellow-700 ">Processing</span>
-    }
-
-    return <span className="text-sm font-medium uppercase text-red-700 ">Unpaid</span>
-  }
-
-  const renderOrderStatus = () => {
-    if (errorMsg) {
-      return (
-        <div className="mt-8 border-l-4 border-red-400 bg-red-50 p-4">
-          <div className="flex justify-center">
-            <div className="shrink-0">
-              <svg className="h-5 w-5 text-red-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path
-                  fillRule="evenodd"
-                  d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-red-700">{errorMsg}</p>
-            </div>
-          </div>
-        </div>
-      )
-    }
-
-    return (
-      <>
-        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.email}</dd>
-          </div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Payment</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{renderPaymentStatus()}</dd>
-          </div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Proxy</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.proxy}</dd>
-          </div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Pool</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.pool_user?.pool}</dd>
-          </div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Account</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-              {status?.pool_user?.username || '-'}
-            </dd>
-          </div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-              {(status?.assigned_at && formatDistance(parseISO(status?.assigned_at), new Date())) || '-'}
-            </dd>
-          </div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-              {status?.worker?.accepted_shares || '-'}
-            </dd>
-          </div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-              {status?.worker?.difficulty || '-'}
-            </dd>
-          </div>
-        </dl>
-        {params.url !== 'tabconf' && status?.pool_user?.username && (
-          <div className="mt-10">
-            <h2>Next steps:</h2>
-            <h3>Claim your Braiins mining pool account</h3>
-            <p className="mt-4">
-              Your account username at Braiins is{' '}
-              <code>
-                <b>{status?.pool_user?.username || 'N/A'}</b>
-              </code>
-            </p>
-            <p className="mt-4">You will receive a verification email shortly.</p>
-            <p>
-              Please check your email to{' '}
-              <Link className="underline" href="https://pool.braiins.com/mining/">
-                login to Braiins
-              </Link>{' '}
-              and claim your mining rewards.
-            </p>
-          </div>
-        )}
-      </>
-    )
-  }
-
   return (
-    <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-4 sm:pt-12">
-      <div className="flex flex-col items-center justify-center">
-        <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-4 mt-8 h-24 w-24')} />
-        <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>
+    <Container className="flex h-screen flex-col items-center justify-start bg-slate-50 pt-4 sm:pt-12">
+      <div className="mt-10 flex flex-col items-center justify-center">
+        <BoltIcon
+          className={clsx(
+            loading ? 'animate-ping text-gray-500' : proxyStatus.order.status === 'delivery_ended' ? 'text-green-400' : 'text-yellow-400',
+            '0 mb-4 h-24 w-24',
+          )}
+        />
+        <h1 className="mb-2 text-4xl">
+          {loading ? 'Hashrate initializing' : proxyStatus.order.status === 'delivery_ended' ? 'Hashrate delivered' : 'Hashrate up'}
+        </h1>
       </div>
 
       {loading ? (
@@ -172,8 +97,122 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
           <p className="mt-1 text-lg text-dark-100">Loading order status</p>
         </div>
       ) : (
-        renderOrderStatus()
+        <>
+          {proxyStatus.order.status === 'delivery_ended' && (
+            <div className="mt-8 flex w-full items-center justify-center rounded-t-md border border-b-0 border-black/[0.05] bg-white py-4">
+              <span className="text-sm font-bold text-green-500">Your hashrate delivery is complete</span>
+            </div>
+          )}
+          <dl
+            className={clsx('mx-auto grid grid-cols-1 gap-px rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4', {
+              'mt-8': proxyStatus.order.status !== 'delivery_ended',
+            })}
+          >
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white px-4 py-4 sm:px-6 sm:py-8 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{proxyStatus.email}</dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white px-4 py-4 sm:px-6 sm:py-8 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Payment</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                  {proxyStatus.payment?.status === 'paid' && <span className="text-sm font-medium uppercase text-green-700 ">Paid</span>}
+                  {proxyStatus.payment?.status === 'processing' && (
+                    <span className="text-sm font-medium uppercase text-yellow-700 ">Processing</span>
+                  )}
+                  {proxyStatus.payment?.status !== 'paid' && proxyStatus.payment?.status !== 'processing' && (
+                    <span className="text-sm font-medium uppercase text-red-700 ">Unpaid</span>
+                  )}
+                </dd>
+              </dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white px-4 py-4 sm:px-6 sm:py-8 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Proxy</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{proxyStatus.proxy}</dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white px-4 py-4 sm:px-6 sm:py-8 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Pool</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{proxyStatus.pool_user?.pool}</dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white px-4 py-4 sm:px-6 sm:py-8 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Account</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {proxyStatus.pool_user?.username || '-'}
+              </dd>
+            </div>
+            {proxyStatus.order.status === 'delivery_ended' && (
+              <>
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white px-4 py-4 sm:px-6 sm:py-8 xl:px-8">
+                  <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
+                  <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                    {formatSecondsToHMS(proxyStatus.elapsed_time) || '-'}
+                  </dd>
+                </div>
+              </>
+            )}
+            {proxyStatus.order.status !== 'delivery_ended' && (
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white px-4 py-4 sm:px-6 sm:py-8 xl:px-8">
+                <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
+                <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                  {(proxyStatus.assigned_at && formatDistance(parseISO(proxyStatus.assigned_at), new Date())) || '-'}
+                </dd>
+              </div>
+            )}
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white px-4 py-4 sm:px-6 sm:py-8 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {proxyStatus.worker?.accepted_shares || '-'}
+              </dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white px-4 py-4 sm:px-6 sm:py-8 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {proxyStatus.worker?.difficulty || '-'}
+              </dd>
+            </div>
+          </dl>
+          {proxyStatus.order.status !== 'delivery_ended' && params.url !== 'tabconf' && proxyStatus.pool_user?.username && (
+            <div className="my-10 flex flex-col items-start border border-black/[0.05] bg-white p-4">
+              <div className="flex w-full items-start justify-between gap-4 md:items-center">
+                <h3 className="leading-tight">Claiming your Braiins mining pool account</h3>
+                <div className="mb-2 flex h-8 items-center justify-center rounded bg-blue-400 px-3">
+                  <span className="whitespace-nowrap text-sm font-semibold text-white">Next steps</span>
+                </div>
+              </div>
+              <p className="mt-4">
+                Your account username at Braiins is{' '}
+                <code>
+                  <b>{proxyStatus.pool_user?.username || 'N/A'}</b>
+                </code>
+              </p>
+              <p className="mt-4">You will receive a verification email shortly with instructions on how to claim your account.</p>
+              <p className="mt-4">
+                Please check your email to{' '}
+                <Link className="underline" href="https://pool.braiins.com/mining/">
+                  login to Braiins
+                </Link>{' '}
+                and claim your mining rewards.
+              </p>
+            </div>
+          )}
+        </>
       )}
     </Container>
   )
+}
+
+const formatSecondsToHMS = (totalSeconds: number | undefined) => {
+  if (totalSeconds === undefined) {
+    return '-'
+  }
+
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds - hours * 3600) / 60)
+  const seconds = totalSeconds - hours * 3600 - minutes * 60
+
+  const paddedHours = String(hours).padStart(2, '0')
+  const paddedMinutes = String(minutes).padStart(2, '0')
+  const paddedSeconds = String(seconds).padStart(2, '0')
+
+  return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`
 }
