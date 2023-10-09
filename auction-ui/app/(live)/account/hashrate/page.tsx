@@ -49,7 +49,7 @@ const useHashrateSchema = () => {
 }
 
 function Hashrate() {
-  const { account, isLoading: isAccountLoading, token } = useAccountContext()
+  const { account, isLoading: isAccountLoading, token, refresh } = useAccountContext()
 
   const [loading, setLoading] = useState<boolean>(false)
   const [poolInfo, setPoolInfo] = useState<PoolInfoModel>({
@@ -72,6 +72,7 @@ function Hashrate() {
       const updateSuccess = await updateAccount(data, token)
       if (updateSuccess) {
         toast.success('Your changes have been saved.')
+        await refresh()
       }
     } catch (ex: any) {
       toast.error(ex.message)
@@ -230,7 +231,7 @@ function Hashrate() {
             </Form.Field>
           </Form.Section>
 
-          <div className="flex w-full justify-start px-4">
+          <div className="flex w-full justify-start px-4 pb-4">
             <Form.Submit disabled={canUpdate || loading}>Save</Form.Submit>
           </div>
 
