@@ -6,15 +6,12 @@ import Details from 'src/components/pages/home/Details'
 import { useTranslation } from 'src/hooks'
 import AuctionOfTheDay from './AuctionOfTheDay'
 import Link from 'src/components/shared/Link'
-import hero_image from 'src/assets/png/auctioneer.png'
-import Image from 'next/image'
 import Testimonials from 'src/components/pages/home/Testimonial'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { isDateBefore } from 'src/utils/date'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import ModalVideo from 'react-modal-video'
 import { BoltIcon, LockClosedIcon, UserGroupIcon } from '@heroicons/react/20/solid'
 import Gradient from 'src/components/shared/Gradient'
 import Mining from './Mining'
@@ -37,7 +34,6 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
   const { t } = useTranslation()
   const { account } = useAccountContext()
   const router = useRouter()
-  const [videoOpen, setVideoOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
 
@@ -127,7 +123,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             )}
           </div>
 
-          <div className="relative mt-8 flex items-center justify-center sm:mt-16">
+          <div className="relative mt-8 flex w-full items-center justify-center sm:mt-16 sm:w-3/6">
             <HomepageCalculator />
           </div>
         </section>

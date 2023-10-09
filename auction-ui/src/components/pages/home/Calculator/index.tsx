@@ -1,37 +1,18 @@
 'use client'
 
-import { ArrowLongRightIcon } from '@heroicons/react/24/outline'
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
-import { getDifficultyAdjustment, getBlockTipHeight, getHashRate, getHashPrice, HashpriceDict } from 'src/api/hashprice'
-import { formatDistance, fromUnixTime } from 'date-fns'
-
-// To show on calculator
-// Estimated future global network hashrate (eg 450 EH/s)
-// difficulty estimate (based on 1)
-// hashprice estimate (based on 1)
-
-/**
- * How to calculate hashprice based on network speed
-
-Hashprice = Block reward + Transaction fees / Network Hashrate
-
-Let's consider an example:
-
-current block reward (6.25 btc)
-2% tx fee rate
-409 EH/s network hashrate
->>> ((6.25*144)+(6.25*144*0.02)) / 408879965
-.00000224515769560878
-225 sats per TH/s/day
- * */
+import { getHashRate } from 'src/api/hashprice'
+import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
+import { Loader } from 'src/core'
 
 export function HomepageCalculator() {
   const [difficulty, setDifficulty] = useState(0)
+  const [feePercentage, setFeePercentage] = useState(2)
+  const [globalHashrate, setGlobalHashrate] = useState(0)
   const [hashrateRaw, setHashrateRaw] = useState(0)
-  const [hashrate, setHashrate] = useState(0)
-  const [hashRateModified, setHashRateModified] = useState(0)
+
   const [hashprice, setHashprice] = useState(0)
-  const [epoch, setEpoch] = useState<HashpriceDict>({})
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -39,21 +20,10 @@ export function HomepageCalculator() {
       setLoading(true)
       try {
         const hashrate = await getHashRate()
-        const blockHeight = await getBlockTipHeight()
-        const epochData = await getHashPrice()
 
-        const difficultyPeriod = blockHeight / 2016
-
-        setHashrate(hashrate.currentHashrate / 1_000_000_000_000_000_000)
+        setGlobalHashrate(Math.floor(hashrate.currentHashrate / 1_000_000_000_000_000_000))
         setHashrateRaw(hashrate.currentHashrate)
         setDifficulty(hashrate.currentDifficulty / 1_000_000_000_000)
-
-        let blockReward = 6.25
-        let txFee = 0.02
-        let networkHashrate = hashrate.currentHashrate / 1_000_000_000_000
-        let hashprice = (blockReward * 144 + blockReward * 144 * txFee) / networkHashrate
-        setHashprice(hashprice * 100000000)
-        setEpoch(epochData)
 
         setLoading(false)
       } catch (error) {
@@ -65,67 +35,124 @@ export function HomepageCalculator() {
   }, [])
 
   useEffect(() => {
-    setHashRateModified(hashrateRaw / 1000000000000000)
-    let blockReward = 6.25
-    let txFee = 0.02
-    let networkHashrate = hashrateRaw / 1_000_000_000_000
-    let hashprice = (blockReward * 144 + blockReward * 144 * txFee) / networkHashrate
-    setHashprice(hashprice * 100000)
-  }, [hashrateRaw, setHashrateRaw])
+    const blockReward = 6.25
+    const txFee = feePercentage / 100
+    const hashprice = (blockReward * 144 + blockReward * 144 * txFee) / (globalHashrate * 1_000_000_000_000)
+    setHashprice(Math.floor(hashprice * 100000000000000))
+  }, [globalHashrate, hashrateRaw, feePercentage])
+
+  if (loading) {
+    return <Loader />
+  }
 
   return (
-    <section className="relative">
-      <h1
-        style={{ zIndex: 0 }}
-        className="relative -bottom-1 z-10 w-3/12 rounded-t-lg border-2 border-dark-100 bg-slate-100 p-2 text-center text-sm"
-      >
-        Epoch - {401}
-      </h1>
-      <div
-        style={{ zIndex: 100 }}
-        className="relative flex h-96 w-[34rem] flex-col items-center justify-between rounded-md border-2 border-dark-100 bg-white p-4 shadow-2xl"
-      >
+    <section className="relative flex justify-center sm:w-11/12">
+      <div className="relative flex w-full flex-col items-center justify-between rounded-md border-2 border-dark-100 bg-white p-4 shadow-2xl sm:w-9/12 sm:pl-10 sm:pr-0">
         <div className="w-full">
-          <p className="my-4 flex items-center justify-between">
-            <span className="w-6/12">Network hashrate</span>
-            {/* <ArrowLongRightIcon className="h-4 w-12" /> */}
-            <span className="w-4/12">{Math.floor(hashrate)} EH/s</span>
-          </p>
-          <p className="mb-4 flex items-center justify-between">
-            <span className="w-6/12">Difficulty estimate</span>
-            {/* <ArrowLongRightIcon className="h-4 w-12" />{' '} */}
-            <span className="w-4/12">
+          <aside className="my-4 mt-0 flex items-center justify-between">
+            <div className="flex w-6/12 items-center">
+              <span className="text-sm">Global Bitcoin Network hashrate</span>
+              <Tooltip placement="top">
+                <TooltipTrigger>
+                  <QuestionMarkCircleIcon className="ml-1 h-4 w-4" />
+                </TooltipTrigger>
+
+                <TooltipContent className="w-2/12 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                  Sum of all hashrate from all miners on the bitcoin network. Value is an estimate based on current difficulty and block
+                  speed. This calculator assumes blocks on a 10 minute interval
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <span className="block w-4/12 text-sm font-semibold">{globalHashrate} EH/s</span>
+          </aside>
+          <aside className="mb-4 flex items-center justify-between">
+            <div className="flex w-6/12 items-center">
+              <span className="text-sm">Difficulty estimate</span>
+              <Tooltip placement="top">
+                <TooltipTrigger>
+                  <QuestionMarkCircleIcon className="ml-1 h-4 w-4" />
+                </TooltipTrigger>
+
+                <TooltipContent className="w-1/6 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                  Determines how hard it is to hash out a winning block
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <span className="w-4/12 text-sm font-semibold">
               {Number(difficulty).toPrecision(4)}T <sup>Hashes/Block</sup>
             </span>
-          </p>
-          <p className="mb-4 flex items-center justify-between">
-            <span className="w-6/12">Hashprice estimate</span>
-            {/* <ArrowLongRightIcon className="h-4 w-12" />{' '} */}
-            <span className="w-4/12">{Math.floor(hashprice)} TH/s/day</span>
-          </p>
+          </aside>
+          <aside className="mb-4 flex items-center justify-between">
+            <div className="flex w-6/12 items-center">
+              <span className="text-sm">Hashprice estimate</span>
+              <Tooltip placement="top">
+                <TooltipTrigger>
+                  <QuestionMarkCircleIcon className="ml-1 h-4 w-4" />
+                </TooltipTrigger>
+
+                <TooltipContent className="w-1/6 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                  This how much bitcoin can be earned per TH/s per day, based on a &ldquo;full pay-per-share&ldquo; (FPPS) mining pool
+                  payout
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </aside>
+          <aside className="mb-4 ml-4 flex items-center justify-between">
+            <div className="flex w-4/12 items-center">
+              <span className="text-xs">Base hashprice</span>
+            </div>
+            <span className="mr-2 w-4/12 text-xs font-semibold">{Math.floor(hashprice)} TH/s/day</span>
+          </aside>
+          <aside className="mb-4 ml-4 flex items-center justify-between">
+            <div className="flex w-6/12 items-center">
+              <span className="text-xs">Fee percentage</span>
+            </div>
+            <span className="mr-2 w-4/12 text-xs font-semibold">{feePercentage}%</span>
+          </aside>
+          <aside className="mb-4 ml-4 flex items-center justify-between">
+            <div className="flex w-4/12 items-center">
+              <span className="text-xs">Total</span>
+            </div>
+            <span className="mr-2 w-4/12 text-xs font-bold">{Math.floor(hashprice) + 10} TH/s/day</span>
+          </aside>
         </div>
-        <p style={{ marginBottom: -40 }} className="-mb-4 text-center">
-          Adjust difficulty estimate
-        </p>
-        <div className="flex items-center">
-          <p className="mr-4">0 EH/s</p>
+        <p className="mb-4 mt-8 text-center text-sm">Adjust global network hashrate</p>
+        <label htmlFor="hashrate" className="flex items-center">
+          <p className="mr-4 text-sm">100 EH/s</p>
           <input
             onChange={e => {
-              setHashrateRaw(parseInt(e.target.value))
+              setGlobalHashrate(parseInt(e.target.value))
             }}
             type="range"
-            id="#hashprice"
-            min={0}
-            max={1000000000000000000}
+            id="hashrate"
+            min={100}
+            max={1000}
             name="volume"
-            placeholder="hashprice"
-            // value={hashRateModified}
+            placeholder="global hashrate"
+            value={Math.floor(globalHashrate)}
           />
-          <p className="ml-4">{Math.floor(hashRateModified)} EH/s</p>
-        </div>
+          <p className="ml-4 text-sm">1000 EH/s</p>
+        </label>
+
+        <p className="mb-2 mt-4 text-center text-sm">Adjust fee % estimate</p>
+        <label htmlFor="fee_percentage" className="flex items-center">
+          <p className="mr-4 text-sm">1%</p>
+          <input
+            onChange={e => {
+              setFeePercentage(parseInt(e.target.value))
+            }}
+            type="range"
+            min={1}
+            id="fee_percentage"
+            max={20}
+            name="fee_percentage"
+            value={feePercentage}
+          />
+          <p className="ml-4 text-sm">20%</p>
+        </label>
         <a
           href="#auction-market"
-          className="mt-4 block w-4/12 rounded-lg bg-gradient p-4 px-5 text-center text-base capitalize text-white hover:bg-gradient-hover sm:mt-2"
+          className="mt-4 block w-6/12 rounded-lg bg-gradient p-4 px-5 text-center text-base capitalize text-white hover:bg-gradient-hover sm:mt-8 sm:w-4/12"
         >
           Place bid
         </a>
