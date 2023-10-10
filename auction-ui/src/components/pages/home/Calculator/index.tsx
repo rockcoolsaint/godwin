@@ -53,7 +53,7 @@ export function HomepageCalculator() {
         <div className="w-full">
           <aside className="my-4 mt-0 flex items-center justify-between">
             <div className="flex w-6/12 items-center">
-              <span className="text-sm">Global Bitcoin Network hashrate</span>
+              <span className="text-sm">Global Network hashrate</span>
               <Tooltip placement="top">
                 <TooltipTrigger>
                   <QuestionMarkCircleIcon className="ml-1 h-4 w-4" />
