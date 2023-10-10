@@ -9,7 +9,7 @@ import Link from 'src/components/shared/Link'
 import { UserCircleIcon } from '@heroicons/react/24/outline'
 
 export default function Authorized() {
-  const { account, isLoading, logout } = useAccountContext()
+  const { account, authCode, isLoading, logout } = useAccountContext()
 
   const [dropdownActive, setDropdownActive] = useState<boolean>(false)
 
@@ -31,11 +31,20 @@ export default function Authorized() {
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
             <Dropdown.Item className="px-6">
-              <span className="py-4  text-sm  text-blue-500">{account.email}</span>
+              <span className="py-4 text-sm text-blue-500">{account.email}</span>
             </Dropdown.Item>
+            {(account.type === 'seller' || account.is_staff) && (
+              <Dropdown.Item
+                className="px-6"
+                onClick={() => window.open(`https://portal.rigly.io/login/callback?email=${account.email}&code=${authCode}`, '_blank')}
+              >
+                <Icon icon="hardDrive" className="h-3 w-3 text-gray-600" />
+                <span className="py-4 text-sm text-gray-600">Seller Portal</span>
+              </Dropdown.Item>
+            )}
             <Dropdown.Item className="px-6" onClick={logout}>
               <Icon icon="arrowRightFromBracket" className="h-3 w-3 text-gray-600" />
-              <span className="py-4  text-sm text-gray-600">Sign out</span>
+              <span className="py-4 text-sm text-gray-600">Sign out</span>
             </Dropdown.Item>
           </Dropdown>
         </div>
