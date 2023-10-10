@@ -38,7 +38,7 @@ export function HomepageCalculator() {
     const blockReward = 6.25
     const txFee = feePercentage / 100
     const hashprice = (blockReward * 144 + blockReward * 144 * txFee) / (globalHashrate * 1_000_000_000_000)
-    const baseHashprice = (blockReward * 144) / hashrateRaw
+    const baseHashprice = (blockReward * 144) / (globalHashrate * 1_000_000_000_000_000_000)
     const difficulty = (globalHashrate * 1_000_000_000_000_000_000 * 600) / 2 ** 32
     setHashprice(Math.floor(hashprice * 100_000_000_000_000))
     setBaseHashprice(Math.floor(baseHashprice * 100_000_000_000_000_000_000))
