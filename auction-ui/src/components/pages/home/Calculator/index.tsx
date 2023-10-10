@@ -38,7 +38,9 @@ export function HomepageCalculator() {
     const blockReward = 6.25
     const txFee = feePercentage / 100
     const hashprice = (blockReward * 144 + blockReward * 144 * txFee) / (globalHashrate * 1_000_000_000_000)
+    const difficulty = (globalHashrate * 1_000_000_000_000_000_000 * 600) / 2 ** 32
     setHashprice(Math.floor(hashprice * 100000000000000))
+    setDifficulty(difficulty / 1_000_000_000_000)
   }, [globalHashrate, hashrateRaw, feePercentage])
 
   if (loading) {
@@ -101,19 +103,19 @@ export function HomepageCalculator() {
             <div className="flex w-4/12 items-center">
               <span className="text-xs">Base hashprice</span>
             </div>
-            <span className="mr-2 w-4/12 text-xs font-semibold">{Math.floor(hashprice)} TH/s/day</span>
+            <span className="mr-2 w-4/12 text-xs font-semibold">{Math.floor(hashprice)} sats/TH/s/day</span>
           </aside>
           <aside className="mb-4 ml-4 flex items-center justify-between">
             <div className="flex w-6/12 items-center">
-              <span className="text-xs">Fee percentage</span>
+              <span className="text-xs">Tx fee percentage</span>
             </div>
             <span className="mr-2 w-4/12 text-xs font-semibold">{feePercentage}%</span>
           </aside>
           <aside className="mb-4 ml-4 flex items-center justify-between">
             <div className="flex w-4/12 items-center">
-              <span className="text-xs">Total</span>
+              <span className="text-sm font-semibold">Total</span>
             </div>
-            <span className="mr-2 w-4/12 text-xs font-bold">{Math.floor(hashprice) + 10} TH/s/day</span>
+            <p className="mr-2 w-4/12 text-sm font-semibold">{Math.floor(hashprice) + 10} TH/s/day</p>
           </aside>
         </div>
         <p className="mb-4 mt-8 text-center text-sm">Adjust global network hashrate</p>
@@ -134,7 +136,18 @@ export function HomepageCalculator() {
           <p className="ml-4 text-sm">1000 EH/s</p>
         </label>
 
-        <p className="mb-2 mt-4 text-center text-sm">Adjust fee % estimate</p>
+        <p className="mb-2 mt-4 flex items-center text-center text-sm">
+          <span>Adjust Tx fee percentage</span>
+          <Tooltip placement="top">
+            <TooltipTrigger>
+              <QuestionMarkCircleIcon className="ml-1 h-4 w-4" />
+            </TooltipTrigger>
+
+            <TooltipContent className="w-1/6 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+              Bitcoin transaction fees as a share of the block reward
+            </TooltipContent>
+          </Tooltip>
+        </p>
         <label htmlFor="fee_percentage" className="flex items-center">
           <p className="mr-4 text-sm">1%</p>
           <input
