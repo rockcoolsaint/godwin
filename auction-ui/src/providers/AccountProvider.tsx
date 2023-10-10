@@ -111,6 +111,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
             const account = await getAccount(token)
             account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
             setAccount(account)
+            setToken(token)
             setAuthCode(account.auth_code)
           }
         } catch (ex) {
