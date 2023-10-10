@@ -91,7 +91,7 @@ export function HomepageCalculator() {
 
   return (
     <section className="relative flex justify-center sm:w-11/12">
-      <div className="relative flex w-full flex-col items-center justify-between rounded-md border-2 border-dark-100 bg-white p-4 shadow-2xl sm:w-9/12 sm:pl-10 sm:pr-0">
+      <div className="relative flex w-full flex-col items-center justify-between rounded-md border-2 border-dark-100 bg-white p-4 shadow-2xl sm:w-9/12 sm:p-10 sm:pr-0">
         <div className="w-full">
           <aside className="my-4 mt-0 flex items-center justify-between">
             <div className="flex w-6/12 items-start">
