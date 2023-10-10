@@ -123,7 +123,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             )}
           </div>
 
-          <div className="relative mt-8 flex w-full items-center justify-center sm:mt-16 sm:w-3/6">
+          <div className="relative mt-8 flex w-full items-center justify-center sm:mt-16 sm:w-3/5 lg:w-3/6">
             <HomepageCalculator />
           </div>
         </section>
