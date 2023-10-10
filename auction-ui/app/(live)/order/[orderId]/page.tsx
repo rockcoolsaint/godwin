@@ -10,7 +10,7 @@ import { PaymentProvider } from 'src/api/auction/types'
 import { getOrder } from 'src/api/orders/getOrder'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Order } from 'src/types'
+import { Order, OrderType } from 'src/types'
 import OrderStatusMessage from 'src/components/pages/order/OrderStatusMessage'
 import OrderActions from 'src/components/pages/order/OrderActions'
 import NotFoundComponent from 'src/components/shared/NotFoundComponent'
@@ -53,7 +53,7 @@ export default function OrderDetail({ params }: { params: any }) {
     fetchOrder()
   }, [orderId, token, setOrder, fetchOrder])
 
-  if (loading) {
+  if (loading || !account) {
     return (
       <Container className="my-24 flex h-fit justify-center py-12">
         <Loader />
@@ -109,16 +109,18 @@ export default function OrderDetail({ params }: { params: any }) {
               )}
             </dl>
             <hr className="mt-4" />
-            <div className=" text-base font-semibold text-gray-900">
-              <dl className="flex items-center justify-between border-b border-gray-200 py-4">
-                <dt className="text-base text-gray-600">Balance</dt>
-                {paymentOne && paymentTwo && amountPaid === paymentOne.amount + paymentTwo.amount ? (
-                  <dd className="text-base font-medium italic text-green-400">Your mining is paid in full, no balance due</dd>
-                ) : (
-                  <dd className="text-base font-medium italic text-red-400">Your mining still requires payment</dd>
-                )}
-              </dl>
-            </div>
+            {order.type !== OrderType.Direct && (
+              <div className=" text-base font-semibold text-gray-900">
+                <dl className="flex items-center justify-between border-b border-gray-200 py-4">
+                  <dt className="text-base text-gray-600">Balance</dt>
+                  {paymentOne && paymentTwo && amountPaid === paymentOne.amount + paymentTwo.amount ? (
+                    <dd className="text-base font-medium italic text-green-400">Your mining is paid in full, no balance due</dd>
+                  ) : (
+                    <dd className="text-base font-medium italic text-red-400">Your mining still requires payment</dd>
+                  )}
+                </dl>
+              </div>
+            )}
             <h4 className="mt-4 text-xl font-semibold text-primary">Escrow</h4>
             <dl className="space-y-2">
               <div className="flex items-center justify-between pt-4">
