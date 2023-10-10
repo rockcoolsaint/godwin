@@ -6,16 +6,13 @@ import Details from 'src/components/pages/home/Details'
 import { useTranslation } from 'src/hooks'
 import AuctionOfTheDay from './AuctionOfTheDay'
 import Link from 'src/components/shared/Link'
-import hero_image from 'src/assets/png/auctioneer.png'
-import Image from 'next/image'
 import Testimonials from 'src/components/pages/home/Testimonial'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { isDateBefore } from 'src/utils/date'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import ModalVideo from 'react-modal-video'
-import { BoltIcon, PlayCircleIcon, LockClosedIcon, UserGroupIcon } from '@heroicons/react/20/solid'
+import { BoltIcon, LockClosedIcon, UserGroupIcon } from '@heroicons/react/20/solid'
 import Gradient from 'src/components/shared/Gradient'
 import Mining from './Mining'
 import InstantHashrate from './InstantHashrate'
@@ -23,6 +20,7 @@ import AuctionSchedule from './AuctionSchedule'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import { TableSkeletonLoader } from 'src/components/shared/TableSkeletonLoader'
 import DemoAlert from 'src/components/demo/Alert'
+import { HomepageCalculator } from './Calculator'
 import clsx from 'clsx'
 
 interface Props {
@@ -36,7 +34,6 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
   const { t } = useTranslation()
   const { account } = useAccountContext()
   const router = useRouter()
-  const [videoOpen, setVideoOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
 
@@ -125,18 +122,10 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
               </Link>
             )}
           </div>
-          <div className="relative mt-8 flex items-center justify-center rounded-lg border border-dark-100/50 sm:mt-16">
-            <Image className=" max-w-[60%] md:block" width={660} height={440} src={hero_image} alt="hero image" />
-            <PlayCircleIcon className="absolute h-20 w-20 hover:cursor-pointer hover:opacity-50" onClick={() => setVideoOpen(true)} />
-          </div>
 
-          <ModalVideo
-            channel="vimeo"
-            vimeo={{ mute: 0, autoplay: true }}
-            isOpen={videoOpen}
-            videoId="843070054"
-            onClose={() => setVideoOpen(false)}
-          />
+          <div className="relative mt-8 flex w-full items-center justify-center sm:mt-16 sm:w-3/5 lg:w-3/6">
+            <HomepageCalculator />
+          </div>
         </section>
       )}
       <DemoAlert

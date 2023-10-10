@@ -168,6 +168,7 @@ export interface Account {
   avatar?: string
   demo_expiration?: string
   referral_code?: string
+  auth_code?: string
   pool_user?: PoolUser
   phone_number?: string
   address?: string

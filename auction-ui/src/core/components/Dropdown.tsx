@@ -132,9 +132,11 @@ function Dropdown({
         },
       )}
     >
-      {React.Children.map(children, Child => {
-        return React.cloneElement(Child as ReactElement, { close: onClose })
-      })}
+      {React.Children.toArray(children)
+        .filter(Boolean)
+        .map(Child => {
+          return React.cloneElement(Child as ReactElement, { close: onClose })
+        })}
     </div>
   )
 }
