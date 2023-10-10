@@ -12,6 +12,7 @@ import { LocalStorageKeys } from 'src/constants/localStorage'
 interface AccountContextType {
   account?: Account
   token?: string
+  authCode?: string
   isLoading: boolean
   login: (email: string, returnUrl?: string, code?: string) => Promise<[boolean, string | undefined]>
   logout: () => void
@@ -32,6 +33,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   const router = useRouter()
 
   const [token, setToken] = useState<string | undefined>(undefined)
+  const [authCode, setAuthCode] = useState<string | undefined>(undefined)
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -71,6 +73,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           const account = await getAccount(token)
           account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
           setToken(token)
+          setAuthCode(params.code)
           setAccount(account)
           localStorage.setItem(LocalStorageKeys.Account.accountType, JSON.stringify(account.is_demo))
 
@@ -108,6 +111,8 @@ export default function AccountProvider({ children }: { children: React.ReactNod
             const account = await getAccount(token)
             account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
             setAccount(account)
+            setToken(token)
+            setAuthCode(account.auth_code)
           }
         } catch (ex) {
           console.error(ex)
@@ -120,5 +125,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
     }
   }, [pathName, router])
 
-  return <AccountContext.Provider value={{ account, token, isLoading, login, logout, refresh }}>{children}</AccountContext.Provider>
+  return (
+    <AccountContext.Provider value={{ account, token, authCode, isLoading, login, logout, refresh }}>{children}</AccountContext.Provider>
+  )
 }

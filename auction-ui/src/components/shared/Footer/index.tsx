@@ -51,7 +51,7 @@ const Footer = () => {
               <span className="block text-dark-200/[.7]">Auctions</span>
             </div>
           </div>
-          <div className="flex flex-wrap items-center sm:mt-0">
+          <div className="flex flex-wrap items-center justify-end sm:mt-0">
             <div className="w-12/12 mb-4 flex">
               <Link
                 className="block items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
@@ -75,7 +75,7 @@ const Footer = () => {
                 <TwitterSvg className="h-6 w-6" />
               </Link>
             </div>
-            <div className="block w-10/12">
+            <div className="flex w-10/12 justify-end">
               <Follow username="trustlessmining" options={{ dnt: true, showCount: false }} />
             </div>
           </div>
