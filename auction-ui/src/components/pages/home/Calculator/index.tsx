@@ -47,7 +47,7 @@ export function HomepageCalculator() {
 
   if (loading) {
     return (
-      <div className="min-h-96 mx-auto h-96 rounded-md border-2 border-dark-100 p-8 shadow sm:w-8/12">
+      <div className="min-h-96 mx-auto h-96 w-full rounded-md border-2 border-dark-100 p-8 shadow sm:w-8/12 lg:w-7/12 ">
         <div className="flex animate-pulse flex-col ">
           <div className="flex-1 space-y-6 py-1">
             <div className="h-2 rounded bg-slate-300"></div>
@@ -90,18 +90,19 @@ export function HomepageCalculator() {
   }
 
   return (
-    <section className="relative flex justify-center sm:w-11/12">
-      <div className="relative flex w-full flex-col items-center justify-between rounded-md border-2 border-dark-100 bg-white p-4 shadow-2xl sm:w-9/12 sm:p-10 sm:pr-0">
+    <section className="relative mx-2 flex w-full justify-center sm:mx-0 sm:w-11/12 lg:w-11/12">
+      <div className="lg:9/12 relative flex w-full flex-col items-center justify-between rounded-md border-2 border-dark-100 bg-white p-4 shadow-2xl sm:p-10 sm:pr-0 md:w-11/12">
+        {/* <div className="relative flex w-full flex-col items-center justify-between rounded-md border-2 border-dark-100 bg-white p-4 shadow-2xl sm:w-9/12 sm:p-10 sm:pr-0"></div> */}
         <div className="w-full">
           <aside className="my-4 mt-0 flex items-center justify-between">
-            <div className="flex w-6/12 items-start">
+            <div className="inline-block w-8/12 items-start sm:w-6/12 lg:flex">
               <span className="text-sm">Global Network hashrate</span>
               <Tooltip placement="top">
                 <TooltipTrigger>
                   <QuestionMarkCircleIcon className="ml-1 h-4 w-4" />
                 </TooltipTrigger>
 
-                <TooltipContent className="w-2/12 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                <TooltipContent className="w-3/4 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white lg:w-2/12">
                   Sum of all hashrate from all miners on the bitcoin network. Value is an estimate based on current difficulty and block
                   speed. This calculator assumes blocks on a 10 minute interval
                 </TooltipContent>
@@ -110,14 +111,14 @@ export function HomepageCalculator() {
             <span className="block w-4/12 text-sm font-semibold">{globalHashrate} EH/s</span>
           </aside>
           <aside className="mb-4 flex items-center justify-between">
-            <div className="flex w-6/12 items-start">
+            <div className="inline-block w-7/12 items-start sm:w-6/12 lg:flex">
               <span className="text-sm">Difficulty estimate</span>
               <Tooltip placement="top">
                 <TooltipTrigger>
                   <QuestionMarkCircleIcon className="ml-1 h-4 w-4" />
                 </TooltipTrigger>
 
-                <TooltipContent className="w-1/6 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                <TooltipContent className="w-3/4 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white lg:w-1/6">
                   Determines how hard it is to hash out a winning block
                 </TooltipContent>
               </Tooltip>
@@ -127,14 +128,14 @@ export function HomepageCalculator() {
             </span>
           </aside>
           <aside className="mb-4 flex items-center justify-between">
-            <div className="flex w-6/12 items-start">
+            <div className="inline-block w-7/12 items-start sm:flex">
               <span className="text-sm">Hashprice estimate</span>
               <Tooltip placement="top">
                 <TooltipTrigger>
                   <QuestionMarkCircleIcon className="ml-1 h-4 w-4" />
                 </TooltipTrigger>
 
-                <TooltipContent className="w-1/6 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                <TooltipContent className="w-3/4 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white lg:w-1/6">
                   This how much bitcoin can be earned per TH/s per day, based on a &ldquo;full pay-per-share&ldquo; (FPPS) mining pool
                   payout
                 </TooltipContent>
@@ -142,7 +143,7 @@ export function HomepageCalculator() {
             </div>
           </aside>
           <aside className="mb-4 ml-4 flex items-center justify-between">
-            <div className="flex w-4/12 items-start">
+            <div className="inline-block w-6/12 items-start sm:w-5/12 lg:flex">
               <span className="text-xs">Base hashprice</span>
               <Tooltip placement="top">
                 <TooltipTrigger>
@@ -170,7 +171,7 @@ export function HomepageCalculator() {
                   <QuestionMarkCircleIcon className="ml-1 h-4 w-4" />
                 </TooltipTrigger>
 
-                <TooltipContent className="w-fit rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                <TooltipContent className="w-3/4 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white lg:w-fit">
                   Total hashprice (with tx fees, based on {feePercentage}% fee percentage)
                 </TooltipContent>
               </Tooltip>
