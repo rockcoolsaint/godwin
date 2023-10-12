@@ -48,6 +48,7 @@ export enum OrderStatus {
 export enum OrderType {
   Auction = 'auction',
   Direct = 'direct',
+  BlockParty = 'block_party',
 }
 
 export interface OrderMessage {

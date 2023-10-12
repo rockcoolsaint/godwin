@@ -102,6 +102,14 @@ function Orders() {
                     )
                   }
 
+                  if (order.type === OrderType.BlockParty) {
+                    return (
+                      <Link href={''} target="_blank" className="flex h-12 items-center text-blue-500 hover:underline">
+                        <span>Block Party - {order.block_party.name}</span>
+                      </Link>
+                    )
+                  }
+
                   return (
                     <Link href={`/auctions/${order.auction.slug}`} className="flex h-12 items-center text-blue-500 hover:underline">
                       {order.auction.title}
