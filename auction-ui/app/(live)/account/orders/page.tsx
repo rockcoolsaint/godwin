@@ -28,7 +28,7 @@ export function formatOrderStatus(order: Order) {
         return <span className="font-semibold text-orange-400">Deposit & fee received</span>
       }
 
-      return <span className="font-semibold text-green-400">Paid</span>
+      return <span className="font-semibold text-green-600">Paid</span>
     case OrderStatus.Paid:
       return <span className="font-semibold text-green-400">Paid</span>
     default:
