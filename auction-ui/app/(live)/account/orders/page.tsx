@@ -2,29 +2,33 @@
 
 import { useEffect, useState } from 'react'
 
-import AccountView from 'src/components/pages/account/AccountView'
-import Link from 'src/components/shared/Link'
-import { getOrders } from 'src/api/account/getOrders'
-import { Order, OrderStatus, OrderType } from 'src/types'
-import { Loader, Table } from 'src/core'
-import { useAccountContext } from 'src/providers/AccountProvider'
-import protect from 'src/hoc/protect'
-import { isOrderFulfilled } from 'utils'
-import hasPassedOrderStatus from 'src/utils/hasPassedOrderStatus'
-import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
+import { Fragment } from 'react'
+import { getOrders } from 'src/api/account/getOrders'
+import AccountView from 'src/components/pages/account/AccountView'
+import Link from 'src/components/shared/Link'
+import { Loader, Table } from 'src/core'
+import protect from 'src/hoc/protect'
+import { useAccountContext } from 'src/providers/AccountProvider'
+import { Order, OrderStatus, OrderType } from 'src/types'
+import hasPassedOrderStatus from 'src/utils/hasPassedOrderStatus'
+import { isOrderFulfilled } from 'utils'
 
-export function formatOrderStatus(status: string) {
-  switch (status) {
+export function formatOrderStatus(order: Order) {
+  switch (order.status) {
     case OrderStatus.Unpaid:
       return <span className="font-semibold text-red-600">Unpaid</span>
     case OrderStatus.Processing:
       return <span className="font-semibold text-gray-600">Processing</span>
     case OrderStatus.PaymentOneComplete:
-      return <span className="font-semibold text-orange-400">Deposit & fee received</span>
+      if (order.type === OrderType.Auction) {
+        return <span className="font-semibold text-orange-400">Deposit & fee received</span>
+      }
+
+      return <span className="font-semibold text-green-400">Paid</span>
     case OrderStatus.Paid:
       return <span className="font-semibold text-green-400">Paid</span>
     default:
@@ -117,7 +121,7 @@ function Orders() {
                   )
                 }
                 case 'payment_status': {
-                  return <>{formatOrderStatus(order.status)}</>
+                  return <>{formatOrderStatus(order)}</>
                 }
                 case 'actions': {
                   return (
