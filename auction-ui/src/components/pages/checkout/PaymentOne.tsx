@@ -102,32 +102,38 @@ function PaymentOne({ order }: Props) {
   return (
     <Container>
       <section className="mx-auto my-28 w-full max-w-3xl lg:w-3/5">
-        <div className="grid grid-cols-1 gap-3 rounded-2xl bg-gray-100 p-5 sm:grid-cols-2 lg:grid-cols-2">
-          <Image
-            className="w-full rounded-2xl sm:w-auto"
-            src={auction?.auction_meta.site_photo || miner}
-            alt="auction image"
-            width={240}
-            height={180}
-          />
-          <div className="ml-0 mt-4 flex flex-col justify-between sm:mt-0">
-            <div className="mb-6 sm:mb-12">
-              <h3 className="text-2xl font-medium text-gray-900">{auction?.title}</h3>
-              <span className="text-sm font-normal text-gray-700">{`${auction!.auction_meta.days_of_mining} ${
-                auction!.auction_meta.days_of_mining > 1 ? 'days' : 'day'
-              }  | ${auction!.auction_meta.hashrate}TH/s `}</span>
-            </div>
-            <div>
-              {order.type === OrderType.Auction && (
-                <p className="text-sm font-normal text-gray-700">{`Epoch ${auction?.epoch?.epoch_number || '-'}`}</p>
-              )}
-              <p className="text-sm font-normal text-gray-900">
-                Estimated start{' '}
-                {auction && auction.auction_meta.hashrate_start ? formatDate(auction.auction_meta.hashrate_start, 'MMMM d, yyyy') : '-'}
-              </p>
+        {currentOrder.type !== 'block_party' && (
+          <div className="grid grid-cols-1 gap-3 rounded-2xl bg-gray-100 p-5 sm:grid-cols-2 lg:grid-cols-2">
+            <Image
+              className="w-full rounded-2xl sm:w-auto"
+              src={auction?.auction_meta.site_photo || miner}
+              alt="auction image"
+              width={240}
+              height={180}
+            />
+            <div className="ml-0 mt-4 flex flex-col justify-between sm:mt-0">
+              <div className="mb-6 sm:mb-12">
+                <h3 className="text-2xl font-medium text-gray-900">{auction?.title}</h3>
+                <span className="text-sm font-normal text-gray-700">{`${auction!.auction_meta.days_of_mining} ${
+                  auction!.auction_meta.days_of_mining > 1 ? 'days' : 'day'
+                }  | ${auction!.auction_meta.hashrate}TH/s `}</span>
+              </div>
+              <div>
+                {order.type === OrderType.Auction && (
+                  <p className="text-sm font-normal text-gray-700">{`Epoch ${auction?.epoch?.epoch_number || '-'}`}</p>
+                )}
+                <p className="text-sm font-normal text-gray-900">
+                  Estimated start{' '}
+                  {auction && auction.auction_meta.hashrate_start ? formatDate(auction.auction_meta.hashrate_start, 'MMMM d, yyyy') : '-'}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {currentOrder.type === 'block_party' && (
+          <div className="grid grid-cols-1 gap-3 rounded-2xl bg-gray-100 p-5 sm:grid-cols-2 lg:grid-cols-2">Tobi please implement this</div>
+        )}
 
         <div className="mt-10 rounded-2xl border border-gray-200 p-4 md:p-9">
           <h1 className="text-xl font-medium text-gray-900">Confirm and pay</h1>
