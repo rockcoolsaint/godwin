@@ -58,10 +58,28 @@ export interface OrderMessage {
   sender: 'system' | 'buyer' | 'seller'
 }
 
+export interface BlockParty {
+  id: number
+  name: string
+  duration_seconds: number
+  hashrate_ths: number
+  hashrate_start: string
+  hashrate_end: string
+  host: {
+    id: number
+    first_name: string
+    last_name: string
+    username: string
+    email: string
+  }
+  created_at: string
+}
+
 export interface Order {
   created_at: string
   id: number
   auction?: Auction
+  block_party?: BlockParty
   account?: Account
   duration_days: number
   deleted: boolean
