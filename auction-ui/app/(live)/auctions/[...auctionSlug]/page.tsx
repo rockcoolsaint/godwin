@@ -9,10 +9,10 @@ import { getOrderByAuctionId } from 'src/api/orders/getOrderByAuctionId'
 import { useEffect, useRef, useState } from 'react'
 
 import { Loader } from 'src/core'
-import { AuctionStatus, Auction, BidsEntityOrCurrentBid } from 'src/api/auction/types'
+import { AuctionStatus, Auction, BidsEntityOrCurrentBid, ProxyBid } from 'src/api/auction/types'
 import { useWebsocketContext } from 'src/providers/WebsocketProvider'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { Order, ProxyBidUpdate } from 'src/types'
+import { Order } from 'src/types'
 import toast from 'react-hot-toast'
 import { useNotificationsContext } from 'src/providers/NotificationsProvider'
 
@@ -26,7 +26,8 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
 
   const [auction, setAuction] = useState<Auction | undefined>(undefined)
   const [currentBid, setCurrentBid] = useState<any>(undefined)
-  const [proxyBids, setProxyBids] = useState<any>(undefined)
+  const [proxyBids, setProxyBids] = useState<ProxyBid[]>([])
+  const [userProxyBid, setUserProxyBid] = useState<ProxyBid | undefined>(undefined)
   const [winner, setWinner] = useState<any>(undefined)
   const [order, setOrder] = useState<Order | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
@@ -127,10 +128,10 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
         setCurrentBid(update)
       }
 
-      const handleProxyBidsUpdate = (update: ProxyBidUpdate) => {
-        // TODO: @Jeezman handle proxy bid update
-        // eslint-disable-next-line no-console
-        console.log(update)
+      const handleProxyBidsUpdate = (update: ProxyBid) => {
+        setProxyBids(_ => {
+          return [update]
+        })
       }
 
       const prepare = async () => {
@@ -145,6 +146,13 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auction?.id, auction?.status, socket, isSocketReady])
+
+  useEffect(() => {
+    const bid = proxyBids.filter(bid => {
+      return bid.account.id === account?.id
+    })
+    setUserProxyBid(bid[0])
+  }, [proxyBids])
 
   if (loading) {
     return (
@@ -169,6 +177,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
           bids={bids.current}
           current_bid={currentBid}
           proxy_bid={proxyBids}
+          user_proxy_bid={userProxyBid}
           winner={winner}
           order={order}
           slug={slug}
