@@ -94,6 +94,8 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
     }
   }
 
+  const hasProxyBid = user_proxy_bid && user_proxy_bid.maximum_amount
+
   return (
     <>
       <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
@@ -118,7 +120,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
           {auction.status === AuctionStatus.Active && (
             <>
               {current_bid && (
-                <div className="mt-7 flex w-full flex-col items-center rounded-xl bg-gray-200 p-4">
+                <div className="mt-5 flex w-full flex-col items-center bg-gray-200 p-4">
                   <h5>Current bid</h5>
                   <Tooltip placement="left">
                     <TooltipTrigger>
@@ -130,25 +132,26 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
                       ${formatMoney(priceInFiat)}
                     </TooltipContent>
                   </Tooltip>
-                  {user_proxy_bid && user_proxy_bid.maximum_amount && (
-                    <>
-                      <h6 className="mt-2 w-4/12 items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 ring-1 ring-inset ring-gray-500/30">
-                        Proxy bid
-                      </h6>
-                      <Tooltip placement="left">
-                        <TooltipTrigger>
-                          <h5 className="flex items-center justify-center rounded-md px-2 py-1 text-sm font-semibold text-gray-600 ">
-                            {formatMoney(user_proxy_bid.maximum_amount)} <SatsSvg className="ml-2" />
-                          </h5>
-                        </TooltipTrigger>
-                        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
-                          ${formatMoney(proxyFiat)}
-                        </TooltipContent>
-                      </Tooltip>
-                    </>
-                  )}
                 </div>
               )}
+              {hasProxyBid && (
+                <div className={clsx('flex w-full flex-col items-center bg-gray-200 p-4', current_bid ? 'pt-0' : 'mt-5 pt-4')}>
+                  <h6 className="w-4/12 items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 ring-1 ring-inset ring-gray-500/30">
+                    Proxy bid
+                  </h6>
+                  <Tooltip placement="left">
+                    <TooltipTrigger>
+                      <h5 className="flex items-center justify-center rounded-md px-2 py-1 text-sm font-semibold text-gray-600 ">
+                        {formatMoney(user_proxy_bid.maximum_amount)} <SatsSvg className="ml-2" />
+                      </h5>
+                    </TooltipTrigger>
+                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                      ${formatMoney(proxyFiat)}
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              )}
+
               {current_bid === null && !user_proxy_bid && (
                 <div className="mt-7 w-full rounded-xl bg-gray-200 p-4">
                   <span>Be the first to place a bid</span>
