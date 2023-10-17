@@ -10,7 +10,7 @@ import { AllAuctionsResponse } from 'src/api/auction/types'
 interface FormInputs {
   auctionType: 'immediate_delivery' | 'forward_date' | 'upfront_payment'
   auctionStatus: 'scheduled' | 'active' | 'completed'
-  sortBy: 'epoch' | 'created_at' | 'hashrate' | 'time_remaining' | 'highest_bid' | 'going_hashprice'
+  sortBy: 'epoch' | 'created_at' | 'hashrate' | 'time_remaining' | 'highest_bid' | 'going_hashprice' | 'status'
 }
 
 interface Props {
@@ -125,6 +125,7 @@ export default function CollectionsFilter({ open, setShowModal, setAuctions, set
                 {...register('sortBy')}
                 className="block w-9/12 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               >
+                <option value="status">Status</option>
                 <option value="epoch">Epoch</option>
                 <option value="created_at">Date created</option>
                 <option value="hashrate">Hashrate</option>
