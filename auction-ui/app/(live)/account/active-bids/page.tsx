@@ -7,6 +7,7 @@ import Link from 'src/components/shared/Link'
 import { Loader, Table } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { formatMoney } from 'src/utils/currency'
+import { ErrorBoundary } from 'react-error-boundary'
 
 function ActiveBidsPage() {
   const { token } = useAccountContext()
@@ -36,42 +37,44 @@ function ActiveBidsPage() {
   }, [token])
 
   return (
-    <AccountView>
-      {loading && (
-        <div className="flex min-h-[30vh] items-center justify-center">
-          <Loader />
-        </div>
-      )}
-      {!loading && (
-        <Table
-          data={activeBids?.bids}
-          cols={[
-            { title: 'Auction', name: 'auction' },
-            { title: 'Latest bid', name: 'auction_bid' },
-            { title: 'My bid', name: 'my_bid' },
-          ]}
-          row={(bids, col) => {
-            switch (col) {
-              case 'auction': {
-                return (
-                  <Link href={`/auctions/${bids.auction.slug}`} className="flex h-12 items-center text-blue-500 hover:underline">
-                    {bids.auction.title}
-                  </Link>
-                )
-              }
+    <ErrorBoundary fallback={<div className="p-8">⚠️ Oops! something went wrong fetching active bids</div>}>
+      <AccountView>
+        {loading && (
+          <div className="flex min-h-[30vh] items-center justify-center">
+            <Loader />
+          </div>
+        )}
+        {!loading && (
+          <Table
+            data={activeBids?.bids}
+            cols={[
+              { title: 'Auction', name: 'auction' },
+              { title: 'Latest bid', name: 'auction_bid' },
+              { title: 'My bid', name: 'my_bid' },
+            ]}
+            row={(bids, col) => {
+              switch (col) {
+                case 'auction': {
+                  return (
+                    <Link href={`/auctions/${bids.auction.slug}`} className="flex h-12 items-center text-blue-500 hover:underline">
+                      {bids.auction.title}
+                    </Link>
+                  )
+                }
 
-              case 'auction_bid': {
-                return <div className="flex h-12 items-center">{formatMoney(bids.auction.current_bid)} sats</div>
+                case 'auction_bid': {
+                  return <div className="flex h-12 items-center">{formatMoney(bids.auction.current_bid)} sats</div>
+                }
+                case 'my_bid': {
+                  return <div className="flex h-12 items-center">{formatMoney(bids.bid)} sats</div>
+                }
               }
-              case 'my_bid': {
-                return <div className="flex h-12 items-center">{formatMoney(bids.bid)} sats</div>
-              }
-            }
-          }}
-          empty={() => <span className="text-sm text-gray-500">No active bids found</span>}
-        />
-      )}
-    </AccountView>
+            }}
+            empty={() => <span className="text-sm text-gray-500">No active bids found</span>}
+          />
+        )}
+      </AccountView>
+    </ErrorBoundary>
   )
 }
 
