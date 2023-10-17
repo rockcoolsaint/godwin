@@ -41,7 +41,7 @@ const Footer = () => {
   }
 
   return (
-    <Container>
+    <Container className="max-w-7xl md:w-full">
       <section className="sm:px-6">
         <div className="w-12/12 mb-16 flex flex-wrap items-start justify-between border-t border-gray-300 pt-16">
           <div className="mb-4 flex items-center sm:mb-0">
@@ -51,7 +51,7 @@ const Footer = () => {
               <span className="block text-dark-200/[.7]">Auctions</span>
             </div>
           </div>
-          <div className="flex flex-wrap items-center justify-end sm:mt-0">
+          <div className="flex w-fit flex-wrap items-center justify-start sm:mt-0 md:justify-end">
             <div className="w-12/12 mb-4 flex">
               <Link
                 className="block items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
@@ -75,7 +75,7 @@ const Footer = () => {
                 <TwitterSvg className="h-6 w-6" />
               </Link>
             </div>
-            <div className="flex w-10/12 justify-end">
+            <div className="flex w-10/12 justify-start md:justify-end">
               <Follow username="trustlessmining" options={{ dnt: true, showCount: false }} />
             </div>
           </div>

@@ -84,9 +84,9 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
   return (
     <div>
       {!isLoggedIn && (
-        <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center px-5 sm:mt-14 md:px-2 lg:px-4">
+        <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center sm:mt-14 md:px-2 lg:px-4">
           <Gradient />
-          <div className="animate__zoomIn animate__animated mr-4 flex flex-col items-center justify-center md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 ">
+          <div className="animate__zoomIn animate__animated mx-4 flex flex-col items-center justify-center md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 ">
             <div className="gradient-text mb-2 text-center text-4xl font-extrabold !leading-[1.3] text-gradient sm:text-6xl md:text-center lg:text-center">
               Bitcoin Mining Marketplace
             </div>
@@ -123,7 +123,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             )}
           </div>
 
-          <div className="relative mt-8 flex w-full items-center justify-center sm:mt-16 sm:w-3/5 lg:w-3/6">
+          <div className="relative mt-8 flex w-full max-w-5xl items-center justify-center sm:mt-16 sm:w-5/6 md:w-10/12 lg:w-3/5 xl:w-3/5 xl:max-w-3xl">
             <HomepageCalculator />
           </div>
         </section>
@@ -132,13 +132,13 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
         className={clsx(!isLoggedIn ? 'mt-28' : '')}
         msg={<div>Product in beta, please report bugs using the intercom below</div>}
       />
-      {!isLoggedIn && (
+      {false && (
         <section className="elegant-gradient mt-10">
           <Mining />
         </section>
       )}
-      <InstantHashrate />
-
+      {false && <InstantHashrate />}
+      <div className="sm:mt-10"></div>
       {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} />}
 
       <AuctionOfTheDay auction={auctionOfTheDay} />
