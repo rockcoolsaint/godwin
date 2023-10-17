@@ -3,14 +3,12 @@
 import { useEffect, useState } from 'react'
 import { getBids } from 'src/api/account/getBids'
 import AccountView from 'src/components/pages/account/AccountView'
+import Link from 'src/components/shared/Link'
 import { Loader, Table } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import { formatMoney } from 'src/utils/currency'
 
-interface Props {
-  onClick: () => void
-}
-
-const ActiveBidsPage: React.FC<Props> = ({ onClick }) => {
+function ActiveBidsPage() {
   const { token } = useAccountContext()
 
   const [loading, setLoading] = useState<boolean>(true)
@@ -26,8 +24,6 @@ const ActiveBidsPage: React.FC<Props> = ({ onClick }) => {
 
       try {
         const res = await getBids(token)
-        // console.log('bids is ', res)
-
         setActiveBids(res)
       } catch (ex) {
         console.error(ex)
@@ -48,19 +44,27 @@ const ActiveBidsPage: React.FC<Props> = ({ onClick }) => {
       )}
       {!loading && (
         <Table
-          data={activeBids}
+          data={activeBids?.bids}
           cols={[
-            { title: 'Auction ID', name: 'auction_id' },
-            { title: 'Type', name: 'type' },
-            { title: 'Bid Amount', name: 'bid' },
+            { title: 'Auction', name: 'auction' },
+            { title: 'Latest bid', name: 'auction_bid' },
+            { title: 'My bid', name: 'my_bid' },
           ]}
           row={(bids, col) => {
             switch (col) {
-              case 'auction_id': {
-                return <div className="flex h-12 items-center">{bids.auction_id}</div>
+              case 'auction': {
+                return (
+                  <Link href={`/auctions/${bids.auction.slug}`} className="flex h-12 items-center text-blue-500 hover:underline">
+                    {bids.auction.title}
+                  </Link>
+                )
               }
-              case 'type': {
-                return <div className="flex h-12 items-center">{bids.type}</div>
+
+              case 'auction_bid': {
+                return <div className="flex h-12 items-center">{formatMoney(bids.auction.current_bid)} sats</div>
+              }
+              case 'my_bid': {
+                return <div className="flex h-12 items-center">{formatMoney(bids.bid)} sats</div>
               }
             }
           }}
