@@ -41,15 +41,14 @@ interface AuctionContainerProps {
   order?: Order
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
-  proxy_bid: ProxyBid[]
+  user_proxy_bid?: ProxyBid
   winner: Winner
   slug: string
   tab?: 'bids' | 'profile' | 'live-feed' | 'hash-price'
 }
 
-export default function AuctionContainer({ auction, order, bids, current_bid, proxy_bid, winner, tab }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, order, bids, current_bid, user_proxy_bid, winner, tab }: AuctionContainerProps) {
   const { account } = useAccountContext()
-  const [userProxyBid, setUserProxyBid] = useState<ProxyBid | undefined>(undefined)
   const [currentTab] = useState(TAB_PANEL[tab || 'bids'])
   const [selectedIndex, setSelectedIndex] = useState(currentTab?.index || 0)
   const isMounted = useIsMounted()
@@ -62,15 +61,6 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
   const profileRef = useRef<HTMLButtonElement>(null)
   const liveFeedRef = useRef<HTMLButtonElement>(null)
   const hashPriceRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    const getProxyBid = async () => {
-      const proxy = proxy_bid.find(bid => account?.id === bid.account.id)
-      setUserProxyBid(proxy)
-    }
-
-    getProxyBid()
-  }, [account?.id, proxy_bid])
 
   useEffect(() => {
     const prepareSteps = () => {
@@ -219,7 +209,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, pr
           </Tab.Group>
         </div>
         <div className=" mt-4 flex min-w-fit flex-col lg:ml-4 lg:mt-0 lg:w-[25%]">
-          <BidWidget auction={auction} bids={bids} current_bid={current_bid} proxy_bid={userProxyBid!} winner={winner} />
+          <BidWidget auction={auction} bids={bids} current_bid={current_bid} user_proxy_bid={user_proxy_bid} winner={winner} />
 
           {order && account && order.account_id === account.id && !isOrderFulfilled(order.status) && (
             <a href={`/checkout/${order.id}`} className="mt-4 flex w-full flex-col">

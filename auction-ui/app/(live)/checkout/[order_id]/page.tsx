@@ -96,36 +96,35 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
     )
   }
 
-  switch (order.status) {
-    case OrderStatus.Unpaid:
-    case OrderStatus.Processing: {
-      return (
-        <Container>
-          <PaymentOne order={order} />
-        </Container>
-      )
-    }
-    case OrderStatus.PaymentOneComplete: {
-      return (
-        <Container>
-          <PaymentTwo order={order} />
-        </Container>
-      )
-    }
-    default: {
-      return (
-        <Container>
-          <div className="flex h-full w-full items-center justify-center">
-            <div className="flex flex-col items-center">
-              {order.type === OrderType.Auction && <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment #2</span>}
-              {order.type === OrderType.Direct && <span className="mb-4 text-2xl font-semibold">Your payment is complete</span>}
-              <span className="mb-2">You should receive an email about your hashrate soon.</span>
-            </div>
-          </div>
-        </Container>
-      )
-    }
+  if (order.status === OrderStatus.Unpaid || order.status === OrderStatus.Processing) {
+    return (
+      <Container>
+        <PaymentOne order={order} />
+      </Container>
+    )
   }
+
+  if (order.status === OrderStatus.PaymentOneComplete && order.type === OrderType.Auction) {
+    return (
+      <Container>
+        <PaymentTwo order={order} />
+      </Container>
+    )
+  }
+
+  return (
+    <Container>
+      <div className="flex h-full w-full items-center justify-center p-12">
+        <div className="flex flex-col items-center">
+          {order.type === OrderType.Auction && <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment #2</span>}
+          {(order.type === OrderType.Direct || order.type === OrderType.BlockParty) && (
+            <span className="mb-4 text-2xl font-semibold">Your payment is complete</span>
+          )}
+          <span className="mb-2">You should receive an email about your hashrate soon.</span>
+        </div>
+      </div>
+    </Container>
+  )
 }
 
 export default protect(Checkout)
