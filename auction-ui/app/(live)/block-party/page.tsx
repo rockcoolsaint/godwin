@@ -22,8 +22,8 @@ function BlockPartyPage() {
   }
 
   return (
-    <div className="mx-auto my-28 flex max-w-7xl justify-center gap-36 py-6 sm:px-6 lg:px-8">
-      <div className="w-2/5 overflow-hidden bg-white shadow-xl sm:rounded-lg">
+    <div className="mx-auto my-28 flex max-w-7xl flex-col justify-center gap-12 py-6 sm:flex-row sm:gap-36 sm:px-6 lg:px-8">
+      <div className="overflow-hidden bg-white shadow-xl sm:w-2/5 sm:rounded-lg">
         <Tab.Group onChange={setCurrentTab}>
           <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
             <Tab
@@ -142,7 +142,7 @@ function BlockPartyPage() {
               </Listbox>
             </div>
           </div>
-          <button className="relative inline-flex flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient p-4 text-sm font-semibold text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10 disabled:bg-gradient-disabled">
+          <button className="relative inline-flex w-full flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient p-4 text-sm font-semibold text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10 disabled:bg-gradient-disabled sm:w-8/12">
             {selectDuration.name} - {formatMoney(selectDuration.amount)} sats - Buy now
           </button>
         </aside>
