@@ -1,11 +1,13 @@
 'use client'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Listbox, Tab, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import { formatMoney } from 'src/utils/currency'
 import Image from 'next/image'
 import chart from 'src/assets/png/chart.png'
+import { getBlockParties } from 'src/api/block-party/getBlockParties'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 const DURATION = [
   { name: 'Small', value: 21, amount: 5500 },
@@ -16,10 +18,25 @@ const DURATION = [
 function BlockPartyPage() {
   const [currentTab, setCurrentTab] = useState(0)
   const [selectDuration, setSelectDuration] = useState(DURATION[0])
+  const { token } = useAccountContext()
+  const [blockParties, setBlockParties] = useState([])
 
   const handleSelectDuration = (val: any) => {
     setSelectDuration(val)
   }
+
+  useEffect(() => {
+    const fetchBlockParties = async () => {
+      if (!token) {
+        return
+      }
+
+      const data = await getBlockParties({ token: token })
+      setBlockParties(data)
+    }
+
+    fetchBlockParties()
+  }, [token])
 
   return (
     <div className="mx-auto my-28 flex max-w-7xl flex-col justify-center gap-12 py-6 sm:flex-row sm:gap-36 sm:px-6 lg:px-8">
