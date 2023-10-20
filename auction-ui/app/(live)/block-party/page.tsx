@@ -4,10 +4,11 @@ import { Listbox, Tab, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import { formatMoney } from 'src/utils/currency'
-import Image from 'next/image'
-import chart from 'src/assets/png/chart.png'
 import { getBlockParties } from 'src/api/block-party/getBlockParties'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import BlockPartyDetails from 'src/components/pages/block-party/Details'
+import BlockPartyBuyers from 'src/components/pages/block-party/Buyers'
+import BlockPartyOnchainDetails from 'src/components/pages/block-party/OnchainDetails'
 
 const DURATION = [
   { name: 'Small', value: 21, amount: 5500 },
@@ -73,13 +74,13 @@ function BlockPartyPage() {
           </Tab.List>
           <Tab.Panels className="mt-2">
             <Tab.Panel className="w-full rounded-xl bg-white p-3">
-              <Details />
+              <BlockPartyDetails />
             </Tab.Panel>
             <Tab.Panel className="rounded-xl bg-white p-3">
-              <Buyers />
+              <BlockPartyBuyers />
             </Tab.Panel>
             <Tab.Panel className="rounded-xl bg-white p-3">
-              <Onchain />
+              <BlockPartyOnchainDetails />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
@@ -169,114 +170,3 @@ function BlockPartyPage() {
 }
 
 export default BlockPartyPage
-
-function Details() {
-  return (
-    <div>
-      <Image className="mb-4 block w-full overflow-hidden sm:h-64" src={chart} width={352} height={230} alt="chart" />
-      <h3 className="text-center">21 PH/s</h3>
-    </div>
-  )
-}
-
-const people = [
-  { name: 'Anonymous 101', speed: '21 TH/s', time: '2 days ago' },
-  { name: 'Pieman', speed: '210 TH/s', time: '5 hours ago' },
-  { name: 'Kevin', speed: '21 TH/s', time: '2 hours ago' },
-  { name: 'Nico', speed: '100 TH/s', time: '30 mins ago' },
-  { name: 'Evan', speed: '21 TH/s', time: '45 secs ago' },
-  // More people...
-]
-
-function Buyers() {
-  return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="flow-root">
-        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full align-middle">
-            <table className="min-w-full divide-y divide-gray-300">
-              <thead>
-                <tr>
-                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">
-                    Name
-                  </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Speed
-                  </th>
-                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Time
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                {people.map(person => (
-                  <tr key={person.time} className="even:bg-gray-200">
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">{person.name}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.speed}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.time}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const people2 = [
-  {
-    name: 'Pending Balance',
-    email: 'michael.foster@example.com',
-    role: '0',
-    imageUrl: '',
-    lastSeen: '3h ago',
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Escrow Balance',
-    email: 'dries.vincent@example.com',
-    role: '0',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: null,
-  },
-  {
-    name: 'Escrow Address',
-    email: 'lindsay.walton@example.com',
-    role: '1GVY5eZvtc5bA6EFEGnpqJeHUC5YaV5dsb',
-    imageUrl:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: '3h ago',
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Host',
-    email: 'courtney.henry@example.com',
-    role: 'Kevin',
-    imageUrl:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: '3h ago',
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-]
-
-function Onchain() {
-  return (
-    <ul role="list" className="divide-y divide-gray-100">
-      {people2.map(person => (
-        <li key={person.email} className="flex justify-between gap-x-6 py-5">
-          <div className="flex min-w-0 gap-x-4">
-            <div className="min-w-0 flex-auto">
-              <p className="text-sm font-semibold leading-6 text-gray-900">{person.name}</p>
-            </div>
-          </div>
-          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm leading-6 text-gray-900">{person.role}</p>
-          </div>
-        </li>
-      ))}
-    </ul>
-  )
-}
