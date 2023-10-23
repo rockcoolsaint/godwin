@@ -132,12 +132,12 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
         className={clsx(!isLoggedIn ? 'mt-28' : '')}
         msg={<div>Product in beta, please report bugs using the intercom below</div>}
       />
-      {false && (
+      {!isLoggedIn && (
         <section className="elegant-gradient mt-10">
           <Mining />
         </section>
       )}
-      {false && <InstantHashrate />}
+      <InstantHashrate />
       <div className="sm:mt-10"></div>
       {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} />}
 
