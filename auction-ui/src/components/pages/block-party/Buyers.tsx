@@ -1,14 +1,15 @@
-const people = [
-  { name: 'Anonymous 101', speed: '21 TH/s', time: '2 days ago' },
-  { name: 'Pieman', speed: '210 TH/s', time: '5 hours ago' },
-  { name: 'Kevin', speed: '21 TH/s', time: '2 hours ago' },
-  { name: 'Nico', speed: '100 TH/s', time: '30 mins ago' },
-  { name: 'Evan', speed: '21 TH/s', time: '45 secs ago' },
-]
+import { BlockPartyOrder } from 'src/types'
+import { formatDate } from 'src/utils/date'
 
-function BlockPartyBuyers() {
+const SPEED = {
+  slow: { name: 'slow', value: 21 },
+  medium: { name: 'medium', value: 100 },
+  fast: { name: 'fast', value: 210 },
+}
+
+function BlockPartyBuyers({ blockPartyOrders }: { blockPartyOrders: BlockPartyOrder[] }) {
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="border-4 border-black px-4 sm:px-6 lg:px-8">
       <div className="flow-root">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full align-middle">
@@ -27,11 +28,17 @@ function BlockPartyBuyers() {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {people.map(person => (
-                  <tr key={person.time} className="even:bg-gray-200">
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">{person.name}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.speed}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.time}</td>
+                {blockPartyOrders.map(order => (
+                  <tr key={order.id} className="even:bg-gray-200">
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">{order.account.username}</td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <span className="capitalize">{SPEED[order.block_party_speed as keyof typeof SPEED].name}</span>
+                      {' - '}
+                      <>{SPEED[order.block_party_speed as keyof typeof SPEED].value} TH/s</>
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      {formatDate(order.created_at, 'd MMM, yy h:mmaa')}
+                    </td>
                   </tr>
                 ))}
               </tbody>

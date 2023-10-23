@@ -161,7 +161,7 @@ export interface ProxyBidUpdate {
 export interface BlockPartyResponse {
   block_party: BlockParty
   orders: BlockPartyOrder[]
-  onchain: Onchain
+  onchain: BlockPartyOnchain
 }
 
 export interface BlockParty {
@@ -186,7 +186,7 @@ export interface BlockPartyHost {
   email: string
 }
 
-export interface Onchain {
+export interface BlockPartyOnchain {
   pending_balance: number
   escrow_balance: number
   escrow_address: string
@@ -197,5 +197,5 @@ export interface BlockPartyOrder {
   id: number
   block_party_speed: string
   account: BlockPartyHost
-  created_at: Date
+  created_at: string
 }
