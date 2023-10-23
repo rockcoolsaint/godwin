@@ -58,23 +58,6 @@ export interface OrderMessage {
   sender: 'system' | 'buyer' | 'seller'
 }
 
-export interface BlockParty {
-  id: number
-  name: string
-  duration_seconds: number
-  hashrate_ths: number
-  hashrate_start: string
-  hashrate_end: string
-  host: {
-    id: number
-    first_name: string
-    last_name: string
-    username: string
-    email: string
-  }
-  created_at: string
-}
-
 export interface Order {
   created_at: string
   id: number
@@ -173,4 +156,46 @@ export interface AuctionType {
 export interface ProxyBidUpdate {
   maximum_amount: number
   account: Account
+}
+
+export interface BlockPartyResponse {
+  block_party: BlockParty
+  orders: BlockPartyOrder[]
+  onchain: Onchain
+}
+
+export interface BlockParty {
+  id: number
+  name: string
+  duration_seconds: number
+  hashrate_ths: number
+  hashrate_start: string
+  hashrate_end: string
+  payment_address: string
+  host: BlockPartyHost
+  livefeed_stratums_id: string
+  hashprice: number
+  created_at: string
+}
+
+export interface BlockPartyHost {
+  id: number
+  first_name: string | undefined
+  last_name: string | undefined
+  username: string
+  email: string
+}
+
+export interface Onchain {
+  pending_balance: number
+  escrow_balance: number
+  escrow_address: string
+  host: BlockPartyHost
+}
+
+export interface BlockPartyOrder {
+  id: number
+  block_party_speed: string
+  account: BlockPartyHost
+  created_at: Date
 }
