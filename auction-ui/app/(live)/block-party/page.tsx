@@ -55,14 +55,9 @@ function BlockPartyPage() {
 
   useEffect(() => {
     const fetchBlockParties = async () => {
-      if (!token) {
-        router.push('/login')
-
-        return
-      }
       setPageLoading(true)
 
-      const data = await getBlockParty({ id: 1, token: token })
+      const data = await getBlockParty({ id: 1 })
       setBlockParty(data.block_party)
       setBlockPartyOrders(data.orders)
       setBlockPartyOnchain(data.onchain)
@@ -75,6 +70,13 @@ function BlockPartyPage() {
   const handleCreateOrder = async () => {
     setPayment(false)
     setLoading(true)
+
+    if (!token) {
+      router.push('/login')
+
+      return
+    }
+
     if (!blockParty || !account) {
       return
     }
