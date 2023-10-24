@@ -56,6 +56,8 @@ function BlockPartyPage() {
   useEffect(() => {
     const fetchBlockParties = async () => {
       if (!token) {
+        router.push('/login')
+
         return
       }
       setPageLoading(true)
@@ -117,7 +119,7 @@ function BlockPartyPage() {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
         <Loader />
-        <p className="m-1 animate-pulse text-gray-600">Loading bloack party details...</p>
+        <p className="m-1 animate-pulse text-gray-600">Loading block party details...</p>
       </div>
     )
   }
