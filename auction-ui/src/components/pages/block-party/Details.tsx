@@ -88,6 +88,18 @@ function BlockPartyDetails({
             <p className="text-sm leading-6 text-gray-900">6.25 btc</p>
           </div>
         </li>
+        <li className="flex justify-between gap-x-6 py-5">
+          <div className="flex min-w-0 gap-x-4">
+            <div className="min-w-0 flex-auto">
+              <p className="flex items-center justify-center text-sm font-semibold leading-6 text-gray-900">Potential reward per TH/s</p>
+            </div>
+          </div>
+          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+            <p className="text-sm leading-6 text-gray-900">
+              {formatMoney(Math.floor((6.25 / blockParty.hashrate_ths) * 1_000_000_000))} sats
+            </p>
+          </div>
+        </li>
       </ul>
     </section>
   )
