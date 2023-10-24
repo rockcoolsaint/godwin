@@ -220,7 +220,7 @@ function BlockPartyPage() {
                 <Listbox value={selectDuration} onChange={handleSelectDuration}>
                   {({ open }) => (
                     <div className="relative">
-                      <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:w-9/12 sm:text-sm sm:leading-6">
+                      <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:w-11/12 sm:text-sm sm:leading-6">
                         <span className="block truncate capitalize">
                           {selectDuration.name} ({selectDuration.value} TH/s)
                         </span>
@@ -236,14 +236,14 @@ function BlockPartyPage() {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/50 focus:outline-none sm:w-9/12 sm:text-sm">
+                        <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/50 focus:outline-none sm:w-11/12 sm:text-sm">
                           {DURATION.map(value => (
                             <Listbox.Option
                               key={value.name}
                               className={({ active }) =>
                                 clsx(
                                   active ? 'bg-primary text-white' : 'text-gray-900',
-                                  'relative cursor-default select-none py-2 pl-3 pr-9 text-xs sm:text-base',
+                                  'relative cursor-default select-none py-2 pl-3 pr-9 text-xs sm:text-sm',
                                 )
                               }
                               value={value}
