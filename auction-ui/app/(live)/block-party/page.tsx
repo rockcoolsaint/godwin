@@ -214,7 +214,7 @@ function BlockPartyPage() {
             <div className="mb-6 grid gap-2">
               <div className="grid grid-cols-2 text-sm">
                 <p>Hashrate goal</p>
-                <p className="font-bold">{blockParty?.hashrate_ths} TH/s</p>
+                <p className="font-bold">{formatMoney(blockParty?.hashrate_ths)} TH/s</p>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Hashprice</p>
