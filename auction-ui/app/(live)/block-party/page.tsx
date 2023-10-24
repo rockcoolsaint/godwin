@@ -17,7 +17,6 @@ import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
 import { getBlockParty } from 'src/api/block-party/getBlockParty'
 import { BlockParty, BlockPartyOnchain, BlockPartyOrder } from 'src/types'
 import { useQueryState } from 'src/hooks/useQueryState'
-import NotFoundComponent from 'src/components/shared/NotFoundComponent'
 
 const DURATION = [
   { name: 'slow', value: 21, amount: 5500 },
@@ -34,6 +33,7 @@ function BlockPartyPage() {
   const [blockPartyOnchain, setBlockPartyOnchain] = useState<BlockPartyOnchain | undefined>(undefined)
   const [payment, setPayment] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [pageLoading, setPageLoading] = useState(false)
   const router = useRouter()
   const [paidOrder] = useQueryState<string>('paid_order')
 
@@ -57,11 +57,13 @@ function BlockPartyPage() {
       if (!token) {
         return
       }
+      setPageLoading(true)
 
       const data = await getBlockParty({ id: 1, token: token })
       setBlockParty(data.block_party)
       setBlockPartyOrders(data.orders)
       setBlockPartyOnchain(data.onchain)
+      setPageLoading(false)
     }
 
     fetchBlockParties()
@@ -80,8 +82,6 @@ function BlockPartyPage() {
       order_type: 'block_party',
       block_party_speed: selectDuration.name.toLocaleLowerCase(),
     })
-
-    console.log('order is ', order)
 
     let payment = undefined
     if (order?.id) {
@@ -112,15 +112,7 @@ function BlockPartyPage() {
     return null
   }
 
-  if (!account) {
-    return (
-      <div className="flex h-screen flex-col items-center justify-center">
-        <NotFoundComponent message="Please log in to view block party details" />
-      </div>
-    )
-  }
-
-  if (!blockParty) {
+  if (pageLoading || !blockParty) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
         <Loader />
