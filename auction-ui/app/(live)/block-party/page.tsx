@@ -18,6 +18,7 @@ import { getBlockParty } from 'src/api/block-party/getBlockParty'
 import { BlockParty, BlockPartyOnchain, BlockPartyOrder } from 'src/types'
 import { useQueryState } from 'src/hooks/useQueryState'
 import { formatDate } from 'src/utils/date'
+import DetailsModal from 'src/components/pages/block-party/DetailsModal'
 
 const DURATION = [
   { name: 'slow', value: 21, amount: 5500 },
@@ -37,6 +38,7 @@ function BlockPartyPage() {
   const [pageLoading, setPageLoading] = useState(false)
   const router = useRouter()
   const [paidOrder] = useQueryState<string>('paid_order')
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false)
 
   const handleSelectDuration = (val: any) => {
     setSelectDuration(val)
@@ -78,6 +80,13 @@ function BlockPartyPage() {
     }
 
     if (!blockParty || !account) {
+      return
+    }
+
+    if (!Boolean(account.username) || !Boolean(account.refund_address)) {
+      setLoading(false)
+      setDetailsModalOpen(true)
+
       return
     }
 
@@ -293,6 +302,8 @@ function BlockPartyPage() {
 
         {renderConfetti()}
       </div>
+
+      <DetailsModal isOpen={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} />
     </section>
   )
 }

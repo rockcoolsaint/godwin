@@ -71,7 +71,7 @@ export default function CollectionsFilter({ open, setShowModal, setAuctions, set
   )
 
   return (
-    <Modal className="w-1/4 border border-green-700 p-2" open={open} onClose={onClose}>
+    <Modal className="w-1/4 p-2" open={open} onClose={onClose}>
       <Modal.Header>
         <Modal.Title>
           <div className="w-3/3 flex items-center justify-between py-4">
