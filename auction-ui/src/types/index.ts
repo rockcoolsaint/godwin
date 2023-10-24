@@ -162,6 +162,7 @@ export interface BlockPartyResponse {
   block_party: BlockParty
   orders: BlockPartyOrder[]
   onchain: BlockPartyOnchain
+  terahash_to_goal: number
 }
 
 export interface BlockParty {
