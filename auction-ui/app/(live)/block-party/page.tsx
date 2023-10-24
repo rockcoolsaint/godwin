@@ -17,6 +17,7 @@ import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
 import { getBlockParty } from 'src/api/block-party/getBlockParty'
 import { BlockParty, BlockPartyOnchain, BlockPartyOrder } from 'src/types'
 import { useQueryState } from 'src/hooks/useQueryState'
+import { formatDate } from 'src/utils/date'
 
 const DURATION = [
   { name: 'slow', value: 21, amount: 5500 },
@@ -122,7 +123,7 @@ function BlockPartyPage() {
   }
 
   return (
-    <section className="relative mx-auto my-16 flex max-w-7xl flex-col">
+    <section className="relative mx-auto my-16 flex max-w-7xl flex-col px-4 sm:px-0">
       {payment && (
         <span className="absolute left-1/3 mx-auto inline-flex items-center rounded-md bg-green-500/10 p-2 px-4 text-base font-medium text-green-800 ring-1 ring-inset ring-green-500/20">
           <CheckCircleIcon className="-ml-0.5 mr-1 h-5 w-5" aria-hidden="true" />
@@ -206,14 +207,16 @@ function BlockPartyPage() {
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Duration</p>
-                <p className="font-bold">{blockParty?.duration_seconds / 3600} hrs - October 31 @ 00:00 UTC</p>
+                <p className="font-bold">
+                  {blockParty?.duration_seconds / 3600} hrs - {formatDate(blockParty.hashrate_end, 'MMM dd, yyyy H:mmaa')}
+                </p>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p></p>
                 <Listbox value={selectDuration} onChange={handleSelectDuration}>
                   {({ open }) => (
                     <div className="relative">
-                      <Listbox.Button className="relative w-9/12 cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm sm:leading-6">
+                      <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:w-9/12 sm:text-sm sm:leading-6">
                         <span className="block truncate capitalize">
                           {selectDuration.name} ({selectDuration.value} TH/s)
                         </span>
@@ -229,14 +232,14 @@ function BlockPartyPage() {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-9/12 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/50 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/50 focus:outline-none sm:w-9/12 sm:text-sm">
                           {DURATION.map(value => (
                             <Listbox.Option
                               key={value.name}
                               className={({ active }) =>
                                 clsx(
                                   active ? 'bg-primary text-white' : 'text-gray-900',
-                                  'relative cursor-default select-none py-2 pl-3 pr-9',
+                                  'relative cursor-default select-none py-2 pl-3 pr-9 text-xs sm:text-base',
                                 )
                               }
                               value={value}
