@@ -2,7 +2,9 @@ import Link from 'src/components/shared/Link'
 import { BlockPartyOnchain } from 'src/types'
 import { formatMoney } from 'src/utils/currency'
 
-function BlockPartyOnchainDetails({ onchain }: { onchain: BlockPartyOnchain }) {
+function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) {
+  if (!onchain) return null
+
   return (
     <ul role="list" className="divide-y divide-gray-100">
       <li className="flex justify-between gap-x-6 py-5">

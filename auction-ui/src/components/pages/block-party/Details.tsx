@@ -3,7 +3,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 function BlockPartyDetails() {
   return (
-    <section className="flex flex-col items-center px-4">
+    <section className="flex flex-col items-center">
       <button
         type="button"
         className="inline-flex w-6/12 items-center justify-center gap-x-2 rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
