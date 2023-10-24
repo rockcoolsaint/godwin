@@ -170,7 +170,7 @@ function BlockPartyPage() {
                 Live feed
               </Tab>
             </Tab.List>
-            <Tab.Panels className="mt-2 h-full overflow-scroll pb-16">
+            <Tab.Panels className="scrollbar-hide mt-2 h-full overflow-scroll pb-16">
               <Tab.Panel className="w-full rounded-xl bg-white p-3">
                 <BlockPartyDetails blockParty={blockParty} blockPartyOrders={blockPartyOrders} />
               </Tab.Panel>

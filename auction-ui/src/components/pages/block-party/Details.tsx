@@ -4,8 +4,24 @@ import { BlockParty, BlockPartyOrder } from 'src/types'
 import { formatMoney } from 'src/utils/currency'
 import useSoloMineCalculator from 'src/hooks/useSoloMineCalculator'
 
+const DURATION = [
+  { name: 'slow', value: 21, amount: 5500 },
+  { name: 'medium', value: 100, amount: 10500 },
+  { name: 'fast', value: 210, amount: 20500 },
+]
+
 function BlockPartyDetails({ blockParty, blockPartyOrders }: { blockParty: BlockParty | null; blockPartyOrders: BlockPartyOrder[] }) {
-  const { chancePerBlock } = useSoloMineCalculator({ customHashrate: blockParty?.hashrate_ths })
+  const { chancePerBlockDay } = useSoloMineCalculator({ customHashrate: blockParty?.hashrate_ths })
+
+  const totalHashrate = blockPartyOrders.reduce((acc, order) => {
+    const duration = order.block_party_speed
+    const durationValue = DURATION.find(d => d.name === duration)
+    if (durationValue) {
+      return acc + durationValue.value
+    }
+
+    return acc
+  }, 0)
 
   if (!blockParty) return null
 
@@ -18,7 +34,7 @@ function BlockPartyDetails({ blockParty, blockPartyOrders }: { blockParty: Block
         <svg className="h-1.5 w-1.5 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
           <circle cx={3} cy={3} r={3} />
         </svg>
-        19.514 PH/s to goal
+        {totalHashrate} PH/s to goal
       </button>
       <ul role="list" className="w-full divide-y divide-gray-100">
         <li className="flex justify-between gap-x-6 py-5">
@@ -57,7 +73,7 @@ function BlockPartyDetails({ blockParty, blockPartyOrders }: { blockParty: Block
             </div>
           </div>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm leading-6 text-gray-900">1 in {formatMoney(chancePerBlock)}</p>
+            <p className="text-sm leading-6 text-gray-900">1 in {formatMoney(chancePerBlockDay)}</p>
           </div>
         </li>
         <li className="flex justify-between gap-x-6 py-5">
