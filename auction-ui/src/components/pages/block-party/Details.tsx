@@ -96,7 +96,7 @@ function BlockPartyDetails({
           </div>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
             <p className="text-sm leading-6 text-gray-900">
-              {formatMoney(Math.floor((6.25 / blockParty.hashrate_ths) * 1_000_000_000))} sats
+              {formatMoney(Math.floor((6.25 / blockParty.hashrate_ths) * 100_000_000))} sats
             </p>
           </div>
         </li>
