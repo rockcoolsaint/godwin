@@ -33,6 +33,7 @@ function BlockPartyPage() {
   const [blockParty, setBlockParty] = useState<BlockParty | null>(null)
   const [blockPartyOrders, setBlockPartyOrders] = useState<BlockPartyOrder[]>([])
   const [blockPartyOnchain, setBlockPartyOnchain] = useState<BlockPartyOnchain | undefined>(undefined)
+  const [terahasToGoal, setTerahashToGoal] = useState<number>(0)
   const [payment, setPayment] = useState(false)
   const [loading, setLoading] = useState(false)
   const [pageLoading, setPageLoading] = useState(false)
@@ -63,6 +64,7 @@ function BlockPartyPage() {
       setBlockParty(data.block_party)
       setBlockPartyOrders(data.orders)
       setBlockPartyOnchain(data.onchain)
+      setTerahashToGoal(data.terahash_to_goal)
       setPageLoading(false)
     }
 
@@ -186,7 +188,7 @@ function BlockPartyPage() {
             </Tab.List>
             <Tab.Panels className="scrollbar-hide mt-2 h-full overflow-scroll pb-16">
               <Tab.Panel className="w-full rounded-xl bg-white p-3">
-                <BlockPartyDetails blockParty={blockParty} blockPartyOrders={blockPartyOrders} />
+                <BlockPartyDetails blockParty={blockParty} blockPartyOrders={blockPartyOrders} valueToGoal={terahasToGoal} />
               </Tab.Panel>
               <Tab.Panel className="rounded-xl bg-white p-3">
                 <BlockPartyBuyers blockPartyOrders={blockPartyOrders} />
@@ -212,7 +214,7 @@ function BlockPartyPage() {
             <div className="mb-6 grid gap-2">
               <div className="grid grid-cols-2 text-sm">
                 <p>Hashrate goal</p>
-                <p className="font-bold">{blockParty?.hashrate_ths / 1000} PH/s</p>
+                <p className="font-bold">{blockParty?.hashrate_ths} TH/s</p>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Hashprice</p>
