@@ -202,8 +202,8 @@ function BlockPartyPage() {
           <aside className="mt-2">
             <div className="mb-6 grid gap-2">
               <div className="grid grid-cols-2 text-sm">
-                <p>Hashrate</p>
-                <p className="font-bold">{blockParty?.hashrate_ths / 1000} TH/s</p>
+                <p>Hashrate goal</p>
+                <p className="font-bold">{blockParty?.hashrate_ths / 1000} PH/s</p>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Hashprice</p>
