@@ -1,7 +1,8 @@
 import { makeClientRequest } from 'src/api/clientRequest'
+import { BlockPartyResponse } from 'src/types'
 
-export async function getBlockParty(id: string, token: string): Promise<any> {
-  const res = await makeClientRequest({
+export async function getBlockParty({ id, token }: { id: string; token: string }): Promise<BlockPartyResponse> {
+  const res: BlockPartyResponse = await makeClientRequest({
     method: 'GET',
     path: `/api/products/block-parties/${id}`,
     headers: {
