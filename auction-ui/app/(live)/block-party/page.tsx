@@ -18,6 +18,7 @@ import { getBlockParty } from 'src/api/block-party/getBlockParty'
 import { BlockParty, BlockPartyOnchain, BlockPartyOrder } from 'src/types'
 import { useQueryState } from 'src/hooks/useQueryState'
 import { formatDate } from 'src/utils/date'
+import DetailsModal from 'src/components/pages/block-party/DetailsModal'
 
 const DURATION = [
   { name: 'slow', value: 21, amount: 5500 },
@@ -37,6 +38,7 @@ function BlockPartyPage() {
   const [pageLoading, setPageLoading] = useState(false)
   const router = useRouter()
   const [paidOrder] = useQueryState<string>('paid_order')
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false)
 
   const handleSelectDuration = (val: any) => {
     setSelectDuration(val)
@@ -55,14 +57,9 @@ function BlockPartyPage() {
 
   useEffect(() => {
     const fetchBlockParties = async () => {
-      if (!token) {
-        router.push('/login')
-
-        return
-      }
       setPageLoading(true)
 
-      const data = await getBlockParty({ id: 1, token: token })
+      const data = await getBlockParty({ id: 1 })
       setBlockParty(data.block_party)
       setBlockPartyOrders(data.orders)
       setBlockPartyOnchain(data.onchain)
@@ -75,7 +72,21 @@ function BlockPartyPage() {
   const handleCreateOrder = async () => {
     setPayment(false)
     setLoading(true)
+
+    if (!token) {
+      router.push('/login')
+
+      return
+    }
+
     if (!blockParty || !account) {
+      return
+    }
+
+    if (!Boolean(account.username) || !Boolean(account.refund_address)) {
+      setLoading(false)
+      setDetailsModalOpen(true)
+
       return
     }
 
@@ -200,8 +211,8 @@ function BlockPartyPage() {
           <aside className="mt-2">
             <div className="mb-6 grid gap-2">
               <div className="grid grid-cols-2 text-sm">
-                <p>Hashrate</p>
-                <p className="font-bold">{blockParty?.hashrate_ths / 1000} TH/s</p>
+                <p>Hashrate goal</p>
+                <p className="font-bold">{blockParty?.hashrate_ths / 1000} PH/s</p>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Hashprice</p>
@@ -218,7 +229,7 @@ function BlockPartyPage() {
                 <Listbox value={selectDuration} onChange={handleSelectDuration}>
                   {({ open }) => (
                     <div className="relative">
-                      <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:w-9/12 sm:text-sm sm:leading-6">
+                      <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:w-11/12 sm:text-sm sm:leading-6">
                         <span className="block truncate capitalize">
                           {selectDuration.name} ({selectDuration.value} TH/s)
                         </span>
@@ -234,14 +245,14 @@ function BlockPartyPage() {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                       >
-                        <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/50 focus:outline-none sm:w-9/12 sm:text-sm">
+                        <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/50 focus:outline-none sm:w-11/12 sm:text-sm">
                           {DURATION.map(value => (
                             <Listbox.Option
                               key={value.name}
                               className={({ active }) =>
                                 clsx(
                                   active ? 'bg-primary text-white' : 'text-gray-900',
-                                  'relative cursor-default select-none py-2 pl-3 pr-9 text-xs sm:text-base',
+                                  'relative cursor-default select-none py-2 pl-3 pr-9 text-xs sm:text-sm',
                                 )
                               }
                               value={value}
@@ -291,6 +302,8 @@ function BlockPartyPage() {
 
         {renderConfetti()}
       </div>
+
+      <DetailsModal isOpen={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} />
     </section>
   )
 }
