@@ -15,7 +15,16 @@ function BlockPartyOnchainDetails({ onchain }: { onchain: BlockPartyOnchain }) {
       <li className="flex justify-between gap-x-6 py-5">
         <div className="flex min-w-0 gap-x-4">
           <div className="min-w-0 flex-auto">
-            <p className="text-sm leading-6 text-gray-900">Pending balance</p>
+            <Tooltip placement="top">
+              <TooltipTrigger>
+                <p className="flex items-center text-sm leading-6 text-gray-900">
+                  Pending balance <InformationCircleIcon className="ml-1 h-4 w-4" />
+                </p>
+              </TooltipTrigger>
+              <TooltipContent className="w-2/12 rounded  bg-gray-600 p-2 text-xs font-medium text-white">
+                Payments are transferred to the Escrow wallet periodically
+              </TooltipContent>
+            </Tooltip>
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
