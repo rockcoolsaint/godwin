@@ -21,7 +21,7 @@ function BlockPartyDetails({
     <section className="flex flex-col items-center">
       <button
         type="button"
-        className="inline-flex w-8/12 items-center justify-center gap-x-2 rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-6/12"
+        className="inline-flex w-8/12 items-center justify-center gap-x-2 rounded-md px-3.5 py-2.5 text-center text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-6/12"
       >
         <svg className="h-1.5 w-1.5 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
           <circle cx={3} cy={3} r={3} />
@@ -32,7 +32,7 @@ function BlockPartyDetails({
         <li className="flex justify-between gap-x-6 py-4">
           <div className="flex min-w-0 gap-x-4">
             <div className="min-w-0 flex-auto">
-              <p className="text-sm font-semibold leading-6 text-gray-900">Buyers</p>
+              <p className="text-sm leading-6 text-gray-900">Buyers</p>
             </div>
           </div>
           <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
@@ -42,7 +42,7 @@ function BlockPartyDetails({
         <li className="flex justify-between gap-x-6 py-4">
           <div className="flex min-w-0 gap-x-4">
             <div className="min-w-0 flex-auto">
-              <p className="text-sm font-semibold leading-6 text-gray-900">Hashrate goal</p>
+              <p className="text-sm leading-6 text-gray-900">Hashrate goal</p>
             </div>
           </div>
           <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
@@ -54,7 +54,7 @@ function BlockPartyDetails({
             <div className="min-w-0 flex-auto">
               <Tooltip placement="top">
                 <TooltipTrigger>
-                  <p className="flex items-center justify-center text-sm font-semibold leading-6 text-gray-900">
+                  <p className="flex items-center justify-center text-sm leading-6 text-gray-900">
                     Odds of finding a block <InformationCircleIcon className="ml-2 h-4 w-4" />
                   </p>
                 </TooltipTrigger>
@@ -73,7 +73,7 @@ function BlockPartyDetails({
             <div className="min-w-0 flex-auto">
               <Tooltip placement="top">
                 <TooltipTrigger>
-                  <p className="flex items-center justify-center text-sm font-semibold leading-6 text-gray-900">
+                  <p className="flex items-center justify-center text-sm leading-6 text-gray-900">
                     Potential block reward <InformationCircleIcon className="ml-2 h-4 w-4" />
                   </p>
                 </TooltipTrigger>
@@ -91,7 +91,7 @@ function BlockPartyDetails({
         <li className="flex justify-between gap-x-6 py-4">
           <div className="flex min-w-0 gap-x-4">
             <div className="min-w-0 flex-auto">
-              <p className="flex items-center justify-center text-sm font-semibold leading-6 text-gray-900">Potential reward per TH/s</p>
+              <p className="flex items-center justify-center text-sm leading-6 text-gray-900">Potential reward per TH/s</p>
             </div>
           </div>
           <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
