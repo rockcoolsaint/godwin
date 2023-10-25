@@ -58,20 +58,19 @@ function BlockPartyPage() {
     }
   }, [blockParty, paidOrder, router])
 
+  const fetchBlockParties = async () => {
+    const data = await getBlockParty({ id: 1 })
+    setBlockParty(data.block_party)
+    setBlockPartyOrders(data.orders)
+    setBlockPartyOnchain(data.onchain)
+    setTerahashToGoal(data.terahash_to_goal)
+    setPageLoading(false)
+  }
+
   useEffect(() => {
-    const fetchBlockParties = async () => {
-      setPageLoading(true)
-
-      const data = await getBlockParty({ id: 1 })
-      setBlockParty(data.block_party)
-      setBlockPartyOrders(data.orders)
-      setBlockPartyOnchain(data.onchain)
-      setTerahashToGoal(data.terahash_to_goal)
-      setPageLoading(false)
-    }
-
+    setPageLoading(true)
     fetchBlockParties()
-  }, [token])
+  }, [])
 
   const handleCreateOrder = async () => {
     setPayment(false)
@@ -306,7 +305,15 @@ function BlockPartyPage() {
         {renderConfetti()}
       </div>
 
-      {detailsModalOpen && <DetailsModal isOpen={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} />}
+      {detailsModalOpen && (
+        <DetailsModal
+          isOpen={detailsModalOpen}
+          onClose={() => {
+            setDetailsModalOpen(false)
+            fetchBlockParties()
+          }}
+        />
+      )}
     </section>
   )
 }

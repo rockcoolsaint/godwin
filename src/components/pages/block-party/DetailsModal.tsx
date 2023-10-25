@@ -101,7 +101,7 @@ const DetailsModal = ({ isOpen, onClose }: Props) => {
         toast.error('Error adding details')
       }
     },
-    [onClose, token],
+    [onClose, refresh, token],
   )
 
   return (
