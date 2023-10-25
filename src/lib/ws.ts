@@ -22,7 +22,7 @@ class WS {
         return reject('No valid ws url provided.')
       }
 
-      this.socket = new WebSocket(url)
+      this.socket = new WebSocket(`${url}`)
       this.socket.onerror = reject
       this.socket.onopen = () => {
         this.emit('authorize', { account_id: accountId, token })
