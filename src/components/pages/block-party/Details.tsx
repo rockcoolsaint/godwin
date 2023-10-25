@@ -3,19 +3,24 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { BlockParty, BlockPartyOrder } from 'src/types'
 import { formatMoney } from 'src/utils/currency'
 import useSoloMineCalculator from 'src/hooks/useSoloMineCalculator'
+import { useSatsToFiat } from 'src/hooks'
 
 function BlockPartyDetails({
   blockParty,
   blockPartyOrders,
   valueToGoal,
 }: {
-  blockParty: BlockParty | null
+  blockParty: BlockParty
   blockPartyOrders: BlockPartyOrder[]
   valueToGoal: number
 }) {
   const { chancePerBlockDay } = useSoloMineCalculator({ customHashrate: blockParty?.hashrate_ths })
 
-  if (!blockParty) return null
+  const potentialRewardValue = (6.25 / blockParty.hashrate_ths) * 100_000_000
+  const potentialRewardValueInFiat = useSatsToFiat({ initialValue: 0, bid: potentialRewardValue || 0 })
+
+  const rewardValue = 6.25
+  const rewardValueInFiat = useSatsToFiat({ initialValue: 0, bid: rewardValue * 100_000_000 || 0 })
 
   return (
     <section className="flex flex-col items-center">
@@ -85,7 +90,18 @@ function BlockPartyDetails({
             </div>
           </div>
           <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm leading-6 text-gray-900">6.25 btc</p>
+            <Tooltip placement="top">
+              <TooltipTrigger>
+                <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
+                  <p className="text-sm leading-6 text-gray-900">6.25 btc</p>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="rounded bg-gray-500 p-2 text-xs  text-white">
+                <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
+                  <p className="text-sm leading-6">${formatMoney(rewardValueInFiat)}</p>
+                </div>
+              </TooltipContent>
+            </Tooltip>
           </div>
         </li>
         <li className="flex justify-between gap-x-6 py-4">
@@ -94,11 +110,18 @@ function BlockPartyDetails({
               <p className="flex items-center justify-center text-sm leading-6 text-gray-900">Potential reward per TH/s</p>
             </div>
           </div>
-          <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm leading-6 text-gray-900">
-              {formatMoney(Math.floor((6.25 / blockParty.hashrate_ths) * 100_000_000))} sats
-            </p>
-          </div>
+          <Tooltip placement="top">
+            <TooltipTrigger>
+              <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
+                <p className="text-sm leading-6 text-gray-900">{formatMoney(potentialRewardValue)} sats</p>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className="rounded bg-gray-500 p-2 text-xs  text-white">
+              <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
+                <p className="text-sm leading-6">${formatMoney(potentialRewardValueInFiat)}</p>
+              </div>
+            </TooltipContent>
+          </Tooltip>
         </li>
       </ul>
     </section>

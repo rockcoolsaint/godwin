@@ -19,6 +19,8 @@ import { BlockParty, BlockPartyOnchain, BlockPartyOrder } from 'src/types'
 import { useQueryState } from 'src/hooks/useQueryState'
 import { formatDate } from 'src/utils/date'
 import DetailsModal from 'src/components/pages/block-party/DetailsModal'
+import { useSatsToFiat } from 'src/hooks'
+import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 
 const DURATION = [
   { name: 'slow', value: 21, amount: 5500 },
@@ -127,6 +129,7 @@ function BlockPartyPage() {
 
     return null
   }
+  const hashPriceFiat = useSatsToFiat({ initialValue: 0, bid: blockParty?.hashprice || 0 })
 
   if (pageLoading || !blockParty) {
     return (
@@ -194,7 +197,7 @@ function BlockPartyPage() {
                 <BlockPartyBuyers blockPartyOrders={blockPartyOrders} />
               </Tab.Panel>
               <Tab.Panel className="rounded-xl bg-white px-3">
-                <BlockPartyOnchainDetails onchain={blockPartyOnchain} />
+                {blockPartyOnchain && <BlockPartyOnchainDetails onchain={blockPartyOnchain} />}
               </Tab.Panel>
               <Tab.Panel className="rounded-xl bg-white p-3">
                 <div className="flex h-full flex-col items-center justify-center">
@@ -218,7 +221,12 @@ function BlockPartyPage() {
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Hashprice</p>
-                <p>{blockParty?.hashprice} sats per TH/s/day</p>
+                <Tooltip placement="top">
+                  <TooltipTrigger>
+                    <p className="-ml-5">{blockParty?.hashprice} sats per TH/s/day</p>
+                  </TooltipTrigger>
+                  <TooltipContent className="rounded bg-gray-500 p-2 text-xs  text-white">${formatMoney(hashPriceFiat)}</TooltipContent>
+                </Tooltip>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Duration</p>

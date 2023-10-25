@@ -4,9 +4,11 @@ import { Tooltip, TooltipTrigger, TooltipContent } from 'src/components/shared/T
 import { BlockPartyOnchain } from 'src/types'
 import { formatMoney } from 'src/utils/currency'
 import shortenAddress from 'src/utils/shortenAddress'
+import { useSatsToFiat } from 'src/hooks'
 
-function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) {
-  if (!onchain) return null
+function BlockPartyOnchainDetails({ onchain }: { onchain: BlockPartyOnchain }) {
+  const pendingBalanceFiat = useSatsToFiat({ initialValue: 0, bid: onchain.pending_balance || 0 })
+  const escrowBalanceFiat = useSatsToFiat({ initialValue: 0, bid: onchain.escrow_balance || 0 })
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
@@ -17,7 +19,14 @@ function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) 
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
-          <p className="text-sm leading-6 text-gray-900">{formatMoney(onchain.pending_balance)} sats</p>
+          <Tooltip placement="top-end">
+            <TooltipTrigger>
+              <p className="text-sm leading-6 text-gray-900">{formatMoney(onchain.pending_balance)} sats</p>
+            </TooltipTrigger>
+            <TooltipContent className="rounded bg-gray-600 p-2 text-xs font-medium text-white">
+              ${formatMoney(pendingBalanceFiat)}
+            </TooltipContent>
+          </Tooltip>
         </div>
       </li>
       <li className="flex justify-between gap-x-6 py-5">
@@ -27,7 +36,14 @@ function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) 
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
-          <p className="text-sm leading-6 text-gray-900">{formatMoney(onchain.escrow_balance)}</p>
+          <Tooltip placement="top-end">
+            <TooltipTrigger>
+              <p className="text-sm leading-6 text-gray-900">{formatMoney(onchain.escrow_balance)}</p>{' '}
+            </TooltipTrigger>
+            <TooltipContent className="rounded bg-gray-600 p-2 text-xs font-medium text-white">
+              ${formatMoney(escrowBalanceFiat)}
+            </TooltipContent>
+          </Tooltip>
         </div>
       </li>
       <li className="flex justify-between gap-x-6 py-5">
