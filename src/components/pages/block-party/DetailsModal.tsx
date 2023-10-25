@@ -21,25 +21,27 @@ interface Props {
 
 interface FormInputs {
   username: string
-  walletAddress: string
+  walletAddress: string | undefined
 }
 
-const useSchema = () => {
+const useSchema = (info: FormInputs) => {
   const schema = useMemo(
     () =>
       yup
         .object({
           username: yup.string().required(),
-          walletAddress: yup
-            .string()
-            .trim()
-            .required()
-            .test('isValidAddress', 'Invalid wallet address', value => {
-              return addressUtils.isValidBitcoinAddress(value, false)
-            }),
+          walletAddress: info?.walletAddress
+            ? yup
+                .string()
+                .trim()
+                .required()
+                .test('isValidAddress', 'Invalid wallet address', value => {
+                  return addressUtils.isValidBitcoinAddress(value, false)
+                })
+            : yup.string().trim(),
         })
         .required(),
-    [],
+    [info],
   )
 
   return schema
@@ -54,7 +56,7 @@ const DetailsModal = ({ isOpen, onClose }: Props) => {
     walletAddress: '',
   }
 
-  const detailSchema = useSchema()
+  const detailSchema = useSchema(info)
 
   const {
     register,
@@ -126,9 +128,8 @@ const DetailsModal = ({ isOpen, onClose }: Props) => {
             style={{ fontSize: '0.85rem' }}
             {...register('username')}
           />
-          {errors?.username && <span className="text-danger">Username is required</span>}
 
-          <label htmlFor="walletAddress" className="mb-1 mt-4 block text-sm">
+          <label htmlFor="walletAddress" className="mb-1 mt-6 block text-sm">
             <Tooltip placement="right-end">
               <TooltipTrigger>
                 <p className="flex items-center justify-center text-sm font-semibold leading-6 text-gray-900">

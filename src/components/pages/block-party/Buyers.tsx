@@ -1,3 +1,7 @@
+'use client'
+
+import { PencilIcon } from '@heroicons/react/24/outline'
+import { useAccountContext } from 'src/providers/AccountProvider'
 import { BlockPartyOrder } from 'src/types'
 import { formatDate } from 'src/utils/date'
 
@@ -7,7 +11,15 @@ const SPEED = {
   fast: { name: 'fast', value: 210 },
 }
 
-function BlockPartyBuyers({ blockPartyOrders }: { blockPartyOrders: BlockPartyOrder[] }) {
+function BlockPartyBuyers({
+  blockPartyOrders,
+  handleSetBuyerDetail,
+}: {
+  blockPartyOrders: BlockPartyOrder[]
+  handleSetBuyerDetail: () => void
+}) {
+  const { account } = useAccountContext()
+
   return (
     <div className="-m-3 flow-root py-2">
       <div className="overflow-x-auto ">
@@ -29,7 +41,17 @@ function BlockPartyBuyers({ blockPartyOrders }: { blockPartyOrders: BlockPartyOr
             <tbody className="bg-white">
               {blockPartyOrders.map(order => (
                 <tr key={order.id} className="even:bg-gray-200">
-                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-3">{order.account.username}</td>
+                  <td className="inline-flex items-center whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-3">
+                    {order.account.username}{' '}
+                    {account && order.account.id === account.id ? (
+                      <>
+                        {' '}
+                        (You) <PencilIcon className="ml-1 h-3 w-3 hover:cursor-pointer hover:opacity-50" onClick={handleSetBuyerDetail} />
+                      </>
+                    ) : (
+                      ''
+                    )}{' '}
+                  </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <span className="capitalize">{SPEED[order.block_party_speed as keyof typeof SPEED].name}</span>
                     {' - '}

@@ -87,13 +87,6 @@ function BlockPartyPage() {
       return
     }
 
-    if (!Boolean(account.username) || !Boolean(account.refund_address)) {
-      setLoading(false)
-      setDetailsModalOpen(true)
-
-      return
-    }
-
     const order = await createOrder({
       account_id: account?.id,
       block_party_id: blockParty.id,
@@ -194,7 +187,7 @@ function BlockPartyPage() {
                 <BlockPartyDetails blockParty={blockParty} blockPartyOrders={blockPartyOrders} valueToGoal={terahasToGoal} />
               </Tab.Panel>
               <Tab.Panel className="rounded-xl bg-white p-3">
-                <BlockPartyBuyers blockPartyOrders={blockPartyOrders} />
+                <BlockPartyBuyers blockPartyOrders={blockPartyOrders} handleSetBuyerDetail={() => setDetailsModalOpen(true)} />
               </Tab.Panel>
               <Tab.Panel className="rounded-xl bg-white px-3">
                 {blockPartyOnchain && <BlockPartyOnchainDetails onchain={blockPartyOnchain} />}
@@ -297,7 +290,7 @@ function BlockPartyPage() {
             <button
               disabled={loading}
               onClick={handleCreateOrder}
-              className="relative flex w-full flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient p-4 text-sm font-semibold capitalize text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10 disabled:bg-gradient-disabled sm:w-8/12"
+              className="relative flex w-full flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient p-4 text-sm font-medium capitalize text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10 disabled:bg-gradient-disabled sm:w-8/12"
             >
               {loading ? (
                 <Loader height={20} width={20} />
@@ -313,7 +306,7 @@ function BlockPartyPage() {
         {renderConfetti()}
       </div>
 
-      <DetailsModal isOpen={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} />
+      {detailsModalOpen && <DetailsModal isOpen={detailsModalOpen} onClose={() => setDetailsModalOpen(false)} />}
     </section>
   )
 }
