@@ -76,11 +76,11 @@ function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) 
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
           <Link
-            href="https://twitter.com/bitentrepreneur"
+            href="tbd"
             target="_blank"
             className="text-sm leading-6 text-gray-900 underline hover:no-underline"
           >
-            Alejandro de la Torre
+            TBD
           </Link>
         </div>
       </li>
