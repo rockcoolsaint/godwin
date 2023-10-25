@@ -214,15 +214,15 @@ function BlockPartyPage() {
             <div className="mb-6 grid gap-2">
               <div className="grid grid-cols-2 text-sm">
                 <p>Hashrate goal</p>
-                <p className="font-bold">{formatMoney(blockParty?.hashrate_ths)} TH/s</p>
+                <p>{formatMoney(blockParty?.hashrate_ths)} TH/s</p>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Hashprice</p>
-                <p className="font-bold">{blockParty?.hashprice} sats per TH/s/day</p>
+                <p>{blockParty?.hashprice} sats per TH/s/day</p>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Duration</p>
-                <p className="font-bold">
+                <p>
                   {blockParty?.duration_seconds / 3600} hrs - {formatDate(blockParty.hashrate_end, 'MMM dd, yyyy H:mmaa')}
                 </p>
               </div>

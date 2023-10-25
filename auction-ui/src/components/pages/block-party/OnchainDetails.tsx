@@ -13,7 +13,7 @@ function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) 
       <li className="flex justify-between gap-x-6 py-5">
         <div className="flex min-w-0 gap-x-4">
           <div className="min-w-0 flex-auto">
-            <p className="text-sm font-semibold leading-6 text-gray-900">Pending balance</p>
+            <p className="text-sm leading-6 text-gray-900">Pending balance</p>
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
@@ -23,7 +23,7 @@ function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) 
       <li className="flex justify-between gap-x-6 py-5">
         <div className="flex min-w-0 gap-x-4">
           <div className="min-w-0 flex-auto">
-            <p className="text-sm font-semibold leading-6 text-gray-900">Escrow balance</p>
+            <p className="text-sm leading-6 text-gray-900">Escrow balance</p>
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
@@ -33,7 +33,7 @@ function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) 
       <li className="flex justify-between gap-x-6 py-5">
         <div className="flex min-w-0 gap-x-4">
           <div className="min-w-0 flex-auto">
-            <p className="text-sm font-semibold leading-6 text-gray-900">Escrow address</p>
+            <p className="text-sm leading-6 text-gray-900">Escrow address</p>
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
@@ -51,7 +51,7 @@ function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) 
           <div className="min-w-0 flex-auto">
             <Tooltip placement="right-end">
               <TooltipTrigger>
-                <p className="flex items-center justify-center text-sm font-semibold leading-6 text-gray-900">
+                <p className="flex items-center justify-center text-sm leading-6 text-gray-900">
                   CKPool status <InformationCircleIcon className="ml-1 h-4 w-4" />
                 </p>
               </TooltipTrigger>
@@ -71,7 +71,7 @@ function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) 
       <li className="flex justify-between gap-x-6 py-5">
         <div className="flex min-w-0 gap-x-4">
           <div className="min-w-0 flex-auto">
-            <p className="text-sm font-semibold leading-6 text-gray-900">Block Party Host</p>
+            <p className="text-sm leading-6 text-gray-900">Block Party Host</p>
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">

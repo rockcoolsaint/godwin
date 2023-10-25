@@ -15,13 +15,13 @@ function BlockPartyBuyers({ blockPartyOrders }: { blockPartyOrders: BlockPartyOr
           <table className="min-w-full divide-y divide-gray-300">
             <thead>
               <tr>
-                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">
+                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-medium text-gray-900 sm:pl-3">
                   Name
                 </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-medium text-gray-900">
                   Speed
                 </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-medium text-gray-900">
                   Time
                 </th>
               </tr>
@@ -29,7 +29,7 @@ function BlockPartyBuyers({ blockPartyOrders }: { blockPartyOrders: BlockPartyOr
             <tbody className="bg-white">
               {blockPartyOrders.map(order => (
                 <tr key={order.id} className="even:bg-gray-200">
-                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">{order.account.username}</td>
+                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-3">{order.account.username}</td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <span className="capitalize">{SPEED[order.block_party_speed as keyof typeof SPEED].name}</span>
                     {' - '}
