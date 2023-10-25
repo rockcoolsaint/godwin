@@ -35,7 +35,6 @@ jobs:
           NEXT_PUBLIC_APP_WS_SERVER_URL: ${{ secrets.NEXT_PUBLIC_APP_WS_SERVER_URL }}
           NEXT_PUBLIC_INTERCOM_ID: ${{ secrets.NEXT_PUBLIC_INTERCOM_ID }}
         run: |
-          cd auction-ui
           docker build \
             --build-arg NODE_ENV=$NODE_ENV \
             --build-arg NEXT_PUBLIC_APP_API_SERVER_URL=$NEXT_PUBLIC_APP_API_SERVER_URL \

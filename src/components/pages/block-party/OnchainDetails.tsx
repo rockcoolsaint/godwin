@@ -75,11 +75,7 @@ function BlockPartyOnchainDetails({ onchain }: { onchain?: BlockPartyOnchain }) 
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
-          <Link
-            href="tbd"
-            target="_blank"
-            className="text-sm leading-6 text-gray-900 underline hover:no-underline"
-          >
+          <Link href="#" target="_blank" className="text-sm leading-6 text-gray-900 underline hover:no-underline">
             TBD
           </Link>
         </div>

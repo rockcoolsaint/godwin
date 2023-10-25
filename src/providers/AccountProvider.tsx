@@ -98,9 +98,9 @@ export default function AccountProvider({ children }: { children: React.ReactNod
         // TODO: Implement refresh token logic instead of just accepting the account if it exists in state.
 
         // TODO: The code below interferes with some of our token logic according to @Jeezman so for now we disable it.
-        // if (account) {
-        //   return
-        // }
+        if (account) {
+          return
+        }
 
         try {
           setIsLoading(true)
@@ -123,7 +123,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
       }
       authorize()
     }
-  }, [pathName, router])
+  }, [pathName, router, account])
 
   return (
     <AccountContext.Provider value={{ account, token, authCode, isLoading, login, logout, refresh }}>{children}</AccountContext.Provider>

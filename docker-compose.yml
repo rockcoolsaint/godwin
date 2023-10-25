@@ -1,14 +1,14 @@
-version: "3.9"
+version: '3.9'
 
 services:
   nextjs:
     ports:
-      - "3000:3000"
+      - '3000:3000'
     build:
       context: auction-ui
       dockerfile: Dockerfile.dev
     volumes:
-      - ./auction-ui:/app
+      - .:/app
       - nextjs-dev-node_modules:/app/node_modules
       - nextjs-dev-next:/app/.next
     restart: always
