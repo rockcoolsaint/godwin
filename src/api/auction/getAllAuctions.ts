@@ -23,7 +23,7 @@ export async function getAllAuctions({
   const auctions: AllAuctionsResponse = await makeClientRequest({
     method: 'GET',
     path:
-      `/api/auctions?limit=${limit}&offset=${offset}&sorting=${sorting}` +
+      `/api/auctions?limit=${limit}&offset=${offset}&order=${sorting}` +
       (auction_type ? `&auction_type=${auction_type}` : ``) +
       (auction_status ? `&auction_status=${auction_status}` : ``) +
       (sort_by ? `&sort_by=${sort_by}` : ``) +
