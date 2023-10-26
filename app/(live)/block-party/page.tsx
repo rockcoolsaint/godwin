@@ -17,10 +17,10 @@ import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
 import { getBlockParty } from 'src/api/block-party/getBlockParty'
 import { BlockParty, BlockPartyOnchain, BlockPartyOrder } from 'src/types'
 import { useQueryState } from 'src/hooks/useQueryState'
-import { formatDate } from 'src/utils/date'
 import DetailsModal from 'src/components/pages/block-party/DetailsModal'
 import { useSatsToFiat } from 'src/hooks'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
+import Link from 'src/components/shared/Link'
 
 const DURATION = [
   { name: 'slow', value: 21, amount: 5500 },
@@ -39,6 +39,7 @@ function BlockPartyPage() {
   const [payment, setPayment] = useState(false)
   const [loading, setLoading] = useState(false)
   const [pageLoading, setPageLoading] = useState(false)
+  const [sentinel, setSentinel] = useState(true)
   const router = useRouter()
   const [paidOrder] = useQueryState<string>('paid_order')
   const [detailsModalOpen, setDetailsModalOpen] = useState(false)
@@ -106,7 +107,7 @@ function BlockPartyPage() {
   }
 
   const renderConfetti = () => {
-    if (payment) {
+    if (payment && sentinel) {
       return (
         <Confetti
           recycle={false}
@@ -134,7 +135,7 @@ function BlockPartyPage() {
 
   return (
     <section className="relative mx-auto my-16 flex max-w-7xl flex-col px-4 sm:px-0">
-      {payment && (
+      {payment && sentinel && (
         <span className="absolute left-1/3 mx-auto inline-flex items-center rounded-md bg-green-500/10 p-2 px-4 text-base font-medium text-green-800 ring-1 ring-inset ring-green-500/20">
           <CheckCircleIcon className="-ml-0.5 mr-1 h-5 w-5" aria-hidden="true" />
           You just purchased a block party order 🎉🎉🎉
@@ -204,7 +205,12 @@ function BlockPartyPage() {
         <div className="lg:w-5/12">
           <h1>Block Party</h1>
           <p className="mt-4 text-sm">Happy White Paper Day!</p>
-          <p className="text-sm">Solo mine with Rigly - Learn more</p>
+          <p className="text-sm">
+            Solo mine with Rigly -{' '}
+            <Link target="_blank" href="https://blog.rigly.io/whitepaper-day-blockparty-20231026" className="underline hover:no-underline">
+              Learn more
+            </Link>
+          </p>
           <aside className="mt-2">
             <div className="mb-6 grid gap-2">
               <div className="grid grid-cols-2 text-sm lg:w-10/12">
@@ -308,6 +314,7 @@ function BlockPartyPage() {
           isOpen={detailsModalOpen}
           onClose={() => {
             setDetailsModalOpen(false)
+            setSentinel(false)
             fetchBlockParties()
           }}
         />
