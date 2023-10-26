@@ -6,7 +6,7 @@ export default function LiveLayout({ children }: { children: React.ReactNode }) 
   return (
     <section>
       <Header isDemo={false} />
-      <DemoAlert msg="Product in beta please report bugs using the intercom below" />
+      {/* <DemoAlert msg="Product in beta please report bugs using the intercom below" /> */}
 
       {children}
       <Footer />

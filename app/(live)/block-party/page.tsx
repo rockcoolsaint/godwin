@@ -215,16 +215,14 @@ function BlockPartyPage() {
                 <p>Hashprice</p>
                 <Tooltip placement="top">
                   <TooltipTrigger>
-                    <p className="-ml-5">{blockParty?.hashprice} sats per TH/s/day</p>
+                    <p className="text-left">{blockParty?.hashprice} sats per TH/s/day</p>
                   </TooltipTrigger>
                   <TooltipContent className="rounded bg-gray-500 p-2 text-xs  text-white">${formatMoney(hashPriceFiat)}</TooltipContent>
                 </Tooltip>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p>Duration</p>
-                <p>
-                  {blockParty?.duration_seconds / 3600} hrs - {formatDate(blockParty.hashrate_end, 'MMM dd, yyyy H:mmaa')}
-                </p>
+                <p>24 hrs @ Oct 31, 14:10 PM EDT</p>
               </div>
               <div className="grid grid-cols-2 text-sm">
                 <p></p>
