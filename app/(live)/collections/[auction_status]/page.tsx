@@ -9,9 +9,9 @@ export default async function AuctionStatusPage({
   params: { auction_status: string }
   searchParams?: { [key: string]: string | string[] | undefined }
 }) {
-  const { sort, auctionType } = searchParams as { [key: string]: string }
+  const { sort, auction_type } = searchParams as { [key: string]: string }
   const { sortKey } = sorting.find(item => item.slug === sort) || defaultSort
-  const { filterKey } = auctionTypeFiltering.find(item => item.slug === auctionType) || defaultType
+  const { filterKey } = auctionTypeFiltering.find(item => item.slug === auction_type) || defaultType
 
   const auctions = await getAllAuctions({
     limit: 21,
@@ -20,10 +20,5 @@ export default async function AuctionStatusPage({
     auction_status: params.auction_status,
   })
 
-  return (
-    <section>
-      <h1>Auctions Type page</h1>
-      <CollectionList auction={auctions?.results} />
-    </section>
-  )
+  return <CollectionList auction={auctions?.results} />
 }
