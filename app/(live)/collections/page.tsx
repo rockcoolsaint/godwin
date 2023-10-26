@@ -7,7 +7,7 @@ export default async function CollectionsPage({ searchParams }: { searchParams?:
   const { sortKey } = sorting.find(item => item.slug === sort) || defaultSort
   const { filterKey } = auctionTypeFiltering.find(item => item.slug === auction_type) || defaultType
 
-  const auctions = await getAllAuctions({ limit: 15, sort_by: sortKey.toLocaleLowerCase(), auction_type: filterKey.toLocaleLowerCase() })
+  const auctions = await getAllAuctions({ limit: 21, sort_by: sortKey.toLocaleLowerCase(), auction_type: filterKey.toLocaleLowerCase() })
 
   return <CollectionList auction={auctions?.results} />
 }
