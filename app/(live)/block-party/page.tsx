@@ -201,17 +201,17 @@ function BlockPartyPage() {
           </Tab.Group>
         </div>
 
-        <div className="">
+        <div className="lg:w-5/12">
           <h1>Block Party</h1>
           <p className="mt-4 text-sm">Happy White Paper Day!</p>
           <p className="text-sm">Solo mine with Rigly - Learn more</p>
           <aside className="mt-2">
             <div className="mb-6 grid gap-2">
-              <div className="grid grid-cols-2 text-sm">
+              <div className="grid grid-cols-2 text-sm lg:w-10/12">
                 <p>Hashrate goal</p>
                 <p>{formatMoney(blockParty?.hashrate_ths)} TH/s</p>
               </div>
-              <div className="grid grid-cols-2 text-sm">
+              <div className="grid grid-cols-2 text-sm lg:w-10/12">
                 <p>Hashprice</p>
                 <Tooltip placement="top">
                   <TooltipTrigger>
@@ -220,11 +220,11 @@ function BlockPartyPage() {
                   <TooltipContent className="rounded bg-gray-500 p-2 text-xs  text-white">${formatMoney(hashPriceFiat)}</TooltipContent>
                 </Tooltip>
               </div>
-              <div className="grid grid-cols-2 text-sm">
+              <div className="grid grid-cols-2 text-sm lg:w-10/12">
                 <p>Duration</p>
                 <p>24 hrs @ Oct 31, 14:10 PM EDT</p>
               </div>
-              <div className="grid grid-cols-2 text-sm">
+              <div className="grid grid-cols-2 text-sm lg:w-10/12">
                 <p></p>
                 <Listbox value={selectDuration} onChange={handleSelectDuration}>
                   {({ open }) => (
@@ -293,7 +293,7 @@ function BlockPartyPage() {
                 <Loader height={20} width={20} />
               ) : (
                 <>
-                  {selectDuration.name} - {formatMoney(selectDuration.amount)} sats - Buy now{' '}
+                  {selectDuration.name} - {formatMoney(Math.floor(selectDuration.value * blockParty.hashprice))} sats - Buy now{' '}
                 </>
               )}
             </button>
