@@ -1,5 +1,3 @@
-'use client'
-
 import { makeClientRequest } from 'src/api/clientRequest'
 import { AllAuctionsResponse } from 'src/api/auction/types'
 
@@ -7,9 +5,9 @@ interface Props {
   limit?: number
   offset?: number
   sorting?: 'desc' | 'asc'
-  auction_type?: 'immediate_delivery' | 'forward_date' | 'upfront_payment'
-  auction_status?: 'scheduled' | 'active' | 'completed'
-  sort_by?: 'epoch' | 'created_at' | 'hashrate' | 'time_remaining' | 'highest_bid' | 'going_hashprice' | 'status'
+  auction_type: 'immediate_delivery' | 'forward_date' | 'upfront_payment' | string
+  auction_status?: 'scheduled' | 'active' | 'completed' | string
+  sort_by?: string
   group_by?: 'auction_status'
 }
 
