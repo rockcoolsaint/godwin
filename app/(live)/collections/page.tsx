@@ -1,29 +1,13 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
-import { AllAuctionsResponse } from 'src/api/auction/types'
+import { sorting, defaultSort, auctionTypeFiltering, defaultType } from 'src/utils/constants'
 import CollectionList from 'src/components/pages/collections/CollectionsList'
 
-export default function CollectionsPage() {
-  const [auctions, setAuctions] = useState<AllAuctionsResponse | undefined>(undefined)
-  const [loading, setLoading] = useState<boolean>(true)
+export default async function CollectionsPage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const { sort, auction_type } = searchParams as { [key: string]: string }
+  const { sortKey } = sorting.find(item => item.slug === sort) || defaultSort
+  const { filterKey } = auctionTypeFiltering.find(item => item.slug === auction_type) || defaultType
 
-  useEffect(() => {
-    const prepareCollections = async () => {
-      setLoading(true)
-      try {
-        const res = await getAllAuctions({ limit: 100 })
+  const auctions = await getAllAuctions({ limit: 15, sort_by: sortKey.toLocaleLowerCase(), auction_type: filterKey.toLocaleLowerCase() })
 
-        setAuctions(res)
-      } catch (ex) {
-        console.error(ex)
-      } finally {
-        setLoading(false)
-      }
-    }
-    prepareCollections()
-  }, [])
-
-  return <CollectionList setLoading={setLoading} isLoading={loading} setAuctions={setAuctions} auction={auctions?.results} />
+  return <CollectionList auction={auctions?.results} />
 }
