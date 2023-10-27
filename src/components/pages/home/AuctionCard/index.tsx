@@ -41,7 +41,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
         <div className="mt-6 flex justify-between">
           <div className="flex flex-col items-start">
             <h5 className="mb-2 text-sm text-dark-100">{t('home.bid_end_date')}:</h5>
-            <p className="text-left font-medium">{formatDate(auction.end_at)}</p>
+            <p className="text-left font-medium">{formatDate(auction.end_at, 'do MMM, yy h:mmaa')}</p>
           </div>
           <div className="flex flex-col items-end">
             <h5 className="mb-2 text-sm text-dark-100">{t('home.number_of_bids')}</h5>

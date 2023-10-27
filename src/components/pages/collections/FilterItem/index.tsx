@@ -4,6 +4,7 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import Link from 'src/components/shared/Link'
 import { createUrl } from 'utils'
 import type { AuctionSortFilterItem, AuctionStatusFilterItem, AuctionTypeFilterItem } from 'src/utils/constants'
+import FilterItemDropdown from './dropdown'
 
 export interface PathFilterItem {
   title: string
@@ -106,18 +107,17 @@ export default function FilterItem({ item }: { item: ListItem }) {
   return 'filterKey' in item ? <AuctionTypeFilterItem item={item} /> : <SortFilterItem item={item} />
 }
 
-/* TO DO: Add filter list dropdown */
 export function FilterList({ list, title }: { list: ListItem[]; title?: string }) {
   return (
     <>
       <nav>
-        {title ? <h3 className="hidden text-xs font-medium text-neutral-500 md:block">{title}</h3> : null}
-        <ul className="hidden md:block">
+        {title ? <h3 className="hidden text-xs font-medium text-neutral-500 lg:block">{title}</h3> : null}
+        <ul className="hidden lg:block">
           <FilterItemList list={list} />
         </ul>
-        {/* <ul className="md:hidden">
+        <ul className="px-5 md:px-0 lg:hidden">
           <FilterItemDropdown list={list} />
-        </ul> */}
+        </ul>
       </nav>
     </>
   )
