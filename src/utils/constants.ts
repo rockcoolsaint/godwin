@@ -1,7 +1,7 @@
 export interface AuctionSortFilterItem {
   title: string
   slug: string | null
-  sortKey: 'STATUS' | 'EPOCH' | 'CREATED_AT' | 'HASHRATE' | 'HIGHEST_BID' | 'GOING_HASHPRICE' | 'TIME_REMAINING'
+  sortKey: 'status' | 'epoch' | 'created_at' | 'hashrate' | 'highest_bid' | 'going_hashprice' | 'time_remaining' | string
   category: 'Sort by'
 }
 
@@ -22,19 +22,19 @@ export interface AuctionTypeFilterItem {
 
 export const defaultSort: AuctionSortFilterItem = {
   title: 'Status',
-  slug: 'status',
-  sortKey: 'STATUS',
+  slug: null,
+  sortKey: '',
   category: 'Sort by',
 }
 
 export const sorting: AuctionSortFilterItem[] = [
   defaultSort,
-  { title: 'Epoch', slug: 'epoch', sortKey: 'EPOCH', category: 'Sort by' },
-  { title: 'Date created', slug: 'created_at', sortKey: 'CREATED_AT', category: 'Sort by' },
-  { title: 'Hashrate', slug: 'hashrate', sortKey: 'HASHRATE', category: 'Sort by' },
-  { title: 'Highest Bid', slug: 'highest_bid', sortKey: 'HIGHEST_BID', category: 'Sort by' },
-  { title: 'Hashprice', slug: 'going_hashprice', sortKey: 'GOING_HASHPRICE', category: 'Sort by' },
-  { title: 'Time Remaining', slug: 'time_remaining', sortKey: 'TIME_REMAINING', category: 'Sort by' },
+  { title: 'Epoch', slug: 'epoch', sortKey: 'epoch', category: 'Sort by' },
+  { title: 'Date created', slug: 'created_at', sortKey: 'created_at', category: 'Sort by' },
+  { title: 'Hashrate', slug: 'hashrate', sortKey: 'hashrate', category: 'Sort by' },
+  { title: 'Highest Bid', slug: 'highest_bid', sortKey: 'highest_bid', category: 'Sort by' },
+  { title: 'Hashprice', slug: 'going_hashprice', sortKey: 'going_hashprice', category: 'Sort by' },
+  { title: 'Time Remaining', slug: 'time_remaining', sortKey: 'time_remaining', category: 'Sort by' },
 ]
 
 export const defaultFilter: AuctionStatusFilterItem = {

@@ -44,10 +44,12 @@ function SortFilterItem({ item }: { item: AuctionSortFilterItem }) {
   const searchParams = useSearchParams()
   const active = searchParams.get('sort') === item.slug
   const q = searchParams.get('auction_type')
+  const next = searchParams.get('next')
   const href = createUrl(
     pathname,
     new URLSearchParams({
       ...(q && { auction_type: q }),
+      ...(next && { next: next }),
       ...(item.slug && item.slug.length && { sort: item.slug }),
     }),
   )
@@ -73,10 +75,12 @@ function AuctionTypeFilterItem({ item }: { item: AuctionTypeFilterItem }) {
   const searchParams = useSearchParams()
   const active = searchParams.get('auction_type') === item.slug
   const q = searchParams.get('sort')
+  const next = searchParams.get('next')
   const href = createUrl(
     pathname,
     new URLSearchParams({
       ...(q && { sort: q }),
+      ...(next && { next: next }),
       ...(item.slug && item.slug.length && { auction_type: item.slug }),
     }),
   )
@@ -103,8 +107,12 @@ export default function FilterItem({ item }: { item: ListItem }) {
   if ('path' in item) {
     return <PathFilterItem item={item} />
   }
-
-  return 'filterKey' in item ? <AuctionTypeFilterItem item={item} /> : <SortFilterItem item={item} />
+  if ('filterKey' in item) {
+    return <AuctionTypeFilterItem item={item} />
+  }
+  if ('sortKey' in item) {
+    return <SortFilterItem item={item} />
+  }
 }
 
 export function FilterList({ list, title }: { list: ListItem[]; title?: string }) {

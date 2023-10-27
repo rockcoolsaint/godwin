@@ -4,19 +4,38 @@ import { Auction } from 'src/api/auction/types'
 import { useTranslation } from 'src/hooks'
 import AuctionCard from 'src/components/pages/home/AuctionCard'
 import { Container } from 'src/core'
-import { ListBulletIcon, ViewColumnsIcon } from '@heroicons/react/24/outline'
+import { ListBulletIcon, ViewColumnsIcon, FaceFrownIcon } from '@heroicons/react/24/outline'
 import AuctionList from 'src/components/pages/home/AuctionList'
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { LocalStorageKeys } from 'src/constants/localStorage'
+import { createUrl } from 'utils'
+import { usePathname, useSearchParams } from 'next/navigation'
+import MoreAuctions from 'src/components/shared/MoreAuctions'
+
 interface Props {
-  auction: Auction[] | undefined
+  auction: Auction[]
+  count: number
 }
 
-export default function CollectionList({ auction }: Props) {
+export default function CollectionList({ auction, count }: Props) {
   const { t } = useTranslation()
   type ViewTypes = 'list' | 'card'
   const [viewType, setViewType] = useState<ViewTypes | null>(null)
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const sortBy = searchParams.get('sort')
+  const auctionType = searchParams.get('auction_type')
+  const next = searchParams.get('next')
+
+  const newParams = new URLSearchParams()
+  newParams.append('next', next ? (Number(next) + 1).toString() : `1`)
+  if (auctionType) {
+    newParams.append('auction_type', auctionType)
+  }
+  if (sortBy) {
+    newParams.append('sort', sortBy)
+  }
 
   useEffect(() => {
     const view = (window.localStorage.getItem(LocalStorageKeys.Auction.auctionView) as ViewTypes) || 'card'
@@ -57,7 +76,8 @@ export default function CollectionList({ auction }: Props) {
   const renderView = () => {
     if (!auction || auction.length === 0) {
       return (
-        <Container className="flex items-center justify-center py-20">
+        <Container className="flex h-screen flex-col items-center justify-center py-20">
+          <FaceFrownIcon className="h-24 w-24 font-extralight text-gray-500" />
           <span className="text-xl text-gray-500">No auctions available</span>
         </Container>
       )
@@ -83,10 +103,19 @@ export default function CollectionList({ auction }: Props) {
     )
   }
 
+  const showMorePath = count > auction?.length ? createUrl('', newParams) : false
+
   return (
-    <Container className="mb-20 h-full grow md:w-full ">
-      {renderCollectionsHeader()}
-      {renderView()}
+    <Container className="mb-20 grow md:w-full ">
+      <div className="flex min-h-screen flex-col justify-between">
+        {renderCollectionsHeader()}
+        {renderView()}
+        {showMorePath && (
+          <div className="">
+            <MoreAuctions path={showMorePath} />
+          </div>
+        )}
+      </div>
     </Container>
   )
 }

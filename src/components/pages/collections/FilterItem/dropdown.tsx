@@ -31,8 +31,8 @@ export default function FilterItemDropdown({ list }: { list: ListItem[] }) {
     list.forEach((listItem: ListItem) => {
       if (
         ('path' in listItem && pathname === listItem.path) ||
-        ('slug' in listItem && searchParams.get('sort') === listItem.slug) ||
-        ('filterKey' in listItem && searchParams.get('auction_type') === listItem.slug)
+        ('filterKey' in listItem && searchParams.get('auction_type') === listItem.slug) ||
+        ('sortKey' in listItem && searchParams.get('sort') === listItem.slug)
       ) {
         setActive(listItem.title)
         setTitle(listItem.category)
