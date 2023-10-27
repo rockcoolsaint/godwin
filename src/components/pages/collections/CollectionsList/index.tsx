@@ -1,30 +1,40 @@
 'use client'
 
-import { AllAuctionsResponse, Auction } from 'src/api/auction/types'
+import { Auction } from 'src/api/auction/types'
 import { useTranslation } from 'src/hooks'
 import AuctionCard from 'src/components/pages/home/AuctionCard'
-import { Container, Loader } from 'src/core'
-import { ListBulletIcon, ViewColumnsIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
+import { Container } from 'src/core'
+import { ListBulletIcon, ViewColumnsIcon, FaceFrownIcon } from '@heroicons/react/24/outline'
 import AuctionList from 'src/components/pages/home/AuctionList'
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { LocalStorageKeys } from 'src/constants/localStorage'
-import CollectionsFilter from 'src/components/pages/collections/CollectionsFilter'
+import { createUrl } from 'utils'
+import { usePathname, useSearchParams } from 'next/navigation'
+import MoreAuctions from 'src/components/shared/MoreAuctions'
+
 interface Props {
-  auction: Auction[] | undefined
-  setAuctions: (auctions: AllAuctionsResponse) => void
-  setLoading: (loading: boolean) => void
-  isLoading?: boolean
+  auction: Auction[]
+  count: number
 }
 
-export default function CollectionList({ auction, setAuctions, setLoading, isLoading }: Props) {
+export default function CollectionList({ auction, count }: Props) {
   const { t } = useTranslation()
   type ViewTypes = 'list' | 'card'
   const [viewType, setViewType] = useState<ViewTypes | null>(null)
-  const [showModal, setShowModal] = useState<boolean>(false)
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const sortBy = searchParams.get('sort')
+  const auctionType = searchParams.get('auction_type')
+  const next = searchParams.get('next')
 
-  const handleCloseModal = () => {
-    setShowModal(false)
+  const newParams = new URLSearchParams()
+  newParams.append('next', next ? (Number(next) + 1).toString() : `1`)
+  if (auctionType) {
+    newParams.append('auction_type', auctionType)
+  }
+  if (sortBy) {
+    newParams.append('sort', sortBy)
   }
 
   useEffect(() => {
@@ -35,13 +45,9 @@ export default function CollectionList({ auction, setAuctions, setLoading, isLoa
 
   const renderCollectionsHeader = () => {
     return (
-      <div className="mb-10 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         <h1 className="capitalize">{t('common.auctions')}</h1>
         <div className="flex items-center">
-          <AdjustmentsHorizontalIcon
-            onClick={() => setShowModal(true)}
-            className="mr-2 h-8 w-8 cursor-pointer rounded-sm border border-gray-400 p-1 hover:bg-gray-400"
-          />
           <ViewColumnsIcon
             onClick={() => {
               setViewType('card')
@@ -68,19 +74,10 @@ export default function CollectionList({ auction, setAuctions, setLoading, isLoa
   }
 
   const renderView = () => {
-    if (isLoading) {
-      return (
-        <Container className="h-full py-40">
-          <div className="flex items-center justify-center">
-            <Loader />
-          </div>
-        </Container>
-      )
-    }
-
     if (!auction || auction.length === 0) {
       return (
-        <Container className="flex items-center justify-center py-20">
+        <Container className="flex h-screen flex-col items-center justify-center py-20">
+          <FaceFrownIcon className="h-24 w-24 font-extralight text-gray-500" />
           <span className="text-xl text-gray-500">No auctions available</span>
         </Container>
       )
@@ -106,17 +103,19 @@ export default function CollectionList({ auction, setAuctions, setLoading, isLoa
     )
   }
 
+  const showMorePath = count > auction?.length ? createUrl('', newParams) : false
+
   return (
-    <Container className="mb-20 h-full grow py-5 ">
-      {renderCollectionsHeader()}
-      {renderView()}
-      <CollectionsFilter
-        setAuctions={setAuctions}
-        onClose={handleCloseModal}
-        open={showModal}
-        setShowModal={setShowModal}
-        setLoading={setLoading}
-      />
+    <Container className="mb-20 grow md:w-full ">
+      <div className="flex min-h-screen flex-col justify-between">
+        {renderCollectionsHeader()}
+        {renderView()}
+        {showMorePath && (
+          <div className="">
+            <MoreAuctions path={showMorePath} />
+          </div>
+        )}
+      </div>
     </Container>
   )
 }
