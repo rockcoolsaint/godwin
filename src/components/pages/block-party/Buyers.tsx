@@ -41,8 +41,10 @@ function BlockPartyBuyers({
             <tbody className="bg-white">
               {blockPartyOrders.map(order => (
                 <tr key={order.id} className="even:bg-gray-200">
-                  <td className="inline-flex items-center whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-3">
-                    {order.account.username}{' '}
+                  <td className="inline-flex w-52 items-center whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-3">
+                    <span title={order.account.username} className="block truncate">
+                      {order.account.username}
+                    </span>
                     {account && order.account.id === account.id ? (
                       <>
                         {' '}
@@ -50,7 +52,7 @@ function BlockPartyBuyers({
                       </>
                     ) : (
                       ''
-                    )}{' '}
+                    )}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     <span className="capitalize">{SPEED[order.block_party_speed as keyof typeof SPEED].name}</span>

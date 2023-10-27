@@ -93,18 +93,6 @@ function BlockPartyOnchainDetails({ onchain }: { onchain: BlockPartyOnchain }) {
           </Link>
         </div>
       </li>
-      <li className="flex justify-between gap-x-6 py-5">
-        <div className="flex min-w-0 gap-x-4">
-          <div className="min-w-0 flex-auto">
-            <p className="text-sm leading-6 text-gray-900">Block Party Host</p>
-          </div>
-        </div>
-        <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
-          <Link href="#" target="_blank" className="text-sm leading-6 text-gray-900 underline hover:no-underline">
-            TBD
-          </Link>
-        </div>
-      </li>
     </ul>
   )
 }
