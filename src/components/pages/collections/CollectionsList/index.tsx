@@ -86,7 +86,7 @@ export default function CollectionList({ auction, count }: Props) {
     return (
       <>
         {viewType === 'card' && (
-          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
+          <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 xl:gap-6 ">
             {auction.map((auction, index) => (
               <AuctionCard key={`activity-card-${index}`} auction={auction} />
             ))}
@@ -106,7 +106,7 @@ export default function CollectionList({ auction, count }: Props) {
   const showMorePath = count > auction?.length ? createUrl('', newParams) : false
 
   return (
-    <Container className="mb-20 grow md:w-full ">
+    <Container className="!mx-0 mb-20 !w-full grow md:w-full xl:mx-auto">
       <div className="flex min-h-screen flex-col justify-between">
         {renderCollectionsHeader()}
         {renderView()}
