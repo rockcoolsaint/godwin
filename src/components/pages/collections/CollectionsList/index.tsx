@@ -107,7 +107,7 @@ export default function CollectionList({ auction, count }: Props) {
 
   return (
     <Container className="!mx-0 mb-20 !w-full grow md:w-full xl:mx-auto">
-      <div className="flex min-h-screen flex-col justify-between">
+      <div className="flex min-h-screen flex-col">
         {renderCollectionsHeader()}
         {renderView()}
         {showMorePath && (
