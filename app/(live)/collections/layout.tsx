@@ -21,7 +21,7 @@ export default function CollectionsLayout({ children }: { children: React.ReactN
         </div>
       }
     >
-      <section className="mx-auto mt-10 flex max-w-screen-2xl flex-col gap-2 pb-4 text-black lg:flex-row lg:gap-6">
+      <section className="mx-auto mt-10 flex max-w-screen-2xl flex-col gap-2 pb-4 text-black lg:w-11/12 lg:flex-row lg:gap-6">
         <div className="order-first mx-auto mt-2 w-full max-w-[20rem] flex-none lg:max-w-[125px]">
           <FilterList list={filtering} title="Auction Status" />
           <div className="mt-4" />

@@ -42,7 +42,7 @@ const Footer = () => {
 
   return (
     <Container className="max-w-7xl md:w-full">
-      <section className="sm:px-6">
+      <section>
         <div className="w-12/12 mb-16 flex flex-wrap items-start justify-between border-t border-gray-300 pt-16">
           <div className="mb-4 flex items-center sm:mb-0">
             <LogoSvg />
