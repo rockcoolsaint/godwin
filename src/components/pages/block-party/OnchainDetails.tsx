@@ -88,8 +88,12 @@ function BlockPartyOnchainDetails({ onchain }: { onchain: BlockPartyOnchain }) {
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
-          <Link href="https://solo.ckpool.org/pool/" target="_blank" className="text-sm leading-6 underline hover:no-underline">
-            solo.ckpool.org/pool
+          <Link
+            href="https://solo.ckpool.org/users/39MB5SHzbQT27oGNraKcq1ZTEgvvgWruZA"
+            target="_blank"
+            className="text-sm leading-6 underline hover:no-underline"
+          >
+            solo.ckpool.org
           </Link>
         </div>
       </li>
