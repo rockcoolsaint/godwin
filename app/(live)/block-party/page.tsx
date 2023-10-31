@@ -21,6 +21,7 @@ import DetailsModal from 'src/components/pages/block-party/DetailsModal'
 import { useSatsToFiat } from 'src/hooks'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import Link from 'src/components/shared/Link'
+import BlockPartyLiveFeed from 'src/components/pages/block-party/BlockPartyLiveFeed'
 
 const DURATION = [
   { name: 'slow', value: 21, amount: 5500 },
@@ -189,13 +190,12 @@ function BlockPartyPage() {
               <Tab.Panel className="rounded-xl bg-white p-3">
                 <BlockPartyBuyers blockPartyOrders={blockPartyOrders} handleSetBuyerDetail={() => setDetailsModalOpen(true)} />
               </Tab.Panel>
-              <Tab.Panel className="rounded-xl bg-white px-3">
+              <Tab.Panel className="rounded-xl bg-white">
                 {blockPartyOnchain && <BlockPartyOnchainDetails onchain={blockPartyOnchain} />}
               </Tab.Panel>
               <Tab.Panel className="rounded-xl bg-white p-3">
                 <div className="flex h-full flex-col items-center justify-center">
-                  <ZapOff className="mt-10 h-24 w-24 text-dark-100" />
-                  <p className="ml-2 text-center text-gray-500">Live feed available when mining begins</p>
+                  <BlockPartyLiveFeed />
                 </div>
               </Tab.Panel>
             </Tab.Panels>
@@ -291,17 +291,18 @@ function BlockPartyPage() {
               </div>
             </div>
             <button
-              disabled={loading}
+              disabled={true}
               onClick={handleCreateOrder}
               className="relative flex w-full flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient p-4 text-sm font-medium capitalize text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10 disabled:bg-gradient-disabled sm:w-8/12"
             >
-              {loading ? (
+              {/* {loading ? (
                 <Loader height={20} width={20} />
               ) : (
                 <>
                   {selectDuration.name} - {formatMoney(Math.floor(selectDuration.value * blockParty.hashprice))} sats - Buy now{' '}
                 </>
-              )}
+              )} */}
+              Block party in-progress
             </button>
           </aside>
         </div>
