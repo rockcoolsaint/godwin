@@ -44,7 +44,7 @@ function BlockPartyBuyers({
                   <td className="inline-flex w-52 items-center whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-3">
                     <span title={order.account.username} className="block truncate">
                       {order.account.username}
-                    </span>
+                    </span>{' '}
                     {account && order.account.id === account.id ? (
                       <>
                         {' '}

@@ -47,7 +47,7 @@ function BlockPartyOnchainDetails({ onchain }: { onchain: BlockPartyOnchain }) {
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
           <Tooltip placement="top-end">
             <TooltipTrigger>
-              <p className="text-sm leading-6 text-gray-900">{formatMoney(onchain.escrow_balance)}</p>{' '}
+              <p className="text-sm leading-6 text-gray-900">{formatMoney(onchain.escrow_balance)} sats</p>{' '}
             </TooltipTrigger>
             <TooltipContent className="rounded bg-gray-600 p-2 text-xs font-medium text-white">
               ${formatMoney(escrowBalanceFiat)}
@@ -88,8 +88,12 @@ function BlockPartyOnchainDetails({ onchain }: { onchain: BlockPartyOnchain }) {
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
-          <Link href="https://solo.ckpool.org/pool/" target="_blank" className="text-sm leading-6 underline hover:no-underline">
-            solo.ckpool.org/pool
+          <Link
+            href="https://solo.ckpool.org/users/39MB5SHzbQT27oGNraKcq1ZTEgvvgWruZA"
+            target="_blank"
+            className="text-sm leading-6 underline hover:no-underline"
+          >
+            solo.ckpool.org
           </Link>
         </div>
       </li>
