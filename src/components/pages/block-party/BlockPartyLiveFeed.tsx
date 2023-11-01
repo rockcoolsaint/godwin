@@ -33,7 +33,7 @@ export default function BlockPartyLiveFeed() {
     return (
       <div className="flex h-full animate-pulse flex-col items-center justify-center">
         <ZapOff className="ml-10 mt-10 h-24 w-24 text-dark-100" />
-        <p className="ml-2 text-center text-gray-500">Loading livefeed data</p>
+        <p className="ml-2 text-center text-gray-500">Loading hashrate data</p>
       </div>
     )
   }
@@ -50,7 +50,7 @@ export default function BlockPartyLiveFeed() {
 
   return (
     <div className="scrollbar-hide h-full w-full overflow-scroll overflow-y-hidden">
-      <ChartComponent title={'Livefeed'} data={data} />
+      <ChartComponent title={'Hashrate'} data={data} />
     </div>
   )
 }

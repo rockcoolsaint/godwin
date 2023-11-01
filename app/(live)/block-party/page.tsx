@@ -180,7 +180,7 @@ function BlockPartyPage() {
                   } rounded-xl px-4 py-2 text-center text-sm font-medium tracking-wider`
                 }
               >
-                Live feed
+                Hash rate
               </Tab>
             </Tab.List>
             <Tab.Panels className="scrollbar-hide mt-2 h-full overflow-scroll pb-16">
@@ -190,7 +190,7 @@ function BlockPartyPage() {
               <Tab.Panel className="rounded-xl bg-white p-3">
                 <BlockPartyBuyers blockPartyOrders={blockPartyOrders} handleSetBuyerDetail={() => setDetailsModalOpen(true)} />
               </Tab.Panel>
-              <Tab.Panel className="rounded-xl bg-white">
+              <Tab.Panel className="rounded-xl bg-white p-3">
                 {blockPartyOnchain && <BlockPartyOnchainDetails onchain={blockPartyOnchain} />}
               </Tab.Panel>
               <Tab.Panel className="rounded-xl bg-white p-3">
@@ -292,17 +292,9 @@ function BlockPartyPage() {
             </div>
             <button
               disabled={true}
-              onClick={handleCreateOrder}
               className="relative flex w-full flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient p-4 text-sm font-medium capitalize text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10 disabled:bg-gradient-disabled sm:w-8/12"
             >
-              {/* {loading ? (
-                <Loader height={20} width={20} />
-              ) : (
-                <>
-                  {selectDuration.name} - {formatMoney(Math.floor(selectDuration.value * blockParty.hashprice))} sats - Buy now{' '}
-                </>
-              )} */}
-              Block party in-progress
+              Block party complete
             </button>
           </aside>
         </div>
