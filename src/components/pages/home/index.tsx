@@ -87,7 +87,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
       {!isLoggedIn && (
         <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center sm:mt-14 md:px-2 lg:px-4">
           <Gradient />
-          <div className="animate__zoomIn animate__animated mx-4 flex flex-col items-center justify-center md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 ">
+          <div className="mx-4 flex flex-col items-center justify-center md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 ">
             <div className="gradient-text mb-2 text-center text-4xl font-extrabold !leading-[1.3] text-gradient sm:text-6xl md:text-center lg:text-center">
               Bitcoin Mining Marketplace
             </div>
@@ -109,14 +109,14 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             </div>
             {!account?.email ? (
               <a
-                className="animate__animated animate__shakeX animate__slow animate__repeat-1 mt-4 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover sm:mt-2"
+                className="animate__animated animate__shakeX animate__slow mt-4 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover sm:mt-2"
                 href="#test-mine"
               >
                 start hashing
               </a>
             ) : (
               <Link
-                className="animate__animated animate__shakeX animate__slow animate__repeat-1 mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
+                className="animate__animated animate__shakeX animate__slow mt-2 block rounded-lg bg-gradient p-4 px-5 text-base capitalize text-white hover:bg-gradient-hover"
                 href="/collections"
               >
                 start hashing
