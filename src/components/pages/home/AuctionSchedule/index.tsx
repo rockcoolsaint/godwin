@@ -182,7 +182,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
   }
 
   return (
-    <section id="auction-market" className="elegant-gradient mt-28 pb-24 pt-28 sm:mt-0 sm:pt-0">
+    <section id="auction-market" className="mt-28 pb-24 pt-28 sm:mt-0 sm:pt-0">
       <Container className="w-12/12 flex items-center justify-center !px-1 sm:w-8/12">
         <section className="flex flex-col items-center justify-center sm:pl-0">
           <h1 className="mb-4 text-primary">Auction Market</h1>
