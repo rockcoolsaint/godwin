@@ -150,7 +150,7 @@ export default function Mining() {
         <p className="mb-8 text-center text-sm italic text-gray-600">
           Try mining today. Includes mining pool account with{' '}
           <Link href="https://braiins.com/pool" className="underline hover:no-underline" target="_blank">
-            Brains
+            Braiins pool
           </Link>
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center xl:w-9/12">
