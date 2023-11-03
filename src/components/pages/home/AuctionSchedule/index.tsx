@@ -28,7 +28,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
   const initialSorting = useMemo(() => {
     return [
       {
-        id: 'end_at',
+        id: 'epoch',
         desc: false, // columns sorting are inverted - so this is actually descending
       },
     ]
@@ -43,7 +43,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
 
   const columns = [
     columnHelper.accessor(row => row.epoch?.epoch_number, {
-      id: 'Epoch',
+      id: 'epoch',
       cell: cell => {
         if (cell.row.original.epoch?.epoch_number) {
           return (
