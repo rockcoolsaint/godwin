@@ -12,6 +12,7 @@ import { createOrder } from 'src/api/orders/createOrder'
 import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
 import { useRouter } from 'next/navigation'
 import { register as postRegister } from 'src/api/auth/register'
+import Link from 'src/components/shared/Link'
 
 const useSignUpSchema = () => {
   const schema = useMemo(
@@ -144,9 +145,15 @@ export default function Mining() {
 
   return (
     <Container id="test-mine" className="flex items-center justify-center sm:h-screen">
-      <section className="flex w-full flex-col items-center justify-center py-24 sm:w-3/12 sm:py-0">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
-          <h1 className="mb-4">Test Drive</h1>
+      <section className="flex w-full flex-col items-center justify-center py-24 sm:w-3/12 sm:py-0 md:w-5/12 lg:w-4/12 xl:w-4/12">
+        <h1>Test Drive</h1>
+        <p className="mb-8 text-center text-sm italic text-gray-600">
+          Try mining today. Includes mining pool account with{' '}
+          <Link href="https://braiins.com/pool" className="underline hover:no-underline" target="_blank">
+            Brains
+          </Link>
+        </p>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center xl:w-9/12">
           <div className="flex">
             <div>
               <h5 className="font-semibold">Hashrate</h5>
