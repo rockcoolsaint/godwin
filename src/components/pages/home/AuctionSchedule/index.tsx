@@ -47,9 +47,17 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
       cell: cell => {
         if (cell.row.original.epoch?.epoch_number) {
           return (
-            <p>
-              {formatDate(cell.row.original.epoch?.start_time, 'MMM d')} - {formatDate(cell.row.original.epoch?.end_time, 'MMM d')}
-            </p>
+            <Tooltip placement="top">
+              <TooltipTrigger>
+                <p>
+                  {formatDate(cell.row.original.epoch?.start_time, 'MMM d')} - {formatDate(cell.row.original.epoch?.end_time, 'MMM d')}
+                </p>
+              </TooltipTrigger>
+
+              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                Epoch {cell.row.original.epoch?.epoch_number}
+              </TooltipContent>
+            </Tooltip>
           )
         } else {
           return <p>N/A</p>
