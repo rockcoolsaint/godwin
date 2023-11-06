@@ -24,7 +24,7 @@ import useSatsToFiat from 'src/hooks/useSatsToFiat'
 import { useMobileScreen } from 'src/hooks/useIsMobile'
 import { useMemo } from 'react'
 
-export default function AuctionSchedule({ auctionsData }: { auctionsData: Auction[] }) {
+export default function AuctionSchedule({ auctionsData, showLink }: { auctionsData: Auction[]; showLink?: boolean }) {
   const initialSorting = useMemo(() => {
     return [
       {
@@ -270,9 +270,11 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
               </span>
             </div>
           </div>
-          <Link className="mb-16 mt-4 text-xs text-primary underline sm:text-sm" href="/collections">
-            View previous auctions
-          </Link>
+          {showLink && (
+            <Link className="mb-16 mt-4 text-xs text-primary underline sm:text-sm" href="/auction-market">
+              View more auctions
+            </Link>
+          )}
         </section>
       </Container>
     </section>
