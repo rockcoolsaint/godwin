@@ -95,6 +95,13 @@ const faqs = [
             <p>Your mining profitability depends upon a number of factors: future mining difficulty, hashprice, transaction fees and more. Mining profits will vary based on pool payout method.</p>  
         `,
       },
+      {
+        question: 'What if my miner is underperforming / running at a low speed?',
+        answer: `
+            <p>
+              In scenarios like this your hashrate will be extended by the number of days that adequately compensates for the underperformance or slow speed.</p>  
+        `,
+      },
     ],
   },
   {
