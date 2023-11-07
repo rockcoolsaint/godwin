@@ -15,6 +15,10 @@ import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order } from 'src/types'
 import toast from 'react-hot-toast'
 import { useNotificationsContext } from 'src/providers/NotificationsProvider'
+import AuctionCard from 'src/components/pages/home/AuctionCard'
+import { getAllAuctions } from 'src/api/auction/getAllAuctions'
+import Link from 'src/components/shared/Link'
+import { ArrowRightIcon } from '@heroicons/react/24/outline'
 
 export default function AuctionPage({ params }: { params: { auctionSlug: [string, 'bids' | 'profile' | 'live-feed' | 'hash-price'] } }) {
   const [slug, tab] = params.auctionSlug
@@ -31,6 +35,7 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
   const [winner, setWinner] = useState<any>(undefined)
   const [order, setOrder] = useState<Order | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
+  const [activeAuctions, setActiveAuctions] = useState<Auction[]>([])
   const { setAuction: handleSetAuction, setAuctionStatus, setAuctionEndNotification, setCheckoutNotification } = useNotificationsContext()
 
   const loadAuction = async () => {
@@ -68,9 +73,16 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
       setLoading(true)
       try {
         const auctionResult = await loadAuction()
+        const activeAuctions = await getAllAuctions({
+          limit: 10,
+          auction_type: 'forward_date',
+          group_by: 'auction_status',
+          auction_status: 'active',
+        })
         if (!auctionResult) {
           throw new Error(`Couldn't load auction`)
         }
+        setActiveAuctions(activeAuctions.results)
 
         setAuction(auctionResult.auction)
         bids.current = auctionResult.bids
@@ -184,6 +196,21 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
           tab={tab}
         />
       </Container>
+      {activeAuctions.length > 0 && (
+        <Container>
+          <div className="flex items-center justify-between">
+            <h1 className="mb-2 mt-4 text-sm sm:text-2xl">Related auctions</h1>
+            <Link href="/auction-market" className="flex items-center text-sm text-primary hover:underline sm:text-lg">
+              <span>See more</span> <ArrowRightIcon className="ml-2 inline-block h-4 w-4" />
+            </Link>
+          </div>
+          <div className="scrollbar-hide grid w-full auto-cols-max grid-flow-col items-start justify-between gap-4 overflow-x-scroll p-4 pl-0">
+            {activeAuctions.map(auction => (
+              <AuctionCard auction={auction} key={auction.id} />
+            ))}
+          </div>
+        </Container>
+      )}
     </>
   )
 }
