@@ -137,7 +137,9 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
       )}
       <InstantHashrate />
       <div className="sm:mt-10"></div>
-      {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} />}
+      <div className="elegant-gradient">
+        {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} showLink={true} />}
+      </div>
 
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
