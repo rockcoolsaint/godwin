@@ -99,7 +99,7 @@ const faqs = [
         question: 'What if my miner is underperforming / running at a low speed?',
         answer: `
             <p>
-              In scenarios like this your hashrate will be extended by the number of days that adequately compensates for the underperformance or slow speed.</p>  
+              In scenarios like this your hashrate is extended to compensate for the underperformance or slow speed</p>  
         `,
       },
     ],
