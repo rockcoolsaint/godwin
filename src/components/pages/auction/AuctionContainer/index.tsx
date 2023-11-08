@@ -20,6 +20,8 @@ import Joyride, { ACTIONS, CallBackProps, EVENTS, STATUS } from 'react-joyride'
 import { useIsMounted } from 'src/hooks/useIsMounted'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import { TAB_PANEL, TourState } from './types'
+import BreadCrumb from 'src/components/shared/BreadCrumb'
+import { ArrowRightIcon } from '@heroicons/react/24/outline'
 
 function tabClass({ selected }: { selected: boolean }) {
   return clsx(
@@ -166,6 +168,17 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
+      <BreadCrumb
+        homeElement={'Home'}
+        separator={
+          <span>
+            <ArrowRightIcon className="h-4 w-4" />
+          </span>
+        }
+        activeClasses="text-primary"
+        containerClasses="flex items-center -ml-1 mb-2"
+        listClasses="hover:underline mr-2 ml-1 font-light text-sm"
+      />
       <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
       <section className="auction-container flex flex-col rounded-xl bg-gray-50 sm:p-3 lg:flex-row">
         <div data-test-id="digest-step-settings-interval" className="lg:w-[75%]">
