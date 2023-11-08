@@ -157,12 +157,16 @@ export default function BalticSuccessPage({ params }: { params: any }) {
             <div className="flex flex-col items-center justify-center">
               <BoltIcon
                 className={clsx(
-                  loading ? 'animate-ping text-gray-500' : status?.order.status === 'delivery_ended' ? 'text-green-400' : 'text-yellow-400',
+                  loading
+                    ? 'animate-ping text-gray-500'
+                    : status?.order?.status === 'delivery_ended'
+                    ? 'text-green-400'
+                    : 'text-yellow-400',
                   '0 mb-4 h-24 w-24',
                 )}
               />
               <h1 className="mb-2 text-4xl">
-                {loading ? 'Hashrate initializing' : status?.order.status === 'delivery_ended' ? 'Hashrate delivered' : 'Hashrate up'}
+                {loading ? 'Hashrate initializing' : status?.order?.status === 'delivery_ended' ? 'Hashrate delivered' : 'Hashrate up'}
               </h1>
             </div>
 
