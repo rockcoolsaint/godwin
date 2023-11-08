@@ -14,6 +14,7 @@ import Link from 'src/components/shared/Link'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import toast from 'react-hot-toast'
+import { OrderStatus } from 'src/types'
 
 interface Status {
   worker: any
@@ -22,6 +23,11 @@ interface Status {
   email?: string
   proxy?: string
   assigned_at: string
+  elapsed_time?: number
+  order: {
+    id: number
+    status: OrderStatus
+  }
 }
 
 export default function BalticSuccessPage({ params }: { params: any }) {
@@ -77,7 +83,12 @@ export default function BalticSuccessPage({ params }: { params: any }) {
   const renderOrderStatus = () => {
     return (
       <>
-        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
+        {status?.order?.status === 'delivery_ended' && (
+          <div className="mt-8 flex w-full items-center justify-center rounded-t-md border border-b-0 border-black/[0.05] bg-white py-4">
+            <span className="text-sm font-bold text-green-500">Your hashrate delivery is complete</span>
+          </div>
+        )}
+        <dl className="mx-auto grid grid-cols-1 gap-px rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
             <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.email}</dd>
@@ -144,8 +155,15 @@ export default function BalticSuccessPage({ params }: { params: any }) {
         {account?.pool_user?.username && (
           <>
             <div className="flex flex-col items-center justify-center">
-              <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-4 mt-8 h-24 w-24')} />
-              <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>
+              <BoltIcon
+                className={clsx(
+                  loading ? 'animate-ping text-gray-500' : status?.order.status === 'delivery_ended' ? 'text-green-400' : 'text-yellow-400',
+                  '0 mb-4 h-24 w-24',
+                )}
+              />
+              <h1 className="mb-2 text-4xl">
+                {loading ? 'Hashrate initializing' : status?.order.status === 'delivery_ended' ? 'Hashrate delivered' : 'Hashrate up'}
+              </h1>
             </div>
 
             {loading ? (
