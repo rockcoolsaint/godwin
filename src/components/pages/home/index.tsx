@@ -22,6 +22,7 @@ import { TableSkeletonLoader } from 'src/components/shared/TableSkeletonLoader'
 import DemoAlert from 'src/components/demo/Alert'
 import { HomepageCalculator } from './Calculator'
 import clsx from 'clsx'
+import { ErrorBoundary } from 'react-error-boundary'
 
 interface Props {
   auctions: Auction[]
@@ -138,7 +139,9 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
       <InstantHashrate />
       <div className="sm:mt-10"></div>
       <div className="elegant-gradient">
-        {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} showLink={true} />}
+        <ErrorBoundary fallback={<div className="p-8">⚠️ Oops! Something went wrong while rendering auction schedule</div>}>
+          {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} showLink={true} />}
+        </ErrorBoundary>
       </div>
 
       <AuctionOfTheDay auction={auctionOfTheDay} />
