@@ -1,3 +1,5 @@
+export const revalidate = 60
+
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import CollectionList from 'src/components/pages/collections/CollectionsList'
 import { sorting, defaultSort, auctionTypeFiltering, defaultType } from 'src/utils/constants'

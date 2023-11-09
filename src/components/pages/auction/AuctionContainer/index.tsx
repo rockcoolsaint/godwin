@@ -20,6 +20,9 @@ import Joyride, { ACTIONS, CallBackProps, EVENTS, STATUS } from 'react-joyride'
 import { useIsMounted } from 'src/hooks/useIsMounted'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import { TAB_PANEL, TourState } from './types'
+import BreadCrumb from 'src/components/shared/BreadCrumb'
+import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import { ErrorBoundary } from 'react-error-boundary'
 
 function tabClass({ selected }: { selected: boolean }) {
   return clsx(
@@ -166,48 +169,61 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
+      <BreadCrumb
+        homeElement={'Home'}
+        separator={
+          <span>
+            <ArrowRightIcon className="h-4 w-4" />
+          </span>
+        }
+        activeClasses="text-primary"
+        containerClasses="flex items-center -ml-1 mb-2"
+        listClasses="hover:underline mr-2 ml-1 font-light text-sm"
+      />
       <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
       <section className="auction-container flex flex-col rounded-xl bg-gray-50 sm:p-3 lg:flex-row">
-        <div data-test-id="digest-step-settings-interval" className="lg:w-[75%]">
-          <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-            <Tab.Panels className="scrollbar-hide h-[600px] overflow-scroll">
-              <Tab.Panel className={panelClass()}>
-                <div className="scrollbar-hide relative h-full rounded-md">
-                  <AuctionBids bids={bids} />
-                </div>
-              </Tab.Panel>
-              <Tab.Panel className={panelClass()}>
-                <div className="scrollbar-hide relative h-full rounded-md">
-                  <AuctionProfile data={auction} />
-                </div>
-              </Tab.Panel>
-              <Tab.Panel className={panelClass()}>
-                <div className="scrollbar-hide relative h-full rounded-md">
-                  <AuctionLiveFeed auction={auction} />
-                </div>
-              </Tab.Panel>
-              <Tab.Panel className={panelClass()}>
-                <div className="scrollbar-hide relative h-full rounded-md">
-                  <AuctionHashPrice />
-                </div>
-              </Tab.Panel>
-            </Tab.Panels>
-            <Tab.List className="mt-4 flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-              <Tab ref={bidRef} className={tabClass}>
-                Bids
-              </Tab>
-              <Tab ref={profileRef} className={tabClass}>
-                Profile
-              </Tab>
-              <Tab ref={liveFeedRef} className={tabClass}>
-                Live feed
-              </Tab>
-              <Tab ref={hashPriceRef} className={tabClass}>
-                Hash price
-              </Tab>
-            </Tab.List>
-          </Tab.Group>
-        </div>
+        <ErrorBoundary fallback={<div className="p-8">⚠️ Oops! something went wrong</div>}>
+          <div data-test-id="digest-step-settings-interval" className="lg:w-[75%]">
+            <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+              <Tab.Panels className="scrollbar-hide h-[600px] overflow-scroll">
+                <Tab.Panel className={panelClass()}>
+                  <div className="scrollbar-hide relative h-full rounded-md">
+                    <AuctionBids bids={bids} />
+                  </div>
+                </Tab.Panel>
+                <Tab.Panel className={panelClass()}>
+                  <div className="scrollbar-hide relative h-full rounded-md">
+                    <AuctionProfile data={auction} />
+                  </div>
+                </Tab.Panel>
+                <Tab.Panel className={panelClass()}>
+                  <div className="scrollbar-hide relative h-full rounded-md">
+                    <AuctionLiveFeed auction={auction} />
+                  </div>
+                </Tab.Panel>
+                <Tab.Panel className={panelClass()}>
+                  <div className="scrollbar-hide relative h-full rounded-md">
+                    <AuctionHashPrice />
+                  </div>
+                </Tab.Panel>
+              </Tab.Panels>
+              <Tab.List className="mt-4 flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+                <Tab ref={bidRef} className={tabClass}>
+                  Bids
+                </Tab>
+                <Tab ref={profileRef} className={tabClass}>
+                  Profile
+                </Tab>
+                <Tab ref={liveFeedRef} className={tabClass}>
+                  Live feed
+                </Tab>
+                <Tab ref={hashPriceRef} className={tabClass}>
+                  Hash price
+                </Tab>
+              </Tab.List>
+            </Tab.Group>
+          </div>
+        </ErrorBoundary>
         <div className=" mt-4 flex min-w-fit flex-col lg:ml-4 lg:mt-0 lg:w-[25%]">
           <BidWidget auction={auction} bids={bids} current_bid={current_bid} user_proxy_bid={user_proxy_bid} winner={winner} />
 

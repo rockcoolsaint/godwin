@@ -30,7 +30,7 @@ export default function Authorized() {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           >
-            <Dropdown.Item className="px-6">
+            <Dropdown.Item href="/account/general" className="px-6">
               <span className="py-4 text-sm text-blue-500">{account.email}</span>
             </Dropdown.Item>
             {(account.type === 'seller' || account.is_staff) && (

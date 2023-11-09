@@ -24,11 +24,11 @@ import useSatsToFiat from 'src/hooks/useSatsToFiat'
 import { useMobileScreen } from 'src/hooks/useIsMobile'
 import { useMemo } from 'react'
 
-export default function AuctionSchedule({ auctionsData }: { auctionsData: Auction[] }) {
+export default function AuctionSchedule({ auctionsData, showLink }: { auctionsData: Auction[]; showLink?: boolean }) {
   const initialSorting = useMemo(() => {
     return [
       {
-        id: 'end_at',
+        id: 'epoch',
         desc: false, // columns sorting are inverted - so this is actually descending
       },
     ]
@@ -43,13 +43,21 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
 
   const columns = [
     columnHelper.accessor(row => row.epoch?.epoch_number, {
-      id: 'Epoch',
+      id: 'epoch',
       cell: cell => {
         if (cell.row.original.epoch?.epoch_number) {
           return (
-            <p>
-              {formatDate(cell.row.original.epoch?.start_time, 'MMM d')} - {formatDate(cell.row.original.epoch?.end_time, 'MMM d')}
-            </p>
+            <Tooltip placement="top">
+              <TooltipTrigger>
+                <p>
+                  {formatDate(cell.row.original.epoch?.start_time, 'MMM d')} - {formatDate(cell.row.original.epoch?.end_time, 'MMM d')}
+                </p>
+              </TooltipTrigger>
+
+              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                Epoch {cell.row.original.epoch?.epoch_number}
+              </TooltipContent>
+            </Tooltip>
           )
         } else {
           return <p>N/A</p>
@@ -174,7 +182,7 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
   }
 
   return (
-    <section id="auction-market" className="elegant-gradient mt-28 pb-24 pt-28 sm:mt-0 sm:pt-0">
+    <section id="auction-market" className="mt-28 pb-24 pt-28 sm:mt-0 sm:pt-0">
       <Container className="w-12/12 flex items-center justify-center !px-1 sm:w-8/12">
         <section className="flex flex-col items-center justify-center sm:pl-0">
           <h1 className="mb-4 text-primary">Auction Market</h1>
@@ -262,9 +270,11 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
               </span>
             </div>
           </div>
-          <Link className="mb-16 mt-4 text-xs text-primary underline sm:text-sm" href="/collections">
-            View previous auctions
-          </Link>
+          {showLink && (
+            <Link className="mb-16 mt-4 text-xs text-primary underline sm:text-sm" href="/auction-market">
+              View more auctions
+            </Link>
+          )}
         </section>
       </Container>
     </section>
