@@ -40,6 +40,7 @@ export default function InstantHashrate() {
   const { account } = useAccountContext()
   const [hashprice, setHashprice] = useState(0)
   const [hashrate, setHashrate] = useState(0)
+  const [markup, setMarkup] = useState(0)
 
   const signUpSchema = useSignUpSchema()
 
@@ -62,10 +63,13 @@ export default function InstantHashrate() {
       const rate = await getProductRate()
       setHashprice(rate?.hashprice)
       setHashrate(rate?.hashrate / 10 ** 12)
+      setMarkup(rate?.markup)
     }
 
     fetchRates()
   }, [])
+
+  const markupPercentage = markup / 100
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(
     async value => {
@@ -81,7 +85,7 @@ export default function InstantHashrate() {
 
         const order = await createOrder({
           account_id: account?.id,
-          amount_sats: Number(value.duration) * hashrate * hashprice,
+          amount_sats: Number(value.duration) * hashrate * hashprice * (1 + markupPercentage),
           duration_days: Number(value.duration),
         })
 
@@ -202,7 +206,7 @@ export default function InstantHashrate() {
             type="submit"
             className="mt-8 flex h-12 w-11/12 items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-9/12 xl:w-8/12"
           >
-            {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice))} sats - Buy now
+            {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice * (1 + markupPercentage)))} sats - Buy now
           </button>
         </form>
       </section>
