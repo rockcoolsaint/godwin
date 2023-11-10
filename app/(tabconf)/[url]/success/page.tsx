@@ -13,6 +13,8 @@ import clsx from 'clsx'
 import Link from 'src/components/shared/Link'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
+import toast from 'react-hot-toast'
+import { OrderStatus } from 'src/types'
 
 interface Status {
   worker: any
@@ -21,12 +23,16 @@ interface Status {
   email?: string
   proxy?: string
   assigned_at: string
+  elapsed_time?: number
+  order: {
+    id: number
+    status: OrderStatus
+  }
 }
 
 export default function BalticSuccessPage({ params }: { params: any }) {
   const [status, setStatus] = useState<Status | null | undefined>(null)
   const [loading, setLoading] = useState(true)
-  const [errorMsg, setErrorMsg] = useState<string | undefined>(undefined)
 
   const searchParam = useSearchParams()
   const order_id = searchParam?.get('order_id') || ''
@@ -34,22 +40,23 @@ export default function BalticSuccessPage({ params }: { params: any }) {
   const { account } = useAccountContext()
 
   useEffect(() => {
+    const loadStatus = async (orderId: number) => {
+      try {
+        const status = await getOrderStatus(orderId)
+        setStatus(status)
+        setLoading(false)
+      } catch (error: any) {
+        console.error('error is ', (error as Error).message)
+        toast.error((error as Error).message, { position: 'bottom-right' })
+        setLoading(false)
+      }
+    }
+
     window.Intercom('shutdown')
     if (!Boolean(order_id)) {
       return
     }
-    setLoading(true)
-    const interval = setInterval(async () => {
-      try {
-        const status = await getOrderStatus(order_id)
-        setStatus(status)
-        setLoading(false)
-      } catch (error) {
-        console.error('error is ', (error as Error).message)
-        setErrorMsg((error as Error).message)
-        setLoading(false)
-      }
-    }, 5000)
+    const interval = setInterval(() => loadStatus(Number(order_id)), 5000)
 
     return () => clearInterval(interval)
   }, [order_id, status?.payment?.status])
@@ -74,30 +81,14 @@ export default function BalticSuccessPage({ params }: { params: any }) {
   }
 
   const renderOrderStatus = () => {
-    if (errorMsg) {
-      return (
-        <div className="mt-8 border-l-4 border-red-400 bg-red-50 p-4">
-          <div className="flex justify-center">
-            <div className="shrink-0">
-              <svg className="h-5 w-5 text-red-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path
-                  fillRule="evenodd"
-                  d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-red-700">{errorMsg}</p>
-            </div>
-          </div>
-        </div>
-      )
-    }
-
     return (
       <>
-        <dl className="mx-auto mt-8 grid grid-cols-1 gap-px rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
+        {status?.order?.status === 'delivery_ended' && (
+          <div className="mt-8 flex w-full items-center justify-center rounded-t-md border border-b-0 border-black/[0.05] bg-white py-4">
+            <span className="text-sm font-bold text-green-500">Your hashrate delivery is complete</span>
+          </div>
+        )}
+        <dl className="mx-auto grid grid-cols-1 gap-px rounded-md border border-black/[0.05] sm:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Email</dt>
             <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.email}</dd>
@@ -164,8 +155,19 @@ export default function BalticSuccessPage({ params }: { params: any }) {
         {account?.pool_user?.username && (
           <>
             <div className="flex flex-col items-center justify-center">
-              <BoltIcon className={clsx(loading ? 'animate-ping text-gray-500' : 'text-yellow-400', '0 mb-4 mt-8 h-24 w-24')} />
-              <h1 className="mb-2 text-4xl">{loading ? 'Hash rate firing up' : 'Hash rate up'}</h1>
+              <BoltIcon
+                className={clsx(
+                  loading
+                    ? 'animate-ping text-gray-500'
+                    : status?.order?.status === 'delivery_ended'
+                    ? 'text-green-400'
+                    : 'text-yellow-400',
+                  '0 mb-4 h-24 w-24',
+                )}
+              />
+              <h1 className="mb-2 text-4xl">
+                {loading ? 'Hashrate initializing' : status?.order?.status === 'delivery_ended' ? 'Hashrate delivered' : 'Hashrate up'}
+              </h1>
             </div>
 
             {loading ? (

@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import { Listbox, Transition } from '@headlessui/react'
 import Link from 'src/components/shared/Link'
 import { useTranslation } from 'src/hooks'
-import { Input } from 'src/core'
+import { Input, Loader } from 'src/core'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useSignUpSchema } from './validation'
@@ -360,7 +360,7 @@ export default function SignUp({ setView, setEmail }: any) {
                     type="submit"
                     className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
                   >
-                    Submit
+                    {loading ? <Loader height={20} width={20} /> : <span>Submit</span>}
                   </button>
                 </div>
               </>

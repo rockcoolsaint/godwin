@@ -8,8 +8,6 @@ import AccountView from 'src/components/pages/account/AccountView'
 import { Form, Input, Loader } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import protect from 'src/hoc/protect'
-import { getOngoingDeliveries } from 'src/api/account/getOngoingDeliveries'
-import { useInterval } from 'src/hooks/useInterval'
 import { getPoolInfo } from 'src/api/account/getPoolInfo'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
@@ -90,9 +88,6 @@ function Hashrate() {
       try {
         setLoading(true)
         const data = await getPoolInfo(token)
-        const _ = await getOngoingDeliveries(token)
-        // TODO: @Jeezman to use response for completing https://github.com/RiglyCorp/rigly-auction/issues/282
-        // eslint-disable-next-line no-console
         setPoolInfo(data)
       } catch (ex) {
         console.error(ex)
@@ -102,18 +97,6 @@ function Hashrate() {
     }
     loadHashrateDeliveriesAndPoolInfo()
   }, [token])
-
-  useInterval(async () => {
-    if (!token) {
-      return
-    }
-
-    try {
-      const _ = await getOngoingDeliveries(token)
-    } catch (ex) {
-      console.error(ex)
-    }
-  }, 10000)
 
   const handleSetSelectedPool = (val: IMiningPool) => {
     setSelectedPool(val)

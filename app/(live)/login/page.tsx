@@ -3,7 +3,7 @@
 
 import { useState } from 'react'
 import Link from 'src/components/shared/Link'
-import { Container, Form, Input } from 'src/core'
+import { Container, Form, Input, Loader } from 'src/core'
 import Icon from 'src/core/components/Icon'
 import { useTranslation } from 'src/hooks'
 import useReturnUrl from 'src/hooks/useReturnUrl'
@@ -57,7 +57,7 @@ export default function Login() {
               <Input type="email" name="email" placeholder="satoshi@gmx.com" />
             </Form.Field>
 
-            <Form.Submit className="w-full">{t('login.sign_in')}</Form.Submit>
+            <Form.Submit className="w-full">{loading ? <Loader height={20} width={20} /> : <span>{t('login.sign_in')}</span>}</Form.Submit>
           </Form>
           <div className="mt-8 flex justify-center border-t border-gray-300 pt-6">
             <Link href="/register" className="text-primary underline">

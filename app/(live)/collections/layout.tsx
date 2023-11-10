@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { FilterList } from 'src/components/pages/collections/FilterItem'
+import Link from 'src/components/shared/Link'
 import { sorting, filtering, auctionTypeFiltering } from 'src/utils/constants'
 
 export default function CollectionsLayout({ children }: { children: React.ReactNode }) {
@@ -26,11 +27,18 @@ export default function CollectionsLayout({ children }: { children: React.ReactN
           <FilterList list={filtering} title="Auction Status" />
           <div className="mt-4" />
           <FilterList list={auctionTypeFiltering} title="Auction Type" />
+          <div className="mt-6" />
+          <FilterList list={sorting} title="Sort by" />
+          <div className="mt-6" />
+          <div className="text-sm">
+            See also{' '}
+            <Link className="underline hover:no-underline" href="/auction-market">
+              Auction Market
+            </Link>{' '}
+            <i className="text-xs font-bold">*new</i>
+          </div>
         </div>
         <div className="order-last mt-8 min-h-screen w-full md:px-5 lg:order-none lg:mt-0 lg:px-0">{children}</div>
-        <div className="order-none mx-auto mt-2 w-full max-w-[20rem] flex-none lg:order-last lg:w-[125px]">
-          <FilterList list={sorting} title="Sort by" />
-        </div>
       </section>
     </Suspense>
   )
