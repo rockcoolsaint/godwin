@@ -115,7 +115,7 @@ export default function InstantHashrate() {
         toast.error('Error')
       }
     },
-    [account?.id, hashprice, hashrate, reset, router],
+    [account?.id, hashprice, hashrate, markupPercentage, reset, router],
   )
 
   const renderStatus = () => {
@@ -170,7 +170,7 @@ export default function InstantHashrate() {
                   <p className="text-sm font-semibold text-gray-700">Hash price</p>
                 </div>
                 <div className="col-span-1">
-                  <p className="text-sm font-normal text-gray-600">{Math.round(hashprice)} sats per TH/s/day</p>
+                  <p className="text-sm font-normal text-gray-600">{Math.round(hashprice * (1 + markupPercentage))} sats per TH/s/day</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 items-center">
@@ -180,7 +180,7 @@ export default function InstantHashrate() {
                 <div className="col-span-1">
                   <select
                     {...register('duration')}
-                    className="block w-9/12 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm xl:w-5/12"
+                    className="block w-10/12 rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm xl:w-7/12 2xl:w-5/12"
                   >
                     <option value="1">1 day</option>
                     <option value="2">2 days</option>
