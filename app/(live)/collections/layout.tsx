@@ -26,11 +26,10 @@ export default function CollectionsLayout({ children }: { children: React.ReactN
           <FilterList list={filtering} title="Auction Status" />
           <div className="mt-4" />
           <FilterList list={auctionTypeFiltering} title="Auction Type" />
-        </div>
-        <div className="order-last mt-8 min-h-screen w-full md:px-5 lg:order-none lg:mt-0 lg:px-0">{children}</div>
-        <div className="order-none mx-auto mt-2 w-full max-w-[20rem] flex-none lg:order-last lg:w-[125px]">
+          <div className="mt-6" />
           <FilterList list={sorting} title="Sort by" />
         </div>
+        <div className="order-last mt-8 min-h-screen w-full md:px-5 lg:order-none lg:mt-0 lg:px-0">{children}</div>
       </section>
     </Suspense>
   )
