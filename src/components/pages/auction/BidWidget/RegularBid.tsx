@@ -59,6 +59,7 @@ export default function RegularBid({
         }
 
         reset({ bid: current_bid?.bid }, { keepTouched: false, keepDirty: false })
+        setShowThresholdWarning(false)
         toast.success(res.message)
       } catch (err: any) {
         toast.error(err.message)
@@ -72,7 +73,7 @@ export default function RegularBid({
   const handleMaximumBidThreshold: BidThreshold = useCallback(
     (auction, currentBid, bidAmount) => {
       const maximumBidAmount = currentBid?.bid * 1.2 || auction?.starting_bid * 1.2
-      console.log('bidAmount and maxBidAmount ', bidAmount, maximumBidAmount)
+
       if (bidAmount > maximumBidAmount) {
         setShowThresholdWarning(true)
 
