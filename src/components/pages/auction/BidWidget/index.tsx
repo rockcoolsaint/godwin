@@ -103,6 +103,13 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
 
   const hasProxyBid = user_proxy_bid && user_proxy_bid.maximum_amount
 
+  const handleThreshold = () => {
+    // if (value > auction.current_bid) {
+    //   return auction.current_bid + 1000
+    // }
+    // return value
+  }
+
   return (
     <>
       <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
@@ -178,9 +185,10 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
                           </Tab>
                         ))}
                       </Tab.List>
+
                       <Tab.Panels>
                         <Tab.Panel className="pt-4">
-                          <RegularBid auction={auction} bids={bids} current_bid={current_bid} />
+                          <RegularBid auction={auction} bids={bids} handleThreshold={handleThreshold} current_bid={current_bid} />
                         </Tab.Panel>
                         <Tab.Panel className="pt-4">
                           <ProxyBid auction={auction} bids={bids} current_bid={current_bid} />

@@ -17,13 +17,17 @@ export default function RegularBid({
   auction,
   bids,
   current_bid,
+  handleThreshold,
 }: {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
+  handleThreshold: () => void
 }) {
   const { isSocketReady } = useWebsocketContext()
   const [loadingPlaceBid, setLoadingPlaceBid] = useState<boolean>(false)
+  const [showThresholdWarning, setShowThresholdWarning] = useState<boolean>(false)
+  const [bid, setBid] = useState<number>(0)
 
   const {
     reset,
@@ -37,14 +41,17 @@ export default function RegularBid({
     },
   })
 
-  const handlePlaceBid: SubmitHandler<FormInputs> = useCallback(
-    async value => {
+  type BidThreshold = (auction: Auction, currentBid: BidsEntityOrCurrentBid, bidAmount: number) => void
+  type Submit = (bid: number) => void
+
+  const submit: Submit = useCallback(
+    async bid => {
       try {
         setLoadingPlaceBid(true)
 
         const res: any = await ws.request('place_bid', {
           auction_id: auction.id,
-          amount: transformCurrencyToNumber(value.bid),
+          amount: transformCurrencyToNumber(bid),
         })
 
         if (res.error) {
@@ -52,6 +59,7 @@ export default function RegularBid({
         }
 
         reset({ bid: current_bid?.bid }, { keepTouched: false, keepDirty: false })
+        setShowThresholdWarning(false)
         toast.success(res.message)
       } catch (err: any) {
         toast.error(err.message)
@@ -62,12 +70,51 @@ export default function RegularBid({
     [auction.id, current_bid?.bid, reset],
   )
 
+  const handleMaximumBidThreshold: BidThreshold = useCallback(
+    (auction, currentBid, bidAmount) => {
+      const maximumBidAmount = currentBid?.bid * 1.2 || auction?.starting_bid * 1.2
+
+      if (bidAmount > maximumBidAmount) {
+        setShowThresholdWarning(true)
+
+        return
+      } else {
+        submit(bidAmount)
+      }
+    },
+    [submit],
+  )
+
+  const handlePlaceBid: SubmitHandler<FormInputs> = useCallback(
+    async value => {
+      try {
+        setBid(value.bid)
+        handleMaximumBidThreshold(auction, current_bid, value.bid)
+      } catch (err: any) {
+        toast.error(err.message)
+      }
+    },
+    [auction, current_bid, handleMaximumBidThreshold],
+  )
+
   useEffect(() => {
     setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
   }, [auction?.starting_bid, bids, setValue])
 
   return (
     <>
+      {showThresholdWarning && (
+        <div className="mb-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
+          Your bid is above the current threshold. Continue?{' '}
+          <span className="ml-1 underline hover:cursor-pointer hover:no-underline" onClick={() => submit(bid)}>
+            Yes
+          </span>{' '}
+          <span onClick={() => setShowThresholdWarning(false)} className="ml-1 hover:cursor-pointer hover:underline">
+            No
+          </span>
+        </div>
+      )}
+
       <p className="text-base font-semibold text-dark-100">Enter your bid</p>
       <div className="mt-2 flex flex-col">
         <form data-test-id="step-bid-input" className="gap-4" onSubmit={handleSubmit(handlePlaceBid)}>
