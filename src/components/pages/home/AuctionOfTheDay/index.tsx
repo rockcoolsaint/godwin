@@ -4,7 +4,6 @@ import Link from 'src/components/shared/Link'
 import { useTranslation } from 'src/hooks'
 import { format, parseISO } from 'date-fns'
 import SatsSvg from 'src/assets/svg/sats.svg'
-import Container from 'src/core/components/Container'
 import { formatMoney } from 'src/utils/currency'
 import { isDateBefore } from 'src/utils/date'
 import * as miner from 'src/assets/jpg/mining.jpeg'
@@ -17,11 +16,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
   const { t } = useTranslation()
 
   if (!auctionResponse || !auctionResponse.auction) {
-    return (
-      <Container className="flex items-center justify-center py-20">
-        <span className="text-red-500">Could not load auction of the day</span>
-      </Container>
-    )
+    return null
   }
 
   const { auction } = auctionResponse
