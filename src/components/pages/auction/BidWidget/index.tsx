@@ -78,9 +78,16 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
     if (auction.status === AuctionStatus.Completed && hasWinner) {
       return (
         <div className="mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-3 opacity-70">
-          <p className="flex items-center text-sm font-semibold">
-            <span className="mr-2">🎉</span> Winning bid - {formatMoney(auction.current_bid)} <SatsSvg className="ml-2" />
-          </p>
+          <Tooltip placement="top">
+            <TooltipTrigger>
+              <p className="flex items-center text-sm font-semibold">
+                <span className="mr-2">🎉</span> Winning bid - {formatMoney(auction.current_bid)} <SatsSvg className="ml-2" />
+              </p>
+            </TooltipTrigger>
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+              ${formatMoney(priceInFiat)}
+            </TooltipContent>
+          </Tooltip>
           <p className="mt-2 flex items-center text-sm font-semibold">
             <MiningSvg className="mr-2 h-5" /> Hash price -{' '}
             {formatMoney(
