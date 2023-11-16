@@ -17,12 +17,10 @@ export default function RegularBid({
   auction,
   bids,
   current_bid,
-  handleThreshold,
 }: {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
-  handleThreshold: () => void
 }) {
   const { isSocketReady } = useWebsocketContext()
   const [loadingPlaceBid, setLoadingPlaceBid] = useState<boolean>(false)
