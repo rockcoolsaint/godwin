@@ -105,7 +105,7 @@ export default function RegularBid({
     <>
       {showThresholdWarning && (
         <div className="mb-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
-          Your bid is above the current threshold. Continue?{' '}
+          Your bid far exceeds the current bid. Continue?{' '}
           <span className="ml-1 underline hover:cursor-pointer hover:no-underline" onClick={() => submit(bid)}>
             Yes
           </span>{' '}
