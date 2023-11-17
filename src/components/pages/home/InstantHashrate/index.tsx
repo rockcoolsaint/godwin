@@ -152,10 +152,9 @@ export default function InstantHashrate() {
           <Image className="mb-4 block w-full overflow-hidden sm:h-64" src={chart} width={352} height={230} alt="chart" />
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col">
-          <h1 className="mb-4">Instant hashrate</h1>
-
+          <h1>Instant hashrate</h1>
           <div>
-            <h5 className="font-semibold">Buy hashrate and start mining now</h5>
+            <h5 className="mb-4 text-sm italic text-gray-600">Buy hashrate and start mining to your pool account now</h5>
             <div className="mt-2 grid gap-4">
               <div className="grid grid-cols-2">
                 <div className="col-span-1">
