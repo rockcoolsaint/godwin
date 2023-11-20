@@ -8,15 +8,18 @@ import ZapOff from 'src/assets/svg/zap_off.svg'
 
 export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
   const [hashrate, setHashrate] = useState<HashrateData[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     const stratums_id = auction.auction_meta.livefeed_stratums_id || auction.auction_meta.proxy?.stratums_id
 
     if (stratums_id) {
+      setLoading(true)
       const getPlotData = async () => {
         try {
           const hashrateData = await getHashrateData(stratums_id)
           setHashrate(hashrateData)
+          setLoading(false)
         } catch (ex) {
           console.error(ex)
         }
@@ -25,6 +28,15 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
       getPlotData()
     }
   }, [auction.auction_meta.livefeed_stratums_id, auction.auction_meta.proxy?.stratums_id])
+
+  if (loading) {
+    return (
+      <div className="flex h-full animate-pulse flex-col items-center justify-center">
+        <ZapOff className="ml-10 mt-10 h-24 w-24 text-dark-100" />
+        <p className="ml-2 text-center text-gray-500">Loading livefeed data</p>
+      </div>
+    )
+  }
 
   if (hashrate.length === 0) {
     return (

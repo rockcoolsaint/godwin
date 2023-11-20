@@ -182,7 +182,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
       />
       <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
       <section className="auction-container flex flex-col rounded-xl bg-gray-50 sm:p-3 lg:flex-row">
-        <ErrorBoundary fallback={<div className="p-8">⚠️ Oops! something went wrong</div>}>
+        <ErrorBoundary fallback={<div className="w-full p-8">⚠️ Oops! something went wrong</div>}>
           <div data-test-id="digest-step-settings-interval" className="lg:w-[75%]">
             <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
               <Tab.Panels className="scrollbar-hide h-[600px] overflow-scroll">
