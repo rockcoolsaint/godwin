@@ -23,6 +23,7 @@ import { TAB_PANEL, TourState } from './types'
 import BreadCrumb from 'src/components/shared/BreadCrumb'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import { ErrorBoundary } from 'react-error-boundary'
+import { updateAccount } from 'src/api/auth/updateAccount'
 
 function tabClass({ selected }: { selected: boolean }) {
   return clsx(
@@ -51,7 +52,7 @@ interface AuctionContainerProps {
 }
 
 export default function AuctionContainer({ auction, order, bids, current_bid, user_proxy_bid, winner, tab }: AuctionContainerProps) {
-  const { account } = useAccountContext()
+  const { account, token } = useAccountContext()
   const [currentTab] = useState(TAB_PANEL[tab || 'bids'])
   const [selectedIndex, setSelectedIndex] = useState(currentTab?.index || 0)
   const isMounted = useIsMounted()
@@ -68,7 +69,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
   useEffect(() => {
     const prepareSteps = () => {
       const hasGuide = localStorage.getItem(LocalStorageKeys.Guide.bid)
-      if (isMounted() && account?.id && !hasGuide) {
+      if (isMounted() && account?.id && !hasGuide && !account?.has_completed_tour) {
         setState(prevState => ({
           ...prevState,
           run: true,
@@ -123,7 +124,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
       }
     }
     prepareSteps()
-  }, [account?.id, isMounted])
+  }, [account?.has_completed_tour, account?.id, isMounted])
 
   if (!auction) {
     return (
@@ -140,17 +141,24 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
     )
   }
 
-  const handleCallback = (data: CallBackProps) => {
+  const handleCallback = async (data: CallBackProps) => {
     const { action, index, status, type } = data
 
     if (([ACTIONS.CLOSE, ACTIONS.SKIP] as string[]).includes(action)) {
       localStorage.setItem(LocalStorageKeys.Guide.bid, JSON.stringify(true))
+
+      if (token) {
+        await updateAccount({ has_completed_tour: true }, token)
+      }
       setSelectedIndex(0)
       setState(prevState => ({ ...prevState, run: false }))
     }
 
     if (status === STATUS.FINISHED && type === EVENTS.TOUR_END) {
       localStorage.setItem(LocalStorageKeys.Guide.bid, JSON.stringify(true))
+      if (token) {
+        await updateAccount({ has_completed_tour: true }, token)
+      }
       setSelectedIndex(0)
       setState(prevState => ({ ...prevState, run: false }))
     }
