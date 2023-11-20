@@ -179,6 +179,7 @@ export interface Account {
   public_key?: string
   type: AccountType
   preferences: AccountPreferences
+  has_completed_tour: boolean
 }
 
 export interface AccountPreferences {
