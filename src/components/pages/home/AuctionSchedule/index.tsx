@@ -47,7 +47,8 @@ export default function AuctionSchedule({ auctionsData, showLink }: { auctionsDa
       cell: cell => {
         if (cell.row.original.epoch?.epoch_number) {
           return (
-            <p>
+            <p className="flex flex-col">
+              <span className="text-xs font-medium text-gray-500/[.85]">Epoch {cell.row.original.epoch?.epoch_number}</span>
               {formatDate(cell.row.original.epoch?.start_time, 'MMM d')} - {formatDate(cell.row.original.epoch?.end_time, 'MMM d')}
             </p>
           )
