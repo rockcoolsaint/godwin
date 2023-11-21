@@ -107,7 +107,7 @@ export default function NotificationsProvider({ children }: { children: React.Re
                     Congratulations on winning {auction?.title} for Epoch {auction.epoch?.epoch_number}!
                   </p>
                   <p className="mt-1 text-xs text-gray-500">
-                    Checkout with <b>15% deposit within 24 hours</b>
+                    Checkout with <b>10% deposit within 24 hours</b>
                   </p>
                   <p className="mt-1 text-xs text-gray-500">Pay remaining total by mining start date</p>
                 </div>

@@ -8,7 +8,6 @@ import { useAccountContext } from 'src/providers/AccountProvider'
 import BlockPartyDetails from 'src/components/pages/block-party/Details'
 import BlockPartyBuyers from 'src/components/pages/block-party/Buyers'
 import BlockPartyOnchainDetails from 'src/components/pages/block-party/OnchainDetails'
-import ZapOff from 'src/assets/svg/zap_off.svg'
 import { Loader } from 'src/core'
 import { createOrder } from 'src/api/block-party/createOrder'
 import { useRouter } from 'next/navigation'
@@ -28,6 +27,8 @@ const DURATION = [
   { name: 'medium', value: 100, amount: 10500 },
   { name: 'fast', value: 210, amount: 20500 },
 ]
+
+const ID = process.env.NODE_ENV === 'development' ? 3 : 4
 
 function BlockPartyPage() {
   const [_, setCurrentTab] = useState(0)
@@ -61,7 +62,7 @@ function BlockPartyPage() {
   }, [blockParty, paidOrder, router])
 
   const fetchBlockParties = async () => {
-    const data = await getBlockParty({ id: 1 })
+    const data = await getBlockParty({ id: ID })
     setBlockParty(data.block_party)
     setBlockPartyOrders(data.orders)
     setBlockPartyOnchain(data.onchain)
@@ -203,9 +204,9 @@ function BlockPartyPage() {
         </div>
 
         <div className="lg:w-5/12">
-          <h1>Block Party</h1>
-          <p className="mt-4 text-sm">Happy White Paper Day!</p>
-          <p className="text-sm">
+          <h1>Black Friday Block Party</h1>
+          {/* <p className="mt-4 text-sm">Happy White Paper Day!</p> */}
+          <p className="mt-1 text-sm">
             Solo mine with Rigly -{' '}
             <Link target="_blank" href="https://blog.rigly.io/whitepaper-day-blockparty-20231026" className="underline hover:no-underline">
               Learn more
@@ -228,7 +229,7 @@ function BlockPartyPage() {
               </div>
               <div className="grid grid-cols-2 text-sm lg:w-10/12">
                 <p>Duration</p>
-                <p>24 hrs @ Oct 31, 14:10 PM EDT</p>
+                <p>24 hrs</p>
               </div>
               <div className="grid grid-cols-2 text-sm lg:w-10/12">
                 <p></p>
@@ -291,10 +292,17 @@ function BlockPartyPage() {
               </div>
             </div>
             <button
-              disabled={true}
+              disabled={loading}
+              onClick={handleCreateOrder}
               className="relative flex w-full flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient p-4 text-sm font-medium capitalize text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10 disabled:bg-gradient-disabled sm:w-8/12"
             >
-              Block party complete
+              {loading ? (
+                <Loader height={20} width={20} />
+              ) : (
+                <>
+                  {selectDuration.name} - {formatMoney(Math.floor(selectDuration.value * blockParty.hashprice))} sats - Buy now{' '}
+                </>
+              )}
             </button>
           </aside>
         </div>

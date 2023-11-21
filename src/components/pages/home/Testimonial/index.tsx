@@ -96,6 +96,27 @@ export default function Testimonial() {
                 />
               </div>
             </div>
+            <div className="aspect-w-1 aspect-h-1 relative h-[270px] lg:h-[450px]">
+              <div>
+                <figure className="rounded-2xl bg-white p-6 shadow-md ring-1 ring-gray-900/5">
+                  <blockquote className="text-gray-900">
+                    <p>
+                      Hey, signed up for the 500 sat trial and now have a day of instant hash. Absolutely fantastic product and brilliantly
+                      executed. Bravo 👏👌🧡
+                    </p>
+                  </blockquote>
+                  <div className="mt-4 flex items-center justify-between border-t">
+                    <figcaption className="mt-6 flex items-center gap-x-4 ">
+                      <div>
+                        <div className="font-semibold">Chris H</div>
+                        <div className="text-gray-600">Customer</div>
+                      </div>
+                    </figcaption>
+                    <QuoteSvg className="relative top-2 block" />
+                  </div>
+                </figure>
+              </div>
+            </div>
             <div
               className={clsx(
                 'aspect-w-1 aspect-h-1 relative',
@@ -118,25 +139,26 @@ export default function Testimonial() {
                 />
               </div>
             </div>
-            <div className="aspect-w-1 aspect-h-1 relative">
+            <div
+              className={clsx(
+                'aspect-w-1 aspect-h-1 relative',
+                tweetIsLoading && `h-[300px] w-[382] animate-pulse rounded-[12px] bg-gray-200`,
+              )}
+            >
               <div>
-                <figure className="rounded-2xl bg-white p-6 shadow-md ring-1 ring-gray-900/5">
-                  <blockquote className="text-gray-900">
-                    <p>
-                      Hey, signed up for the 500 sat trial and now have a day of instant hash. Absolutely fantastic product and brilliantly
-                      executed. Bravo 👏👌🧡
-                    </p>
-                  </blockquote>
-                  <div className="mt-4 flex items-center justify-between border-t">
-                    <figcaption className="mt-6 flex items-center gap-x-4 ">
-                      <div>
-                        <div className="font-semibold">Chris H</div>
-                        <div className="text-gray-600">Customer</div>
-                      </div>
-                    </figcaption>
-                    <QuoteSvg className="relative top-2 block" />
-                  </div>
-                </figure>
+                <Tweet
+                  options={{
+                    theme: 'light',
+                    dnt: true,
+                    align: 'center',
+                    conversation: 'none',
+                    cards: 'hidden',
+                    height: '100%',
+                  }}
+                  key="1655412915740999680"
+                  tweetId="1655412915740999680"
+                  onLoad={() => setTweetIsLoading(false)}
+                />
               </div>
             </div>
           </div>
