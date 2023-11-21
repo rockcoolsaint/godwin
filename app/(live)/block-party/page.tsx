@@ -28,6 +28,8 @@ const DURATION = [
   { name: 'fast', value: 210, amount: 20500 },
 ]
 
+const ID = process.env.NODE_ENV === 'development' ? 3 : 4
+
 function BlockPartyPage() {
   const [_, setCurrentTab] = useState(0)
   const [selectDuration, setSelectDuration] = useState(DURATION[0])
@@ -60,7 +62,7 @@ function BlockPartyPage() {
   }, [blockParty, paidOrder, router])
 
   const fetchBlockParties = async () => {
-    const data = await getBlockParty({ id: 3 })
+    const data = await getBlockParty({ id: ID })
     setBlockParty(data.block_party)
     setBlockPartyOrders(data.orders)
     setBlockPartyOnchain(data.onchain)
