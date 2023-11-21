@@ -21,6 +21,7 @@ import { useSatsToFiat } from 'src/hooks'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import Link from 'src/components/shared/Link'
 import BlockPartyLiveFeed from 'src/components/pages/block-party/BlockPartyLiveFeed'
+import { formatDate } from 'src/utils/date'
 
 const DURATION = [
   { name: 'slow', value: 21, amount: 5500 },
@@ -229,7 +230,7 @@ function BlockPartyPage() {
               </div>
               <div className="grid grid-cols-2 text-sm lg:w-10/12">
                 <p>Duration</p>
-                <p>24 hrs</p>
+                <p>24 hrs @ {formatDate(blockParty.hashrate_start, 'MMM dd, hh:mm aa')}</p>
               </div>
               <div className="grid grid-cols-2 text-sm lg:w-10/12">
                 <p></p>
