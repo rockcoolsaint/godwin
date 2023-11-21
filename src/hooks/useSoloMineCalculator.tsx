@@ -6,6 +6,7 @@ const useSoloMineCalculator = ({ customHashrate }: { customHashrate?: number }) 
   const [globalHashrate, setGlobalHashrate] = useState(0)
   const [chancePerBlock, setChancePerBlock] = useState(0)
   const [chancePerBlockDay, setChancePerBlockDay] = useState(0)
+  const [difficulty, setDifficulty] = useState(0)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -13,6 +14,7 @@ const useSoloMineCalculator = ({ customHashrate }: { customHashrate?: number }) 
       try {
         const hashrate = await getHashRate()
         setGlobalHashrate(Math.floor(hashrate.currentHashrate / 1_000_000_000_000))
+        setDifficulty(hashrate.currentDifficulty / 1_000_000_000_000)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -32,7 +34,7 @@ const useSoloMineCalculator = ({ customHashrate }: { customHashrate?: number }) 
     }
   }, [customHashrate, globalHashrate])
 
-  return { globalHashrate, chancePerBlock, chancePerBlockDay, isLoading: loading }
+  return { globalHashrate, chancePerBlock, chancePerBlockDay, isLoading: loading, difficulty }
 }
 
 export default useSoloMineCalculator

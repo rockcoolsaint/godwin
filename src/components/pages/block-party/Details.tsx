@@ -14,7 +14,7 @@ function BlockPartyDetails({
   blockPartyOrders: BlockPartyOrder[]
   valueToGoal: number
 }) {
-  const { chancePerBlockDay } = useSoloMineCalculator({ customHashrate: blockParty?.hashrate_ths })
+  const { chancePerBlockDay, globalHashrate, difficulty } = useSoloMineCalculator({ customHashrate: blockParty?.hashrate_ths })
 
   const potentialRewardValue = (6.25 / blockParty.hashrate_ths) * 100_000_000
   const potentialRewardValueInFiat = useSatsToFiat({ initialValue: 0, bid: potentialRewardValue || 0 })
@@ -64,7 +64,8 @@ function BlockPartyDetails({
                   </p>
                 </TooltipTrigger>
                 <TooltipContent className="w-2/12 rounded bg-gray-600 p-2 text-xs font-medium text-white">
-                  Odds based on mining for 24hrs at 21 PH/s and global hashrate of 420 EH/s with network difficulty of 61.2 T
+                  Odds based on mining for 24hrs at {formatMoney(blockParty.hashrate_ths)}TH/s and global hashrate of{' '}
+                  {formatMoney(globalHashrate / 1_000_000)} EH/s with network difficulty of {formatMoney(difficulty)}T
                 </TooltipContent>
               </Tooltip>
             </div>
