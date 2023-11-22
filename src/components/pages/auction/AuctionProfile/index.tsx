@@ -16,13 +16,10 @@ const AuctionProfile = ({ data }: Props) => {
     if (data.auction_meta?.days_of_mining) {
       return (
         <p className="p-3 pl-4">
-          {data.auction_meta?.days_of_mining} {data.auction_meta?.days_of_mining > 1 ? 'epochs' : 'epoch'}{' '}
+          1 epoch {''}
           <Tooltip placement="top">
             <TooltipTrigger>
-              <i className="text-xs font-bold">
-                ({data.auction_meta?.days_of_mining} {data.auction_meta?.days_of_mining > 1 ? 'epochs' : 'epoch'} ={' '}
-                {data.auction_meta?.days_of_mining * 2016} blocks)
-              </i>
+              <i className="text-xs font-bold">(1 epoch = 2016 blocks)</i>
             </TooltipTrigger>
             <TooltipContent className="w-3/12 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
               Depending on whether hashrate has increased or decreased since the last difficulty adjustment, the time period of an epoch can
