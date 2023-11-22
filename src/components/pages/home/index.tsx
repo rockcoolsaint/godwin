@@ -141,6 +141,12 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
           </div>
         </section>
       )}
+      <div className={clsx(isLoggedIn ? 'sm:mt-24' : 'sm:mt-72')}></div>
+      <div className="elegant-gradient">
+        <ErrorBoundary fallback={<div className="p-8">⚠️ Oops! Something went wrong while rendering auction schedule</div>}>
+          {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} showLink={true} />}
+        </ErrorBoundary>
+      </div>
 
       {!isLoggedIn && (
         <section className="elegant-gradient mt-10">
@@ -148,12 +154,6 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
         </section>
       )}
       <InstantHashrate />
-      <div className="sm:mt-10"></div>
-      <div className="elegant-gradient">
-        <ErrorBoundary fallback={<div className="p-8">⚠️ Oops! Something went wrong while rendering auction schedule</div>}>
-          {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} showLink={true} />}
-        </ErrorBoundary>
-      </div>
 
       <AuctionOfTheDay auction={auctionOfTheDay} />
 

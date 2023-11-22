@@ -145,6 +145,113 @@ export default function SignUp({ setView, setEmail }: any) {
     [code, reset, returnUrl, setEmail, setView],
   )
 
+  const renderPoolEntry = (poolOwner: { poolOwner: 'yes' | 'no' | 'later' | string }) => {
+    if (poolOwner.poolOwner === 'yes') {
+      return (
+        <>
+          <Listbox value={selectedPool} onChange={handleSetSelectedPool}>
+            {({ open }) => (
+              <>
+                <Listbox.Label className="flex justify-start gap-1 text-sm text-gray-500">Select Mining Pool</Listbox.Label>
+                <div className="relative mt-2">
+                  <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm sm:leading-6">
+                    <span className="block truncate">{selectedPool.name}</span>
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </span>
+                  </Listbox.Button>
+
+                  <Transition show={open} as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
+                    <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/50 focus:outline-none sm:text-sm">
+                      {MINING_POOLS.map(value => (
+                        <Listbox.Option
+                          key={value.id}
+                          className={({ active }) =>
+                            clsx(active ? 'bg-primary text-white' : 'text-gray-900', 'relative cursor-default select-none py-2 pl-3 pr-9')
+                          }
+                          value={value}
+                        >
+                          {({ selected, active }) => (
+                            <>
+                              <span className={clsx(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>{value.name}</span>
+
+                              {selected ? (
+                                <span
+                                  className={clsx(
+                                    active ? 'text-white' : 'text-primary',
+                                    'absolute inset-y-0 right-0 flex items-center pr-4',
+                                  )}
+                                >
+                                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                </span>
+                              ) : null}
+                            </>
+                          )}
+                        </Listbox.Option>
+                      ))}
+                    </Listbox.Options>
+                  </Transition>
+                </div>
+              </>
+            )}
+          </Listbox>
+          <div className="items-start gap-8">
+            <Input
+              className="w-full"
+              id="mining_pool_username"
+              type="text"
+              autoComplete="off"
+              autoCorrect="off"
+              defaultValue={signUpInfo.mining_pool_username}
+              errorMessage={errors.mining_pool_username?.message}
+              placeholder="satoshi"
+              label={t('registration.mining_pool_username')}
+              {...register('mining_pool_username')}
+            />
+            <div className="mt-2 inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-normal text-gray-800 ring-1 ring-inset ring-gray-600/20">
+              Please double check spelling and capitalization on your username
+            </div>
+            <Input
+              className="w-full"
+              disabled={Boolean(selectedPool.address)}
+              id="mining_pool_address"
+              type="text"
+              autoComplete="off"
+              autoCorrect="off"
+              defaultValue={signUpInfo.mining_pool_address}
+              errorMessage={errors.mining_pool_address?.message}
+              placeholder="satoshi@gmx.com"
+              label={t('registration.mining_pool_address')}
+              {...register('mining_pool_address')}
+            />
+            <button
+              disabled={!isDirty || !isValid || loading}
+              type="submit"
+              className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
+            >
+              {loading ? <Loader height={20} width={20} /> : <span>Submit</span>}
+            </button>
+          </div>
+        </>
+      )
+    }
+    if (poolOwner.poolOwner === 'no') {
+      return <SignUpPoolDetails />
+    }
+
+    return (
+      <div className="items-start gap-8">
+        <button
+          disabled={loading}
+          type="submit"
+          className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
+        >
+          {loading ? <Loader height={20} width={20} /> : <span>Continue</span>}
+        </button>
+      </div>
+    )
+  }
+
   return (
     <section className="">
       <nav aria-label="Progress">
@@ -269,105 +376,7 @@ export default function SignUp({ setView, setEmail }: any) {
                 </div>
               </fieldset>
             </div>
-            {poolOwner === 'yes' ? (
-              <>
-                <Listbox value={selectedPool} onChange={handleSetSelectedPool}>
-                  {({ open }) => (
-                    <>
-                      <Listbox.Label className="flex justify-start gap-1 text-sm text-gray-500">Select Mining Pool</Listbox.Label>
-                      <div className="relative mt-2">
-                        <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm sm:leading-6">
-                          <span className="block truncate">{selectedPool.name}</span>
-                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                            <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                          </span>
-                        </Listbox.Button>
-
-                        <Transition
-                          show={open}
-                          as={Fragment}
-                          leave="transition ease-in duration-100"
-                          leaveFrom="opacity-100"
-                          leaveTo="opacity-0"
-                        >
-                          <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/50 focus:outline-none sm:text-sm">
-                            {MINING_POOLS.map(value => (
-                              <Listbox.Option
-                                key={value.id}
-                                className={({ active }) =>
-                                  clsx(
-                                    active ? 'bg-primary text-white' : 'text-gray-900',
-                                    'relative cursor-default select-none py-2 pl-3 pr-9',
-                                  )
-                                }
-                                value={value}
-                              >
-                                {({ selected, active }) => (
-                                  <>
-                                    <span className={clsx(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>{value.name}</span>
-
-                                    {selected ? (
-                                      <span
-                                        className={clsx(
-                                          active ? 'text-white' : 'text-primary',
-                                          'absolute inset-y-0 right-0 flex items-center pr-4',
-                                        )}
-                                      >
-                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                      </span>
-                                    ) : null}
-                                  </>
-                                )}
-                              </Listbox.Option>
-                            ))}
-                          </Listbox.Options>
-                        </Transition>
-                      </div>
-                    </>
-                  )}
-                </Listbox>
-                <div className="items-start gap-8">
-                  <Input
-                    className="w-full"
-                    id="mining_pool_username"
-                    type="text"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    defaultValue={signUpInfo.mining_pool_username}
-                    errorMessage={errors.mining_pool_username?.message}
-                    placeholder="satoshi"
-                    label={t('registration.mining_pool_username')}
-                    {...register('mining_pool_username')}
-                  />
-                  <div className="mt-2 inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-normal text-yellow-800 ring-1 ring-inset ring-yellow-600/20">
-                    Please double check spelling and capitalization on your username
-                  </div>
-                  <Input
-                    className="w-full"
-                    disabled={Boolean(selectedPool.address)}
-                    id="mining_pool_address"
-                    type="text"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    defaultValue={signUpInfo.mining_pool_address}
-                    errorMessage={errors.mining_pool_address?.message}
-                    placeholder="satoshi@gmx.com"
-                    label={t('registration.mining_pool_address')}
-                    {...register('mining_pool_address')}
-                  />
-                  <button
-                    disabled={!isDirty || !isValid || loading}
-                    type="submit"
-                    className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
-                  >
-                    {loading ? <Loader height={20} width={20} /> : <span>Submit</span>}
-                  </button>
-                </div>
-              </>
-            ) : (
-              SignUpPoolDetails()
-            )}
-
+            {renderPoolEntry({ poolOwner })}
             <div className="mt-8 flex justify-center border-t border-gray-300 pt-6 text-sm">
               <Link href="/login" className="text-primary underline">
                 {t('registration.has_account_already')}
@@ -383,4 +392,5 @@ export default function SignUp({ setView, setEmail }: any) {
 const notificationMethods = [
   { id: 'yes', title: 'Yes' },
   { id: 'no', title: 'No' },
+  { id: 'later', title: "I'll add later" },
 ]
