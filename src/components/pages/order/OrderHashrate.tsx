@@ -12,7 +12,7 @@ export function OrderHashrate({ invoice, shares }: { invoice: Invoice; shares: S
   }
 
   return (
-    <div>
+    <div className="overflow-scroll">
       <h6 className="flex flex-wrap justify-between px-4 font-semibold sm:px-6 xl:px-8">Hashrate Data</h6>
       <Chart title="Hashrate data" data={invoice.figure.data} layout={invoice.figure.layout} />
       <h6 className="flex flex-wrap justify-between px-4 font-semibold sm:px-6 xl:px-8">Shares Data</h6>
