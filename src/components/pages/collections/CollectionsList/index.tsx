@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import { createUrl } from 'utils'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import MoreAuctions from 'src/components/shared/MoreAuctions'
 
 interface Props {
@@ -22,7 +22,6 @@ export default function CollectionList({ auction, count }: Props) {
   const { t } = useTranslation()
   type ViewTypes = 'list' | 'card'
   const [viewType, setViewType] = useState<ViewTypes | null>(null)
-  const pathname = usePathname()
   const searchParams = useSearchParams()
   const sortBy = searchParams.get('sort')
   const auctionType = searchParams.get('auction_type')

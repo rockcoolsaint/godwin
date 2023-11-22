@@ -21,16 +21,16 @@ export interface AuctionTypeFilterItem {
 }
 
 export const defaultSort: AuctionSortFilterItem = {
-  title: 'Status',
-  slug: null,
-  sortKey: '',
+  title: 'Date created',
+  slug: 'created_at',
+  sortKey: 'created_at',
   category: 'Sort by',
 }
 
 export const sorting: AuctionSortFilterItem[] = [
   defaultSort,
   { title: 'Epoch', slug: 'epoch', sortKey: 'epoch', category: 'Sort by' },
-  { title: 'Date created', slug: 'created_at', sortKey: 'created_at', category: 'Sort by' },
+  // { title: 'Date created', slug: 'created_at', sortKey: 'created_at', category: 'Sort by' },
   { title: 'Hashrate', slug: 'hashrate', sortKey: 'hashrate', category: 'Sort by' },
   { title: 'Highest Bid', slug: 'highest_bid', sortKey: 'highest_bid', category: 'Sort by' },
   { title: 'Hashprice', slug: 'going_hashprice', sortKey: 'going_hashprice', category: 'Sort by' },
