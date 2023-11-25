@@ -89,7 +89,7 @@ function BlockPartyOnchainDetails({ onchain }: { onchain: BlockPartyOnchain }) {
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
           <Link
-            href="https://solo.ckpool.org/users/39MB5SHzbQT27oGNraKcq1ZTEgvvgWruZA"
+            href="https://solo.ckpool.org/users/31toK3FrYQu6b8ifHnZ5bF1z43CANVv8uU"
             target="_blank"
             className="text-sm leading-6 underline hover:no-underline"
           >
