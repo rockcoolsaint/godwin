@@ -297,13 +297,14 @@ function BlockPartyPage() {
               onClick={handleCreateOrder}
               className="relative flex w-full flex-1 items-center justify-center gap-x-1.5 rounded-lg bg-gradient p-4 text-sm font-medium capitalize text-white hover:bg-gray-50 hover:bg-gradient-hover focus:z-10 disabled:bg-gradient-disabled sm:w-8/12"
             >
-              {loading ? (
+              {/* loading ? (
                 <Loader height={20} width={20} />
               ) : (
                 <>
                   {selectDuration.name} - {formatMoney(Math.floor(selectDuration.value * blockParty.hashprice))} sats - Buy now{' '}
                 </>
-              )}
+              ) */}
+              Block party in-progress
             </button>
           </aside>
         </div>
