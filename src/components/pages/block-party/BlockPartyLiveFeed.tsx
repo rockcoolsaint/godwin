@@ -12,7 +12,7 @@ export default function BlockPartyLiveFeed() {
 
   useEffect(() => {
     setLoading(true)
-    const stratums_id = Number('15459')
+    const stratums_id = Number('15551')
 
     if (stratums_id) {
       const getPlotData = async () => {

@@ -209,7 +209,7 @@ function BlockPartyPage() {
           {/* <p className="mt-4 text-sm">Happy White Paper Day!</p> */}
           <p className="mt-1 text-sm">
             Solo mine with Rigly -{' '}
-            <Link target="_blank" href="https://blog.rigly.io/whitepaper-day-blockparty-20231026" className="underline hover:no-underline">
+            <Link target="_blank" href="https://blog.rigly.io/announcing-our-black-friday-sale" className="underline hover:no-underline">
               Learn more
             </Link>
           </p>
