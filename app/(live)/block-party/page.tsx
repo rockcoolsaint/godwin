@@ -304,7 +304,7 @@ function BlockPartyPage() {
                   {selectDuration.name} - {formatMoney(Math.floor(selectDuration.value * blockParty.hashprice))} sats - Buy now{' '}
                 </>
               ) */}
-              Block party in-progress
+              Block party has ended
             </button>
           </aside>
         </div>
