@@ -84,18 +84,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
 
   return (
     <div>
-      <DemoAlert
-        className={clsx(!isLoggedIn ? '' : '')}
-        msg={
-          <div>
-            Join our{' '}
-            <Link className="underline hover:no-underline" href="/block-party">
-              Black Friday Block Party
-            </Link>{' '}
-            for a chance to win a block
-          </div>
-        }
-      />
+      <DemoAlert className={clsx(!isLoggedIn ? '' : '')} msg={<div>Product in beta, please report bugs using the intercom below</div>} />
       {!isLoggedIn && (
         <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center sm:mt-14 md:px-2 lg:px-4">
           <Gradient />
