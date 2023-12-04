@@ -1,3 +1,5 @@
+export const revalidate = 0
+
 import { Suspense } from 'react'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import AuctionSchedule from 'src/components/pages/home/AuctionSchedule'
