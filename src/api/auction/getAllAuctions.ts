@@ -12,7 +12,7 @@ interface Props {
 }
 
 export async function getAllAuctions({
-  limit = 21,
+  limit = 10,
   offset = 0,
   sorting = 'desc',
   auction_type,
