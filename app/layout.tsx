@@ -6,23 +6,17 @@ import 'animate.css'
 import { PropsWithChildren } from 'react'
 import AccountProvider from 'src/providers/AccountProvider'
 import WebsocketProvider from 'src/providers/WebsocketProvider'
-import { Poppins } from 'next/font/google'
 import Toaster from 'src/components/shared/Toaster'
 import Script from 'next/script'
 import GoogleAnalytics from 'src/components/shared/GoogleAnalytics'
 import NotificationsProvider from 'src/providers/NotificationsProvider'
 import Notifier from 'src/components/shared/Notifier'
-const intercom = process.env.NEXT_PUBLIC_INTERCOM_ID
 
-const poppins = Poppins({
-  display: 'swap',
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  subsets: ['latin'],
-})
+const intercom = process.env.NEXT_PUBLIC_INTERCOM_ID
 
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
-    <html lang="en" className={poppins.className}>
+    <html lang="en">
       <head>
         <GoogleAnalytics />
         <title>Rigly</title>
