@@ -45,6 +45,10 @@ module.exports = {
         'input-tall': `${StyleConstants.inputHeight.tall}px`,
         'input-short': `${StyleConstants.inputHeight.short}px`,
       },
+      fontFamily: {
+        chakra: ['var(--font-chakra)'],
+        epilogue: ['var(--font-epilogue)'],
+      },
     },
   },
   plugins: [require('@tailwindcss/forms'), require('@headlessui/tailwindcss')({ prefix: 'ui' })],
