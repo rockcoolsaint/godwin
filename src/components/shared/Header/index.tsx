@@ -92,7 +92,7 @@ export default function HeaderNav({ isDemo }: Props) {
 
             <aside className="hidden lg:block">
               {navigationURL.map(nav => (
-                <Link key={nav.id} className="ml-8 text-sm font-normal text-dark-300 hover:text-primary" href={nav.url}>
+                <Link key={nav.id} className="ml-8 font-epilogue text-sm font-normal text-dark-300 hover:text-primary" href={nav.url}>
                   {nav.name}
                 </Link>
               ))}

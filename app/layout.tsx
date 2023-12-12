@@ -11,12 +11,13 @@ import Script from 'next/script'
 import GoogleAnalytics from 'src/components/shared/GoogleAnalytics'
 import NotificationsProvider from 'src/providers/NotificationsProvider'
 import Notifier from 'src/components/shared/Notifier'
+import { epilogue, chakra } from './fonts'
 
 const intercom = process.env.NEXT_PUBLIC_INTERCOM_ID
 
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${epilogue.variable} ${chakra.variable}`}>
       <head>
         <GoogleAnalytics />
         <title>Rigly</title>
