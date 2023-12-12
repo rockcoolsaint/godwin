@@ -24,6 +24,7 @@ import BreadCrumb from 'src/components/shared/BreadCrumb'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import { ErrorBoundary } from 'react-error-boundary'
 import { updateAccount } from 'src/api/auth/updateAccount'
+import { formatDate } from 'src/utils/date'
 
 function tabClass({ selected }: { selected: boolean }) {
   return clsx(
@@ -135,9 +136,9 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
   }
   const renderAuctionMeta = () => {
     return (
-      <span>{`${auction.auction_meta.days_of_mining} ${auction.auction_meta.days_of_mining > 1 ? 'days' : 'day'}  | ${
-        auction.auction_meta.hashrate
-      }TH/s `}</span>
+      <span className="text-sm">{`${auction.auction_meta.days_of_mining} ${
+        auction.auction_meta.days_of_mining > 1 ? 'days' : 'day'
+      }  | Start date: ${formatDate(auction.epoch.start_time, 'MMM dd, yyyy')} `}</span>
     )
   }
 
