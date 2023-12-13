@@ -20,19 +20,63 @@ import { isOrderFulfilled } from 'utils'
 export function formatOrderStatus(order: Order) {
   switch (order.status) {
     case OrderStatus.Unpaid:
-      return <span className="font-semibold text-red-600">Unpaid</span>
+      return (
+        <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-900 ring-1 ring-inset ring-red-500/10">
+          Unpaid
+        </span>
+      )
     case OrderStatus.Processing:
-      return <span className="font-semibold text-gray-600">Processing</span>
+      return (
+        <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-500/10">
+          Processing
+        </span>
+      )
     case OrderStatus.PaymentOneComplete:
       if (order.type === OrderType.Auction) {
-        return <span className="font-semibold text-orange-400">Deposit & fee received</span>
+        return (
+          <span className="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-400 ring-1 ring-inset ring-orange-500/10">
+            Deposit & fee received
+          </span>
+        )
       }
 
-      return <span className="font-semibold text-green-600">Paid</span>
-    case OrderStatus.Paid:
-      return <span className="font-semibold text-green-400">Paid</span>
+      return (
+        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-600 ring-1 ring-inset ring-green-500/10">
+          Paid
+        </span>
+      )
+    case OrderStatus.PaymentTwoComplete:
+      return (
+        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-600 ring-1 ring-inset ring-green-500/10">
+          Paid
+        </span>
+      )
+    case OrderStatus.EscrowCancelled:
+      return (
+        <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-500/10">
+          Cancelled
+        </span>
+      )
+    case OrderStatus.DeliveryStarted:
+      return (
+        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-950 ring-1 ring-inset ring-green-500/10">
+          Delivery Started
+        </span>
+      )
+    case OrderStatus.DeliveryEnded:
+      return (
+        <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+          Delivery ended
+        </span>
+      )
+    case OrderStatus.EscrowRefunded:
+      return <span className="font-normal text-blue-500">Refunded</span>
     default:
-      return <span className="font-semibold text-green-600">Paid</span>
+      return (
+        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-600 ring-1 ring-inset ring-green-500/10">
+          Paid
+        </span>
+      )
   }
 }
 
