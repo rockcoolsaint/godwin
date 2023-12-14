@@ -18,6 +18,7 @@ module.exports = {
       colors: {
         primary: '#316AEF',
         gradient: `bg-gradient-to-r from-cyan-500 to-blue-500`,
+        navy: '#1A3263',
         gray: {
           100: '#EBEFF0',
           200: '#ECF3FD',
