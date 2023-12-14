@@ -1,3 +1,5 @@
+import Warp from 'src/assets/svg/warp.svg'
+
 const Hero = () => {
   return (
     <section className="mx-4 flex flex-col items-center justify-center md:mb-12 md:mr-0 lg:mb-0 lg:w-3/5 ">
@@ -9,10 +11,10 @@ const Hero = () => {
           Rigly is the first auction marketplace for bitcoin mining hashrate
         </p>
       </div>
-      <div className="mt-12 flex w-full items-center justify-center font-chakra font-bold">
+      <div className="mb-20 mt-12 flex w-full items-center justify-center font-chakra font-bold">
         <button
           type="submit"
-          className="flex h-20 w-11/12 items-center justify-center rounded-full bg-hero-gradient px-5 text-3xl text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-9/12 xl:w-6/12"
+          className="flex h-20 w-11/12 items-center justify-center rounded-full bg-hero-gradient px-5 text-3xl text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-9/12 xl:w-6/12"
         >
           Try it out
         </button>
@@ -22,6 +24,12 @@ const Hero = () => {
         >
           Buy Hashrate
         </button>
+      </div>
+
+      <Warp />
+
+      <div className="mt-8 bg-clip-text text-center font-chakra text-5xl font-extrabold leading-10 text-navy md:w-10/12 md:text-center lg:w-8/12 lg:text-center xl:w-11/12 xl:text-7xl">
+        Trustless bitcoin mining for <span className="text-primary">everyone</span>
       </div>
     </section>
   )

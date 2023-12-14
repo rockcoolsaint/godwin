@@ -88,10 +88,6 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
         <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center sm:mt-14 md:px-2 lg:px-4">
           <Gradient />
           <Hero />
-
-          <div className="relative mt-8 flex w-full max-w-5xl items-center justify-center sm:mt-16 sm:w-5/6 md:w-10/12 lg:w-3/5 xl:w-3/5 xl:max-w-3xl">
-            <HomepageCalculator />
-          </div>
         </section>
       )}
       <div className={clsx(isLoggedIn ? 'sm:mt-24' : 'sm:mt-72')}></div>
