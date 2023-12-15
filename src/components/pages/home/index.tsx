@@ -23,6 +23,7 @@ import clsx from 'clsx'
 import { ErrorBoundary } from 'react-error-boundary'
 import Hero from './Hero'
 import Learn from './Learn'
+import RealMachines from './RealMachines'
 
 interface Props {
   auctions: Auction[]
@@ -84,20 +85,15 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
 
   return (
     <div>
-      <DemoAlert className={clsx(!isLoggedIn ? '' : '')} msg={<div>Product in beta, please report bugs using the intercom below</div>} />
+      {/* <DemoAlert className={clsx(!isLoggedIn ? '' : '')} msg={<div>Product in beta, please report bugs using the intercom below</div>} /> */}
       {!isLoggedIn && (
         <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center sm:mt-14">
           <Gradient />
           <Hero />
           <Learn />
+          <RealMachines />
         </section>
       )}
-      <div className={clsx(isLoggedIn ? 'sm:mt-24' : 'sm:mt-72')}></div>
-      <div className="elegant-gradient">
-        <ErrorBoundary fallback={<div className="p-8">⚠️ Oops! Something went wrong while rendering auction schedule</div>}>
-          {loading ? <TableSkeletonLoader title="Auction Market" /> : <AuctionSchedule auctionsData={auctionData} showLink={true} />}
-        </ErrorBoundary>
-      </div>
 
       {!isLoggedIn && (
         <section className="elegant-gradient mt-10">
