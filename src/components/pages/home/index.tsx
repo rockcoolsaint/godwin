@@ -22,6 +22,7 @@ import { HomepageCalculator } from './Calculator'
 import clsx from 'clsx'
 import { ErrorBoundary } from 'react-error-boundary'
 import Hero from './Hero'
+import Learn from './Learn'
 
 interface Props {
   auctions: Auction[]
@@ -85,9 +86,10 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
     <div>
       <DemoAlert className={clsx(!isLoggedIn ? '' : '')} msg={<div>Product in beta, please report bugs using the intercom below</div>} />
       {!isLoggedIn && (
-        <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center sm:mt-14 md:px-2 lg:px-4">
+        <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center sm:mt-14">
           <Gradient />
           <Hero />
+          <Learn />
         </section>
       )}
       <div className={clsx(isLoggedIn ? 'sm:mt-24' : 'sm:mt-72')}></div>
