@@ -51,6 +51,9 @@ module.exports = {
         chakra: ['var(--font-chakra)'],
         epilogue: ['var(--font-epilogue)'],
       },
+      boxShadow: {
+        'hero-outline': '0px 0px 15px 5px rgba(49, 106, 239, 0.30);',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms'), require('@headlessui/tailwindcss')({ prefix: 'ui' })],
