@@ -10,7 +10,7 @@ export default function Learn() {
       <div className="max-w-8xl mx-auto py-24 sm:py-32 lg:px-8 lg:py-40">
         <div className="mx-auto max-w-6xl divide-gray-900/10">
           <div className="flex w-full justify-between">
-            <div className="w-6/12 space-y-6 divide-y divide-gray-900/10">
+            <div className="space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12">
               <div>
                 <p className="text-3xl">Mining made easy for everyone.</p>
                 <p className="mt-2 text-2xl">
@@ -100,15 +100,15 @@ export default function Learn() {
                 )}
               </Disclosure>
             </div>
-            <div className="flex w-6/12 pl-20">
+            <div className="hidden w-6/12 pl-20 sm:flex">
               <MineEasy />
             </div>
           </div>
         </div>
         {/* Real machines */}
-        <div className="mx-auto mt-40 max-w-6xl divide-gray-900/10">
+        <div className="mx-auto mt-20 max-w-6xl divide-gray-900/10 sm:mt-40">
           <div className="flex w-full justify-between">
-            <div className="order-2 w-6/12 space-y-6 divide-y divide-gray-900/10 pl-20">
+            <div className="order-2 w-full space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12 sm:pl-20">
               <div>
                 <p className="text-3xl">Start mining now for just a few sats. Real machines, no rug pulls.</p>
               </div>
@@ -184,7 +184,7 @@ export default function Learn() {
                 )}
               </Disclosure>
             </div>
-            <div className="order-1 flex w-6/12 justify-start">
+            <div className="order-1 hidden w-6/12 justify-start sm:flex">
               <RealMachines />
             </div>
           </div>
