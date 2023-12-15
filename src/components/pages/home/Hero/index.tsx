@@ -6,21 +6,21 @@ const Hero = () => {
       <div className="mb-2 bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text text-center font-chakra text-5xl font-extrabold text-transparent md:w-10/12 md:text-center lg:w-8/12 lg:text-center xl:w-11/12 xl:text-8xl">
         A Bitcoin Mining Marketplace
       </div>
-      <div className="mt-4 flex flex-col flex-wrap sm:flex-row sm:items-center  sm:justify-center">
-        <p className="mb-2 flex items-start justify-center text-center font-epilogue text-xl font-normal text-black md:w-8/12 lg:w-4/6 lg:justify-start xl:w-5/6 xl:text-4xl 2xl:w-8/12">
+      <div className="mt-4 flex w-8/12 flex-col flex-wrap sm:flex-row sm:items-center sm:justify-center md:w-8/12 lg:w-4/6 xl:w-5/6">
+        <p className="mb-2 flex items-start justify-center text-center font-epilogue text-xl font-normal text-black lg:justify-start xl:text-4xl 2xl:w-8/12">
           Rigly is the first auction marketplace for bitcoin mining hashrate
         </p>
       </div>
-      <div className="mb-20 mt-12 flex w-full items-center justify-center font-chakra font-bold">
+      <div className="mb-20 mt-12 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row">
         <button
           type="submit"
-          className="flex h-20 w-11/12 items-center justify-center rounded-full bg-hero-gradient px-5 text-3xl text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-9/12 xl:w-6/12"
+          className="mb-5 flex h-20 w-8/12 items-center justify-center rounded-full bg-hero-gradient px-5 text-3xl text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:mb-0 lg:w-9/12 xl:w-6/12"
         >
           Try it out
         </button>
         <button
           type="submit"
-          className="ml-16 flex h-20 w-11/12 items-center justify-center rounded-full bg-gradient px-5 text-3xl text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-9/12 xl:w-6/12"
+          className="flex h-20 w-8/12 items-center justify-center rounded-full bg-gradient px-5 text-3xl text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:w-9/12 xl:w-6/12"
         >
           Buy Hashrate
         </button>
@@ -28,7 +28,7 @@ const Hero = () => {
 
       <Warp />
 
-      <div className="mt-8 bg-clip-text text-center font-chakra text-5xl font-extrabold leading-10 text-navy md:w-10/12 md:text-center lg:w-8/12 lg:text-center xl:w-11/12 xl:text-7xl">
+      <div className="mt-8 w-8/12 bg-clip-text text-center font-chakra text-5xl font-extrabold leading-10 text-navy md:w-10/12 md:text-center lg:w-8/12 lg:text-center xl:w-11/12 xl:text-7xl">
         Trustless bitcoin mining for <span className="text-primary">everyone</span>
       </div>
     </section>
