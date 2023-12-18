@@ -66,24 +66,6 @@ export default function Testimonial() {
                 <Tweet
                   options={{
                     theme: 'light',
-                    dnt: false,
-                    align: 'center',
-                    conversation: 'none',
-                    cards: 'hidden',
-                    height: '100%',
-                    chrome: 'nofooternoheader',
-                  }}
-                  key="1642525343473868800"
-                  tweetId="1642525343473868800"
-                  onLoad={() => setTweetIsLoading(false)}
-                />
-              </div>
-            </div>
-            <div className="aspect-w-16 aspect-h-9 relative">
-              <div className={clsx(tweetIsLoading && `h-[300px] w-[382] animate-pulse rounded-[12px] bg-gray-200`)}>
-                <Tweet
-                  options={{
-                    theme: 'light',
                     dnt: true,
                     align: 'center',
                     conversation: 'none',
@@ -96,7 +78,7 @@ export default function Testimonial() {
                 />
               </div>
             </div>
-            <div className="aspect-w-1 aspect-h-1 relative h-[270px] lg:h-[450px]">
+            <div className="aspect-w-1 aspect-h-1 relative ">
               <div>
                 <figure className="rounded-2xl bg-white p-6 shadow-md ring-1 ring-gray-900/5">
                   <blockquote className="text-gray-900">
