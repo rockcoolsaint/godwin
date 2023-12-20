@@ -24,6 +24,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import Hero from './Hero'
 import Learn from './Learn'
 import RealMachines from './RealMachines'
+import JoinPool from './JoinPool'
 
 interface Props {
   auctions: Auction[]
@@ -92,21 +93,22 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
           <Hero />
           <Learn />
           <RealMachines />
+          <JoinPool />
         </section>
       )}
 
-      {!isLoggedIn && (
+      {/* {!isLoggedIn && (
         <section className="elegant-gradient mt-10">
           <Mining />
         </section>
-      )}
-      <InstantHashrate />
+      )} */}
+      {/* <InstantHashrate /> */}
 
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && !isLoggedIn && (
         <>
-          <section className="mt-28 flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 sm:mt-0 md:px-0">
+          {/* <section className="mt-28 flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 sm:mt-0 md:px-0">
             <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
             <div className="flex flex-col items-center justify-center md:flex-row">
               <Details
@@ -123,7 +125,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
                 link="https://blog.rigly.io/how-to-bid-on-hashrate/"
               />
             </div>
-          </section>
+          </section> */}
           <Testimonials />
         </>
       )}
