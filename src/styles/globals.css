@@ -90,6 +90,10 @@
     background-image: linear-gradient(to top, #dfe9f370 0%, rgba(241, 248, 255, 0.163) 100%);
   }
 
+  .auction-of-the-day-gradient {
+    background: linear-gradient(163deg, #ebf7fe 23.01%, #316aef 97.96%);
+  }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
