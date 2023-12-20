@@ -7,12 +7,12 @@ const content = [
     body: 'Connect to ASIC miners from different sellers around the world.',
   },
   {
-    title: 'Real machines',
-    body: 'Connect to ASIC miners from different sellers around the world.',
-  },
-  {
     title: 'Multisig escrow',
     body: 'Payments are released after your hashrate is delivered.',
+  },
+  {
+    title: 'Auction pricing',
+    body: 'All prices set by an open market.',
   },
 ]
 
