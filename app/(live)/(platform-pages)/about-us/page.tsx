@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Container from 'src/core/components/Container'
 import trustlessMining from 'src/assets/webp/trustless_mining.webp'
 import sla from 'src/assets/webp/sla.webp'
-import karo from 'src/assets/png/karo.png'
+import sydney from 'src/assets/jpg/sydney.jpeg'
 import kevin from 'src/assets/png/kevin.png'
 import tobi from 'src/assets/png/tobi.png'
 import evan from 'src/assets/webp/evan.webp'
@@ -146,7 +146,17 @@ function AboutUs() {
               <p className="text-sm leading-6 text-gray-400">
                 Tobi is a dedicated frontend engineer with a passion for clean and intuitive designs who thrives on crafting seamless user
                 experiences. He previously worked as a frontend engineer in one of Africa&apos;s biggest fintech before leaving it all
-                behind to work in the Bitcoin industry after going through the Chaincode affiliated Qala program.
+                behind to work in the Bitcoin industry after going through the Chaincode affiliated Qala (now Btrust Builders) program.
+              </p>
+            </li>
+            <li className="rounded-2xl bg-gray-800 px-8 py-10">
+              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={sydney} width={100} height={100} alt="Sydney" />
+              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Sydney Bright</h3>
+              <p className="text-sm leading-6 text-gray-400">
+                Sydney is an avid bitcoin enthusiast who manages Rigly&apos;s operations. He has followed Bitcoin since young adulthood.
+                Prior to joining Rigly, Sydney amassed valuable experience as an engineer in various startups within the medical device
+                industry. Nevertheless, he made a conscious choice to diverge from that career trajectory, redirecting his efforts
+                exclusively towards his true passions—Bitcoin and his writing.
               </p>
             </li>
           </ul>

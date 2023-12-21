@@ -10,6 +10,8 @@ interface signUpInfo {
   create_pool_account: boolean
 }
 
+const emailRegex = /^(?!.*\.[^.]+\.(?:ru|af|ir|kp|cu|sy)\b)[^\s@]+@[^\s@]+\.(?!(?:ru|af|ir|kp|cu|sy)\b)[^\s@]+$/i
+
 export const useSignUpSchema = (signUpInfo?: signUpInfo) => {
   const schema = useMemo(
     () =>
@@ -18,6 +20,7 @@ export const useSignUpSchema = (signUpInfo?: signUpInfo) => {
           email: yup
             .string()
             .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, () => 'Email not valid')
+            .matches(emailRegex, () => 'Email not valid')
             .required(() => 'Email required'),
           referral_code: yup.string(),
           mining_pool_username: signUpInfo?.poolAccountOwner ? yup.string().trim() : yup.string(),
