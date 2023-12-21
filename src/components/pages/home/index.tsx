@@ -1,9 +1,5 @@
 'use client'
 import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
-import rig from 'src/assets/png/rig.png'
-import placard from 'src/assets/png/placard.png'
-import Details from 'src/components/pages/home/Details'
-import { useTranslation } from 'src/hooks'
 import AuctionOfTheDay from './AuctionOfTheDay'
 import Testimonials from 'src/components/pages/home/Testimonial'
 import { LocalStorageKeys } from 'src/constants/localStorage'
@@ -12,15 +8,7 @@ import { isDateBefore } from 'src/utils/date'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Gradient from 'src/components/shared/Gradient'
-import Mining from './Mining'
-import InstantHashrate from './InstantHashrate'
-import AuctionSchedule from './AuctionSchedule'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
-import { TableSkeletonLoader } from 'src/components/shared/TableSkeletonLoader'
-import DemoAlert from 'src/components/demo/Alert'
-import { HomepageCalculator } from './Calculator'
-import clsx from 'clsx'
-import { ErrorBoundary } from 'react-error-boundary'
 import Hero from './Hero'
 import Learn from './Learn'
 import RealMachines from './RealMachines'
@@ -34,10 +22,9 @@ interface Props {
 }
 
 export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
-  const { t } = useTranslation()
   const { account } = useAccountContext()
   const router = useRouter()
-  const [loading, setLoading] = useState(false)
+  const [_, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
 
   useEffect(() => {
@@ -93,39 +80,14 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
           <Hero />
           <Learn />
           <RealMachines />
-          <JoinPool />
+          <JoinPool data={auctionData} />
         </section>
       )}
-
-      {/* {!isLoggedIn && (
-        <section className="elegant-gradient mt-10">
-          <Mining />
-        </section>
-      )} */}
-      {/* <InstantHashrate /> */}
 
       <AuctionOfTheDay auction={auctionOfTheDay} />
 
       {!isDemo && !isLoggedIn && (
         <>
-          {/* <section className="mt-28 flex w-full flex-col items-center justify-center bg-[#F1F6FE] px-5 py-28 sm:mt-0 md:px-0">
-            <h1 className="mb-10 text-center text-7xl text-primary sm:mb-20">{t('home.start_mining_today')}</h1>
-            <div className="flex flex-col items-center justify-center md:flex-row">
-              <Details
-                title={t('home.title_mining')}
-                imageSrc={rig}
-                description={t('home.details_mining_description')}
-                link="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
-              />
-              <Details
-                className="md:ml-14"
-                title={t('home.title_bid')}
-                imageSrc={placard}
-                description={t('home.details_bidding_description')}
-                link="https://blog.rigly.io/how-to-bid-on-hashrate/"
-              />
-            </div>
-          </section> */}
           <Testimonials />
         </>
       )}
