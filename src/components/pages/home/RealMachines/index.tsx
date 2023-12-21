@@ -7,12 +7,12 @@ const content = [
     body: 'Connect to ASIC miners from different sellers around the world.',
   },
   {
-    title: 'Real machines',
-    body: 'Connect to ASIC miners from different sellers around the world.',
-  },
-  {
     title: 'Multisig escrow',
     body: 'Payments are released after your hashrate is delivered.',
+  },
+  {
+    title: 'Auction pricing',
+    body: 'All prices set by an open market.',
   },
 ]
 
@@ -37,7 +37,7 @@ export default function RealMachines() {
         ))}
       </ul>
       <div className="mx-auto hidden max-w-7xl sm:block">
-        <Image className="mb-4 block w-full overflow-hidden" src={spot} width={undefined} height={undefined} alt="spot" />
+        <Image className="block w-full overflow-hidden" src={spot} width={undefined} height={undefined} alt="spot" />
       </div>
     </>
   )

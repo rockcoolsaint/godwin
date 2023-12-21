@@ -7,7 +7,7 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 import { formatMoney } from 'src/utils/currency'
 import { isDateBefore } from 'src/utils/date'
 import * as miner from 'src/assets/jpg/mining.jpeg'
-
+import clsx from 'clsx'
 interface AuctionOfTheDay {
   auction: AuctionOfTheDayResponse
 }
@@ -53,10 +53,11 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
     return 'bids'
   }
 
+  // #EBF7FE, #316AEF
   return (
-    <section className="flex w-full items-center justify-center py-28">
-      <div className="shadow-level-2 max-w-md rounded-3xl border px-3 py-6 shadow-md md:px-6 lg:max-w-4xl">
-        <h1 className="mb-6 text-center text-4xl text-primary">{t('home.auction_of_the_day')}</h1>
+    <section className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center py-28">
+      <h1 className="mb-10 font-chakra text-7xl text-navy">Auction of the day</h1>
+      <div className="max-w-md rounded-3xl bg-white px-3 py-6 shadow-md md:px-6 lg:max-w-4xl">
         <div className="flex flex-col lg:flex-row">
           <Image
             className="max-h-96 rounded-3xl"
@@ -65,7 +66,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
             width={550}
             height={305}
           />
-          <div className="ml-0 mt-4 flex max-h-96 flex-col items-start justify-between lg:ml-9 lg:mt-0">
+          <div className="ml-0 mt-4 flex flex-col items-start justify-between lg:ml-9 lg:mt-0">
             {renderAuctionStatusTag()}
             <h1 className="mb-4 text-2xl font-semibold">{auction.title}</h1>
             <div className="flex justify-between">
@@ -103,6 +104,56 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
               href={'/auctions/' + auction.slug}
             >
               {t('home.view_details')}
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* SUPPORT */}
+
+      <h1 className="mt-36 font-chakra text-7xl text-navy">Support</h1>
+      <p className="w-6/12 text-center text-3xl text-navy">
+        Whether you&apos;re brand new to mining, or a seasoned bitcoiner, our support team is here to answer your questions
+      </p>
+
+      <div className="mt-14 flex px-20">
+        <div className="mb-12 flex w-4/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
+          <div className="">
+            <h2 className="mb-5 w-10/12 text-3xl font-semibold text-navy">Learn how Bitcoin mining works</h2>
+            <p className="mb-5 text-2xl text-navy ">
+              There are lots of reasons why someone chooses to mine bitcoin. Read more in this essay from Braiins.
+            </p>
+          </div>
+          <div className="">
+            <Link href="#" className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white" target="_blank">
+              Read the article
+            </Link>
+          </div>
+        </div>
+
+        <div className="mx-20 mb-12 flex w-4/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
+          <h2 className="mb-5 w-10/12 text-3xl font-semibold text-navy">How to bid on auctions</h2>
+          <p className="mb-5 text-2xl text-navy ">
+            The Rigly experience is quick and seamless, giving you the opportunity to start mining right away.
+          </p>
+
+          <div className="">
+            <Link href="#" className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white" target="_blank">
+              Read the article
+            </Link>
+          </div>
+        </div>
+
+        <div className="mb-12 flex w-4/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
+          <div className="">
+            <h2 className="mb-5 w-10/12 text-3xl font-semibold text-navy">Want to sell your hashrate</h2>
+            <p className="mb-5 text-2xl text-navy ">
+              Rigly&apos;s marketplace allows miners to sell their hash in a forward agreement and focus on optimizing operations.
+            </p>
+          </div>
+          <div className="">
+            <Link href="#" className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white" target="_blank">
+              Read the article
             </Link>
           </div>
         </div>
