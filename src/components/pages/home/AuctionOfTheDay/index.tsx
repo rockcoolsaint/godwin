@@ -125,7 +125,11 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
             </p>
           </div>
           <div className="">
-            <Link href="#" className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white" target="_blank">
+            <Link
+              href="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
+              className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
+              target="_blank"
+            >
               Read the article
             </Link>
           </div>
@@ -138,7 +142,11 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
           </p>
 
           <div className="">
-            <Link href="#" className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white" target="_blank">
+            <Link
+              href="https://blog.rigly.io/how-to-bid-on-hashrate/"
+              className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
+              target="_blank"
+            >
               Read the article
             </Link>
           </div>
@@ -152,7 +160,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
             </p>
           </div>
           <div className="">
-            <Link href="#" className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white" target="_blank">
+            <Link href="#" className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90" target="_blank">
               Read the article
             </Link>
           </div>
