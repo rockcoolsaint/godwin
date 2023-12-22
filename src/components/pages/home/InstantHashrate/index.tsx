@@ -32,6 +32,7 @@ interface FormInputs {
 }
 
 export default function InstantHashrate() {
+  const [processing, setProcessing] = useState(false)
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(0)
   const router = useRouter()
@@ -58,10 +59,12 @@ export default function InstantHashrate() {
 
   useEffect(() => {
     const fetchRates = async () => {
+      setLoading(true)
       const rate = await getProductRate()
       setHashprice(rate?.hashprice)
       setHashrate(rate?.hashrate / 10 ** 12)
       setMarkup(rate?.markup)
+      setLoading(false)
     }
 
     fetchRates()
@@ -72,7 +75,7 @@ export default function InstantHashrate() {
   const onSubmit: SubmitHandler<FormInputs> = useCallback(
     async value => {
       try {
-        setLoading(true)
+        setProcessing(true)
 
         if (!account?.id) {
           toast.error('Redirecting to login...')
@@ -107,9 +110,9 @@ export default function InstantHashrate() {
           { keepTouched: false, keepDirty: false },
         )
         toast.success('Payment created')
-        setLoading(false)
+        setProcessing(false)
       } catch (err) {
-        setLoading(false)
+        setProcessing(false)
         toast.error('Error')
       }
     },
@@ -120,26 +123,28 @@ export default function InstantHashrate() {
     if (status === 1) {
       return (
         <div className="flex flex-col items-center justify-center">
-          <p className="mt-1 text-sm text-dark-200">Creating order...</p>
+          <p className="mt-1 font-epilogue text-xl font-bold text-white">Creating order...</p>
         </div>
       )
     }
     if (status === 2) {
       return (
         <div className="flex flex-col items-center justify-center">
-          <p className="mt-1 text-sm text-green-500">Order created</p>
-          <p className="mt-1 text-sm text-dark-200">Creating payment...</p>
+          <p className="mt-1 font-epilogue text-xl font-bold text-white">Order created</p>
+          <p className="mt-1 font-epilogue text-xl font-bold text-white">Creating payment...</p>
         </div>
       )
     }
   }
 
-  if (loading) {
+  if (processing) {
     return (
-      <div id="test-mine" className="mt-24 flex h-screen flex-col items-center justify-center">
-        <Loader />
-        {renderStatus()}
-      </div>
+      <section className="flex w-9/12 flex-col items-center justify-center gap-8 p-12 sm:flex-row sm:gap-28 md:gap-8 lg:gap-14">
+        <div id="test-mine" className="flex flex-col items-center justify-center">
+          <Loader width={48} height={48} />
+          {renderStatus()}
+        </div>
+      </section>
     )
   }
 
@@ -153,7 +158,11 @@ export default function InstantHashrate() {
                 <p className="text-xl font-bold text-white">Hashrate</p>
               </div>
               <div className="col-span-1 justify-self-end">
-                <p className="text-sm font-bold text-white">{hashrate} TH/s</p>
+                {loading ? (
+                  <p className="flex h-2 w-12 animate-pulse rounded bg-white text-sm" />
+                ) : (
+                  <p className="text-sm font-bold text-white">{hashrate} TH/s</p>
+                )}
               </div>
             </div>
             <div className="grid grid-cols-2">
@@ -161,7 +170,11 @@ export default function InstantHashrate() {
                 <p className="text-xl font-bold text-white">Hash price</p>
               </div>
               <div className="col-span-1 justify-self-end">
-                <p className="text-sm font-bold text-white">{Math.round(hashprice * (1 + markupPercentage))} sats per TH/s/day</p>
+                {loading ? (
+                  <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
+                ) : (
+                  <p className="text-sm font-bold text-white">{Math.round(hashprice * (1 + markupPercentage))} sats per TH/s/day</p>
+                )}
               </div>
             </div>
             <div className="grid grid-cols-2 items-center">
@@ -184,9 +197,13 @@ export default function InstantHashrate() {
                 <p className="text-xl font-bold text-white">Cost</p>
               </div>
               <div className="col-span-1 justify-self-end">
-                <p className="text-sm font-bold text-white">
-                  {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice * (1 + markupPercentage)))} sats
-                </p>
+                {loading ? (
+                  <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
+                ) : (
+                  <p className="text-sm font-bold text-white">
+                    {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice * (1 + markupPercentage)))} sats
+                  </p>
+                )}
               </div>
             </div>
           </div>

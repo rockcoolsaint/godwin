@@ -46,50 +46,6 @@ export function MiningCalculator() {
     setDifficulty(difficulty / 1_000_000_000_000)
   }, [globalHashrate, hashrateRaw, feePercentage])
 
-  if (loading) {
-    return (
-      <div className="min-h-96 mx-auto h-96 w-full rounded-md border-2 border-dark-100 p-8 shadow sm:w-8/12 lg:w-7/12 ">
-        <div className="flex animate-pulse flex-col ">
-          <div className="flex-1 space-y-6 py-1">
-            <div className="h-2 rounded bg-slate-300"></div>
-            <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-4">
-                <div className="col-span-2 h-2 rounded bg-slate-300"></div>
-                <div className="col-span-1 h-2 rounded bg-slate-300"></div>
-              </div>
-              <div className="h-2 rounded bg-slate-300"></div>
-            </div>
-          </div>
-          <div className="mt-8 flex-1 space-y-6 py-1">
-            <div className="h-2 rounded bg-slate-300"></div>
-            <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-4">
-                <div className="col-span-2 h-2 rounded bg-slate-300"></div>
-                <div className="col-span-1 h-2 rounded bg-slate-300"></div>
-              </div>
-              <div className="h-2 rounded bg-slate-300"></div>
-            </div>
-          </div>
-          <div className="mt-8 flex-1 space-y-6 py-1">
-            <div className="h-2 rounded bg-slate-300"></div>
-            <div className="space-y-3">
-              <div className="grid grid-cols-3 gap-4">
-                <div className="col-span-2 h-2 rounded bg-slate-300"></div>
-                <div className="col-span-1 h-2 rounded bg-slate-300"></div>
-              </div>
-              <div className="h-2 rounded bg-slate-300"></div>
-            </div>
-          </div>
-          <div className="mt-8 w-11/12 flex-1 items-center justify-center">
-            <div className="mx-auto w-6/12">
-              <div className="h-8 w-full rounded bg-slate-300"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <>
       <h1 className="font-chakra text-7xl text-white">Buy mining hashrate</h1>

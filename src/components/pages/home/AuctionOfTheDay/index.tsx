@@ -7,7 +7,6 @@ import SatsSvg from 'src/assets/svg/sats.svg'
 import { formatMoney } from 'src/utils/currency'
 import { isDateBefore } from 'src/utils/date'
 import * as miner from 'src/assets/jpg/mining.jpeg'
-import clsx from 'clsx'
 interface AuctionOfTheDay {
   auction: AuctionOfTheDayResponse
 }
