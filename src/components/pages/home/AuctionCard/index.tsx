@@ -21,7 +21,9 @@ const AuctionCard = ({ auction }: ProductProps) => {
 
   const renderAuctionMeta = () => {
     return (
-      <span>{`${auction_meta.days_of_mining} ${auction_meta.days_of_mining > 1 ? 'days' : 'day'}  | ${auction_meta.hashrate}TH/s `}</span>
+      <span>{`${auction_meta?.days_of_mining} ${auction_meta?.days_of_mining > 1 ? 'days' : 'day'}  | ${
+        auction_meta?.hashrate
+      }TH/s `}</span>
     )
   }
 
@@ -32,7 +34,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
           className="mb-4 block w-full overflow-hidden rounded-xl sm:h-64"
           width={352}
           height={230}
-          src={auction.auction_meta.site_photo || miner}
+          src={auction?.auction_meta?.site_photo || miner}
           alt={auction.title + ' Image'}
         />
         <h3 className="mb-3 text-center text-2xl">{auction.title}</h3>
@@ -96,7 +98,7 @@ const AuctionCard = ({ auction }: ProductProps) => {
               <span className="text-sm font-medium text-red-500">Hash price</span>
               <span className="flex items-center text-sm">
                 {formatMoney(
-                  calculateAuctionHashPrice(auction.current_bid, auction.auction_meta.hashrate, auction.auction_meta.days_of_mining),
+                  calculateAuctionHashPrice(auction.current_bid, auction?.auction_meta.hashrate, auction?.auction_meta.days_of_mining),
                 )}{' '}
                 <SatsSvg className="ml-1" />
                 /TH/s/day

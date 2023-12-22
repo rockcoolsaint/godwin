@@ -60,7 +60,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
         <div className="flex flex-col lg:flex-row">
           <Image
             className="max-h-96 rounded-3xl"
-            src={auction.auction_meta.site_photo || miner}
+            src={auction?.auction_meta?.site_photo || miner}
             alt="auction of the day"
             width={550}
             height={305}
