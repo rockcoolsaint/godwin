@@ -1,9 +1,139 @@
+'use client'
+
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { useState, useCallback, useMemo } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { createOrder } from 'src/api/orders/createOrder'
+import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
+import { Loader } from 'src/core'
 import Input from 'src/core/components/Input'
+import { useRouter } from 'next/navigation'
+import { register as postRegister } from 'src/api/auth/register'
+
+const useSignUpSchema = () => {
+  const schema = useMemo(
+    () =>
+      yup
+        .object({
+          email: yup
+            .string()
+            .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, () => 'Email not valid')
+            .required(() => 'Email required'),
+        })
+        .required(),
+    [],
+  )
+
+  return schema
+}
+
+interface FormInputs {
+  email: string
+}
 
 export default function TestDrive() {
+  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState(0)
+  const router = useRouter()
+
+  const signUpSchema = useSignUpSchema()
+
+  const signUpInfo = {
+    email: '',
+  }
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isDirty, isValid },
+  } = useForm<FormInputs>({
+    resolver: yupResolver(signUpSchema),
+    defaultValues: {
+      ...signUpInfo,
+    },
+  })
+
+  const onSubmit: SubmitHandler<FormInputs> = useCallback(
+    async value => {
+      try {
+        setLoading(true)
+
+        const [success, data] = await postRegister({
+          email: value.email,
+          mining_pool_address: '',
+          mining_pool_username: '',
+          create_pool_account: true,
+        })
+
+        let order = undefined
+
+        if (data?.id) {
+          setStatus(1)
+          order = await createOrder({ account_id: data?.id })
+        }
+
+        let payment = undefined
+        if (order?.id) {
+          setStatus(2)
+          payment = await createDirectOrderPayment(
+            order.id,
+            `${process.env.NEXT_PUBLIC_APP_CALLBACK_URL}/direct-order/td/success?order_id=${order.id}`,
+          )
+        }
+
+        if (payment?.payment_id) {
+          router.push(payment?.checkout_url)
+        }
+
+        if (!success) {
+          toast.error('Error')
+        }
+
+        reset(
+          {
+            email: '',
+          },
+          { keepTouched: false, keepDirty: false },
+        )
+        toast.success('Payment created')
+        setLoading(false)
+      } catch (err) {
+        setLoading(false)
+        toast.error('Error')
+      }
+    },
+    [reset, router],
+  )
+
+  const renderStatus = () => {
+    if (status === 0) {
+      return <p className="mt-1 font-epilogue text-xl font-bold text-dark-200">Creating your account...</p>
+    }
+    if (status === 1) {
+      return (
+        <div className="flex flex-col items-center justify-center font-epilogue text-xl font-bold">
+          <p className="mt-1 text-green-500">Account created</p>
+          <p className="mt-1 text-dark-200">Creating order...</p>
+        </div>
+      )
+    }
+    if (status === 2) {
+      return (
+        <div className="flex flex-col items-center justify-center font-epilogue text-xl font-bold">
+          <p className="mt-1 text-green-500">Account created</p>
+          <p className="mt-1 text-green-500">Order created</p>
+          <p className="mt-1 text-dark-200">Creating payment...</p>
+        </div>
+      )
+    }
+  }
+
   return (
-    <>
-      <h1 className="font-chakra text-7xl text-white">Join a mining pool</h1>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <h1 className="text-center font-chakra text-7xl text-white">Join a mining pool</h1>
       <p className="my-10 w-11/12 text-center font-epilogue text-4xl text-white">
         If you&apos;re new to bitcoin mining, take our test drive which includes 3 hours of sample hashrate, and a mining pool account.
       </p>
@@ -39,17 +169,26 @@ export default function TestDrive() {
               autoCorrect="off"
               placeholder="satoshi@gmx.com"
               label="Enter your email to get sample hashrate"
+              defaultValue={signUpInfo.email}
+              errorMessage={errors.email?.message}
+              {...register('email')}
             />
           </div>
           <button
-            //   disabled={!isDirty || !isValid}
+            disabled={!isDirty || !isValid}
             type="submit"
             className="mt-8 flex h-12 w-4/12 items-center justify-center rounded-lg bg-hero-gradient px-5 py-2 font-chakra text-xl font-bold text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled"
           >
             Buy sample hashrate
           </button>
         </div>
+        {loading && (
+          <div id="test-mine" className="mt-10 flex flex-col items-center justify-center ">
+            <Loader width={48} height={48} />
+            {renderStatus()}
+          </div>
+        )}
       </div>
-    </>
+    </form>
   )
 }
