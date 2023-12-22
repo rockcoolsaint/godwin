@@ -115,11 +115,11 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
         Whether you&apos;re brand new to mining, or a seasoned bitcoiner, our support team is here to answer your questions
       </p>
 
-      <div className="mt-14 flex px-20">
-        <div className="mb-12 flex w-4/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
+      <div className="mx-auto mt-14 flex justify-center px-20">
+        <div className="mb-12 flex w-3/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-12 md:mb-0">
           <div className="">
             <h2 className="mb-5 w-10/12 text-3xl font-semibold text-navy">Learn how Bitcoin mining works</h2>
-            <p className="mb-5 text-2xl text-navy ">
+            <p className="mb-5 text-xl text-black">
               There are lots of reasons why someone chooses to mine bitcoin. Read more in this essay from Braiins.
             </p>
           </div>
@@ -134,9 +134,9 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
           </div>
         </div>
 
-        <div className="mx-20 mb-12 flex w-4/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
+        <div className="mx-20 mb-12 flex w-3/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
           <h2 className="mb-5 w-10/12 text-3xl font-semibold text-navy">How to bid on auctions</h2>
-          <p className="mb-5 text-2xl text-navy ">
+          <p className="mb-5 text-xl text-black">
             The Rigly experience is quick and seamless, giving you the opportunity to start mining right away.
           </p>
 
@@ -151,10 +151,10 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
           </div>
         </div>
 
-        <div className="mb-12 flex w-4/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
+        <div className="mb-12 flex w-3/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
           <div className="">
             <h2 className="mb-5 w-10/12 text-3xl font-semibold text-navy">Want to sell your hashrate</h2>
-            <p className="mb-5 text-2xl text-navy ">
+            <p className="mb-5 text-xl text-black">
               Rigly&apos;s marketplace allows miners to sell their hash in a forward agreement and focus on optimizing operations.
             </p>
           </div>
