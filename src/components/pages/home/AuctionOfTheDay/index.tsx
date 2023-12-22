@@ -54,7 +54,7 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
 
   // #EBF7FE, #316AEF
   return (
-    <section className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center py-28">
+    <section className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center px-4 py-28 md:px-0">
       <h1 className="mb-10 font-chakra text-7xl text-navy">Auction of the day</h1>
       <div className="max-w-md rounded-3xl bg-white px-3 py-6 shadow-md md:px-6 lg:max-w-4xl">
         <div className="flex flex-col lg:flex-row">
@@ -111,15 +111,15 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
       {/* SUPPORT */}
 
       <h1 className="mt-36 font-chakra text-7xl text-navy">Support</h1>
-      <p className="w-6/12 text-center text-3xl text-navy">
+      <p className="text-center text-xl text-navy md:w-6/12  lg:text-3xl">
         Whether you&apos;re brand new to mining, or a seasoned bitcoiner, our support team is here to answer your questions
       </p>
 
-      <div className="mx-auto mt-14 flex justify-center px-20">
-        <div className="mb-12 flex w-3/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-12 md:mb-0">
+      <div className="mx-auto mt-14 flex flex-col justify-center md:items-center md:px-10 lg:flex-row xl:px-20">
+        <div className="mb-12 flex w-full flex-col items-start rounded-xl border border-gray-400 bg-white p-8 md:mb-0 md:w-8/12 xl:w-4/12 xl:px-8 2xl:w-3/12 2xl:px-12">
           <div className="">
-            <h2 className="mb-5 w-10/12 text-3xl font-semibold text-navy">Learn how Bitcoin mining works</h2>
-            <p className="mb-5 text-xl text-black">
+            <h2 className="mb-5 w-10/12 text-xl font-semibold text-navy xl:text-3xl">Learn how Bitcoin mining works</h2>
+            <p className="mb-5 text-lg text-black xl:text-xl">
               There are lots of reasons why someone chooses to mine bitcoin. Read more in this essay from Braiins.
             </p>
           </div>
@@ -134,9 +134,9 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
           </div>
         </div>
 
-        <div className="mx-20 mb-12 flex w-3/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
-          <h2 className="mb-5 w-10/12 text-3xl font-semibold text-navy">How to bid on auctions</h2>
-          <p className="mb-5 text-xl text-black">
+        <div className="mb-12 flex w-full flex-col items-start rounded-xl border border-gray-400 bg-white p-8 sm:mx-20 md:mx-0 md:my-8 md:w-8/12 lg:mx-8 lg:my-0 xl:w-4/12 xl:px-8 2xl:w-3/12 2xl:px-16">
+          <h2 className="mb-5 w-10/12 text-xl font-semibold text-navy xl:text-3xl">How to bid on auctions</h2>
+          <p className="mb-5 text-lg text-black xl:text-xl">
             The Rigly experience is quick and seamless, giving you the opportunity to start mining right away.
           </p>
 
@@ -151,10 +151,10 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
           </div>
         </div>
 
-        <div className="mb-12 flex w-3/12 flex-col items-start rounded-xl border border-gray-400 bg-white p-8 px-16 md:mb-0">
+        <div className="mb-12 flex w-full flex-col items-start rounded-xl border border-gray-400 bg-white p-8 md:mb-0 md:w-8/12 md:px-6 xl:w-4/12 xl:px-8 2xl:w-3/12 2xl:px-16">
           <div className="">
-            <h2 className="mb-5 w-10/12 text-3xl font-semibold text-navy">Want to sell your hashrate</h2>
-            <p className="mb-5 text-xl text-black">
+            <h2 className="mb-5 w-10/12 text-xl font-semibold text-navy xl:text-3xl">Want to sell your hashrate</h2>
+            <p className="mb-5 text-lg text-black xl:text-xl">
               Rigly&apos;s marketplace allows miners to sell their hash in a forward agreement and focus on optimizing operations.
             </p>
           </div>
