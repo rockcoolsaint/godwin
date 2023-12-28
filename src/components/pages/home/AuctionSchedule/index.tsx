@@ -175,11 +175,11 @@ export default function AuctionSchedule({ auctionsData }: { auctionsData: Auctio
 
   return (
     <>
-      <h1 className="font-chakra text-7xl text-white">Bid, win, hash.</h1>
-      <p className="my-10 w-11/12 text-center font-epilogue text-4xl text-white">
+      <h1 className="mt-10 w-10/12 text-center font-chakra text-4xl text-white lg:w-full lg:text-7xl">Bid, win, hash.</h1>
+      <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:text-4xl">
         Buy hashrate at auction, and send it to the pool of your choice.
       </p>
-      <Link href="/collections/active" className="self-end rounded-xl bg-white p-4 font-epilogue text-sm font-bold text-navy">
+      <Link href="/collections/active" className="self-end rounded-xl bg-white p-2 font-epilogue text-sm font-bold text-navy lg:p-4">
         Explore Auctions
       </Link>
       <div className="mt-4 block w-full overflow-hidden rounded-lg bg-white">

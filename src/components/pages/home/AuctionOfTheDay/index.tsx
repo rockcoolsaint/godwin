@@ -110,8 +110,8 @@ export default function AuctionOfTheDay({ auction: auctionResponse }: AuctionOfT
 
       {/* SUPPORT */}
 
-      <h1 className="mt-36 font-chakra text-7xl text-navy">Support</h1>
-      <p className="text-center text-xl text-navy md:w-6/12  lg:text-3xl">
+      <h1 className="mt-36 font-chakra text-4xl text-navy lg:text-7xl">Support</h1>
+      <p className="text-center text-xs text-navy md:w-6/12 md:text-xl  lg:text-3xl">
         Whether you&apos;re brand new to mining, or a seasoned bitcoiner, our support team is here to answer your questions
       </p>
 

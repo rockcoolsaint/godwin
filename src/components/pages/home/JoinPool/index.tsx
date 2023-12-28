@@ -22,7 +22,7 @@ export default function JoinPool({ data }: { data: Auction[] }) {
         {product.hashrate && <MiningCalculator />}
         {product.bidHashrate && <AuctionSchedule auctionsData={data} />}
       </div>
-      <div className="mx-auto mt-20 flex max-w-7xl items-center justify-center rounded-full bg-[#EBF7FE] font-bold text-gray-500 hover:cursor-pointer">
+      <div className="mx-auto my-4 flex max-w-7xl items-center justify-center rounded-full bg-[#EBF7FE] text-xs font-bold text-gray-500 hover:cursor-pointer lg:mt-20 lg:text-base">
         <p
           className={clsx(product.testDrive ? 'bg-white text-primary' : 'text-gray-500', 'flex-1 rounded-full p-2 text-center')}
           onClick={() => setProduct({ ...product, testDrive: true, bidHashrate: false, hashrate: false })}
