@@ -21,14 +21,14 @@ export default function RealMachines() {
     <>
       <ul
         role="list"
-        className="mx-4 grid max-w-7xl grid-cols-1 gap-6 text-3xl text-navy sm:mx-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3"
+        className="mx-4 grid max-w-7xl grid-cols-1 gap-6 text-sm text-navy sm:mx-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 lg:text-3xl"
       >
         {content.map((person, index) => (
           <li key={index} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-hero-outline">
             <div className="flex w-full items-center justify-between space-x-6 p-6">
               <div className="flex-1">
                 <div className="flex items-center space-x-3">
-                  <p className="truncate font-medium">{person.title}</p>
+                  <p className="truncate font-bold">{person.title}</p>
                 </div>
                 <p className="mt-1">{person.body}</p>
               </div>

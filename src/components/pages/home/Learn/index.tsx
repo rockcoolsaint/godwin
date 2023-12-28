@@ -7,13 +7,13 @@ import Link from 'src/components/shared/Link'
 export default function Learn() {
   return (
     <div className="font-epilogue">
-      <div className="max-w-8xl mx-auto py-24 sm:py-32 lg:px-8 lg:py-40">
+      <div className="max-w-8xl mx-auto py-10 sm:py-32 lg:px-8 lg:py-40">
         <div className="mx-auto max-w-6xl divide-gray-900/10">
           <div className="flex w-full justify-between">
             <div className="space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12">
               <div>
-                <p className="text-3xl">Mining made easy for everyone.</p>
-                <p className="mt-2 text-2xl">
+                <p className="text-lg lg:text-3xl">Mining made easy for everyone.</p>
+                <p className="mt-2 text-lg lg:text-2xl">
                   The Rigly platform was developed to help remove the accessibility barrier to mining for more Bitcoiners and the
                   bitcoin-curious.
                 </p>
@@ -23,18 +23,18 @@ export default function Learn() {
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <span className="text-2xl font-semibold">What is bitcoin mining?</span>
-                        <span className="ml-6 flex h-7 items-center">
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">What is bitcoin mining?</h2>
+                        <span className="ml-6 flex items-center">
                           {open ? (
-                            <ChevronUpIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           ) : (
-                            <ChevronDownIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           )}
                         </span>
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-2xl text-black">
+                      <div className="text-xs text-black lg:text-2xl">
                         Mining is a lottery to create new blocks in the Bitcoin blockchain. There are two main purposes for mining:
                         <ol className="list-decimal pl-8">
                           <li>To permanently add transactions to the blockchain without the permission of any entity.</li>
@@ -56,18 +56,18 @@ export default function Learn() {
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <span className="text-2xl font-semibold">Why buy hashrate vs mine with a rig?</span>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">Why buy hashrate vs mine with a rig?</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
-                            <ChevronUpIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           ) : (
-                            <ChevronDownIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           )}
                         </span>
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-2xl text-black">
+                      <div className="text-xs text-black lg:text-2xl">
                         Bitcoin mining rigs are expensive, special purpose machines. Current mining rigs are several thousand dollars. Rig
                         rentals offer a lower price and better value.
                       </div>
@@ -80,18 +80,18 @@ export default function Learn() {
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <span className="text-2xl font-semibold">Isn’t bitcoin mining profitable?</span>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">Isn’t bitcoin mining profitable?</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
-                            <ChevronUpIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           ) : (
-                            <ChevronDownIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           )}
                         </span>
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-2xl text-black">
+                      <div className="text-xs text-black lg:text-2xl">
                         No one knows where mining difficulty and hashprice will be in the future. Rigly offers a way for bitcoin miners to
                         potentially earn more from their hashrate, over the long term, than they would by mining themselves.
                       </div>
@@ -117,18 +117,18 @@ export default function Learn() {
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <span className="text-2xl font-semibold">100% real hashrate</span>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">100% real hashrate</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
-                            <ChevronUpIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           ) : (
-                            <ChevronDownIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           )}
                         </span>
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-2xl text-black">
+                      <div className="text-xs text-black lg:text-2xl">
                         Hashrate is sourced directly from mining farms and delivered to your pool account. Track every hash you pay for.
                       </div>
                     </Disclosure.Panel>
@@ -140,18 +140,18 @@ export default function Learn() {
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <span className="text-2xl font-semibold">Payments held in escrow</span>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">Payments held in escrow</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
-                            <ChevronUpIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           ) : (
-                            <ChevronDownIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           )}
                         </span>
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-2xl text-black">
+                      <div className="text-xs text-black lg:text-2xl">
                         While your hashrate is delivered, your payment is held in a 2:2 bitcoin multisig address. Sellers don’t get paid
                         until you receive your hashrate.
                       </div>
@@ -164,18 +164,18 @@ export default function Learn() {
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <span className="text-2xl font-semibold">Bitcoin Only</span>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">Bitcoin Only</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
-                            <ChevronUpIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           ) : (
-                            <ChevronDownIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
                           )}
                         </span>
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-2xl text-black">
+                      <div className="text-xs text-black lg:text-2xl">
                         Rigly is non-custodial—not a money transmitter. Bitcoin in, hash out. All payments are in bitcoin (BTC) based on the
                         transaction price in bitcoin.
                       </div>
