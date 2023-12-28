@@ -149,37 +149,39 @@ export default function InstantHashrate() {
   }
 
   return (
-    <section className="flex w-9/12 flex-col gap-8 p-12 sm:flex-row sm:gap-28 md:gap-8 lg:gap-14">
+    <section className="order-2 flex w-full flex-col gap-8 p-6 sm:flex-row sm:gap-28 md:gap-8 lg:order-1 lg:w-9/12 lg:gap-14 lg:p-12">
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
         <div className="w-full font-epilogue">
           <div className="mt-2 grid gap-8">
             <div className="grid grid-cols-2">
               <div className="col-span-1">
-                <p className="text-xl font-bold text-white">Hashrate</p>
+                <p className="text-sm font-bold text-white lg:text-xl">Hashrate</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 {loading ? (
                   <p className="flex h-2 w-12 animate-pulse rounded bg-white text-sm" />
                 ) : (
-                  <p className="text-sm font-bold text-white">{hashrate} TH/s</p>
+                  <p className="text-xs font-bold text-white lg:text-sm">{hashrate} TH/s</p>
                 )}
               </div>
             </div>
             <div className="grid grid-cols-2">
               <div className="col-span-1">
-                <p className="text-xl font-bold text-white">Hash price</p>
+                <p className="text-sm font-bold text-white lg:text-xl">Hash price</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 {loading ? (
                   <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
                 ) : (
-                  <p className="text-sm font-bold text-white">{Math.round(hashprice * (1 + markupPercentage))} sats per TH/s/day</p>
+                  <p className="text-xs font-bold text-white lg:text-sm">
+                    {Math.round(hashprice * (1 + markupPercentage))} sats per TH/s/day
+                  </p>
                 )}
               </div>
             </div>
             <div className="grid grid-cols-2 items-center">
               <div className="col-span-1">
-                <p className="text-xl font-bold text-white">Select a duration</p>
+                <p className="text-sm font-bold text-white lg:text-xl">Select a duration</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 <select
@@ -194,13 +196,13 @@ export default function InstantHashrate() {
             </div>
             <div className="grid grid-cols-2 items-center">
               <div className="col-span-1">
-                <p className="text-xl font-bold text-white">Cost</p>
+                <p className="text-sm font-bold text-white lg:text-xl">Cost</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 {loading ? (
                   <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
                 ) : (
-                  <p className="text-sm font-bold text-white">
+                  <p className="text-xs font-bold text-white lg:text-sm">
                     {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice * (1 + markupPercentage)))} sats
                   </p>
                 )}
@@ -211,7 +213,7 @@ export default function InstantHashrate() {
 
         <button
           type="submit"
-          className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-4xl font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed lg:w-9/12 xl:w-6/12"
+          className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-lg font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed lg:w-9/12 lg:text-4xl xl:w-6/12"
         >
           Buy hashrate
         </button>
