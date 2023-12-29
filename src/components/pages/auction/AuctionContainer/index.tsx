@@ -25,6 +25,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import { ErrorBoundary } from 'react-error-boundary'
 import { updateAccount } from 'src/api/auth/updateAccount'
 import { formatDate } from 'src/utils/date'
+import { formatMoney } from 'src/utils/currency'
 
 function tabClass({ selected }: { selected: boolean }) {
   return clsx(
@@ -186,7 +187,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
       <span className="mb-2 block text-sm text-dark-300">{`${auction.auction_meta?.days_of_mining} ${
         auction.auction_meta?.days_of_mining > 1 ? 'days' : 'day'
-      }  | ${auction.auction_meta?.hashrate}TH/s `}</span>
+      }  | ${formatMoney(auction.auction_meta?.hashrate)} TH/s `}</span>
       <BreadCrumb
         homeElement={'Home'}
         separator={
