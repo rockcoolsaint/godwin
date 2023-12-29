@@ -9,7 +9,6 @@ import Container from 'src/core/components/Container'
 export default async function AuctionMarketPage() {
   const auction = await getAllAuctions({
     limit: 1_000,
-    auction_type: 'forward_date',
     group_by: 'auction_status',
     auction_status: 'active',
   })
