@@ -4,6 +4,7 @@ import { Auction } from 'src/api/auction/types'
 import { underscoreToSpaceAndCapitalize } from 'utils'
 import { convertTime, formatDate } from 'src/utils/date'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
+import { formatMoney } from 'src/utils/currency'
 
 interface Props {
   data: Auction
@@ -82,7 +83,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-4 font-semibold capitalize text-dark-100 sm:p-3">{t('home.hashrate')}</p>
             </aside>
             <aside>
-              <p className="p-3 pl-4">{data.auction_meta.hashrate} TH/s</p>
+              <p className="p-3 pl-4">{formatMoney(data.auction_meta.hashrate)} TH/s</p>
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
