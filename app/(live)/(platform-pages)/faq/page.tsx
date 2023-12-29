@@ -53,18 +53,18 @@ const faqs = [
     title: 'Bitcoin Mining',
     data: [
       {
-        question: 'Why should I rent a bitcoin rig?',
+        question: 'Why should I buy hashrate?',
         answer:
-          '<p>Bitcoin mining rigs are expensive, special purpose machines. Current mining rigs are several thousand dollars. Rig rentals offer a lower price and better value.</p><p>In the early days of bitcoin, everyone who ran the original bitcoin software also mined to help secure the network. In those initial days, only a few thousand computers made up the whole network - <strong>1 cpu was 1 vote on the network’s consensus</strong>, as Satoshi wrote in the white paper. If that were the case today, malicious actors would be able to easily perform a 51% attack.</p><p>Today, bitcoin is secured by millions of mining rigs - millions of votes on consensus - and it is likely that even more mining is critical to ensure security as bitcoin grows.</p><p>New mining facilities in areas with low mining presence, such as South America or Africa, will also be available for rental on Rigly. Your choice to rent these rigs enables a better balance of the global hash rate.</p><p>And ultimately, mining allows you to earn new bitcoin and be a part of the bitcoin community!</p>',
+          '<p>Bitcoin mining rigs are expensive, special purpose machines. Current mining rigs are several thousand dollars. Buying hashrate offers a lower price and better value.</p><p>In the early days of bitcoin, everyone who ran the original bitcoin software also mined to help secure the network. In those initial days, only a few thousand computers made up the whole network - <strong>1 cpu was 1 vote on the network’s consensus</strong>, as Satoshi wrote in the white paper. If that were the case today, malicious actors would be able to easily perform a 51% attack.</p><p>Today, bitcoin is secured by millions of mining rigs - millions of votes on consensus - and it is likely that even more mining is critical to ensure security as bitcoin grows.</p><p>Hashrate from mining facilities in areas with low mining presence, such as South America or Africa, will also be available on Rigly. Your choice to buy hashrate from these miners enables a better balance of the global hash rate.</p><p>And ultimately, mining allows you to earn new bitcoin and be a part of the bitcoin community!</p>',
       },
       {
-        question: 'How do I monitor my rig?',
-        answer: '<p>Your machines have 24/7 monitoring and can be watched in real-time from your account dashboard.</p>',
+        question: 'How do I monitor my hashrate?',
+        answer: '<p>You can view hashrate delivery from your order in your account dashboard.</p>',
       },
       {
         question: 'Which mining pools are supported by Rigly?',
         answer:
-          '<p>We suggest you use a PPS or FPPS pools for consistent rewards. Many Rigly users use <a href="https://braiins.com/pool">Braiins pool</a> or&nbsp;<a href="https://mining.luxor.tech/">Luxor pool.</a></p>',
+          '<p>All pools which support Stratum V1 are supported. Many Rigly users use <a href="https://braiins.com/pool">Braiins pool</a> or&nbsp;<a href="https://mining.luxor.tech/">Luxor pool.</a></p>',
       },
       {
         question: 'How often will I see bitcoin earned from my mining?',
@@ -86,7 +86,7 @@ const faqs = [
       {
         question: 'Is bitcoin mining hashrate a security?',
         answer: `
-            <p>The output of mining rigs (hashrate) is <span style="text-decoration: underline;">not</span> a security. Rigly's mining subscriptions are tied to real-world ASIC mining rigs listed by mining farms around the world. These rigs produce hashes per your configuration and you are in control of how your hashrate is utilized.</p>  
+            <p>The output of mining rigs (hashrate) is <span style="text-decoration: underline;">not</span> a security. Rigly's hashrate agreements are tied to real-world ASIC mining rigs listed by mining farms around the world. These rigs produce hashes per your configuration and you are in control of how your hashrate is utilized.</p>  
         `,
       },
       {
@@ -105,7 +105,7 @@ const faqs = [
     ],
   },
   {
-    title: 'Mining Plans',
+    title: 'Hashrate Agreements',
     data: [
       {
         question: 'Is electricity cost included in the price?',
@@ -113,7 +113,7 @@ const faqs = [
       },
       {
         question: "Why would someone rent out their bitcoin rigs? Isn't bitcoin mining profitable?",
-        answer: `<p>No one knows where mining difficulty and hashprice will be in the future. Rigly offers a way for bitcoin miners to potentially earn more from their hashrate, over the long term, than they would by mining themselves.</p>`,
+        answer: `<p>Rigly offers a way for bitcoin miners to potentially earn more from their hashrate, over the long term, by selling their hashrate peer-to-peer rather than mining bitcoin themselves.</p>`,
       },
       {
         question: 'What fees does Rigly charge?',
@@ -129,7 +129,7 @@ const faqs = [
     title: 'Payment And Deposits',
     data: [
       {
-        question: 'What happens if my mining rig goes offline?',
+        question: 'What happens if my hashrate goes offline?',
         answer: `<p>If your plan's ASIC mining rigs fail to perform within the Service Level Agreement or go offline for an extended period of time, you receive an extension or a refund based on the percentage downtime.</p>`,
       },
       {
