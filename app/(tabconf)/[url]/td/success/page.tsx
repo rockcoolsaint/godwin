@@ -82,7 +82,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   if (!account?.email) {
     return (
       <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
-        <NotFoundComponent message="Ooops! Please log in to view this order" return_url="/" />
+        <NotFoundComponent message="Ooops! Please log in to view this order" return_url="/login" />
       </Container>
     )
   }
