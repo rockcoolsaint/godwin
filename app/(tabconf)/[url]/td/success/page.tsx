@@ -14,6 +14,7 @@ import Link from 'src/components/shared/Link'
 import { OrderStatus } from 'src/types'
 import toast from 'react-hot-toast'
 import { ErrorBoundary } from 'react-error-boundary'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 interface ProxyStatus {
   worker: any
@@ -32,7 +33,7 @@ interface ProxyStatus {
 export default function TestDriveSuccessPage({ params }: { params: any }) {
   const [proxyStatus, setProxyStatus] = useState<ProxyStatus | undefined>(undefined)
   const [loading, setLoading] = useState(true)
-
+  const { account } = useAccountContext()
   const searchParams = useSearchParams()
   const orderId = searchParams.get('order_id')
 
@@ -74,6 +75,22 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
     return (
       <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
         <NotFoundComponent message="Ooops! No detail for this order" return_url="/" />
+      </Container>
+    )
+  }
+
+  if (!account?.email) {
+    return (
+      <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
+        <NotFoundComponent message="Ooops! Please log in to view this order" return_url="/login" />
+      </Container>
+    )
+  }
+
+  if (account?.email !== proxyStatus.email) {
+    return (
+      <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
+        <NotFoundComponent message="Ooops! You're not permitted to view this order" return_url="/" />
       </Container>
     )
   }
