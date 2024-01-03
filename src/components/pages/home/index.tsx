@@ -84,7 +84,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
         </section>
       )}
 
-      <AuctionOfTheDay auction={auctionOfTheDay} />
+      <AuctionOfTheDay auction={auctionOfTheDay} auctionsData={auctionData} />
 
       {!isDemo && !isLoggedIn && (
         <>

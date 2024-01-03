@@ -30,7 +30,7 @@ export default function RealMachines() {
                 <div className="flex items-center space-x-3">
                   <p className="truncate font-bold">{person.title}</p>
                 </div>
-                <p className="mt-1">{person.body}</p>
+                <p className="mt-1 text-2xl">{person.body}</p>
               </div>
             </div>
           </li>

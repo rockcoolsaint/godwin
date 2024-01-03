@@ -75,30 +75,6 @@ export default function Learn() {
                   </>
                 )}
               </Disclosure>
-              <Disclosure as="div" className="pt-6">
-                {({ open }) => (
-                  <>
-                    <div>
-                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">Isn’t bitcoin mining profitable?</h2>
-                        <span className="ml-6 flex h-7 items-center">
-                          {open ? (
-                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
-                          ) : (
-                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
-                          )}
-                        </span>
-                      </Disclosure.Button>
-                    </div>
-                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-xs text-black lg:text-2xl">
-                        No one knows where mining difficulty and hashprice will be in the future. Rigly offers a way for bitcoin miners to
-                        potentially earn more from their hashrate, over the long term, than they would by mining themselves.
-                      </div>
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
             </div>
             <div className="hidden w-6/12 pl-20 sm:flex">
               <MineEasy />

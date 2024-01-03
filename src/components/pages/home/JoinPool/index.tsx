@@ -20,7 +20,7 @@ export default function JoinPool({ data }: { data: Auction[] }) {
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center">
         {product.testDrive && <TestDrive />}
         {product.hashrate && <MiningCalculator />}
-        {product.bidHashrate && <AuctionSchedule auctionsData={data} />}
+        {product.bidHashrate && <AuctionSchedule auctionsData={data} showTitle={true} />}
       </div>
       <div className="mx-auto my-4 flex max-w-7xl items-center justify-center rounded-full bg-[#EBF7FE] text-xs font-bold text-gray-500 hover:cursor-pointer lg:mt-20 lg:text-base">
         <p
