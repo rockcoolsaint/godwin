@@ -1,19 +1,12 @@
-import { Auction, AuctionOfTheDayResponse, AuctionStatus } from 'src/api/auction/types'
+import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
 import Link from 'src/components/shared/Link'
-import { useTranslation } from 'src/hooks'
-import { format, parseISO } from 'date-fns'
-import { isDateBefore } from 'src/utils/date'
 import AuctionSchedule from 'src/components/pages/home/AuctionSchedule'
 interface AuctionOfTheDay {
   auction: AuctionOfTheDayResponse
   auctionsData: Auction[]
 }
 
-export default function AuctionOfTheDay({ auction: auctionResponse, auctionsData }: AuctionOfTheDay) {
-  if (!auctionResponse || !auctionResponse.auction) {
-    return null
-  }
-
+export default function AuctionOfTheDay({ auctionsData }: AuctionOfTheDay) {
   return (
     <section className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center px-4 py-28 md:px-0">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center">
@@ -21,59 +14,6 @@ export default function AuctionOfTheDay({ auction: auctionResponse, auctionsData
 
         <AuctionSchedule auctionsData={auctionsData} showTitle={false} />
       </div>
-      {/* <h1 className="mb-10 font-chakra text-7xl text-navy">Auction of the day</h1> */}
-      {/* <div className="max-w-md rounded-3xl bg-white px-3 py-6 shadow-md md:px-6 lg:max-w-4xl">
-        <div className="flex flex-col lg:flex-row">
-          <Image
-            className="max-h-96 rounded-3xl"
-            src={auction?.auction_meta?.site_photo || miner}
-            alt="auction of the day"
-            width={550}
-            height={305}
-          />
-          <div className="ml-0 mt-4 flex flex-col items-start justify-between lg:ml-9 lg:mt-0">
-            {renderAuctionStatusTag()}
-            <h1 className="mb-4 text-2xl font-semibold">{auction.title}</h1>
-            <div className="flex justify-between">
-              <aside>
-                <p className="text-sm text-dark-100">{t('home.bid_start_date')}:</p>
-                <p className="text-xs font-normal">{start}</p>
-              </aside>
-              <aside className="ml-4">
-                <p className="text-sm text-dark-100">{t('home.bid_end_date')}:</p>
-                <p className="text-xs font-normal">{end}</p>
-              </aside>
-            </div>
-            <hr className="my-4 block w-full border" />
-            <p className="mb-4 rounded bg-tag-blue/[.2] p-1 px-2 text-sm text-tag-blue">
-              {auction.bid_count} {renderBidCount()}
-            </p>
-            <div className="flex w-full justify-between">
-              <aside>
-                <p className="mb-1 text-sm text-dark-100">{t('home.start_bid_amount')}:</p>
-                <p className="flex items-center text-xs font-medium">
-                  {formatMoney(auction.starting_bid)} <SatsSvg className="ml-2" />
-                </p>
-              </aside>
-              {auction.bid_count > 0 && (
-                <aside className="md:mr-9">
-                  <p className="mb-1 text-sm text-dark-100">Current bid:</p>
-                  <p className="flex items-center text-xs font-medium">
-                    {formatMoney(auction.current_bid)} <SatsSvg className="ml-2" />
-                  </p>
-                </aside>
-              )}
-            </div>
-            <Link
-              className="mt-4 flex w-full items-center justify-center rounded-lg bg-gradient p-3 text-base text-white hover:bg-gradient-hover"
-              href={'/auctions/' + auction.slug}
-            >
-              {t('home.view_details')}
-            </Link>
-          </div>
-        </div>
-      </div> */}
-
       {/* SUPPORT */}
       <>
         <h1 className="mt-36 font-chakra text-4xl text-navy lg:text-7xl">Support</h1>

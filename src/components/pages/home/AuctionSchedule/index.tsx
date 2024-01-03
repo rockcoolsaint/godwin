@@ -35,12 +35,16 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
     ]
   }, [])
 
-  const [data, _] = React.useState([...auctionsData])
+  const [data, setData] = React.useState([...auctionsData])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [sorting, setSorting] = React.useState<SortingState>(initialSorting)
   const isMobile = useMobileScreen()
   const columnHelper = createColumnHelper<Auction>()
   const router = useRouter()
+
+  React.useEffect(() => {
+    setData(auctionsData)
+  }, [auctionsData])
 
   const columns = [
     columnHelper.accessor(row => row.epoch?.epoch_number, {
