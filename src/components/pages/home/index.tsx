@@ -33,7 +33,6 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
       try {
         const res = await getAllAuctions({
           limit: 1_000,
-          auction_type: 'forward_date',
           group_by: 'auction_status',
           auction_status: 'active',
         })

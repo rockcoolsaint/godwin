@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client'
 
 import * as React from 'react'
@@ -22,6 +23,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/T
 import useSatsToFiat from 'src/hooks/useSatsToFiat'
 import { useMobileScreen } from 'src/hooks/useIsMobile'
 import { useMemo } from 'react'
+import { AuctionTypeChoice } from 'src/types'
 
 export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsData: Auction[]; showTitle?: boolean }) {
   const initialSorting = useMemo(() => {
@@ -44,6 +46,15 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
     columnHelper.accessor(row => row.epoch?.epoch_number, {
       id: 'epoch',
       cell: cell => {
+        // @ts-ignore
+        if (cell.row.original.auction_type == AuctionTypeChoice.ImmediateDelivery) {
+          return (
+            <p className="flex flex-col">
+              <span className="text-xs font-medium text-gray-500/[.85]">{cell.row.original.title}</span>
+              {formatDate(cell.row.original.start_at, 'MMM d')}
+            </p>
+          )
+        }
         if (cell.row.original.epoch?.epoch_number) {
           return (
             <p className="flex flex-col">
@@ -58,7 +69,7 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
       header: () => (
         <Tooltip placement="top">
           <TooltipTrigger>
-            <p className="flex items-center">Epoch</p>
+            <p className="flex items-center">Auction</p>
           </TooltipTrigger>
 
           <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
@@ -66,6 +77,23 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
           </TooltipContent>
         </Tooltip>
       ),
+      footer: info => info.column.id,
+    }),
+    columnHelper.accessor('going_hashprice', {
+      cell: cell => {
+        if (cell.row.original.auction_meta.days_of_mining) {
+          const mineDays = cell.row.original.auction_meta?.days_of_mining
+
+          return (
+            <p>
+              {mineDays} {mineDays > 1 ? 'days' : 'day'}{' '}
+            </p>
+          )
+        } else {
+          return <p>N/A</p>
+        }
+      },
+      header: () => <span>Duration</span>,
       footer: info => info.column.id,
     }),
 

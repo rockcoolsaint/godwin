@@ -25,6 +25,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import { ErrorBoundary } from 'react-error-boundary'
 import { updateAccount } from 'src/api/auth/updateAccount'
 import { formatDate } from 'src/utils/date'
+import { formatMoney } from 'src/utils/currency'
 
 function tabClass({ selected }: { selected: boolean }) {
   return clsx(
@@ -135,10 +136,16 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
     )
   }
   const renderAuctionMeta = () => {
+    if (!auction.epoch) {
+      return
+    }
+
     return (
-      <span className="text-sm">{`${auction.auction_meta.days_of_mining} ${
-        auction.auction_meta.days_of_mining > 1 ? 'days' : 'day'
-      }  | Start date: ${formatDate(auction.epoch.start_time, 'MMM dd, yyyy')} `}</span>
+      <p className="mb-2 text-base text-dark-100">
+        <span className="text-sm">{`${auction.auction_meta.days_of_mining} ${
+          auction.auction_meta.days_of_mining > 1 ? 'days' : 'day'
+        }  | Start date: ${formatDate(auction?.epoch?.start_time, 'MMM dd, yyyy')} `}</span>
+      </p>
     )
   }
 
@@ -178,6 +185,9 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
+      <span className="mb-2 block text-sm text-dark-300">{`${auction.auction_meta?.days_of_mining} ${
+        auction.auction_meta?.days_of_mining > 1 ? 'days' : 'day'
+      }  | ${formatMoney(auction.auction_meta?.hashrate)} TH/s `}</span>
       <BreadCrumb
         homeElement={'Home'}
         separator={
@@ -189,7 +199,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
         containerClasses="flex items-center -ml-1 mb-2"
         listClasses="hover:underline mr-2 ml-1 font-light text-sm"
       />
-      <p className="mb-2 text-base text-dark-100">{renderAuctionMeta()}</p>
+      {renderAuctionMeta()}
       <section className="auction-container flex flex-col rounded-xl bg-gray-50 sm:p-3 lg:flex-row">
         <ErrorBoundary fallback={<div className="w-full p-8">⚠️ Oops! something went wrong</div>}>
           <div data-test-id="digest-step-settings-interval" className="lg:w-[75%]">

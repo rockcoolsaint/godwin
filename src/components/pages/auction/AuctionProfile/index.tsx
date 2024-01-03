@@ -2,8 +2,9 @@
 import { useTranslation } from 'src/hooks'
 import { Auction } from 'src/api/auction/types'
 import { underscoreToSpaceAndCapitalize } from 'utils'
-import { formatDate } from 'src/utils/date'
+import { convertTime, formatDate } from 'src/utils/date'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
+import { formatMoney } from 'src/utils/currency'
 
 interface Props {
   data: Auction
@@ -13,6 +14,16 @@ const AuctionProfile = ({ data }: Props) => {
   const { t } = useTranslation()
 
   const renderDuration = () => {
+    if (data.auction_type.type === 'immediate_delivery') {
+      const days = convertTime(data.auction_meta.duration).days
+
+      return (
+        <p className="p-3 pl-4">
+          {days} {days > 1 ? 'days' : 'day'}{' '}
+        </p>
+      )
+    }
+
     if (data.auction_meta?.days_of_mining) {
       return (
         <p className="p-3 pl-4">
@@ -72,7 +83,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-4 font-semibold capitalize text-dark-100 sm:p-3">{t('home.hashrate')}</p>
             </aside>
             <aside>
-              <p className="p-3 pl-4">{data.auction_meta.hashrate} TH/s</p>
+              <p className="p-3 pl-4">{formatMoney(data.auction_meta.hashrate)} TH/s</p>
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
