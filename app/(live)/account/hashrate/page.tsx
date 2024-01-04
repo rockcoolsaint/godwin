@@ -19,11 +19,25 @@ import * as yup from 'yup'
 import { useSearchParams } from 'next/navigation'
 import Link from 'src/components/shared/Link'
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
+import { getPoolAccount } from 'src/api/auth/getPoolAccount'
 
 interface PoolInfoModel {
   has_ongoing_deliveries: boolean
   has_pool_account: boolean
   has_queued_deliveries: boolean
+}
+
+interface PoolAccount {
+  pool: string
+  username: string
+  is_default: boolean
+}
+
+interface PoolAccountModel {
+  count: number
+  next: string | null
+  previous: string | null
+  results: PoolAccount[]
 }
 
 interface FormInputs {
@@ -57,6 +71,24 @@ function Hashrate() {
   })
   const [selectedPool, setSelectedPool] = useState(MINING_POOLS[0])
   const [poolAddress, setPoolAddress] = useState<string>(selectedPool.address)
+  const [poolAccount, setPoolAccount] = useState<PoolAccountModel>({
+    count: 0,
+    next: null,
+    previous: null,
+    results: [
+      {
+        pool: '',
+        username: '',
+        is_default: false,
+      },
+    ],
+  })
+  const [defaultPoolAccount, setDefaultPoolAccount] = useState<PoolAccount>({
+    pool: '',
+    username: '',
+    is_default: false,
+  })
+
   const params = useSearchParams()
   const hasProxyStatus = params?.get('proxy_status') || ''
 
@@ -88,7 +120,9 @@ function Hashrate() {
       try {
         setLoading(true)
         const data = await getPoolInfo(token)
+        const res = await getPoolAccount(token)
         setPoolInfo(data)
+        setPoolAccount(res)
       } catch (ex) {
         console.error(ex)
       } finally {
@@ -102,6 +136,15 @@ function Hashrate() {
     setSelectedPool(val)
     setPoolAddress(val.address)
   }
+
+  function filterDefaultPools(poolAccounts: any[]) {
+    return poolAccounts.filter(account => account.is_default === true)
+  }
+
+  useEffect(() => {
+    const defaultPool = filterDefaultPools(poolAccount.results)
+    setDefaultPoolAccount(defaultPool[0])
+  }, [poolAccount.results])
 
   const canUpdate = poolInfo.has_ongoing_deliveries || poolInfo.has_queued_deliveries || poolInfo.has_ongoing_deliveries
 
@@ -122,7 +165,8 @@ function Hashrate() {
     resolver: yupResolver(signUpSchema),
     defaultValues: {
       ...hashrateInfo,
-      mining_pool_address: poolAddress,
+      mining_pool_address: defaultPoolAccount?.pool,
+      mining_pool_username: defaultPoolAccount?.username,
     },
   })
 
@@ -197,7 +241,7 @@ function Hashrate() {
               <Input
                 type="text"
                 name="mining_pool_username"
-                defaultValue={account.pool_user ? account.pool_user.username : ''}
+                defaultValue={defaultPoolAccount?.username}
                 placeholder="satoshi"
                 isDisabled={canUpdate || loading}
               />
@@ -207,7 +251,7 @@ function Hashrate() {
               <Input
                 type="text"
                 name="mining_pool_address"
-                defaultValue={account.pool_user ? account.pool_user.pool : ''}
+                defaultValue={defaultPoolAccount?.pool}
                 placeholder="stratum+tcp://stratum.braiins.com:3333"
                 isDisabled={canUpdate || loading}
               />
