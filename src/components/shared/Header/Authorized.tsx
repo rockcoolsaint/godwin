@@ -14,7 +14,7 @@ export default function Authorized() {
   const [dropdownActive, setDropdownActive] = useState<boolean>(false)
 
   return (
-    <div className="ml-4 flex items-center justify-end">
+    <div className="ml-4 flex items-center justify-end font-epilogue">
       {!isLoading && account && (
         <div className="flex items-center ">
           <Link href="/account/general" className="mr-4 text-sm font-normal text-dark-300 hover:text-primary">
