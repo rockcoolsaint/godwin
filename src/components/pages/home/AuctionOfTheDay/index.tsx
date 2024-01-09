@@ -10,14 +10,14 @@ export default function AuctionOfTheDay({ auctionsData }: AuctionOfTheDay) {
   return (
     <section className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center px-4 py-28 md:px-0">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center">
-        <h1 className="mt-10 w-10/12 text-center font-chakra text-4xl text-navy lg:w-full lg:text-7xl">Auction Market</h1>
+        <h1 className="mt-10 w-10/12 text-center font-chakra text-4xl text-navy lg:w-full lg:text-5xl 2xl:text-7xl">Auction Market</h1>
 
         <AuctionSchedule auctionsData={auctionsData} showTitle={false} />
       </div>
       {/* SUPPORT */}
       <>
-        <h1 className="mt-36 font-chakra text-4xl text-navy lg:text-7xl">Support</h1>
-        <p className="text-center text-xs text-navy md:w-6/12 md:text-xl  lg:text-3xl">
+        <h1 className="mt-36 font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Support</h1>
+        <p className="text-center text-xs text-navy md:w-6/12 md:text-xl lg:w-7/12 lg:text-3xl 2xl:w-6/12">
           Whether you&apos;re brand new to mining, or a seasoned bitcoiner, our support team is here to answer your questions
         </p>
 
