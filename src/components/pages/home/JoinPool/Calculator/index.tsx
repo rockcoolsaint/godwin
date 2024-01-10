@@ -54,7 +54,7 @@ export function MiningCalculator() {
       <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
         Jump right in and start mining to your pool account. If you don&apos;t already have one, we&apos;ve got you covered.
       </p>
-      <div className="flex w-full flex-col rounded-lg border border-white lg:flex-row">
+      <div className="flex w-full flex-col rounded-lg border border-white lg:flex-row 2xl:w-10/12">
         <InstantHashrate />
         <div className="relative order-1 flex w-full flex-col items-center justify-between rounded-lg bg-white p-6 lg:w-10/12 lg:p-12 2xl:w-8/12">
           <div className="w-full font-epilogue">
