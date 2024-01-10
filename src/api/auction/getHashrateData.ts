@@ -1,4 +1,5 @@
 'use client'
+import { url as URL, createUrl } from 'utils'
 
 import { FetchError } from 'src/api/error'
 
@@ -8,7 +9,8 @@ export interface HashrateData {
 }
 
 export async function getHashrateData(stratums_id: number): Promise<HashrateData[]> {
-  const url = `https://auctions.rigly.io/api/data/hashrate/${stratums_id}?resolution=7`
+  const url = createUrl(URL(`api/data/hashrate/${stratums_id}`), new URLSearchParams({ resolution: '7' }))
+
   const response = await fetch(url)
   const json = await response.json()
 
