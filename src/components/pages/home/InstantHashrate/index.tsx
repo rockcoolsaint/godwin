@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import { formatMoney } from 'src/utils/currency'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { getProductRate } from 'src/api/orders/getProductRate'
+import { MINING_POOLS } from 'src/constants/pools'
 
 const useSignUpSchema = () => {
   const schema = useMemo(
@@ -19,6 +20,7 @@ const useSignUpSchema = () => {
       yup
         .object({
           duration: yup.string().required(() => 'Duration required'),
+          pool: yup.string(),
         })
         .required(),
     [],
@@ -29,6 +31,7 @@ const useSignUpSchema = () => {
 
 interface FormInputs {
   duration: string
+  pool: string | undefined
 }
 
 export default function InstantHashrate() {
@@ -45,6 +48,7 @@ export default function InstantHashrate() {
 
   const signUpInfo = {
     duration: '',
+    pool: '',
   }
 
   const { register, handleSubmit, reset, watch } = useForm<FormInputs>({
@@ -52,6 +56,7 @@ export default function InstantHashrate() {
     defaultValues: {
       ...signUpInfo,
       duration: '1',
+      pool: '',
     },
   })
 
@@ -191,6 +196,23 @@ export default function InstantHashrate() {
                   <option value="1">1 day</option>
                   <option value="2">2 days</option>
                   <option value="3">3 days</option>
+                </select>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-center">
+              <div className="col-span-1">
+                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Select a mining pool</p>
+              </div>
+              <div className="col-span-1 justify-self-end">
+                <select
+                  {...register('pool')}
+                  className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal text-white focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
+                >
+                  {MINING_POOLS.map(pool => (
+                    <option key={pool.id} value={pool.id}>
+                      {pool.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
