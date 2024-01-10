@@ -1,4 +1,4 @@
-import { get } from 'utils'
+import { get, url, createUrl } from 'utils'
 
 // TO DO - use react-query for fetching and caching
 export async function getDifficultyAdjustment() {
@@ -35,7 +35,7 @@ export interface HashpriceDict {
 
 export async function getHashPrice() {
   const data: HashpriceDict = await get({
-    url: `https://auctions.rigly.io/api/data/hashprice`,
+    url: createUrl(url(`api/data/hashprice`), new URLSearchParams({})),
   })
 
   return data
