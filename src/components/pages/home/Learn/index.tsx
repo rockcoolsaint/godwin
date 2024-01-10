@@ -7,7 +7,7 @@ import Link from 'src/components/shared/Link'
 export default function Learn() {
   return (
     <div className="font-epilogue">
-      <div className="max-w-8xl 2xl:py-30 mx-auto py-10 lg:px-8">
+      <div className="max-w-8xl 2xl:py-30 mx-auto py-10 lg:px-8 2xl:mt-20">
         <div className="mx-auto max-w-6xl divide-gray-900/10">
           <div className="flex w-full justify-between">
             <div className="space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12">
