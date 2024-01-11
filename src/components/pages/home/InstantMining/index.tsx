@@ -13,6 +13,7 @@ import { formatMoney } from 'src/utils/currency'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { getProductRate } from 'src/api/orders/getProductRate'
 import { MINING_POOLS } from 'src/constants/pools'
+import { LocalStorageKeys } from 'src/constants/localStorage'
 
 const useSignUpSchema = () => {
   const schema = useMemo(
@@ -45,6 +46,7 @@ export default function InstantMining() {
   const [markup, setMarkup] = useState(0)
 
   const signUpSchema = useSignUpSchema()
+  const isLoggedIn = Boolean(account?.email)
 
   const signUpInfo = {
     duration: '',
@@ -81,8 +83,8 @@ export default function InstantMining() {
     async value => {
       try {
         setProcessing(true)
-
         if (!account?.id) {
+          localStorage.setItem(LocalStorageKeys.Pool.poolValue, value.pool || '')
           toast.error('Redirecting to login...')
           router.push('/login')
 
@@ -199,23 +201,25 @@ export default function InstantMining() {
                 </select>
               </div>
             </div>
-            <div className="grid grid-cols-2 items-center">
-              <div className="col-span-1">
-                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Select a mining pool</p>
+            {!isLoggedIn && (
+              <div className="grid grid-cols-2 items-center">
+                <div className="col-span-1">
+                  <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Select a mining pool</p>
+                </div>
+                <div className="col-span-1 justify-self-end">
+                  <select
+                    {...register('pool')}
+                    className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal text-white focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
+                  >
+                    {MINING_POOLS.map(pool => (
+                      <option key={pool.id} value={pool.id}>
+                        {pool.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <div className="col-span-1 justify-self-end">
-                <select
-                  {...register('pool')}
-                  className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal text-white focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
-                >
-                  {MINING_POOLS.map(pool => (
-                    <option key={pool.id} value={pool.id}>
-                      {pool.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+            )}
             <div className="grid grid-cols-2 items-center">
               <div className="col-span-1">
                 <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Cost</p>
@@ -235,7 +239,7 @@ export default function InstantMining() {
 
         <button
           type="submit"
-          className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-lg font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed lg:w-11/12 lg:text-xl xl:w-6/12 2xl:text-4xl"
+          className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-lg font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed lg:w-11/12 lg:text-xl xl:w-6/12 2xl:w-8/12 2xl:text-4xl"
         >
           Buy hashrate
         </button>
