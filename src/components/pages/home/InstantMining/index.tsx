@@ -12,6 +12,8 @@ import { useRouter } from 'next/navigation'
 import { formatMoney } from 'src/utils/currency'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { getProductRate } from 'src/api/orders/getProductRate'
+import { MINING_POOLS } from 'src/constants/pools'
+import { LocalStorageKeys } from 'src/constants/localStorage'
 
 const useSignUpSchema = () => {
   const schema = useMemo(
@@ -19,6 +21,7 @@ const useSignUpSchema = () => {
       yup
         .object({
           duration: yup.string().required(() => 'Duration required'),
+          pool: yup.string(),
         })
         .required(),
     [],
@@ -29,9 +32,10 @@ const useSignUpSchema = () => {
 
 interface FormInputs {
   duration: string
+  pool: string | undefined
 }
 
-export default function InstantHashrate() {
+export default function InstantMining() {
   const [processing, setProcessing] = useState(false)
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(0)
@@ -42,9 +46,11 @@ export default function InstantHashrate() {
   const [markup, setMarkup] = useState(0)
 
   const signUpSchema = useSignUpSchema()
+  const isLoggedIn = Boolean(account?.email)
 
   const signUpInfo = {
     duration: '',
+    pool: '',
   }
 
   const { register, handleSubmit, reset, watch } = useForm<FormInputs>({
@@ -52,6 +58,7 @@ export default function InstantHashrate() {
     defaultValues: {
       ...signUpInfo,
       duration: '1',
+      pool: '',
     },
   })
 
@@ -76,8 +83,8 @@ export default function InstantHashrate() {
     async value => {
       try {
         setProcessing(true)
-
         if (!account?.id) {
+          localStorage.setItem(LocalStorageKeys.Pool.poolValue, value.pool || '')
           toast.error('Redirecting to login...')
           router.push('/login')
 
@@ -155,25 +162,25 @@ export default function InstantHashrate() {
           <div className="mt-2 grid gap-8">
             <div className="grid grid-cols-2">
               <div className="col-span-1">
-                <p className="text-sm font-bold text-white lg:text-xl">Hashrate</p>
+                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Hashrate</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 {loading ? (
                   <p className="flex h-2 w-12 animate-pulse rounded bg-white text-sm" />
                 ) : (
-                  <p className="text-xs font-bold text-white lg:text-sm">{hashrate} TH/s</p>
+                  <p className="text-xs font-normal text-white lg:text-sm">{hashrate} TH/s</p>
                 )}
               </div>
             </div>
             <div className="grid grid-cols-2">
               <div className="col-span-1">
-                <p className="text-sm font-bold text-white lg:text-xl">Hash price</p>
+                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Hash price</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 {loading ? (
                   <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
                 ) : (
-                  <p className="text-xs font-bold text-white lg:text-sm">
+                  <p className="text-xs font-normal text-white lg:text-sm">
                     {Math.round(hashprice * (1 + markupPercentage))} sats per TH/s/day
                   </p>
                 )}
@@ -181,12 +188,12 @@ export default function InstantHashrate() {
             </div>
             <div className="grid grid-cols-2 items-center">
               <div className="col-span-1">
-                <p className="text-sm font-bold text-white lg:text-xl">Select a duration</p>
+                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Select a duration</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 <select
                   {...register('duration')}
-                  className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-bold text-white focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
+                  className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal text-white focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
                 >
                   <option value="1">1 day</option>
                   <option value="2">2 days</option>
@@ -194,15 +201,34 @@ export default function InstantHashrate() {
                 </select>
               </div>
             </div>
+            {!isLoggedIn && (
+              <div className="grid grid-cols-2 items-center">
+                <div className="col-span-1">
+                  <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Select a mining pool</p>
+                </div>
+                <div className="col-span-1 justify-self-end">
+                  <select
+                    {...register('pool')}
+                    className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal text-white focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
+                  >
+                    {MINING_POOLS.map(pool => (
+                      <option key={pool.id} value={pool.id}>
+                        {pool.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
             <div className="grid grid-cols-2 items-center">
               <div className="col-span-1">
-                <p className="text-sm font-bold text-white lg:text-xl">Cost</p>
+                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Cost</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 {loading ? (
                   <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
                 ) : (
-                  <p className="text-xs font-bold text-white lg:text-sm">
+                  <p className="text-xs font-normal text-white lg:text-sm">
                     {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice * (1 + markupPercentage)))} sats
                   </p>
                 )}
@@ -213,7 +239,7 @@ export default function InstantHashrate() {
 
         <button
           type="submit"
-          className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-lg font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed lg:w-9/12 lg:text-4xl xl:w-6/12"
+          className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-lg font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed lg:w-11/12 lg:text-xl xl:w-6/12 2xl:w-8/12 2xl:text-4xl"
         >
           Buy hashrate
         </button>

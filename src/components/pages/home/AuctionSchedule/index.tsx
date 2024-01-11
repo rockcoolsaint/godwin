@@ -209,8 +209,10 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
     <>
       {showTitle && (
         <>
-          <h1 className="mt-10 w-10/12 text-center font-chakra text-4xl text-white lg:w-full lg:text-7xl">Bid, win, hash.</h1>
-          <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:text-4xl">
+          <h1 className="mt-10 w-8/12 text-center font-chakra text-4xl text-white lg:mt-0 lg:w-full lg:text-5xl 2xl:text-7xl">
+            Bid, win, hash.
+          </h1>
+          <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-6 lg:w-9/12 lg:text-xl 2xl:text-3xl">
             Buy hashrate at auction, and send it to the pool of your choice.
           </p>
           <Link href="/collections/active" className="self-end rounded-xl bg-white p-2 font-epilogue text-sm font-bold text-navy lg:p-4">

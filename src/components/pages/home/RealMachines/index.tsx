@@ -21,16 +21,16 @@ export default function RealMachines() {
     <>
       <ul
         role="list"
-        className="mx-4 grid max-w-7xl grid-cols-1 gap-6 text-sm text-navy sm:mx-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 lg:text-3xl"
+        className="mx-4 grid max-w-7xl grid-cols-1 gap-6 text-sm text-navy sm:mx-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 lg:px-16 lg:text-3xl"
       >
         {content.map((person, index) => (
           <li key={index} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-hero-outline">
-            <div className="flex w-full items-center justify-between space-x-6 p-6">
-              <div className="flex-1">
-                <div className="flex items-center space-x-3">
-                  <p className="truncate font-bold">{person.title}</p>
+            <div className="flex w-full items-center justify-between space-x-6 p-8">
+              <div className="flex flex-1 flex-col items-center">
+                <div className="space-x-3">
+                  <p className="truncate font-bold lg:text-xl 2xl:text-2xl">{person.title}</p>
                 </div>
-                <p className="mt-1 text-2xl">{person.body}</p>
+                <p className="mt-1 text-center text-xl lg:text-base">{person.body}</p>
               </div>
             </div>
           </li>

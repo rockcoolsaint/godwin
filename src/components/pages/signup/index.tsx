@@ -48,6 +48,11 @@ export default function SignUp({ setView, setEmail }: any) {
   useEffect(() => {
     const code = window.localStorage.getItem(LocalStorageKeys.Referral.plebtern) || undefined
     setCode(code)
+    const pool = Number(window.localStorage.getItem(LocalStorageKeys.Pool.poolValue)) || undefined
+    if (pool) {
+      const selectedPool = MINING_POOLS.filter(p => p.id === pool) || MINING_POOLS[0]
+      handleSetSelectedPool(selectedPool[0])
+    }
   }, [])
 
   const handleSetSelectedPool = (val: IMiningPool) => {
@@ -132,6 +137,7 @@ export default function SignUp({ setView, setEmail }: any) {
           { keepTouched: false, keepDirty: false },
         )
         window.localStorage.removeItem(LocalStorageKeys.Referral.plebtern)
+        window.localStorage.removeItem(LocalStorageKeys.Pool.poolValue)
         setSelectedPool(MINING_POOLS[0])
         setView()
         setEmail(value.email)
