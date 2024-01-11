@@ -34,7 +34,7 @@ interface FormInputs {
   pool: string | undefined
 }
 
-export default function InstantHashrate() {
+export default function InstantMining() {
   const [processing, setProcessing] = useState(false)
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(0)

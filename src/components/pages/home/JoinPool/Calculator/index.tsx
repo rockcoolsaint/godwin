@@ -4,7 +4,7 @@ import { QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/react/24/outline
 import { useEffect, useState } from 'react'
 import { getHashRate } from 'src/api/hashprice'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
-import InstantHashrate from 'src/components/pages/home/InstantHashrate'
+import InstantMining from 'src/components/pages/home/InstantMining'
 
 export function MiningCalculator() {
   const [difficulty, setDifficulty] = useState(0)
@@ -55,7 +55,7 @@ export function MiningCalculator() {
         Jump right in and start mining to your pool account. If you don&apos;t already have one, we&apos;ve got you covered.
       </p>
       <div className="flex w-full flex-col rounded-lg border border-white lg:flex-row 2xl:w-10/12">
-        <InstantHashrate />
+        <InstantMining />
         <div className="relative order-1 flex w-full flex-col items-center justify-between rounded-lg bg-white p-6 lg:w-10/12 lg:p-12 2xl:w-8/12">
           <div className="w-full font-epilogue">
             <h2 className="mb-2 text-base font-bold text-navy lg:text-lg 2xl:text-2xl">Estimate daily mining earning</h2>
