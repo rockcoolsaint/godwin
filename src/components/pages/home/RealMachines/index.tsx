@@ -4,7 +4,7 @@ import spot from 'src/assets/png/spot.png'
 const content = [
   {
     title: 'Real machines',
-    body: 'Connect to ASIC miners from different sellers around the world.',
+    body: 'Connect to ASIC miners from sellers around the world.',
   },
   {
     title: 'Multisig escrow',
