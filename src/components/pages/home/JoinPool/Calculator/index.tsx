@@ -6,6 +6,7 @@ import { getHashRate } from 'src/api/hashprice'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import InstantMining from 'src/components/pages/home/InstantMining'
 import Link from 'src/components/shared/Link'
+import { formatMoney } from 'src/utils/currency'
 
 export function MiningCalculator() {
   const [difficulty, setDifficulty] = useState(0)
@@ -79,7 +80,7 @@ export function MiningCalculator() {
               </div>
               <span className="block w-4/12 text-right text-xs text-navy lg:w-2/12 xl:text-sm">{globalHashrate} EH/s</span>
             </aside>
-            <aside className="my-2 flex items-center justify-between lg:mt-10">
+            {/* <aside className="my-2 flex items-center justify-between lg:mt-10">
               <div className="inline-block w-7/12 items-start sm:flex">
                 <span className="text-xs font-bold text-navy xl:text-sm">Hashprice estimate</span>
                 <Tooltip placement="top">
@@ -93,41 +94,31 @@ export function MiningCalculator() {
                   </TooltipContent>
                 </Tooltip>
               </div>
-            </aside>
+            </aside> */}
             <aside className="mb-4 flex items-center justify-between">
-              <div className="inline-block w-6/12 items-start sm:w-5/12 lg:flex">
-                <span className="text-xs font-normal text-navy xl:text-sm">Base hashprice</span>
+              <div className="inline-block w-5/12 items-start sm:w-5/12 lg:flex">
+                <span className="text-xs font-bold text-navy xl:text-sm">Hashprice</span>
                 <Tooltip placement="top">
                   <TooltipTrigger>
                     <QuestionMarkCircleIcon className="ml-1 h-3 w-3 xl:h-4 xl:w-4" />
                   </TooltipTrigger>
 
                   <TooltipContent className="w-fit rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
-                    Block subsidy only
+                    This how much bitcoin can be earned per TH/s per day, based on a &ldquo;full pay-per-share&ldquo; (FPPS) mining pool
+                    payout
                   </TooltipContent>
                 </Tooltip>
               </div>
-              <span className="block w-7/12 text-right text-xs text-navy lg:w-5/12 xl:text-sm 2xl:w-3/12">
-                {baseHashprice} sats/TH/s/day
-              </span>
+              <span className="block w-7/12 text-right text-xs text-navy lg:w-5/12 xl:text-sm 2xl:w-4/12">{hashprice} sats/TH/s/day</span>
             </aside>
 
             <aside className="mb-4 mt-2 flex items-center justify-between lg:mt-10">
-              <div className="flex w-4/12 items-start">
-                <p className="text-xs font-bold text-navy xl:text-sm">
-                  Total <span className="font-normal">(plus tax)</span>
-                </p>
-                <Tooltip placement="top">
-                  <TooltipTrigger>
-                    <QuestionMarkCircleIcon className="ml-1 h-3 w-3 xl:h-4 xl:w-4" />
-                  </TooltipTrigger>
-
-                  <TooltipContent className="w-3/4 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white lg:w-fit">
-                    Total hashprice (with tx fees, based on {feePercentage}% fee percentage)
-                  </TooltipContent>
-                </Tooltip>
+              <div className="flex w-5/12 items-start">
+                <p className="text-xs font-bold text-navy xl:text-sm">Estimated revenue</p>
               </div>
-              <p className="w-4/12 text-right text-xs text-navy lg:w-5/12 xl:text-sm">{Math.floor(hashprice)} sats/TH/s/day</p>
+              <p className="w-4/12 text-right text-xs text-navy lg:w-5/12 xl:text-sm">
+                {formatMoney(Math.floor(hashprice * globalHashrate * 1))} sats/day
+              </p>
             </aside>
 
             <p className="mt-10 text-xs text-navy">

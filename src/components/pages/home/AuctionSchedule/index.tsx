@@ -51,28 +51,11 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
       id: 'epoch',
       cell: cell => {
         // @ts-ignore
-        if (cell.row.original.auction_type == AuctionTypeChoice.ImmediateDelivery) {
-          return (
-            <p className="flex flex-col">
-              <span className="text-xs font-medium text-gray-500/[.85]">{cell.row.original.title}</span>
-              {formatDate(cell.row.original.start_at, 'MMM d')}
-            </p>
-          )
-        }
-        if (cell.row.original.epoch?.epoch_number) {
-          return (
-            <p className="flex flex-col">
-              <span className="text-xs font-medium text-gray-500/[.85]">Epoch {cell.row.original.epoch?.epoch_number}</span>
-              {formatDate(cell.row.original.epoch?.start_time, 'MMM d')} - {formatDate(cell.row.original.epoch?.end_time, 'MMM d')}
-            </p>
-          )
-        } else {
-          return <p>N/A</p>
-        }
+        return <p className="flex flex-col">#{cell.row.original.id}</p>
       },
       header: () => (
         <div className="flex text-center">
-          <span>Duration (days)</span>
+          <span>Auction ID</span>
         </div>
       ),
       footer: info => info.column.id,
