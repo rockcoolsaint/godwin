@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { getHashRate } from 'src/api/hashprice'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import InstantMining from 'src/components/pages/home/InstantMining'
+import Link from 'src/components/shared/Link'
 
 export function MiningCalculator() {
   const [difficulty, setDifficulty] = useState(0)
@@ -48,8 +49,8 @@ export function MiningCalculator() {
 
   return (
     <>
-      <h1 className="mt-10 w-8/12 text-center font-chakra text-4xl text-white lg:mt-0 lg:w-full lg:text-5xl 2xl:text-7xl">
-        Buy mining hashrate
+      <h1 className="mt-10 w-8/12 text-center font-chakra text-4xl text-white lg:mt-0 lg:w-full lg:text-5xl 2xl:w-8/12 2xl:text-7xl">
+        Buy Hashrate and Start mining now
       </h1>
       <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
         Jump right in and start mining to your pool account. If you don&apos;t already have one, we&apos;ve got you covered.
@@ -60,7 +61,7 @@ export function MiningCalculator() {
           <div className="w-full font-epilogue">
             <h2 className="mb-2 text-base font-bold text-navy lg:text-lg 2xl:text-2xl">Estimate daily mining earning</h2>
             <p className="text-xs text-gray-500 xl:text-sm 2xl:w-10/12">
-              Use this calculator to help estimate your potential daily profit before you buy hashrate.
+              Use this calculator to help estimate your potential daily revenue before you buy hashrate.
             </p>
             <aside className="my-2 flex items-center justify-between lg:my-10">
               <div className="inline-block w-11/12 items-start sm:w-6/12 lg:flex">
@@ -128,26 +129,24 @@ export function MiningCalculator() {
               </div>
               <p className="w-4/12 text-right text-xs text-navy lg:w-5/12 xl:text-sm">{Math.floor(hashprice)} sats/TH/s/day</p>
             </aside>
+
+            <p className="mt-10 text-xs text-navy">
+              Compare your bid to spot hashprice at{' '}
+              <Link
+                href="https://data.hashrateindex.com/network-data/btc"
+                className=" font-semibold text-black underline hover:no-underline"
+              >
+                Hashrate Index
+              </Link>{' '}
+              and learn{' '}
+              <Link
+                href="https://data.hashrateindex.com/network-data/btc"
+                className=" font-semibold text-black underline hover:no-underline"
+              >
+                why hashrate at auction sells at a premium
+              </Link>{' '}
+            </p>
           </div>
-          <p className="mb-4 mt-2 text-center text-xs font-bold text-navy lg:mt-8 xl:text-sm">Global network hashrate</p>
-          <label htmlFor="hashrate" className="flex items-center">
-            <p className="mr-4 text-sm">100 EH/s</p>
-            <input
-              onChange={e => {
-                setGlobalHashrate(parseInt(e.target.value))
-              }}
-              type="range"
-              className="bg-[#5C3FAF] text-[#5C3FAF]"
-              id="hashrate"
-              min={100}
-              max={1000}
-              name="volume"
-              placeholder="global hashrate"
-              value={Math.floor(globalHashrate)}
-            />
-            <p className="ml-4 text-sm">1000 EH/s</p>
-            <XCircleIcon onClick={() => fetchData()} className="ml-4 h-4 w-4" />
-          </label>
         </div>
       </div>
     </>

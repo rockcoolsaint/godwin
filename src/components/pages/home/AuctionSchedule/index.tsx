@@ -71,17 +71,25 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
         }
       },
       header: () => (
-        <Tooltip placement="top">
-          <TooltipTrigger>
-            <p className="flex items-center">Auction</p>
-          </TooltipTrigger>
-
-          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
-            Bitcoin’s difficulty epochs are ~ 14 days (2,016 blocks) in duration
-          </TooltipContent>
-        </Tooltip>
+        <div className="flex text-center">
+          <span>Duration (days)</span>
+        </div>
       ),
       footer: info => info.column.id,
+    }),
+
+    columnHelper.accessor(row => row.auction_meta.hashrate, {
+      id: 'hashrate',
+      cell: cell => {
+        return (
+          <Link className="text-primary underline" href={`${cell.row.original.slug}`}>
+            {cell.row.original.auction_meta.hashrate} TH/s
+          </Link>
+        )
+      },
+      header: () => <span>Speed</span>,
+      footer: info => info.column.id,
+      enableSorting: false,
     }),
     columnHelper.accessor('going_hashprice', {
       cell: cell => {
@@ -99,20 +107,6 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
       },
       header: () => <span>Duration</span>,
       footer: info => info.column.id,
-    }),
-
-    columnHelper.accessor(row => row.auction_meta.hashrate, {
-      id: 'hashrate',
-      cell: cell => {
-        return (
-          <Link className="text-primary underline" href={`${cell.row.original.slug}`}>
-            {cell.row.original.auction_meta.hashrate} TH/s
-          </Link>
-        )
-      },
-      header: () => <span>Speed</span>,
-      footer: info => info.column.id,
-      enableSorting: false,
     }),
     columnHelper.accessor(row => row.current_bid, {
       id: 'bid',
