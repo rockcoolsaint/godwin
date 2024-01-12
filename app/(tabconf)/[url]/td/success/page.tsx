@@ -74,7 +74,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   if (!proxyStatus || !orderId) {
     return (
       <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
-        <NotFoundComponent message="Ooops! No detail for this order" return_url="/" />
+        <NotFoundComponent message="No detail for this order" return_url="/" />
       </Container>
     )
   }
@@ -82,7 +82,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   if (!account?.email) {
     return (
       <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
-        <NotFoundComponent message="Ooops! Please log in to view this order" return_url="/login" />
+        <NotFoundComponent message="Please log in to view this order" return_url="/login" />
       </Container>
     )
   }
@@ -90,7 +90,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   if (account?.email !== proxyStatus.email) {
     return (
       <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
-        <NotFoundComponent message="Ooops! You're not permitted to view this order" return_url="/" />
+        <NotFoundComponent message="You're not permitted to view this order" return_url="/" />
       </Container>
     )
   }
