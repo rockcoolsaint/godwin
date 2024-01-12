@@ -228,7 +228,7 @@ export default function InstantMining() {
                 {loading ? (
                   <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
                 ) : (
-                  <p className="text-xs font-normal text-white lg:text-sm">
+                  <p className="text-sm font-bold text-white lg:text-sm">
                     {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice * (1 + markupPercentage)))} sats
                   </p>
                 )}

@@ -39,9 +39,8 @@ export default function Learn() {
                         <ol className="mt-4 list-decimal pl-8">
                           <li>To permanently add transactions to the blockchain without the permission of any central authority.</li>
                           <li className="mt-1">
-                            Current mining rigs are worth several thousand dollars and consume a lot of power, requiring low electricity
-                            rates to cover costs and payback over time. ASICs are special purpose machines that require proper operating
-                            conditions, oversight, and maintenance. Buying hashrate offers a lower entry price with less time commitment.
+                            To fairly distribute the 21 million bitcoin supply by rewarding new coins to miners who spend real world
+                            resources (i.e. electricity) to secure the network
                           </li>
                         </ol>
                         <Link href="https://braiins.com/" className="mt-4 block font-semibold text-black underline hover:no-underline">
@@ -69,8 +68,9 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-xs text-black lg:text-base">
-                        Bitcoin mining rigs are expensive, special purpose machines. Current mining rigs are several thousand dollars. Rig
-                        rentals offer a lower price and better value.
+                        Current mining rigs are worth several thousand dollars and consume a lot of power, requiring low electricity rates
+                        to cover costs and payback over time. ASICs are special purpose machines that require proper operating conditions,
+                        oversight, and maintenance. Buying hashrate offers a lower entry price with less time commitment.
                       </div>
                     </Disclosure.Panel>
                   </>
@@ -81,7 +81,7 @@ export default function Learn() {
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">What are the incentives</h2>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">What are the incentives?</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
                             <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
@@ -99,9 +99,9 @@ export default function Learn() {
                       </div>
                       <Link
                         href="https://blog.rigly.io/why-buy-spot-hashrate/"
-                        className="mt-4 block font-semibold text-black underline hover:no-underline"
+                        className="mt-4 block text-xs font-semibold text-black underline hover:no-underline"
                       >
-                        Learn more at Why Buy Spot Hashrate
+                        Learn more at Why buy spot hashrate
                       </Link>
                     </Disclosure.Panel>
                   </>
