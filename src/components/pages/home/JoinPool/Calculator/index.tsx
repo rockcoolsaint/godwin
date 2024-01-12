@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { getHashRate } from 'src/api/hashprice'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import InstantMining from 'src/components/pages/home/InstantMining'
+import Link from 'src/components/shared/Link'
 
 export function MiningCalculator() {
   const [difficulty, setDifficulty] = useState(0)
@@ -128,6 +129,23 @@ export function MiningCalculator() {
               </div>
               <p className="w-4/12 text-right text-xs text-navy lg:w-5/12 xl:text-sm">{Math.floor(hashprice)} sats/TH/s/day</p>
             </aside>
+
+            <p className="mt-10 text-xs text-navy">
+              Compare your bid to spot hashprice at{' '}
+              <Link
+                href="https://data.hashrateindex.com/network-data/btc"
+                className=" font-semibold text-black underline hover:no-underline"
+              >
+                Hashrate Index
+              </Link>{' '}
+              and learn{' '}
+              <Link
+                href="https://data.hashrateindex.com/network-data/btc"
+                className=" font-semibold text-black underline hover:no-underline"
+              >
+                why hashrate at auction sells at a premium
+              </Link>{' '}
+            </p>
           </div>
         </div>
       </div>
