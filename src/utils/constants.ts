@@ -65,3 +65,5 @@ export const auctionTypeFiltering: AuctionTypeFilterItem[] = [
   { title: 'Forward Date', slug: 'forward_date', filterKey: 'forward_date', category: 'Type' },
   { title: 'Upfront Payment', slug: 'upfront_payment', filterKey: 'upfront_payment', category: 'Type' },
 ]
+
+export const RIGLY_HASHRATE = 88
