@@ -1,12 +1,13 @@
 'use client'
 
-import { QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
 import { getHashRate } from 'src/api/hashprice'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import InstantMining from 'src/components/pages/home/InstantMining'
 import Link from 'src/components/shared/Link'
 import { formatMoney } from 'src/utils/currency'
+import { RIGLY_HASHRATE } from 'src/utils/constants'
 
 export function MiningCalculator() {
   const [difficulty, setDifficulty] = useState(0)
@@ -117,7 +118,7 @@ export function MiningCalculator() {
                 <p className="text-xs font-bold text-navy xl:text-sm">Estimated revenue</p>
               </div>
               <p className="w-4/12 text-right text-xs text-navy lg:w-5/12 xl:text-sm">
-                {formatMoney(Math.floor(hashprice * globalHashrate * 1))} sats/day
+                {formatMoney(Math.floor(hashprice * RIGLY_HASHRATE))} sats/day
               </p>
             </aside>
 
