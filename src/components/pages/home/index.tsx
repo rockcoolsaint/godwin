@@ -164,13 +164,13 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
               <>
                 <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row lg:mt-12">
                   <Link
-                    href="#auction-market"
+                    href="#try-mining"
                     className="mb-5 flex w-11/12 items-center justify-center rounded-full bg-hero-gradient px-5 py-4 text-sm text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:mb-0 lg:h-20 lg:w-9/12 lg:text-3xl xl:w-6/12"
                   >
                     Try it out
                   </Link>
                   <Link
-                    href="#try-mining"
+                    href="#auction-market"
                     className="flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-sm text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:h-20 lg:w-9/12 lg:text-3xl xl:w-6/12"
                   >
                     Buy Hashrate
