@@ -243,7 +243,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
                     </div>
                     <div className="">
                       <Link
-                        href="#"
+                        href="https://rigly.io/selling-on-rigly"
                         className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
                         target="_blank"
                       >
