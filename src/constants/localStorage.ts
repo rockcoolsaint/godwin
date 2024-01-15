@@ -15,4 +15,7 @@ export const LocalStorageKeys = {
   Guide: {
     bid: 'rg_b_g',
   },
+  Pool: {
+    poolValue: 'rg_p_v',
+  },
 }

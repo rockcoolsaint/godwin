@@ -18,7 +18,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 const StyledInput = styled(
   'input',
-  'mb-0 flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 px-3 outline-none placeholder:text-sm placeholder:opacity-75 disabled:bg-gray-300 disabled:text-gray-500 focus:ring-0',
+  'mb-0 flex h-12 w-full items-center justify-center rounded-lg border border-gray-300 px-3 outline-none placeholder:text-sm placeholder:opacity-75 disabled:bg-gray-300 disabled:text-gray-500 focus:ring-0',
   {
     variants: {
       error: {

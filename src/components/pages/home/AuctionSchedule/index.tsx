@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client'
 
-import { Container } from 'src/core'
 import * as React from 'react'
 import { Auction } from 'src/api/auction/types'
 import {
@@ -26,7 +25,7 @@ import { useMobileScreen } from 'src/hooks/useIsMobile'
 import { useMemo } from 'react'
 import { AuctionTypeChoice } from 'src/types'
 
-export default function AuctionSchedule({ auctionsData, showLink }: { auctionsData: Auction[]; showLink?: boolean }) {
+export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsData: Auction[]; showTitle?: boolean }) {
   const initialSorting = useMemo(() => {
     return [
       {
@@ -36,49 +35,44 @@ export default function AuctionSchedule({ auctionsData, showLink }: { auctionsDa
     ]
   }, [])
 
-  const [data, _] = React.useState(() => [...auctionsData])
+  const [data, setData] = React.useState([...auctionsData])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [sorting, setSorting] = React.useState<SortingState>(initialSorting)
   const isMobile = useMobileScreen()
   const columnHelper = createColumnHelper<Auction>()
   const router = useRouter()
 
+  React.useEffect(() => {
+    setData(auctionsData)
+  }, [auctionsData])
+
   const columns = [
     columnHelper.accessor(row => row.epoch?.epoch_number, {
       id: 'epoch',
       cell: cell => {
         // @ts-ignore
-        if (cell.row.original.auction_type == AuctionTypeChoice.ImmediateDelivery) {
-          return (
-            <p className="flex flex-col">
-              <span className="text-xs font-medium text-gray-500/[.85]">{cell.row.original.title}</span>
-              {formatDate(cell.row.original.start_at, 'MMM d')}
-            </p>
-          )
-        }
-        if (cell.row.original.epoch?.epoch_number) {
-          return (
-            <p className="flex flex-col">
-              <span className="text-xs font-medium text-gray-500/[.85]">Epoch {cell.row.original.epoch?.epoch_number}</span>
-              {formatDate(cell.row.original.epoch?.start_time, 'MMM d')} - {formatDate(cell.row.original.epoch?.end_time, 'MMM d')}
-            </p>
-          )
-        } else {
-          return <p>N/A</p>
-        }
+        return <p className="flex flex-col">#{cell.row.original.id}</p>
       },
       header: () => (
-        <Tooltip placement="top">
-          <TooltipTrigger>
-            <p className="flex items-center">Auction</p>
-          </TooltipTrigger>
-
-          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
-            Bitcoin’s difficulty epochs are ~ 14 days (2,016 blocks) in duration
-          </TooltipContent>
-        </Tooltip>
+        <div className="flex text-center">
+          <span>Auction ID</span>
+        </div>
       ),
       footer: info => info.column.id,
+    }),
+
+    columnHelper.accessor(row => row.auction_meta.hashrate, {
+      id: 'hashrate',
+      cell: cell => {
+        return (
+          <Link className="text-primary underline" href={`${cell.row.original.slug}`}>
+            {cell.row.original.auction_meta.hashrate} TH/s
+          </Link>
+        )
+      },
+      header: () => <span>Speed</span>,
+      footer: info => info.column.id,
+      enableSorting: false,
     }),
     columnHelper.accessor('going_hashprice', {
       cell: cell => {
@@ -96,20 +90,6 @@ export default function AuctionSchedule({ auctionsData, showLink }: { auctionsDa
       },
       header: () => <span>Duration</span>,
       footer: info => info.column.id,
-    }),
-
-    columnHelper.accessor(row => row.auction_meta.hashrate, {
-      id: 'hashrate',
-      cell: cell => {
-        return (
-          <Link className="text-primary underline" href={`${cell.row.original.slug}`}>
-            {cell.row.original.auction_meta.hashrate} TH/s
-          </Link>
-        )
-      },
-      header: () => <span>Speed</span>,
-      footer: info => info.column.id,
-      enableSorting: false,
     }),
     columnHelper.accessor(row => row.current_bid, {
       id: 'bid',
@@ -203,102 +183,81 @@ export default function AuctionSchedule({ auctionsData, showLink }: { auctionsDa
   }
 
   return (
-    <section id="auction-market" className="mt-4 pb-24 pt-4 sm:mt-0 sm:pt-28">
-      <Container className="w-12/12 flex items-center justify-center !px-1 sm:w-8/12">
-        <section className="flex flex-col items-center justify-center sm:pl-0">
-          <h1 className="mb-4 text-primary">Auction Market</h1>
-          <div className="block w-full">
-            <table className="w-full border border-gray-400">
-              <thead>
-                {table.getHeaderGroups().map(headerGroup => (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map(header => {
-                      return (
-                        <th
-                          className="border-b border-r border-gray-400 p-2 text-center text-xs font-semibold sm:px-8 sm:text-sm"
-                          key={header.id}
-                          colSpan={header.colSpan}
+    <>
+      {showTitle && (
+        <>
+          <h1 className="mt-10 w-8/12 text-center font-chakra text-4xl text-white lg:mt-0 lg:w-full lg:text-5xl 2xl:text-7xl">
+            Bid, win, hash.
+          </h1>
+          <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-6 lg:w-9/12 lg:text-xl 2xl:text-3xl">
+            Buy hashrate at auction, and send it to the pool of your choice.
+          </p>
+          <Link href="/collections/active" className="self-end rounded-xl bg-white p-2 font-epilogue text-sm font-bold text-navy lg:p-4">
+            Explore Auctions
+          </Link>
+        </>
+      )}
+      <div className="mt-4 block w-full overflow-hidden rounded-lg bg-white">
+        <table className="w-full border border-gray-400">
+          <thead>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map(header => {
+                  return (
+                    <th
+                      className="border-b border-r border-gray-400 p-2 text-center text-xs font-semibold text-primary sm:px-8 sm:text-sm"
+                      key={header.id}
+                      colSpan={header.colSpan}
+                    >
+                      {header.isPlaceholder ? null : (
+                        <div
+                          {...{
+                            className: header.column.getCanSort()
+                              ? 'flex text-center justify-center items-center cursor-pointer select-none'
+                              : '',
+                            onClick: header.column.getToggleSortingHandler(),
+                          }}
                         >
-                          {header.isPlaceholder ? null : (
-                            <div
-                              {...{
-                                className: header.column.getCanSort()
-                                  ? 'flex text-center justify-center items-center cursor-pointer select-none'
-                                  : '',
-                                onClick: header.column.getToggleSortingHandler(),
-                              }}
-                            >
-                              {flexRender(header.column.columnDef.header, header.getContext())}
-                              {{
-                                asc: <ChevronUpIcon className="ml-2 h-4 w-4 font-extrabold" />,
-                                desc: <ChevronDownIcon className="ml-2 h-4 w-4 font-extrabold" />,
-                              }[header.column.getIsSorted() as string] ?? (
-                                <div className="ml-2 flex flex-col">
-                                  {header.column.getCanSort() && (
-                                    <>
-                                      <ChevronUpIcon className="h-2 w-2" />
-                                      <ChevronDownIcon className="h-2 w-2" />
-                                    </>
-                                  )}
-                                </div>
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {{
+                            asc: <ChevronUpIcon className="ml-2 h-4 w-4 font-extrabold" />,
+                            desc: <ChevronDownIcon className="ml-2 h-4 w-4 font-extrabold" />,
+                          }[header.column.getIsSorted() as string] ?? (
+                            <div className="ml-2 flex flex-col">
+                              {header.column.getCanSort() && (
+                                <>
+                                  <ChevronUpIcon className="h-2 w-2" />
+                                  <ChevronDownIcon className="h-2 w-2" />
+                                </>
                               )}
                             </div>
                           )}
-                        </th>
-                      )
-                    })}
-                  </tr>
-                ))}
-              </thead>
-              <tbody>
-                {table.getRowModel().rows.map(row => (
-                  <tr
-                    className="odd:bg-white even:bg-gray-100 hover:cursor-pointer hover:bg-primary/[0.15]"
-                    key={row.id}
-                    onClick={() => router.push(`/auctions/${row.original.slug}`)}
-                  >
-                    {row.getVisibleCells().map(cell => (
-                      <td className="border-r border-gray-400 p-2 text-center text-[0.6875rem] sm:p-4 sm:text-sm" key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="mt-4 flex justify-center">
-              <button className="rounded border p-1" onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
-                {'<<'}
-              </button>
-              <button className="rounded border p-1" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-                {'<'}
-              </button>
-              <button className="rounded border p-1" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-                {'>'}
-              </button>
-              <button
-                className="rounded border p-1"
-                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                disabled={!table.getCanNextPage()}
+                        </div>
+                      )}
+                    </th>
+                  )
+                })}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.map(row => (
+              <tr
+                className="odd:bg-white even:bg-gray-100 hover:cursor-pointer hover:bg-primary/[0.15]"
+                key={row.id}
+                onClick={() => router.push(`/auctions/${row.original.slug}`)}
               >
-                {'>>'}
-              </button>
-              <span className="flex items-center gap-1 text-sm">
-                <div>Page</div>
-                <strong>
-                  {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-                </strong>
-              </span>
-            </div>
-          </div>
-          {showLink && (
-            <Link className="mb-16 mt-4 text-xs text-primary underline sm:text-sm" href="/auction-market">
-              View more auctions
-            </Link>
-          )}
-        </section>
-      </Container>
-    </section>
+                {row.getVisibleCells().map(cell => (
+                  <td className="border-r border-gray-400 p-2 text-center text-[0.6875rem] sm:p-4 sm:text-sm" key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
 

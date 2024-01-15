@@ -16,13 +16,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#035DF2',
+        primary: '#316AEF',
         gradient: `bg-gradient-to-r from-cyan-500 to-blue-500`,
+        navy: '#1A3263',
         gray: {
           100: '#EBEFF0',
           200: '#ECF3FD',
           300: '#DCE2E5',
           400: '#D3DBDE',
+          500: '#757575',
         },
         dark: {
           100: '#646F86',
@@ -40,10 +42,18 @@ module.exports = {
         gradient: 'linear-gradient(to right, #035DF2, #258AF7, #41ADFD)',
         'gradient-hover': 'linear-gradient(to right, #258AF7, #258AF7, #258AF7)',
         'gradient-disabled': 'linear-gradient(to right, #DCE2E5, #DCE2E5, #DCE2E5)',
+        'hero-gradient': 'linear-gradient(to right, #1A3263, #5C3FAF)',
       },
       height: {
         'input-tall': `${StyleConstants.inputHeight.tall}px`,
         'input-short': `${StyleConstants.inputHeight.short}px`,
+      },
+      fontFamily: {
+        chakra: ['var(--font-chakra)'],
+        epilogue: ['var(--font-epilogue)'],
+      },
+      boxShadow: {
+        'hero-outline': '0px 0px 15px 5px rgba(49, 106, 239, 0.30);',
       },
     },
   },
