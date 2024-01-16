@@ -2,7 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import getOrderStatus from 'src/api/checkout/getOrderStatus'
+import getProxyStatus from 'src/api/checkout/getProxyStatus'
 import { Container } from '../../components/Container'
 import { useSearchParams } from 'next/navigation'
 import NotFoundComponent from 'src/components/shared/NotFoundComponent'
@@ -11,27 +11,13 @@ import { formatDistance, parseISO } from 'date-fns'
 import { BoltIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import Link from 'src/components/shared/Link'
-import { OrderStatus } from 'src/types'
+import { ProxyStatusResponse } from 'src/types'
 import toast from 'react-hot-toast'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useAccountContext } from 'src/providers/AccountProvider'
 
-interface ProxyStatus {
-  worker: any
-  payment: any
-  pool_user: any
-  email?: string
-  proxy?: string
-  assigned_at: string
-  elapsed_time?: number
-  order: {
-    id: number
-    status: OrderStatus
-  }
-}
-
 export default function TestDriveSuccessPage({ params }: { params: any }) {
-  const [proxyStatus, setProxyStatus] = useState<ProxyStatus | undefined>(undefined)
+  const [proxyStatus, setProxyStatus] = useState<ProxyStatusResponse | null | undefined>(null)
   const [loading, setLoading] = useState(true)
   const { account } = useAccountContext()
   const searchParams = useSearchParams()
@@ -39,7 +25,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
 
   const loadStatus = async (orderId: number) => {
     try {
-      const res = await getOrderStatus(orderId)
+      const res = await getProxyStatus(orderId)
       setProxyStatus(res)
     } catch (error: any) {
       toast.error(error.message, { position: 'bottom-right' })
