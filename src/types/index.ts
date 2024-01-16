@@ -1,4 +1,4 @@
-import { Account, Auction, PaymentProvider } from 'src/api/auction/types'
+import { Account, Auction } from 'src/api/auction/types'
 
 export enum PaymentStatus {
   Processing = 'processing',
@@ -15,17 +15,46 @@ export interface PromoCode {
 
 export interface Payment {
   id: number
-  order_id: string
+  order_id: number
   payment_id: string
-  amount: number
   original_amount: number
-  status: PaymentStatus
-  checkout_url: string
+  amount: number
+  status: string
+  provider: string
   is_first: boolean
+  checkout_url: string
+  created_at: string
+  updated_at: string
+  expires_at: string
+  tx_id: any
+  is_onchain: boolean
+  opennode: any
   has_initiated_payment: boolean
-  missing_amount?: number
-  provider: PaymentProvider
-  created_at: number
+}
+
+export interface PoolUser {
+  pool: string
+  username: string
+}
+
+export interface ProxyStatusResponse {
+  assigned_at?: string
+  worker?: WorkerData
+  proxy: string
+  email: string
+  order: ProxyOrder
+  payment: Payment
+  elapsed_time: number
+  pool_user: PoolUser
+}
+
+export interface WorkerData {
+  difficulty: number
+  accepted_shares: number
+}
+export interface ProxyOrder {
+  id: number
+  status: OrderStatus
 }
 
 export enum OrderStatus {
