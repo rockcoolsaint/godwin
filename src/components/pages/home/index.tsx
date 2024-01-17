@@ -16,6 +16,7 @@ import JoinPool from './JoinPool'
 import Warp from 'src/assets/svg/warp.svg'
 import { MiningCalculator } from './JoinPool/Calculator'
 import Link from 'src/components/shared/Link'
+import { format } from 'date-fns'
 
 interface Props {
   auctions: Auction[]
@@ -75,6 +76,17 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
 
   return (
     <div>
+      <div className="flex items-center justify-center gap-x-6 bg-indigo-600 px-6 py-2.5 sm:px-3.5">
+        <p className="text-sm leading-6 text-white">
+          <a href="#">
+            <strong className="font-semibold">{format(Date.now(), 'MMM dd')}</strong>
+            <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
+              <circle cx={1} cy={1} r={1} />
+            </svg>
+            We are currently experiencing an outage, your mining may be offline
+          </a>
+        </p>
+      </div>
       {isLoggedIn && (
         <>
           <section className="mx-auto mt-8 flex max-w-[1824px] flex-col items-center justify-center sm:mt-14">
