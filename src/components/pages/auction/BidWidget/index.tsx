@@ -22,6 +22,7 @@ import RegularBid from './RegularBid'
 import ProxyBid from './ProxyBid'
 import { calculateAuctionHashPrice } from 'utils'
 import MiningSvg from 'src/assets/svg/mine.svg'
+import Link from 'src/components/shared/Link'
 
 interface Props {
   auction: Auction
@@ -226,7 +227,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   const max = 800
 
   return (
-    <div className="mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-3 opacity-70">
+    <div className="relative mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-6 opacity-70">
       <h1 className="mb-2 text-base">Hash price</h1>
       {Object.keys(filteredEpoch).length > 0 && (
         <div data-test-id="step-hashprice" className="flex items-center justify-between">
@@ -260,7 +261,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
           value={hashPrice.toString()}
         />
       </label>
-      <div data-test-id="step-estimate" className="mt-14">
+      <div data-test-id="step-estimate" className="my-10">
         <h1 className="flex items-center text-base">
           Estimated revenue
           <Tooltip placement="bottom">
@@ -284,7 +285,35 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             ${formatMoney(priceInFiat)}
           </TooltipContent>
         </Tooltip>
+        {/* <p className="mt-10 w-1/5 text-xs text-navy">
+          Compare your bid to spot hashprice at{' '}
+          <Link href="https://data.hashrateindex.com/network-data/btc" className=" font-semibold text-black underline hover:no-underline">
+            Hashrate Index
+          </Link>{' '}
+          and learn{' '}
+          <Link href="https://data.hashrateindex.com/network-data/btc" className=" font-semibold text-black underline hover:no-underline">
+            why hashrate at auction sells at a premium
+          </Link>{' '}
+        </p> */}
       </div>
+      <span className="absolute bottom-2 text-xs text-navy">
+        Compare your bid to spot hashprice at{' '}
+        <Link
+          target="_blank"
+          href="https://data.hashrateindex.com/network-data/btc"
+          className=" font-semibold text-black underline hover:no-underline"
+        >
+          Hashrate Index
+        </Link>{' '}
+        and learn{' '}
+        <Link
+          target="_blank"
+          href="https://data.hashrateindex.com/network-data/btc"
+          className=" font-semibold text-black underline hover:no-underline"
+        >
+          why hashrate at auction sells at a premium
+        </Link>{' '}
+      </span>
     </div>
   )
 }
