@@ -123,8 +123,9 @@ export function MiningCalculator() {
             </aside>
 
             <p className="mt-10 text-xs text-navy">
-              Compare your bid to spot hashprice at{' '}
+              Based on estimated payout from an FPPS mining pool. Verify this revenue estimate at{' '}
               <Link
+                target="_blank"
                 href="https://data.hashrateindex.com/network-data/btc"
                 className=" font-semibold text-black underline hover:no-underline"
               >
@@ -132,6 +133,7 @@ export function MiningCalculator() {
               </Link>{' '}
               and learn{' '}
               <Link
+                target="_blank"
                 href="https://data.hashrateindex.com/network-data/btc"
                 className=" font-semibold text-black underline hover:no-underline"
               >
