@@ -29,7 +29,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   const orderId = searchParams.get('order_id')
   const [email, setEmail] = useState<string | undefined>(undefined)
   const [view, setView] = useState(LoginView.Login)
-  const returnUrl = useReturnUrl({ excludeKey: false, encode: true })
+  const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
   const loadStatus = async (orderId: number) => {
     try {
