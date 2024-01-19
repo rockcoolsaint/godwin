@@ -291,7 +291,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             Hashrate Index
           </Link>{' '}
           and learn{' '}
-          <Link href="https://data.hashrateindex.com/network-data/btc" className=" font-semibold text-black underline hover:no-underline">
+          <Link href="https://blog.rigly.io/why-buy-spot-hashrate/" className=" font-semibold text-black underline hover:no-underline">
             why hashrate at auction sells at a premium
           </Link>{' '}
         </p> */}
