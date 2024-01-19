@@ -7,6 +7,7 @@ const excludedRoutes = ['login', 'register']
 
 export default function useReturnUrl(config: { excludeKey: boolean; encode: boolean } = { excludeKey: false, encode: true }) {
   const pathName = usePathname()
+  const query = window.location.href.split('?')[1]
   const pathData = pathName.split('/').filter(p => p)
   const [returnUrl, setReturnUrl] = useState<string | undefined>(undefined)
   const [hasExistingReturnUrl, setHasExistingReturnUrl] = useState<boolean>(false)
@@ -34,6 +35,10 @@ export default function useReturnUrl(config: { excludeKey: boolean; encode: bool
 
   if (config.excludeKey) {
     return result
+  }
+
+  if (query) {
+    return `${result}${query ? `?${query}` : ''}`
   }
 
   return `?return_url=${result}`

@@ -6,7 +6,7 @@ import getProxyStatus from 'src/api/checkout/getProxyStatus'
 import { Container } from '../../components/Container'
 import { useSearchParams } from 'next/navigation'
 import NotFoundComponent from 'src/components/shared/NotFoundComponent'
-import { Loader } from 'src/core'
+import { Form, Input, Loader } from 'src/core'
 import { formatDistance, parseISO } from 'date-fns'
 import { BoltIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
@@ -15,13 +15,21 @@ import { ProxyStatusResponse } from 'src/types'
 import toast from 'react-hot-toast'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import { LoginView } from 'src/utils/constants'
+import useReturnUrl from 'src/hooks/useReturnUrl'
+import Icon from 'src/core/components/Icon'
+import { useTranslation } from 'src/hooks'
 
 export default function TestDriveSuccessPage({ params }: { params: any }) {
+  const { t } = useTranslation()
   const [proxyStatus, setProxyStatus] = useState<ProxyStatusResponse | null | undefined>(null)
   const [loading, setLoading] = useState(true)
-  const { account } = useAccountContext()
+  const { account, login } = useAccountContext()
   const searchParams = useSearchParams()
   const orderId = searchParams.get('order_id')
+  const [email, setEmail] = useState<string | undefined>(undefined)
+  const [view, setView] = useState(LoginView.Login)
+  const returnUrl = useReturnUrl({ excludeKey: false, encode: true })
 
   const loadStatus = async (orderId: number) => {
     try {
@@ -35,6 +43,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   }
 
   useEffect(() => {
+    window.Intercom('shutdown')
     if (!orderId) {
       return
     }
@@ -45,9 +54,24 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
     return () => clearInterval(interval)
   }, [orderId])
 
-  useEffect(() => {
-    window.Intercom('shutdown')
-  }, [])
+  const handleSubmit = async (data: any) => {
+    try {
+      setLoading(true)
+      setEmail(data.email)
+
+      const [success, error] = await login(data.email, returnUrl)
+      if (!success) {
+        throw error
+      }
+
+      setView(LoginView.EmailSent)
+    } catch (ex: any) {
+      toast.error(ex.message)
+      console.error(ex)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   if (loading) {
     return (
@@ -67,8 +91,35 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
 
   if (!account?.email) {
     return (
-      <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
-        <NotFoundComponent message="Please log in to view this order" return_url="/login" />
+      <Container className="flex flex-col items-center justify-center bg-slate-50 pt-12">
+        <NotFoundComponent message="Please sign in to view this order">
+          {view === LoginView.Login && (
+            <div className="flex flex-col items-center justify-center sm:w-3/4 lg:w-8/12 xl:w-4/12">
+              <div className="mt-2 flex items-center justify-start gap-1">
+                <span className="text-sm text-gray-500">
+                  Just one more step to view your mining test drive! Enter your email and you&apos;ll receive a magic link
+                </span>
+              </div>
+              <Form className="mt-8 w-full items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
+                <Form.Field className="w-full flex-col" required>
+                  <Form.Field.Label htmlFor="email">Email</Form.Field.Label>
+                  <Input type="email" name="email" placeholder="satoshi@gmx.com" />
+                </Form.Field>
+
+                <Form.Submit className="w-full">{loading ? <Loader height={20} width={20} /> : <span>Sign in</span>}</Form.Submit>
+              </Form>
+            </div>
+          )}
+          {view === LoginView.EmailSent && (
+            <div className="flex w-full flex-col items-center justify-center gap-4 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
+              <Icon icon="envelopeCircleCheck" className="h-20 w-20 text-gray-300" />
+              <span
+                className="text-center text-gray-500"
+                dangerouslySetInnerHTML={{ __html: t('login.email_sent_note', { email }) }}
+              ></span>
+            </div>
+          )}
+        </NotFoundComponent>
       </Container>
     )
   }
