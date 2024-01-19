@@ -37,12 +37,12 @@ export default function useReturnUrl(config: { excludeKey: boolean; encode: bool
 
   const result = config.encode ? encodeURIComponent(returnUrl) : returnUrl
 
-  if (config.excludeKey) {
-    return result
+  if (config.excludeKey && query) {
+    return `${result}${query ? `?${query}` : ''}`
   }
 
-  if (query) {
-    return `${result}${query ? `?${query}` : ''}`
+  if (config.excludeKey) {
+    return result
   }
 
   return `?return_url=${result}`

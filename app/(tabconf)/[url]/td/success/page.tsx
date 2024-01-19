@@ -29,7 +29,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   const orderId = searchParams.get('order_id')
   const [email, setEmail] = useState<string | undefined>(undefined)
   const [view, setView] = useState(LoginView.Login)
-  const returnUrl = useReturnUrl({ excludeKey: false, encode: true })
+  const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
   const loadStatus = async (orderId: number) => {
     try {
@@ -65,18 +65,20 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
       }
 
       setView(LoginView.EmailSent)
+      setLoading(false)
     } catch (ex: any) {
       toast.error(ex.message)
       console.error(ex)
-    } finally {
       setLoading(false)
     }
   }
 
   if (loading) {
     return (
-      <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-12">
-        <Loader />
+      <Container className="flex h-screen items-center justify-center pt-12">
+        <div className="flex w-full flex-col items-center justify-center">
+          <Loader />
+        </div>
       </Container>
     )
   }
