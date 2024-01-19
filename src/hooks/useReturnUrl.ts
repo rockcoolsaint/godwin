@@ -10,10 +10,15 @@ export default function useReturnUrl(config: { excludeKey: boolean; encode: bool
   const pathData = pathName.split('/').filter(p => p)
   const [returnUrl, setReturnUrl] = useState<string | undefined>(undefined)
   const [hasExistingReturnUrl, setHasExistingReturnUrl] = useState<boolean>(false)
+  const [query, setQuery] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search)
     const currentReturnUrl = queryParams.get('return_url')
+    const query = window.location.href.split('?')[1]
+    if (query) {
+      setQuery(query)
+    }
 
     if (currentReturnUrl) {
       setReturnUrl(currentReturnUrl)
@@ -34,6 +39,10 @@ export default function useReturnUrl(config: { excludeKey: boolean; encode: bool
 
   if (config.excludeKey) {
     return result
+  }
+
+  if (query) {
+    return `${result}${query ? `?${query}` : ''}`
   }
 
   return `?return_url=${result}`

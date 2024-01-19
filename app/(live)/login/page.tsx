@@ -9,11 +9,7 @@ import { useTranslation } from 'src/hooks'
 import useReturnUrl from 'src/hooks/useReturnUrl'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { toast } from 'react-hot-toast'
-
-enum LoginView {
-  Login = 0,
-  EmailSent = 1,
-}
+import { LoginView } from 'src/utils/constants'
 
 export default function Login() {
   const { login } = useAccountContext()

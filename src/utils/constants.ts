@@ -67,3 +67,8 @@ export const auctionTypeFiltering: AuctionTypeFilterItem[] = [
 ]
 
 export const RIGLY_HASHRATE = 88
+
+export enum LoginView {
+  Login = 0,
+  EmailSent = 1,
+}
