@@ -308,7 +308,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         and learn{' '}
         <Link
           target="_blank"
-          href="https://data.hashrateindex.com/network-data/btc"
+          href="https://blog.rigly.io/why-buy-spot-hashrate/"
           className=" font-semibold text-black underline hover:no-underline"
         >
           why hashrate at auction sells at a premium
