@@ -51,9 +51,6 @@ const nextConfig = {
   output: 'standalone',
   reactStrictMode: false,
   swcMinify: true,
-  experimental: {
-    appDir: true,
-  },
   eslint: {
     ignoreDuringBuilds: isProd,
   },

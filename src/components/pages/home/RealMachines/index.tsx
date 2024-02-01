@@ -24,7 +24,7 @@ export default function RealMachines() {
         className="mx-4 grid max-w-7xl grid-cols-1 gap-6 text-sm text-navy sm:mx-auto sm:grid-cols-2 sm:gap-12 lg:grid-cols-3 lg:px-16 lg:text-3xl"
       >
         {content.map((person, index) => (
-          <li key={index} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-hero-outline">
+          <li key={index} className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow-hero-outline last:mb-10 last:sm:mb-0">
             <div className="flex w-full items-center justify-between space-x-6 p-8">
               <div className="flex flex-1 flex-col items-center">
                 <div className="space-x-3">
