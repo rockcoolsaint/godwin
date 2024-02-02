@@ -197,7 +197,7 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
           </Link>
         </>
       )}
-      <div className="mt-4 block w-full overflow-hidden rounded-lg bg-white">
+      <div className="mt-4 block w-full overflow-x-scroll rounded-lg bg-white">
         <table className="w-full border border-gray-400">
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
