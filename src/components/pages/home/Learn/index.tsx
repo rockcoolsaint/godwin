@@ -1,8 +1,9 @@
 import { Disclosure } from '@headlessui/react'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
-import MineEasy from 'src/assets/svg/mine_easy.svg'
-import RealMachines from 'src/assets/svg/real_machines.svg'
 import Link from 'src/components/shared/Link'
+import Lottie from 'lottie-react'
+import mine_easy from 'src/assets/mineeasy.json'
+import start_mining from 'src/assets/startminingtoday.json'
 
 export default function Learn() {
   return (
@@ -109,7 +110,7 @@ export default function Learn() {
               </Disclosure>
             </div>
             <div className="hidden w-6/12 pl-20 sm:flex">
-              <MineEasy />
+              <Lottie animationData={start_mining} />
             </div>
           </div>
         </div>
@@ -199,7 +200,7 @@ export default function Learn() {
               </Disclosure>
             </div>
             <div className="order-1 hidden w-6/12 justify-start sm:flex">
-              <RealMachines />
+              <Lottie animationData={mine_easy} />
             </div>
           </div>
         </div>
