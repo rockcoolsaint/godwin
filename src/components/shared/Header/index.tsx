@@ -19,13 +19,13 @@ interface Props {
 const headerNavURL = {
   live: [
     { id: 1, name: 'Home', url: '/', show: true },
-    { id: 2, name: 'Auctions', url: '/collections/completed', show: true },
+    { id: 2, name: 'Auctions', url: '/auction-market', show: true },
     { id: 3, name: 'FAQ', url: '/faq', show: true },
     { id: 4, name: 'Blog', url: 'https://blog.rigly.io/', show: true },
   ],
   demo: [
     { id: 1, name: 'Home', url: '/demo', show: true },
-    { id: 2, name: 'Auctions', url: '/collections/completed', show: false },
+    { id: 2, name: 'Auctions', url: '/auction-market', show: false },
     { id: 3, name: 'FAQ', url: '/faq', show: true },
     { id: 4, name: 'Blog', url: 'https://blog.rigly.io/', show: true },
   ],
