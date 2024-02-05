@@ -134,10 +134,10 @@ export default function TestDrive() {
   return (
     <>
       <h1 className="mt-10 w-8/12 text-center font-chakra text-4xl text-white lg:mt-0 lg:w-full lg:text-5xl 2xl:text-7xl">
-        Try mining for a few sats
+        Try mining now
       </h1>
       <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
-        If you&apos;re new to bitcoin mining, take our test drive which includes 3 hours of sample hashrate, and a mining pool account.
+        Buy 3 hours of hashrate for just 500 sats!
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6 flex w-full flex-col items-center rounded-xl bg-white p-4 sm:p-10 lg:py-16">
@@ -145,7 +145,7 @@ export default function TestDrive() {
           Get started
         </h2>
         <p className="my-4 w-full text-center font-epilogue text-xs font-normal text-gray-500 lg:my-8 lg:w-3/5 lg:text-xl 2xl:w-7/12 2xl:text-3xl">
-          You&apos;ll be setting up a demo pool account with Braiins pool. You can change pools later.
+          Take our mining test drive. Includes mining pool account
         </p>
         <div className="flex w-11/12 items-center justify-between lg:w-7/12 2xl:mb-10">
           <p className="flex flex-col items-center justify-center text-center">
@@ -170,7 +170,7 @@ export default function TestDrive() {
               autoComplete="off"
               autoCorrect="off"
               placeholder="satoshi@gmx.com"
-              label="Enter your email to get sample hashrate"
+              label="Enter your email"
               defaultValue={signUpInfo.email}
               errorMessage={errors.email?.message}
               {...register('email')}
@@ -181,7 +181,7 @@ export default function TestDrive() {
             type="submit"
             className="mt-4 flex h-12 items-center justify-center rounded-lg bg-hero-gradient px-5 py-2 font-chakra text-xl font-bold text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:ml-4 lg:mt-8 lg:w-5/12 lg:text-base 2xl:w-4/12 2xl:text-xl"
           >
-            Buy sample hashrate
+            Buy test drive
           </button>
         </div>
         {loading && (
