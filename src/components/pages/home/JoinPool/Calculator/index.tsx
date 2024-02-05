@@ -1,13 +1,9 @@
 'use client'
 
-import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react'
 import { getHashRate } from 'src/api/hashprice'
-import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
+
 import InstantMining from 'src/components/pages/home/InstantMining'
-import Link from 'src/components/shared/Link'
-import { formatMoney } from 'src/utils/currency'
-import { RIGLY_HASHRATE } from 'src/utils/constants'
 
 export function MiningCalculator() {
   const [difficulty, setDifficulty] = useState(0)
@@ -55,93 +51,10 @@ export function MiningCalculator() {
         Buy Hashrate and Start mining now
       </h1>
       <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
-        Jump right in and start mining to your pool account. If you don&apos;t already have one, we&apos;ve got you covered.
+        Jump right in and start mining to your pool account
       </p>
-      <div className="flex w-full flex-col rounded-lg border border-white lg:flex-row 2xl:w-10/12">
+      <div className="flex w-full flex-col rounded-lg border border-white lg:flex-row 2xl:w-8/12">
         <InstantMining />
-        <div className="relative order-1 flex w-full flex-col items-center justify-between rounded-lg bg-white p-6 lg:w-10/12 lg:p-12 2xl:w-8/12">
-          <div className="w-full font-epilogue">
-            <h2 className="mb-2 text-base font-bold text-navy lg:text-lg 2xl:text-2xl">Estimate daily mining earning</h2>
-            <p className="text-xs text-gray-500 xl:text-sm 2xl:w-10/12">
-              Use this calculator to help estimate your potential daily revenue before you buy hashrate.
-            </p>
-            <aside className="my-2 flex items-center justify-between lg:my-10">
-              <div className="inline-block w-11/12 items-start sm:w-6/12 lg:flex">
-                <span className="text-xs font-bold text-navy xl:text-sm">Global Network hashrate</span>
-                <Tooltip placement="top">
-                  <TooltipTrigger>
-                    <QuestionMarkCircleIcon className="ml-1 h-3 w-3 xl:h-4 xl:w-4" />
-                  </TooltipTrigger>
-
-                  <TooltipContent className="w-3/4 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white lg:w-2/12">
-                    Sum of all hashrate from all miners on the bitcoin network. Value is an estimate based on current difficulty and block
-                    speed. This calculator assumes blocks on a 10 minute interval
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-              <span className="block w-4/12 text-right text-xs text-navy lg:w-2/12 xl:text-sm">{globalHashrate} EH/s</span>
-            </aside>
-            {/* <aside className="my-2 flex items-center justify-between lg:mt-10">
-              <div className="inline-block w-7/12 items-start sm:flex">
-                <span className="text-xs font-bold text-navy xl:text-sm">Hashprice estimate</span>
-                <Tooltip placement="top">
-                  <TooltipTrigger>
-                    <QuestionMarkCircleIcon className="ml-1 h-3 w-3 xl:h-4 xl:w-4" />
-                  </TooltipTrigger>
-
-                  <TooltipContent className="w-3/4 rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white lg:w-1/6">
-                    This how much bitcoin can be earned per TH/s per day, based on a &ldquo;full pay-per-share&ldquo; (FPPS) mining pool
-                    payout
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-            </aside> */}
-            <aside className="mb-4 flex items-center justify-between">
-              <div className="inline-block w-5/12 items-start sm:w-5/12 lg:flex">
-                <span className="text-xs font-bold text-navy xl:text-sm">Hashprice</span>
-                <Tooltip placement="top">
-                  <TooltipTrigger>
-                    <QuestionMarkCircleIcon className="ml-1 h-3 w-3 xl:h-4 xl:w-4" />
-                  </TooltipTrigger>
-
-                  <TooltipContent className="w-fit rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
-                    This how much bitcoin can be earned per TH/s per day, based on a &ldquo;full pay-per-share&ldquo; (FPPS) mining pool
-                    payout
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-              <span className="block w-7/12 text-right text-xs text-navy lg:w-5/12 xl:text-sm 2xl:w-4/12">{hashprice} sats/TH/s/day</span>
-            </aside>
-
-            <aside className="mb-4 mt-2 flex items-center justify-between lg:mt-10">
-              <div className="flex w-5/12 items-start">
-                <p className="text-xs font-bold text-navy xl:text-sm">Estimated revenue</p>
-              </div>
-              <p className="w-4/12 text-right text-xs text-navy lg:w-5/12 xl:text-sm">
-                {formatMoney(Math.floor(hashprice * RIGLY_HASHRATE))} sats/day
-              </p>
-            </aside>
-
-            <p className="mt-10 text-xs text-navy">
-              Based on estimated payout from an FPPS mining pool. Verify this revenue estimate at{' '}
-              <Link
-                target="_blank"
-                href="https://data.hashrateindex.com/network-data/btc"
-                className=" font-semibold text-black underline hover:no-underline"
-              >
-                Hashrate Index
-              </Link>{' '}
-              and learn{' '}
-              <Link
-                target="_blank"
-                href="https://blog.rigly.io/why-buy-spot-hashrate/"
-                className=" font-semibold text-black underline hover:no-underline"
-              >
-                why spot hashrate sells at a premium
-              </Link>{' '}
-            </p>
-          </div>
-        </div>
       </div>
     </>
   )
