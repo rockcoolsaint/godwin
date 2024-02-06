@@ -16,7 +16,7 @@ export default function JoinPool({ data }: { data: Auction[] }) {
   })
 
   return (
-    <section className="w-full bg-gradient-to-r from-[#1A3263] to-[#5C3FAF] lg:p-20">
+    <section className="mt-[-24px] w-full bg-gradient-to-r from-[#1A3263] to-[#5C3FAF] lg:p-20">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center">
         {product.testDrive && <TestDrive />}
         {product.hashrate && <MiningCalculator />}

@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import spot from 'src/assets/png/spot.png'
+import Lottie from 'lottie-react'
+import realmachines from 'src/assets/realmachines.json'
 
 const content = [
   {
@@ -37,7 +37,7 @@ export default function RealMachines() {
         ))}
       </ul>
       <div className="mx-auto hidden max-w-7xl sm:block">
-        <Image className="block w-full overflow-hidden" src={spot} width={undefined} height={undefined} alt="spot" />
+        <Lottie animationData={realmachines} />
       </div>
     </>
   )
