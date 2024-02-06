@@ -156,13 +156,13 @@ export default function InstantMining() {
   }
 
   return (
-    <section className="order-2 flex w-full flex-col gap-8 p-6 sm:flex-row sm:gap-28 md:gap-8 lg:order-1 lg:w-9/12 lg:gap-14 lg:p-12">
+    <section className="order-2 flex w-full flex-col items-center justify-center gap-8 p-6 sm:flex-row sm:gap-28 md:gap-8 lg:order-1 lg:gap-14 lg:p-12">
       <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center">
         <div className="w-full font-epilogue">
           <div className="mt-2 grid gap-8">
             <div className="grid grid-cols-2">
               <div className="col-span-1">
-                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Hashrate</p>
+                <p className="text-sm font-semibold text-white lg:text-sm 2xl:text-lg">Hashrate</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 {loading ? (
@@ -174,7 +174,7 @@ export default function InstantMining() {
             </div>
             <div className="grid grid-cols-2">
               <div className="col-span-1">
-                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Hash price</p>
+                <p className="text-sm font-semibold text-white lg:text-sm 2xl:text-lg">Hash price</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 {loading ? (
@@ -186,9 +186,21 @@ export default function InstantMining() {
                 )}
               </div>
             </div>
+            <div className="grid grid-cols-2">
+              <div className="col-span-1">
+                <p className="text-sm font-semibold text-white lg:text-sm 2xl:text-lg">Premium to spot price</p>
+              </div>
+              <div className="col-span-1 justify-self-end">
+                {loading ? (
+                  <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
+                ) : (
+                  <p className="text-xs font-normal text-white lg:text-sm">15%</p>
+                )}
+              </div>
+            </div>
             <div className="grid grid-cols-2 items-center">
               <div className="col-span-1">
-                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Select a duration</p>
+                <p className="text-sm font-semibold text-white lg:text-sm 2xl:text-lg">Select a duration</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 <select
@@ -204,7 +216,7 @@ export default function InstantMining() {
             {!isLoggedIn && (
               <div className="grid grid-cols-2 items-center">
                 <div className="col-span-1">
-                  <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Select a mining pool</p>
+                  <p className="text-sm font-semibold text-white lg:text-sm 2xl:text-lg">Select a mining pool</p>
                 </div>
                 <div className="col-span-1 justify-self-end">
                   <select
@@ -222,7 +234,7 @@ export default function InstantMining() {
             )}
             <div className="grid grid-cols-2 items-center">
               <div className="col-span-1">
-                <p className="text-sm font-bold text-white lg:text-sm 2xl:text-xl">Cost</p>
+                <p className="text-sm font-semibold text-white lg:text-sm 2xl:text-lg">Cost</p>
               </div>
               <div className="col-span-1 justify-self-end">
                 {loading ? (
@@ -239,7 +251,7 @@ export default function InstantMining() {
 
         <button
           type="submit"
-          className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-lg font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-11/12 lg:text-xl xl:w-6/12 2xl:w-8/12 2xl:text-4xl"
+          className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-lg font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-11/12 lg:text-xl xl:w-6/12 2xl:w-6/12 2xl:text-2xl"
         >
           Buy hashrate
         </button>
