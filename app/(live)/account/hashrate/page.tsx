@@ -102,6 +102,8 @@ function Hashrate() {
       const updateSuccess = await updateAccount(data, token)
       if (updateSuccess) {
         toast.success('Your changes have been saved.')
+        const res = await getPoolAccount(token)
+        setPoolAccount(res)
         await refresh()
       }
     } catch (ex: any) {
@@ -144,7 +146,7 @@ function Hashrate() {
   useEffect(() => {
     const defaultPool = filterDefaultPools(poolAccount.results)
     setDefaultPoolAccount(defaultPool[0])
-  }, [poolAccount.results])
+  }, [poolAccount.results, poolAccount])
 
   const canUpdate = poolInfo.has_ongoing_deliveries || poolInfo.has_queued_deliveries || poolInfo.has_ongoing_deliveries
 
