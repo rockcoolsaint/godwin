@@ -20,7 +20,7 @@ export default async function AuctionMarketPage() {
         <div className="flex flex-col items-center">
           <AuctionSchedule auctionsData={auction.results} />
           <Link
-            href="/collections/active"
+            href="/collections/completed"
             className="mt-12 rounded-xl bg-navy p-4 font-epilogue text-sm font-normal text-white sm:p-2 lg:p-4"
           >
             View completed auctions
