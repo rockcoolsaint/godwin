@@ -98,7 +98,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
           </section>
           <section className="flex w-full flex-col items-center justify-center px-4 py-28 md:px-0">
             <AuctionOfTheDay auction={auctionOfTheDay} auctionsData={auctionData} />
-            <Link href="/collections/active" className="mt-10 rounded-xl bg-navy p-2 font-epilogue text-sm font-bold text-white lg:p-4">
+            <Link href="/auction-market" className="mt-10 rounded-xl bg-navy p-2 font-epilogue text-sm font-bold text-white lg:p-4">
               Explore Auctions
             </Link>
           </section>
