@@ -11,6 +11,7 @@ import { Loader } from 'src/core'
 import Input from 'src/core/components/Input'
 import { useRouter } from 'next/navigation'
 import { register as postRegister } from 'src/api/auth/register'
+import Link from 'src/components/shared/Link'
 
 const useSignUpSchema = () => {
   const schema = useMemo(
@@ -145,7 +146,11 @@ export default function TestDrive() {
           Get started
         </h2>
         <p className="my-4 w-full text-center font-epilogue text-xs font-normal text-gray-500 lg:my-8 lg:w-3/5 lg:text-xl 2xl:w-7/12 2xl:text-3xl">
-          Take our mining test drive. Includes mining pool account
+          Take our mining test drive. Includes a{' '}
+          <Link href="https://braiins.com/pool" target="_blank">
+            Braiins
+          </Link>{' '}
+          mining pool account.
         </p>
         <div className="flex w-11/12 items-center justify-between lg:w-7/12 2xl:mb-10">
           <p className="flex flex-col items-center justify-center text-center">
