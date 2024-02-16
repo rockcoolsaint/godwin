@@ -116,7 +116,7 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
     <Container>
       <div className="flex h-full w-full items-center justify-center p-12">
         <div className="flex flex-col items-center">
-          {order.type === OrderType.Auction && <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment #2</span>}
+          {order.type === OrderType.Auction && <span className="mb-4 text-2xl font-semibold">Thank you for completing Payment</span>}
           {(order.type === OrderType.Direct || order.type === OrderType.BlockParty) && (
             <span className="mb-4 text-2xl font-semibold">Your payment is complete</span>
           )}
