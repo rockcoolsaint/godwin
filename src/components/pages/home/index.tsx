@@ -176,18 +176,18 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
                 <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row lg:mt-12">
                   <Link
                     href="#try-mining"
-                    className="mb-5 flex w-11/12 items-center justify-center rounded-full bg-hero-gradient px-5 py-4 text-sm text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:mb-0 lg:h-20 lg:w-9/12 lg:text-3xl xl:w-6/12"
+                    className="lg:h-15 mb-5 flex w-11/12 items-center justify-center rounded-full bg-hero-gradient px-5 py-4 text-sm text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:mb-0 lg:w-9/12 lg:text-2xl xl:w-6/12"
                   >
                     Try it out
                   </Link>
                   <Link
                     href="#auction-market"
-                    className="flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-sm text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:h-20 lg:w-9/12 lg:text-3xl xl:w-6/12"
+                    className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-sm text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:w-9/12 lg:text-2xl xl:w-6/12"
                   >
                     Buy Hashrate
                   </Link>
                 </div>
-                <Lottie animationData={masthead} />
+                <Warp />
                 <div className="mt-8 w-7/12 bg-clip-text text-center font-chakra text-2xl font-extrabold leading-10 text-navy md:w-10/12 md:text-center lg:w-11/12 lg:text-center lg:text-5xl xl:text-7xl 2xl:w-4/5">
                   Trustless bitcoin mining for <span className="text-primary">everyone</span>
                 </div>
