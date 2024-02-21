@@ -44,7 +44,10 @@ export default function Learn() {
                             resources (i.e. electricity) to secure the network
                           </li>
                         </ol>
-                        <Link href="https://braiins.com/" className="mt-4 block font-semibold text-black underline hover:no-underline">
+                        <Link
+                          href="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
+                          className="mt-4 block font-semibold text-black underline hover:no-underline"
+                        >
                           Learn more at Braiins
                         </Link>
                       </div>
