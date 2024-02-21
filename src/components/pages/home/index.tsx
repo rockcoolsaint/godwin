@@ -189,7 +189,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
                 </div>
                 <Warp />
                 <div className="mt-8 w-7/12 bg-clip-text text-center font-chakra text-2xl font-extrabold leading-10 text-navy md:w-10/12 md:text-center lg:w-11/12 lg:text-center lg:text-5xl xl:text-7xl 2xl:w-4/5">
-                  Trustless bitcoin mining for <span className="text-primary">everyone</span>
+                  Trustless bitcoin is mining for <span className="text-primary">everyone</span>
                 </div>
               </>
             </Hero>
