@@ -17,8 +17,8 @@ import Warp from 'src/assets/svg/warp.svg'
 import { MiningCalculator } from './JoinPool/Calculator'
 import Link from 'src/components/shared/Link'
 import { format } from 'date-fns'
-import Lottie from 'lottie-react'
-import masthead from 'src/assets/masthead.json'
+import AOTD from './AOTD'
+
 interface Props {
   auctions: Auction[]
   auctionOfTheDay: AuctionOfTheDayResponse
@@ -203,6 +203,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center px-4 py-28 md:px-0"
           >
             <AuctionOfTheDay auction={auctionOfTheDay} auctionsData={auctionData}>
+              <AOTD auction={auctionOfTheDay} />
               <>
                 <h1 className="mt-36 font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Support</h1>
                 <p className="text-center text-xs text-navy md:w-6/12 md:text-xl lg:w-7/12 lg:text-3xl 2xl:w-6/12">
