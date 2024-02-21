@@ -192,7 +192,7 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
           <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-6 lg:w-9/12 lg:text-xl 2xl:text-3xl">
             Buy hashrate at auction, and send it to the pool of your choice.
           </p>
-          <Link href="/collections/active" className="self-end rounded-xl bg-white p-2 font-epilogue text-sm font-bold text-navy lg:p-4">
+          <Link href="/auction-market" className="self-end rounded-xl bg-white p-2 font-epilogue text-sm font-bold text-navy lg:p-4">
             Explore Auctions
           </Link>
         </>
