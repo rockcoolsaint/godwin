@@ -159,8 +159,8 @@ function Orders() {
                   }
 
                   return (
-                    <Link href={`/auctions/${order.auction.slug}`} className="flex h-12 items-center text-blue-500 hover:underline">
-                      {order.auction.title}
+                    <Link href={`/auctions/${order.auction?.slug}`} className="flex h-12 items-center text-blue-500 hover:underline">
+                      {order.auction?.title}
                     </Link>
                   )
                 }
