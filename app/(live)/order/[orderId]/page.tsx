@@ -141,38 +141,40 @@ export default function OrderDetail({ params }: { params: any }) {
           </div>
         </aside>
 
-        <section
-          aria-labelledby="summary-heading"
-          className="mt-16 rounded-lg border border-gray-300 p-4 sm:p-4 lg:col-span-5 lg:mt-0 lg:p-8"
-        >
-          <Image
-            src={order.auction?.auction_meta.site_photo || miner}
-            alt="placeholder"
-            width={500}
-            height={500}
-            className="mb-4 rounded-md"
-          />
-          <Link href={`/auctions/${order.auction!.slug} || "#"`} id="summary-heading" className="text-base text-gray-900 hover:underline">
-            {order.auction?.title}
-          </Link>
-          {order.auction?.epoch?.epoch_number && (
-            <h4 className="mt-2 text-base font-normal text-gray-500">Epoch {order.auction.epoch.epoch_number}</h4>
-          )}
-          <dl className="mt-2 space-y-2">
-            {order.auction?.epoch?.start_time && (
-              <div className="flex items-center justify-between">
-                <dt className="text-base text-gray-600">Start</dt>
-                <dd className="text-base font-medium text-gray-900">{formatDate(order.auction.epoch.start_time, 'MMMM d, yyyy')}</dd>
-              </div>
+        {order.type === OrderType.Auction && (
+          <section
+            aria-labelledby="summary-heading"
+            className="mt-16 rounded-lg border border-gray-300 p-4 sm:p-4 lg:col-span-5 lg:mt-0 lg:p-8"
+          >
+            <Image
+              src={order.auction?.auction_meta.site_photo || miner}
+              alt="placeholder"
+              width={500}
+              height={500}
+              className="mb-4 rounded-md"
+            />
+            <Link href={`/auctions/${order.auction?.slug} || "#"`} id="summary-heading" className="text-base text-gray-900 hover:underline">
+              {order.auction?.title}
+            </Link>
+            {order.auction?.epoch?.epoch_number && (
+              <h4 className="mt-2 text-base font-normal text-gray-500">Epoch {order.auction.epoch.epoch_number}</h4>
             )}
-            {order.auction?.epoch?.end_time && (
-              <div className="flex items-center justify-between">
-                <dt className="text-base text-gray-600">End</dt>
-                <dd className="text-base font-medium text-gray-900">{formatDate(order.auction.epoch.end_time, 'MMMM d, yyyy')}</dd>
-              </div>
-            )}
-          </dl>
-        </section>
+            <dl className="mt-2 space-y-2">
+              {order.auction?.epoch?.start_time && (
+                <div className="flex items-center justify-between">
+                  <dt className="text-base text-gray-600">Start</dt>
+                  <dd className="text-base font-medium text-gray-900">{formatDate(order.auction.epoch.start_time, 'MMMM d, yyyy')}</dd>
+                </div>
+              )}
+              {order.auction?.epoch?.end_time && (
+                <div className="flex items-center justify-between">
+                  <dt className="text-base text-gray-600">End</dt>
+                  <dd className="text-base font-medium text-gray-900">{formatDate(order.auction.epoch.end_time, 'MMMM d, yyyy')}</dd>
+                </div>
+              )}
+            </dl>
+          </section>
+        )}
       </div>
     </div>
   )
