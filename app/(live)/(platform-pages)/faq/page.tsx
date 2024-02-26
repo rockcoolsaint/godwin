@@ -14,7 +14,7 @@ const faqs = [
         answer: `
             <div>
 
-            <p>There are 2 ways to bid: "normal" and "proxy" bidding</p>
+            <p>There are 2 ways to bid: "normal" and "proxy" bidding.</p>
 
             <ul>
                 <li>To place a normal bid: enter your bid above the current bid, by the minimum increment (1,000 sats)</li>
@@ -65,12 +65,6 @@ const faqs = [
         question: 'Which mining pools are supported by Rigly?',
         answer:
           '<p>All pools which support Stratum V1 are supported. Many Rigly users use <a href="https://braiins.com/pool">Braiins pool</a> or&nbsp;<a href="https://mining.luxor.tech/">Luxor pool.</a></p>',
-      },
-      {
-        question: 'How often will I see bitcoin earned from my mining?',
-        answer: `
-          <div><p>Payout times will vary by mining pool. See your pool for details.</p>
-<p>Many pools offer a minimum payout amount of 0.001 BTC.</p></div>`,
       },
       {
         question: 'How often will I see bitcoin earned from my mining?',
