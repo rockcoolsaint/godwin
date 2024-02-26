@@ -28,11 +28,12 @@ function AboutUs() {
               <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
                 <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Mining for everyone</h1>
                 <p className="mt-6 text-lg text-gray-600 sm:text-xl">
-                  We created Rigly so everyone can enjoy mining bitcoin In the early days of bitcoin, everyone could mine bitcoin on their
-                  computer. Over time, bitcoin grew and specialized hardware - GPUs, then FPGAs, and now ASICs - became necessary for mining
-                  Today, ASIC mining rigs require significant investment and management, and are often installed close to energy plants.
+                  We created Rigly so that everyone can enjoy mining bitcoin. In the early days of bitcoin, everyone could mine bitcoin on
+                  their computer. Over time, bitcoin grew and specialized hardware - GPUs, then FPGAs, and now ASICs - became necessary for
+                  mining. Today, ASIC mining rigs require significant investment and management, and are often installed close to energy
+                  plants.
                   {` `}
-                  <b>Rigly allows you buy hashrate from these miners and participate in mining</b>
+                  <b>Rigly allows you to buy hashrate from these miners and participate in mining.</b>
                 </p>
               </div>
             </div>
