@@ -6,11 +6,11 @@ interface AuctionOfTheDay {
   children?: React.ReactNode
 }
 
-export default function AuctionOfTheDay({ auctionsData, children }: AuctionOfTheDay) {
+export default function UpcomingAuctions({ auctionsData, children }: AuctionOfTheDay) {
   return (
     <>
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-center">
-        <h1 className="mt-10 w-10/12 text-center font-chakra text-4xl text-navy lg:w-full lg:text-5xl 2xl:text-7xl">Upcoming</h1>
+      <div className="mx-auto flex flex-col items-center justify-center overflow-auto">
+        <h1 className="mt-10 w-10/12 text-center font-chakra text-4xl text-navy lg:w-full lg:text-5xl 2xl:text-7xl">Upcoming Auctions</h1>
 
         <AuctionSchedule auctionsData={auctionsData} showTitle={false} />
       </div>

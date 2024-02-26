@@ -55,7 +55,7 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
   }
 
   return (
-    <section className="flex w-full items-center justify-center py-28">
+    <section className="flex w-full items-center justify-center">
       <div className="shadow-level-2 max-w-md rounded-3xl border bg-white px-3 py-6 shadow-md md:px-6 lg:max-w-4xl">
         <h1 className="mb-6 text-center font-chakra text-4xl text-primary">{t('home.auction_of_the_day')}</h1>
         <div className="flex flex-col lg:flex-row">

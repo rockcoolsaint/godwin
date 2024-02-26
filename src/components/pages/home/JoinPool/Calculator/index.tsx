@@ -47,7 +47,7 @@ export function MiningCalculator() {
 
   return (
     <>
-      <h1 className="mt-10 w-8/12 text-center font-chakra text-4xl text-white lg:mt-0 lg:w-full lg:text-5xl 2xl:w-8/12 2xl:text-7xl">
+      <h1 className="mt-10 w-11/12 text-center font-chakra text-3xl text-white sm:w-8/12 lg:mt-0 lg:w-full lg:text-5xl 2xl:w-8/12 2xl:text-7xl">
         Buy Hashrate and Start mining now
       </h1>
       <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
