@@ -61,7 +61,7 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
         <div className="flex flex-col lg:flex-row">
           <Image
             className="max-h-96 rounded-3xl"
-            src={auction?.auction_meta?.image_1 || miner}
+            src={auction?.auction_meta?.site_photo || miner}
             alt="auction of the day"
             width={550}
             height={305}
