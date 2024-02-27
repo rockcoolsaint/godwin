@@ -95,17 +95,20 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             <div className="mt-20" />
             <RealMachines />
           </section>
-          {auctionData.length > 0 && (
-            <section className="-mt-6 flex w-full flex-col items-center justify-center border border-solid border-gray-300 py-12 sm:px-4 sm:py-28 md:px-0">
-              <AOTD auction={auctionOfTheDay} />
-              <div className="w-full max-w-7xl overflow-auto sm:mt-28">
-                <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData} />
-              </div>
-              <Link href="/auction-market" className="mt-10 rounded-xl bg-navy p-2 font-epilogue text-sm font-bold text-white lg:p-4">
-                Explore Auctions
-              </Link>
-            </section>
-          )}
+
+          <section className="-mt-6 flex w-full flex-col items-center justify-center border border-solid border-gray-300 py-12 sm:px-4 sm:py-28 md:px-0">
+            <AOTD auction={auctionOfTheDay} />
+            {auctionData.length > 0 && (
+              <>
+                <div className="w-full max-w-7xl overflow-auto sm:mt-28">
+                  <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData} />
+                </div>
+                <Link href="/auction-market" className="mt-10 rounded-xl bg-navy p-2 font-epilogue text-sm font-bold text-white lg:p-4">
+                  Explore Auctions
+                </Link>
+              </>
+            )}
+          </section>
 
           <section className="flex w-full flex-col items-center bg-gradient-to-r from-[#1A3263] to-[#5C3FAF] lg:p-20">
             <MiningCalculator />
