@@ -59,7 +59,13 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
       <div className="shadow-level-2 max-w-md rounded-3xl border bg-white px-3 py-6 shadow-md md:px-6 lg:max-w-4xl">
         <h1 className="mb-6 text-center font-chakra text-4xl text-primary">{t('home.auction_of_the_day')}</h1>
         <div className="flex flex-col lg:flex-row">
-          <Image className="max-h-96 rounded-3xl" src={miner} alt="auction of the day" width={550} height={305} />
+          <Image
+            className="max-h-96 rounded-3xl"
+            src={auction?.auction_meta?.site_photo || miner}
+            alt="auction of the day"
+            width={550}
+            height={305}
+          />
           <div className="ml-0 mt-4 flex max-h-96 flex-col items-start justify-between lg:ml-9 lg:mt-0">
             {renderAuctionStatusTag()}
             <h1 className="mb-4 text-2xl font-semibold">{auction.title}</h1>
