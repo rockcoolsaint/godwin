@@ -13,6 +13,16 @@ import NotificationsProvider from 'src/providers/NotificationsProvider'
 import Notifier from 'src/components/shared/Notifier'
 import { epilogue, chakra } from './fonts'
 
+export const metadata = {
+  metadataBase: new URL('https://rigly.io'),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US',
+    },
+  },
+}
+
 const intercom = process.env.NEXT_PUBLIC_INTERCOM_ID
 
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
