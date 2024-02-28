@@ -34,8 +34,8 @@ export function formatOrderStatus(order: Order) {
     case OrderStatus.PaymentOneComplete:
       if (order.type === OrderType.Auction) {
         return (
-          <span className="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-400 ring-1 ring-inset ring-orange-500/10">
-            Deposit & fee received
+          <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-600 ring-1 ring-inset ring-green-500/10">
+            Paid
           </span>
         )
       }
