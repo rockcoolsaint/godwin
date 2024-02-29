@@ -170,7 +170,7 @@ function PaymentOne({ order }: Props) {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">
-                  <span>Auction fee ({order.markup_percentage.toFixed(2)}%): </span>
+                  <span>Auction fee ({order.markup_percentage}%): </span>
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">{formatMoney(auction_fee)} sats</dd>
               </div>
