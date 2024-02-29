@@ -176,17 +176,6 @@ function PaymentOne({ order }: Props) {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">
-                  {order.type === OrderType.BlockParty && <span>Mining deposit (0%)</span>}
-                  {order.type !== OrderType.BlockParty && (
-                    <span>
-                      Mining deposit ({formatAuctionType(order.auction!.auction_type.type)} {order.auction?.auction_type.percentage}%)
-                    </span>
-                  )}
-                </dt>
-                <dd className="text-sm font-medium text-gray-900">{formatMoney(mining_deposit)} sats</dd>
-              </div>
-              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                <dt className="flex text-sm text-gray-600">
                   <span>Auction fee (3.5%): </span>
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">{formatMoney(auction_fee)} sats</dd>
