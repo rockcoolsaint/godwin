@@ -70,7 +70,7 @@ const Footer = () => {
               <Link
                 target="_blank"
                 className="ml-2 flex items-center justify-center rounded-lg bg-gray-100 p-3 hover:bg-gray-300/[.5]"
-                href="https://twitter.com/TrustlessMining"
+                href="https://x.com/TrustlessMining"
               >
                 <TwitterSvg className="h-6 w-6" />
               </Link>
