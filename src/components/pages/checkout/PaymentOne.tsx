@@ -176,7 +176,7 @@ function PaymentOne({ order }: Props) {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="text-base font-medium text-gray-900">Due now</dt>
-                <dd className="text-base font-medium text-gray-900">{formatMoney(auction_fee + total)} sats</dd>
+                <dd className="text-base font-medium text-gray-900">{formatMoney(total)} sats</dd>
               </div>
             </dl>
           </div>
