@@ -103,6 +103,7 @@ export interface Order {
   total: number
   mining_deposit: number
   auction_fee: number
+  markup_percentage: number
   status: OrderStatus
   previous_status: OrderStatus
   payments: Payment[]

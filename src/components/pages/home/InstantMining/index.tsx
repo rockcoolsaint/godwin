@@ -194,7 +194,7 @@ export default function InstantMining() {
                 {loading ? (
                   <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
                 ) : (
-                  <p className="text-xs font-normal text-white lg:text-sm">15%</p>
+                  <p className="text-xs font-normal text-white lg:text-sm">{markupPercentage * 100}%</p>
                 )}
               </div>
             </div>
