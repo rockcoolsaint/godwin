@@ -104,14 +104,6 @@ function Checkout({ params, searchParams }: { params: { order_id?: string }; sea
     )
   }
 
-  if (order.status === OrderStatus.PaymentOneComplete && order.type === OrderType.Auction) {
-    return (
-      <Container>
-        <PaymentTwo order={order} />
-      </Container>
-    )
-  }
-
   return (
     <Container>
       <div className="flex h-full w-full items-center justify-center p-12">

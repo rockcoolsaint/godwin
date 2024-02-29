@@ -15,7 +15,7 @@ interface Props {
 
 const AuctionBids = ({ bids }: Props) => {
   return (
-    <section className="rounded-xl p-1 sm:px-4 sm:py-3">
+    <section className="scrollbar-hide h-[600px] overflow-scroll rounded-xl p-1 sm:px-4 sm:py-3">
       <h5 className="text-3xl sm:mb-4">Bids</h5>
       <div className="mb-4 rounded-xl sm:border">
         {bids.length > 0 ? (
