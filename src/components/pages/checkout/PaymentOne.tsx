@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import createPayment from 'src/api/checkout/createPayment'
 import refreshPayment from 'src/api/checkout/refreshPayment'
-import { Button, Loader, Container, formatAuctionType } from 'src/core'
+import { Button, Loader, Container } from 'src/core'
 import { usePayments } from 'src/hooks'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order, OrderType, PaymentStatus } from 'src/types'
@@ -170,7 +170,7 @@ function PaymentOne({ order }: Props) {
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">
-                  <span>Auction fee (3.5%): </span>
+                  <span>Auction fee ({order.markup_percentage.toFixed(2)}%): </span>
                 </dt>
                 <dd className="text-sm font-medium text-gray-900">{formatMoney(auction_fee)} sats</dd>
               </div>
