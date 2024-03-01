@@ -85,7 +85,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
                 <span className="mr-2">🎉</span> Winning bid - {formatMoney(auction.current_bid)} <SatsSvg className="ml-2" />
               </p>
             </TooltipTrigger>
-            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
               ${formatMoney(priceInFiat)}
             </TooltipContent>
           </Tooltip>
@@ -136,7 +136,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
                         {formatMoney(current_bid.bid)} <SatsSvg className="ml-2" />
                       </h1>
                     </TooltipTrigger>
-                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
                       ${formatMoney(priceInFiat)}
                     </TooltipContent>
                   </Tooltip>
@@ -153,7 +153,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
                         {formatMoney(user_proxy_bid.maximum_amount)} <SatsSvg className="ml-2" />
                       </h5>
                     </TooltipTrigger>
-                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
                       ${formatMoney(proxyFiat)}
                     </TooltipContent>
                   </Tooltip>
@@ -268,7 +268,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             <TooltipTrigger>
               <QuestionMarkCircleIcon className="ml-2 h-6 w-6" />
             </TooltipTrigger>
-            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
               Based on latest bid
             </TooltipContent>
           </Tooltip>{' '}
@@ -281,20 +281,10 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
               <SatsSvg className="ml-2" />
             </h3>
           </TooltipTrigger>
-          <TooltipContent className="w-max max-w-fit rounded bg-gray-600 px-2 py-1 text-xs font-medium text-white">
+          <TooltipContent className="w-max max-w-fit rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
             ${formatMoney(priceInFiat)}
           </TooltipContent>
         </Tooltip>
-        {/* <p className="mt-10 w-1/5 text-xs text-navy">
-          Compare your bid to spot hashprice at{' '}
-          <Link href="https://data.hashrateindex.com/network-data/btc" className=" font-semibold text-black underline hover:no-underline">
-            Hashrate Index
-          </Link>{' '}
-          and learn{' '}
-          <Link href="https://blog.rigly.io/why-buy-spot-hashrate/" className=" font-semibold text-black underline hover:no-underline">
-            why hashrate at auction sells at a premium
-          </Link>{' '}
-        </p> */}
       </div>
       <span className="absolute bottom-2 text-xs text-navy">
         Compare your bid to spot hashprice at{' '}
