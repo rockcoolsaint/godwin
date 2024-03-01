@@ -18,15 +18,21 @@ const AuctionProfile = ({ data }: Props) => {
       const days = convertTime(data.auction_meta.duration).days
 
       return (
-        <p className="p-3 pl-4">
-          {days} {days > 1 ? 'days' : 'day'}{' '}
-        </p>
+        <>
+          {days > 0 ? (
+            <p className="p-6 pl-4">
+              {days} {days > 1 ? 'days' : 'day'}{' '}
+            </p>
+          ) : (
+            <p className="p-6 pl-4">N/A</p>
+          )}
+        </>
       )
     }
 
     if (data.auction_meta?.days_of_mining) {
       return (
-        <p className="p-3 pl-4">
+        <p className="p-6 pl-4">
           1 epoch {''}
           <Tooltip placement="top">
             <TooltipTrigger>
@@ -41,7 +47,7 @@ const AuctionProfile = ({ data }: Props) => {
       )
     }
 
-    return <p className="p-3 pl-4">N/A</p>
+    return <p className="p-6 pl-4">N/A</p>
   }
 
   return (
@@ -50,21 +56,21 @@ const AuctionProfile = ({ data }: Props) => {
         <div className="flex-1">
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-4 font-semibold capitalize text-dark-100">{t('home.type')}</p>
+              <p className="p-3 py-6 font-semibold capitalize text-dark-100">{t('home.type')}</p>
             </aside>
             <aside className="w-3/6">
-              <p className=" p-3 pl-4 sm:whitespace-nowrap">{underscoreToSpaceAndCapitalize(data.auction_type.type)}</p>
+              <p className="p-3 pl-4 sm:whitespace-nowrap">{underscoreToSpaceAndCapitalize(data.auction_type.type)}</p>
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-4 font-semibold capitalize text-dark-100">{t('home.duration')}</p>
+              <p className="p-3 py-6 font-semibold capitalize text-dark-100">{t('home.duration')}</p>
             </aside>
             <aside>{renderDuration()}</aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-4 font-semibold capitalize text-dark-100 sm:p-3">{t('home.hashrate')}</p>
+              <p className="p-3 py-6 font-semibold capitalize text-dark-100">{t('home.hashrate')}</p>
             </aside>
             <aside>
               <p className="p-3 pl-4">{formatMoney(data.auction_meta.hashrate)} TH/s</p>
@@ -72,44 +78,34 @@ const AuctionProfile = ({ data }: Props) => {
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-4 font-semibold text-dark-100">{t('home.power_source')}</p>
+              <p className="p-3 py-6 font-semibold text-dark-100">{t('home.power_source')}</p>
             </aside>
             <aside>
-              <p className="p-3 py-4 pl-4">{data.auction_meta.power_source?.name || 'N/A'}</p>
+              <p className="p-3 py-6 pl-4">{data.auction_meta.power_source?.name || 'N/A'}</p>
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-4 font-semibold text-dark-100">Fee</p>
+              <p className="p-3 py-6 font-semibold text-dark-100">Fee</p>
             </aside>
             <aside>
-              <p className="p-3 py-4 pl-4">3.5% of final bid amount</p>
+              <p className="p-3 py-6 pl-4">3.5% of final bid amount</p>
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-4 font-semibold text-dark-100">Deposit</p>
+              <p className="p-3 py-6 font-semibold text-dark-100">Status</p>
             </aside>
             <aside>
-              <p className="p-3 py-4 pl-4">10%</p>
+              <p className="p-3 py-6 pl-4">{data.status}</p>
             </aside>
           </div>
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-4 font-semibold text-dark-100">Status</p>
-            </aside>
-            <aside>
-              <p className="p-3 py-4 pl-4">{data.status}</p>
-            </aside>
-          </div>
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6  sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-4 font-semibold text-dark-100">Payment terms</p>
+              <p className="p-3 py-6 font-semibold text-dark-100">Payment terms</p>
             </aside>
             <aside className="w-4/6">
-              <p className="p-3 py-4 pl-4">
-                Deposit and auction fee upon auction close, based on winning bid. Your balance is due within 24 hours of start date
-              </p>
+              <p className="p-3 py-6 pl-4">Payment due on auction close</p>
             </aside>
           </div>
         </div>
