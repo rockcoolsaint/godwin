@@ -2,7 +2,7 @@
 import { useTranslation } from 'src/hooks'
 import { Auction } from 'src/api/auction/types'
 import { underscoreToSpaceAndCapitalize } from 'utils'
-import { convertTime, formatDate } from 'src/utils/date'
+import { convertTime } from 'src/utils/date'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import { formatMoney } from 'src/utils/currency'
 
@@ -56,22 +56,6 @@ const AuctionProfile = ({ data }: Props) => {
               <p className=" p-3 pl-4 sm:whitespace-nowrap">{underscoreToSpaceAndCapitalize(data.auction_type.type)}</p>
             </aside>
           </div>
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-4 font-semibold capitalize text-dark-100">{t('home.epoch')}</p>
-            </aside>
-            <aside>{data.epoch ? <p className="p-3 pl-4">{data.epoch.epoch_number}</p> : <p className="p-3 pl-4">-</p>}</aside>
-          </div>
-          {data.epoch?.start_time && (
-            <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-              <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-                <p className="p-3 py-4 font-semibold capitalize text-dark-100">{t('home.epoch')} start date</p>
-              </aside>
-              <aside>
-                <p className="p-3 pl-4">{formatDate(data.epoch.start_time, 'MMMM d, yyyy')}</p>
-              </aside>
-            </div>
-          )}
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
               <p className="p-3 py-4 font-semibold capitalize text-dark-100">{t('home.duration')}</p>
