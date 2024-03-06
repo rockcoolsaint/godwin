@@ -14,7 +14,6 @@ import {
   VisibilityState,
 } from '@tanstack/react-table'
 import Link from 'src/components/shared/Link'
-import { formatDate } from 'src/utils/date'
 import Countdown, { CountdownRenderProps } from 'react-countdown'
 import { formatMoney } from 'src/utils/currency'
 import { useRouter } from 'next/navigation'
@@ -23,14 +22,13 @@ import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/T
 import useSatsToFiat from 'src/hooks/useSatsToFiat'
 import { useMobileScreen } from 'src/hooks/useIsMobile'
 import { useMemo } from 'react'
-import { AuctionTypeChoice } from 'src/types'
 
 export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsData: Auction[]; showTitle?: boolean }) {
   const initialSorting = useMemo(() => {
     return [
       {
-        id: 'epoch',
-        desc: false, // columns sorting are inverted - so this is actually descending
+        id: 'end_at',
+        desc: true, // columns sorting are inverted - so this is actually descending
       },
     ]
   }, [])

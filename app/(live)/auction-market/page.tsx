@@ -15,9 +15,10 @@ export default async function AuctionMarketPage() {
   })
 
   const completedAuctions = await getAllAuctions({
-    limit: 20,
+    limit: 500,
     group_by: 'auction_status',
     auction_status: 'completed',
+    sorting: 'desc',
   })
 
   return (
