@@ -18,6 +18,7 @@ export default async function AuctionMarketPage() {
     limit: 20,
     group_by: 'auction_status',
     auction_status: 'completed',
+    sorting: 'desc',
   })
 
   return (
