@@ -43,7 +43,7 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   }
 
   useEffect(() => {
-    window.$chatwoot?.toggleBubbleVisibility('hide')
+    window.Intercom('shutdown')
     if (!orderId) {
       return
     }

@@ -48,7 +48,6 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
       }
     }
     prepareCollections()
-    window.$chatwoot?.toggle('close')
   }, [])
 
   useEffect(() => {
@@ -58,12 +57,14 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
     }
 
     if (account?.email) {
-      window.$chatwoot?.setUser(account.id, {
+      window.Intercom('boot', {
+        user_id: account.id,
         email: account.email,
-        name: account.username,
+        // keep name undefined instead of an empty string so that intercom auto assigns a name
+        name,
       })
     } else {
-      window.$chatwoot?.toggleBubbleVisibility('hide')
+      window.Intercom('shutdown')
     }
   }, [account, router])
 
@@ -82,7 +83,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
               <circle cx={1} cy={1} r={1} />
             </svg>
-            New hashrate is online! Our service is in beta, please report issues via chatwoot
+            New hashrate is online! Our service is in beta, please report issues via Intercom
           </a>
         </p>
       </div>
