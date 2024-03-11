@@ -210,8 +210,8 @@ export default function InstantMining() {
                   {...register('duration')}
                   className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal text-white focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
                 >
-                  <option value="6">6 hoursy</option>
-                  <option value="12">12 hurs</option>
+                  <option value="6">6 hours</option>
+                  <option value="12">12 hours</option>
                   <option value="24">24 hours</option>
                 </select>
               </div>
@@ -244,7 +244,7 @@ export default function InstantMining() {
                   <p className="flex h-2 w-24 animate-pulse rounded bg-white text-sm" />
                 ) : (
                   <p className="text-sm font-bold text-white lg:text-sm">
-                    {formatMoney(Math.round(Number(watchShowDuration) * hashrate * hashprice * (1 + markupPercentage)))} sats
+                    {formatMoney(Math.round((Number(watchShowDuration) / 24) * hashrate * hashprice * (1 + markupPercentage)))} sats
                   </p>
                 )}
               </div>
