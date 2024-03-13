@@ -9,7 +9,7 @@ export interface HashrateData {
 }
 
 export async function getHashrateData(stratums_id: number): Promise<HashrateData[]> {
-  const url = createUrl(URL(`api/data/hashrate/${stratums_id}`), new URLSearchParams({ resolution: '7' }))
+  const url = createUrl(URL(`api/data/hashrate/${stratums_id}`), new URLSearchParams({ resolution: '6', type: 'hours' }))
 
   const response = await fetch(url)
   const json = await response.json()
