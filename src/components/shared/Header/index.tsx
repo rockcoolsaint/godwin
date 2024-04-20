@@ -17,26 +17,11 @@ interface Props {
   isDemo?: boolean
 }
 
-export interface NavigationItem {
-  id: number
-  name: string
-  url: string
-  showInDemo: boolean
-}
-
-const headerNavURL: NavigationItem[] = [
-  { id: 1, name: 'Home', url: '/', showInDemo: true },
-  { id: 2, name: 'Auctions', url: '/auction-market', showInDemo: false },
-  { id: 3, name: 'FAQ', url: '/faq', showInDemo: true },
-  { id: 4, name: 'Blog', url: 'https://blog.rigly.io/', showInDemo: true },
-]
-
 export default function HeaderNav({ isDemo }: Props) {
   const router = useRouter()
   const { account, isLoading, logout } = useAccountContext()
   const returnUrl = useReturnUrl()
   const homeURL = isDemo ? '/demo/' : '/'
-  const navigationURL = headerNavURL.filter(item => !isDemo || item.showInDemo)
 
   const [active, setActive] = useState<boolean>(false)
 
@@ -80,14 +65,13 @@ export default function HeaderNav({ isDemo }: Props) {
             <Link href={homeURL}>
               <LogoSvg />
             </Link>
-            <DesktopNav navigationURL={navigationURL} />
+            <DesktopNav />
           </div>
           {!isLoading && <div className="ml-8 hidden md:block">{account ? <Authorized /> : <Unauthorized isDemo={isDemo} />}</div>}
         </Container>
       </header>
       <MobileNav
         active={active}
-        navigationURL={navigationURL}
         handleLogoutClick={handleLogoutClick}
         handleLoginClick={handleLoginClick}
         handleRegisterClick={handleRegisterClick}

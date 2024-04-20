@@ -1,0 +1,41 @@
+interface BaseNavigationItem {
+  id: number
+  name: string
+  showInDemo: boolean
+}
+
+interface NavigationSubItem {
+  name: string
+  url: string
+}
+
+interface NavigationItemWithUrl extends BaseNavigationItem {
+  url: string
+  submenu?: NavigationSubItem[]
+}
+
+interface NavigationItemWithSubmenu extends BaseNavigationItem {
+  url?: never
+  submenu: NavigationSubItem[]
+}
+
+export type NavigationItem = NavigationItemWithUrl | NavigationItemWithSubmenu
+
+const buyHashrateSubmenu: NavigationSubItem[] = [
+  { name: 'Auctions', url: '/auction-market' },
+  { name: 'Buy hashrate now', url: '/directsale' },
+]
+
+const buyHashrateSubmenuDemo: NavigationSubItem[] = [
+  { name: 'Rigly', url: '/learn/rigly' },
+  { name: 'Mining Resources', url: 'learn/miningresources' },
+  { name: 'Glossary', url: '/learn/miningresources/glossary' },
+  { name: 'FAQ', url: '/faq' },
+]
+
+export const headerNavURL: NavigationItem[] = [
+  { id: 1, name: 'Home', url: '/', showInDemo: true },
+  { id: 2, name: 'Buy Hashrate', showInDemo: false, submenu: buyHashrateSubmenu },
+  { id: 3, name: 'Learn', showInDemo: true, submenu: buyHashrateSubmenuDemo },
+  { id: 4, name: 'Blog', url: 'https://blog.rigly.io/', showInDemo: true },
+]

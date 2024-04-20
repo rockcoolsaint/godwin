@@ -1,25 +1,60 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'src/components/shared/Link'
-import { NavigationItem } from 'src/components/shared/Header'
 import LoginRegister from 'src/components/shared/Header/LoginRegister'
+import { headerNavURL, NavigationItem } from './NavigationControl'
 
 interface MobileNavProps {
-  navigationURL: NavigationItem[]
   active: boolean
   handleLogoutClick: () => void
   handleLoginClick: () => void
   handleRegisterClick: () => void
+  isDemo?: boolean
 }
 
-const MobileNav = ({ navigationURL, active, handleLogoutClick, handleLoginClick, handleRegisterClick }: MobileNavProps) => {
+const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegisterClick, isDemo }: MobileNavProps) => {
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null)
+  const navigationURL = headerNavURL.filter(item => !isDemo || item.showInDemo)
+
   if (!active) return null
+
+  const toggleDropdown = (id: number) => {
+    setOpenDropdown(openDropdown === id ? null : id)
+  }
 
   return (
     <div className="absolute inset-0 top-20 z-10 h-screen bg-white lg:hidden">
       <div className="flex flex-col">
-        {navigationURL.map(nav => (
-          <Link key={nav.id} className="px-5 py-4 text-sm text-dark-300 hover:text-primary" href={nav.url}>
-            {nav.name}
-          </Link>
+        {navigationURL.map((nav: NavigationItem) => (
+          <div key={nav.id}>
+            {nav.url ? (
+              <Link className="block px-5 py-4 text-sm text-dark-300 hover:text-primary" href={nav.url}>
+                {nav.name}
+              </Link>
+            ) : (
+              <button
+                onClick={() => toggleDropdown(nav.id)}
+                className="w-full px-5 py-4 text-left text-sm text-dark-300 hover:text-primary"
+              >
+                {nav.name}
+                <span className={`ml-2 ${openDropdown === nav.id ? 'rotate-180' : ''}`}>
+                  <svg className="inline h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </span>
+              </button>
+            )}
+            {nav.submenu && openDropdown === nav.id && (
+              <div className="ml-4">
+                {nav.submenu.map(sub => (
+                  <Link key={sub.url} className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100" href={sub.url}>
+                    {sub.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
       </div>
       <LoginRegister handleLogoutClick={handleLogoutClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick} />
