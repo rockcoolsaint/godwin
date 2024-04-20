@@ -14,7 +14,7 @@ export default async function DirectSalePage() {
       </div>
       <div className="my-8 text-center">
         <h2 className="text-2xl font-bold md:text-3xl">Are you new to bitcoin mining?</h2>
-        <Link href="/path-to-test-drive" className="text-md text-blue-600 hover:underline md:text-lg">
+        <Link href="/test-drive" className="text-md text-blue-600 hover:underline md:text-lg">
           Try out mining test drive
         </Link>
       </div>

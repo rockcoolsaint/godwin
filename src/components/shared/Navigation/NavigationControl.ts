@@ -23,7 +23,7 @@ export type NavigationItem = NavigationItemWithUrl | NavigationItemWithSubmenu
 
 const buyHashrateSubmenu: NavigationSubItem[] = [
   { name: 'Auctions', url: '/auction-market' },
-  { name: 'Buy hashrate now', url: '/directsale' },
+  { name: 'Buy hashrate now', url: '/direct-sale' },
 ]
 
 const buyHashrateSubmenuDemo: NavigationSubItem[] = [

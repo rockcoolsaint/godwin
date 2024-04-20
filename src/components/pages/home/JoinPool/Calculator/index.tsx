@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getHashRate } from 'src/api/hashprice'
-import DirectSaleThreeSteps from 'src/components/pages/directsale/DirectSaleThreeSteps'
+import DirectSaleThreeSteps from 'src/components/pages/direct-sale/DirectSaleThreeSteps'
 
 import InstantMining from 'src/components/pages/home/InstantMining'
 

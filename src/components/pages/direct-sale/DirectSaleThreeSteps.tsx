@@ -1,7 +1,7 @@
 import ThreeStepProcess from 'src/components/shared/ThreeSteps'
-import StepOneImage from 'src/images/direct_sale_1.png'
-import StepTwoImage from 'src/images/direct_sale_2.png'
-import StepThreeImage from 'src/images/direct_sale_3.jpeg'
+import StepOneImage from 'src/images/set-mining-pool-screenshot.png'
+import StepTwoImage from 'src/images/buy-screenshot.png'
+import StepThreeImage from 'src/images/dashboard-screenshot.jpeg'
 
 const DirectSaleThreeSteps = () => (
   <ThreeStepProcess
