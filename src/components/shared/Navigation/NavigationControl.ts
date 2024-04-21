@@ -26,16 +26,15 @@ const buyHashrateSubmenu: NavigationSubItem[] = [
   { name: 'Buy hashrate now', url: '/direct-sale' },
 ]
 
-const buyHashrateSubmenuDemo: NavigationSubItem[] = [
+const learnSubmenu: NavigationSubItem[] = [
   { name: 'Rigly', url: '/learn/rigly' },
-  { name: 'Mining Resources', url: 'learn/miningresources' },
-  { name: 'Glossary', url: '/learn/miningresources/glossary' },
+  { name: 'Mining Resources', url: '/learn/mining' },
   { name: 'FAQ', url: '/faq' },
 ]
 
 export const headerNavURL: NavigationItem[] = [
   { id: 1, name: 'Home', url: '/', showInDemo: true },
   { id: 2, name: 'Buy Hashrate', showInDemo: false, submenu: buyHashrateSubmenu },
-  { id: 3, name: 'Learn', showInDemo: true, submenu: buyHashrateSubmenuDemo },
+  { id: 3, name: 'Learn', showInDemo: true, submenu: learnSubmenu },
   { id: 4, name: 'Blog', url: 'https://blog.rigly.io/', showInDemo: true },
 ]
