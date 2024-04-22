@@ -26,7 +26,7 @@ const HowMiningWorks = () => {
           image={Blocks}
           imageAlt="Timechain illustration"
           imagePosition="top"
-          imageSize={100}
+          imageSize={200}
         />
 
         <LearnCategoryTextWithImage
@@ -34,7 +34,7 @@ const HowMiningWorks = () => {
           image={Miner}
           imageAlt="Mining rigs illustration"
           imagePosition="top"
-          imageSize={100}
+          imageSize={200}
         />
       </div>
       <div className="md:grid md:grid-cols-2 md:gap-4">
@@ -43,7 +43,7 @@ const HowMiningWorks = () => {
           image={TwoMiners}
           imageAlt="Computing power illustration"
           imagePosition="top"
-          imageSize={100}
+          imageSize={200}
         />
 
         <LearnCategoryTextWithImage
@@ -51,7 +51,7 @@ const HowMiningWorks = () => {
           image={Bitcoin}
           imageAlt="Block reward illustration"
           imagePosition="top"
-          imageSize={100}
+          imageSize={200}
         />
       </div>
 
@@ -61,7 +61,7 @@ const HowMiningWorks = () => {
           image={Miner}
           imageAlt="Mining pool illustration"
           imagePosition="top"
-          imageSize={100}
+          imageSize={200}
         />
 
         <LearnCategoryTextWithImage
@@ -69,7 +69,7 @@ const HowMiningWorks = () => {
           image={TwoMiners}
           imageAlt="Mining pool illustration"
           imagePosition="top"
-          imageSize={100}
+          imageSize={200}
         />
       </div>
 

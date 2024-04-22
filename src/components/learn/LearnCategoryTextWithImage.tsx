@@ -16,26 +16,23 @@ const LearnCategoryTextWithImage: React.FC<LearnCategoryTextWithImageProps> = ({
   imagePosition = 'right',
   imageSize = 300,
 }) => {
-  const flexDirection = imagePosition === 'top' ? 'flex-col' : 'md:flex-row'
+  const flexDirection = imagePosition === 'top' ? 'flex-col items-center' : 'flex-col md:flex-row items-center'
+  const imageMargin = imagePosition === 'top' ? 'mb-6' : 'mb-6 md:mb-0'
+  const textMargin = imagePosition === 'top' ? 'mt-0' : 'mt-6 md:mt-0'
+  const imageOrder = imagePosition === 'right' ? 'md:order-2' : 'md:order-1'
+  const textOrder = imagePosition === 'right' ? 'md:order-1' : 'md:order-2'
+  const imagePadding = imagePosition === 'top' ? '' : 'md:px-4'
 
   return (
-    <section className={`my-6 flex ${flexDirection} items-center`}>
-      {imagePosition === 'top' && (
-        <div className="mb-6 flex justify-center ">
-          <Image src={image} alt={imageAlt} width={imageSize} height={imageSize} objectFit="cover" />
+    <section className={`my-6 flex ${flexDirection}`}>
+      <div className={`${imageMargin} md:w-1/2 ${imageOrder} ${imagePadding}`}>
+        <div className="relative mx-auto md:mx-0" style={{ width: `${imageSize}px`, height: `${imageSize}px` }}>
+          <Image src={image} alt={imageAlt} layout="fill" objectFit="cover" />
         </div>
-      )}
-      {imagePosition === 'left' && (
-        <div className="mb-6 flex justify-start md:mr-4 md:w-1/2">
-          <Image src={image} alt={imageAlt} width={imageSize} height={imageSize} objectFit="cover" />
-        </div>
-      )}
-      <p className={`mx-auto max-w-2xl text-justify leading-relaxed ${imagePosition !== 'top' ? 'md:mr-4 md:w-1/2' : ' mx-2'}`}>{text}</p>
-      {imagePosition === 'right' && (
-        <div className="mt-6 flex justify-end md:ml-4 md:w-1/2">
-          <Image src={image} alt={imageAlt} width={imageSize} height={imageSize} objectFit="cover" />
-        </div>
-      )}
+      </div>
+      <div className={`${textMargin} md:w-1/2 ${textOrder} ${imagePadding}`}>
+        <p className="text-justify leading-relaxed">{text}</p>
+      </div>
     </section>
   )
 }
