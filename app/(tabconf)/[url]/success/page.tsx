@@ -35,7 +35,7 @@ export default function ProxyStatusPage() {
       }
     }
 
-    window.Intercom('shutdown')
+    window.$chatwoot?.toggleBubbleVisibility('hide')
     if (!Boolean(order_id)) {
       return
     }
