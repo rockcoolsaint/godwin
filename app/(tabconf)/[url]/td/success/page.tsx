@@ -43,7 +43,6 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
   }
 
   useEffect(() => {
-    window.Intercom('shutdown')
     if (!orderId) {
       return
     }
