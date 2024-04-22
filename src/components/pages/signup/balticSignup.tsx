@@ -84,7 +84,6 @@ export default function BalticSignUp() {
   })
 
   useEffect(() => {
-    window.Intercom('shutdown')
     if (poolAddress) {
       setValue('mining_pool_address', poolAddress)
     } else {
