@@ -35,7 +35,6 @@ export default function ProxyStatusPage() {
       }
     }
 
-    window.Intercom('shutdown')
     if (!Boolean(order_id)) {
       return
     }
