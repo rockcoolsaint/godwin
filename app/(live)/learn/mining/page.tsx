@@ -5,6 +5,7 @@ import HashrateExplained from 'src/components/learn/mining/HashrateExplained'
 import MiningPoolProfiles from 'src/components/learn/mining/MiningPoolProfiles'
 import HistoryOfMining from 'src/components/learn/mining/HistoryOfMining'
 import MiningDifficulty from 'src/components/learn/mining/MiningDifficulty'
+import HowMiningWorks from 'src/components/learn/mining/HowMiningWorks'
 
 const categories = [
   { title: 'Hashrate Explained', Component: HashrateExplained },
@@ -19,6 +20,10 @@ const categories = [
   {
     title: 'Mining Difficulty',
     Component: MiningDifficulty,
+  },
+  {
+    title: 'How Mining Works',
+    Component: HowMiningWorks,
   },
 ]
 

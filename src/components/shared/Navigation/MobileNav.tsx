@@ -24,7 +24,7 @@ const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegister
   }
 
   return (
-    <div className="absolute inset-0 top-20 z-10 h-screen bg-white lg:hidden">
+    <div className="absolute inset-0 top-20 z-50 h-screen bg-white lg:hidden">
       <div className="flex flex-col">
         {navigationURL.map((nav: NavigationItem) => (
           <div key={nav.id}>

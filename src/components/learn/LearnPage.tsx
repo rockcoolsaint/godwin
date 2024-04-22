@@ -19,12 +19,12 @@ const LearnPage: React.FC<LearnPageProps> = ({ navTitle, categories }) => {
 
   return (
     <div className="flex flex-col md:min-h-screen md:flex-row">
-      <div className="fixed left-0 top-0 z-30 h-screen md:hidden" style={{ width: '4rem' }}>
-        {' '}
-        <button onClick={toggleNav} className="absolute left-0 top-1/2 -translate-y-1/2">
+      <div className="fixed left-0 top-20 z-30 h-[calc(100vh-5rem)] md:hidden" style={{ width: '4rem' }}>
+        <button onClick={toggleNav} className="absolute left-0 top-1/2" style={{ transform: 'translateY(-50%)' }}>
           {isNavVisible ? <ChevronLeftIcon className="h-6 w-6" /> : <ChevronRightIcon className="h-6 w-6" />}
         </button>
       </div>
+
       <aside
         className={`fixed inset-y-0 left-0 z-20 bg-white p-4 transition-transform duration-300 ease-in-out ${
           isNavVisible ? 'translate-x-0' : '-translate-x-full'

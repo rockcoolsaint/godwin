@@ -29,7 +29,7 @@ const DesktopNav = ({ isDemo }: DesktopNavProps) => {
             )}
           </div>
           {nav.submenu && (
-            <div className="dropdown-content absolute left-0 hidden min-w-max rounded-md bg-white shadow-md group-hover:block">
+            <div className="dropdown-content absolute left-0 z-40 hidden min-w-max rounded-md bg-white shadow-md group-hover:block">
               {nav.submenu.map(sub => (
                 <Link key={sub.url} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href={sub.url}>
                   {sub.name}
