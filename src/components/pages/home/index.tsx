@@ -48,7 +48,6 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
       }
     }
     prepareCollections()
-    window.$chatwoot?.toggle('close')
   }, [])
 
   useEffect(() => {
@@ -58,12 +57,14 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
     }
 
     if (account?.email) {
-      window.$chatwoot?.setUser(account.id, {
+      window.Intercom('boot', {
+        user_id: account.id,
         email: account.email,
-        name: account.username,
+        // keep name undefined instead of an empty string so that intercom auto assigns a name
+        name,
       })
     } else {
-      window.$chatwoot?.toggleBubbleVisibility('hide')
+      window.Intercom('shutdown')
     }
   }, [account, router])
 

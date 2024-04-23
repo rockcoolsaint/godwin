@@ -46,7 +46,6 @@ export default function AccountProvider({ children }: { children: React.ReactNod
     localStorage.removeItem(LocalStorageKeys.Account.accountType)
     setAccount(undefined)
     setToken(undefined)
-    window.$chatwoot?.reset()
     redirect('/')
   }
 
