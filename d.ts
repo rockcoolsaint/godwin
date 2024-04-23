@@ -3,9 +3,7 @@ declare module '*.jpg'
 
 declare global {
   interface Window {
-    chatwootSDK: any
-    chatwootSettings: any
-    $chatwoot: any
+    Intercom: any
   }
 }
 
