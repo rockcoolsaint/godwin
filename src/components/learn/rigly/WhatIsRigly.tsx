@@ -53,8 +53,6 @@ const WhatIsRigly = () => {
         imageAlt="Mining illustration"
         imagePosition="right"
       />
-
-      {/* Here I'm using placeholder text "..." as the final part of the text is cut off in the wireframe image. */}
     </>
   )
 }

@@ -12,7 +12,6 @@ import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import Hero from './Hero'
 import Learn from './Learn'
 import RealMachines from './RealMachines'
-import JoinPool from './JoinPool'
 import { MiningCalculator } from './JoinPool/Calculator'
 import Link from 'src/components/shared/Link'
 import { format } from 'date-fns'
@@ -188,8 +187,41 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             </section>
             <Learn />
             <RealMachines />
-            <div id="try-mining" />
-            <JoinPool data={auctionData} />
+            <div className="container mx-auto px-4 py-8">
+              <h1 className="mt-36 text-center font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Try mining now</h1>
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
+                  <div>
+                    <h3 className="mb-4 text-xl font-bold">Take a test drive</h3>
+                    <p className="mb-2 text-gray-600">Need a mining pool account?</p>
+                    <p className="mb-4 text-gray-600">
+                      Buy 3 hours of hashrate for just 1,000 sats. <b>Includes a mining pool account at Braiins pool</b>
+                    </p>
+                  </div>
+                  <Link
+                    href="/test-drive"
+                    className="flex items-center justify-center rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
+                    target="_blank"
+                  >
+                    Buy test drive
+                  </Link>
+                </div>
+                <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
+                  <div>
+                    <h3 className="mb-4 text-xl font-bold">Buy hashrate</h3>
+                    <p className="mb-2 text-gray-600">Already have a mining pool account?</p>
+                    <p className="mb-4 text-gray-600">Enter your pool account info, buy hashrate and start mining</p>
+                  </div>
+                  <Link
+                    href="/direct-sale"
+                    className="flex items-center justify-center rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
+                    target="_blank"
+                  >
+                    Buy hashrate
+                  </Link>
+                </div>
+              </div>
+            </div>
           </section>
         </>
       )}
