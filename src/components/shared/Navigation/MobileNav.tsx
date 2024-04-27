@@ -11,10 +11,11 @@ interface MobileNavProps {
   handleLogoutClick: () => void
   handleLoginClick: () => void
   handleRegisterClick: () => void
+  handleNavigation: () => void
   isDemo?: boolean
 }
 
-const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegisterClick, isDemo }: MobileNavProps) => {
+const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegisterClick, handleNavigation, isDemo }: MobileNavProps) => {
   const [openDropdown, setOpenDropdown] = useState<number | null>(null)
   const { account } = useAccountContext()
   const navigationURL = headerNavURL
@@ -41,7 +42,7 @@ const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegister
         {navigationURL.map((nav: NavigationItem) => (
           <div key={nav.id}>
             {nav.url ? (
-              <Link className="block px-5 py-4 text-sm text-dark-300 hover:text-primary" href={nav.url}>
+              <Link className="block px-5 py-4 text-sm text-dark-300 hover:text-primary" href={nav.url} onClick={handleNavigation}>
                 {nav.name}
               </Link>
             ) : (
@@ -60,7 +61,12 @@ const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegister
             {nav.submenu && openDropdown === nav.id && (
               <div className="ml-4">
                 {nav.submenu.map(sub => (
-                  <Link key={sub.url} className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100" href={sub.url}>
+                  <Link
+                    key={sub.url}
+                    className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    href={sub.url}
+                    onClick={handleNavigation}
+                  >
                     {sub.name}
                   </Link>
                 ))}

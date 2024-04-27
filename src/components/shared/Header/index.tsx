@@ -40,6 +40,10 @@ export default function HeaderNav({ isDemo }: Props) {
     logout()
   }
 
+  const handleNavigation = (): void => {
+    setActive(false)
+  }
+
   return (
     <>
       <header className="h-20 min-h-[80px]">
@@ -75,6 +79,7 @@ export default function HeaderNav({ isDemo }: Props) {
           handleLogoutClick={handleLogoutClick}
           handleLoginClick={handleLoginClick}
           handleRegisterClick={handleRegisterClick}
+          handleNavigation={handleNavigation}
         />
       </div>
     </>
