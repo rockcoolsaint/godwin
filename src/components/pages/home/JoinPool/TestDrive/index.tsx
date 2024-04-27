@@ -135,17 +135,6 @@ export default function TestDrive() {
 
   return (
     <>
-      <section className="mt-[-24px] w-full bg-gradient-to-r from-[#1A3263] to-[#5C3FAF] lg:p-20">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center">
-          <h1 className="mt-10 w-8/12 text-center font-chakra text-4xl text-white lg:mt-0 lg:w-full lg:text-5xl 2xl:text-7xl">
-            Try mining now
-          </h1>
-          <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
-            Buy 3 hours of hashrate for just 500 sats!
-          </p>
-        </div>
-      </section>
-      <TestDriveThreeSteps />
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6 flex w-full flex-col items-center rounded-xl bg-white p-4 sm:p-10 lg:py-16">
         <h2 className="bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text font-chakra text-2xl font-bold text-transparent lg:text-5xl 2xl:text-7xl">
           Get started

@@ -1,16 +1,20 @@
+'use client'
 import { MiningCalculator } from 'src/components/pages/home/JoinPool/Calculator'
 import Container from 'src/core/components/Container'
 import Link from 'src/components/shared/Link'
 import DirectSaleThreeSteps from 'src/components/pages/direct-sale/DirectSaleThreeSteps'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
-export default async function DirectSalePage() {
+export default function DirectSalePage() {
+  const { account } = useAccountContext()
+
   return (
     <Container className="xl:w-full">
       <section className="flex w-full flex-col items-center lg:p-20">
         <h1 className="my-6 bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text text-center text-4xl font-bold text-transparent">
           Buy Hashrate and Start mining now
         </h1>
-        <p className="my-5 w-11/12 text-center font-epilogue text-xs lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
+        <p className="my-5 w-11/12 text-center font-epilogue text-sm md:text-base lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
           Jump right in and start mining to your pool account
         </p>
       </section>
@@ -22,12 +26,15 @@ export default async function DirectSalePage() {
           Check out our mining pool profiles
         </Link>
       </div>
-      <div className="my-8 text-center">
-        <h2 className="text-2xl font-bold md:text-3xl">Are you new to bitcoin mining?</h2>
-        <Link href="/test-drive" className="text-md text-blue-600 hover:underline md:text-lg">
-          Try out mining test drive
-        </Link>
-      </div>
+      {/* only render if user is not authenticated already */}
+      {!account && (
+        <div className="my-8 text-center">
+          <h2 className="text-2xl font-bold md:text-3xl">Are you new to bitcoin mining?</h2>
+          <Link href="/test-drive" className="text-md text-blue-600 hover:underline md:text-lg">
+            Try out mining test drive
+          </Link>
+        </div>
+      )}
     </Container>
   )
 }
