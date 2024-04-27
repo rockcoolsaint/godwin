@@ -26,6 +26,7 @@ const SellingOnRigly = () => {
         image={MiningPlan}
         imageAlt="Auction process illustration"
         imagePosition="right"
+        imageSize={200}
       />
 
       <LearnCategorySubTitle>Where do I sign up?</LearnCategorySubTitle>
