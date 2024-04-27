@@ -21,6 +21,7 @@ const MiningPoolProfiles = () => {
       <LearnCategorySubTitle>United States</LearnCategorySubTitle>
       <LearnCategoryText>
         <strong>Luxor Mining Pool</strong>
+        <br />
         Luxor is known for providing a transparent and technology-driven mining approach. They were also an early supporter of Ordinals.
         <br />
         Payout Format: FPPS
@@ -33,6 +34,7 @@ const MiningPoolProfiles = () => {
 
       <LearnCategoryText>
         <strong>Ocean Mining</strong>
+        <br />
         New pool started by longtime bitcoin-core developer Luke-jr.
         <br />
         Payout Format: Tides (similar to PPLNS)
@@ -45,6 +47,7 @@ const MiningPoolProfiles = () => {
 
       <LearnCategoryText>
         <strong>Lincoin</strong>
+        <br />
         Lincoin is a newer mining pool with a focus on integration with grid service providers (REPs, CSPs and QSEs).
         <br />
         Payout Format: FPPS
@@ -57,6 +60,7 @@ const MiningPoolProfiles = () => {
 
       <LearnCategoryText>
         <strong>Foundry Pool</strong>
+        <br />
         Backed by Foundry Digital, a Digital Currency Group company, it has quickly become one of the top mining pools globally. They serve
         large mining farms. Individual miners are not allowed to use this pool.
         <br />
@@ -71,6 +75,7 @@ const MiningPoolProfiles = () => {
       <LearnCategorySubTitle>Europe</LearnCategorySubTitle>
       <LearnCategoryText>
         <strong>Braiins Pool (formerly Slush Pool)</strong>
+        <br />
         Based in the Czech Republic, Braiins was the first-ever mining pool and introduced the concept of pooled mining to the Bitcoin
         community.
         <br />
@@ -84,6 +89,7 @@ const MiningPoolProfiles = () => {
 
       <LearnCategoryText>
         <strong>Binance Pool</strong>
+        <br />
         This pool is part of the Binance ecosystem, based in Malta but operates globally.
         <br />
         Payout Format: FPPS
@@ -97,6 +103,7 @@ const MiningPoolProfiles = () => {
       <LearnCategorySubTitle>China / Asia</LearnCategorySubTitle>
       <LearnCategoryText>
         <strong>AntPool</strong>
+        <br />
         Based in China, AntPool is one of the largest Bitcoin mining pools. Managed by Bitmain Technologies, the manufacturer of ASIC mining
         hardware.
         <br />
@@ -109,6 +116,7 @@ const MiningPoolProfiles = () => {
       </LearnCategoryText>
       <LearnCategoryText>
         <strong>F2Pool</strong>
+        <br />
         F2Pool operates from China but serves miners globally. It started in 2013 and has grown into one of the oldest and most reliable
         mining pools.
         <br />
@@ -121,6 +129,7 @@ const MiningPoolProfiles = () => {
       </LearnCategoryText>
       <LearnCategoryText>
         <strong>BTC.com</strong>
+        <br />
         It’s btc.com. Old school.
         <br />
         Payout Format: FPPS
@@ -132,6 +141,7 @@ const MiningPoolProfiles = () => {
       </LearnCategoryText>
       <LearnCategoryText>
         <strong>Poolin</strong>
+        <br />
         Poolin was founded by former employees of BTC.com. In the past it was one of the largest pools in the world. They encountered issues
         in 2022 and halted withdrawals, thus it isn’t recommended to use Poolin at this time.
         <br />
@@ -144,6 +154,7 @@ const MiningPoolProfiles = () => {
       </LearnCategoryText>
       <LearnCategoryText>
         <strong>ViaBTC</strong>
+        <br />
         Established in 2016 and quickly became known for user-friendly services.
         <br />
         Payout Format: PPS+, PPLNS and solo
@@ -156,6 +167,7 @@ const MiningPoolProfiles = () => {
       <LearnCategorySubTitle>Smaller Pools</LearnCategorySubTitle>
       <LearnCategoryText>
         <strong>CKPool</strong>
+        <br />
         Created and operated by Con Kolivas, creator of cgminer. CKPool is a special pool dedicated to solo mining.
         <br />
         Payout Format: solo
@@ -168,6 +180,7 @@ const MiningPoolProfiles = () => {
 
       <LearnCategoryText>
         <strong>KanoPool</strong>
+        <br />
         Started in 2014 and known for a no-frills mining experience and a community-oriented approach.
         <br />
         Payout Format: PPLNS
