@@ -9,19 +9,19 @@ const DirectSaleThreeSteps = () => (
       {
         image: StepOneImage,
         imageAlt: 'Account Settings Screenshot',
-        title: '1. Set Pool Account',
+        title: 'Set Pool Account',
         text: 'Login to Rigly and enter your pool account under your Account Profile.',
       },
       {
         image: StepTwoImage,
         imageAlt: 'Buy page screenshot',
-        title: '2. Buy',
+        title: 'Buy',
         text: 'Select your hashrate, duration, and <b>click to buy</b>.  You can pay via Lightning or on-chain.',
       },
       {
         image: StepThreeImage,
         imageAlt: 'Dashboard screenshot',
-        title: '3. Receive your hashrate',
+        title: 'Receive your hashrate',
         text: 'Check your pool account to verify your hashrate delivery.',
       },
     ]}

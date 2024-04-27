@@ -48,16 +48,7 @@ export function MiningCalculator() {
 
   return (
     <>
-      <section className="flex w-full flex-col items-center bg-gradient-to-r from-[#1A3263] to-[#5C3FAF] lg:p-20">
-        <h1 className="mt-10 w-11/12 text-center font-chakra text-3xl text-white sm:w-8/12 lg:mt-0 lg:w-full lg:text-5xl 2xl:w-8/12 2xl:text-7xl">
-          Buy Hashrate and Start mining now
-        </h1>
-        <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
-          Jump right in and start mining to your pool account
-        </p>
-      </section>
-      <DirectSaleThreeSteps />
-      <div className="flex w-full flex-col items-center bg-gradient-to-r from-[#1A3263] to-[#5C3FAF] lg:p-20">
+      <div className="flex w-full flex-col items-center lg:p-20">
         <InstantMining />
       </div>
     </>
