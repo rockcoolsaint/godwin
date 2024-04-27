@@ -1,6 +1,9 @@
 import LearnCategoryTitle from 'src/components/learn/LearnCategoryTitle'
 import LearnCategorySubTitle from 'src/components/learn/LearnCategorySubTitle'
 import LearnCategoryText from 'src/components/learn/LearnCategoryText'
+import Image from 'next/image'
+import HashExample from 'src/images/hash_example.png'
+import BlockHash from 'src/images/block_hash.png'
 
 const HashrateExplained = () => {
   return (
@@ -20,12 +23,20 @@ const HashrateExplained = () => {
         (PoW) used to secure the bitcoin network - see How Mining Works for more details.
       </LearnCategoryText>
 
+      <div className="my-6 flex justify-center">
+        <Image src={HashExample} alt="Hash Example" />
+      </div>
+
       <LearnCategoryText>
         The SHA-256 algorithm, a part of the Secure Hash Algorithm 2 family, is used by Bitcoin to compress transaction data into a compact
         format, requiring a hash output that starts with a certain number of zeros. As you can imagine, it takes many, many, *many* hashes
         to find one that begins with a sufficient number of leading zeros. The process of hashing incorporates a number used once (nonce)
         and timestamp, along with transaction data, to diversify the guesses.
       </LearnCategoryText>
+
+      <div className="my-6 flex justify-center">
+        <Image src={BlockHash} alt="Block hash Example" />
+      </div>
 
       <LearnCategoryText>
         The number of leading zeros is determined by the mining difficulty - the difficulty is calibrated so that, on average, new blocks
@@ -48,16 +59,48 @@ const HashrateExplained = () => {
       </LearnCategoryText>
 
       <LearnCategorySubTitle>Hashpower Measurement</LearnCategorySubTitle>
-      <LearnCategoryText>
-        Here’s a quick look at the scales of hashpower:
-        <br />1 Hash (H/s) - 1
-        <br />1 Kilohash - 1,000 (10^3)
-        <br />1 Megahash - 1,000,000 (10^6)
-        <br />1 Gigahash - 1,000,000,000 (10^9)
-        <br />1 Terahash - 1,000,000,000,000 (10^12)
-        <br />1 Petahash - 1,000,000,000,000,000 (10^15)
-        <br />1 Exahash - 1,000,000,000,000,000,000 (10^18)
-      </LearnCategoryText>
+      <LearnCategoryText>Here’s a quick look at the scales of hashpower:</LearnCategoryText>
+
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <table style={{ borderCollapse: 'collapse' }}>
+          <tr>
+            <th style={{ border: '1px solid black', padding: '8px' }}>
+              <strong>Hash power</strong>
+            </th>
+            <th style={{ border: '1px solid black', padding: '8px', textAlign: 'right' }}>
+              <strong>Hash/sec record</strong>
+            </th>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>1 Hash (H/s)</td>
+            <td style={{ border: '1px solid black', padding: '8px', textAlign: 'right' }}>1</td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>1 Kilohash</td>
+            <td style={{ border: '1px solid black', padding: '8px', textAlign: 'right' }}>1000 (10^3)</td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>1 Megahash</td>
+            <td style={{ border: '1px solid black', padding: '8px', textAlign: 'right' }}>1,000,000 (10^6)</td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>1 Gigahash</td>
+            <td style={{ border: '1px solid black', padding: '8px', textAlign: 'right' }}>1,000,000,000 (10^9)</td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>1 Terahash</td>
+            <td style={{ border: '1px solid black', padding: '8px', textAlign: 'right' }}>1,000,000,000,000 (10^12)</td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>1 Petahash</td>
+            <td style={{ border: '1px solid black', padding: '8px', textAlign: 'right' }}>1,000,000,000,000,000 (10^15)</td>
+          </tr>
+          <tr>
+            <td style={{ border: '1px solid black', padding: '8px' }}>1 Exahash</td>
+            <td style={{ border: '1px solid black', padding: '8px', textAlign: 'right' }}>1,000,000,000,000,000,000 (10^18)</td>
+          </tr>
+        </table>
+      </div>
 
       <LearnCategorySubTitle>Hashrate: the heartbeat of bitcoin mining</LearnCategorySubTitle>
       <LearnCategoryText>
