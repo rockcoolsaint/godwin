@@ -94,14 +94,14 @@ const HowMiningWorks = () => {
       </LearnCategoryText>
 
       <LearnCategoryText>
-        Bitcoin's transaction history is public, which helps eliminate the potential of double spending and makes the network almost
+        Bitcoin's transaction history is public, which helps eliminate the potential of <b>double spending</b> and makes the network almost
         impossible to hack.
       </LearnCategoryText>
 
       <LearnCategoryText>Last but not least, miners are rewarded for their time and proof-of-work with new bitcoin.</LearnCategoryText>
       <LearnCategorySubTitle>Staying on schedule</LearnCategorySubTitle>
       <LearnCategoryTextWithImage
-        text="Mining difficulty is automatically adjusted higher or lower every 2,016 blocks - roughly every 2 weeks - to maintain an average 10 minute block interval.  This is called the difficulty adjustment and is one of the key innovations in bitcoin. As miners come and go, the difficulty adjustment ensures bitcoin distribution via mining continues at the same steady pace."
+        text="Mining difficulty is automatically adjusted higher or lower every 2,016 blocks - roughly every 2 weeks - to maintain an average 10 minute block interval.  This is called the <b>difficulty adjustment</b> and is one of the key innovations in bitcoin. As miners come and go, the difficulty adjustment ensures bitcoin distribution via mining continues at the same steady pace."
         image={Gauge}
         imageAlt="Timechain illustration"
         imagePosition="left"

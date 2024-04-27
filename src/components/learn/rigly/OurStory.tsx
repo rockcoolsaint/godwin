@@ -31,9 +31,9 @@ const OurStory = () => {
         />
 
         <LearnCategoryText>
-          As we delved deeper, we identified a pivotal inefficiency in the ecosystem - Bitcoin mining was unnecessarily centralized around
-          ownership of physical hardware. This is to say, you had to have an ASIC mining rig (and cheap electricity!) to participate in
-          mining.
+          As we delved deeper, we identified a pivotal inefficiency in the ecosystem -{' '}
+          <b>Bitcoin mining was unnecessarily centralized around ownership of physical hardware</b>. This is to say, you had to have an ASIC
+          mining rig (and cheap electricity!) to participate in mining.
         </LearnCategoryText>
 
         <LearnCategoryText>
@@ -57,9 +57,9 @@ const OurStory = () => {
         />
 
         <LearnCategoryText>
-          This experience underscored the need for a system that protected buyers from fraud. Jonas proposed an escrow using on-chain
+          This experience underscored <b>the need for a system that protected buyers from fraud</b>. Jonas proposed an escrow using on-chain
           multisig technology. This setup ensured that buyers&apos; funds were held in escrow until the hashrate they purchased was
-          verifiably delivered, a model we now call &quot;Trustless Mining&quot;.
+          verifiably delivered, a model we now call <b>&quot;Trustless Mining&quot;</b>.
         </LearnCategoryText>
 
         <LearnCategorySubTitle>Building an Auction Marketplace</LearnCategorySubTitle>

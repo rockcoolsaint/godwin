@@ -33,9 +33,9 @@ const WhyAuctions = () => {
       <LearnCategoryText>
         For miners, the decision to sell hashrate rather than mine for themselves is driven by economics. By auctioning their hashrate,
         miners can often earn more than they would through mining themselves. This is because the auction format allows buyers to bid
-        competitively, pushing the price to its highest possible point. The miner benefits from the highest bid, which often includes a
-        premium over the regular spot hashprice. For the buyer, winning the auction means securing a coveted resource in a competitive
-        market, and for the miner, it translates to maximum earnings. It's truly a win-win situation.
+        competitively, pushing the price to its highest possible point. The miner benefits from the highest bid,{' '}
+        <b>which often includes a premium over the regular spot hashprice</b>. For the buyer, winning the auction means securing a coveted
+        resource in a competitive market, and for the miner, it translates to maximum earnings. It's truly a win-win situation.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>Fair and Balanced</LearnCategorySubTitle>

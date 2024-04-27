@@ -22,7 +22,7 @@ const TextWithImageLeft = ({ text, image, imageAlt, imageSize = 300 }: TextWithI
       </div>
     </div>
     <div className="flex flex-1 items-center px-4 md:px-4 md:pr-0">
-      <p className="text-justify">{text}</p>
+      <p className="text-justify" dangerouslySetInnerHTML={{ __html: text }} />
     </div>
   </section>
 )

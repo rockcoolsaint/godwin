@@ -13,7 +13,7 @@ const TextWithImageTop = ({ text, image, imageAlt, imageSize = 300 }: TextWithIm
       <Image src={image} alt={imageAlt} objectFit="cover" />
     </div>
     <div>
-      <p className="text-center leading-relaxed">{text}</p>
+      <p className="text-center leading-relaxed" dangerouslySetInnerHTML={{ __html: text }} />
     </div>
   </section>
 )

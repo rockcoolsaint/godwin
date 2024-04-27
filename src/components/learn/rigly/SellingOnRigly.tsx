@@ -16,7 +16,9 @@ const SellingOnRigly = () => {
         You receive payment in bitcoin based on hashrate received at our stratum proxy. Funds are held in multisig escrow and you receive
         payouts after hashrate has been delivered.
       </LearnCategoryText>
-      <LearnCategoryText>Rigly's payout premium is 5% over FPPS hashrate, based on the Luxor hashrateindex.</LearnCategoryText>
+      <LearnCategoryText>
+        Rigly's payout premium is <b>5% over FPPS hashprice</b>, based on the Luxor hashrateindex.
+      </LearnCategoryText>
 
       <LearnCategorySubTitle>What if the auction sells for a low price?</LearnCategorySubTitle>
 

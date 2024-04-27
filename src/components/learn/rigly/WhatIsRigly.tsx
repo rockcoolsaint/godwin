@@ -13,14 +13,14 @@ const WhatIsRigly = () => {
       <LearnCategorySubTitle>We&apos;re the first auction marketplace for hashrate</LearnCategorySubTitle>
 
       <LearnCategoryText>
-        The Rigly marketplace offers a seamless solution for both buyers and sellers of hashrate. For the first time, individuals can engage
-        in bitcoin mining without the hassle of buying hardware. Rigly introduces an auction system with escrow protection, ensuring a
-        secure and transparent transaction.
+        The Rigly marketplace offers a seamless solution for both buyers and sellers of hashrate. <b>For the first time</b>, individuals can
+        engage in bitcoin mining without the hassle of buying hardware. Rigly introduces an auction system <b>with escrow protection</b>,
+        ensuring a secure and transparent transaction.
       </LearnCategoryText>
 
       <LearnCategoryText>
         Buyers can confidently mine Bitcoin, free from the risks of being &quot;rug pulled&quot; while mining farms optimize their earnings
-        by leveraging the Rigly platform. It&apos;s a win-win.
+        by leveraging the Rigly platform. <b>It&apos;s a win-win</b>.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>Buy Hashrate and Start Mining Right Away</LearnCategorySubTitle>
@@ -48,7 +48,7 @@ const WhatIsRigly = () => {
       <LearnCategorySubTitle>Earn more for your hashrate</LearnCategorySubTitle>
 
       <LearnCategoryTextWithImage
-        text="Selling hashrate on Rigly presents an attractive opportunity for mining farms. With hashrate selling at an average premium of 10-15% (or more) compared to spot hash price, sellers stand to earn significantly higher returns by leveraging Rigly's platform."
+        text="Selling hashrate on Rigly presents an attractive opportunity for mining farms. With hashrate selling at an <b>average premium of 10-15%</b> (or more) compared to spot hash price, sellers stand to earn significantly higher returns by leveraging Rigly's platform."
         image={Trust}
         imageAlt="Mining illustration"
         imagePosition="right"
