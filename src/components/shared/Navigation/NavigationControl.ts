@@ -7,6 +7,7 @@ interface BaseNavigationItem {
 interface NavigationSubItem {
   name: string
   url: string
+  hideIfAuthed?: boolean
 }
 
 interface NavigationItemWithUrl extends BaseNavigationItem {
@@ -24,6 +25,7 @@ export type NavigationItem = NavigationItemWithUrl | NavigationItemWithSubmenu
 const buyHashrateSubmenu: NavigationSubItem[] = [
   { name: 'Auctions', url: '/auction-market' },
   { name: 'Buy hashrate now', url: '/direct-sale' },
+  { name: 'Test Drive', url: '/test-drive', hideIfAuthed: true },
 ]
 
 const learnSubmenu: NavigationSubItem[] = [

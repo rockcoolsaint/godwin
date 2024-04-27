@@ -1,10 +1,22 @@
 import Link from 'src/components/shared/Link'
+import { useAccountContext } from 'src/providers/AccountProvider'
 import { NavigationItem, headerNavURL } from './NavigationControl'
 interface DesktopNavProps {
   isDemo?: boolean
 }
 const DesktopNav = ({ isDemo }: DesktopNavProps) => {
-  const navigationURL = headerNavURL.filter(item => !isDemo || item.showInDemo)
+  const { account } = useAccountContext()
+  const navigationURL = headerNavURL
+    .map(item => {
+      if (item?.submenu) {
+        const filteredSubmenu = item.submenu.filter(subitem => !(subitem.hideIfAuthed && account))
+
+        return { ...item, submenu: filteredSubmenu }
+      }
+
+      return item
+    })
+    .filter(item => !isDemo || item.showInDemo)
 
   return (
     <aside className="hidden lg:flex">

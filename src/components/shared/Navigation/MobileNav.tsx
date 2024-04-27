@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'src/components/shared/Link'
 import LoginRegister from 'src/components/shared/Header/LoginRegister'
 import { headerNavURL, NavigationItem } from './NavigationControl'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 interface MobileNavProps {
   active: boolean
@@ -15,7 +16,18 @@ interface MobileNavProps {
 
 const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegisterClick, isDemo }: MobileNavProps) => {
   const [openDropdown, setOpenDropdown] = useState<number | null>(null)
-  const navigationURL = headerNavURL.filter(item => !isDemo || item.showInDemo)
+  const { account } = useAccountContext()
+  const navigationURL = headerNavURL
+    .map(item => {
+      if (item?.submenu) {
+        const filteredSubmenu = item.submenu.filter(subitem => !(subitem.hideIfAuthed && account))
+
+        return { ...item, submenu: filteredSubmenu }
+      }
+
+      return item
+    })
+    .filter(item => !isDemo || item.showInDemo)
 
   if (!active) return null
 
