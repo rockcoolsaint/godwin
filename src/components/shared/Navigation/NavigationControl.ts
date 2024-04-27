@@ -31,6 +31,7 @@ const buyHashrateSubmenu: NavigationSubItem[] = [
 const learnSubmenu: NavigationSubItem[] = [
   { name: 'Rigly', url: '/learn/rigly' },
   { name: 'Mining Resources', url: '/learn/mining' },
+  { name: 'Glossary', url: '/learn/glossary' },
   { name: 'FAQ', url: '/faq' },
 ]
 
