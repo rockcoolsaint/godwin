@@ -22,6 +22,7 @@ const LearnCategoryTextWithImage: React.FC<LearnCategoryTextWithImageProps> = ({
   const imageOrder = imagePosition === 'right' ? 'md:order-2' : 'md:order-1'
   const textOrder = imagePosition === 'right' ? 'md:order-1' : 'md:order-2'
   const imagePadding = imagePosition === 'top' ? '' : 'md:px-4'
+  const textWidth = imagePosition === 'top' ? 'w-full' : 'md:w-1/2'
 
   return (
     <section className={`my-6 flex ${flexDirection}`}>
@@ -30,7 +31,7 @@ const LearnCategoryTextWithImage: React.FC<LearnCategoryTextWithImageProps> = ({
           <Image src={image} alt={imageAlt} layout="fill" objectFit="cover" />
         </div>
       </div>
-      <div className={`${textMargin} md:w-1/2 ${textOrder} ${imagePadding}`}>
+      <div className={`${textMargin} ${textWidth} ${textOrder} ${imagePadding}`}>
         <p className="text-justify leading-relaxed">{text}</p>
       </div>
     </section>
