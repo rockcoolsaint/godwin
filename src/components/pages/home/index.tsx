@@ -189,7 +189,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             <RealMachines />
             <div className="container mx-auto px-4 py-8">
               <h1 className="mt-36 text-center font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Try mining now</h1>
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
                 <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
                   <div>
                     <h3 className="mb-4 text-xl font-bold">Take a test drive</h3>
