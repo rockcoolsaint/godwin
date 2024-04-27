@@ -20,7 +20,7 @@ const ThreeStepProcess: React.FC<ThreeStepProcessProps> = ({ steps }) => {
   }
 
   return (
-    <div className="m-6">
+    <div className="mx-6">
       <h2 className="mb-6 text-center text-3xl font-bold">3 easy steps</h2>
       <div className="flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0">
         {steps.map((step, index) => (

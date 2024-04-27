@@ -48,7 +48,7 @@ export function MiningCalculator() {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center lg:p-20">
+      <div className="flex w-full flex-col items-center p-20">
         <InstantMining />
       </div>
     </>
