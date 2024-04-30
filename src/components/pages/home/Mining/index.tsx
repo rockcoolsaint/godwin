@@ -183,11 +183,10 @@ export default function Mining() {
             />
           </div>
           <button
-            // disabled={!isDirty || !isValid}
+            disabled={!isDirty || !isValid}
             type="submit"
             className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
-            disabled // site outage apr 6-15
-          >
+            >
             Zap to hash
           </button>
         </form>
