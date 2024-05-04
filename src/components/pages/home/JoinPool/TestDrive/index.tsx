@@ -73,7 +73,7 @@ export default function TestDrive() {
 
         if (data?.id) {
           setStatus(1)
-          order = await createOrder({ account_id: data?.id })
+          order = await createOrder({ account_id: data?.id, amount_sats: 1000 })
         }
 
         let payment = undefined
