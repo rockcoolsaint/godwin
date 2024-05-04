@@ -9,10 +9,15 @@ import WebsocketProvider from 'src/providers/WebsocketProvider'
 import Toaster from 'src/components/shared/Toaster'
 import Script from 'next/script'
 import GoogleAnalytics from 'src/components/shared/GoogleAnalytics'
-import NotificationsProvider from 'src/providers/NotificationsProvider'
-import Notifier from 'src/components/shared/Notifier'
 import { epilogue, chakra } from './fonts'
+import dynamic from 'next/dynamic'
+const NotificationsProvider = dynamic(() => import('src/providers/NotificationsProvider'), {
+  ssr: false,
+})
 
+const Notifier = dynamic(() => import('src/components/shared/Notifier'), {
+  ssr: false,
+})
 export const metadata = {
   metadataBase: new URL('https://rigly.io'),
   alternates: {
@@ -23,7 +28,6 @@ export const metadata = {
   },
 }
 
-
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
     <html lang="en" className={`${epilogue.variable} ${chakra.variable}`}>
@@ -31,10 +35,10 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
         <GoogleAnalytics />
         <title>Rigly</title>
         <link rel="icon" href="/icon.png?latest" type="image/png" sizes="32x32" />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js" />
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js" defer />
 
-        <Script>
-        {` (function(d,t) {
+        <Script async>
+          {` (function(d,t) {
         var BASE_URL="https://app.chatwoot.com";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=BASE_URL+"/packs/js/sdk.js";
@@ -52,7 +56,6 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
       </head>
 
       <body>
-
         <AccountProvider>
           <Toaster />
           <WebsocketProvider>
