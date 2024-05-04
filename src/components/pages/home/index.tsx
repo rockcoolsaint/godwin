@@ -1,35 +1,47 @@
 'use client'
 import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
-import UpcomingAuctions from './UpcomingAuctions'
-import Testimonials from 'src/components/pages/home/Testimonial'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { isDateBefore } from 'src/utils/date'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Gradient from 'src/components/shared/Gradient'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import Hero from './Hero'
-import Learn from './Learn'
-import RealMachines from './RealMachines'
-import JoinPool from './JoinPool'
-import { MiningCalculator } from './JoinPool/Calculator'
 import Link from 'src/components/shared/Link'
 import { format } from 'date-fns'
-import AOTD from './AOTD'
+import dynamic from 'next/dynamic'
+import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
+
+const Testimonials = dynamic(() => import('src/components/pages/home/Testimonial'), {
+  ssr: false,
+})
+
+const Learn = dynamic(() => import('./Learn'), {
+  ssr: false,
+})
+
+const AOTD = dynamic(() => import('./AOTD'), {
+  ssr: false,
+})
+
+const RealMachines = dynamic(() => import('./RealMachines'), {
+  ssr: false,
+})
+
+const UpcomingAuctions = dynamic(() => import('./UpcomingAuctions'), {
+  ssr: false,
+})
 
 interface Props {
-  auctions: Auction[]
-  auctionOfTheDay: AuctionOfTheDayResponse
   isDemo?: boolean
   code?: string
 }
 
-export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
+export default function Home({ isDemo, code }: Props) {
   const { account } = useAccountContext()
-  const router = useRouter()
   const [_, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
+  const [auctionOfTheDay, setAuctionOfTheDay] = useState<AuctionOfTheDayResponse | null>(null)
+  const isLoggedIn = Boolean(account?.email)
 
   useEffect(() => {
     const prepareCollections = async () => {
@@ -40,6 +52,8 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
           group_by: 'auction_status',
           auction_status: 'active',
         })
+        const resAuctionOfTheDay = await getAuctionOfTheDay({ isDemo: false })
+        setAuctionOfTheDay(resAuctionOfTheDay)
         setAuctionData(res.results)
       } catch (ex) {
         console.error(ex)
@@ -47,14 +61,14 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
         setLoading(false)
       }
     }
-    prepareCollections()
-  }, [])
+    if (isLoggedIn) {
+      prepareCollections()
+    }
+  }, [isLoggedIn])
 
   if (code) {
     localStorage.setItem(LocalStorageKeys.Referral.plebtern, code)
   }
-
-  const isLoggedIn = Boolean(account?.email)
 
   return (
     <div>
@@ -77,10 +91,9 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             <div className="mt-20" />
             <RealMachines />
           </section>
-
           <section className="-mt-6 flex w-full flex-col items-center justify-center border border-solid border-gray-300 py-12 sm:px-4 sm:py-28 md:px-0">
-            <AOTD auction={auctionOfTheDay} />
-            {auctionData.length > 0 && (
+            {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
+            {auctionData.length > 0 && auctionOfTheDay && (
               <>
                 <div className="w-full max-w-7xl overflow-auto sm:mt-28">
                   <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData} />
@@ -90,10 +103,6 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
                 </Link>
               </>
             )}
-          </section>
-
-          <section className="flex w-full flex-col items-center bg-gradient-to-r from-[#1A3263] to-[#5C3FAF] lg:p-20">
-            <MiningCalculator />
           </section>
           <section className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center px-4 pb-20 md:px-0">
             <h1 className="mt-20 font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Support</h1>
@@ -179,8 +188,8 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
               </>
             </Hero>
             <section id="auction-market" className="flex w-full flex-col items-center justify-center px-4 py-28 md:px-0">
-              <AOTD auction={auctionOfTheDay} />
-              {auctionData.length > 0 && (
+              {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
+              {auctionData?.length > 0 && auctionOfTheDay && (
                 <div className="w-full max-w-7xl overflow-auto sm:mt-24">
                   <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData}></UpcomingAuctions>
                 </div>
@@ -188,8 +197,41 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             </section>
             <Learn />
             <RealMachines />
-            <div id="try-mining" />
-            <JoinPool data={auctionData} />
+            <div className="container mx-auto px-4 py-8">
+              <h1 className="mt-36 text-center font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Try mining now</h1>
+              <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
+                  <div>
+                    <h3 className="mb-4 text-xl font-bold">Take a test drive</h3>
+                    <p className="mb-2 text-gray-600">Need a mining pool account?</p>
+                    <p className="mb-4 text-gray-600">
+                      Buy 3 hours of hashrate for just 1,000 sats. <b>Includes a mining pool account at Braiins pool</b>
+                    </p>
+                  </div>
+                  <Link
+                    href="/test-drive"
+                    className="flex items-center justify-center rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
+                    target="_blank"
+                  >
+                    Buy test drive
+                  </Link>
+                </div>
+                <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
+                  <div>
+                    <h3 className="mb-4 text-xl font-bold">Buy hashrate</h3>
+                    <p className="mb-2 text-gray-600">Already have a mining pool account?</p>
+                    <p className="mb-4 text-gray-600">Enter your pool account info, buy hashrate and start mining</p>
+                  </div>
+                  <Link
+                    href="/direct-sale"
+                    className="flex items-center justify-center rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
+                    target="_blank"
+                  >
+                    Buy hashrate
+                  </Link>
+                </div>
+              </div>
+            </div>
           </section>
         </>
       )}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getHashRate } from 'src/api/hashprice'
+import DirectSaleThreeSteps from 'src/components/pages/direct-sale/DirectSaleThreeSteps'
 
 import InstantMining from 'src/components/pages/home/InstantMining'
 
@@ -47,13 +48,13 @@ export function MiningCalculator() {
 
   return (
     <>
-      <h1 className="mt-10 w-11/12 text-center font-chakra text-3xl text-white sm:w-8/12 lg:mt-0 lg:w-full lg:text-5xl 2xl:w-8/12 2xl:text-7xl">
-        Buy Hashrate and Start mining now
-      </h1>
-      <p className="my-5 w-11/12 text-center font-epilogue text-xs text-white lg:my-10 lg:w-9/12 lg:text-xl 2xl:text-3xl">
-        Jump right in and start mining to your pool account
-      </p>
-      <div className="flex w-full flex-col rounded-lg border border-white lg:flex-row 2xl:w-8/12">
+      <div className="my-10 flex w-full flex-col items-center md:px-20">
+        <h2 className="bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text font-chakra text-2xl font-bold text-transparent lg:text-4xl 2xl:text-7xl">
+          Get started
+        </h2>
+        <p className="my-4 w-full text-center font-epilogue text-xs font-normal text-gray-500 lg:my-8 lg:w-3/5 lg:text-xl 2xl:w-7/12 2xl:text-3xl">
+          Buy hashrate now
+        </p>
         <InstantMining />
       </div>
     </>
