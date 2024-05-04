@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/inline-script-id */
 import 'src/styles/globals.css'
 import 'react-medium-image-zoom/dist/styles.css'
 import 'node_modules/react-modal-video/css/modal-video.min.css'
@@ -11,6 +10,8 @@ import Script from 'next/script'
 import GoogleAnalytics from 'src/components/shared/GoogleAnalytics'
 import { epilogue, chakra } from './fonts'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
+
 const NotificationsProvider = dynamic(() => import('src/providers/NotificationsProvider'), {
   ssr: false,
 })
@@ -18,6 +19,7 @@ const NotificationsProvider = dynamic(() => import('src/providers/NotificationsP
 const Notifier = dynamic(() => import('src/components/shared/Notifier'), {
   ssr: false,
 })
+
 export const metadata = {
   metadataBase: new URL('https://rigly.io'),
   alternates: {
@@ -31,30 +33,11 @@ export const metadata = {
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
     <html lang="en" className={`${epilogue.variable} ${chakra.variable}`}>
-      <head>
+      <Head>
         <GoogleAnalytics />
         <title>Rigly</title>
         <link rel="icon" href="/icon.png?latest" type="image/png" sizes="32x32" />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js" defer />
-
-        <Script async>
-          {` (function(d,t) {
-        var BASE_URL="https://app.chatwoot.com";
-        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=BASE_URL+"/packs/js/sdk.js";
-        g.defer = true;
-        g.async = true;
-        s.parentNode.insertBefore(g,s);
-        g.onload=function(){
-          window.chatwootSDK.run({
-            websiteToken: '7zjKmUbkWTy4oBaAsYn8rjHc',
-            baseUrl: BASE_URL
-          })
-        }
-        })(document,"script"); `}
-        </Script>
-      </head>
-
+      </Head>
       <body>
         <AccountProvider>
           <Toaster />
@@ -65,6 +48,26 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
             </NotificationsProvider>
           </WebsocketProvider>
         </AccountProvider>
+
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js" defer />
+        <Script async id="chatwoot-script">
+          {`
+            (function(d,t) {
+              var BASE_URL="https://app.chatwoot.com";
+              var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+              g.src=BASE_URL+"/packs/js/sdk.js";
+              g.defer = true;
+              g.async = true;
+              s.parentNode.insertBefore(g,s);
+              g.onload=function(){
+                window.chatwootSDK.run({
+                  websiteToken: '7zjKmUbkWTy4oBaAsYn8rjHc',
+                  baseUrl: BASE_URL
+                })
+              }
+            })(document,"script");
+          `}
+        </Script>
       </body>
     </html>
   )
