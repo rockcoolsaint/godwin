@@ -12,7 +12,6 @@ import Input from 'src/core/components/Input'
 import { useRouter } from 'next/navigation'
 import { register as postRegister } from 'src/api/auth/register'
 import Link from 'src/components/shared/Link'
-import TestDriveThreeSteps from 'src/components/pages/test-drive/TestDriveThreeSteps'
 
 const useSignUpSchema = () => {
   const schema = useMemo(
@@ -135,7 +134,7 @@ export default function TestDrive() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center rounded-xl bg-white p-4 sm:px-10 py-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col items-center rounded-xl bg-white p-4 py-8 sm:px-10">
         <h2 className="bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text font-chakra text-2xl font-bold text-transparent lg:text-4xl 2xl:text-7xl">
           Get started
         </h2>
@@ -146,42 +145,44 @@ export default function TestDrive() {
           </Link>{' '}
           mining pool account.
         </p>
-        <div className="flex w-11/12 items-center justify-between lg:w-7/12 2xl:mb-10">
-          <p className="flex flex-col items-center justify-center text-center">
-            <h5 className="text-sm font-bold lg:text-xl 2xl:text-3xl">Hashrate</h5>
-            <p className="text-xs lg:text-base 2xl:text-xl">88 TH/s</p>
-          </p>
-          <p className="flex flex-col items-center justify-center text-center">
-            <h5 className="text-sm font-bold lg:text-xl 2xl:text-3xl">Duration</h5>
-            <p className="text-xs lg:text-base 2xl:text-xl">3 hours</p>
-          </p>
-          <p className="flex flex-col items-center justify-center text-center">
-            <h5 className="text-sm font-bold lg:text-xl 2xl:text-3xl">Price</h5>
-            <p className="text-xs lg:text-base 2xl:text-xl">500 sats</p>
-          </p>
-        </div>
-        <div className="flex w-11/12 flex-col items-center justify-center lg:w-8/12 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex w-11/12 flex-col lg:w-7/12 2xl:w-7/12">
-            <Input
-              className="text-2xl text-gray-600"
-              id="email"
-              type="text"
-              autoComplete="off"
-              autoCorrect="off"
-              placeholder="satoshi@gmx.com"
-              label="Enter your email"
-              defaultValue={signUpInfo.email}
-              errorMessage={errors.email?.message}
-              {...register('email')}
-            />
+        <div className="flex w-full flex-col rounded border border-solid border-black p-10 items-center">
+          <div className="flex w-11/12 items-center justify-between lg:w-7/12 2xl:mb-10">
+            <p className="flex flex-col items-center justify-center text-center">
+              <h5 className="text-sm font-bold lg:text-xl 2xl:text-3xl">Hashrate</h5>
+              <p className="text-xs lg:text-base 2xl:text-xl">88 TH/s</p>
+            </p>
+            <p className="flex flex-col items-center justify-center text-center">
+              <h5 className="text-sm font-bold lg:text-xl 2xl:text-3xl">Duration</h5>
+              <p className="text-xs lg:text-base 2xl:text-xl">3 hours</p>
+            </p>
+            <p className="flex flex-col items-center justify-center text-center">
+              <h5 className="text-sm font-bold lg:text-xl 2xl:text-3xl">Price</h5>
+              <p className="text-xs lg:text-base 2xl:text-xl">500 sats</p>
+            </p>
           </div>
-          <button
-            disabled={!isDirty || !isValid}
-            type="submit"
-            className="mt-4 flex h-12 items-center justify-center rounded-lg bg-hero-gradient px-5 py-2 font-chakra text-xl font-bold text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:ml-4 lg:mt-8 lg:w-5/12 lg:text-base 2xl:w-4/12 2xl:text-xl"
-          >
-            Buy test drive
-          </button>
+          <div className="flex w-11/12 flex-col items-center justify-center lg:w-8/12 lg:flex-row lg:items-end lg:justify-between">
+            <div className="flex w-11/12 flex-col lg:w-7/12 2xl:w-7/12">
+              <Input
+                className="text-2xl text-gray-600"
+                id="email"
+                type="text"
+                autoComplete="off"
+                autoCorrect="off"
+                placeholder="satoshi@gmx.com"
+                label="Enter your email"
+                defaultValue={signUpInfo.email}
+                errorMessage={errors.email?.message}
+                {...register('email')}
+              />
+            </div>
+            <button
+              disabled={!isDirty || !isValid}
+              type="submit"
+              className="mt-4 flex h-12 items-center justify-center rounded-lg bg-hero-gradient px-5 py-2 font-chakra text-xl font-bold text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:ml-4 lg:mt-8 lg:w-5/12 lg:text-base 2xl:w-4/12 2xl:text-xl"
+            >
+              Buy test drive
+            </button>
+          </div>
         </div>
         {loading && (
           <div id="test-mine" className="mt-10 flex flex-col items-center justify-center ">

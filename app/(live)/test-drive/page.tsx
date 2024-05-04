@@ -5,7 +5,7 @@ import TestDriveThreeSteps from 'src/components/pages/test-drive/TestDriveThreeS
 
 export default async function TestDrivePage() {
   return (
-    <Container className="py-12 xl:w-full">
+    <Container className="xl:w-full">
       <section className="flex w-full flex-col items-center lg:px-20 lg:py-10">
         <h1 className="bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text text-center text-4xl font-bold leading-normal text-transparent lg:text-5xl 2xl:text-7xl">
           Try mining now
