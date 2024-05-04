@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://rigly.io
+
+# Sitemaps
+Sitemap: https://rigly.io/sitemap.xml
