@@ -1,21 +1,34 @@
 'use client'
 import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
-import UpcomingAuctions from './UpcomingAuctions'
-import Testimonials from 'src/components/pages/home/Testimonial'
 import { LocalStorageKeys } from 'src/constants/localStorage'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { isDateBefore } from 'src/utils/date'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Gradient from 'src/components/shared/Gradient'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import Hero from './Hero'
-import Learn from './Learn'
-import RealMachines from './RealMachines'
-import { MiningCalculator } from './JoinPool/Calculator'
 import Link from 'src/components/shared/Link'
 import { format } from 'date-fns'
-import AOTD from './AOTD'
+import dynamic from 'next/dynamic'
+
+const Testimonials = dynamic(() => import('src/components/pages/home/Testimonial'), {
+  ssr: false,
+})
+
+const Learn = dynamic(() => import('./Learn'), {
+  ssr: false,
+})
+
+const AOTD = dynamic(() => import('./AOTD'), {
+  ssr: false,
+})
+
+const RealMachines = dynamic(() => import('./RealMachines'), {
+  ssr: false,
+})
+
+const UpcomingAuctions = dynamic(() => import('./UpcomingAuctions'), {
+  ssr: false,
+})
 
 interface Props {
   auctions: Auction[]
@@ -26,10 +39,9 @@ interface Props {
 
 export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
   const { account } = useAccountContext()
-  const router = useRouter()
   const [_, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
-
+  const isLoggedIn = Boolean(account?.email)
   useEffect(() => {
     const prepareCollections = async () => {
       setLoading(true)
@@ -46,14 +58,14 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
         setLoading(false)
       }
     }
-    prepareCollections()
-  }, [])
+    if (isLoggedIn) {
+      prepareCollections()
+    }
+  }, [isLoggedIn])
 
   if (code) {
     localStorage.setItem(LocalStorageKeys.Referral.plebtern, code)
   }
-
-  const isLoggedIn = Boolean(account?.email)
 
   return (
     <div>
@@ -89,10 +101,6 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
                 </Link>
               </>
             )}
-          </section>
-
-          <section className="flex w-full flex-col items-center bg-gradient-to-r from-[#1A3263] to-[#5C3FAF] lg:p-20">
-            <MiningCalculator />
           </section>
           <section className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center px-4 pb-20 md:px-0">
             <h1 className="mt-20 font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Support</h1>
