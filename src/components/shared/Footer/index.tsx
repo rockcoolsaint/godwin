@@ -12,12 +12,18 @@ import clsx from 'clsx'
 import { subscribeNewsletter } from 'src/api/subscribe/subscribe'
 import { Follow } from 'react-twitter-widgets'
 import MiningSvg from 'src/assets/svg/mine.svg'
+import { useInView } from 'react-intersection-observer'
 
 const Footer = () => {
   const year = new Date().getFullYear()
   const [subscribe, setSubscribe] = useState(false)
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const { ref: twitterFollowRef, inView: twitterFollowInView } = useInView({
+    triggerOnce: true,
+    rootMargin: '200px',
+  })
 
   const handleSubscribe = useCallback(async () => {
     setLoading(true)
@@ -75,8 +81,8 @@ const Footer = () => {
                 <TwitterSvg className="h-6 w-6" />
               </Link>
             </div>
-            <div className="flex w-10/12 justify-start md:justify-end">
-              <Follow username="trustlessmining" options={{ dnt: true, showCount: false }} />
+            <div className="flex w-10/12 justify-start md:justify-end" ref={twitterFollowRef}>
+              {twitterFollowInView && <Follow username="trustlessmining" options={{ dnt: true, showCount: false }} />}
             </div>
           </div>
         </div>
