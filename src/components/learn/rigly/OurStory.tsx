@@ -77,7 +77,7 @@ const OurStory = () => {
         </LearnCategoryText>
 
         <LearnCategoryTitle>Team Rigly</LearnCategoryTitle>
-        <LearnCategorySubTitle>It takes teamwork to make Rigly work</LearnCategorySubTitle>
+        <LearnCategorySubTitle center>It takes teamwork to make Rigly work</LearnCategorySubTitle>
         <ul
           role="list"
           className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:mx-0 lg:max-w-none xl:grid-cols-3 xl:gap-8"
