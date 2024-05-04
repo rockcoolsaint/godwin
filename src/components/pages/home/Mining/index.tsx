@@ -75,7 +75,7 @@ export default function Mining() {
 
         if (data?.id) {
           setStatus(1)
-          order = await createOrder({ account_id: data?.id })
+          order = await createOrder({ account_id: data?.id, amount_sats: 1000 })
         }
 
         let payment = undefined
@@ -157,7 +157,7 @@ export default function Mining() {
           <div className="flex">
             <div>
               <h5 className="font-semibold">Hashrate</h5>
-              <p className="text-sm text-gray-600">88 TH/s</p>
+              <p className="text-sm text-gray-600">120 TH/s</p>
             </div>
             <div className="mx-4">
               <h5 className="font-semibold">Duration</h5>
@@ -165,7 +165,7 @@ export default function Mining() {
             </div>
             <div>
               <h5 className="font-semibold">Price</h5>
-              <p className="text-sm text-gray-600">500 sats</p>
+              <p className="text-sm text-gray-600">1,000 sats</p>
             </div>
           </div>
           <div className="w-full">
