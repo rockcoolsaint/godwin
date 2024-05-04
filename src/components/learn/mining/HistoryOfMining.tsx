@@ -20,7 +20,7 @@ const HistoryOfMining = () => {
         image={MiningIllustration}
         imageAlt="Early days of mining illustration"
         imagePosition="right"
-        imageSize={200}
+        imageSize={300}
       />
 
       <LearnCategorySubTitle>GPU Era (2011-2012)</LearnCategorySubTitle>
@@ -29,7 +29,7 @@ const HistoryOfMining = () => {
         image={MiningIllustration}
         imageAlt="GPU mining illustration"
         imagePosition="left"
-        imageSize={200}
+        imageSize={300}
       />
 
       <LearnCategorySubTitle>FPGA Era (2012-2013)</LearnCategorySubTitle>
@@ -38,7 +38,7 @@ const HistoryOfMining = () => {
         image={MiningIllustration}
         imageAlt="FPGA mining illustration"
         imagePosition="right"
-        imageSize={200}
+        imageSize={300}
       />
 
       <LearnCategorySubTitle>ASIC Era (2013-Present)</LearnCategorySubTitle>
@@ -47,7 +47,7 @@ const HistoryOfMining = () => {
         image={MiningIllustration}
         imageAlt="ASIC mining illustration"
         imagePosition="left"
-        imageSize={200}
+        imageSize={300}
       />
 
       <LearnCategorySubTitle>Industrial Mining (2015-Present)</LearnCategorySubTitle>
@@ -56,7 +56,7 @@ const HistoryOfMining = () => {
         image={MiningIllustration}
         imageAlt="Industrial mining illustration"
         imagePosition="right"
-        imageSize={200}
+        imageSize={300}
       />
     </>
   )

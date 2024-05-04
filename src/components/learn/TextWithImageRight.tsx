@@ -14,14 +14,7 @@ const TextWithImageRight = ({ text, image, imageAlt, imageSize = 300 }: TextWith
     </div>
     <div className="flex flex-1 items-center justify-center px-4 md:ml-4 md:px-6">
       <div className="relative mt-5 h-auto w-full max-w-full md:mt-0 md:max-w-[300px]">
-        <Image
-          src={image}
-          alt={imageAlt}
-          width={image.width || imageSize}
-          height={image.height || imageSize}
-          objectFit="contain"
-          className="md:w-full"
-        />
+        <Image src={image} alt={imageAlt} width={imageSize || image.width} objectFit="contain" className="mx-auto" />
       </div>
     </div>
   </section>

@@ -54,6 +54,7 @@ const HowMiningWorks = () => {
           imageSize={200}
         />
       </div>
+      <LearnCategorySubTitle center>What mining pools do</LearnCategorySubTitle>
 
       <div className="md:grid md:grid-cols-2 md:gap-4">
         <LearnCategoryTextWithImage
@@ -72,8 +73,9 @@ const HowMiningWorks = () => {
           imageSize={200}
         />
       </div>
+      <LearnCategorySubTitle center>What mining does</LearnCategorySubTitle>
 
-      <div className="my-6 flex justify-between">
+      <div className="my-6 flex justify-around">
         <div className="flex flex-col items-center">
           <Image src={Verified} alt="Verify transactions illustration" width={100} height={100} objectFit="contain" />
           <span className="mt-2 text-sm font-bold">Verify transactions</span>
@@ -107,7 +109,18 @@ const HowMiningWorks = () => {
         imagePosition="left"
         imageSize={200}
       />
-      <LearnCategoryText>This page was based on Fidelity's excellent infographic. Check it out!</LearnCategoryText>
+      <LearnCategoryText center>
+        This page was based on{' '}
+        <a
+          className="text-blue-600 visited:text-purple-600"
+          href="https://www.fidelity.com/learning-center/trading-investing/crypto/what-is-mining"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Fidelity's excellent infographic
+        </a>
+        . Check it out!
+      </LearnCategoryText>
     </>
   )
 }

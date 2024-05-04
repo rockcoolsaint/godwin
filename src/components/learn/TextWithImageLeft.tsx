@@ -11,14 +11,7 @@ const TextWithImageLeft = ({ text, image, imageAlt, imageSize = 300 }: TextWithI
   <section className="my-6 flex w-full flex-col items-center md:flex-row md:items-center">
     <div className="flex flex-1 items-center justify-center px-4 md:px-6 md:pr-4">
       <div className="relative mb-5 h-auto w-full max-w-full md:mb-0 md:max-w-[300px]">
-        <Image
-          src={image}
-          alt={imageAlt}
-          width={imageSize || image.width}
-          height={imageSize || image.height}
-          objectFit="contain"
-          className="md:w-full"
-        />
+        <Image src={image} alt={imageAlt} width={imageSize || image.width} objectFit="contain" className="mx-auto" />
       </div>
     </div>
     <div className="flex flex-1 items-center px-4 md:px-4 md:pr-0">
