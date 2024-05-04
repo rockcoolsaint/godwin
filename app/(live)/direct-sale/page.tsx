@@ -11,7 +11,7 @@ export default function DirectSalePage() {
   return (
     <Container className="xl:w-full">
       <section className="flex w-full flex-col items-center lg:px-20 lg:py-10">
-        <h1 className="bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text text-center text-4xl font-bold leading-normal text-transparent lg:text-5xl 2xl:text-7xl">
+        <h1 className="bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text text-center text-4xl font-bold text-transparent lg:text-5xl 2xl:text-7xl">
           Buy Hashrate and Start mining now
         </h1>
         <p className="my-5 w-11/12 text-center font-epilogue text-sm md:text-base lg:w-9/12 lg:text-xl 2xl:text-3xl">
