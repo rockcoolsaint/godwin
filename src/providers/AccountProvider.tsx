@@ -93,6 +93,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
       }
       authorizeAfterCallback()
     } else {
+      const token = window.localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
       const authorize = async () => {
         // TODO: Implement refresh token logic instead of just accepting the account if it exists in state.
 
@@ -103,9 +104,6 @@ export default function AccountProvider({ children }: { children: React.ReactNod
 
         try {
           setIsLoading(true)
-
-          const token = window.localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
-
           if (token) {
             const account = await getAccount(token)
             account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
@@ -120,7 +118,9 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           setIsLoading(false)
         }
       }
-      authorize()
+      if (token) {
+        authorize()
+      }
     }
   }, [pathName, router, account])
 

@@ -9,9 +9,7 @@ import Hero from './Hero'
 import Link from 'src/components/shared/Link'
 import { format } from 'date-fns'
 import dynamic from 'next/dynamic'
-import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
 import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
-import { set } from 'cypress/types/lodash'
 
 const Testimonials = dynamic(() => import('src/components/pages/home/Testimonial'), {
   ssr: false,
@@ -92,10 +90,9 @@ export default function Home({ isDemo, code }: Props) {
             <div className="mt-20" />
             <RealMachines />
           </section>
-
           <section className="-mt-6 flex w-full flex-col items-center justify-center border border-solid border-gray-300 py-12 sm:px-4 sm:py-28 md:px-0">
-            <AOTD auction={auctionOfTheDay} />
-            {auctionData.length > 0 && (
+            {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
+            {auctionData.length > 0 && auctionOfTheDay && (
               <>
                 <div className="w-full max-w-7xl overflow-auto sm:mt-28">
                   <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData} />
@@ -190,8 +187,8 @@ export default function Home({ isDemo, code }: Props) {
               </>
             </Hero>
             <section id="auction-market" className="flex w-full flex-col items-center justify-center px-4 py-28 md:px-0">
-              <AOTD auction={auctionOfTheDay} />
-              {auctionData.length > 0 && (
+              {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
+              {auctionData?.length > 0 && auctionOfTheDay && (
                 <div className="w-full max-w-7xl overflow-auto sm:mt-24">
                   <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData}></UpcomingAuctions>
                 </div>
