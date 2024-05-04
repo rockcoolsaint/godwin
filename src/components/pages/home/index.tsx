@@ -9,6 +9,9 @@ import Hero from './Hero'
 import Link from 'src/components/shared/Link'
 import { format } from 'date-fns'
 import dynamic from 'next/dynamic'
+import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
+import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
+import { set } from 'cypress/types/lodash'
 
 const Testimonials = dynamic(() => import('src/components/pages/home/Testimonial'), {
   ssr: false,
@@ -31,16 +34,15 @@ const UpcomingAuctions = dynamic(() => import('./UpcomingAuctions'), {
 })
 
 interface Props {
-  auctions: Auction[]
-  auctionOfTheDay: AuctionOfTheDayResponse
   isDemo?: boolean
   code?: string
 }
 
-export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
+export default function Home({ isDemo, code }: Props) {
   const { account } = useAccountContext()
   const [_, setLoading] = useState(false)
   const [auctionData, setAuctionData] = useState<Auction[]>([])
+  const [auctionOfTheDay, setAuctionOfTheDay] = useState<AuctionOfTheDayResponse | null>(null)
   const isLoggedIn = Boolean(account?.email)
   useEffect(() => {
     const prepareCollections = async () => {
@@ -51,6 +53,8 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
           group_by: 'auction_status',
           auction_status: 'active',
         })
+        const resAuctionOfTheDay = await getAuctionOfTheDay({ isDemo: false })
+        setAuctionOfTheDay(resAuctionOfTheDay)
         setAuctionData(res.results)
       } catch (ex) {
         console.error(ex)
