@@ -11,7 +11,7 @@ export default async function TestDrivePage() {
           Try mining now
         </h1>
         <p className="my-5 w-11/12 text-center font-epilogue text-sm md:text-base lg:w-9/12 lg:text-xl 2xl:text-3xl">
-          Buy 3 hours of hashrate for just 500 sats!
+          Buy 3 hours of hashrate for just 1,000 sats!
         </p>
       </section>
       <TestDriveThreeSteps />

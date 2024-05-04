@@ -150,7 +150,7 @@ export default function TestDrive() {
           <div className="flex w-11/12 items-center justify-between lg:w-7/12 2xl:mb-10">
             <p className="flex flex-col items-center justify-center text-center">
               <h5 className="text-sm font-bold lg:text-xl 2xl:text-3xl">Hashrate</h5>
-              <p className="text-xs lg:text-base 2xl:text-xl">88 TH/s</p>
+              <p className="text-xs lg:text-base 2xl:text-xl">120 TH/s</p>
             </p>
             <p className="flex flex-col items-center justify-center text-center">
               <h5 className="text-sm font-bold lg:text-xl 2xl:text-3xl">Duration</h5>
@@ -158,7 +158,7 @@ export default function TestDrive() {
             </p>
             <p className="flex flex-col items-center justify-center text-center">
               <h5 className="text-sm font-bold lg:text-xl 2xl:text-3xl">Price</h5>
-              <p className="text-xs lg:text-base 2xl:text-xl">500 sats</p>
+              <p className="text-xs lg:text-base 2xl:text-xl">1,000 sats</p>
             </p>
           </div>
           <div className="flex w-11/12 flex-col items-center justify-center lg:w-8/12 lg:flex-row lg:items-end lg:justify-between">
