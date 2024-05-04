@@ -42,6 +42,7 @@ export default function Home({ isDemo, code }: Props) {
   const [auctionData, setAuctionData] = useState<Auction[]>([])
   const [auctionOfTheDay, setAuctionOfTheDay] = useState<AuctionOfTheDayResponse | null>(null)
   const isLoggedIn = Boolean(account?.email)
+
   useEffect(() => {
     const prepareCollections = async () => {
       setLoading(true)

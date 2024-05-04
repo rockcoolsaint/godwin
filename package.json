@@ -17,6 +17,7 @@
     "@headlessui/tailwindcss": "^0.1.3",
     "@heroicons/react": "^2.0.16",
     "@hookform/resolvers": "^3.1.0",
+    "@next/bundle-analyzer": "^14.2.3",
     "@sentry/nextjs": "^7.49.0",
     "@slicknode/stylemapper": "^0.1.5",
     "@tanstack/react-table": "^8.10.0",

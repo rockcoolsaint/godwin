@@ -1,6 +1,9 @@
-import Lottie from 'lottie-react'
+import dynamic from 'next/dynamic'
 import realmachines from 'src/assets/realmachines.json'
-
+import { useMobileScreen } from 'src/hooks/useIsMobile'
+const Lottie = dynamic(() => import('lottie-react'), {
+  ssr: false,
+})
 const content = [
   {
     title: 'Real machines',
@@ -17,6 +20,8 @@ const content = [
 ]
 
 export default function RealMachines() {
+  const isMobile = useMobileScreen()
+
   return (
     <>
       <ul
@@ -36,9 +41,11 @@ export default function RealMachines() {
           </li>
         ))}
       </ul>
-      <div className="mx-auto hidden max-w-7xl sm:block">
-        <Lottie animationData={realmachines} async />
-      </div>
+      {!isMobile && (
+        <div className="mx-auto hidden max-w-7xl sm:block">
+          <Lottie animationData={realmachines} async />
+        </div>
+      )}
     </>
   )
 }
