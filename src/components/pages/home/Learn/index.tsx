@@ -113,7 +113,7 @@ export default function Learn() {
               </Disclosure>
             </div>
             <div className="hidden w-6/12 pl-20 sm:flex">
-              <Lottie animationData={start_mining} />
+              <Lottie animationData={start_mining} async />
             </div>
           </div>
         </div>
@@ -203,7 +203,7 @@ export default function Learn() {
               </Disclosure>
             </div>
             <div className="order-1 hidden w-6/12 justify-start sm:flex">
-              <Lottie animationData={mine_easy} />
+              <Lottie animationData={mine_easy} async />
             </div>
           </div>
         </div>

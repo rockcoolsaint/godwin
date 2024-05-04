@@ -37,7 +37,7 @@ export default function RealMachines() {
         ))}
       </ul>
       <div className="mx-auto hidden max-w-7xl sm:block">
-        <Lottie animationData={realmachines} />
+        <Lottie animationData={realmachines} async />
       </div>
     </>
   )

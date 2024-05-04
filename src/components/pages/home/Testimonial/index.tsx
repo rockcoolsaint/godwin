@@ -4,10 +4,21 @@ import Gradient from 'src/components/shared/Gradient'
 import { useTranslation } from 'src/hooks'
 import { Tweet } from 'react-twitter-widgets'
 import { useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 export default function Testimonial() {
   const { t } = useTranslation()
   const [tweetIsLoading, setTweetIsLoading] = useState(true)
+
+  const { ref: tweet1Ref, inView: tweet1InView } = useInView({
+    triggerOnce: true,
+    rootMargin: '200px',
+  })
+
+  const { ref: tweet2Ref, inView: tweet2InView } = useInView({
+    triggerOnce: true,
+    rootMargin: '200px',
+  })
 
   return (
     <div className="relative isolate bg-white pb-32 pt-24 sm:pt-32">
@@ -18,8 +29,8 @@ export default function Testimonial() {
         </div>
         <section className="mt-8">
           <div className="columns-2xs gap-8 space-y-8">
-            <div className="aspect-w-16 aspect-h-9 relative">
-              <div className={clsx(tweetIsLoading && `h-[300px] w-[382] animate-pulse rounded-[12px] bg-gray-200`)}>
+            <div className="aspect-w-16 aspect-h-9 relative" ref={tweet1Ref}>
+              {tweet1InView ? (
                 <Tweet
                   options={{
                     theme: 'light',
@@ -33,9 +44,11 @@ export default function Testimonial() {
                   tweetId="1642452515789885440"
                   onLoad={() => setTweetIsLoading(false)}
                 />
-              </div>
+              ) : (
+                <div className="h-[300px] w-[382] animate-pulse rounded-[12px] bg-gray-200" />
+              )}
             </div>
-            <div className="aspect-w-1 aspect-h-1 relative ">
+            <div className="aspect-w-1 aspect-h-1 relative">
               <div>
                 <figure className="rounded-2xl bg-white p-6 shadow-md ring-1 ring-gray-900/5">
                   <blockquote className="text-gray-900">
@@ -45,7 +58,7 @@ export default function Testimonial() {
                     </p>
                   </blockquote>
                   <div className="mt-4 flex items-center justify-between border-t">
-                    <figcaption className="mt-6 flex items-center gap-x-4 ">
+                    <figcaption className="mt-6 flex items-center gap-x-4">
                       <div>
                         <div className="font-semibold">Chris H</div>
                         <div className="text-gray-600">Customer</div>
@@ -61,8 +74,9 @@ export default function Testimonial() {
                 'aspect-w-1 aspect-h-1 relative',
                 tweetIsLoading && `h-[300px] w-[382] animate-pulse rounded-[12px] bg-gray-200`,
               )}
+              ref={tweet2Ref}
             >
-              <div>
+              {tweet2InView ? (
                 <Tweet
                   options={{
                     theme: 'light',
@@ -76,7 +90,9 @@ export default function Testimonial() {
                   tweetId="1655412915740999680"
                   onLoad={() => setTweetIsLoading(false)}
                 />
-              </div>
+              ) : (
+                <div className="h-[300px] w-[382] animate-pulse rounded-[12px] bg-gray-200" />
+              )}
             </div>
           </div>
         </section>
