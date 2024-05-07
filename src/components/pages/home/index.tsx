@@ -65,7 +65,7 @@ export default function Home({ auctionOfTheDay, isDemo, code }: Props) {
             <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
               <circle cx={1} cy={1} r={1} />
             </svg>
-            Our marketplace is undergoing maintenance. Hashrate sales are temporarily disabled.
+            Auctions are back! Mining test drives are temporarily unavailable.
           </a>
         </p>
       </div>
