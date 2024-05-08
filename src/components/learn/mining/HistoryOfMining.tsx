@@ -3,6 +3,11 @@ import LearnCategorySubTitle from 'src/components/learn/LearnCategorySubTitle'
 import LearnCategoryText from 'src/components/learn/LearnCategoryText'
 import LearnCategoryTextWithImage from 'src/components/learn/LearnCategoryTextWithImage'
 import MiningIllustration from 'src/images/pro-img1.png'
+import cpu from 'src/images/cpuminer.jpg'
+import gpu from 'src/images/gpumining.jpg'
+import butterfly from 'src/images/butterfly.jpg'
+import s9 from 'src/images/s9.jpg'
+import riot from 'src/images/riot.jpg'
 
 const HistoryOfMining = () => {
   return (
@@ -17,8 +22,8 @@ const HistoryOfMining = () => {
       <LearnCategorySubTitle>The Early Days (2009-2010)</LearnCategorySubTitle>
       <LearnCategoryTextWithImage
         text="Mining started on standard multi-core CPUs (Central Processing Units) in computers. Anyone with a computer could mine Bitcoin, and the hashrate was relatively low."
-        image={MiningIllustration}
-        imageAlt="Early days of mining illustration"
+        image={cpu}
+        imageAlt="Early days of mining on your pc"
         imagePosition="right"
         imageSize={300}
       />
@@ -26,35 +31,35 @@ const HistoryOfMining = () => {
       <LearnCategorySubTitle>GPU Era (2011-2012)</LearnCategorySubTitle>
       <LearnCategoryTextWithImage
         text="Miners began using graphics processing units (GPUs), which were significantly faster at generating hashes. This led to a substantial increase in mining efficiency and the network hashrate."
-        image={MiningIllustration}
-        imageAlt="GPU mining illustration"
+        image={gpu}
+        imageAlt="GPU mining photo"
         imagePosition="left"
         imageSize={300}
       />
 
-      <LearnCategorySubTitle>FPGA Era (2012-2013)</LearnCategorySubTitle>
+      <LearnCategorySubTitle>Early ASIC Era (2012)</LearnCategorySubTitle>
       <LearnCategoryTextWithImage
-        text="The introduction of Field-Programmable Gate Arrays (FPGAs) offered an improvement over GPUs in terms of power efficiency. FPGAs are integrated circuits that miners could reconfigure to suit their needs."
-        image={MiningIllustration}
-        imageAlt="FPGA mining illustration"
+        text="The early Application-Specific Integrated Circuit (ASIC) era had many false starts and rug pulls, as companies raced to get a working ASIC to market. Butterfly Labs produced one of the first ASIC miners, for those lucky enough to receive their order."
+        image={butterfly}
+        imageAlt="Photo of butterfly labs ASIC mining rig"
         imagePosition="right"
         imageSize={300}
       />
 
-      <LearnCategorySubTitle>ASIC Era (2013-Present)</LearnCategorySubTitle>
+      <LearnCategorySubTitle>ASIC Dominant Era (2014-Present)</LearnCategorySubTitle>
       <LearnCategoryTextWithImage
-        text="The arrival of Application-Specific Integrated Circuits (ASICs) revolutionized Bitcoin mining. ASICs are custom-built for a specific use, in this case, mining Bitcoin. This era saw an exponential increase in the hashrate and difficulty level of mining operations."
-        image={MiningIllustration}
-        imageAlt="ASIC mining illustration"
+        text="The efficiency race for faster mining hardware revolutionized Bitcoin mining. This era saw an exponential increase in the physical number of mining rigs, along with hashrate and difficulty level. The Antminer S9 shown here was produced by the millions."
+        image={s9}
+        imageAlt="Photo of Antminer S9"
         imagePosition="left"
         imageSize={300}
       />
 
-      <LearnCategorySubTitle>Industrial Mining (2015-Present)</LearnCategorySubTitle>
+      <LearnCategorySubTitle>Industrial Mining (2017-Present)</LearnCategorySubTitle>
       <LearnCategoryTextWithImage
-        text="Mining in recent years has become largely industrialized. Large-scale facilities with dedicated data centers and significant electrical infrastructure dominate Bitcoin mining."
-        image={MiningIllustration}
-        imageAlt="Industrial mining illustration"
+        text="Mining in recent years has become largely industrialized. Large-scale facilities with dedicated data centers and significant electrical infrastructure dominate Bitcoin mining, such as the Riot data center shown here."
+        image={riot}
+        imageAlt="Photo of data center in Texas operated by Riot"
         imagePosition="right"
         imageSize={300}
       />

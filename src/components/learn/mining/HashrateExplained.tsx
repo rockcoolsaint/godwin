@@ -107,10 +107,6 @@ const HashrateExplained = () => {
         Hashrate is the heartbeat of Bitcoin mining, reflecting the health and security of the Bitcoin network. Understanding hashrate, the
         role of SHA-256, and the proof of work mechanism is fundamental to participating in the mining process. Rigly enables participants
         to manage their hashpower more effectively, paving the way for more efficient and accessible Bitcoin mining.
-        <p>
-          {' '}
-          <b>Fun Fact:</b> The global network hashrate of Bitcoin is currently over 600 EH/s!
-        </p>
       </LearnCategoryText>
     </>
   )
