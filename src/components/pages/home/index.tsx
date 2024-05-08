@@ -212,6 +212,7 @@ export default function Home({ isDemo, code }: Props) {
                     href="/test-drive"
                     className="flex items-center justify-center rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
                     target="_blank"
+                    id="try-mining"
                   >
                     Buy test drive
                   </Link>

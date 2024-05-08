@@ -46,7 +46,7 @@ export default function HeaderNav({ isDemo }: Props) {
 
   return (
     <>
-      <header className="h-20 min-h-[80px]">
+      <header className="h-20 min-h-[80px] border-b">
         <div className="mx-auto flex h-full w-full max-w-screen-2xl items-center justify-between px-5 md:px-8 lg:px-12">
           <div className="flex items-center">
             <div className="mr-4 lg:hidden">
