@@ -1,4 +1,7 @@
 import ProImage1 from 'src/images/pro-img1.png'
+import Zim from 'src/images/zimbabwe.png'
+import Rugged from 'src/images/rugged.jpg'
+import Shopify from 'src/images/shopify_site.png'
 import TeamMemberCard from './TeamMemberCard'
 import sydney from 'src/assets/jpg/sydney.jpeg'
 import kevin from 'src/assets/png/kevin.png'
@@ -6,6 +9,8 @@ import evan from 'src/assets/webp/evan.webp'
 import jonas from 'src/assets/webp/jonas.webp'
 import nico from 'src/assets/webp/nico.webp'
 import asher from 'src/assets/jpg/asher.jpg'
+import sasa from 'src/assets/jpg/sasa.jpg'
+import placeholder from 'src/assets/jpg/placeholder.jpg'
 import LearnCategoryTitle from 'src/components/learn/LearnCategoryTitle'
 import LearnCategorySubTitle from 'src/components/learn/LearnCategorySubTitle'
 import LearnCategoryText from 'src/components/learn/LearnCategoryText'
@@ -17,41 +22,41 @@ const OurStory = () => {
       <article>
         <LearnCategoryTitle>Our Story</LearnCategoryTitle>
 
+        
+        <LearnCategorySubTitle>How it started</LearnCategorySubTitle>
         <LearnCategoryText>
-          Our journey began in 2021 with a research project on sustainable bitcoin mining in Africa, backed by Chaincode Labs. The idea was
-          simple: learn how bitcoin mining could pay for new energy assets. Our goal was straightforward: use the income generated from
-          Bitcoin mining to offset the costs of the solar power used to operate the rigs.
+          Our journey began in early 2022 with a research project on <b>sustainable bitcoin mining</b> in Africa, backed by <a href="https://chaincode.com">Chaincode Labs</a>. The idea was
+          simple: learn how bitcoin mining could pay for new energy assets. Our goal was to use the income generated from
+          Bitcoin mining to offset the cost of solar panels used to power the rigs.
         </LearnCategoryText>
 
         <LearnCategoryTextWithImage
-          text="Through this project, we quickly grasped the complexities involved in Bitcoin mining - acquiring hardware, securing cost-effective power, and the overall setup were daunting tasks."
-          image={ProImage1}
-          imageAlt="Solar-powered S9 in Zimbabwe"
+          text="Through this project, we learned all about the complexities involved in Bitcoin mining: <b>buying hardware</b>, <b>securing cost-effective power</b>, <b>keeping the hardware online</b>, etc.
+          As we delved deeper, we identified a pivotal inefficiency in the ecosystem: <b>Bitcoin mining was unnecessarily centralized around owning physical hardware</b>. This is to say, you had to have an ASIC
+          mining rig (and cheap electricity!) to participate in mining."
+          image={Zim}
+          imageAlt="Zimbabwe"
           imagePosition="right"
         />
 
         <LearnCategoryText>
-          As we delved deeper, we identified a pivotal inefficiency in the ecosystem -{' '}
-          <b>Bitcoin mining was unnecessarily centralized around ownership of physical hardware</b>. This is to say, you had to have an ASIC
-          mining rig (and cheap electricity!) to participate in mining.
+          This was a <b>huge blocker</b> preventing all but <b>the most dedicated bitcoiners</b> from participating in mining. It was from this challenge that the idea for Rigly was born - a marketplace where bitcoiners could simply buy 
+          hashrate and start mining.
         </LearnCategoryText>
 
         <LearnCategoryText>
-          It was from these challenges that the idea for Rigly was born - a marketplace where bitcoiners could simply buy Bitcoin mining
-          hashrate, bypassing the complexities of mining. We thought &quot;Rigly&quot; was a catchy name that played on the word "rig", and
-          it stuck.
+        We thought &quot;Rigly&quot; was a catchy name that played on mining "rig", and we registered the domain and got to work.
         </LearnCategoryText>
-
         <LearnCategorySubTitle>Don&apos;t trust, verify</LearnCategorySubTitle>
         <LearnCategoryText>
-          Evan started developing the first version of the marketplace in 2022. He purchased a mining rig in Texas with the company we
-          worked with in our African project. However, within just 24 hours, the rig disappeared—a stark introduction to the notorious
+          Evan started developing the first version of the marketplace in the Spring of 2022. He purchased a mining rig in Texas with the company we
+          worked with in our African project. However, within just 24 hours, <b>the rig disappeared</b>—a stark introduction to the notorious
           &quot;rug pulls&quot; that plague the Bitcoin mining industry.
         </LearnCategoryText>
 
         <LearnCategoryTextWithImage
-          text="This incident occurred amidst a large drop in the bitcoin price, further complicating matters as the hosting company went out of business. It was a lesson that rug pulls can happen even with companies you trust."
-          image={ProImage1}
+          text="This incident occurred amidst a large drop in the bitcoin price, further complicating matters as the hosting company went out of business. It was a lesson that <b>rug pulls</b> can happen <b>even with companies you trust</b>."
+          image={Rugged}
           imageAlt="Hey, where's my hashrate?"
           imagePosition="left"
         />
@@ -63,17 +68,24 @@ const OurStory = () => {
         </LearnCategoryText>
 
         <LearnCategorySubTitle>Building an Auction Marketplace</LearnCategorySubTitle>
+
+        <LearnCategoryTextWithImage
+          text="The practical implementation of our idea began modestly - with Evan creating a <b>simple auction site</b> for Rigly using Shopify.
+          Around this time, <b>Nico</b> joined and brought <b>new insights</b> into the <b>unique needs of mining farms</b> and how to get the marketplace started. "
+          image={Shopify}
+          imageAlt="The first version of Rigly"
+          imagePosition="right"
+        />
+
         <LearnCategoryText>
-          The practical implementation of our idea began modestly - with Evan creating a simple auction site for Rigly using Shopify. It was
-          here that Nico joined the team, bringing insights into what mining farms sought in a marketplace and identifying the unique needs
-          of both buyers and sellers. The decision to adopt an auction format came when we recognized that hashrate to mine new blocks was a
-          scarce resource. An auction model proved to be the most effective way to ensure fair price discovery.
+          The decision to adopt an auction format came when we recognized that <b>hashrate to mine new blocks</b> was a <b>scarce resource</b>.
+          An auction model proved to be the most effective way to ensure <b>fair price discovery</b>.
         </LearnCategoryText>
 
         <LearnCategoryText>
-          With a clear vision of our marketplace model, Nico and Evan expanded the team, bringing on board Asher, Kevin, and Tobi to develop
+          With a clear vision of our marketplace model, <b>Nico and Evan</b> expanded the team, bringing on board Asher, Kevin, and Tobi to develop
           the Rigly platform further. Together, they transformed Rigly into a pioneering marketplace for Bitcoin mining hashrate, focusing
-          on transparency, security, and bringing the spirit of "one cpu, one vote" back to the bitcoin network.
+          on transparency, security, and bringing the spirit of <b>"one cpu, one vote"</b> back to the bitcoin network.
         </LearnCategoryText>
 
         <LearnCategoryTitle>Team Rigly</LearnCategoryTitle>
@@ -111,6 +123,17 @@ const OurStory = () => {
             image={sydney}
             name="Sydney Bright"
             description="Sydney is an avid bitcoin enthusiast who manages Rigly's operations. He has followed Bitcoin since young adulthood. Prior to joining Rigly, Sydney amassed valuable experience as an engineer in various startups within the medical device industry. Nevertheless, he made a conscious choice to diverge from that career trajectory, redirecting his efforts exclusively towards his true passions—Bitcoin and his writing."
+          />
+
+          <TeamMemberCard
+            image={sasa}
+            name="Saša Buklijaš"
+            description="Saša is responsible for our stratum hashrate proxy, which routes hashrate from mining farms around the world."
+          />
+          <TeamMemberCard
+            image={placeholder}
+            name="Andrew Meisel"
+            description="Andrew was Rigly's 10th customer when it was still running on Shopify. He handles Rigly communications and outreach."
           />
         </ul>
       </article>

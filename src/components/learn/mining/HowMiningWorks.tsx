@@ -106,7 +106,7 @@ const HowMiningWorks = () => {
         text="Mining difficulty is automatically adjusted higher or lower every 2,016 blocks - roughly every 2 weeks - to maintain an average 10 minute block interval.  This is called the <b>difficulty adjustment</b> and is one of the key innovations in bitcoin. As miners come and go, the difficulty adjustment ensures bitcoin distribution via mining continues at the same steady pace."
         image={Gauge}
         imageAlt="Timechain illustration"
-        imagePosition="left"
+        imagePosition="right"
         imageSize={200}
       />
       <LearnCategoryText center>
