@@ -1,11 +1,18 @@
 import { Disclosure } from '@headlessui/react'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import Link from 'src/components/shared/Link'
-import Lottie from 'lottie-react'
 import mine_easy from 'src/assets/mineeasy.json'
 import start_mining from 'src/assets/startminingtoday.json'
+import dynamic from 'next/dynamic'
+import { useMobileScreen } from 'src/hooks/useIsMobile'
+
+const Lottie = dynamic(() => import('lottie-react'), {
+  ssr: false,
+})
 
 export default function Learn() {
+  const isMobile = useMobileScreen()
+
   return (
     <div className="font-epilogue">
       <div className="max-w-8xl 2xl:py-30 mx-auto py-10 lg:px-8 2xl:mt-20">
@@ -112,9 +119,11 @@ export default function Learn() {
                 )}
               </Disclosure>
             </div>
-            <div className="hidden w-6/12 pl-20 sm:flex">
-              <Lottie animationData={start_mining} />
-            </div>
+            {!isMobile && (
+              <div className="hidden w-6/12 pl-20 sm:flex">
+                <Lottie animationData={start_mining} async />
+              </div>
+            )}
           </div>
         </div>
         {/* Real machines */}
@@ -202,9 +211,11 @@ export default function Learn() {
                 )}
               </Disclosure>
             </div>
-            <div className="order-1 hidden w-6/12 justify-start sm:flex">
-              <Lottie animationData={mine_easy} />
-            </div>
+            {!isMobile && (
+              <div className="order-1 hidden w-6/12 justify-start sm:flex">
+                <Lottie animationData={mine_easy} async />
+              </div>
+            )}
           </div>
         </div>
       </div>

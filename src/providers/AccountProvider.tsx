@@ -20,7 +20,7 @@ interface AccountContextType {
 }
 
 const AccountContext = React.createContext<AccountContextType>({
-  isLoading: true,
+  isLoading: false,
   login: (_email: string, _returnUrl?: string, _code?: string) => Promise.resolve([false, undefined]),
   logout: () => {},
   refresh: () => {},
@@ -35,17 +35,19 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   const [token, setToken] = useState<string | undefined>(undefined)
   const [authCode, setAuthCode] = useState<string | undefined>(undefined)
   const [account, setAccount] = useState<Account | undefined>(undefined)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const login = async (email: string, returnUrl?: string, code?: string) => {
     return doLogin(email, returnUrl, code)
   }
 
   const logout = () => {
+    setIsLoading(true)
     localStorage.removeItem(LocalStorageKeys.Auth.riglyToken)
     localStorage.removeItem(LocalStorageKeys.Account.accountType)
     setAccount(undefined)
     setToken(undefined)
+    setIsLoading(false)
     redirect('/')
   }
 
@@ -93,6 +95,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
       }
       authorizeAfterCallback()
     } else {
+      const token = window.localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
       const authorize = async () => {
         // TODO: Implement refresh token logic instead of just accepting the account if it exists in state.
 
@@ -103,9 +106,6 @@ export default function AccountProvider({ children }: { children: React.ReactNod
 
         try {
           setIsLoading(true)
-
-          const token = window.localStorage.getItem(LocalStorageKeys.Auth.riglyToken)
-
           if (token) {
             const account = await getAccount(token)
             account.type = account.email === 'seller@rigly.io' ? AccountType.Seller : AccountType.Buyer
@@ -120,7 +120,9 @@ export default function AccountProvider({ children }: { children: React.ReactNod
           setIsLoading(false)
         }
       }
-      authorize()
+      if (token) {
+        authorize()
+      }
     }
   }, [pathName, router, account])
 
