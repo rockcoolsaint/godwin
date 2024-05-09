@@ -182,7 +182,7 @@ export default function TestDrive() {
               type="submit"
               className="mt-4 flex h-12 items-center justify-center rounded-lg bg-hero-gradient px-5 py-2 font-chakra text-xl font-bold text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:ml-4 lg:mt-8 lg:w-5/12 lg:text-base 2xl:w-4/12 2xl:text-xl"
             >
-              Buy test drive
+              Try back later
             </button>
           </div>
         </div>
