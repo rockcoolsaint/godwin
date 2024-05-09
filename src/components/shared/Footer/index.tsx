@@ -101,16 +101,16 @@ const Footer = () => {
           </div>
           <div className="col-md-3 col-sm-6">
             <div className="quicklink">
-              <h4 className="mb-5 text-lg font-medium text-dark-200">Quick Link</h4>
+              <h4 className="mb-5 text-lg font-medium text-dark-200">Quick Links</h4>
               <ul>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/trustless-mining">
-                    Trustless Mining Escrow
+                  <Link className="font-normal text-dark-100 hover:underline" href="/learn/rigly">
+                    How Rigly Works
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/about-us">
-                    About us
+                  <Link className="font-normal text-dark-100 hover:underline" href="/learn/rigly">
+                    Our Story and Team
                   </Link>
                 </li>
                 <li className="mb-3">
@@ -119,12 +119,12 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="font-normal text-dark-100 hover:underline" href="/learn-more">
-                    Learn
+                  <Link className="font-normal text-dark-100 hover:underline" href="/learn/mining">
+                    Mining Resources
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="flex items-center font-normal text-dark-100 hover:underline" href="/selling-on-rigly">
+                  <Link className="flex items-center font-normal text-dark-100 hover:underline" href="/learn/rigly">
                     <span>List your mining</span>
                     <MiningSvg className="ml-2 text-dark-100" />
                   </Link>
