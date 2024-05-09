@@ -61,10 +61,8 @@ export default function Home({ isDemo, code }: Props) {
         setLoading(false)
       }
     }
-    if (isLoggedIn) {
-      prepareCollections()
-    }
-  }, [isLoggedIn])
+    prepareCollections()
+    }, [])
 
   if (code) {
     localStorage.setItem(LocalStorageKeys.Referral.plebtern, code)
@@ -187,6 +185,7 @@ export default function Home({ isDemo, code }: Props) {
                 </div>
               </>
             </Hero>
+            <RealMachines />
             <section id="auction-market" className="flex w-full flex-col items-center justify-center px-4 py-28 md:px-0">
               {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
               {auctionData?.length > 0 && auctionOfTheDay && (
@@ -196,7 +195,6 @@ export default function Home({ isDemo, code }: Props) {
               )}
             </section>
             <Learn />
-            <RealMachines />
             <div className="container mx-auto px-4 py-8">
               <h1 className="mt-36 text-center font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Try mining now</h1>
               <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
