@@ -252,7 +252,7 @@ export default function InstantMining() {
         </div>
 
         <button
-          disabled={true}
+          // disabled={true}
           type="submit"
           className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-lg font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-11/12 lg:text-xl xl:w-6/12 2xl:w-6/12 2xl:text-2xl"
         >
