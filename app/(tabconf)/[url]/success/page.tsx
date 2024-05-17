@@ -73,6 +73,13 @@ export default function ProxyStatusPage() {
     return <span className="text-sm font-medium uppercase text-red-700 ">Unpaid</span>
   }
 
+  const renderProxyStatus = () => {
+    if(status?.proxy) {
+      return <span className="text-sm font-medium">{status?.proxy}</span>
+    }
+    return <span className="text-sm font-medium uppercase text-yellow-700 ">Queued</span>
+  }
+
   const renderOrderStatus = () => {
     return (
       <>
@@ -92,7 +99,7 @@ export default function ProxyStatusPage() {
           </div>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Proxy</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{status?.proxy}</dd>
+            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">{renderProxyStatus()}</dd>
           </div>
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Pool</dt>
@@ -130,7 +137,22 @@ export default function ProxyStatusPage() {
   return (
     <>
       <Container className="flex h-screen flex-col items-center justify-center bg-slate-50 pt-4 sm:pt-12">
-        {!status?.pool_user?.username && (
+        {!status && (
+          <div className="m-auto mt-8 flex w-8/12 flex-col items-center border-l-4 border-yellow-400 bg-yellow-50 p-4">
+            <InformationCircleIcon className="h-14 w-14 text-yellow-600" />
+            <div className="flex justify-center">
+              <div className="ml-3">
+                <p className="text-sm text-yellow-800">
+                  Checking order status...
+                  <Link className="underline" href={`/account/hashrate?proxy_status=${order_id}`}>
+                    here
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+        {status && !status?.pool_user?.username && (
           <div className="m-auto mt-8 flex w-8/12 flex-col items-center border-l-4 border-yellow-400 bg-yellow-50 p-4">
             <InformationCircleIcon className="h-14 w-14 text-yellow-600" />
             <div className="flex justify-center">
