@@ -208,7 +208,6 @@ export default function InstantMining() {
                   {...register('duration')}
                   className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
                 >
-                  <option value="1">1 hour</option>
                   <option value="6">6 hours</option>
                   <option value="12">12 hours</option>
                   <option value="24">24 hours</option>
@@ -256,7 +255,7 @@ export default function InstantMining() {
           type="submit"
           className="mt-8 flex w-9/12 items-center justify-center rounded-full bg-primary px-6 py-4 font-chakra text-lg font-bold text-white outline-none hover:opacity-90 disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-11/12 lg:text-xl xl:w-6/12 2xl:w-6/12 2xl:text-2xl"
         >
-          Buy hashrate
+          Try back later
         </button>
       </form>
     </section>
