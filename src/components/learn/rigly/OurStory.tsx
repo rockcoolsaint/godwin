@@ -4,7 +4,6 @@ import Rugged from 'src/images/rugged.jpg'
 import Shopify from 'src/images/shopify_site.png'
 import TeamMemberCard from './TeamMemberCard'
 import sydney from 'src/assets/jpg/sydney.jpeg'
-import kevin from 'src/assets/png/kevin.png'
 import evan from 'src/assets/webp/evan.webp'
 import jonas from 'src/assets/webp/jonas.webp'
 import nico from 'src/assets/webp/nico.webp'
@@ -108,11 +107,6 @@ const OurStory = () => {
             image={jonas}
             name="Adam Jonas"
             description="Jonas spearheads educational initiatives and brings things to life at Chaincode Labs. He previously worked as an engineer in the education space after transitioning from his former role developing the talents of professional baseball players. His preferred nonce is 42."
-          />
-          <TeamMemberCard
-            image={kevin}
-            name="Kevin Karsopawiro"
-            description="Kevin is an experienced software engineer with over a decade of industry experience. Prior to joining Rigly, he spearheaded the development of multiple high-frequency cryptocurrency exchanges. His experience from these endeavors allow him to deliver innovative solutions for Rigly."
           />
           <TeamMemberCard
             image={asher}
