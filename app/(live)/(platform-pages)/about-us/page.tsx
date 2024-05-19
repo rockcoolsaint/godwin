@@ -124,15 +124,6 @@ function AboutUs() {
               </p>
             </li>
             <li className="rounded-2xl bg-gray-800 px-8 py-10">
-              <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={kevin} width={100} height={100} alt="Kevin" />
-              <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Kevin Karsopawiro</h3>
-              <p className="text-sm leading-6 text-gray-400">
-                Kevin is an experienced software engineer with over a decade of industry experience. Prior to joining Rigly, he spearheaded
-                the development of multiple high-frequency cryptocurrency exchanges. His experience from these endeavors allow him to
-                deliver innovative solutions for Rigly.
-              </p>
-            </li>
-            <li className="rounded-2xl bg-gray-800 px-8 py-10">
               <Image className="mx-auto h-48 w-48 rounded-full md:h-56 md:w-56" src={asher} width={100} height={100} alt="asher" />
               <h3 className="mt-6 text-base font-semibold leading-7 tracking-tight text-white">Asher Pembroke</h3>
               <p className="text-sm leading-6 text-gray-400">
