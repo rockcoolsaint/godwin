@@ -208,8 +208,6 @@ export default function InstantMining() {
                   {...register('duration')}
                   className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
                 >
-                  <option value="0.1">5 minutes</option>
-                  <option value="1">1 hour</option>
                   <option value="6">6 hours</option>
                   <option value="12">12 hours</option>
                   <option value="24">24 hours</option>
