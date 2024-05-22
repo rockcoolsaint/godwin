@@ -208,6 +208,7 @@ export default function InstantMining() {
                   {...register('duration')}
                   className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
                 >
+                  <option value="3">3 hours</option>
                   <option value="6">6 hours</option>
                   <option value="12">12 hours</option>
                   <option value="24">24 hours</option>
@@ -224,7 +225,8 @@ export default function InstantMining() {
                     {...register('pool')}
                     className="block rounded-full border-primary bg-transparent py-2 pl-3 pr-10 text-right text-sm font-normal focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
                   >
-                    {MINING_POOLS.map(pool => (
+                      <option value="Braiins">Braiins pool</option>
+                      {MINING_POOLS.map(pool => (
                       <option key={pool.id} value={pool.id}>
                         {pool.name}
                       </option>
