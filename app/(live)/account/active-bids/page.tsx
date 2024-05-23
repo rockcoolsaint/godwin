@@ -8,6 +8,7 @@ import { Loader, Table } from 'src/core'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { formatMoney } from 'src/utils/currency'
 import { ErrorBoundary } from 'react-error-boundary'
+import protect from 'src/hoc/protect'
 
 function ActiveBidsPage() {
   const { token } = useAccountContext()
@@ -78,4 +79,4 @@ function ActiveBidsPage() {
   )
 }
 
-export default ActiveBidsPage
+export default protect(ActiveBidsPage)
