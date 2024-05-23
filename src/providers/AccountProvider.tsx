@@ -35,7 +35,7 @@ export default function AccountProvider({ children }: { children: React.ReactNod
   const [token, setToken] = useState<string | undefined>(undefined)
   const [authCode, setAuthCode] = useState<string | undefined>(undefined)
   const [account, setAccount] = useState<Account | undefined>(undefined)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const login = async (email: string, returnUrl?: string, code?: string) => {
     return doLogin(email, returnUrl, code)
@@ -122,9 +122,11 @@ export default function AccountProvider({ children }: { children: React.ReactNod
       }
       if (token) {
         authorize()
+      } else {
+        setIsLoading(false)
       }
     }
-  }, [pathName, router, account])
+  }, [pathName, router, account, isLoading])
 
   return (
     <AccountContext.Provider value={{ account, token, authCode, isLoading, login, logout, refresh }}>{children}</AccountContext.Provider>

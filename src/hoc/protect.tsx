@@ -8,7 +8,15 @@ import Container from 'src/core/components/Container'
 import { useEffect } from 'react'
 import useReturnUrl from 'src/hooks/useReturnUrl'
 
-export const protectedRoutes = ['/checkout', '/account', '/account/hashrate', '/account/orders']
+
+/** Protected routes lists all route prefixes which might have auth required. 
+ * To activate logged-in requirement for a component wrap the component with 
+ * protect() function. (e.g. `export default protect(Hashrate)`)
+*/
+export const protectedRoutes = [
+  '/checkout', 
+  '/account', 
+]
 
 const isRouteProtected = (pathName: string): boolean => {
   return protectedRoutes.some(route => pathName.startsWith(route))
