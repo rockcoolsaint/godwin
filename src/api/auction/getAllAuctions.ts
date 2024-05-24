@@ -24,7 +24,7 @@ export async function getAllAuctions({
     method: 'GET',
     path:
       `/api/auctions?limit=${limit}&offset=${offset}&order=${sorting}` +
-      (auction_type && `&auction_type=${auction_type}`) +
+      (auction_type ? `&auction_type=${auction_type}` : '') +
       (auction_status ? `&auction_status=${auction_status}` : ``) +
       (sort_by ? `&sort_by=${sort_by}` : ``) +
       (group_by ? `&group_by=${group_by}` : ``),
