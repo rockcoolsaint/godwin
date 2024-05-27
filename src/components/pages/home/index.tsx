@@ -77,7 +77,7 @@ export default function Home({ isDemo, code }: Props) {
             <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
               <circle cx={1} cy={1} r={1} />
             </svg>
-            Auctions are back! Mining test drives are temporarily unavailable.
+            Auctions are back!
           </a>
         </p>
       </div>
