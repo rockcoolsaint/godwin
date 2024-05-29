@@ -72,7 +72,7 @@ function SellingOnRigly() {
                   Funds are held in multisig escrow. You receive payouts at each mining difficulty adjustment
                 </p>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl">
-                  Rigly&apos;s payout premium is <b>5% over FPPS hashprice</b>
+                  Rigly&apos;s payout premium is <b>at a percentage over FPPS hashprice</b>
                 </p>
               </div>
             </div>

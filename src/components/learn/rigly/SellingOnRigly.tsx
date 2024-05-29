@@ -17,7 +17,7 @@ const SellingOnRigly = () => {
         payouts after hashrate has been delivered.
       </LearnCategoryText>
       <LearnCategoryText>
-        Rigly's payout premium is <b>5% over FPPS hashprice</b>, based on the Luxor hashrateindex.
+        Rigly's payout premium is <b>a percentage over FPPS hashprice</b>, based on the Luxor hashrateindex.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>What if the auction sells for a low price?</LearnCategorySubTitle>
