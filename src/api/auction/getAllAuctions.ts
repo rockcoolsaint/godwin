@@ -17,7 +17,7 @@ export async function getAllAuctions({
   sorting = 'desc',
   auction_type,
   auction_status,
-  sort_by = 'status',
+  sort_by = 'created_at',
   group_by,
 }: Props): Promise<AllAuctionsResponse> {
   const auctions: AllAuctionsResponse = await makeClientRequest({
