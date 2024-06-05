@@ -8,13 +8,6 @@ const BitcoinMiningGlossaryPage: React.FC = () => {
     <main className="flex-1 p-4 md:p-8">
       <LearnCategoryTitle>Bitcoin Mining Glossary</LearnCategoryTitle>
 
-      <LearnCategorySubTitle>51% Attack</LearnCategorySubTitle>
-      <LearnCategoryText>
-        A scenario in which a group or an entity gains control of more than half of the total hash rate, enabling them to potentially
-        reverse transactions and double-spend coins. This level of control can compromise the security and integrity of the blockchain,
-        though it is extremely costly and difficult to achieve in Bitcoin due to its large network size.
-      </LearnCategoryText>
-
       <LearnCategorySubTitle>ASIC (Application-Specific Integrated Circuit)</LearnCategorySubTitle>
       <LearnCategoryText>
         A specialized type of hardware designed exclusively for mining Bitcoin. ASICs are tailored to compute SHA-256 hashing problems with
@@ -202,6 +195,13 @@ const BitcoinMiningGlossaryPage: React.FC = () => {
       <LearnCategoryText>
         A fee included with each Bitcoin transaction that incentivizes miners to include the transaction in their block. Fees vary based on
         the transaction size and network conditions.
+      </LearnCategoryText>
+
+      <LearnCategorySubTitle>51% Attack</LearnCategorySubTitle>
+      <LearnCategoryText>
+        A scenario in which a group or an entity gains control of more than half of the total hash rate, enabling them to potentially
+        reverse transactions and double-spend coins. This level of control can compromise the security and integrity of the blockchain,
+        though it is extremely costly and difficult to achieve in Bitcoin due to its large network size.
       </LearnCategoryText>
     </main>
   )
