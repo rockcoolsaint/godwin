@@ -74,8 +74,12 @@ export default function ProxyStatusPage() {
   }
 
   const renderProxyStatus = () => {
+    
     if(status?.proxy) {
       return <span className="text-sm font-medium">{status?.proxy}</span>
+    }
+    if (status?.order?.status === 'delivery_ended') {
+      return <span className="text-sm font-medium">-</span>  
     }
     return <span className="text-sm font-medium uppercase text-yellow-700 ">Queued</span>
   }
