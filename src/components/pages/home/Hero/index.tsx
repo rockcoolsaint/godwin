@@ -7,8 +7,8 @@ const Hero = ({ children }: PropsWithChildren) => {
         Decentralize Mining.
       </div>
       <div className="flex w-11/12 flex-col flex-wrap sm:flex-row sm:items-center sm:justify-center md:w-8/12 lg:w-4/6 xl:w-5/6">
-        <p className="mb-2 flex items-start justify-center text-center font-epilogue text-sm font-normal text-black lg:justify-start lg:text-xl xl:text-4xl 2xl:w-11/12">
-          Rigly is the first auction marketplace for bitcoin mining hashrate
+        <p className="mb-2 text-center font-epilogue text-sm font-normal text-black lg:text-xl xl:text-4xl 2xl:w-11/12">
+          Rigly is the first auction marketplace for bitcoin mining. Join <span className="font-bold">17 active bidders</span> today!
         </p>
       </div>
       {children}

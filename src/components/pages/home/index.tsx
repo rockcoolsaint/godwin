@@ -36,6 +36,24 @@ interface Props {
   code?: string
 }
 
+const getOrdinalSuffix = (day: number) => {
+  if (day > 3 && day < 21) return 'th';
+  switch (day % 10) {
+    case 1: return 'st';
+    case 2: return 'nd';
+    case 3: return 'rd';
+    default: return 'th';
+  }
+};
+
+const formatDateWithSuffix = (date: Date) => {
+  const day = format(date, 'd');
+  const month = format(date, 'MMMM');
+  const dayNumber = parseInt(day, 10);
+  const suffix = getOrdinalSuffix(dayNumber);
+  return `${month} ${dayNumber}${suffix}`;
+};
+
 export default function Home({ isDemo, code }: Props) {
   const { account } = useAccountContext()
   const [_, setLoading] = useState(false)
@@ -73,7 +91,7 @@ export default function Home({ isDemo, code }: Props) {
       <div className="flex items-center justify-center gap-x-6 bg-indigo-600 px-6 py-2.5 sm:px-3.5">
         <p className="text-sm leading-6 text-white">
           <a href="#">
-            <strong className="font-semibold">{format(Date.now(), 'MMM dd')}</strong>
+            <strong className="font-semibold">{formatDateWithSuffix(new Date())}</strong>
             <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
               <circle cx={1} cy={1} r={1} />
             </svg>
