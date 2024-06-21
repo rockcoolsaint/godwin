@@ -4,7 +4,9 @@ import tabconfImg from 'src/assets/png/tabconf.png'
 import styles from './index.module.css'
 import BalticSignUp from 'src/components/pages/signup/balticSignup'
 
+
 export default async function BalticHomePage() {
+
   return (
     <>
       <Container className="h-screen bg-[#ffffff] ">
