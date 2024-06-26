@@ -7,13 +7,11 @@ import { getAllAuctions } from "src/api/auction/getAllAuctions";
 import { useEffect, useState } from "react";
 
 export default function AuctionSchedulePaginated(
-    { showTitle, limit, dataArgs }: 
-    { showTitle?: boolean, limit: number, dataArgs: any }
+    { auctionsData, showTitle, limit, dataArgs }: 
+    { auctionsData: AllAuctionsResponse; showTitle?: boolean, limit: number, dataArgs: any }
 ) {
-    const [data, setData] = useState<AllAuctionsResponse>({
-        count: 0, 
-        results: []
-    })
+    const [data, setData] = useState<AllAuctionsResponse>(auctionsData)
+    const [pageNum, setPageNum] = useState<number>(0)
 
     const fetchPage = (pageNum) => {
         getAllAuctions({
@@ -26,8 +24,8 @@ export default function AuctionSchedulePaginated(
     }
 
     useEffect(() => {
-        fetchPage(0)
-    }, [])
+        fetchPage(pageNum)
+    }, [pageNum])
 
     return (<>
         <ReactPaginate
@@ -35,14 +33,29 @@ export default function AuctionSchedulePaginated(
             breakLabel="..."
             nextLabel="next >"
             onPageChange={(e) => {
-                fetchPage(e.selected)
+                setPageNum(e.selected)
             }}
-            pageRangeDisplayed={3}
+            pageRangeDisplayed={5}
             marginPagesDisplayed={1}
-        pageCount={ Math.ceil(data.count / limit) }
+            pageCount={ Math.ceil(data?.count / limit) }
             previousLabel="< previous"
             renderOnZeroPageCount={null}
+            forcePage={pageNum}
         />
-        <AuctionSchedule auctionsData={data.results} showTitle={showTitle}/>
+        {data?.results && <AuctionSchedule auctionsData={data?.results} showTitle={showTitle}/>}
+        <ReactPaginate
+            className="react-paginate"
+            breakLabel="..."
+            nextLabel="next >"
+            onPageChange={(e) => {
+                setPageNum(e.selected)
+            }}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={1}
+            pageCount={ Math.ceil(data?.count / limit) }
+            previousLabel="< previous"
+            renderOnZeroPageCount={null}
+            forcePage={pageNum}
+        />
     </>)
 }
