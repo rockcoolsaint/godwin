@@ -24,13 +24,13 @@ export default async function AuctionMarketPage() {
     auction_status: 'completed',
     sorting: 'desc'
   }
-
+/*
   const completedAuctions = await getAllAuctions({
     ...completedArgs,
     limit: limit,
     offset: 0,
   })
-
+*/
   return (
     <Container className="py-12 xl:w-full">
       <Suspense fallback={<TableSkeletonLoader title="Auction Market" />}>
@@ -43,7 +43,6 @@ export default async function AuctionMarketPage() {
           <AuctionSchedulePaginated 
             limit={limit}
             dataArgs={completedArgs}
-            auctionsData={completedAuctions} 
           />
 
           <Link

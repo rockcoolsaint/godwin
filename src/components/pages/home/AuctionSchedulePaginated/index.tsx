@@ -4,13 +4,30 @@ import { AllAuctionsResponse, Auction } from "src/api/auction/types";
 import AuctionSchedule from "../AuctionSchedule";
 import ReactPaginate from "react-paginate";
 import { getAllAuctions } from "src/api/auction/getAllAuctions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AuctionSchedulePaginated(
-    { auctionsData, showTitle, limit, dataArgs }: 
-    { auctionsData: AllAuctionsResponse; showTitle?: boolean, limit: number, dataArgs: any }
+    { showTitle, limit, dataArgs }: 
+    { showTitle?: boolean, limit: number, dataArgs: any }
 ) {
-    const [data, setData] = useState<AllAuctionsResponse>(auctionsData)
+    const [data, setData] = useState<AllAuctionsResponse>({
+        count: 0, 
+        results: []
+    })
+
+    const fetchPage = (pageNum) => {
+        getAllAuctions({
+            ...dataArgs,
+            limit,
+            offset: pageNum * limit
+        }).then((d) => {
+            setData(d)
+        })
+    }
+
+    useEffect(() => {
+        fetchPage(0)
+    }, [])
 
     return (<>
         <ReactPaginate
@@ -18,17 +35,11 @@ export default function AuctionSchedulePaginated(
             breakLabel="..."
             nextLabel="next >"
             onPageChange={(e) => {
-                getAllAuctions({
-                    ...dataArgs,
-                    limit,
-                    offset: e.selected * limit
-                }).then((d) => {
-                    setData(d)
-                })
+                fetchPage(e.selected)
             }}
             pageRangeDisplayed={3}
             marginPagesDisplayed={1}
-            pageCount={ Math.ceil(data.count / limit) }
+        pageCount={ Math.ceil(data.count / limit) }
             previousLabel="< previous"
             renderOnZeroPageCount={null}
         />
