@@ -1,28 +1,17 @@
-'use client'
 export const revalidate = 0
 
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense } from 'react'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 // import Pagination from 'src/components/Pagination'
-import ReactPaginate from 'react-paginate'
 import AuctionSchedule from 'src/components/pages/home/AuctionSchedule'
+import AuctionSchedulePaginated from 'src/components/pages/home/AuctionSchedulePaginated'
 import Link from 'src/components/shared/Link'
 import { TableSkeletonLoader } from 'src/components/shared/TableSkeletonLoader'
 import Container from 'src/core/components/Container'
 
 
-interface Pagination {
-  limit: number,
-  pageNumber: number,
-}
-
-
 export default async function AuctionMarketPage() {
-
-  const [page, setPage] = useState<Pagination>({
-    limit: 20,
-    pageNumber: 0,
-  })
+  const limit = 20
 
   const activeAuctions = await getAllAuctions({
     limit: 1000,
@@ -30,12 +19,16 @@ export default async function AuctionMarketPage() {
     auction_status: 'active',
   })
 
-  const completedAuctions = await getAllAuctions({
-    limit: page.limit,
-    offset: page.pageNumber * page.limit,
+  const completedArgs = {
     group_by: 'auction_status',
     auction_status: 'completed',
-    sorting: 'desc',
+    sorting: 'desc'
+  }
+
+  const completedAuctions = await getAllAuctions({
+    ...completedArgs,
+    limit: limit,
+    offset: 0,
   })
 
   return (
@@ -46,18 +39,12 @@ export default async function AuctionMarketPage() {
           <AuctionSchedule auctionsData={activeAuctions.results} />
 
           <h1 className="mt-20 font-chakra text-lg font-bold text-navy lg:text-4xl">Completed auctions</h1>
-          <ReactPaginate
-            className="react-paginate"
-            breakLabel="..."
-            nextLabel="next >"
-            onPageChange={(e) => { setPage({...page, pageNumber: e.selected}) }}
-            pageRangeDisplayed={3}
-            marginPagesDisplayed={1}
-            pageCount={Math.ceil(completedAuctions.count / page.limit)}
-            previousLabel="< previous"
-            renderOnZeroPageCount={null}
+
+          <AuctionSchedulePaginated 
+            limit={limit}
+            dataArgs={completedArgs}
+            auctionsData={completedAuctions} 
           />
-          <AuctionSchedule auctionsData={completedAuctions.results} />
 
           <Link
             href="/collections/completed"
