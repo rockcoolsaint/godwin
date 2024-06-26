@@ -24,13 +24,13 @@ export default async function AuctionMarketPage() {
     auction_status: 'completed',
     sorting: 'desc'
   }
-/*
+
   const completedAuctions = await getAllAuctions({
     ...completedArgs,
     limit: limit,
     offset: 0,
   })
-*/
+
   return (
     <Container className="py-12 xl:w-full">
       <Suspense fallback={<TableSkeletonLoader title="Auction Market" />}>
@@ -43,14 +43,8 @@ export default async function AuctionMarketPage() {
           <AuctionSchedulePaginated 
             limit={limit}
             dataArgs={completedArgs}
+            auctionsData={completedAuctions}
           />
-
-          <Link
-            href="/collections/completed"
-            className="mt-12 rounded-xl bg-navy p-4 font-epilogue text-sm font-normal text-white sm:p-2 lg:p-4"
-          >
-            View more listings
-          </Link>
         </div>
       </Suspense>
     </Container>
