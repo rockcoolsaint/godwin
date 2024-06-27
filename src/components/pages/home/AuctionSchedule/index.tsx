@@ -72,7 +72,7 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
       footer: info => info.column.id,
       enableSorting: false,
     }),
-    columnHelper.accessor('going_hashprice', {
+    columnHelper.accessor('duration', {
       cell: cell => {
         if (cell.row.original.auction_meta.days_of_mining) {
           const mineDays = cell.row.original.auction_meta?.days_of_mining
