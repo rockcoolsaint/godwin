@@ -231,7 +231,7 @@ function OrderAction({ order, hasManageAccess }: { order: Order; hasManageAccess
                 </div>
               )}
             </Menu.Item>
-            {order.type === OrderType.Auction && (
+            {(order.type === OrderType.Auction || order.type === OrderType.Direct) && (
               <Menu.Item>
                 {({ active }) => (
                   <span
