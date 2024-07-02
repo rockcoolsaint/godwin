@@ -71,9 +71,7 @@ const BitcoinMiningGlossaryPage: React.FC = () => {
 
       <LearnCategorySubTitle>Fork</LearnCategorySubTitle>
       <LearnCategoryText>
-        A change in the Bitcoin protocol that creates two diverging paths, either as a soft fork or a hard fork. A soft fork makes previous
-        valid blocks invalid, and a hard fork makes previously invalid blocks valid. Forks require consensus from the network and are used
-        to upgrade and improve the protocol.
+        A change in the Bitcoin protocol that creates two diverging paths. See also: Soft Fork and Hard Fork.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>Genesis Block</LearnCategorySubTitle>
