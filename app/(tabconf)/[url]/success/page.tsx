@@ -7,7 +7,6 @@ import { Container } from '../components/Container'
 import { useSearchParams } from 'next/navigation'
 import NotFoundComponent from 'src/components/shared/NotFoundComponent'
 import { Loader } from 'src/core'
-import { formatDistance, parseISO } from 'date-fns'
 import { BoltIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import Link from 'src/components/shared/Link'
@@ -74,15 +73,72 @@ export default function ProxyStatusPage() {
   }
 
   const renderProxyStatus = () => {
-    
-    if(status?.proxy) {
-      return <span className="text-sm font-medium">{status?.proxy}</span>
-    }
-    if (status?.order?.status === 'delivery_ended') {
-      return <span className="text-sm font-medium">-</span>  
+    if (status?.proxy) {
+      const proxyList = Array.isArray(status.proxy) ? status.proxy.join(', ') : status.proxy;
+      return <span className="text-sm font-medium">{proxyList}</span>
     }
     return <span className="text-sm font-medium uppercase text-yellow-700 ">Queued</span>
   }
+
+  const renderWorkerData = () => {
+    if (status?.worker) {
+      if (Array.isArray(status.worker)) {
+        const sharesList = status.worker.map(worker => worker.accepted_shares || '-').join(', ');
+        const difficultyList = status.worker.map(worker => worker.difficulty || '-').join(', ');
+
+        return (
+          <>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {sharesList}
+              </dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {difficultyList}
+              </dd>
+            </div>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {status.worker.accepted_shares || '-'}
+              </dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {status.worker.difficulty || '-'}
+              </dd>
+            </div>
+          </>
+        );
+      }
+    }
+    return (
+      <>
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+          <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
+          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+            -
+          </dd>
+        </div>
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+          <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
+          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+            -
+          </dd>
+        </div>
+      </>
+    );
+  };
+
 
   const renderOrderStatus = () => {
     return (
@@ -118,21 +174,10 @@ export default function ProxyStatusPage() {
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
             <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
             <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-              {(status?.assigned_at && formatDistance(parseISO(status?.assigned_at), new Date())) || '-'}
+              {status?.elapsed_time ? formatSecondsToHMS(status.elapsed_time) : '-'}
             </dd>
           </div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-              {status?.worker?.accepted_shares || '-'}
-            </dd>
-          </div>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-            <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
-            <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-              {status?.worker?.difficulty || '-'}
-            </dd>
-          </div>
+          {renderWorkerData()}
         </dl>
       </>
     )
@@ -203,3 +248,20 @@ export default function ProxyStatusPage() {
     </>
   )
 }
+
+const formatSecondsToHMS = (totalSeconds: number | undefined) => {
+  if (totalSeconds === undefined) {
+    return '-'
+  }
+
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds - hours * 3600) / 60)
+  const seconds = totalSeconds - hours * 3600 - minutes * 60
+
+  const paddedHours = String(hours).padStart(2, '0')
+  const paddedMinutes = String(minutes).padStart(2, '0')
+  const paddedSeconds = String(seconds).padStart(2, '0')
+
+  return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`
+}
+
