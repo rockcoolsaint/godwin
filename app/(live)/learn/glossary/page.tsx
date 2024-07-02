@@ -89,9 +89,7 @@ const BitcoinMiningGlossaryPage: React.FC = () => {
 
       <LearnCategorySubTitle>Hard Fork</LearnCategorySubTitle>
       <LearnCategoryText>
-        A type of protocol upgrade that validates previously invalid transactions or blocks. Hard forks require all nodes to upgrade to the
-        new protocol to avoid splitting the network into two incompatible chains. They are often used for major enhancements that cannot be
-        implemented with a soft fork.
+       A hard fork is an upgrade to Bitcoin's blockchain that makes it incompatible with older versions of the software. In simple terms, a hard fork is a big change to the Bitcoin network's rules that old software can't work with. Unlike a soft fork, old versions can't interact with the new system. This means a hard fork splits the network into two separate blockchains, creating a new one that follows the new rules while the old one continues with the old rules.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>Hash Rate</LearnCategorySubTitle>
@@ -161,8 +159,7 @@ const BitcoinMiningGlossaryPage: React.FC = () => {
 
       <LearnCategorySubTitle>Soft Fork</LearnCategorySubTitle>
       <LearnCategoryText>
-        A backward-compatible method of upgrading the Bitcoin blockchain. It makes previously valid blocks invalid and requires only a
-        majority of the miners to upgrade to enforce the new rules.
+        A backward-compatible method of upgrading Bitcoin's blockchain. In simple terms, a soft fork is a way to update the Bitcoin network's rules without causing major disruptions. It tightens the rules, but old software versions can still work and accept new transactions. This ensures that everyone stays on the same network even if they haven't updated their software yet.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>Stratum Protocol</LearnCategorySubTitle>
