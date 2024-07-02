@@ -39,8 +39,8 @@ export interface PoolUser {
 
 export interface ProxyStatusResponse {
   assigned_at?: string
-  worker?: WorkerData
-  proxy: string
+  worker?: WorkerData | WorkerData[]
+  proxy: string | string[] // Allowing proxy to be a string or a list of strings
   email: string
   order: ProxyOrder
   payment: Payment

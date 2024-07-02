@@ -7,7 +7,6 @@ import { Container } from '../../components/Container'
 import { useSearchParams } from 'next/navigation'
 import NotFoundComponent from 'src/components/shared/NotFoundComponent'
 import { Form, Input, Loader } from 'src/core'
-import { formatDistance, parseISO } from 'date-fns'
 import { BoltIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import Link from 'src/components/shared/Link'
@@ -159,6 +158,67 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
     return <span>Hashrate up</span>
   }
 
+
+  const renderWorkerData = () => {
+    if (proxyStatus?.worker) {
+      if (Array.isArray(proxyStatus.worker)) {
+        const sharesList = proxyStatus.worker.map(worker => worker.accepted_shares || '-').join(', ');
+        const difficultyList = proxyStatus.worker.map(worker => worker.difficulty || '-').join(', ');
+
+        return (
+          <>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {sharesList}
+              </dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {difficultyList}
+              </dd>
+            </div>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {proxyStatus.worker.accepted_shares || '-'}
+              </dd>
+            </div>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
+              <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+                {proxyStatus.worker.difficulty || '-'}
+              </dd>
+            </div>
+          </>
+        );
+      }
+    }
+    return (
+      <>
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+          <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
+          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+            -
+          </dd>
+        </div>
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+          <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
+          <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
+            -
+          </dd>
+        </div>
+      </>
+    );
+  };
+
+
   const renderDeliveryStatus = () => {
     if (!proxyStatus.order) {
       return (
@@ -227,36 +287,16 @@ export default function TestDriveSuccessPage({ params }: { params: any }) {
                     {proxyStatus.pool_user?.username || '-'}
                   </dd>
                 </div>
-                {proxyStatus?.order?.status === 'delivery_ended' && (
-                  <>
-                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white p-4 sm:px-6 sm:py-8 xl:px-8">
-                      <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
-                      <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-                        {formatSecondsToHMS(proxyStatus.elapsed_time) || '-'}
-                      </dd>
-                    </div>
-                  </>
-                )}
-                {proxyStatus?.order?.status !== 'delivery_ended' && (
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white p-4 sm:px-6 sm:py-8 xl:px-8">
-                    <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
-                    <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-                      {(proxyStatus.assigned_at && formatDistance(parseISO(proxyStatus.assigned_at), new Date())) || '-'}
-                    </dd>
-                  </div>
-                )}
+
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white p-4 sm:px-6 sm:py-8 xl:px-8">
-                  <dt className="text-sm font-medium leading-6 text-gray-500">Shares</dt>
+                  <dt className="text-sm font-medium leading-6 text-gray-500">Elapsed time</dt>
                   <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-                    {proxyStatus.worker?.accepted_shares || '-'}
+                    {formatSecondsToHMS(proxyStatus.elapsed_time) || '-'}
                   </dd>
                 </div>
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-white p-4 sm:px-6 sm:py-8 xl:px-8">
-                  <dt className="text-sm font-medium leading-6 text-gray-500">Difficulty</dt>
-                  <dd className="w-full flex-none break-all text-sm font-medium tracking-tight text-gray-900">
-                    {proxyStatus.worker?.difficulty || '-'}
-                  </dd>
-                </div>
+
+                {renderWorkerData()}
+
               </dl>
             )}
 
@@ -306,3 +346,5 @@ const formatSecondsToHMS = (totalSeconds: number | undefined) => {
 
   return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`
 }
+
+
