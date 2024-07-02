@@ -144,7 +144,7 @@ function Orders() {
                         target="_blank"
                         className="flex h-12 items-center text-blue-500 hover:underline"
                       >
-                        <span>{order.duration_days < 1 ? 'Test Drive' : 'Instant Mining'}</span>{' '}
+                        <span>Instant Mining</span>{' '}
                         <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
                       </Link>
                     )
