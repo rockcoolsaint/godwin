@@ -26,6 +26,42 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { updateAccount } from 'src/api/auth/updateAccount'
 import { formatDate } from 'src/utils/date'
 import { formatMoney } from 'src/utils/currency'
+import { FC } from 'react';
+
+const WinnersStatement: FC = () => {
+  return (
+    <section className="winners-statement mt-8">
+      <h2 className="text-2xl font-bold">Winner’s Statement</h2>
+      <p className="mt-2 text-base text-dark-100" style={{ marginLeft: '1in', maxWidth: '8in' }}>
+Call me Ed 66. I learned about bitcoin some years ago. I can share some of my story.
+</p>
+<p className="mt-2 text-base text-dark-100" style={{ marginLeft: '1in', maxWidth: '8in' }}>
+I grew up in a lot of places, I always was into computers and learning new stuff - I worked in tech support for several years and went back to school to become a teacher in 2007. I saved some money and was able to go full-time, but when the financial crisis happened my savings went down by 50% - this really threw me. 
+</p>
+<p className="mt-2 text-base text-dark-100" style={{ marginLeft: '1in', maxWidth: '8in' }}>
+I’ll spare the details but shit happens, life moves on. I gave up on pursuing teaching.
+</p>
+<p className="mt-2 text-base text-dark-100" style={{ marginLeft: '1in', maxWidth: '8in' }}>
+Years later, I read more about all the financial crisis stuff, what the banks did, and I learned about bitcoin and it put me down a path … I learned about fiat money, money printing. It blew my mind. That it’s just printed from thin air.. I mean when you really look close it’s just nonsense.
+</p>
+<p className="mt-2 text-base text-dark-100" style={{ marginLeft: '1in', maxWidth: '8in' }}>
+Anyhow the thing I was most interested in back then with bitcoin was the proof of work. 
+</p>
+<p className="mt-2 text-base text-dark-100" style={{ marginLeft: '1in', maxWidth: '8in' }}>
+How mining creates value. It’s an honest system. Fuck fiat.
+</p>
+<p className="mt-2 text-base text-dark-100" style={{ marginLeft: '1in', maxWidth: '8in' }}>
+I checked out mining myself a few years ago but it was too complicated. I've looked into the home mining rigs but they look slow. I heard about Rigly from a friend, tried out the test drive, pretty cool. I was a little confused with the pool setup but I’m good there now.
+</p>
+<p className="mt-2 text-base text-dark-100" style={{ marginLeft: '1in', maxWidth: '8in' }}>
+Bitcoin is a better system. July 4th feels like a good day to do my part for independent money.
+</p>
+<p className="mt-2 text-base text-dark-100" style={{ marginLeft: '1in', maxWidth: '8in' }}>
+ I’m excited to mine and be a part of it. Thanks.
+      </p>
+    </section>
+  );
+};
 
 function tabClass({ selected }: { selected: boolean }) {
   return clsx(
@@ -258,6 +294,8 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
           )}
         </div>
       </section>
+      {auction.id === 1705 && <WinnersStatement />}
+      
       <Joyride
         callback={handleCallback}
         steps={steps}
