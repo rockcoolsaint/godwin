@@ -8,7 +8,7 @@ const Hero = ({ children }: PropsWithChildren) => {
       </div>
       <div className="flex w-11/12 flex-col flex-wrap sm:flex-row sm:items-center sm:justify-center md:w-8/12 lg:w-4/6 xl:w-5/6">
         <p className="mb-2 text-center font-epilogue text-sm font-normal text-black lg:text-xl xl:text-4xl 2xl:w-11/12">
-          Rigly is the first auction marketplace for bitcoin mining. Join <span className="font-bold">24 active bidders</span> today!
+          Rigly is the first auction marketplace for bitcoin mining. Join <span className="font-bold">32 active bidders</span> today!
         </p>
       </div>
       {children}
