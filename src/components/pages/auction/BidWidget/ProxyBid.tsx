@@ -63,8 +63,8 @@ export default function ProxyBid({
   )
 
   useEffect(() => {
-    setValue('bid', bids[0]?.bid + auction?.proxy_bid_threshold || auction?.starting_bid)
-  }, [auction?.proxy_bid_threshold, auction?.starting_bid, bids, setValue])
+    setValue('bid', bids[0]?.bid + auction?.proxy_bid_increment || auction?.starting_bid)
+  }, [auction?.proxy_bid_increment, auction?.starting_bid, bids, setValue])
 
   return (
     <>
