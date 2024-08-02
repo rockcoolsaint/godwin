@@ -110,7 +110,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
         <p className="mb-4 flex items-center text-sm text-dark-100">
           {auctionStatus()}
           <span className="ml-1 text-sm font-normal text-dark-100">- {format(parseISO(auction.end_at), 'MMMM dd, yy - h:mm aa')}</span>
-          <ExclamationCircleIcon className="ml-1 h-4 w-4" />
+          <ExclamationCircleIcon className="ml-1 size-4" />
         </p>
         {auction.status === AuctionStatus.Scheduled && (
           <div className="mb-4 flex flex-col items-center gap-2">
@@ -185,7 +185,12 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props
                           <RegularBid auction={auction} bids={bids} current_bid={current_bid} />
                         </Tab.Panel>
                         <Tab.Panel className="pt-4">
-                          <ProxyBid auction={auction} bids={bids} current_bid={current_bid} />
+                          <ProxyBid
+                            auction={auction}
+                            bids={bids}
+                            current_bid={current_bid}
+                            proxy_bid_max={(user_proxy_bid && user_proxy_bid.maximum_amount) || 0}
+                          />
                         </Tab.Panel>
                       </Tab.Panels>
                     </Tab.Group>
@@ -266,7 +271,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
           Estimated revenue
           <Tooltip placement="bottom">
             <TooltipTrigger>
-              <QuestionMarkCircleIcon className="ml-2 h-6 w-6" />
+              <QuestionMarkCircleIcon className="ml-2 size-6" />
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
               Based on latest bid
