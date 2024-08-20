@@ -5,6 +5,7 @@ import AuctionSchedulePaginated from 'src/components/pages/home/AuctionScheduleP
 import { TableSkeletonLoader } from 'src/components/shared/TableSkeletonLoader'
 import Container from 'src/core/components/Container'
 import AuctionInfo from './AuctionInfo'
+import FAQs from './FAQs'
 
 export const revalidate = 0
 
@@ -42,10 +43,10 @@ export default async function AuctionMarketPage() {
           )}
 
           <h2 className="mt-20 font-chakra text-lg font-bold text-navy lg:text-4xl">Completed auctions</h2>
-
           <AuctionSchedulePaginated limit={limit} dataArgs={completedArgs} auctionsData={completedAuctions} />
         </div>
       </Suspense>
+      <FAQs />
     </Container>
   )
 }
