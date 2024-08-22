@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Input from 'src/core/components/Input'
-import mining from 'src/assets/jpg/mining.jpeg'
+import AuctionPlaceholder from 'src/assets/jpg/auction-placeholder.jpg'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import * as yup from 'yup'
 import { LocalStorageKeys } from 'src/constants/localStorage'
@@ -66,7 +66,7 @@ export default function AuctionInfo() {
             </form>
           </div>
         </div>
-        <Image src={mining} alt="placeholder" width={300} height={300} className="mb-4 rounded-md" />
+        <Image className="border-gray-40 mb-4 rounded-md border" src={AuctionPlaceholder} alt="placeholder" height={300} />
       </div>
     </div>
   )
