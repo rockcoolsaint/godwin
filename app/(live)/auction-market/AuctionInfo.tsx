@@ -44,7 +44,7 @@ export default function AuctionInfo() {
             <div className="font-chakra text-lg text-navy lg:text-4xl">Live Daily Auctions</div>
             <div className="flex flex-col gap-2 rounded-md border border-gray-400 p-1 text-left text-xs">
               <div>- Bid Anonymously</div>
-              <div>- Compete in live daily auctions from 9 to 4, M to F</div>
+              <div>- New auctions each week</div>
               <div>- Price determined by the market</div>
             </div>
           </div>
