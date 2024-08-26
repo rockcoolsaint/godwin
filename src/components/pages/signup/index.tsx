@@ -45,21 +45,6 @@ export default function SignUp({ setView, setEmail }: any) {
   const [loading, setLoading] = useState(false)
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
-  useEffect(() => {
-    const code = window.localStorage.getItem(LocalStorageKeys.Referral.plebtern) || undefined
-    setCode(code)
-    const pool = Number(window.localStorage.getItem(LocalStorageKeys.Pool.poolValue)) || undefined
-    if (pool) {
-      const selectedPool = MINING_POOLS.filter(p => p.id === pool) || MINING_POOLS[0]
-      handleSetSelectedPool(selectedPool[0])
-    }
-  }, [])
-
-  const handleSetSelectedPool = (val: IMiningPool) => {
-    setSelectedPool(val)
-    setPoolAddress(val.address)
-  }
-
   const signUpInfo = {
     email: '',
     mining_pool_username: '',
@@ -86,6 +71,25 @@ export default function SignUp({ setView, setEmail }: any) {
       mining_pool_address: poolAddress,
     },
   })
+
+  useEffect(() => {
+    const storedEmail = window.localStorage.getItem(LocalStorageKeys.Login.email)
+    if (storedEmail) {
+      setValue('email', storedEmail)
+    }
+    const code = window.localStorage.getItem(LocalStorageKeys.Referral.plebtern) || undefined
+    setCode(code)
+    const pool = Number(window.localStorage.getItem(LocalStorageKeys.Pool.poolValue)) || undefined
+    if (pool) {
+      const selectedPool = MINING_POOLS.filter(p => p.id === pool) || MINING_POOLS[0]
+      handleSetSelectedPool(selectedPool[0])
+    }
+  }, [setValue])
+
+  const handleSetSelectedPool = (val: IMiningPool) => {
+    setSelectedPool(val)
+    setPoolAddress(val.address)
+  }
 
   const handleSetCurrentStep = async (step: any) => {
     const noError = await trigger('email')
@@ -163,7 +167,7 @@ export default function SignUp({ setView, setEmail }: any) {
                   <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm sm:leading-6">
                     <span className="block truncate">{selectedPool.name}</span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      <ChevronUpDownIcon className="size-5 text-gray-400" aria-hidden="true" />
                     </span>
                   </Listbox.Button>
 
@@ -188,7 +192,7 @@ export default function SignUp({ setView, setEmail }: any) {
                                     'absolute inset-y-0 right-0 flex items-center pr-4',
                                   )}
                                 >
-                                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                  <CheckIcon className="size-5" aria-hidden="true" />
                                 </span>
                               ) : null}
                             </>
@@ -268,14 +272,14 @@ export default function SignUp({ setView, setEmail }: any) {
                 <button className="group flex w-full items-center">
                   <span className="flex items-center px-6 py-4 text-sm font-medium">
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary group-hover:bg-indigo-800">
-                      <CheckIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                      <CheckIcon className="size-6 text-white" aria-hidden="true" />
                     </span>
                     <span className="ml-4 text-sm font-medium text-gray-900">{step.name}</span>
                   </span>
                 </button>
               ) : step.status === 'current' ? (
                 <button className="flex items-center px-6 py-4 text-sm font-medium" aria-current="step">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-primary">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-primary">
                     <span className="text-primary">{step.id}</span>
                   </span>
                   <span className="ml-4 text-sm font-medium text-primary">{step.name}</span>
@@ -283,7 +287,7 @@ export default function SignUp({ setView, setEmail }: any) {
               ) : (
                 <button onClick={() => handleSetCurrentStep(step)} className="group flex items-center">
                   <span className="flex items-center px-6 py-4 text-sm font-medium">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
                       <span className="text-gray-500 group-hover:text-gray-900">{step.id}</span>
                     </span>
                     <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">{step.name}</span>
@@ -294,7 +298,7 @@ export default function SignUp({ setView, setEmail }: any) {
               {stepIdx !== steps.length - 1 ? (
                 <>
                   <div className=" absolute right-0 top-0 hidden h-full w-5 md:block" aria-hidden="true">
-                    <svg className="h-full w-full text-gray-300" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
+                    <svg className="size-full text-gray-300" viewBox="0 0 22 80" fill="none" preserveAspectRatio="none">
                       <path d="M0 -2L20 40L0 82" vectorEffect="non-scaling-stroke" stroke="currentcolor" strokeLinejoin="round" />
                     </svg>
                   </div>
@@ -372,7 +376,7 @@ export default function SignUp({ setView, setEmail }: any) {
                         name="notification-method"
                         type="radio"
                         defaultChecked={notificationMethod.id === poolOwner}
-                        className="h-4 w-4 border-gray-300 text-primary focus:ring-primary"
+                        className="size-4 border-gray-300 text-primary focus:ring-primary"
                       />
                       <label htmlFor={notificationMethod.id} className="ml-3 block text-sm font-medium leading-6 text-gray-500 ">
                         {notificationMethod.title}

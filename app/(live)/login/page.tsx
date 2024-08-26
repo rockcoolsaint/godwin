@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'src/components/shared/Link'
 import { Container, Form, Input, Loader } from 'src/core'
 import Icon from 'src/core/components/Icon'
@@ -10,6 +10,7 @@ import useReturnUrl from 'src/hooks/useReturnUrl'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { toast } from 'react-hot-toast'
 import { LoginView } from 'src/utils/constants'
+import { LocalStorageKeys } from 'src/constants/localStorage'
 
 export default function Login() {
   const { login } = useAccountContext()
@@ -17,8 +18,15 @@ export default function Login() {
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
   const [loading, setLoading] = useState<boolean>(false)
-  const [email, setEmail] = useState<string | undefined>(undefined)
+  const [email, setEmail] = useState<string | undefined>('') // Default to an empty string for controlled input
   const [view, setView] = useState(LoginView.Login)
+
+  useEffect(() => {
+    const storedEmail = window.localStorage.getItem(LocalStorageKeys.Login.email)
+    if (storedEmail) {
+      setEmail(storedEmail)
+    }
+  }, [])
 
   const handleSubmit = async (data: any) => {
     try {
@@ -50,7 +58,13 @@ export default function Login() {
           <Form className="mt-8 items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
             <Form.Field className="w-full flex-col" required>
               <Form.Field.Label htmlFor="email">{t('login.email')}</Form.Field.Label>
-              <Input type="email" name="email" placeholder="satoshi@gmx.com" />
+              <Input
+                type="email"
+                name="email"
+                placeholder="satoshi@gmx.com"
+                value={email} // Bind the value to the state
+                onChange={e => setEmail(e.target.value)} // Update the state on change
+              />
             </Form.Field>
 
             <Form.Submit className="w-full">{loading ? <Loader height={20} width={20} /> : <span>{t('login.sign_in')}</span>}</Form.Submit>
@@ -63,8 +77,8 @@ export default function Login() {
         </div>
       )}
       {view === LoginView.EmailSent && (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-4 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
-          <Icon icon="envelopeCircleCheck" className="h-20 w-20 text-gray-300" />
+        <div className="flex size-full flex-col items-center justify-center gap-4 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
+          <Icon icon="envelopeCircleCheck" className="size-20 text-gray-300" />
           <span className="text-center text-gray-500" dangerouslySetInnerHTML={{ __html: t('login.email_sent_note', { email }) }}></span>
           <div className="mt-8 flex justify-center border-t border-gray-300 pt-6">
             <Link href="/register" className="text-primary underline">

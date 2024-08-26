@@ -1,14 +1,13 @@
-export const revalidate = 0
-
 import { Suspense } from 'react'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
-// import Pagination from 'src/components/Pagination'
 import AuctionSchedule from 'src/components/pages/home/AuctionSchedule'
 import AuctionSchedulePaginated from 'src/components/pages/home/AuctionSchedulePaginated'
-import Link from 'src/components/shared/Link'
 import { TableSkeletonLoader } from 'src/components/shared/TableSkeletonLoader'
 import Container from 'src/core/components/Container'
+import AuctionInfo from './AuctionInfo'
+import FAQs from './FAQs'
 
+export const revalidate = 0
 
 export default async function AuctionMarketPage() {
   const limit = 20
@@ -22,7 +21,7 @@ export default async function AuctionMarketPage() {
   const completedArgs = {
     group_by: 'auction_status',
     auction_status: 'completed',
-    sorting: 'desc'
+    sorting: 'desc',
   }
 
   const completedAuctions = await getAllAuctions({
@@ -33,20 +32,21 @@ export default async function AuctionMarketPage() {
 
   return (
     <Container className="py-12 xl:w-full">
+      <AuctionInfo />
       <Suspense fallback={<TableSkeletonLoader title="Auction Market" />}>
         <div className="flex flex-col items-center">
-          <h1 className="font-chakra text-lg font-bold text-navy lg:text-4xl">Active auctions</h1>
-          <AuctionSchedule auctionsData={activeAuctions.results} />
+          {!!activeAuctions.results.length && (
+            <>
+              <h2 className="font-chakra text-lg font-bold text-navy lg:text-4xl">Active auctions</h2>
+              <AuctionSchedule auctionsData={activeAuctions.results} />
+            </>
+          )}
 
-          <h1 className="mt-20 font-chakra text-lg font-bold text-navy lg:text-4xl">Completed auctions</h1>
-
-          <AuctionSchedulePaginated 
-            limit={limit}
-            dataArgs={completedArgs}
-            auctionsData={completedAuctions}
-          />
+          <h2 className="mt-20 font-chakra text-lg font-bold text-navy lg:text-4xl">Completed auctions</h2>
+          <AuctionSchedulePaginated limit={limit} dataArgs={completedArgs} auctionsData={completedAuctions} />
         </div>
       </Suspense>
+      <FAQs />
     </Container>
   )
 }

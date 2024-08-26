@@ -18,4 +18,7 @@ export const LocalStorageKeys = {
   Pool: {
     poolValue: 'rg_p_v',
   },
+  Login: {
+    email: 'rg_email',
+  },
 }
