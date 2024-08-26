@@ -51,4 +51,4 @@ jobs:
           username: ${{ secrets.QA_USERNAME }}
           password: ${{ secrets.QA_PASSWORD }}
           port: ${{ secrets.QA_PORT }}
-          script: ./deploy_server.sh
+          script: ./deploy_server_frontend.sh
