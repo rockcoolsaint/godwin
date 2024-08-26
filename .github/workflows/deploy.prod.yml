@@ -14,4 +14,4 @@ jobs:
           password: ${{ secrets.PROD_PASSWORD }}
           port: ${{ secrets.PROD_PORT }}
           script: |
-            ./deploy_server.sh
+            ./deploy_server_frontend.sh
