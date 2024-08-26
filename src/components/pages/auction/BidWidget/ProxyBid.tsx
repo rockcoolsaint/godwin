@@ -17,10 +17,12 @@ export default function ProxyBid({
   auction,
   bids,
   current_bid,
+  proxy_bid_max,
 }: {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
+  proxy_bid_max: number
 }) {
   const { isSocketReady } = useWebsocketContext()
   const [loadingPlaceProxyBid, setLoadingPlaceProxyBid] = useState<boolean>(false)
@@ -63,8 +65,8 @@ export default function ProxyBid({
   )
 
   useEffect(() => {
-    setValue('bid', bids[0]?.bid + auction?.proxy_bid_threshold || auction?.starting_bid)
-  }, [auction?.proxy_bid_threshold, auction?.starting_bid, bids, setValue])
+    setValue('bid', (proxy_bid_max ? proxy_bid_max + 1000 : bids[0]?.bid + auction?.proxy_bid_increment) || auction?.starting_bid)
+  }, [auction?.proxy_bid_increment, auction?.starting_bid, bids, proxy_bid_max, setValue])
 
   return (
     <>

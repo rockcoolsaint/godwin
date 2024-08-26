@@ -36,7 +36,7 @@ export interface Auction {
   version: string
   payment_type: PaymentType
   going_hashprice: number
-  proxy_bid_threshold: number
+  proxy_bid_increment: number
 }
 
 export interface MiningEpoch {
