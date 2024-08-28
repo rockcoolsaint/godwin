@@ -3,7 +3,6 @@ import Zim from 'src/images/zimbabwe.png'
 import Rugged from 'src/images/rugged.jpg'
 import Shopify from 'src/images/shopify_site.png'
 import TeamMemberCard from './TeamMemberCard'
-import sydney from 'src/assets/jpg/sydney.jpeg'
 import evan from 'src/assets/webp/evan.webp'
 import jonas from 'src/assets/webp/jonas.webp'
 import nico from 'src/assets/webp/nico.webp'
@@ -113,12 +112,6 @@ const OurStory = () => {
             name="Asher Pembroke"
             description="Asher is an experienced Postdoctoral Researcher with a demonstrated history of working in the Research industry. Skilled in Mathematical Modeling, Python, data analysis and visualization, he is a strong research professional with a Doctorate of Philosophy focused in Space Weather Modeling from Rice University."
           />
-          <TeamMemberCard
-            image={sydney}
-            name="Sydney Bright"
-            description="Sydney is an avid bitcoin enthusiast who manages Rigly's operations. He has followed Bitcoin since young adulthood. Prior to joining Rigly, Sydney amassed valuable experience as an engineer in various startups within the medical device industry. Nevertheless, he made a conscious choice to diverge from that career trajectory, redirecting his efforts exclusively towards his true passions—Bitcoin and his writing."
-          />
-
           <TeamMemberCard
             image={sasa}
             name="Saša Buklijaš"
