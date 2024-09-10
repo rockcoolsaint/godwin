@@ -6,6 +6,7 @@ import { underscoreToSpaceAndCapitalize } from 'utils'
 import { convertTime } from 'src/utils/date'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import { formatMoney } from 'src/utils/currency'
+import vh from 'src/assets/jpg/vh.jpg'
 
 interface Props {
   data: Auction
@@ -55,16 +56,14 @@ const AuctionProfile = ({ data }: Props) => {
     <section className="rounded-3 flow-root h-full rounded-xl border bg-gray-50 px-0 py-3 sm:px-4">
       {/* Seller Profile Section */}
       <div className="flex items-center p-4 bg-white rounded-xl mb-6">
-        <img
-          src="../../../../images/vh.jpg" // Replace with actual image path or data.user.profile_image_url
-          alt="Seller Profile Photo"
-          className="w-16 h-16 rounded-full mr-4" // Adjust size if needed
-        />
+        <div className="w-16 h-16 rounded-full mr-4"
+         <Image src={vh} alt="ValueHash photo" width={200} objectFit="contain" />
+        </div>
         <div className="flex flex-col">
           <h1 className="text-2xl font-bold">ValeHash</h1> {/* Large heading for Name */}
           <p className="text-lg text-gray-600">Upstate New York, USA</p> {/* Location text */}
           <p className="text-sm text-gray-500">
-            We ventured into the exciting world of Bitcoin mining during the halving hype of 2016, starting modestly with just seven S9 miners. Initially, we hosted these miners in the very first few facilities in Wenatchee. As the Bitcoin hype grew louder, so did our fleet of miners. <a href="#">Read more here.</a>
+            We ventured into the exciting world of Bitcoin mining during the halving hype of 2016, starting modestly with just seven S9 miners. Initially, we hosted these miners in the very first few facilities in Wenatchee. <a href="https://valuehash.com/genesis-story/">Read more.</a>
           </p>{' '}
           {/* Biography */}
         </div>
