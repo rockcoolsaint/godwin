@@ -56,7 +56,7 @@ const AuctionProfile = ({ data }: Props) => {
       {/* Seller Profile Section */}
       <div className="flex items-center p-4 bg-white rounded-xl mb-6">
         <img
-          src="../images/vh.jpg" // Replace with actual image path or data.user.profile_image_url
+          src="../../../../images/vh.jpg" // Replace with actual image path or data.user.profile_image_url
           alt="Seller Profile Photo"
           className="w-16 h-16 rounded-full mr-4" // Adjust size if needed
         />
@@ -64,7 +64,7 @@ const AuctionProfile = ({ data }: Props) => {
           <h1 className="text-2xl font-bold">ValeHash</h1> {/* Large heading for Name */}
           <p className="text-lg text-gray-600">Upstate New York, USA</p> {/* Location text */}
           <p className="text-sm text-gray-500">
-            We ventured into the exciting world of Bitcoin mining during the halving hype of 2016, starting modestly with just seven S9 miners. Initially, we hosted these miners in the very first few facilities in Wenatchee. As the Bitcoin hype grew louder, so did our fleet of miners. The turning point came in November 2016, when the Indian government demonetized the Rs 100 and Rs 500 currency notes, underscoring the revolutionary potential and necessity of programmable currency. This seismic event fueled our degen ambitions, and we kept on adding more miners to our ever-growing fleet... <a href="#">Read more here.</a>
+            We ventured into the exciting world of Bitcoin mining during the halving hype of 2016, starting modestly with just seven S9 miners. Initially, we hosted these miners in the very first few facilities in Wenatchee. As the Bitcoin hype grew louder, so did our fleet of miners. <a href="#">Read more here.</a>
           </p>{' '}
           {/* Biography */}
         </div>
