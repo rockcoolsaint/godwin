@@ -33,7 +33,7 @@ export default function Authorized() {
             <Dropdown.Item href="/account/general" className="px-6">
               <span className="py-4 text-sm text-blue-500">{account.email}</span>
             </Dropdown.Item>
-            {(account.type === 'Seller' || account.is_staff) && (
+            {(account.type === 'seller' || account.is_staff) && (
               <Dropdown.Item
                 className="px-6"
                 onClick={() => window.open(`https://portal.rigly.io/login/callback?email=${account.email}&code=${authCode}`, '_blank')}
