@@ -1,12 +1,12 @@
 'use client'
-import React from 'react'
+import Image from "next/image"
 import { useTranslation } from 'src/hooks'
 import { Auction } from 'src/api/auction/types'
 import { underscoreToSpaceAndCapitalize } from 'utils'
 import { convertTime } from 'src/utils/date'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import { formatMoney } from 'src/utils/currency'
-import vh from 'src/assets/jpg/vh.jpg'
+import * as miner from 'src/assets/jpg/mining.jpeg'
 
 interface Props {
   data: Auction
@@ -53,25 +53,34 @@ const AuctionProfile = ({ data }: Props) => {
   }
 
   return (
-    <section className="rounded-3 flow-root h-full rounded-xl border bg-gray-50 px-0 py-3 sm:px-4">
-      {/* Seller Profile Section */}
-      <div className="flex items-center p-4 bg-white rounded-xl mb-6">
-        <div className="w-16 h-16 rounded-full mr-4"
-         <Image src={vh} alt="ValueHash photo" width={200} objectFit="contain" />
+     <section className="rounded-3 flow-root h-full rounded-xl border bg-gray-50 px-0 py-3 sm:px-4">
+    {data?.auction_meta?.image_2 && (
+      /* Seller Profile Section */
+      <div className="flex items-center bg-white rounded-xl mb-6">
+        <div className="w-3/6 sm:w-1/6 md:w-1/3 lg:w-2/6 p-4 flex justify-center items-center">
+          <div className="w-full aspect-[4/3] relative">
+            <Image
+              src={data.auction_meta.image_2 || miner}
+              alt="Seller Profile Photo"
+              layout="fill"
+              objectFit="contain"
+              className="rounded-lg"
+            />
+          </div>
         </div>
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-bold">ValeHash</h1> {/* Large heading for Name */}
-          <p className="text-lg text-gray-600">Upstate New York, USA</p> {/* Location text */}
-          <p className="text-sm text-gray-500">
-            We ventured into the exciting world of Bitcoin mining during the halving hype of 2016, starting modestly with just seven S9 miners. Initially, we hosted these miners in the very first few facilities in Wenatchee. <a href="https://valuehash.com/genesis-story/">Read more.</a>
-          </p>{' '}
-          {/* Biography */}
+        <div className="w-3/6 sm:w-5/6 md:w-2/3 lg:w-4/6 p-4">
+          <h1 className="text-2xl font-bold">{data.auction_meta.name}</h1>
+          <p className="text-sm text-gray-500 mt-2">
+            {data.auction_meta.notes}
+            <a href={data.auction_meta.terms_link} className="text-blue-500 hover:underline ml-1">Our website.</a>
+          </p>
         </div>
       </div>
-
-      {/* Existing Content */}
+    )}
+    {/* Existing Content */}
       <div className="border-1 flex justify-between rounded-xl bg-white p-2">
         <div className="flex-1">
+
           {/* Type */}
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
