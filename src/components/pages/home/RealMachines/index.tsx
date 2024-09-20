@@ -11,7 +11,7 @@ const content = [
   },
   {
     title: 'Multisig escrow',
-    body: 'Payments are released after your hashrate is delivered.',
+    body: 'Payment is released according to your agreement.',
   },
   {
     title: 'Auction pricing',
