@@ -45,7 +45,7 @@ export default function Learn() {
                         <ol className="mt-4 list-decimal pl-8">
                           <li>Mining is highly centralized at the pool level, risking the loss of censorship resistance.</li>
                           <li className="mt-1">
-                           ASIC mining rigs are expensive and consume a lot of power, requiring low electricity rates to cover costs and payback over time.
+                           ASIC mining rigs are expensive and consume a lot of power. Thus few bitcoiners can mine at scale. 
                           </li>
                           <li>Only the largest mining farms have access to funding.</li>
                         </ol>
@@ -156,9 +156,7 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-xs text-black lg:text-base">
-                        <p>The auction price factors in reputatio: tnrustworthy mining farms fetch a premium price.</p>
-                        <br/>
-                        <p>Over time, we are building a scoring system to quantify delivery history. Sellers with track records get access to advance funding on Rigly and grow their operations faster.</p>
+                        <p>Over time, we are <b>building a scoring system</b> to quantify delivery history. Sellers with track records fetch a premium price at auction and grow their operations faster.</p>
                         </div>
                     </Disclosure.Panel>
                   </>
