@@ -11,7 +11,7 @@ const content = [
   },
   {
     title: 'Multisig escrow',
-    body: 'Payment is released according to your agreement.',
+    body: 'Payment released to sellers per auction agreement.',
   },
   {
     title: 'Auction pricing',
