@@ -157,7 +157,7 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-xs text-black lg:text-base">
-                        <b>Mining farms get up to 50% payment upfront.</b> The balance is held in a 2:2 multisig escrow, paid as the buyer receives their hashrate.
+                        <b>Mining farms get a percentage of payment upfront.</b> The balance is held in a 2:2 multisig escrow, paid as the buyer receives their hashrate.
                       </div>
                     </Disclosure.Panel>
                   </>
