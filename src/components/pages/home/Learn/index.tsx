@@ -40,10 +40,10 @@ export default function Learn() {
                           <li className="mt-1">
                           Mining bitcoin requires buying expensive ASIC rigs
                           </li>
-                          <li>Earning a profit at mining requires cheap electricity and domain knowledge</li>
+                          <li>Mining profitably requires cheap electricity</li>
                           <li>Few options exist to fund new mining operations</li>
                           </ol>
-                        <br/><p>Since few bitcoiners can participate due to these barriers to entry, mining is highly centralized. This risks the loss of censorship resistance.</p>
+                        <br/><p>Few bitcoiners can participate due to these barriers to entry, thus mining is highly centralized. This risks the loss of censorship resistance.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
@@ -67,12 +67,13 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-xs text-black lg:text-base">
-                      Mining farms sell their hashrate at auction to the highest bidder.
+                      Mining farms sell their hashrate to the highest bidder.
                        <ol className="mt-4 list-decimal pl-8">
-                        <li>Buyers get access to hashrate at a fair price - with the potential to earn profit</li>
+                        <li>Buyers get access to hashrate at a fair price</li>
+                        <li>Buyers have potential to earn profit</li>
                         <li>Sellers get access to funding</li>
                        </ol>
-                       <br/><p>Rigly levels the playing field, so that everyone can do their own research, place their bid and mine bitcoin.</p>
+                       <br/><p>Rigly levels the playing field, so everyone can mine bitcoin from mining farms around the world.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
