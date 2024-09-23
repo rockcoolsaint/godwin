@@ -38,11 +38,12 @@ export default function Learn() {
                       <div className="text-xs text-black lg:text-base">
                         <ol className="mt-4 list-decimal pl-8">
                           <li className="mt-1">
-                          Profitable mining requires skill, scale, and access to cheap electricity
+                          Mining bitcoin requires buying expensive ASIC rigs
                           </li>
-                          <li>Building a mining farm requires an upfront investment of capital</li>
+                          <li>Earning a profit at mining requires cheap electricity and domain knowledge</li>
+                          <li>Few options exist to fund new mining operations</li>
                           </ol>
-                        <br/><p>Mining is thus highly centralized since few bitcoiners can participate due to these barriers to entry. This risks the loss of censorship resistance.</p>
+                        <br/><p>Since few bitcoiners can participate due to these barriers to entry, mining is highly centralized. This risks the loss of censorship resistance.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
