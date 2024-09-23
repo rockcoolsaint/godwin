@@ -41,7 +41,7 @@ export default function Learn() {
                           Mining bitcoin requires buying expensive ASIC rigs
                           </li>
                           <li>Mining profitably requires cheap electricity</li>
-                          <li>Few options exist to fund new mining operations</li>
+                          <li>Too few options to fund new mining operations</li>
                           </ol>
                         <br/><p>Few bitcoiners can participate due to these barriers to entry, thus mining is highly centralized. This risks the loss of censorship resistance.</p>
                       </div>
@@ -70,7 +70,7 @@ export default function Learn() {
                       Mining farms sell their hashrate to the highest bidder.
                        <ol className="mt-4 list-decimal pl-8">
                         <li>Buyers get access to hashrate at a fair price</li>
-                        <li>Buyers have potential to earn profit</li>
+                        <li>Buyers have potential to mine at a profit</li>
                         <li>Sellers get access to funding</li>
                        </ol>
                        <br/><p>Rigly levels the playing field, so everyone can mine bitcoin from mining farms around the world.</p>
