@@ -42,7 +42,7 @@ export default function Learn() {
                           </li>
                           <li>Building a mining farm requires an upfront investment of capital</li>
                           </ol>
-                        <br/><p>Mining is thus highly centralized since few bitcoiners can participate in mining. This risks the loss of censorship resistance.</p>
+                        <br/><p>Mining is thus highly centralized since few bitcoiners can participate due to these barriers to entry. This risks the loss of censorship resistance.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
@@ -120,29 +120,6 @@ export default function Learn() {
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">When are sellers paid?</h2>
-                        <span className="ml-6 flex h-7 items-center">
-                          {open ? (
-                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
-                          ) : (
-                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
-                          )}
-                        </span>
-                      </Disclosure.Button>
-                    </div>
-                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-xs text-black lg:text-base">
-                        <b>Mining farms get up to 50% payment upfront.</b> The balance is held in a 2:2 multisig escrow, paid as the buyer receives their hashrate.
-                      </div>
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
-              <Disclosure as="div" className="pt-6" defaultOpen={true}>
-                {({ open }) => (
-                  <>
-                    <div>
-                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
                         <h2 className="text-sm font-semibold text-primary lg:text-2xl">Reputation system</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
@@ -160,6 +137,29 @@ export default function Learn() {
                     </Disclosure.Panel>
                   </>
                 )}
+              </Disclosure>
+              <Disclosure as="div" className="pt-6" defaultOpen={true}>
+                {({ open }) => (
+                  <>
+                    <div>
+                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">When are sellers paid?</h2>
+                        <span className="ml-6 flex h-7 items-center">
+                          {open ? (
+                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
+                          ) : (
+                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
+                          )}
+                        </span>
+                      </Disclosure.Button>
+                    </div>
+                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
+                      <div className="text-xs text-black lg:text-base">
+                        <b>Mining farms get up to 50% payment upfront.</b> The balance is held in a 2:2 multisig escrow, paid as the buyer receives their hashrate.
+                      </div>
+                    </Disclosure.Panel>
+                  </>
+                )} 
               </Disclosure>
             </div>
             {!isMobile && (
