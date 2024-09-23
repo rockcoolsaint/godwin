@@ -1,3 +1,4 @@
+         
 'use client'
 import { Auction, AuctionOfTheDayResponse } from 'src/api/auction/types'
 import { LocalStorageKeys } from 'src/constants/localStorage'
@@ -54,6 +55,9 @@ const formatDateWithSuffix = (date: Date) => {
   return `${month} ${dayNumber}${suffix}`;
 };
 
+// Common button style class
+const buttonClass = "w-full flex items-center justify-center rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90";
+
 export default function Home({ isDemo, code }: Props) {
   const { account } = useAccountContext()
   const [_, setLoading] = useState(false)
@@ -80,7 +84,7 @@ export default function Home({ isDemo, code }: Props) {
       }
     }
     prepareCollections()
-    }, [])
+  }, [])
 
   if (code) {
     localStorage.setItem(LocalStorageKeys.Referral.plebtern, code)
@@ -208,43 +212,58 @@ export default function Home({ isDemo, code }: Props) {
               {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
               {auctionData?.length > 0 && auctionOfTheDay && (
                 <div className="w-full max-w-7xl overflow-auto sm:mt-24">
-                  <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData}></UpcomingAuctions>
+                  <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData} />
                 </div>
               )}
             </section>
             <Learn />
+            
             <div className="container mx-auto px-4 py-8">
-              <h1 className="mt-36 text-center font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Try mining now</h1>
+              <h1 className="mt-36 text-center font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Join our marketplace</h1>
               <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
+                {/* Left side box (Buyers) */}
                 <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
                   <div>
-                    <h3 className="mb-4 text-xl font-bold">Take a test drive</h3>
-                    <p className="mb-2 text-gray-600">Need a mining pool account?</p>
+                    <h3 className="mb-4 text-xl font-bold">Buyers</h3>
                     <p className="mb-4 text-gray-600">
-                      Buy 3 hours of hashrate for just 1,000 sats. <b>Includes a mining pool account at Braiins pool</b>
+                      Take a test drive. Buy 3 hours of hashrate and try it out.
+                    </p>
+                    <p className="mb-4 text-gray-600">
+                      If you're new to mining, we'll create a Braiins pool account for you.
                     </p>
                   </div>
-                  <Link
-                    href="/test-drive"
-                    className="flex items-center justify-center rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
-                    target="_blank"
-                    id="try-mining"
-                  >
-                    Buy test drive
-                  </Link>
+                  <div className="flex flex-row space-x-4">
+                    <Link
+                      href="/test-drive"
+                      className={`${buttonClass} flex-1`}
+                      target="_blank"
+                      id="try-mining"
+                    >
+                      I need a pool account
+                    </Link>
+                    <Link
+                      href="/direct-sale"
+                      className={`${buttonClass} flex-1`}
+                      target="_blank"
+                      id="try-mining"
+                    >
+                      I have a pool account
+                    </Link>
+                  </div>
                 </div>
+
+                {/* Right side box (Sellers) */}
                 <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
                   <div>
-                    <h3 className="mb-4 text-xl font-bold">Buy hashrate</h3>
-                    <p className="mb-2 text-gray-600">Already have a mining pool account?</p>
-                    <p className="mb-4 text-gray-600">Enter your pool account info, buy hashrate and start mining</p>
+                    <h3 className="mb-4 text-xl font-bold">Sellers</h3>
+                    <p className="mb-4 text-gray-600">List your hashrate. Get upfront payment and grow faster.</p>
                   </div>
                   <Link
-                    href="/direct-sale"
-                    className="flex items-center justify-center rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
+                    href="/rigly"
+                    className={buttonClass}
                     target="_blank"
                   >
-                    Buy hashrate
+                    Learn more
                   </Link>
                 </div>
               </div>
@@ -252,6 +271,7 @@ export default function Home({ isDemo, code }: Props) {
           </section>
         </>
       )}
+
       {!isDemo && !isLoggedIn && (
         <>
           <section className="flex w-full flex-col items-center justify-center md:px-0">
