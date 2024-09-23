@@ -32,7 +32,7 @@
   "auction_ended": "Auction ended",
   "no_bids": "No bids have been placed",
   "auction_scheduled": "Auction starting in <span></span>",
-  "type": "Type",
+  "type": "Auction Type",
   "epoch": "Epoch",
   "duration": "Duration"
 }

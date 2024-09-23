@@ -1,14 +1,8 @@
+import Image from 'next/image'
 import { Disclosure } from '@headlessui/react'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import Link from 'src/components/shared/Link'
-import mine_easy from 'src/assets/mineeasy.json'
-import start_mining from 'src/assets/startminingtoday.json'
-import dynamic from 'next/dynamic'
 import { useMobileScreen } from 'src/hooks/useIsMobile'
-
-const Lottie = dynamic(() => import('lottie-react'), {
-  ssr: false,
-})
 
 export default function Learn() {
   const isMobile = useMobileScreen()
@@ -20,17 +14,17 @@ export default function Learn() {
           <div className="flex w-full justify-between">
             <div className="space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12">
               <div>
-                <p className="text-lg lg:text-3xl">Mining made easy for everyone.</p>
+                <p className="text-lg lg:text-3xl">Mining made easy.</p>
                 <p className="mt-2 text-base">
-                  We built Rigly to simplify access to bitcoin's raw ingredient.
+                  Mining is a lottery to create new blocks in the Bitcoin blockchain.
                 </p>
               </div>
-              <Disclosure as="div" className="pt-6">
+              <Disclosure as="div" className="pt-6" defaultOpen={true}>
                 {({ open }) => (
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">What is bitcoin mining?</h2>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">What is the problem?</h2>
                         <span className="ml-6 flex items-center">
                           {open ? (
                             <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
@@ -42,31 +36,25 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-xs text-black lg:text-base">
-                        Mining is a lottery to create new blocks in the Bitcoin blockchain. There are two main purposes for mining:
                         <ol className="mt-4 list-decimal pl-8">
-                          <li>To permanently add transactions to the blockchain without the permission of any central authority.</li>
                           <li className="mt-1">
-                            To fairly distribute the 21 million bitcoin supply by rewarding new coins to miners who spend real world
-                            resources (i.e. electricity) to secure the network
+                          Profitable mining requires skill, scale, and access to cheap electricity
                           </li>
-                        </ol>
-                        <Link
-                          href="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
-                          className="mt-4 block font-semibold text-black underline hover:no-underline"
-                        >
-                          Learn more at Braiins
-                        </Link>
+                          <li>Building a mining farm requires an upfront investment of capital</li>
+                          </ol>
+                        <br/><p>Mining is thus highly centralized since few bitcoiners can participate due to these barriers to entry. This risks the loss of censorship resistance.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
                 )}
               </Disclosure>
-              <Disclosure as="div" className="pt-6">
+              
+              <Disclosure as="div" className="pt-6" defaultOpen={true}>
                 {({ open }) => (
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">Why buy hashrate vs mine with a rig?</h2>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">How does Rigly help?</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
                             <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
@@ -78,38 +66,13 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-xs text-black lg:text-base">
-                        ASIC mining rigs are special-purpose machines worth several thousand dollars and consume a lot of power, requiring low electricity rates to cover costs and payback over time. Buying hashrate offers a <b>lower entry price</b> with <b>less time commitment</b>.
+                      Mining farms sell their hashrate at auction to the highest bidder.
+                       <ol className="mt-4 list-decimal pl-8">
+                        <li>Buyers get access to hashrate at a fair price - with the potential to earn profit</li>
+                        <li>Sellers get access to funding</li>
+                       </ol>
+                       <br/><p>Rigly levels the playing field, so that everyone can do their own research, place their bid and mine bitcoin.</p>
                       </div>
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
-              <Disclosure as="div" className="pt-6">
-                {({ open }) => (
-                  <>
-                    <div>
-                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">What are the incentives?</h2>
-                        <span className="ml-6 flex h-7 items-center">
-                          {open ? (
-                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
-                          ) : (
-                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
-                          )}
-                        </span>
-                      </Disclosure.Button>
-                    </div>
-                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-xs text-black lg:text-base">
-                        Miners redirect their hashrate through Rigly in exchange for a premium over the market rate paid out by mining
-                        pools. <b>Without this premium, there would be no reason for miners to give up their hashrate.</b> Buyers in turn pay a premium to use existing computing power as they see fit.
-                      </div>
-                      <Link
-                        href="https://blog.rigly.io/why-buy-spot-hashrate/"
-                        className="mt-4 block text-xs font-semibold text-black underline hover:no-underline"
-                      >
-                        Learn more at Why buy spot hashrate
-                      </Link>
                     </Disclosure.Panel>
                   </>
                 )}
@@ -117,8 +80,8 @@ export default function Learn() {
             </div>
             {!isMobile && (
               <div className="hidden w-6/12 pl-20 sm:flex">
-                <Lottie animationData={start_mining} async />
-              </div>
+                {/* Removed lottie image - Evan 9/23/24 */}
+                </div>
             )}
           </div>
         </div>
@@ -127,9 +90,9 @@ export default function Learn() {
           <div className="flex w-full justify-between">
             <div className="order-2 w-full space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12 sm:pl-20">
               <div>
-                <p className="text-3xl">Start mining now for just a few sats. Real machines, no rug pulls.</p>
+                <p className="text-3xl">Bitcoin Only. Start mining now for just a few sats.</p>
               </div>
-              <Disclosure as="div" className="pt-6">
+              <Disclosure as="div" className="pt-6" defaultOpen={true}>
                 {({ open }) => (
                   <>
                     <div>
@@ -146,18 +109,18 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-xs text-black lg:text-base">
-                        Hashrate is sourced directly from mining farms and delivered to your pool account. Track every hash you pay for.
+                        <b>P2P - not cloud mining.</b> Your hashrate is sent peer-to-peer via stratum protocol from mining farm to your pool account.
                       </div>
                     </Disclosure.Panel>
                   </>
                 )}
               </Disclosure>
-              <Disclosure as="div" className="pt-6">
+              <Disclosure as="div" className="pt-6" defaultOpen={true}>
                 {({ open }) => (
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">Payments held in escrow</h2>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">Reputation system</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
                             <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
@@ -169,18 +132,18 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-xs text-black lg:text-base">
-                        While your hashrate is delivered, your payment is held in a 2:2 bitcoin multisig address. <b>Sellers don’t get paid until you receive your hashrate.</b>
+                        <p>Over time, we are <b>building a scoring system</b> based on delivery history. Sellers with track records may fetch a premium price at auction.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
                 )}
               </Disclosure>
-              <Disclosure as="div" className="pt-6">
+              <Disclosure as="div" className="pt-6" defaultOpen={true}>
                 {({ open }) => (
                   <>
                     <div>
                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">Bitcoin Only</h2>
+                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">When are sellers paid?</h2>
                         <span className="ml-6 flex h-7 items-center">
                           {open ? (
                             <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
@@ -192,18 +155,16 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-xs text-black lg:text-base">
-                        <p>
-                          Rigly is non-custodial: not a money transmitter. <b>Bitcoin in, hash out.</b> All payments are in bitcoin (BTC) based on the transaction price in bitcoin.{' '}
-                        </p>
-                        </div>
+                        <b>Mining farms get up to 50% payment upfront.</b> The balance is held in a 2:2 multisig escrow, paid as the buyer receives their hashrate.
+                      </div>
                     </Disclosure.Panel>
                   </>
-                )}
+                )} 
               </Disclosure>
             </div>
             {!isMobile && (
               <div className="order-1 hidden w-6/12 justify-start sm:flex">
-                <Lottie animationData={mine_easy} async />
+                {/* Removed lottie image - Evan 9/23/24 */}
               </div>
             )}
           </div>
