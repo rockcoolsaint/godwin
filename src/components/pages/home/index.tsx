@@ -259,7 +259,7 @@ export default function Home({ isDemo, code }: Props) {
                     <p className="mb-4 text-gray-600">List your hashrate. Get upfront payment and grow faster.</p>
                   </div>
                   <Link
-                    href="/rigly"
+                    href="/learn/rigly"
                     className={buttonClass}
                     target="_blank"
                   >
