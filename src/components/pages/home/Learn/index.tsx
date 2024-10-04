@@ -15,10 +15,7 @@ export default function Learn() {
             <div className="space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12">
               <div>
                 <p className="text-lg lg:text-3xl">Mining made easy.</p>
-                <p className="mt-2 text-base">
-                  Mining is a lottery to create new blocks in the Bitcoin blockchain.
-                </p>
-              </div>
+                </div>
               <Disclosure as="div" className="pt-6" defaultOpen={true}>
                 {({ open }) => (
                   <>
@@ -35,7 +32,7 @@ export default function Learn() {
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-xs text-black lg:text-base">
+                      <div className="text-base text-black lg:text-lg">
                         <ol className="mt-4 list-decimal pl-8">
                           <li className="mt-1">
                           Mining bitcoin requires buying expensive ASIC rigs
@@ -43,7 +40,7 @@ export default function Learn() {
                           <li>Mining profitably requires cheap electricity</li>
                           <li>Few options to fund new mining operations</li>
                           </ol>
-                        <br/><p>Thus few bitcoiners can participate due to these barriers to entry, leading to mining centralization. This risks the loss of censorship resistance.</p>
+                        <br/><p>Thus very few bitcoiners can mine due to these barriers to entry, leading to mining centralization.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
@@ -66,14 +63,14 @@ export default function Learn() {
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-xs text-black lg:text-base">
-                      Mining farms sell their hashrate to the highest bidder.
+                      <div className="text-base text-black lg:text-lg">
+                       <p>Rigly levels the playing field, so everyone can bid on hashrate and mine bitcoin.</p>
                        <ol className="mt-4 list-decimal pl-8">
-                        <li>Buyers get access to hashrate at a fair price</li>
+                        <li>Buyers bid on hashrate at a fair price</li>
                         <li>Buyers have potential to mine at a profit</li>
                         <li>Sellers get access to funding</li>
                        </ol>
-                       <br/><p>Rigly levels the playing field, so everyone can bid on hashrate and mine bitcoin. Mining farm owners get access to new capital to scale their operations.</p>
+                       <br/><p>Bitcoiners get to mine and mining farm owners can scale their operations. It's a win-win.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
@@ -110,7 +107,7 @@ export default function Learn() {
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-xs text-black lg:text-base">
+                      <div className="text-base text-black lg:text-lg">
                         <b>P2P - not cloud mining.</b> Your hashrate is sent peer-to-peer via stratum protocol from mining farm to your pool account.
                       </div>
                     </Disclosure.Panel>
@@ -133,8 +130,8 @@ export default function Learn() {
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-xs text-black lg:text-base">
-                        <p>Over time, we are <b>building a scoring system</b> based on delivery history. Sellers with track records may fetch a premium price at auction.</p>
+                      <div className="text-base text-black lg:text-lg">
+                        <p>We plan to <b>build a scoring system</b> based on delivery history. Mining farms with track records may fetch a premium price at auction.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
@@ -156,7 +153,7 @@ export default function Learn() {
                       </Disclosure.Button>
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-xs text-black lg:text-base">
+                      <div className="text-base text-black lg:text-lg">
                         <b>Mining farms get a percentage of payment upfront.</b> The balance is held in a 2:2 multisig escrow, paid as the buyer receives their hashrate.
                       </div>
                     </Disclosure.Panel>

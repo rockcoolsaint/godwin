@@ -237,7 +237,7 @@ export default function Home({ isDemo, code }: Props) {
                       href="/test-drive"
                       className={`${buttonClass} flex-1`}
                       target="_blank"
-                      id="try-mining"
+                      id="test-drive"
                     >
                       I need a pool account
                     </Link>
@@ -245,7 +245,7 @@ export default function Home({ isDemo, code }: Props) {
                       href="/direct-sale"
                       className={`${buttonClass} flex-1`}
                       target="_blank"
-                      id="try-mining"
+                      id="direct-sale"
                     >
                       I have a pool account
                     </Link>
@@ -262,6 +262,7 @@ export default function Home({ isDemo, code }: Props) {
                     href="/learn/rigly"
                     className={buttonClass}
                     target="_blank"
+                    id="seller-info"
                   >
                     Learn more
                   </Link>
