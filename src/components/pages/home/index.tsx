@@ -262,6 +262,7 @@ export default function Home({ isDemo, code }: Props) {
                     href="/learn/rigly"
                     className={buttonClass}
                     target="_blank"
+                    id="seller-info"
                   >
                     Learn more
                   </Link>
