@@ -275,7 +275,6 @@ export default function Home({ isDemo, code }: Props) {
 
 
           <Testimonials />
-      )}
     </div>
   )
 }
