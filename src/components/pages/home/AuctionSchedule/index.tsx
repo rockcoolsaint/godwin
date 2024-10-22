@@ -59,16 +59,16 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
       footer: info => info.column.id,
     }),
 
-    columnHelper.accessor(row => row.auction_meta.hashrate, {
-      id: 'hashrate',
+    columnHelper.accessor(row => row.title, {
+      id: 'title',
       cell: cell => {
         return (
           <Link className="text-primary underline" href={`${cell.row.original.slug}`}>
-            {cell.row.original.auction_meta.hashrate} TH/s
+            {cell.getValue()}
           </Link>
         )
       },
-      header: () => <span>Speed</span>,
+      header: () => <span>Auction</span>,
       footer: info => info.column.id,
       enableSorting: false,
     }),
@@ -95,22 +95,6 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
         return <ShowToolTip bid={info.getValue()} />
       },
       header: () => <span>Bid (sats)</span>,
-      footer: info => info.column.id,
-    }),
-    columnHelper.accessor('going_hashprice', {
-      header: () => (
-        <div className="flex flex-col">
-          <span>Hashprice</span>
-          <span>sats TH/s/day</span>
-        </div>
-      ),
-      cell: cell => {
-        if (cell.row.original.going_hashprice) {
-          return <p>{Math.round(cell.row.original.going_hashprice)}</p>
-        } else {
-          return <p>N/A</p>
-        }
-      },
       footer: info => info.column.id,
     }),
     columnHelper.accessor(row => row.end_at, {

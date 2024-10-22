@@ -41,7 +41,6 @@ export default function AuctionInfo() {
       <div className="lg:items-star flex flex-col items-center gap-4 lg:flex-row">
         <div className="item-center flex flex-col gap-4 self-stretch">
           <div className="flex flex-col gap-2">
-            <div className="font-chakra text-lg text-navy lg:text-4xl">Live Daily Auctions</div>
             <div className="flex flex-col gap-2 rounded-md border border-gray-400 p-1 text-left text-xs">
               <div>- Bid Anonymously</div>
               <div>- New auctions each week</div>

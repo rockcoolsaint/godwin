@@ -30,14 +30,32 @@ export default async function AuctionMarketPage() {
     offset: 0,
   })
 
+  // Define specific auction IDs
+  const specificAuctionIds = [1742, 1743] // tabconf auctions
+
+  // Filter active auctions based on specific IDs
+  const filteredAuctions = completedAuctions.results.filter(auction => 
+    specificAuctionIds.includes(auction.id)
+  )
+
+  // console.log('Specific auctions fetched:', filteredAuctions)
+
   return (
     <Container className="py-12 xl:w-full">
       <AuctionInfo />
       <Suspense fallback={<TableSkeletonLoader title="Auction Market" />}>
         <div className="flex flex-col items-center">
+          {filteredAuctions.length && (
+            <>
+              <h2 className="font-chakra text-lg font-bold text-navy lg:text-4xl">TABConf Auctions</h2>
+              <p className="font-chakra text-medium text-navy lg:text-l">100% of auction proceeds benefit the <a href="https://opensats.org/funds/general">OpenSats general fund.</a></p>
+              <AuctionSchedule auctionsData={filteredAuctions} />
+            </>
+          )}
+
           {!!activeAuctions.results.length && (
             <>
-              <h2 className="font-chakra text-lg font-bold text-navy lg:text-4xl">Active auctions</h2>
+              <h2 className="font-chakra text-lg font-bold text-navy lg:text-4xl">All active auctions</h2>
               <AuctionSchedule auctionsData={activeAuctions.results} />
             </>
           )}
