@@ -15,14 +15,14 @@ const TestDriveThreeSteps = () => (
       {
         image: StepTwoImage,
         imageAlt: 'Welcome email screenshot',
-        title: 'Login to Your Pool Account',
-        text: 'After payment <b>you will receive an email</b> w/details for your new mining pool account at Braiins Pool.',
+        title: 'Pool Account',
+        text: 'After payment <b>you will receive an email</b> w/details for your new mining pool account at <b>Braiins Pool.</b>',
       },
       {
         image: StepThreeImage,
         imageAlt: 'Dashboard screenshot',
         title: "You're mining now!",
-        text: 'Check your hashrate - and then <b>update your pool password</b> and <b>set your payout address</b> to receive your mining rewards.',
+        text: 'Be sure to <b>set your payout address</b> at Braiins to receive your mining rewards.',
       },
     ]}
   />
