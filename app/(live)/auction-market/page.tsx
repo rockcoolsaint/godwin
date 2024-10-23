@@ -34,7 +34,7 @@ export default async function AuctionMarketPage() {
   const specificAuctionIds = [1742, 1743] // tabconf auctions
 
   // Filter active auctions based on specific IDs
-  const filteredAuctions = completedAuctions.results.filter(auction => 
+  const filteredAuctions = activeAuctions.results.filter(auction => 
     specificAuctionIds.includes(auction.id)
   )
 
