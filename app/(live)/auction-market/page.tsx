@@ -45,7 +45,7 @@ export default async function AuctionMarketPage() {
       <AuctionInfo />
       <Suspense fallback={<TableSkeletonLoader title="Auction Market" />}>
         <div className="flex flex-col items-center">
-          {filteredAuctions.length && (
+          {!!filteredAuctions.length && (
             <>
               <h2 className="font-chakra text-lg font-bold text-navy lg:text-4xl">TABConf Auctions</h2>
               <p className="font-chakra text-medium text-navy lg:text-l">100% of auction proceeds benefit the <a href="https://opensats.org/funds/general">OpenSats general fund.</a></p>

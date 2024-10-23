@@ -94,12 +94,12 @@ export default function Home({ isDemo, code }: Props) {
     <div>
       <div className="flex items-center justify-center gap-x-6 bg-indigo-600 px-6 py-2.5 sm:px-3.5">
         <p className="text-sm leading-6 text-white">
-          <a href="#">
+          <a href="https://rigly.io/auction-market">
             <strong className="font-semibold">{formatDateWithSuffix(new Date())}</strong>
             <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
               <circle cx={1} cy={1} r={1} />
             </svg>
-            More auctions coming Friday!
+            Welcome TABConf visitors! Check out our auctions to benefit OpenSats!
           </a>
         </p>
       </div>
