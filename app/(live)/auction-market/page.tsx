@@ -47,7 +47,7 @@ export default async function AuctionMarketPage() {
         <div className="flex flex-col items-center">
           {!!filteredAuctions.length && (
             <>
-              <h2 className="font-chakra text-lg font-bold text-navy lg:text-4xl">TABConf Auctions</h2>
+              <h2 className="mt-20 font-chakra text-lg font-bold text-navy lg:text-4xl">TABConf Auctions</h2>
               <p className="font-chakra text-medium text-navy lg:text-l">100% of auction proceeds benefit the <a href="https://opensats.org/funds/general">OpenSats general fund.</a></p>
               <AuctionSchedule auctionsData={filteredAuctions} />
             </>
@@ -55,7 +55,7 @@ export default async function AuctionMarketPage() {
 
           {!!activeAuctions.results.length && (
             <>
-              <h2 className="font-chakra text-lg font-bold text-navy lg:text-4xl">All active auctions</h2>
+              <h2 className="mt-20 font-chakra text-lg font-bold text-navy lg:text-4xl">All active auctions</h2>
               <AuctionSchedule auctionsData={activeAuctions.results} />
             </>
           )}
