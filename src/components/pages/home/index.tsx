@@ -119,7 +119,7 @@ export default function Home({ isDemo, code }: Props) {
                   <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData} />
                 </div>
                 <Link href="/auction-market" className="mt-10 rounded-xl bg-navy p-2 font-epilogue text-sm font-bold text-white lg:p-4">
-                  Explore Auctions
+                  Explore All Auctions
                 </Link>
               </>
             )}
