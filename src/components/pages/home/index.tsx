@@ -193,7 +193,7 @@ export default function Home({ isDemo, code }: Props) {
               <>
                 <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
                   <Link
-                    href="#try-mining"
+                    href="/test-drive"
                     className="lg:h-15 mb-5 flex w-11/12 items-center justify-center rounded-full bg-hero-gradient px-5 py-4 text-lg text-white outline-none hover:opacity-80 disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:mb-0 lg:w-8/12 lg:text-2xl xl:w-4/12"
                   >
                     Try it out
@@ -226,10 +226,7 @@ export default function Home({ isDemo, code }: Props) {
                   <div>
                     <h3 className="mb-4 text-xl font-bold">Buyers</h3>
                     <p className="mb-4 text-gray-600">
-                      Take a test drive. Buy 3 hours of hashrate and try it out.
-                    </p>
-                    <p className="mb-4 text-gray-600">
-                      If you're new to mining, we'll create a Braiins pool account for you.
+                      Sign up and take a 3 hour mining test drive to see how Rigly works. <b>New to mining?</b> We create a mining pool account for you.
                     </p>
                   </div>
                   <div className="flex flex-row space-x-4">
