@@ -14,7 +14,7 @@ export default function Learn() {
           <div className="flex w-full justify-between">
             <div className="space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12">
               <div>
-                <p className="text-lg lg:text-3xl">Mining made easy.</p>
+                <p className="text-3xl">Mining made easy.</p>
                 </div>
               <Disclosure as="div" className="pt-6" defaultOpen={true}>
                 {({ open }) => (
