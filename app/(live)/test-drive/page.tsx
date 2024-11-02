@@ -7,18 +7,11 @@ export default async function TestDrivePage() {
   return (
     <Container className="xl:w-full">
       <section className="flex w-full flex-col items-center py-10 lg:px-20">
-
-      <h1 className="max-w-4xl bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text text-center text-4xl font-bold text-transparent lg:text-5xl 2xl:text-7xl">
-          Welcome TABConf attendees!
+        <h1 className="max-w-4xl bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text text-center text-4xl font-bold text-transparent lg:text-5xl 2xl:text-7xl">
+          Try mining now
         </h1>
-        <p className="underline my-5 w-11/12 text-center font-epilogue text-sm md:text-base lg:w-9/12 lg:text-xl 2xl:text-3xl">
-          <a href="/auction-market">View the Mining Auction to benefit the OpenSats general fund.</a>
-          </p>
-          <p className="my-5 w-11/12 text-center font-epilogue text-sm md:text-base lg:w-9/12 lg:text-xl 2xl:text-3xl">
-          <b>New to bitcoin mining?</b>
-        </p>
         <p className="my-5 w-11/12 text-center font-epilogue text-sm md:text-base lg:w-9/12 lg:text-xl 2xl:text-3xl">
-        You can take our mining test drive for just 1,000 sats
+          Buy 3 hours of hashrate for just 1,000 sats!
         </p>
       </section>
       <TestDriveThreeSteps />
