@@ -226,10 +226,7 @@ export default function Home({ isDemo, code }: Props) {
                   <div>
                     <h3 className="mb-4 text-xl font-bold">Buyers</h3>
                     <p className="mb-4 text-gray-600">
-                      Take a test drive. Buy 3 hours of hashrate and try it out.
-                    </p>
-                    <p className="mb-4 text-gray-600">
-                      If you're new to mining, we'll create a Braiins pool account for you.
+                      Sign up and take a 3 hour mining test drive to see how Rigly works. <b>New to mining?</b> We create a mining pool account for you.
                     </p>
                   </div>
                   <div className="flex flex-row space-x-4">
