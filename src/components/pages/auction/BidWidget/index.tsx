@@ -274,7 +274,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
               <QuestionMarkCircleIcon className="ml-2 size-6" />
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Based on latest bid
+              Default hashprice is based on current network difficulty and fee volume.
             </TooltipContent>
           </Tooltip>{' '}
         </h1>
@@ -292,7 +292,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         </Tooltip>
       </div>
       <span className="absolute bottom-2 text-xs text-navy">
-        Compare your bid to spot hashprice at{' '}
+        Adjust hashprice to estimate potential mining revenue. Data source: {' '}
         <Link
           target="_blank"
           href="https://data.hashrateindex.com/network-data/btc"
@@ -300,15 +300,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         >
           Hashrate Index
         </Link>{' '}
-        and learn{' '}
-        <Link
-          target="_blank"
-          href="https://blog.rigly.io/why-buy-spot-hashrate/"
-          className=" font-semibold text-black underline hover:no-underline"
-        >
-          why hashrate at auction sells at a premium
-        </Link>{' '}
-      </span>
+       </span>
     </div>
   )
 }
