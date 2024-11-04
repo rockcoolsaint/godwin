@@ -16,6 +16,7 @@ import { toast } from 'react-hot-toast'
 import { MINING_POOLS, IMiningPool } from 'src/constants/pools'
 import { SignUpPoolDetails } from './SignUpPoolDetails'
 import { LocalStorageKeys } from 'src/constants/localStorage'
+import { useSearchParams } from 'next/navigation';
 
 enum Step {
   SignUp = 'Sign up',
@@ -44,6 +45,8 @@ export default function SignUp({ setView, setEmail }: any) {
   const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
+  const searchParams = useSearchParams()
+  const referral = searchParams.get('referral')
 
   const signUpInfo = {
     email: '',
@@ -62,6 +65,7 @@ export default function SignUp({ setView, setEmail }: any) {
     reset,
     trigger,
     resetField,
+    watch,
     formState: { errors, isDirty, isValid },
     setValue,
   } = useForm<FormInputs>({
@@ -77,6 +81,12 @@ export default function SignUp({ setView, setEmail }: any) {
     if (storedEmail) {
       setValue('email', storedEmail)
     }
+
+   // Add this block to handle referral from URL
+    if (referral) {
+      setValue('referral_code', referral)
+    }
+
     const code = window.localStorage.getItem(LocalStorageKeys.Referral.plebtern) || undefined
     setCode(code)
     const pool = Number(window.localStorage.getItem(LocalStorageKeys.Pool.poolValue)) || undefined
@@ -84,7 +94,7 @@ export default function SignUp({ setView, setEmail }: any) {
       const selectedPool = MINING_POOLS.filter(p => p.id === pool) || MINING_POOLS[0]
       handleSetSelectedPool(selectedPool[0])
     }
-  }, [setValue])
+  }, [setValue, referral])
 
   const handleSetSelectedPool = (val: IMiningPool) => {
     setSelectedPool(val)
@@ -219,7 +229,7 @@ export default function SignUp({ setView, setEmail }: any) {
               {...register('mining_pool_username')}
             />
             <div className="mt-2 inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-normal text-gray-800 ring-1 ring-inset ring-gray-600/20">
-              Please double check spelling and capitalization on your username
+              Only enter your pool username, do not add workername - eg. only "username", not "username.worker"
             </div>
             <Input
               className="w-full"
@@ -230,7 +240,7 @@ export default function SignUp({ setView, setEmail }: any) {
               autoCorrect="off"
               defaultValue={signUpInfo.mining_pool_address}
               errorMessage={errors.mining_pool_address?.message}
-              placeholder="satoshi@gmx.com"
+              placeholder="stratum.example.com:3333"
               label={t('registration.mining_pool_address')}
               {...register('mining_pool_address')}
             />
@@ -347,7 +357,18 @@ export default function SignUp({ setView, setEmail }: any) {
             </div>
             <button
               disabled={!isDirty}
-              onClick={() => handleSetCurrentStep(DEFAULT_STEPS[1])}
+              onClick={() => {
+                handleSetCurrentStep(DEFAULT_STEPS[1])
+                const referralCode = watch('referral_code')
+                if (referralCode) {
+                  toast.success(
+                  <span>
+                    Thanks for entering your code <strong>{referralCode}</strong>, you and your referrer will earn a day of free hashrate after your first purchase!
+                  </span>, {
+                    duration: 12000 // 12 seconds
+                  })
+              }
+              }}
               className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
             >
               Next
