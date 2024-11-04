@@ -38,11 +38,11 @@ const faqs = [
         `,
       },
       {
-        question: 'Who is "Anon"?',
+        question: 'Is my bid anonymous?',
         answer: `
             <div>
 
-            <p>All bids are anonymous on Rigly, so all bids (other than yours) will say <b>Anon.</b></p>
+            <p>Unless you set a username, your bid will show up in the form of "Anonymous 1234" on Rigly. You can update your name in your <a href="/account/general">account profile</a>.</p>
 
             </div>
         `,
