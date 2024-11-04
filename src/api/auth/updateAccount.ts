@@ -14,7 +14,8 @@ export async function updateAccount(update: object, token: string): Promise<bool
     // TODO: Error handling
 
     return true
-  } catch (ex) {
-    return false
+  } catch (ex: any) {
+    // throw the error
+    throw ex
   }
 }
