@@ -23,7 +23,12 @@ export const useSignUpSchema = (signUpInfo?: signUpInfo) => {
             .matches(emailRegex, () => 'Email not valid')
             .required(() => 'Email required'),
           referral_code: yup.string(),
-          mining_pool_username: signUpInfo?.poolAccountOwner ? yup.string().trim() : yup.string(),
+          mining_pool_username: signUpInfo?.poolAccountOwner
+            ? yup.string()
+                .trim()
+                .matches(/^[^.]+$/, 'Mining pool username cannot contain periods')
+                .required('Mining pool username required')
+            : yup.string(),
           mining_pool_address: yup.string().trim(),
         })
         .required(),

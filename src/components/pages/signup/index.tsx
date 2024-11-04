@@ -229,7 +229,7 @@ export default function SignUp({ setView, setEmail }: any) {
               {...register('mining_pool_username')}
             />
             <div className="mt-2 inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-normal text-gray-800 ring-1 ring-inset ring-gray-600/20">
-              Please double check spelling and capitalization on your username
+              Only enter your pool username, do not add workername - eg. only "username", not "username.worker"
             </div>
             <Input
               className="w-full"
@@ -240,7 +240,7 @@ export default function SignUp({ setView, setEmail }: any) {
               autoCorrect="off"
               defaultValue={signUpInfo.mining_pool_address}
               errorMessage={errors.mining_pool_address?.message}
-              placeholder="satoshi@gmx.com"
+              placeholder="stratum.example.com:3333"
               label={t('registration.mining_pool_address')}
               {...register('mining_pool_address')}
             />
