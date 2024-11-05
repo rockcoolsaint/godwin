@@ -16,6 +16,7 @@ import { useAccountContext } from 'src/providers/AccountProvider'
 import { Order, OrderStatus, OrderType } from 'src/types'
 import hasPassedOrderStatus from 'src/utils/hasPassedOrderStatus'
 import { isOrderFulfilled } from 'utils'
+import toast from 'react-hot-toast'
 
 export function formatOrderStatus(order: Order) {
   switch (order.status) {
@@ -209,27 +210,36 @@ function OrderAction({ order, hasManageAccess }: { order: Order; hasManageAccess
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
           <div className="py-1">
             <Menu.Item>
-              {({ active }) => (
-                <div>
-                  {!isOrderFulfilled(order.status) ? (
+            {({ active }) => (
+              <div>
+                {!isOrderFulfilled(order.status) ? (
+                  order.type === OrderType.Direct ? (
+                    <span
+                      onClick={() => toast.error("This option is unsupported, please create a new instant mining order")}
+                      className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm cursor-pointer')}
+                    >
+                      Pay
+                    </span>
+                  ) : (
                     <Link
                       href={`/checkout/${order.id}`}
                       className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
                     >
                       Pay
                     </Link>
-                  ) : hasManageAccess ? (
-                    <Link
-                      href={`/order/${order.id}`}
-                      className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
-                    >
-                      Manage
-                    </Link>
-                  ) : (
-                    <span className="text-sm text-gray-500">-</span>
-                  )}
-                </div>
-              )}
+                  )
+                ) : hasManageAccess ? (
+                  <Link
+                    href={`/order/${order.id}`}
+                    className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
+                  >
+                    Manage
+                  </Link>
+                ) : (
+                  <span className="text-sm text-gray-500">-</span>
+                )}
+              </div>
+            )}
             </Menu.Item>
             {(order.type === OrderType.Auction || order.type === OrderType.Direct) && (
               <Menu.Item>
