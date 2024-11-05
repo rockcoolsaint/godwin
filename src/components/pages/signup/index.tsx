@@ -50,8 +50,8 @@ export default function SignUp({ setView, setEmail }: any) {
 
   const signUpInfo = {
     email: '',
-    mining_pool_username: '',
-    mining_pool_address: '',
+    mining_pool_username: 'satoshi', // Pre-populate this string in case the user picks "I'll add it later"
+    mining_pool_address: 'stratum.example.com:3333',
     referral_code: '',
     poolAccountOwner: true,
     create_pool_account: false,
@@ -233,7 +233,6 @@ export default function SignUp({ setView, setEmail }: any) {
             </div>
             <Input
               className="w-full"
-              disabled={Boolean(selectedPool.address)}
               id="mining_pool_address"
               type="text"
               autoComplete="off"
