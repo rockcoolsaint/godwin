@@ -9,3 +9,12 @@ export async function subscribeNewsletter(email: string) {
 
   return subscribe
 }
+
+export async function unsubscribeNewsletter(email: string) {
+  const unsubscribe = await makeClientRequest({
+    method: 'POST',
+    path: '/api/newsletter/unsubscribe',
+    body: { email: email },
+  })
+  return unsubscribe
+}
