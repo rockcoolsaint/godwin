@@ -156,6 +156,11 @@ const Footer = () => {
                     FAQ
                   </Link>
                 </li>
+                <li className="mb-3">
+                  <Link className="font-normal text-dark-100 hover:underline" href="/unsubscribe">
+                  Unsubscribe from newsletter
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
