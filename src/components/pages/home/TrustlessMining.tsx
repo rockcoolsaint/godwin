@@ -6,7 +6,7 @@ import box3Image from 'src/assets/png/box3.png'
 const TrustlessMining: React.FC = () => {
   const boxes = [
     {
-      text: "Mining farms get 50% upfront. The escrow is released after hashrate delivery",
+      text: "Mining farms get 50% payment upfront and 50% in escrow, released after hashrate delivery",
       image: box1Image
     },
     {
@@ -55,6 +55,6 @@ const TrustlessMining: React.FC = () => {
       </div>
     </section>
   );
-} // Added this closing brace
+}
 
 export default TrustlessMining;
