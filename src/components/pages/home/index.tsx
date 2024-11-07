@@ -59,24 +59,6 @@ const formatDateWithSuffix = (date: Date) => {
   return `${month} ${dayNumber}${suffix}`;
 };
 
-function SellerBox({ name, capacity, desc }: { name: string, capacity: string, desc: string }) {
-  return (
-    <div className="w-64 h-full rounded-3xl border bg-white px-3 py-6 shadow-lg flex flex-col justify-between">
-      <div className="flex-grow">
-        <h2 className="mb-4 text-xl font-semibold">{name}</h2>
-        <p className="mb-4 text-medium text-dark-100">{desc}</p>
-        <p className="mb-4 text-sm text-dark-100">Capacity: {capacity}</p>
-      </div>
-      <Link
-        className="mt-auto flex w-full items-center justify-center rounded-lg bg-gradient p-3 text-base text-white hover:bg-gradient-hover"
-        href={`/auction-market`}
-      >
-        View auctions
-      </Link>
-    </div>
-  );
-}
-
 // Common button style class
 const buttonClass = "w-full flex items-center justify-center rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90";
 
