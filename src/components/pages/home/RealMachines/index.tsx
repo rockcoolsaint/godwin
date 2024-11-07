@@ -7,15 +7,15 @@ const Lottie = dynamic(() => import('lottie-react'), {
 const content = [
   {
     title: 'Real machines',
-    body: 'Connect to ASIC miners from sellers around the world.',
+    body: 'Connect to ASIC rigs from mining farms around the world',
   },
   {
     title: 'Multisig escrow',
-    body: 'Payment released to sellers per auction agreement.',
+    body: 'Payment released to sellers per auction agreement',
   },
   {
     title: 'Auction pricing',
-    body: 'All prices set by an open market.',
+    body: 'All prices set by an open market',
   },
 ]
 
