@@ -140,11 +140,11 @@ export default function TestDrive() {
           Get started
         </h2>
         <p className="my-4 w-full text-center font-epilogue text-xs font-normal text-gray-500 lg:my-8 lg:w-3/5 lg:text-xl 2xl:w-7/12 2xl:text-3xl">
-          Take our mining test drive. Includes a{' '}
-          <Link href="https://braiins.com/pool" target="_blank">
+          Includes a{' '}
+          <Link href="https://braiins.com/pool" target="_blank" className="text-blue-500 hover:underline">
             Braiins
           </Link>{' '}
-          mining pool account.
+          mining pool account
         </p>
         <div className="flex w-full flex-col rounded border border-solid border-black p-10 items-center">
           <div className="flex w-11/12 items-center justify-between lg:w-7/12 2xl:mb-10">
