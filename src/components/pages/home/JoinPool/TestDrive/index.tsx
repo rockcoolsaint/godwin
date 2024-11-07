@@ -144,7 +144,7 @@ export default function TestDrive() {
           <Link href="https://braiins.com/pool" target="_blank" className="text-blue-500 hover:underline">
             Braiins
           </Link>{' '}
-          mining pool account.
+          mining pool account
         </p>
         <div className="flex w-full flex-col rounded border border-solid border-black p-10 items-center">
           <div className="flex w-11/12 items-center justify-between lg:w-7/12 2xl:mb-10">

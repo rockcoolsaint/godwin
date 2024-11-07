@@ -49,12 +49,6 @@ export function MiningCalculator() {
   return (
     <>
       <div className="my-10 flex w-full flex-col items-center md:px-20">
-        <h2 className="bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text font-chakra text-2xl font-bold text-transparent lg:text-4xl 2xl:text-7xl">
-          Get started
-        </h2>
-        <p className="my-4 w-full text-center font-epilogue text-xs font-normal text-gray-500 lg:my-8 lg:w-3/5 lg:text-xl 2xl:w-7/12 2xl:text-3xl">
-          Buy hashrate now
-        </p>
         <InstantMining />
       </div>
     </>
