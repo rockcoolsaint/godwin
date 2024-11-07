@@ -35,10 +35,10 @@ export default function Learn() {
                       <div className="text-base text-black lg:text-lg">
                         <ol className="mt-4 list-decimal pl-8">
                           <li className="mt-1">
-                          Mining bitcoin requires buying expensive ASIC rigs
+                          Mining requires expensive ASIC rigs
                           </li>
                           <li>Mining profitably requires cheap electricity</li>
-                          <li>Funding new mining operations is hard</li>
+                          <li>Funding new mining is hard</li>
                           </ol>
                         <br/><p>Thus very few bitcoiners can mine due to these barriers to entry, leading to mining centralization.</p>
                       </div>
@@ -68,7 +68,7 @@ export default function Learn() {
                        <ol className="mt-4 list-decimal pl-8">
                         <li>Buyers bid on hashrate at a fair price</li>
                         <li>Buyers have potential to mine at a profit</li>
-                        <li>Sellers get partial payment upfront</li>
+                        <li>Sellers can get 50% payment upfront</li>
                        </ol>
                        <br/><p>Bitcoiners get to mine and mining farm owners can scale their operations. It's a win-win.</p>
                       </div>
