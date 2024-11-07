@@ -141,7 +141,7 @@ export default function TestDrive() {
         </h2>
         <p className="my-4 w-full text-center font-epilogue text-xs font-normal text-gray-500 lg:my-8 lg:w-3/5 lg:text-xl 2xl:w-7/12 2xl:text-3xl">
           Includes a{' '}
-          <Link href="https://braiins.com/pool" target="_blank" className="underline">
+          <Link href="https://braiins.com/pool" target="_blank" className="text-blue-500 hover:underline">
             Braiins
           </Link>{' '}
           mining pool account.
