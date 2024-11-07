@@ -9,20 +9,21 @@ const TestDriveThreeSteps = () => (
       {
         image: StepOneImage,
         imageAlt: 'Buy screen screenshot',
-        title: 'Buy',
-        text: 'Enter your email address below, then <b>click to buy</b> via Lightning or on-chain.',
+        title: 'Signup and Buy',
+        text: 'Enter your email address below',
+
       },
       {
         image: StepTwoImage,
         imageAlt: 'Welcome email screenshot',
-        title: 'Login to Your Pool Account',
-        text: 'After payment <b>you will receive an email</b> w/details for your new mining pool account at Braiins Pool.',
+        title: 'Braiins Pool Account',
+        text: 'Check email for mining pool account details',
       },
       {
         image: StepThreeImage,
         imageAlt: 'Dashboard screenshot',
         title: "You're mining now!",
-        text: 'Check your hashrate - and then <b>update your pool password</b> and <b>set your payout address</b> to receive your mining rewards.',
+        text: 'Set a payout address at Braiins to receive your mining rewards',
       },
     ]}
   />

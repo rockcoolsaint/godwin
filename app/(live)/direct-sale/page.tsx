@@ -12,7 +12,7 @@ export default function DirectSalePage() {
     <Container className="xl:w-full">
       <section className="flex w-full flex-col items-center py-10 lg:px-20">
         <h1 className="max-w-4xl bg-gradient-to-r from-[#5C3FAF] to-[#316AEF] bg-clip-text text-center text-4xl font-bold text-transparent md:text-5xl lg:text-6xl 2xl:text-7xl">
-          Buy Hashrate and Start mining now
+          Buy Hashrate and Start Mining Now
         </h1>
         <p className="my-5 w-11/12 text-center font-epilogue text-sm md:text-base lg:w-9/12 lg:text-xl 2xl:text-3xl">
           Jump right in and start mining to your pool account
