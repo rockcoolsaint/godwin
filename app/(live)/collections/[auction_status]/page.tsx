@@ -15,7 +15,11 @@ export default async function AuctionStatusPage({
   const { sort, auction_type, next } = searchParams as { [key: string]: string }
   const { sortKey } = sorting.find(item => item.slug === sort) || defaultSort
   const { filterKey } = auctionTypeFiltering.find(item => item.slug === auction_type) || defaultType
-  const { limit } = getPaginationForSearchParams({ next: next })
+
+  // Only get pagination params if not completed auctions
+  const { limit } = params.auction_status === 'completed'
+    ? { limit: 200 }
+    : getPaginationForSearchParams({ next: next })
 
   const auctions = await getAllAuctions({
     limit: limit,
