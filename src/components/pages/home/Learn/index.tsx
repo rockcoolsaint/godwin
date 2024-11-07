@@ -37,8 +37,8 @@ export default function Learn() {
                           <li className="mt-1">
                           Mining requires expensive ASIC rigs
                           </li>
-                          <li>Mining profitably requires cheap electricity</li>
-                          <li>Funding new mining is hard</li>
+                          <li>Mining requires cheap electricity</li>
+                          <li>Mining requires trust in hosting companies</li>
                           </ol>
                         <br/><p>Thus very few bitcoiners can mine due to these barriers to entry, leading to mining centralization.</p>
                       </div>
@@ -64,13 +64,13 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-base text-black lg:text-lg">
-                       <p>Rigly levels the playing field, so everyone can bid on hashrate and mine bitcoin.</p>
+                       <p>Rigly auctions level the playing field, so everyone can bid on hashrate and mine bitcoin.</p>
                        <ol className="mt-4 list-decimal pl-8">
-                        <li>Buyers bid on hashrate at a fair price</li>
-                        <li>Buyers have potential to mine at a profit</li>
-                        <li>Sellers can get 50% payment upfront</li>
+                        <li>Buying hashrate is cheaper than buying an ASIC</li>
+                        <li>Buyers can mine at a profit</li>
+                        <li>Buyers can mine with escrow peace-of-mind</li>
                        </ol>
-                       <br/><p>Bitcoiners get to mine and mining farm owners can scale their operations. It's a win-win.</p>
+                       <br/><p>Bitcoiners get to mine and mining farm owners can scale their operations faster. It's a win-win.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
@@ -136,29 +136,6 @@ export default function Learn() {
                     </Disclosure.Panel>
                   </>
                 )}
-              </Disclosure>
-              <Disclosure as="div" className="pt-6" defaultOpen={true}>
-                {({ open }) => (
-                  <>
-                    <div>
-                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                        <h2 className="text-sm font-semibold text-primary lg:text-2xl">When are sellers paid?</h2>
-                        <span className="ml-6 flex h-7 items-center">
-                          {open ? (
-                            <ChevronUpIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
-                          ) : (
-                            <ChevronDownIcon className="h-3 w-3 text-primary lg:h-5 lg:w-5" aria-hidden="true" />
-                          )}
-                        </span>
-                      </Disclosure.Button>
-                    </div>
-                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                      <div className="text-base text-black lg:text-lg">
-                        <b>Mining farms get a percentage of payment upfront.</b> The balance is held in a 2:2 multisig escrow, paid as the buyer receives their hashrate.
-                      </div>
-                    </Disclosure.Panel>
-                  </>
-                )} 
               </Disclosure>
             </div>
             {!isMobile && (

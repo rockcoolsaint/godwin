@@ -12,6 +12,10 @@ import { format } from 'date-fns'
 import dynamic from 'next/dynamic'
 import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
 
+const TrustlessMining = dynamic(() => import('./TrustlessMining'), {
+  ssr: true
+})
+
 const Testimonials = dynamic(() => import('src/components/pages/home/Testimonial'), {
   ssr: false,
 })
@@ -217,7 +221,7 @@ export default function Home({ isDemo, code }: Props) {
               )}
             </section>
             <Learn />
-            
+            <TrustlessMining />
             <div className="container mx-auto px-4 py-8">
               <h1 className="mt-36 text-center font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Join our marketplace</h1>
               <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
@@ -225,8 +229,8 @@ export default function Home({ isDemo, code }: Props) {
                 <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
                   <div>
                     <h3 className="mb-4 text-xl font-bold">Buyers</h3>
-                    <p className="mb-4 text-gray-600">
-                      Sign up and take a 3 hour mining test drive to see how Rigly works. <b>New to mining?</b> We create a mining pool account for you.
+                    <p className="mb-4 text-lg text-gray-600">
+                      Sign up and take a 3 hour mining test drive.
                     </p>
                   </div>
                   <div className="flex flex-row space-x-4">
@@ -236,7 +240,7 @@ export default function Home({ isDemo, code }: Props) {
                       target="_blank"
                       id="test-drive"
                     >
-                      I need a pool account
+                      I'm new - give me a pool account
                     </Link>
                     <Link
                       href="/direct-sale"
@@ -253,7 +257,7 @@ export default function Home({ isDemo, code }: Props) {
                 <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
                   <div>
                     <h3 className="mb-4 text-xl font-bold">Sellers</h3>
-                    <p className="mb-4 text-gray-600">List your hashrate. Get upfront payment and grow faster.</p>
+                    <p className="mb-4 text-lg text-gray-600">List your hashrate and scale faster.</p>
                   </div>
                   <Link
                     href="/learn/rigly"
