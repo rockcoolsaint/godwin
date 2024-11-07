@@ -10,12 +10,12 @@ const content = [
     body: 'Connect to ASIC rigs from mining farms around the world',
   },
   {
-    title: 'Multisig escrow',
-    body: 'Payment released to sellers per auction agreement',
+    title: 'Auction pricing',
+    body: 'Highest bid wins the hashrate',
   },
   {
-    title: 'Auction pricing',
-    body: 'All prices set by an open market',
+    title: 'Escrow',
+    body: 'Payment balance held in non-custodial escrow - kyc-free',
   },
 ]
 
