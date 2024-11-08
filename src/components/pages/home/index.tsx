@@ -260,7 +260,7 @@ export default function Home({ isDemo, code }: Props) {
                     <p className="mb-4 text-lg text-gray-600">List your hashrate and scale faster.</p>
                   </div>
                   <Link
-                    href="/learn/rigly"
+                    href="/learn/rigly/selling-on-rigly"
                     className={buttonClass}
                     target="_blank"
                     id="seller-info"
