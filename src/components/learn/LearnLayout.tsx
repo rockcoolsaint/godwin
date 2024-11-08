@@ -7,11 +7,11 @@ interface LearnLayoutProps {
 }
 
 const navigation = [
-  { name: 'Our Story', href: '/learn/rigly/our-story' },
   { name: 'What is Rigly?', href: '/learn/rigly/what-is-rigly' },
   { name: 'How Escrow Works', href: '/learn/rigly/how-escrow-works' },
   { name: 'Why Auctions?', href: '/learn/rigly/why-auctions' },
   { name: 'Selling on Rigly', href: '/learn/rigly/selling-on-rigly' }
+  { name: 'Our Story', href: '/learn/rigly/our-story' },
 ]
 
 export default function LearnLayout({ children, navTitle }: LearnLayoutProps) {

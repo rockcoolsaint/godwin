@@ -1,11 +1,11 @@
 'use client'
-import OurStory from 'src/components/learn/rigly/OurStory'
+import WhatIsRigly from 'src/components/learn/rigly/WhatIsRigly'
 import LearnLayout from 'src/components/learn/LearnLayout'
 
 export default function RiglyPage() {
   return (
-      <LearnLayout navTitle="Rigly Docs">
-        <OurStory />
+    <LearnLayout navTitle="Rigly Docs">
+      <WhatIsRigly />
     </LearnLayout>
   )
 }
