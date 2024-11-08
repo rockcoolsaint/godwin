@@ -19,7 +19,7 @@ const HowEscrowWorks = () => {
       When you purchase hashrate, 50% of the payment goes directly to the mining farm (seller), and the remaining 50% is placed in an on-chain multisig escrow, where it is held until hashrate is delivered per your mining agreement.
       </LearnCategoryText>
 
-      <LearnCategorySubTitle>2. Escrow signers</LearnCategorySubTitle>
+      <LearnCategorySubTitle>2. Escrow Signers</LearnCategorySubTitle>
 
       <LearnCategoryText>
       Escrow funds are protected in a 2:2 multisig wallet. This means two keys are required to release the funds—one held by Rigly and one by the Seller—ensuring that funds cannot be accessed or moved by either party alone.

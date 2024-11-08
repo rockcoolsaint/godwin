@@ -13,6 +13,8 @@ import LearnCategoryTitle from 'src/components/learn/LearnCategoryTitle'
 import LearnCategorySubTitle from 'src/components/learn/LearnCategorySubTitle'
 import LearnCategoryText from 'src/components/learn/LearnCategoryText'
 import LearnCategoryTextWithImage from 'src/components/learn/LearnCategoryTextWithImage'
+import LearnCategoryImageWithCaption from 'src/components/learn/LearnCategoryImageWithCaption'
+import Link from 'src/components/shared/Link'
 
 const OurStory = () => {
   return (
@@ -22,61 +24,62 @@ const OurStory = () => {
 
         <LearnCategorySubTitle>How it started</LearnCategorySubTitle>
         <LearnCategoryText>
-          Rigly began in 2022 with a project in Africa, exploring how Bitcoin mining could fund new energy sources. The idea was simple: use Bitcoin mining to offset solar panel costs. I learned all about mining’s challenges—hardware, power, uptime—and realized that mining is totally centralized around owning rigs.
+         The idea of Rigly started in 2022 with a project in Africa, exploring how Bitcoin mining could fund new energy sources. The idea was simple: use Bitcoin mining to offset solar panel costs. I learned all about mining’s challenges — hardware sourcing and logistics, power, uptime, etc — and realized that mining is totally centralized around owning ASIC rigs.
         </LearnCategoryText>
 
         <LearnCategoryText>
-          This led to a vision - a marketplace where bitcoiners could buy hashrate and start mining on rigs from around the world, without owning hardware. I went further down the mining rabbit hole..
+          This led to a vision. What if there was a marketplace where bitcoiners could buy hashrate and start mining on rigs from around the world, without owning hardware? I went further down the mining rabbit hole..
         </LearnCategoryText>
-        <LearnCategoryTextWithImage
-          text="Mining ain't easy. You find or create cheap power, buy rigs and hope they arrive ok, and then somehow keep them running. I got one s9 up and running in Zimbabwe. Just one."
+        <LearnCategoryImageWithCaption
+          text="Mining ain't easy. You find or create cheap power, buy rigs and hope they arrive ok, and then somehow keep them running. I only got one s9 up and running in Zimbabwe."
           image={Zim}
           imageAlt="Zimbabwe"
-          imagePosition="right"
         />
 
         <LearnCategorySubTitle>Don’t trust, verify</LearnCategorySubTitle>
         <LearnCategoryText>
-          Full of this vision, I was feeling inspired and so I bought an S19 with a hosting company in Texas, but within 24 hours, it vanished - I was rugged. That was the worst. I was like "you can't trust these people, they'll just rip off buyers on the marketplace", and then Jonas suggested a multisig on-chain escrow.
+          Full of this vision, I bought an S19 with a hosting company in Texas, and within 24 hours it vanished - I was rugged. That was the worst. I was like "you can't trust these people, they'll just rip off buyers on the marketplace", and then Jonas suggested a multisig on-chain escrow.
         </LearnCategoryText>
         <LearnCategoryText>
-          Again, the idea was simple: use the same approach for mining that has worked for years on dark web markets. I had no idea!
+          Again, the idea was simple: use the same approach for mining that has worked since bitcoin's early days on dark web markets. I had no idea!
         </LearnCategoryText>
         <LearnCategoryText>
-          After some trial and error over the following year (more like 2+ years) we landed on a 50/50 escrow, so buyers don't lose their shirt and miners have an incentive to sell their hashrate.
+          After some trial and error we landed on a 50/50 escrow, so buyers don't lose their shirt and miners have an incentive to sell their hashrate.
         </LearnCategoryText>
 
-        <LearnCategoryTextWithImage
-          text="I bought an S19 from the same company that we used for Africa, but this time they rugged me. Bad joss."
+        <LearnCategoryImageWithCaption
+          text="I bought an S19 from the same company that we used for Africa, but this time they rugged me."
           image={Rugged}
           imageAlt="Hey, where's my hashrate?"
-          imagePosition="left"
         />
 
         <LearnCategorySubTitle>Auctions</LearnCategorySubTitle>
 
         <LearnCategoryText>
-          Tbh I don't remember where the auction idea came from. My wife and I watched a lot of auction-calling videos on Youtube during Covid, and hashrate is like any other commodity, so why isn't there an auction for it?
-          Indeed. Also somewhere around this time, we started kicking around Rigly as a name, and I registered the domain - the critical step of any project! - and put together an auction site on Shopify.
+          Tbh I don't remember where the auction idea came from. My wife and I watched several <Link href="https://www.youtube.com/watch?v=k7TSxUU96vQ" styled>auction-calling videos</Link> during Covid, and hashrate is like any other commodity, so why isn't there an auction for it?
+        </LearnCategoryText>
+        <LearnCategoryText>
+        Also somewhere around this time, we started kicking around Rigly as a name, and I registered the domain - the critical step of any project! - and put together an auction site on Shopify.
         </LearnCategoryText>
 
-        <LearnCategoryTextWithImage
+        <LearnCategoryImageWithCaption
           text="I made a simple MVP auction site on Shopify using an auction widget for the marketplace. Good enough to get 20+ users."
           image={Shopify}
           imageAlt="The first version of Rigly"
-          imagePosition="right"
         />
 
         <LearnCategoryText>
-          Oh it was awful - I mean, it was glorious, and it got the job done. I verified enough of the idea to create a pitch deck, we raised some funding from Chaincode, and I connected with Nico, who agreed to join and knew way more about mining.
-          And little by little, we grew the idea and connected with developers (Tobi and Kevin!) to make a real platform.
+          Oh it was awful - I mean, it was glorious, and it got the job done. I verified enough of the idea to create a pitch deck, we raised some funding from <Link href="https://chaincode.com" styled>Chaincode</Link> and I connected with Nico, who agreed to join and knew way more about mining.
+          And little by little, we grew the idea and connected with developers to build a real platform.
         </LearnCategoryText>
 
         <LearnCategorySubTitle>Rigly, today</LearnCategorySubTitle>
 
         <LearnCategoryText>
-          Everything I just described was in 2022. Building takes time, we raised a little more funding, and figured out more and more of the puzzle. Today (late 2024) we have a platform ready to show the world - we will see what happens.
-          Thanks for reading all the way. -Evan
+        Everything I just described was in 2022-2023. Building takes time, we raised a little more funding, and figured out more and more of the puzzle.
+        Today we have a platform ready to show the world.<br /><br />
+        Thanks for reading all the way,<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Evan
         </LearnCategoryText>
 
         <LearnCategoryTitle>Team Rigly</LearnCategoryTitle>
@@ -116,9 +119,26 @@ const OurStory = () => {
             description="Andrew was Rigly's 10th customer when it ran on Shopify and now handles communications and outreach."
           />
         </ul>
+
+        <div className="flex flex-col items-center">
+          <br/><br/>
+          <LearnCategorySubTitle>Past Contributors</LearnCategorySubTitle>
+          <LearnCategoryText>
+            <span className="flex justify-center">
+              <center>Kevin Karsopawiro{' // '}
+              Tobi Adeyemi{' // '} 
+              Sydney Bright<br/>
+              Damian Goodenough{' // '}
+              Hafsah Mijinyawa{' // '}
+              Karo Zagorus{' // '}
+              Eric Eberhart</center>
+            </span>
+          </LearnCategoryText>
+        </div>
       </article>
     </>
   )
 }
+
 
 export default OurStory
