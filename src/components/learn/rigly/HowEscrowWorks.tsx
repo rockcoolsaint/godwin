@@ -8,37 +8,33 @@ const HowEscrowWorks = () => {
       <LearnCategoryTitle>How Escrow Works</LearnCategoryTitle>
 
       <LearnCategoryText>
-        At Rigly, we are dedicated to ensuring you get the hashrate you pay for. This is done via Trustless Mining - our escrow system -
-        designed to safeguard both buyers and sellers during the delivery of hashrate.
+      We want you to get the hashrate you pay for. That's why we use on-chain escrow system that balances the needs of buyers and sellers.
       </LearnCategoryText>
 
       <LearnCategoryText>Here's a closer look at how our escrow process works.</LearnCategoryText>
 
-      <LearnCategorySubTitle>1. Initiate the Transaction</LearnCategorySubTitle>
+      <LearnCategorySubTitle>1. Payment & Escrow Setup</LearnCategorySubTitle>
 
       <LearnCategoryText>
-        When you purchase hashrate on Rigly, the payment isn't sent directly to the seller. Instead, it is placed in an on-chain escrow.
-        This means that the funds are locked on the blockchain, ensuring that they are protected and can't be accessed by either party
-        without mutual consent.
+      When you purchase hashrate, 50% of the payment goes directly to the mining farm (seller), and the remaining 50% is placed in an on-chain multisig escrow, where it is held until hashrate is delivered per your mining agreement.
       </LearnCategoryText>
 
-      <LearnCategorySubTitle>2. Secure Handling with Multisig</LearnCategorySubTitle>
+      <LearnCategorySubTitle>2. Escrow Signers</LearnCategorySubTitle>
 
       <LearnCategoryText>
-        To further secure the transaction, Rigly utilizes a 2:2 multisig wallet setup. In this arrangement, two keys are required to
-        authorize any transaction, one held by Rigly and the other by the mining farm (the seller).
+      Escrow funds are protected in a 2:2 multisig wallet. This means two keys are required to release the funds—one held by Rigly and one by the Seller—ensuring that funds cannot be accessed or moved by either party alone.
       </LearnCategoryText>
 
       <LearnCategoryText>
-        This system ensures that neither party can unilaterally move the funds, providing a layer of trustless security to both parties
+        This non-custodial system ensures that neither party can unilaterally move the funds, providing a layer of trustless security to both parties
         involved.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>3. Releasing Funds</LearnCategorySubTitle>
 
       <LearnCategoryText>
-        Once you receive the hashrate per the agreement, the escrow is resolved and the seller receives their payout. This confirmation
-        triggers a collaborative signing process between Rigly and the mining farm to release the funds.
+      As hashrate delivery progresses, funds from the escrow are gradually released to the seller.
+      This staged release ensures security and reliability for both parties throughout the transaction.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>Key Management Flexibility</LearnCategorySubTitle>
@@ -48,16 +44,14 @@ const HowEscrowWorks = () => {
         prefer a more hands-off approach, we also offer the option to delegate escrow management.
       </LearnCategoryText>
 
-      <LearnCategorySubTitle>Future Development</LearnCategorySubTitle>
+      <LearnCategorySubTitle>2:3 Multisig Support</LearnCategorySubTitle>
 
       <LearnCategoryText>
-        Looking ahead, we plan to evolve our escrow services to incorporate buyers directly into the escrow. This advancement will introduce
-        a 2:3 multisig system, where the buyer will also hold a key, offering an even higher level of security among all parties.
+        Looking ahead, we provide escrow service to meet the requirements of higher value hashrate agreements. <b>Rigly is able to coordinate 2:3 multisig</b> where the buyer also holds a key, offering an even higher level of security among all parties.
       </LearnCategoryText>
 
       <LearnCategoryText>
-        Rigly’s escrow system is at the heart of our commitment to provide a secure and reliable platform for buying hashrate. Whether you
-        are a buyer or a seller, our escrow process is designed to protect you and facilitate smooth transactions.
+      Our Trustless Mining escrow is designed to make your experience secure, trustless, and simple.
       </LearnCategoryText>
     </>
   )

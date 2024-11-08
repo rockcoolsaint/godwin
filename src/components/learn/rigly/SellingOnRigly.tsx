@@ -13,7 +13,7 @@ const SellingOnRigly = () => {
 
       <LearnCategorySubTitle>How it works</LearnCategorySubTitle>
       <LearnCategoryText>
-        You receive payment in bitcoin based on hashrate received at our stratum proxy. Funds are held in multisig escrow and you receive
+        Rigly pays you a premium to FPPS as we bootstrap our marketplace. You receive payment in bitcoin based on hashrate received at our stratum proxy. Funds are held in multisig escrow and you receive
         payouts after hashrate has been delivered.
       </LearnCategoryText>
       <LearnCategoryText>
@@ -22,14 +22,9 @@ const SellingOnRigly = () => {
 
       <LearnCategorySubTitle>What if the auction sells for a low price?</LearnCategorySubTitle>
 
-      <LearnCategoryTextWithImage
-        text="Rigly offers miners a fixed premium - you earn the premium to FPPS regardless of your listing's auction closing price.
-        Rigly does this to build out supply as we scale our marketplace."
-        image={MiningPlan}
-        imageAlt="Auction process illustration"
-        imagePosition="right"
-        imageSize={200}
-      />
+      <LearnCategoryText>
+        Rigly offers miners a fixed premium - you earn the premium to FPPS regardless of auction closing price. We do this to build up supply as we scale our marketplace.
+      </LearnCategoryText>
 
       <LearnCategorySubTitle>Where do I sign up?</LearnCategorySubTitle>
 

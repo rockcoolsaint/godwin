@@ -6,7 +6,7 @@ interface LearnCategoryTextProps {
 }
 
 const LearnCategoryText: React.FC<LearnCategoryTextProps> = ({ children, center = false }) => (
-  <p className={`my-2 text-left leading-relaxed ${center ? 'text-center' : ''}`}>{children}</p>
+  <p className={`my-2 text-2xl text-left leading-relaxed ${center ? 'text-center' : ''}`}>{children}</p>
 )
 
 export default LearnCategoryText
