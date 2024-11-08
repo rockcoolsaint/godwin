@@ -124,7 +124,7 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li className="mb-3">
-                  <Link className="flex items-center font-normal text-dark-100 hover:underline" href="/learn/rigly">
+                  <Link className="flex items-center font-normal text-dark-100 hover:underline" href="/learn/rigly/selling-on-rigly">
                     <span>List your mining</span>
                     <MiningSvg className="ml-2 text-dark-100" />
                   </Link>
