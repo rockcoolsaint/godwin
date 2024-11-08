@@ -34,7 +34,7 @@ const OurStory = () => {
         I went further down the mining rabbit hole..
         </LearnCategoryText>
         <LearnCategoryImageWithCaption
-          text="Mining ain't easy. You find or create cheap power, buy rigs and hope they arrive. I only got one mining rig up and running (!) in Zimbabwe."
+          text="Mining ain't easy. You find or create cheap power, buy rigs and hope they arrive. I only got one rig up (!) in Zimbabwe."
           image={Zim}
           imageAlt="Zimbabwe"
         />
@@ -70,7 +70,7 @@ const OurStory = () => {
         </LearnCategoryText>
 
         <LearnCategoryImageWithCaption
-          text="I made a simple MVP auction site on Shopify using an auction widget for the marketplace. Good enough to get 20+ users."
+          text="The first version of Rigly was on Shopify. Good enough to get started!"
           image={Shopify}
           imageAlt="The first version of Rigly"
         />
@@ -129,6 +129,17 @@ const OurStory = () => {
 
         <div className="flex flex-col items-center">
           <br/><br/>
+          <LearnCategorySubTitle>With help from:</LearnCategorySubTitle>
+          <LearnCategoryText>
+            <span className="flex justify-center">
+            Davor Bokun @ Aileron d.o.o.{' // '}
+            Shafayat{' @ '}<a href="https://www.fiverr.com/unixxdesign">unixxdesign</a>
+            </span>
+          </LearnCategoryText>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <br/>
           <LearnCategorySubTitle>Past Contributors</LearnCategorySubTitle>
           <LearnCategoryText>
             <span className="flex justify-center">
