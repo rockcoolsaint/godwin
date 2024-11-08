@@ -8,41 +8,27 @@ const WhyAuctions = () => {
       <LearnCategoryTitle>Why Auctions?</LearnCategoryTitle>
 
       <LearnCategoryText>
-        At Rigly, we've chosen a unique approach to selling Bitcoin mining hashrate: auctions. This method isn't just a business choice;
-        it's a response to the intrinsic nature of Bitcoin mining and the marketplace dynamics. Here's why auctions are the best fit for
-        selling hashrate on Rigly:
+        At Rigly, we use auctions to sell Bitcoin mining hashrate, aligning with the unique dynamics of Bitcoin mining. Here’s why auctions are the ideal fit:
       </LearnCategoryText>
 
-      <LearnCategorySubTitle>Hashrate Is a Scarce Resource</LearnCategorySubTitle>
+      <LearnCategorySubTitle>Scarcity</LearnCategorySubTitle>
       <LearnCategoryText>
-        Bitcoin mining depends on the availability of mining farms, which are not only limited in number but also in the amount of hashrate
-        they can produce at any given time. Among these, only a select few choose to sell their hashrate through Rigly. This scarcity of
-        hashrate makes it a valuable commodity, much like a rare gem in a sea of stones. Auctions are an effective way to manage such a
-        scarce resource, ensuring that it is available to those who value it most.
+        Hashrate is limited, both by the number of mining farms and the amount each can provide. There are only a few hashrate marketplaces. Auctions on Rigly allocate this scarce resource to those who value it most.
       </LearnCategoryText>
 
-      <LearnCategorySubTitle>High Demand Among Buyers</LearnCategorySubTitle>
+      <LearnCategorySubTitle>High Demand</LearnCategorySubTitle>
       <LearnCategoryText>
-        The desire to mine Bitcoin is driven by several factors, chief among them the opportunity to earn new Bitcoin directly from the
-        protocol. This is a powerful incentive, and as a result, the demand for hashrate significantly exceeds the supply available. With
-        more buyers than there is available hashrate, an auction becomes the most fair and efficient method to distribute this limited
-        resource: everyone gets a fair chance to bid for the hashrate they need.
+        Mining's potential profit drives high demand for hashrate. Auctions offer a fair, competitive way for buyers to access this limited resource, giving everyone a chance to bid.
       </LearnCategoryText>
 
-      <LearnCategorySubTitle>Max Returns for Miners</LearnCategorySubTitle>
+      <LearnCategorySubTitle>Maximized Miner Returns</LearnCategorySubTitle>
       <LearnCategoryText>
-        For miners, the decision to sell hashrate rather than mine for themselves is driven by economics. By auctioning their hashrate,
-        miners can often earn more than they would through mining themselves. This is because the auction format allows buyers to bid
-        competitively, pushing the price to its highest possible point. The miner benefits from the highest bid,{' '}
-        <b>which often includes a premium over the regular spot hashprice</b>. For the buyer, winning the auction means securing a coveted
-        resource in a competitive market, and for the miner, it translates to maximum earnings. It's truly a win-win situation.
+        For miners, selling hashrate via auctions allows them to access upfront liquidity, so they can scale their operations faster. Plus, auctions potentially yield more profit than mining directly, as competitive bidding drives prices up.
       </LearnCategoryText>
 
-      <LearnCategorySubTitle>Fair and Balanced</LearnCategorySubTitle>
+      <LearnCategorySubTitle>Balanced Marketplace</LearnCategorySubTitle>
       <LearnCategoryText>
-        The auction model at Rigly isn’t just about buying and selling; it’s about creating a dynamic marketplace that respects the value of
-        hashrate, balances supply and demand, and maximizes the benefits for both buyers and sellers. This approach not only fosters
-        fairness but also encourages a healthy competitive spirit that is essential for a thriving market.
+        Rigly’s auction model creates a dynamic, balanced marketplace that respects the value of hashrate and promotes healthy competition, benefiting both buyers and sellers.
       </LearnCategoryText>
     </>
   )

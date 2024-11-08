@@ -13,46 +13,37 @@ const WhatIsRigly = () => {
       <LearnCategorySubTitle>We&apos;re the first auction marketplace for hashrate</LearnCategorySubTitle>
 
       <LearnCategoryText>
-        The Rigly marketplace offers a seamless solution for both buyers and sellers of hashrate. <b>For the first time</b>, individuals can
-        engage in bitcoin mining without the hassle of buying hardware. Rigly introduces an auction system <b>with escrow protection</b>,
-        ensuring a secure and transparent transaction.
+        The Rigly marketplace offers a seamless solution for both buyers and sellers of hashrate. Everyone can
+        mine bitcoin without the hassle of buying hardware. Rigly auctions provide <b>escrow protection</b>,
+        encouraging a secure and transparent transaction.
       </LearnCategoryText>
 
       <LearnCategoryText>
-        Buyers can confidently mine Bitcoin, free from the risks of being &quot;rug pulled&quot; while mining farms optimize their earnings
-        by leveraging the Rigly platform. <b>It&apos;s a win-win</b>.
+        You can confidently mine bitcoin, with less risk of being rug pulled, and with the chance of earning a profit, and mining farms can optimize their earnings.
       </LearnCategoryText>
 
-      <LearnCategorySubTitle>Buy Hashrate and Start Mining Right Away</LearnCategorySubTitle>
+      <LearnCategorySubTitle>Peer-to-peer - and fair to buyers and sellers</LearnCategorySubTitle>
 
       <LearnCategoryText>
-        With Rigly, accessing hashrate has never been easier. Buyers have the flexibility to purchase hashrate either at a fixed price or
-        via auction. Once purchased, the hashrate is swiftly transferred from the mining farm to the buyer&apos;s mining pool account
-        through a peer-to-peer (P2P) process facilitated by Rigly&apos;s stratum proxy.
+        You can buy hashrate at a fixed price or via auction. Hashrate is sent from the mining farm to your mining pool account
+        peer-to-peer via the stratum protocol.
       </LearnCategoryText>
 
       <LearnCategoryText>
-        The payment process incorporates an escrow mechanism, ensuring that the seller is only paid after the hashrate delivery is a
-        success.
+        The payment process is fair to buyers and sellers. Mining farms get <b>50% payment upfront</b> and <b>50% is held in multisig escrow</b>, released after hashrate delivery.
       </LearnCategoryText>
 
-      <LearnCategorySubTitle>Get the Best Price via Auction</LearnCategorySubTitle>
+      <LearnCategorySubTitle>Get the best price</LearnCategorySubTitle>
 
-      <LearnCategoryTextWithImage
-        text="Hashrate is a scarce resource and Rigly's auction platform offers a fair and transparent platform for price discovery. Through auctions, buyers benefit from an open market environment where prices are determined based on supply and demand."
-        image={MiningPlan}
-        imageAlt="Auction process illustration"
-        imagePosition="left"
-      />
+      <LearnCategoryText>
+        Hashrate is a scarce resource and Rigly offers a fair and transparent platform for price discovery - highest bid wins.
+      </LearnCategoryText>
 
-      <LearnCategorySubTitle>Earn more for your hashrate</LearnCategorySubTitle>
+      <LearnCategorySubTitle>Mining farms earn more and scale faster</LearnCategorySubTitle>
 
-      <LearnCategoryTextWithImage
-        text="Selling hashrate on Rigly presents an attractive opportunity for mining farms. With hashrate selling at an <b>average premium of 10-15%</b> (or more) compared to spot hash price, sellers stand to earn significantly higher returns by leveraging Rigly's platform."
-        image={Trust}
-        imageAlt="Mining illustration"
-        imagePosition="right"
-      />
+      <LearnCategoryText>
+        Selling hashrate on Rigly is pure win for miners. We pay you a premium to FPPS as we bootstrap the marketplace, and then you can opt to take the auction price and get 50% payment upfront as an established seller.
+      </LearnCategoryText>
     </>
   )
 }
