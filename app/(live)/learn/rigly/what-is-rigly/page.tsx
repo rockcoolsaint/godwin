@@ -5,7 +5,7 @@ import LearnLayout from 'src/components/learn/LearnLayout'
 
 export default function WhatIsRiglyPage() {
   return (
-    <LearnLayout>
+    <LearnLayout navTitle="Rigly Docs">
       <WhatIsRigly />
     </LearnLayout>
   )

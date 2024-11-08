@@ -5,7 +5,7 @@ import LearnLayout from 'src/components/learn/LearnLayout'
 
 export default function SellingOnRiglyPage() {
   return (
-    <LearnLayout>
+    <LearnLayout navTitle="Rigly Docs">
       <SellingOnRigly />
     </LearnLayout>
   )
