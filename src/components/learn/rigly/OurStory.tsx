@@ -24,7 +24,7 @@ const OurStory = () => {
 
         <LearnCategorySubTitle>How it started</LearnCategorySubTitle>
         <LearnCategoryText>
-         The idea of Rigly started in 2022 with a project in Africa, exploring how Bitcoin mining could fund new energy sources. The idea was simple: use Bitcoin mining to offset solar panel costs. I learned all about mining’s challenges — hardware sourcing and logistics, power, uptime, etc — and realized that mining is totally centralized around owning ASIC rigs.
+         The idea of Rigly started in 2022 with a project in Africa, exploring how Bitcoin mining could fund new energy sources. The idea was simple: use Bitcoin mining to offset solar panel costs. I learned all about mining’s challenges — hardware sourcing, logistics, power, uptime, etc — and realized that mining is totally centralized around owning ASIC rigs.
         </LearnCategoryText>
 
         <LearnCategoryText>
@@ -38,10 +38,11 @@ const OurStory = () => {
 
         <LearnCategorySubTitle>Don’t trust, verify</LearnCategorySubTitle>
         <LearnCategoryText>
-          Full of this vision, I bought an S19 with a hosting company in Texas, and within 24 hours it vanished - I was rugged. That was the worst. I was like "you can't trust these people, they'll just rip off buyers on the marketplace", and then Jonas suggested a multisig on-chain escrow.
+          Full of this vision, I bought an S19 mining rig with a hosting company in Texas, and within 24 hours it vanished - I was rugged. That was the worst. I talked w/ Jonas and learned that <Link href="https://www.wired.com/story/compass-mining-bitcoin-russia/" styled>mining rug pulls happen all the time</Link>.
+          I was like "you can't trust these folks, they'll just rip off buyers on the marketplace", and then he suggested a multisig on-chain escrow.
         </LearnCategoryText>
         <LearnCategoryText>
-          Again, the idea was simple: use the same approach for mining that has worked since bitcoin's early days on dark web markets. I had no idea!
+          Again, the idea was simple: use the same approach for mining that has worked since bitcoin's early days where 2 parties want to trade with each other, but can't trust each other. Like on <Link href="https://tor2doordarkmarketlinks.com/faqs/" styled>dark web markets</Link>. I had no idea!
         </LearnCategoryText>
         <LearnCategoryText>
           After some trial and error we landed on a 50/50 escrow, so buyers don't lose their shirt and miners have an incentive to sell their hashrate.
@@ -69,7 +70,7 @@ const OurStory = () => {
         />
 
         <LearnCategoryText>
-          Oh it was awful - I mean, it was glorious, and it got the job done. I verified enough of the idea to create a pitch deck, we raised some funding from <Link href="https://chaincode.com" styled>Chaincode</Link> and I connected with Nico, who agreed to join and knew way more about mining.
+          Oh it was awful - I mean, it was glorious, and it got the job done. I verified enough of the idea to create a pitch deck, we raised some funding from <Link href="https://chaincode.com" styled>Chaincode</Link> and I connected with Nico, who knew way more about mining and agreed to join.
           And little by little, we grew the idea and connected with developers to build a real platform.
         </LearnCategoryText>
 
