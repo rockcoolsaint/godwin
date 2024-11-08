@@ -84,7 +84,7 @@ const OurStory = () => {
 
         <LearnCategoryText>
         Everything I just described was in 2022-2023. Building takes time, we raised a little more funding, and figured out more and more of the puzzle.
-        Today we have a platform ready to show the world.<br /><br />
+        Today Rigly is a mining marketplace where bitcoiners can bid on hashrate, mine bitcoin and maybe even earn a profit.<br /><br />
         Thanks for reading all the way,<br />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Evan
         </LearnCategoryText>
