@@ -28,10 +28,13 @@ const OurStory = () => {
         </LearnCategoryText>
 
         <LearnCategoryText>
-          This led to a vision. What if there was a marketplace where bitcoiners could buy hashrate and start mining on rigs from around the world, without owning hardware? I went further down the mining rabbit hole..
+          This led to a vision. What if there was a marketplace where bitcoiners could buy hashrate and start mining on rigs from around the world, without owning hardware?
+        </LearnCategoryText>
+        <LearnCategoryText>
+        I went further down the mining rabbit hole..
         </LearnCategoryText>
         <LearnCategoryImageWithCaption
-          text="Mining ain't easy. You find or create cheap power, buy rigs and hope they arrive ok, and then somehow keep them running. I only got one s9 up and running in Zimbabwe."
+          text="Mining ain't easy. You find or create cheap power, buy rigs and hope they arrive. I only got one mining rig up and running (!) in Zimbabwe."
           image={Zim}
           imageAlt="Zimbabwe"
         />
@@ -42,14 +45,17 @@ const OurStory = () => {
           I was like "you can't trust these folks, they'll just rip off buyers on the marketplace", and then he suggested a multisig on-chain escrow.
         </LearnCategoryText>
         <LearnCategoryText>
-          Again, the idea was simple: use the same approach for mining that has worked since bitcoin's early days where 2 parties want to trade with each other, but can't trust each other. Like on <Link href="https://tor2doordarkmarketlinks.com/faqs/" styled>dark web markets</Link>. I had no idea!
+          Again, the idea was simple: use the same approach for mining that has worked since bitcoin's early days where 2 parties want to trade with each other, but can't trust each other.
+        </LearnCategoryText>
+        <LearnCategoryText>
+          Like on <Link href="https://tor2doordarkmarketlinks.com/faqs/" styled>dark web markets</Link>. I had no idea!
         </LearnCategoryText>
         <LearnCategoryText>
           After some trial and error we landed on a 50/50 escrow, so buyers don't lose their shirt and miners have an incentive to sell their hashrate.
         </LearnCategoryText>
 
         <LearnCategoryImageWithCaption
-          text="I bought an S19 from the same company that we used for Africa, but this time they rugged me."
+          text="I bought an S19 from the same company we used for Africa. This time they rugged me."
           image={Rugged}
           imageAlt="Hey, where's my hashrate?"
         />
@@ -126,7 +132,8 @@ const OurStory = () => {
           <LearnCategorySubTitle>Past Contributors</LearnCategorySubTitle>
           <LearnCategoryText>
             <span className="flex justify-center">
-              <center>Kevin Karsopawiro{' // '}
+              <center>Adam Vandover{' // '}
+              Kevin Karsopawiro{' // '}
               Tobi Adeyemi{' // '} 
               Sydney Bright<br/>
               Damian Goodenough{' // '}
