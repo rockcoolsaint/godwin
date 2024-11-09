@@ -26,7 +26,7 @@ const TrustlessMining: React.FC = () => {
   </div>
       
       <p className="mt-6 text-center text-xl text-navy md:w-8/12 lg:w-6/12 font-epilogue">
-        The root problem with conventional <span className="line-through">currency</span> hosted mining is all the trust that's required to make it work. This trust leads to rug pulls. 
+        The root problem with conventional hosted mining is all the trust that's required to make it work. This trust leads to rug pulls.
       </p>
 
       <p className="mt-6 text-center text-xl text-navy md:w-8/12 lg:w-6/12 font-epilogue">
