@@ -7,11 +7,11 @@ const Lottie = dynamic(() => import('lottie-react'), {
 const content = [
   {
     title: 'Real machines',
-    body: 'Connect to ASIC rigs from mining farms around the world',
+    body: 'Hashrate is sent from mining farms to your mining pool account',
   },
   {
     title: 'Auction pricing',
-    body: 'Highest bid wins the hashrate',
+    body: 'If your bid is below future hashprice, you can earn a profit',
   },
   {
     title: 'Escrow',

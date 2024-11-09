@@ -1,11 +1,11 @@
 'use client'
 import MiningLayout from 'src/components/learn/MiningLayout'
-import HowMiningWorks from 'src/components/learn/mining/HowMiningWorks'
+import HistoryOfMining from 'src/components/learn/mining/HistoryOfMining'
 
 export default function MiningPage() {
   return (
     <MiningLayout navTitle="Mining Docs">
-      <HowMiningWorks />
+      <HistoryOfMining />
     </MiningLayout>
   )
 }

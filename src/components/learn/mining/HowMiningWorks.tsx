@@ -14,7 +14,7 @@ import LearnCategorySubTitle from 'src/components/learn/LearnCategorySubTitle'
 const HowMiningWorks = () => {
   return (
     <>
-      <LearnCategoryTitle>How mining works</LearnCategoryTitle>
+      <LearnCategoryTitle>How Mining Works</LearnCategoryTitle>
 
       <LearnCategoryText>
         Bitcoin mining is the process where transactions are finalized and new bitcoin is released into the network. The process is much

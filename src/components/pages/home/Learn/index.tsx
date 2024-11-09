@@ -33,14 +33,15 @@ export default function Learn() {
                     </div>
                     <Disclosure.Panel as="dd" className="mt-2 pr-12">
                       <div className="text-base text-black lg:text-lg">
+                        <p>Earning a profit at bitcoin mining is too hard.</p>
                         <ol className="mt-4 list-decimal pl-8">
                           <li className="mt-1">
-                          Mining requires expensive ASIC rigs
+                          <b>Expensive Equipment:</b> ASIC rigs are costly and become outdated.
                           </li>
-                          <li>Mining requires cheap electricity</li>
-                          <li>Mining requires trust in hosting companies</li>
+                          <li><b>Electricity Cost:</b> Profitable mining depends on securing low-cost energy.</li>
+                          <li><b>Trust:</b> Hosted mining require trust, which has led to many rug pulls.</li>
                           </ol>
-                        <br/><p>Thus very few bitcoiners can mine due to these barriers to entry, leading to mining centralization.</p>
+                        <br/><p>These challenges restrict mining to a small group, increasing mining centralization which <Link href="https://www.youtube.com/watch?v=ebgdTxVOV9k" styled>threatens the future of bitcoin.</Link></p>
                       </div>
                     </Disclosure.Panel>
                   </>
@@ -66,11 +67,12 @@ export default function Learn() {
                       <div className="text-base text-black lg:text-lg">
                        <p>Rigly auctions level the playing field, so everyone can bid on hashrate and mine bitcoin.</p>
                        <ol className="mt-4 list-decimal pl-8">
-                        <li>Buying hashrate is cheaper than buying an ASIC</li>
-                        <li>Buyers can mine at a profit</li>
-                        <li>Buyers can mine with escrow peace-of-mind</li>
+                        <li><b>Cost-Effective:</b> Auctions start at 1,000 sats.</li>
+                        <li><b>Potential profit:</b> No one knows future hashprice. Do your research and make your bid.</li>
+                        <li><b>Trustless Escrow:</b> 50% of your payment is held in escrow, so you don't lose everything if the seller defaults</li>
                        </ol>
-                       <br/><p>Bitcoiners get to mine and mining farm owners can scale their operations faster. It's a win-win.</p>
+                       <br/>
+                       <p><b>The Impact:</b> Every bitcoiner can mine, and mining farms can grow. It’s a win-win that promotes a decentralized network.</p>
                       </div>
                     </Disclosure.Panel>
                   </>

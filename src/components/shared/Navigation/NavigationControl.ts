@@ -39,6 +39,5 @@ export const headerNavURL: NavigationItem[] = [
   { id: 1, name: 'Home', url: '/', showInDemo: true },
   { id: 2, name: 'Buy Hashrate', showInDemo: false, submenu: buyHashrateSubmenu },
   { id: 3, name: 'Learn', showInDemo: true, submenu: learnSubmenu },
-  { id: 4, name: 'Our Story', url: '/learn/rigly', showInDemo: true },
   { id: 5, name: 'Blog', url: 'https://blog.rigly.io/', showInDemo: true },
 ]
