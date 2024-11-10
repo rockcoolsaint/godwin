@@ -121,14 +121,14 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
           </div>
 
-          {/* Escrow - Only show for auction id > 1700 and if description exists */}
-          {data.id > 1700 && data.description && (
+          {/* Escrow - Only show for auction id > 1700 and if location exists */}
+          {data.id > 1700 && data.auction_meta.location && (
             <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
               <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
                 <p className="p-3 py-6 font-semibold text-dark-100">Escrow</p>
               </aside>
               <aside className="w-4/6">
-                <p className="p-3 py-6 pl-4">{data.description}</p>
+                <p className="p-3 py-6 pl-4">{data.auction_meta.location}</p>
               </aside>
             </div>
           )}
