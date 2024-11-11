@@ -8,6 +8,9 @@ import { Auction, BidsEntityOrCurrentBid } from 'src/api/auction/types'
 import { NumericFormat } from 'react-number-format'
 import clsx from 'clsx'
 import { transformCurrencyToNumber } from 'src/utils/currency'
+import { useAccountContext } from 'src/providers/AccountProvider'
+import { getOrders } from 'src/api/account/getOrders'
+import { OrderStatus } from 'src/types'
 
 interface FormInputs {
   bid: number
@@ -23,9 +26,12 @@ export default function RegularBid({
   current_bid: BidsEntityOrCurrentBid
 }) {
   const { isSocketReady } = useWebsocketContext()
+  const { account, token } = useAccountContext()
   const [loadingPlaceBid, setLoadingPlaceBid] = useState<boolean>(false)
   const [showThresholdWarning, setShowThresholdWarning] = useState<boolean>(false)
   const [bid, setBid] = useState<number>(0)
+  const [hasValidOrders, setHasValidOrders] = useState<boolean>(false)
+  const [checkingOrders, setCheckingOrders] = useState<boolean>(true)
 
   const {
     reset,
@@ -74,7 +80,6 @@ export default function RegularBid({
 
       if (bidAmount > maximumBidAmount) {
         setShowThresholdWarning(true)
-
         return
       } else {
         submit(bidAmount)
@@ -85,6 +90,11 @@ export default function RegularBid({
 
   const handlePlaceBid: SubmitHandler<FormInputs> = useCallback(
     async value => {
+      if (!hasValidOrders) {
+        toast.error('Bidding is only available to users with completed orders.\n\nGo buy some instant mining, then you can place a bid.')
+        return
+      }
+
       try {
         setBid(value.bid)
         handleMaximumBidThreshold(auction, current_bid, value.bid)
@@ -92,12 +102,46 @@ export default function RegularBid({
         toast.error(err.message)
       }
     },
-    [auction, current_bid, handleMaximumBidThreshold],
+    [auction, current_bid, handleMaximumBidThreshold, hasValidOrders],
   )
 
   useEffect(() => {
     setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
   }, [auction?.starting_bid, bids, setValue])
+
+  useEffect(() => {
+    const checkPastOrders = async () => {
+      if (!token || !account) return
+
+      try {
+        const orders = await getOrders(token)
+        const validStatuses = [
+          OrderStatus.PaymentOneComplete,
+          OrderStatus.PaymentTwoComplete,
+          OrderStatus.DeliveryStarted,
+          OrderStatus.DeliveryEnded,
+          OrderStatus.EscrowReleased
+        ]
+
+        const hasQualifyingOrder = orders.some(order => 
+          validStatuses.includes(order.status)
+        )
+
+        setHasValidOrders(hasQualifyingOrder || (account.id < 1500))
+      } catch (err) {
+        console.error('Error checking past orders:', err)
+        setHasValidOrders(false)
+      } finally {
+        setCheckingOrders(false)
+      }
+    }
+
+    checkPastOrders()
+  }, [token, account])
+
+  if (checkingOrders) {
+    return <div>Checking eligibility...</div>
+  }
 
   return (
     <>
