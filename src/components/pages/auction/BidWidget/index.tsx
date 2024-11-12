@@ -31,9 +31,12 @@ interface Props {
   user_proxy_bid?: ProxyBidType
   winner: Winner
   slug?: string
+  isNewUser?: boolean
+  hasPaidOrder?: boolean
 }
 
-const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid }: Props) => {
+
+const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUser, hasPaidOrder }: Props) => {
   const { isLoading, token } = useAccountContext()
   const [epoch, setEpoch] = useState<HashpriceDict>({})
 

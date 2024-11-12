@@ -110,7 +110,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
       if (isMounted() && account?.id && !hasGuide && !account?.has_completed_tour) {
         setState(prevState => ({
           ...prevState,
-          run: true,
+          run: false, // disable the tour. Evan 11/11/24
           steps: [
             {
               disableBeacon: true,
