@@ -8,6 +8,9 @@ import { Auction, BidsEntityOrCurrentBid } from 'src/api/auction/types'
 import { transformCurrencyToNumber } from 'src/utils/currency'
 import { NumericFormat } from 'react-number-format'
 import clsx from 'clsx'
+import { useAccountContext } from 'src/providers/AccountProvider'
+import { getOrders } from 'src/api/account/getOrders'
+import { OrderStatus } from 'src/types'
 
 interface FormInputs {
   bid: number
@@ -25,7 +28,10 @@ export default function ProxyBid({
   proxy_bid_max: number
 }) {
   const { isSocketReady } = useWebsocketContext()
+  const { account, token } = useAccountContext()
   const [loadingPlaceProxyBid, setLoadingPlaceProxyBid] = useState<boolean>(false)
+  const [hasValidOrders, setHasValidOrders] = useState<boolean>(false)
+  const [checkingOrders, setCheckingOrders] = useState<boolean>(true)
 
   const {
     reset,
@@ -39,8 +45,45 @@ export default function ProxyBid({
     },
   })
 
+  useEffect(() => {
+    const checkPastOrders = async () => {
+      if (!token || !account) return
+
+      try {
+        const orders = await getOrders(token)
+        const validStatuses = [
+          OrderStatus.PaymentOneComplete,
+          OrderStatus.PaymentTwoComplete,
+          OrderStatus.DeliveryStarted,
+          OrderStatus.DeliveryEnded,
+          OrderStatus.EscrowReleased
+        ]
+
+        const hasQualifyingOrder = orders.some(order => 
+          validStatuses.includes(order.status)
+        )
+
+        setHasValidOrders(hasQualifyingOrder || (account.id < 1570))
+      } catch (err) {
+        console.error('Error checking past orders:', err)
+        setHasValidOrders(false)
+      } finally {
+        setCheckingOrders(false)
+      }
+    }
+
+    checkPastOrders()
+  }, [token, account])
+
   const handlePlaceProxyBid: SubmitHandler<FormInputs> = useCallback(
     async value => {
+      if (!hasValidOrders) {
+        toast.error('Welcome newbie! You can bid once you have completed an instant mining order.', {
+          duration: 10000 // 10 seconds in milliseconds
+        });
+        return;
+      }
+
       try {
         setLoadingPlaceProxyBid(true)
 
@@ -61,12 +104,16 @@ export default function ProxyBid({
         setLoadingPlaceProxyBid(false)
       }
     },
-    [auction.id, current_bid?.bid, reset],
+    [auction.id, current_bid?.bid, reset, hasValidOrders],
   )
 
   useEffect(() => {
     setValue('bid', (proxy_bid_max ? proxy_bid_max + 1000 : bids[0]?.bid + auction?.proxy_bid_increment) || auction?.starting_bid)
   }, [auction?.proxy_bid_increment, auction?.starting_bid, bids, proxy_bid_max, setValue])
+
+  if (checkingOrders) {
+    return <div>Checking eligibility...</div>
+  }
 
   return (
     <>
