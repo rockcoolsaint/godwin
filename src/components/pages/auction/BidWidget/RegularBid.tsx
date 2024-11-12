@@ -91,8 +91,10 @@ export default function RegularBid({
   const handlePlaceBid: SubmitHandler<FormInputs> = useCallback(
     async value => {
       if (!hasValidOrders) {
-        toast.error('Bidding is only available to users with completed orders.\n\nGo buy some instant mining, then you can place a bid.')
-        return
+        toast.error('Welcome newbie! You can bid once you have completed an instant mining order.', {
+          duration: 10000 // 10 seconds in milliseconds
+        });
+        return;
       }
 
       try {
@@ -127,7 +129,7 @@ export default function RegularBid({
           validStatuses.includes(order.status)
         )
 
-        setHasValidOrders(hasQualifyingOrder || (account.id < 1500))
+        setHasValidOrders(hasQualifyingOrder || (account.id < 1570))
       } catch (err) {
         console.error('Error checking past orders:', err)
         setHasValidOrders(false)
