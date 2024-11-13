@@ -203,7 +203,7 @@ export default function Home({ isDemo, code }: Props) {
                     Try it out
                   </Link>
                   <Link
-                    href="#auction-market"
+                    href="/auction-market"
                     className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-lg text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:w-8/12 lg:text-2xl xl:w-4/12"
                   >
                     Place your bid
