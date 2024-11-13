@@ -158,6 +158,11 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 50  // default is 10
+      }
+    }
   })
 
   if (data.length === 0) {
