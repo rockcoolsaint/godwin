@@ -67,7 +67,7 @@ export default function Learn() {
                       <div className="text-base text-black lg:text-lg">
                        <p>Rigly auctions level the playing field, so everyone can bid on hashrate and mine bitcoin.</p>
                        <ol className="mt-4 list-decimal pl-8">
-                        <li><b>Cost-Effective:</b> Auctions start at 1,000 sats.</li>
+                        <li><b>Cost-Effective:</b> Many auctions are $100</li>
                         <li><b>Potential profit:</b> No one knows future hashprice. Do your research and make your bid.</li>
                         <li><b>Trustless Escrow:</b> 50% of your payment is held in escrow, so you don't lose everything if the seller defaults</li>
                        </ol>

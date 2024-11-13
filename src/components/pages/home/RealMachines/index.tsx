@@ -7,15 +7,15 @@ const Lottie = dynamic(() => import('lottie-react'), {
 const content = [
   {
     title: 'Real machines',
-    body: 'Hashrate is sent from mining farms to your mining pool account',
+    body: 'Hashrate from mining farms to your mining pool account',
   },
   {
     title: 'Auction pricing',
-    body: 'If your bid is below future hashprice, you can earn a profit',
+    body: 'Best bid wins and you can earn a profit',
   },
   {
     title: 'Escrow',
-    body: 'Payment balance held in non-custodial escrow - kyc-free',
+    body: 'Auction balance held in non-custodial escrow - kyc-free',
   },
 ]
 
