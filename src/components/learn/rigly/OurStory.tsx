@@ -118,12 +118,12 @@ const OurStory = () => {
           <TeamMemberCard
             image={sasa}
             name="Saša Buklijaš"
-            description="Saša manages our hashrate proxy, which routes hashrate from mining farms around the world."
+            description="Saša develops our hashrate proxy, which routes hashrate from mining farms around the world."
           />
           <TeamMemberCard
             image={placeholder}
-            name="Andrew Meisel"
-            description="Andrew was Rigly's 10th customer when it ran on Shopify and now handles communications and outreach."
+            name="Davor Bokun"
+            description="Davor develops the Rigly platform. He is also a hang-gliding flight instructor, dungeon master, gamer, computerphile, and science enthusiast."
           />
         </ul>
 
@@ -132,7 +132,8 @@ const OurStory = () => {
           <LearnCategorySubTitle>With help from:</LearnCategorySubTitle>
           <LearnCategoryText>
             <span className="flex justify-center">
-            Davor Bokun @ Aileron d.o.o.{' // '}
+            Andrew Meisel{' // '}
+            David Borthwick{' // '}
             Shafayat{' @ '}<a href="https://www.fiverr.com/unixxdesign">unixxdesign</a>
             </span>
           </LearnCategoryText>
