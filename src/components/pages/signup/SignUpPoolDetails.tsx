@@ -8,18 +8,11 @@ export function SignUpPoolDetails() {
         <div className="flex w-full flex-col">
           <p className="text-gray-500">You need a mining pool account to use Rigly.</p>
           <br/>
-          <p className="text-gray-500">
-          Sign up via the test drive and you get a Braiins Pool account:
+          <p className="mb-4 mr-4 text-gray-500">
+          Rigly routes hashrate directly to a stratum address that you control through a mining pool account of your choice.
           </p>
-          <br/>
-
-          <Link href="/test-drive"
-            className="flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover">
-            Mining Test Drive
-          </Link>
-          <br/>
           <p className="text-gray-500">
-          Or create a pool account:
+          Pick a pool and create an account there:
           </p>
         </div>
         <div className="mt-4 flex flex-wrap">
@@ -78,11 +71,15 @@ export function SignUpPoolDetails() {
             </button>
           </Link>
         </div>
-
-        <p className="mb-4 text-sm text-gray-500">
-        Rigly routes hashrate directly to a stratum address that you control through a mining pool account of your choice.
+        <p className="text-gray-500">
+          Or take the Rigly mining test drive which comes with a Braiins Pool account:
         </p>
-
+        <br/>
+        <Link href="/test-drive"
+          className="flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover">
+          Mining Test Drive
+        </Link>
+        <br/>
         <p className="mb-4 text-sm text-gray-500">
         Read more about how mining pools work{' '}
         <Link href="https://academy.braiins.com/en/braiins-pool/about" className="text-primary underline hover:no-underline">
