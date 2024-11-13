@@ -16,6 +16,46 @@ interface FormInputs {
   bid: number
 }
 
+const BidInput = ({ value, onChange, className, ...props }) => {
+  const handleIncrement = () => {
+    onChange(value + 1000)
+  }
+
+  const handleDecrement = () => {
+    onChange(value - 1000)
+  }
+
+  return (
+    <div className="relative flex">
+      <NumericFormat
+        {...props}
+        className={`${className} pr-8`}
+        value={value}
+        decimalScale={0}
+        onChange={e => {
+          onChange(transformCurrencyToNumber(e.target.value))
+        }}
+      />
+      <div className="absolute right-0 top-0 bottom-0 flex flex-col border-l border-gray-300">
+        <button
+          type="button"
+          onClick={handleIncrement}
+          className="flex-1 px-2 hover:bg-gray-100 border-b border-gray-300"
+        >
+          ▲
+        </button>
+        <button
+          type="button"
+          onClick={handleDecrement}
+          className="flex-1 px-2 hover:bg-gray-100"
+        >
+          ▼
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export default function ProxyBid({
   auction,
   bids,
@@ -123,13 +163,11 @@ export default function ProxyBid({
           <Controller
             name="bid"
             control={control}
-            render={({ field: { ref, onChange, ...rest } }) => {
+            render={({ field: { ref, onChange, value, ...rest } }) => {
               return (
-                <NumericFormat
+                <BidInput
                   decimalScale={0}
-                  onChange={e => {
-                    onChange(() => setValue('bid', transformCurrencyToNumber(e.target.value)))
-                  }}
+                  onChange={onChange}
                   style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                   className={clsx(
                     errors.bid
@@ -141,6 +179,7 @@ export default function ProxyBid({
                   thousandSeparator={true}
                   allowNegative={false}
                   customInput={Input}
+                  value={value}
                   {...rest}
                 />
               )
