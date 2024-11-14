@@ -8,15 +8,23 @@ export default function Learn() {
   const isMobile = useMobileScreen()
 
   return (
-    <div className="font-epilogue">
+    <div className="font-epilogue mb-40">
       <div className="max-w-8xl 2xl:py-30 mx-auto py-10 lg:px-8 2xl:mt-20">
         <div className="mx-auto max-w-6xl divide-gray-900/10">
-          <div className="flex w-full justify-between">
-            <div className="space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12">
-              <div>
-                <p className="text-3xl">Mining made easy.</p>
-                </div>
-              <Disclosure as="div" className="pt-6" defaultOpen={true}>
+          {/* Headers side by side */}
+          <div className="flex flex-col md:flex-row gap-8 mb-8">
+            <div className="flex-1">
+              <p className="text-3xl">Mining made easy.</p>
+            </div>
+            <div className="flex-1">
+              <p className="text-3xl">Bitcoin Only. Start mining now for just a few sats.</p>
+            </div>
+          </div>
+          
+          {/* Accordions side by side */}
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex-1 space-y-6 divide-y divide-gray-900/10">
+              <Disclosure as="div" className="pt-6" defaultOpen={false}>
                 {({ open }) => (
                   <>
                     <div>
@@ -40,7 +48,7 @@ export default function Learn() {
                           </li>
                           <li><b>Electricity Cost:</b> Profitable mining depends on securing low-cost energy.</li>
                           <li><b>Trust:</b> Hosted mining require trust, which has led to many rug pulls.</li>
-                          </ol>
+                        </ol>
                         <br/><p>These challenges restrict mining to a small group, increasing mining centralization which <Link href="https://www.youtube.com/watch?v=ebgdTxVOV9k" styled>threatens the future of bitcoin.</Link></p>
                       </div>
                     </Disclosure.Panel>
@@ -48,7 +56,7 @@ export default function Learn() {
                 )}
               </Disclosure>
               
-              <Disclosure as="div" className="pt-6" defaultOpen={true}>
+              <Disclosure as="div" className="pt-6" defaultOpen={false}>
                 {({ open }) => (
                   <>
                     <div>
@@ -72,28 +80,16 @@ export default function Learn() {
                         <li><b>Trustless Escrow:</b> 50% of your payment is held in escrow, so you don't lose everything if the seller defaults</li>
                        </ol>
                        <br/>
-                       <p><b>The Impact:</b> Every bitcoiner can mine, and mining farms can grow. It’s a win-win that promotes a decentralized network.</p>
+                       <p><b>The Impact:</b> Every bitcoiner can mine, and mining farms can grow. It's a win-win that promotes a decentralized network.</p>
                       </div>
                     </Disclosure.Panel>
                   </>
                 )}
               </Disclosure>
             </div>
-            {!isMobile && (
-              <div className="hidden w-6/12 pl-20 sm:flex">
-                {/* Removed lottie image - Evan 9/23/24 */}
-                </div>
-            )}
-          </div>
-        </div>
-        {/* Real machines */}
-        <div className="mx-auto mt-20 max-w-6xl divide-gray-900/10 sm:mt-40">
-          <div className="flex w-full justify-between">
-            <div className="order-2 w-full space-y-6 divide-y divide-gray-900/10 px-4 sm:w-6/12 sm:pl-20">
-              <div>
-                <p className="text-3xl">Bitcoin Only. Start mining now for just a few sats.</p>
-              </div>
-              <Disclosure as="div" className="pt-6" defaultOpen={true}>
+
+            <div className="flex-1 space-y-6 divide-y divide-gray-900/10">
+              <Disclosure as="div" className="pt-6" defaultOpen={false}>
                 {({ open }) => (
                   <>
                     <div>
@@ -116,7 +112,8 @@ export default function Learn() {
                   </>
                 )}
               </Disclosure>
-              <Disclosure as="div" className="pt-6" defaultOpen={true}>
+
+              <Disclosure as="div" className="pt-6" defaultOpen={false}>
                 {({ open }) => (
                   <>
                     <div>
@@ -140,11 +137,6 @@ export default function Learn() {
                 )}
               </Disclosure>
             </div>
-            {!isMobile && (
-              <div className="order-1 hidden w-6/12 justify-start sm:flex">
-                {/* Removed lottie image - Evan 9/23/24 */}
-              </div>
-            )}
           </div>
         </div>
       </div>

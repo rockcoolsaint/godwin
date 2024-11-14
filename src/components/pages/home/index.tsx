@@ -222,7 +222,7 @@ export default function Home({ isDemo, code }: Props) {
             </section>
             <Learn />
             <TrustlessMining />
-            <div className="container mx-auto px-4 py-8">
+              <div className="container mx-auto px-4 py-8 mb-40"> {/* Added mb-24 for ~1.5" of bottom margin */}
               <h1 className="mt-36 text-center font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Join our marketplace</h1>
               <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
                 {/* Left side box (Buyers) */}
