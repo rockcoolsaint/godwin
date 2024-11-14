@@ -4,6 +4,7 @@ import LearnCategorySubTitle from 'src/components/learn/LearnCategorySubTitle'
 import LearnCategoryText from 'src/components/learn/LearnCategoryText'
 import { url } from 'src/utils/url'  // Add this import
 import { toast } from 'react-hot-toast';
+import Link from 'src/components/shared/Link'
 
 interface FormData {
   name: string
@@ -93,7 +94,6 @@ function SellingOnRigly() {
 
       <LearnCategorySubTitle>How it works</LearnCategorySubTitle>
       <LearnCategoryText>
-        Rigly connects bitcoiners with the hashrate they need to secure their network.
         Rigly offers you the flexibility to earn more or get paid upfront for your hashrate.
       </LearnCategoryText>
 
@@ -110,7 +110,9 @@ function SellingOnRigly() {
 
       <LearnCategorySubTitle>How much can I earn?</LearnCategorySubTitle>
       <LearnCategoryText>
-        Let's take a hypothetical example:
+        For the spot premium, Rigly offers a 4% premium to FPPS daily hashprice. We use the Luxor <Link href="https://hashrateindex.com" styled>Hashrate Index</Link> as the source of the FPPS benchmark price.
+        <br /><br />
+        For the auctions, let's take a hypothetical example:
         <br /><br />
         21 PH/s<br />
         6 month forward<br />
@@ -123,17 +125,25 @@ function SellingOnRigly() {
 
       <LearnCategorySubTitle>What's in it for the buyer?</LearnCategorySubTitle>
       <LearnCategoryText>
-        Buyers bid on auctions with the aim of earning a profit. Mining also produces fresh bitcoin right from the protocol, which is valued by many for its privacy aspects.
-        <br/><br/>
-        Rigly allows mining farm owners with <b>high time preference</b> (to pay bills and grow faster) to trade with buyers with <b>low time preference</b> (earn more bitcoin, over time) to mutual benefit.
+       Rigly connects bitcoiners with the hashrate they need to secure their network.
+       <br/><br/>
+       In terms of incentives, buyers bid on auctions with the aim of earning a profit. Mining also produces fresh bitcoin right from the protocol, which is valued by many for its <Link href="https://www.reddit.com/r/Bitcoin/comments/17vs1na/whats_the_advantage_of_non_kyc_bitcoin" styled>privacy aspects</Link>.
+       <br/><br/>
+       Rigly allows mining farm owners with <b>high time preference</b> (to pay bills and grow faster) to trade with buyers with <b>low time preference</b> (earn more bitcoin, over time) to mutual benefit.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>Build your Rigly reputation</LearnCategorySubTitle>
       <LearnCategoryText>
-        We plan to build a reputation score system. Established sellers with reliable delivery history may fetch a premium price at auction, and gain access to select features to sell hashrate at higher volumes, longer durations, and potentially receive a higher percentage upfront from the escrow.
+        We plan to build a reputation score system. Established sellers - with proven delivery history - gain access to sell higher volumes of hashrate, for longer durations, and your hashrate may fetch a premium price at auction.
       </LearnCategoryText>
 
       <LearnCategorySubTitle>Get Started</LearnCategorySubTitle>
+      <LearnCategoryText>
+        We are onboarding small volumes of hashrate from select mining farms to bootstrap our marketplace.
+        <br/><br/>
+        If this sounds good to you, and you are willing to share feedback w/ us, then get in touch:
+      </LearnCategoryText>
+
       <form onSubmit={handleSubmit} className="mt-8 mb-16">
         {submitted ? (
           <div className="bg-green-50 p-6 rounded-xl">
