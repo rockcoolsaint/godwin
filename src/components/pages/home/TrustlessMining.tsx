@@ -6,15 +6,15 @@ import box3Image from 'src/assets/png/box3.png'
 const TrustlessMining: React.FC = () => {
   const boxes = [
     {
-      text: "Mining farms get 50% payment upfront and 50% in escrow, released after hashrate delivery",
+      text: "Mining farms get 50% payment upfront and 50% after hashrate delivery",
       image: box1Image
     },
     {
-      text: "The 2:2 escrow address is listed in completed auction profiles",
+      text: "The 2:2 escrow address is shown in the auction profile",
       image: box2Image
     },
     {
-      text: "High value auctions support 2:3 multisig. Funds are released after you sign",
+      text: "High value auctions support 2:3 multisig. Funds released after you sign",
       image: box3Image
     }
   ];
@@ -39,7 +39,7 @@ const TrustlessMining: React.FC = () => {
             key={index} 
             className="flex flex-col items-center p-4 bg-white rounded-xl shadow-lg"
           >
-            <div className="relative w-[380px] h-[250px] mb-4">
+            <div className="relative w-[285px] h-[187px] mb-4">  {/* Reduced from w-[380px] h-[250px] */}
               <Image 
                 src={box.image}
                 alt={`Trustless Mining Feature ${index + 1}`}
