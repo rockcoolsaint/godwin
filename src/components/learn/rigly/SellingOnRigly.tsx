@@ -110,7 +110,7 @@ function SellingOnRigly() {
 
       <LearnCategorySubTitle>How much can I earn?</LearnCategorySubTitle>
       <LearnCategoryText>
-        For the spot premium, Rigly offers a 4% premium to FPPS daily hashprice. We use the Luxor <Link href="https://hashrateindex.com" styled>Hashrate Index</Link> as the source of the FPPS benchmark price.
+        For the spot premium, Rigly offers a 4% premium to FPPS daily hashprice. We use <Link href="https://hashrateindex.com" styled>Hashrate Index</Link> as hashprice data source.
         <br /><br />
         For the auctions, let's take a hypothetical example:
         <br /><br />
@@ -139,9 +139,11 @@ function SellingOnRigly() {
 
       <LearnCategorySubTitle>Get Started</LearnCategorySubTitle>
       <LearnCategoryText>
-        We are onboarding small volumes of hashrate from select mining farms to bootstrap our marketplace.
+        We are onboarding hashrate from select mining farms to bootstrap our marketplace.
         <br/><br/>
-        If this sounds good to you, and you are willing to share feedback w/ us, then get in touch:
+        Interested?
+        <br/><br/>
+        Fill out the form, we will be in touch:
       </LearnCategoryText>
 
       <form onSubmit={handleSubmit} className="mt-8 mb-16">
