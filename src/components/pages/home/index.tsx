@@ -195,14 +195,14 @@ export default function Home({ isDemo, code }: Props) {
             <Gradient />
             <Hero>
               <>
-                <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
+                <div className="mb-20 mt-6 flex w-full justify-center font-chakra font-bold">
                 <Link
-                  href="/start-mining-now/intro"
-                  className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-lg text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:w-8/12 lg:text-2xl xl:w-4/12"
+                  href="/learn/rigly/start-mining-now/intro"
+                  className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-lg text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-8/12 lg:text-2xl xl:w-4/12"
                 >
                   Start mining now
                 </Link>
-                </div>
+              </div>
               </>
             </Hero>
             <RealMachines />
