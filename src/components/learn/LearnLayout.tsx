@@ -12,6 +12,7 @@ const navigation = [
   { name: 'What is Rigly?', href: '/learn/rigly/what-is-rigly' },
   { name: 'Why Auctions?', href: '/learn/rigly/why-auctions' },
   { name: 'How Escrow Works', href: '/learn/rigly/how-escrow-works' },
+  { name: 'Start Mining Now', href: '/learn/rigly/start-mining-now' },
   { name: 'Selling on Rigly', href: '/learn/rigly/selling-on-rigly' },
   { name: 'Our Story + Team', href: '/learn/rigly/our-story' },
 ]
