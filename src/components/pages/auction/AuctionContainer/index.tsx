@@ -27,6 +27,8 @@ import { updateAccount } from 'src/api/auth/updateAccount'
 import { formatDate } from 'src/utils/date'
 import { formatMoney } from 'src/utils/currency'
 import { FC } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
 
 const WinnersStatement: FC = () => {
   return (
@@ -80,6 +82,8 @@ function panelClass() {
 
 interface AuctionContainerProps {
   auction: Auction
+  activeAuctions: Array<{id: string, slug: string}>; // List of active auctions
+  currentIndex: number;
   order?: Order
   bids: BidsEntityOrCurrentBid[]
   current_bid: BidsEntityOrCurrentBid
@@ -87,13 +91,47 @@ interface AuctionContainerProps {
   winner: Winner
   slug: string
   tab?: 'bids' | 'profile' | 'live-feed' | 'hash-price'
+  activeAuctions: Auction[]
 }
 
-export default function AuctionContainer({ auction, order, bids, current_bid, user_proxy_bid, winner, tab }: AuctionContainerProps) {
+export default function AuctionContainer({ auction, activeAuctions, currentIndex, order, bids, current_bid, user_proxy_bid, winner, tab }: AuctionContainerProps) {
+  const router = useRouter();
+  const [isNavigating, setIsNavigating] = useState(false);
   const { account, token } = useAccountContext()
   const [currentTab] = useState(TAB_PANEL[tab || 'bids'])
   const [selectedIndex, setSelectedIndex] = useState(currentTab?.index || 0)
   const isMounted = useIsMounted()
+
+  const handleNavigation = (direction: 'next' | 'prev') => {
+    if (!activeAuctions?.length) return;
+    
+    const currentIndex = activeAuctions.findIndex(a => a.id === auction.id);
+    const newIndex = direction === 'next'
+      ? (currentIndex + 1) % activeAuctions.length
+      : (currentIndex - 1 + activeAuctions.length) % activeAuctions.length;
+      
+    const nextAuction = activeAuctions[newIndex];
+    if (nextAuction?.slug) {
+      window.location.href = `/auctions/${nextAuction.slug}`;
+    }
+  };
+
+  const handleNavigate = async (direction: 'prev' | 'next') => {
+    if (isNavigating) return;
+    if (!activeAuctions?.length) return;
+
+    const currentIndex = activeAuctions.findIndex(a => a.id === auction.id);
+    const newIndex = direction === 'next' 
+      ? (currentIndex + 1) % activeAuctions.length
+      : (currentIndex - 1 + activeAuctions.length) % activeAuctions.length;
+    
+    const nextAuction = activeAuctions[newIndex];
+    
+    setIsNavigating(true);
+    router.push(`/auction/${nextAuction.slug}`, { scroll: false });
+    setIsNavigating(false);
+  };
+
   const [{ run, steps }, setState] = useState<TourState>({
     run: false,
     steps: [],
@@ -221,6 +259,22 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
+      <div className="flex gap-2">
+        <button
+          onClick={() => handleNavigation('prev')}
+          className="p-2 rounded-full hover:bg-gray-100"
+          aria-label="Previous auction"
+        >
+          <ChevronLeftIcon className="h-6 w-6" />
+        </button>
+        <button 
+          onClick={() => handleNavigation('next')}
+          className="p-2 rounded-full hover:bg-gray-100"
+          aria-label="Next auction"
+        >
+          <ChevronRightIcon className="h-6 w-6" />
+        </button>
+      </div>
       <span className="mb-2 block text-sm text-dark-300">{`${auction.auction_meta?.days_of_mining} ${
         auction.auction_meta?.days_of_mining > 1 ? 'days' : 'day'
       }  | ${formatMoney(auction.auction_meta?.hashrate)} TH/s `}</span>
@@ -235,6 +289,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
         containerClasses="flex items-center -ml-1 mb-2"
         listClasses="hover:underline mr-2 ml-1 font-light text-sm"
       />
+
       {renderAuctionMeta()}
       <section className="auction-container flex flex-col rounded-xl bg-gray-50 sm:p-3 lg:flex-row">
         <ErrorBoundary fallback={<div className="w-full p-8">⚠️ Oops! something went wrong</div>}>

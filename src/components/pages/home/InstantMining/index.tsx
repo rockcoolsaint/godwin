@@ -212,6 +212,8 @@ export default function InstantMining() {
                   <option value="6">6 hours</option>
                   <option value="12">12 hours</option>
                   <option value="24">24 hours</option>
+                  <option value="24">48 hours</option>
+                  <option value="24">72 hours</option>
                 </select>
               </div>
             </div>
