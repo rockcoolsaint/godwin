@@ -38,25 +38,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
   const [activeAuctions, setActiveAuctions] = useState<Auction[]>([])
   const { setAuction: handleSetAuction, setAuctionStatus, setAuctionEndNotification, setCheckoutNotification } = useNotificationsContext()
 
-  const getCurrentAuctionIndex = () => {
-    return activeAuctions.findIndex(a => a.id === auction?.id);
-  }
-
-  const getAdjacentAuctionSlugs = () => {
-    const currentIndex = getCurrentAuctionIndex();
-    if (currentIndex === -1) return { prevSlug: null, nextSlug: null };
-
-    const prevSlug = currentIndex > 0 
-      ? activeAuctions[currentIndex - 1].slug 
-      : activeAuctions[activeAuctions.length - 1].slug;
-      
-    const nextSlug = currentIndex < activeAuctions.length - 1 
-      ? activeAuctions[currentIndex + 1].slug 
-      : activeAuctions[0].slug;
-
-    return { prevSlug, nextSlug };
-  }
-
   const loadAuction = async () => {
     try {
       const result = await getAuctionBySlug(slug)
@@ -101,11 +82,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
         if (!auctionResult) {
           throw new Error(`Couldn't load auction`)
         }
-
-        // Sort auctions by start time
-        const sortedAuctions = activeAuctions.results.sort((a, b) => 
-          new Date(a.start_at).getTime() - new Date(b.start_at).getTime()
-        );
         setActiveAuctions(activeAuctions.results)
 
         setAuction(auctionResult.auction)
@@ -218,12 +194,6 @@ export default function AuctionPage({ params }: { params: { auctionSlug: [string
           order={order}
           slug={slug}
           tab={tab}
-          navigation={{
-            ...getAdjacentAuctionSlugs(),
-            currentIndex: getCurrentAuctionIndex(),
-            totalAuctions: activeAuctions.length
-          }}
-          activeAuctions={activeAuctions} // Add this line
         />
       </Container>
       {activeAuctions.length > 0 && (
