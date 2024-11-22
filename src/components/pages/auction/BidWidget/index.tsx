@@ -131,7 +131,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
           {auction.status === AuctionStatus.Active && (
             <>
               {current_bid && (
-                <div className="mt-5 flex w-full flex-col items-center bg-gray-200 p-4">
+                <div className="mt-5 flex w-full flex-col items-center bg-orange-50 p-4">
                   <h5>Current bid</h5>
                   <Tooltip placement="left">
                     <TooltipTrigger>

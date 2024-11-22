@@ -236,7 +236,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
         listClasses="hover:underline mr-2 ml-1 font-light text-sm"
       />
       {renderAuctionMeta()}
-      <section className="auction-container flex flex-col rounded-xl bg-gray-50 sm:p-3 lg:flex-row">
+      <section className="auction-container flex flex-col rounded-xl bg-[#faf9f9] sm:p-3 lg:flex-row">
         <ErrorBoundary fallback={<div className="w-full p-8">⚠️ Oops! something went wrong</div>}>
           <div data-test-id="digest-step-settings-interval" className="lg:w-[75%]">
             <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
@@ -262,7 +262,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
                   </div>
                 </Tab.Panel>
               </Tab.Panels>
-              <Tab.List className="mt-4 flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+              <Tab.List className="mt-4 flex space-x-1 rounded-xl bg-orange-100 p-1">
                 <Tab ref={bidRef} className={tabClass}>
                   Bids
                 </Tab>
