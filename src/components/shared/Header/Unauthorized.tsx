@@ -17,14 +17,14 @@ export default function Unauthorized({ isDemo }: Props) {
     <div className="ml-8 flex items-center justify-end gap-2 font-epilogue">
       <Link
         href={loginUrl}
-        className="flex h-10 items-center justify-center rounded-lg border border-transparent px-3 text-sm text-[#5892F7] hover:cursor-pointer"
+        className="flex h-10 items-center justify-center rounded-lg border border-transparent px-3 text-sm text-[#f08222] hover:cursor-pointer"
       >
         <span className="whitespace-nowrap font-normal">Sign In</span>
       </Link>
 
       <Link
         href={registerUrl}
-        className="flex h-10 items-center justify-center rounded-lg bg-[#1C448A] px-3 text-sm text-white hover:cursor-pointer hover:opacity-80"
+        className="flex h-10 items-center justify-center rounded-lg bg-[#f08222] px-3 text-sm text-white hover:cursor-pointer hover:opacity-80"
       >
         <span className="whitespace-nowrap font-normal">Sign up</span>
       </Link>

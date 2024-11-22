@@ -16,8 +16,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#316AEF',
-        gradient: `bg-gradient-to-r from-cyan-500 to-blue-500`,
+        primary: '#f08222',
         navy: '#1A3263',
         gray: {
           100: '#EBEFF0',
@@ -39,10 +38,10 @@ module.exports = {
         },
       },
       backgroundImage: {
-        gradient: 'linear-gradient(to right, #035DF2, #258AF7, #41ADFD)',
-        'gradient-hover': 'linear-gradient(to right, #258AF7, #258AF7, #258AF7)',
-        'gradient-disabled': 'linear-gradient(to right, #DCE2E5, #DCE2E5, #DCE2E5)',
-        'hero-gradient': 'linear-gradient(to right, #1A3263, #5C3FAF)',
+        gradient: 'linear-gradient(to right, #f08222, #f08222, #f08222)', // Changed to solid orange
+        'gradient-hover': 'linear-gradient(to right, #e67615, #e67615, #e67615)', // Slightly darker orange for hover
+        'gradient-disabled': 'linear-gradient(to right, #DCE2E5, #DCE2E5, #DCE2E5)', // Keep disabled state
+        'hero-gradient': 'linear-gradient(to right, #1A3263, #5C3FAF)', // Keep hero gradient
       },
       height: {
         'input-tall': `${StyleConstants.inputHeight.tall}px`,

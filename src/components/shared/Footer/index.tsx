@@ -2,7 +2,8 @@
 
 import Link from 'src/components/shared/Link'
 import { ArrowLongRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
-import LogoSvg from 'src/assets/svg/logo_dark.svg'
+import Image from 'next/image'
+import Logo from 'src/assets/webp/upendo-logo-orange.webp'
 import NostrSvg from 'src/assets/svg/nostr.svg'
 import Telegram from 'src/assets/svg/telegram.svg'
 import TwitterSvg from 'src/assets/svg/twitter.svg'
@@ -51,10 +52,14 @@ const Footer = () => {
       <section>
         <div className="w-12/12 mb-16 flex flex-wrap items-start justify-between border-t border-gray-300 pt-16">
           <div className="mb-4 flex items-center sm:mb-0">
-            <LogoSvg />
+            <Image 
+              src={Logo}
+              alt="Upendo Logo"
+              priority // If this is your main logo, you'll want to prioritize loading
+            />
             <div className="ml-3 border-l pl-3">
               <span className="block text-dark-200/[.7]">Bitcoin Mining</span>
-              <span className="block text-dark-200/[.7]">Auctions</span>
+              <span className="block text-dark-200/[.7]">Block Party Auction</span>
             </div>
           </div>
           <div className="flex w-fit flex-wrap items-center justify-start sm:mt-0 md:justify-end">

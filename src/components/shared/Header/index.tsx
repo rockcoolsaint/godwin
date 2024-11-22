@@ -1,6 +1,7 @@
 'use client'
 import Link from 'src/components/shared/Link'
-import LogoSvg from 'src/assets/svg/logo_dark.svg'
+import Image from 'next/image'
+import Logo from 'src/assets/webp/upendo-logo-orange.webp'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Authorized from './Authorized'
 import Unauthorized from './Unauthorized'
@@ -64,7 +65,13 @@ export default function HeaderNav({ isDemo }: Props) {
               </button>
             </div>
             <Link href={homeURL}>
-              <LogoSvg />
+              <Image 
+                src={Logo}
+                alt="Rigly Logo"
+                width={300} // reduced from 400 to 300 (25% smaller)
+                height={110} // maintaining aspect ratio
+                priority // If this is your main logo, you'll want to prioritize loading
+              />
             </Link>
           </div>
           <div className="hidden lg:block">

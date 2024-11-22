@@ -96,17 +96,6 @@ export default function Home({ isDemo, code }: Props) {
 
   return (
     <div>
-      <div className="flex items-center justify-center gap-x-6 bg-indigo-600 px-6 py-2.5 sm:px-3.5">
-        <p className="text-sm leading-6 text-white">
-          <a href="https://rigly.io/auction-market">
-            <strong className="font-semibold">{formatDateWithSuffix(new Date())}</strong>
-            <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
-              <circle cx={1} cy={1} r={1} />
-            </svg>
-            Check out our new mining auctions!
-          </a>
-        </p>
-      </div>
       {isLoggedIn && (
         <>
           <section className="mx-auto mt-8 flex flex-col items-center justify-center sm:mt-14">
@@ -197,11 +186,11 @@ export default function Home({ isDemo, code }: Props) {
               <>
                 <div className="mb-20 mt-6 flex w-full justify-center font-chakra font-bold">
                 <Link
-                  href="/learn/rigly/start-mining-now"
-                  className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-lg text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled lg:w-8/12 lg:text-2xl xl:w-4/12"
-                >
-                  Start mining now
-                </Link>
+                href="/learn/rigly/start-mining-now"
+                className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-[#f08222] px-5 py-4 text-lg text-white outline-none hover:bg-[#d97420] disabled:cursor-not-allowed disabled:opacity-50 lg:w-8/12 lg:text-2xl xl:w-4/12"
+              >
+                Start mining now
+              </Link>
               </div>
               </>
             </Hero>
