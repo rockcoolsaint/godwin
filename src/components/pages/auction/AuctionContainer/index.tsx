@@ -86,7 +86,7 @@ interface AuctionContainerProps {
   user_proxy_bid?: ProxyBid
   winner: Winner
   slug: string
-  tab?: 'bids' | 'profile' | 'live-feed' | 'hash-price'
+  tab?: 'bids' | 'profile' | 'hash-price' | 'live-feed'
 }
 
 export default function AuctionContainer({ auction, order, bids, current_bid, user_proxy_bid, winner, tab }: AuctionContainerProps) {
@@ -123,19 +123,19 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
               content: <div className="text-left">View hashrate delivery terms</div>,
               placement: 'left',
               target: profileRef.current!,
-              title: <p className="font-bold">Profile</p>,
+              title: <p className="font-bold">Details</p>,
+            },
+            {
+              content: <div className="text-left">Consult on-chain data to calculate hash price</div>,
+              placement: 'left',
+              target: hashPriceRef.current!,
+              title: <p className="font-bold">Block Odds</p>,
             },
             {
               content: <div className="text-left">Check live feed of hashrate from our proxy</div>,
               placement: 'left',
               target: liveFeedRef.current!,
               title: <p className="font-bold">Livefeed</p>,
-            },
-            {
-              content: <div className="text-left">Consult on-chain data to calculate hash price</div>,
-              placement: 'left',
-              target: hashPriceRef.current!,
-              title: <p className="font-bold">Hash price</p>,
             },
             {
               content: <div className="text-left">Hashprice = (block subsidy + tx fees) / network hashrate</div>,
@@ -253,12 +253,12 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
                 </Tab.Panel>
                 <Tab.Panel className={panelClass()}>
                   <div className="scrollbar-hide relative h-full rounded-md">
-                    <AuctionLiveFeed auction={auction} />
+                    <AuctionHashPrice />
                   </div>
                 </Tab.Panel>
                 <Tab.Panel className={panelClass()}>
                   <div className="scrollbar-hide relative h-full rounded-md">
-                    <AuctionHashPrice />
+                    <AuctionLiveFeed auction={auction} />
                   </div>
                 </Tab.Panel>
               </Tab.Panels>
@@ -267,13 +267,13 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
                   Bids
                 </Tab>
                 <Tab ref={profileRef} className={tabClass}>
-                  Profile
+                  Details
+                </Tab>
+                <Tab ref={hashPriceRef} className={tabClass}>
+                  Block odds
                 </Tab>
                 <Tab ref={liveFeedRef} className={tabClass}>
                   Live feed
-                </Tab>
-                <Tab ref={hashPriceRef} className={tabClass}>
-                  Hash price
                 </Tab>
               </Tab.List>
             </Tab.Group>

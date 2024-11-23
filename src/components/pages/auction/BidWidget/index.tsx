@@ -131,7 +131,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
           {auction.status === AuctionStatus.Active && (
             <>
               {current_bid && (
-                <div className="mt-5 flex w-full flex-col items-center bg-gray-200 p-4">
+                <div className="mt-5 flex w-full flex-col items-center bg-orange-100 p-4">
                   <h5>Current bid</h5>
                   <Tooltip placement="left">
                     <TooltipTrigger>
@@ -146,7 +146,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
                 </div>
               )}
               {hasProxyBid && (
-                <div className={clsx('flex w-full flex-col items-center bg-gray-200 p-4', current_bid ? 'pt-0' : 'mt-5 pt-4')}>
+                <div className={clsx('flex w-full flex-col items-center bg-orange-100 p-4', current_bid ? 'pt-0' : 'mt-5 pt-4')}>
                   <h6 className="w-4/12 items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 ring-1 ring-inset ring-gray-500/30">
                     Proxy bid
                   </h6>
@@ -164,7 +164,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
               )}
 
               {current_bid === null && !user_proxy_bid && (
-                <div className="mt-7 w-full rounded-xl bg-gray-200 p-4">
+                <div className="mt-7 w-full rounded-xl bg-orange-100 p-4">
                   <span>Be the first to place a bid</span>
                 </div>
               )}

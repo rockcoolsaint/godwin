@@ -14,9 +14,9 @@ export interface TabProps {
 
 export const TAB_PANEL: Tab = {
   bids: { name: 'Bids', index: 0 },
-  profile: { name: 'Profile', index: 1 },
-  'live-feed': { name: 'Live Feed', index: 2 },
-  'hash-price': { name: 'Hash Price', index: 3 },
+  profile: { name: 'Details', index: 1 },
+  'hash-price': { name: 'Block Odds', index: 2 },
+  'live-feed': { name: 'Live Feed', index: 3 },
 }
 
 export interface TourState {

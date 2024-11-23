@@ -54,41 +54,17 @@ const AuctionProfile = ({ data }: Props) => {
 
   return (
      <section className="rounded-3 flow-root h-full rounded-xl border bg-gray-50 px-0 py-3 sm:px-4">
-    {data?.auction_meta?.image_2 && (
-      /* Seller Profile Section */
-      <div className="flex items-center bg-white rounded-xl mb-6">
-        <div className="w-3/6 sm:w-1/6 md:w-1/3 lg:w-2/6 p-4 flex justify-center items-center">
-          <div className="w-full aspect-[4/3] relative">
-            <Image
-              src={data.auction_meta.image_2 || miner}
-              alt="Seller Profile Photo"
-              layout="fill"
-              objectFit="contain"
-              className="rounded-lg"
-            />
-          </div>
-        </div>
-        <div className="w-3/6 sm:w-5/6 md:w-2/3 lg:w-4/6 p-4">
-          <h1 className="text-2xl font-bold">{data.auction_meta.name}</h1>
-          <p className="text-sm text-gray-500 mt-2">
-            {data.auction_meta.notes}
-            <a href={data.auction_meta.terms_link} className="text-blue-500 hover:underline ml-1">Our website.</a>
-          </p>
-        </div>
-      </div>
-    )}
-    {/* Existing Content */}
       <div className="border-1 flex justify-between rounded-xl bg-white p-2">
         <div className="flex-1">
 
           {/* Type */}
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold capitalize text-dark-100">{t('home.type')}</p>
+              <p className="p-3 py-6 font-semibold capitalize text-dark-100">Block party date</p>
             </aside>
             <aside className="w-3/6">
               <p className="p-3 pl-4 sm:whitespace-nowrap">
-                {underscoreToSpaceAndCapitalize(data.auction_type.type)}
+               November 28, 2024
               </p>
             </aside>
           </div>
@@ -96,50 +72,46 @@ const AuctionProfile = ({ data }: Props) => {
           {/* Duration */}
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold capitalize text-dark-100">{t('home.duration')}</p>
+              <p className="p-3 py-6 font-semibold capitalize text-dark-100">Duration</p>
             </aside>
-            <aside>{renderDuration()}</aside>
+            <aside><p className="p-3 pl-4">24 hours</p></aside>
+          </div>
+
+          {/* Start time */}
+          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
+            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
+              <p className="p-3 py-6 font-semibold capitalize text-dark-100">Start time</p>
+            </aside>
+            <aside><p className="p-3 pl-4">00:00 UTC</p></aside>
           </div>
 
           {/* Hashrate */}
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold capitalize text-dark-100">{t('home.hashrate')}</p>
+              <p className="p-3 py-6 font-semibold capitalize text-dark-100">Party hashrate</p>
             </aside>
             <aside>
-              <p className="p-3 pl-4">{formatMoney(data.auction_meta.hashrate)} TH/s</p>
+              <p className="p-3 pl-4">3 PH/s</p>
             </aside>
           </div>
 
-          {/* Power Source */}
+          {/* Lot hashrate */}
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold text-dark-100">{t('home.power_source')}</p>
+              <p className="p-3 py-6 font-semibold text-dark-100">Lot hashrate</p>
             </aside>
             <aside>
-              <p className="p-3 py-6 pl-4">{data.auction_meta.power_source?.name || 'N/A'}</p>
+              <p className="p-3 py-6 pl-4">100 TH/s ~ 3% of party</p>
             </aside>
           </div>
-
-          {/* Escrow - Only show for auction id > 1700 and if location exists */}
-          {data.id > 1700 && data.auction_meta.location && (
-            <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-              <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-                <p className="p-3 py-6 font-semibold text-dark-100">Escrow</p>
-              </aside>
-              <aside className="w-4/6">
-                <p className="p-3 py-6 pl-4">{data.auction_meta.location}</p>
-              </aside>
-            </div>
-          )}
 
           {/* Fee */}
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold text-dark-100">Fee</p>
+              <p className="p-3 py-6 font-semibold text-dark-100">Auction fee</p>
             </aside>
             <aside>
-              <p className="p-3 py-6 pl-4">3.5% of final bid amount</p>
+              <p className="p-3 py-6 pl-4">0%</p>
             </aside>
           </div>
 
@@ -156,10 +128,10 @@ const AuctionProfile = ({ data }: Props) => {
           {/* Payment Terms */}
           <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold text-dark-100">Payment terms</p>
+              <p className="p-3 py-6 font-semibold text-dark-100">Payment</p>
             </aside>
             <aside className="w-4/6">
-              <p className="p-3 py-6 pl-4">Payment due on auction close</p>
+              <p className="p-3 py-6 pl-4">Bitcoin, on-chain or Lightning</p>
             </aside>
           </div>
         </div>
@@ -169,4 +141,7 @@ const AuctionProfile = ({ data }: Props) => {
 }
 
 export default AuctionProfile
+
+
+
 
