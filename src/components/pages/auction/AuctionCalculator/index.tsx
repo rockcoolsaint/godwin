@@ -5,6 +5,10 @@ import { useEffect, useState } from 'react'
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline'
 import SatsSvg from 'src/assets/svg/sats.svg'
 
+const [userHashrate, setUserHashrate] = useState(1) // Default to 1 PH/s
+const [networkHashrate] = useState(750) // Fixed at 750 EH/s
+const [miningOdds, setMiningOdds] = useState(0)
+
 export default function AuctionCalculator() {
   const [bid, setBid] = useState(0)
   const [futureHashPrice, setFutureHashPrice] = useState(0)
@@ -18,17 +22,17 @@ export default function AuctionCalculator() {
   }
 
   useEffect(() => {
-    function handleCalculateRigly() {
-      const futureMiningPayout = futureHashPrice * speed * daysOfMining
-      let miningHashPrice = 0
-      if (speed > 0 && daysOfMining > 0) miningHashPrice = bid / speed / daysOfMining
-
-      setFutureMiningPayout(futureMiningPayout)
-      setFutureMiningHashprice(miningHashPrice)
+    function calculateSoloMiningOdds() {
+      // Convert user hashrate from PH/s to EH/s for consistent units
+      const userHashrateEH = userHashrate / 1000
+      // Calculate odds (similar to useSoloMineCalculator logic)
+      const chancePerBlock = Math.floor(networkHashrate / userHashrateEH)
+      const chancePerBlockDay = Math.floor(chancePerBlock / (6 * 24))
+      setMiningOdds(chancePerBlockDay)
     }
-
-    handleCalculateRigly()
-  }, [bid, futureHashPrice, speed, daysOfMining])
+  
+    calculateSoloMiningOdds()
+  }, [userHashrate])
 
   return (
     <section className=" rounded-3 border px-4 py-3">

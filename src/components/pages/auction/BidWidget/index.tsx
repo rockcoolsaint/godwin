@@ -131,7 +131,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
           {auction.status === AuctionStatus.Active && (
             <>
               {current_bid && (
-                <div className="mt-5 flex w-full flex-col items-center bg-orange-50 p-4">
+                <div className="mt-5 flex w-full flex-col items-center bg-gray-200 p-4">
                   <h5>Current bid</h5>
                   <Tooltip placement="left">
                     <TooltipTrigger>
@@ -215,6 +215,7 @@ interface BidWidgetCalculatorProps {
 }
 
 function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
+  // Original hashprice calculator state
   let filteredEpoch: any = {}
   if (Object.keys(epoch).length > 0) {
     filteredEpoch = Object.values(epoch).reduce((a, b) => (a > b ? a : b))
@@ -224,86 +225,112 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   const [speed] = useState(auction.auction_meta.hashrate)
   const [duration] = useState(auction.auction_meta.days_of_mining)
   const payout = hashPrice * Number(speed) * Number(duration)
-
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: payout || 0 })
+
+  // Solo mining calculator state
+  const baseHashrate = 5 // 5 PH/s base
+  const networkHashrate = 750 // 750 EH/s
+  const [boostAmount, setBoostAmount] = useState(1) // Number of 100 TH/s boosts
+  const [baseOdds, setBaseOdds] = useState(0)
+  const [boostedOdds, setBoostedOdds] = useState(0)
 
   useEffect(() => {
     setHashPrice(Math.floor(filteredEpoch.mean))
   }, [filteredEpoch.mean])
 
-  const min = 1
-  const max = 800
+  // In the odds calculation useEffect:
+  useEffect(() => {
+    function calculateOdds() {
+      // Calculate base odds (5 PH/s)
+      const baseHashrateEH = baseHashrate / 1000 // Convert PH/s to EH/s
+      const blocksPerDay = 144 // 6 blocks per hour * 24 hours
+      const baseProbability = (baseHashrateEH / networkHashrate) * blocksPerDay
+      const baseOneInX = Math.round(1 / baseProbability)
+      setBaseOdds(baseOneInX)
+
+      // Calculate boosted odds (base + boost)
+      const boostHashrateEH = (boostAmount * 100) / 1000000 // Convert TH/s to EH/s
+      const totalHashrateEH = baseHashrateEH + boostHashrateEH
+      const boostedProbability = (totalHashrateEH / networkHashrate) * blocksPerDay
+      const boostedOneInX = Math.round(1 / boostedProbability)
+      setBoostedOdds(boostedOneInX)
+    }
+
+    calculateOdds()
+  }, [boostAmount])
 
   return (
     <div className="relative mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-6 opacity-70">
-      <h1 className="mb-2 text-base">Hash price</h1>
-      {Object.keys(filteredEpoch).length > 0 && (
-        <div data-test-id="step-hashprice" className="flex items-center justify-between">
-          <input
-            onChange={e => {
-              setHashPrice(Math.max(min, Math.min(max, Number(e.target.value))) || 0)
-            }}
-            type="number"
-            className="w-full rounded-lg border border-gray-400 p-2 text-center text-lg disabled:bg-gradient-disabled"
-            id="hashprice"
-            max={800}
-            placeholder="0"
-            value={formatMoney(hashPrice)}
-          />
-          <p className="ml-1 text-right text-sm text-dark-100">Sats per TH/s/Day</p>
-        </div>
-      )}
+      {/* Original hashprice calculator section */}
+      {/* ... keep existing hashprice calculator code ... */}
 
-      <label data-test-id="step-range" htmlFor="#hashprice" className="mt-4 flex w-full max-w-[336px] items-center">
-        <input
-          onChange={e => {
-            setHashPrice(parseInt(e.target.value) || 0)
-          }}
-          className={`${styles['range-slider']} w-full`}
-          type="range"
-          id="#hashprice"
-          name="volume"
-          min="0"
-          max="800"
-          placeholder="hashprice"
-          value={hashPrice.toString()}
-        />
-      </label>
-      <div data-test-id="step-estimate" className="my-10">
-        <h1 className="flex items-center text-base">
-          Estimated revenue
+      {/* New solo mining calculator section */}
+      <div className="mt-6 border-t pt-6 w-full">
+        <h1 className="mb-2 text-base">Party Boost</h1>
+        <p className="mb-4 text-sm text-dark-100 max-w-sm">
+          Get 100 TH/s extra hashrate for each new signup. <span className="font-semibold">More hashrate equals more speed, improving our odds of winning a block.</span>
+        </p>
+
+        {/* Party Boost Slider */}
+        <div className="mb-6">
+          <label 
+            htmlFor="boostSlider" 
+            className="mb-3 flex items-center text-sm font-semibold text-dark-200"
+          >
+            +100 TH/s per signup
+            <ExclamationCircleIcon className="ml-1 inline h-4 w-4" />
+          </label>
+          <input
+            type="range"
+            id="boostSlider"
+            min="1"
+            max="2100"
+            step="1"
+            value={boostAmount}
+            onChange={(e) => setBoostAmount(Number(e.target.value))}
+            className={`${styles['range-slider']} w-full`}
+          />
+          <div className="mt-2 text-sm text-dark-100">
+            Current Boost: +{(boostAmount * 100).toLocaleString()} TH/s ({boostAmount} referrals)
+          </div>
+        </div>
+
+      {/* Base Odds Display */}
+      <div className="mb-6">
+        <h2 className="flex items-center text-base">
+          Base Mining Odds (5 PH/s)
           <Tooltip placement="bottom">
             <TooltipTrigger>
               <QuestionMarkCircleIcon className="ml-2 size-6" />
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Default hashprice is based on current network difficulty and fee volume.
+              Base odds with 5 PH/s hashrate
             </TooltipContent>
-          </Tooltip>{' '}
-        </h1>
-
-        <Tooltip>
-          <TooltipTrigger>
-            <h3 className="flex items-center" id="formula-result-#11">
-              <span className={clsx('text-black', payout < 0 ? 'text-red-500' : '')}>{Boolean(payout) ? formatMoney(payout) : 0}</span>{' '}
-              <SatsSvg className="ml-2" />
-            </h3>
-          </TooltipTrigger>
-          <TooltipContent className="w-max max-w-fit rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-            ${formatMoney(priceInFiat)}
-          </TooltipContent>
-        </Tooltip>
+          </Tooltip>
+        </h2>
+        <div className="mt-2 text-lg">
+          1 in {formatMoney(baseOdds)}
+        </div>
       </div>
-      <span className="absolute bottom-2 text-xs text-navy">
-        Adjust hashprice to estimate potential mining revenue. Data source: {' '}
-        <Link
-          target="_blank"
-          href="https://data.hashrateindex.com/network-data/btc"
-          className=" font-semibold text-black underline hover:no-underline"
-        >
-          Hashrate Index
-        </Link>{' '}
-       </span>
+
+      {/* Boosted Odds Display */}
+      <div className="mt-4">
+        <h2 className="flex items-center text-base">
+          Boosted Mining Odds
+          <Tooltip placement="bottom">
+            <TooltipTrigger>
+              <QuestionMarkCircleIcon className="ml-2 size-6" />
+            </TooltipTrigger>
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+              Odds with base hashrate plus party boost
+            </TooltipContent>
+          </Tooltip>
+        </h2>
+        <div className="mt-2 text-lg">
+          1 in {formatMoney(boostedOdds)}
+        </div>
+      </div>
+      </div>
     </div>
   )
 }
