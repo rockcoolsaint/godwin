@@ -91,7 +91,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-6 font-semibold capitalize text-dark-100">Party hashrate</p>
             </aside>
             <aside>
-              <p className="p-3 pl-4">3 PH/s</p>
+              <p className="p-3 pl-4">4,200 TH/s</p>
             </aside>
           </div>
 
@@ -101,7 +101,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-6 font-semibold text-dark-100">Lot hashrate</p>
             </aside>
             <aside>
-              <p className="p-3 py-6 pl-4">100 TH/s ~ 3% of party</p>
+              <p className="p-3 py-6 pl-4">21 TH/s -- 0.5% of party</p>
             </aside>
           </div>
 
@@ -112,16 +112,6 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
             <aside>
               <p className="p-3 py-6 pl-4">0%</p>
-            </aside>
-          </div>
-
-          {/* Status */}
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold text-dark-100">Status</p>
-            </aside>
-            <aside>
-              <p className="p-3 py-6 pl-4">{data.status}</p>
             </aside>
           </div>
 

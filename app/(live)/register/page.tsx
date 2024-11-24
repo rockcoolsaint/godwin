@@ -27,7 +27,7 @@ export default function Register() {
       {view === RegisterView.EmailSent && (
         <div className="flex h-full w-full flex-col items-center justify-center gap-4 sm:w-3/4 lg:w-2/4 xl:w-[25vw]">
           <Icon icon="envelopeCircleCheck" className="h-20 w-20 text-gray-300" />
-          <span className="text-center text-gray-500" dangerouslySetInnerHTML={{ __html: t('login.email_sent_note', { email }) }}></span>
+          <span className="text-center text-gray-500" dangerouslySetInnerHTML={{ __html: t('registration.email_sent_note', { email }) }}></span>
         </div>
       )}
     </Container>

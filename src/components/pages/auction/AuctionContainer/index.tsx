@@ -129,7 +129,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
               content: <div className="text-left">Consult on-chain data to calculate hash price</div>,
               placement: 'left',
               target: hashPriceRef.current!,
-              title: <p className="font-bold">Block Odds</p>,
+              title: <p className="font-bold">Block Party</p>,
             },
             {
               content: <div className="text-left">Check live feed of hashrate from our proxy</div>,
@@ -270,7 +270,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
                   Details
                 </Tab>
                 <Tab ref={hashPriceRef} className={tabClass}>
-                  Block odds
+                  Block party
                 </Tab>
                 <Tab ref={liveFeedRef} className={tabClass}>
                   Live feed

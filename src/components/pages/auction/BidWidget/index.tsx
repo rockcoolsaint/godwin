@@ -163,13 +163,11 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
                 </div>
               )}
 
-              {current_bid === null && !user_proxy_bid && (
-                <div className="mt-7 w-full rounded-xl bg-orange-100 p-4">
+              {current_bid === null && !user_proxy_bid && auction.status === AuctionStatus.Active && (
+                <div className="mt-7 w-full rounded-xl bg-gray-200 p-4">
                   <span>Be the first to place a bid</span>
                 </div>
               )}
-
-              {!isLoading && !token && <p className="mt-8 text-red-500">You need to be logged in to place a bid</p>}
 
               {!isLoading && token && (
                 <>

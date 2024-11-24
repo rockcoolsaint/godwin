@@ -20,14 +20,13 @@ import { useSearchParams } from 'next/navigation';
 
 enum Step {
   SignUp = 'Sign up',
-  Pool = 'Pool Account',
+  Pool = 'Payout Address',
 }
 
 interface FormInputs {
   email: string
   referral_code: string | undefined
-  mining_pool_username: string | undefined
-  mining_pool_address: string | undefined
+  payout_address?: string
 }
 
 export default function SignUp({ setView, setEmail }: any) {
@@ -50,10 +49,8 @@ export default function SignUp({ setView, setEmail }: any) {
 
   const signUpInfo = {
     email: '',
-    mining_pool_username: 'satoshi', // Pre-populate this string in case the user picks "I'll add it later"
-    mining_pool_address: 'stratum.example.com:3333',
     referral_code: '',
-    poolAccountOwner: true,
+    payout_address: '',
     create_pool_account: false,
   }
 
@@ -127,8 +124,7 @@ export default function SignUp({ setView, setEmail }: any) {
         const [success, _] = await postRegister(
           {
             email: value.email,
-            mining_pool_username: value.mining_pool_username,
-            mining_pool_address: value.mining_pool_address,
+            payout_address: value.payout_address,
             referral_code: value.referral_code,
             create_pool_account: false,
             code: code,
@@ -322,7 +318,7 @@ export default function SignUp({ setView, setEmail }: any) {
         {currentStep.name === 'Sign up' && (
           <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-3/4 xl:w-[25vw]">
             <div className="flex items-center justify-start gap-1">
-              <span className="text-xl text-gray-500">Create your Rigly account</span>
+              <span className="text-xl text-gray-500">Create your account</span>
             </div>
 
             <div>
@@ -381,39 +377,41 @@ export default function SignUp({ setView, setEmail }: any) {
           </div>
         )}
 
-        {currentStep.name === 'Pool Account' && (
-          <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-3/4 xl:w-[25vw]">
-            <div>
-              <span className="text-xl text-gray-500">Do you already own a pool account?</span>
-              <fieldset className="my-4">
-                <legend className="sr-only">Notification method</legend>
-                <div className="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
-                  {notificationMethods.map(notificationMethod => (
-                    <div key={notificationMethod.id} className="flex items-center">
-                      <input
-                        id={notificationMethod.id}
-                        onClick={() => setPoolOwner(notificationMethod.id)}
-                        name="notification-method"
-                        type="radio"
-                        defaultChecked={notificationMethod.id === poolOwner}
-                        className="size-4 border-gray-300 text-primary focus:ring-primary"
-                      />
-                      <label htmlFor={notificationMethod.id} className="ml-3 block text-sm font-medium leading-6 text-gray-500 ">
-                        {notificationMethod.title}
-                      </label>
-                    </div>
-                  ))}
+          {currentStep.name === Step.Pool && (
+            <div className="flex w-full flex-col p-10 sm:w-3/4 lg:w-3/4 xl:w-[25vw]">
+              <div className="items-start gap-8">
+                <Input
+                  className="w-full"
+                  id="payout_address"
+                  type="text"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  defaultValue={signUpInfo.payout_address}
+                  errorMessage={errors.payout_address?.message}
+                  placeholder="bc1..."
+                  label="Payout Address (optional)"
+                  {...register('payout_address')}
+                />
+                <div className="mt-2 text-sm text-gray-500">
+                  Add your bitcoin payout address, to receive your share of reward if the party finds a block. You can edit this later.
                 </div>
-              </fieldset>
+                
+                <button
+                  disabled={loading}
+                  type="submit"
+                  className="mt-8 flex h-12 w-full items-center justify-center rounded-lg bg-gradient px-5 text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled"
+                >
+                  {loading ? <Loader height={20} width={20} /> : <span>Submit</span>}
+                </button>
+              </div>
+
+              <div className="mt-8 flex justify-center border-t border-gray-300 pt-6 text-sm">
+                <Link href="/login" className="text-primary underline">
+                  {t('registration.has_account_already')}
+                </Link>
+              </div>
             </div>
-            {renderPoolEntry({ poolOwner })}
-            <div className="mt-8 flex justify-center border-t border-gray-300 pt-6 text-sm">
-              <Link href="/login" className="text-primary underline">
-                {t('registration.has_account_already')}
-              </Link>
-            </div>
-          </div>
-        )}
+          )}
       </form>
     </section>
   )

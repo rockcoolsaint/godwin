@@ -278,7 +278,9 @@ function Hashrate() {
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-start px-8 py-12">
           <div>
-            <span className="text-xl text-gray-500">Do you already own a pool account?</span>
+            <span className="text-xl text-gray-500">Leave the party: send your hashrate elsewhere</span>
+            <p className="text-m text-gray-500 p-5 max-w-[5in]">If you prefer to send your hashrate elsewhere, enter pool details here. Instead of mining w/ the block party, any hashrate you buy will be sent to your pool account.</p>
+
             <Listbox value={selectedPool} onChange={handleSetSelectedPool}>
               {({ open }) => (
                 <>

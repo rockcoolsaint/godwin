@@ -3,9 +3,8 @@ import { Account } from 'src/api/auction/types'
 
 interface RegisterPayload {
   email: string
-  mining_pool_username?: string
-  mining_pool_address?: string
   referral_code?: string
+  payout_address?: string
   create_pool_account: boolean
   code?: string
   is_demo?: boolean

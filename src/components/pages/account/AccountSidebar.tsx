@@ -50,7 +50,7 @@ export default function AccountSidebar() {
         onChange={handleChangeRoute}
       />
 
-      <div className="hidden w-full flex-col gap-1 rounded-xl bg-blue-100 p-2 lg:flex lg:w-1/5">
+      <div className="hidden w-full flex-col gap-1 rounded-xl bg-orange-100 p-2 lg:flex lg:w-1/5">
         {pages.map((page, i) => {
           const isActive = activeRoute === page.path.replace('/account', '')
 
