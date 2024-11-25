@@ -129,19 +129,6 @@ function Preferences() {
               </Form.Field.Label>
               <Checkbox name="email" defaultValue={preferences.email} onChange={val => updatePreferences('email', val)} />
             </Form.Field>
-            <Form.Field className="items-center justify-start">
-              <Form.Field.Label className="cursor-pointer" htmlFor="sms" hideSuffix>
-                SMS
-              </Form.Field.Label>
-              <Checkbox name="sms" defaultValue={preferences.sms} onChange={val => updatePreferences('sms', val)} />
-            </Form.Field>
-
-            <Form.Field className="items-center justify-start">
-              <Form.Field.Label className="cursor-pointer" htmlFor="telegram" hideSuffix>
-                Telegram
-              </Form.Field.Label>
-              <Checkbox name="telegram" defaultValue={preferences.telegram} onChange={val => updatePreferences('telegram', val)} />
-            </Form.Field>
           </Form.Horizontal>
 
           {(showSmsWarning || showTelegramConnect || showTelegramDisconnect) && (

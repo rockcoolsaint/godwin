@@ -241,18 +241,6 @@ function OrderAction({ order, hasManageAccess }: { order: Order; hasManageAccess
               </div>
             )}
             </Menu.Item>
-            {(order.type === OrderType.Auction || order.type === OrderType.Direct) && (
-              <Menu.Item>
-                {({ active }) => (
-                  <span
-                    onClick={() => router.push(`/account/orders/${order.id}`)}
-                    className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
-                  >
-                    View Details
-                  </span>
-                )}
-              </Menu.Item>
-            )}
           </div>
         </Menu.Items>
       </Transition>

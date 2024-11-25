@@ -18,11 +18,11 @@ interface FormInputs {
 
 const BidInput = ({ value, onChange, className, ...props }) => {
   const handleIncrement = () => {
-    onChange(value + 1000)
+    onChange(value + 100)
   }
 
   const handleDecrement = () => {
-    onChange(value - 1000)
+    onChange(value - 100)
   }
 
   return (
@@ -117,12 +117,7 @@ export default function ProxyBid({
 
   const handlePlaceProxyBid: SubmitHandler<FormInputs> = useCallback(
     async value => {
-      if (!hasValidOrders) {
-        toast.error('Welcome newbie! You can bid once you have completed an instant mining order.', {
-          duration: 10000 // 10 seconds in milliseconds
-        });
-        return;
-      }
+
 
       try {
         setLoadingPlaceProxyBid(true)
@@ -148,7 +143,7 @@ export default function ProxyBid({
   )
 
   useEffect(() => {
-    setValue('bid', (proxy_bid_max ? proxy_bid_max + 1000 : bids[0]?.bid + auction?.proxy_bid_increment) || auction?.starting_bid)
+    setValue('bid', (proxy_bid_max ? proxy_bid_max + 100 : bids[0]?.bid + auction?.proxy_bid_increment) || auction?.starting_bid)
   }, [auction?.proxy_bid_increment, auction?.starting_bid, bids, proxy_bid_max, setValue])
 
   if (checkingOrders) {
@@ -187,9 +182,9 @@ export default function ProxyBid({
             rules={{
               required: { value: true, message: 'Bid amount is required' },
               min: {
-                value: bids[0]?.bid + 1000 || auction.starting_bid,
+                value: bids[0]?.bid + 100 || auction.starting_bid,
                 message: `Minimum bid is ${
-                  Number(bids[0]?.bid + 1000).toLocaleString() || Number(auction.starting_bid).toLocaleString()
+                  Number(bids[0]?.bid + 100).toLocaleString() || Number(auction.starting_bid).toLocaleString()
                 } sats`,
               },
             }}

@@ -18,11 +18,11 @@ interface FormInputs {
 
 const BidInput = ({ value, onChange, className, ...props }) => {
   const handleIncrement = () => {
-    onChange(value + 1000)
+    onChange(value + 100)
   }
 
   const handleDecrement = () => {
-    onChange(value - 1000)
+    onChange(value - 100)
   }
 
   return (
@@ -130,12 +130,6 @@ export default function RegularBid({
 
   const handlePlaceBid: SubmitHandler<FormInputs> = useCallback(
     async value => {
-      if (!hasValidOrders) {
-        toast.error('Welcome newbie! You can bid once you have completed an instant mining order.', {
-          duration: 10000 // 10 seconds in milliseconds
-        });
-        return;
-      }
 
       try {
         setBid(value.bid)
@@ -148,7 +142,7 @@ export default function RegularBid({
   )
 
   useEffect(() => {
-    setValue('bid', bids[0]?.bid + 1000 || auction?.starting_bid)
+    setValue('bid', bids[0]?.bid + 100 || auction?.starting_bid)
   }, [auction?.starting_bid, bids, setValue])
 
   useEffect(() => {
@@ -229,9 +223,9 @@ export default function RegularBid({
             rules={{
               required: { value: true, message: 'Bid amount is required' },
               min: {
-                value: bids[0]?.bid + 1000 || auction.starting_bid,
+                value: bids[0]?.bid + 100 || auction.starting_bid,
                 message: `Minimum bid is ${
-                  Number(bids[0]?.bid + 1000).toLocaleString() || Number(auction.starting_bid).toLocaleString()
+                  Number(bids[0]?.bid + 100).toLocaleString() || Number(auction.starting_bid).toLocaleString()
                 } sats`,
               },
             }}
