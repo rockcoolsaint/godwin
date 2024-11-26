@@ -144,3 +144,8 @@ ul.react-paginate li.disable,
 ul.react-paginate li.disabled a {
   cursor: default;
 }
+
+ /* Add this new style for Chatwoot button */
+ .woot-widget-bubble {
+  background-color: #f08222 !important;
+}

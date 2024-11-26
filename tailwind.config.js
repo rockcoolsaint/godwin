@@ -52,7 +52,7 @@ module.exports = {
         epilogue: ['var(--font-epilogue)'],
       },
       boxShadow: {
-        'hero-outline': '0px 0px 15px 5px rgba(49, 106, 239, 0.30);',
+        'hero-outline': '0px 0px 15px 5px rgba(240, 130, 34, 0.30)',
       },
     },
   },

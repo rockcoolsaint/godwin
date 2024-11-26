@@ -16,9 +16,7 @@ const TrustlessMining = dynamic(() => import('./TrustlessMining'), {
   ssr: true
 })
 
-const Testimonials = dynamic(() => import('src/components/pages/home/Testimonial'), {
-  ssr: false,
-})
+
 
 const Learn = dynamic(() => import('./Learn'), {
   ssr: false,
@@ -117,65 +115,7 @@ export default function Home({ isDemo, code }: Props) {
               </>
             )}
           </section>
-          <section className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center px-4 pb-20 md:px-0">
-            <h1 className="mt-20 font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Support</h1>
-            <p className="mt-2 text-center text-xs text-navy md:w-6/12 md:text-xl lg:w-7/12 lg:text-3xl 2xl:w-6/12">
-              Have a question? Ask us via the chat window
-            </p>
 
-            <div className="mx-auto mt-14 flex flex-col justify-center md:items-center md:px-10 lg:flex-row xl:px-20">
-              <div className="mb-12 flex w-full flex-col items-start rounded-xl border border-gray-400 bg-white p-8 sm:min-h-[320px] md:mb-0 md:w-8/12 xl:w-4/12 xl:px-8 2xl:w-3/12 2xl:px-12">
-                <div className="">
-                  <h2 className="mb-5 w-10/12 text-xl font-semibold text-navy xl:text-3xl">Learn how Bitcoin mining works</h2>
-                  <p className="mb-5 text-lg text-black xl:text-xl">
-                    There are lots of reasons why someone chooses to mine bitcoin. Read more in this essay from Braiins.
-                  </p>
-                </div>
-                <div className="">
-                  <Link
-                    href="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
-                    className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
-                    target="_blank"
-                  >
-                    Read the article
-                  </Link>
-                </div>
-              </div>
-
-              <div className="mb-12 flex w-full flex-col items-start rounded-xl border border-gray-400 bg-white p-8 sm:mx-20 sm:min-h-[320px] md:mx-0 md:my-8 md:w-8/12 lg:mx-8 lg:my-0 xl:w-4/12 xl:px-8 2xl:w-3/12 2xl:px-12">
-                <h2 className="mb-5 w-10/12 text-xl font-semibold text-navy xl:text-3xl">Rigly Review 2024 by blockdyor</h2>
-                <p className="mb-5 text-lg text-black xl:text-xl">
-                  Read this in-depth tour of how to start mining and bid on Rigly.
-                </p>
-
-                <div className="">
-                  <Link
-                    href="https://blockdyor.com/rigly-review"
-                    className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
-                    target="_blank"
-                  >
-                    Read the article
-                  </Link>
-                </div>
-              </div>
-
-              <div className="mb-12 flex w-full flex-col items-start rounded-xl border border-gray-400 bg-white p-8 sm:min-h-[320px] md:mb-0 md:w-8/12 md:px-6 xl:w-4/12 xl:px-8 2xl:w-3/12 2xl:px-16">
-                <div className="">
-                  <h2 className="mb-5 w-10/12 text-xl font-semibold text-navy xl:text-3xl">Want to sell your hashrate?</h2>
-                  <p className="mb-5 text-lg text-black xl:text-xl">Earn more for your hashrate on the Rigly marketplace.</p>
-                </div>
-                <div className="">
-                  <Link
-                    href="#"
-                    className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
-                    target="_blank"
-                  >
-                    Read the article
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </section>
         </>
       )}
       {!isLoggedIn && (
@@ -203,121 +143,13 @@ export default function Home({ isDemo, code }: Props) {
                 </div>
               )}
             </section>
-            <Learn />
             <TrustlessMining />
-              <div className="container mx-auto px-4 py-8 mb-40"> {/* Added mb-24 for ~1.5" of bottom margin */}
-              <h1 className="mt-36 text-center font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Join our marketplace</h1>
-              <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
-                {/* Left side box (Buyers) */}
-                <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
-                  <div>
-                    <h3 className="mb-4 text-xl font-bold">Buyers</h3>
-                    <p className="mb-4 text-lg text-gray-600">
-                      Sign up and take a 3 hour mining test drive.
-                    </p>
-                  </div>
-                  <div className="flex flex-row space-x-4">
-                    <Link
-                      href="/test-drive"
-                      className={`${buttonClass} flex-1`}
-                      target="_blank"
-                      id="test-drive"
-                    >
-                      I'm new - give me a pool account
-                    </Link>
-                    <Link
-                      href="/direct-sale"
-                      className={`${buttonClass} flex-1`}
-                      target="_blank"
-                      id="direct-sale"
-                    >
-                      I have a pool account
-                    </Link>
-                  </div>
-                </div>
 
-                {/* Right side box (Sellers) */}
-                <div className="flex flex-col justify-between rounded-lg bg-white p-6 text-center shadow-md" style={{ height: '100%' }}>
-                  <div>
-                    <h3 className="mb-4 text-xl font-bold">Sellers</h3>
-                    <p className="mb-4 text-lg text-gray-600">List your hashrate and scale faster.</p>
-                  </div>
-                  <Link
-                    href="/learn/rigly/selling-on-rigly"
-                    className={buttonClass}
-                    target="_blank"
-                    id="seller-info"
-                  >
-                    Learn more
-                  </Link>
-                </div>
-              </div>
-            </div>
           </section>
-          <section className="auction-of-the-day-gradient flex w-full flex-col items-center justify-center px-4 pb-20 md:px-0">
-            <h1 className="mt-20 font-chakra text-4xl text-navy lg:text-5xl 2xl:text-7xl">Support</h1>
-            <p className="mt-2 text-center text-xs text-navy md:w-6/12 md:text-xl lg:w-7/12 lg:text-3xl 2xl:w-6/12">
-              Have a question? Ask us via the chat window
-            </p>
 
-            <div className="mx-auto mt-14 flex flex-col justify-center md:items-center md:px-10 lg:flex-row xl:px-20">
-              <div className="mb-12 flex w-full flex-col items-start rounded-xl border border-gray-400 bg-white p-8 sm:min-h-[320px] md:mb-0 md:w-8/12 xl:w-4/12 xl:px-8 2xl:w-3/12 2xl:px-12">
-                <div className="">
-                  <h2 className="mb-5 w-10/12 text-xl font-semibold text-navy xl:text-3xl">Learn how Bitcoin mining works</h2>
-                  <p className="mb-5 text-lg text-black xl:text-xl">
-                    There are lots of reasons why someone chooses to mine bitcoin. Read more in this essay from Braiins.
-                  </p>
-                </div>
-                <div className="">
-                  <Link
-                    href="https://braiins.com/blog/why-mine-bitcoin-braiins-mining"
-                    className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
-                    target="_blank"
-                  >
-                    Read the article
-                  </Link>
-                </div>
-              </div>
-
-              <div className="mb-12 flex w-full flex-col items-start rounded-xl border border-gray-400 bg-white p-8 sm:mx-20 sm:min-h-[320px] md:mx-0 md:my-8 md:w-8/12 lg:mx-8 lg:my-0 xl:w-4/12 xl:px-8 2xl:w-3/12 2xl:px-12">
-                <h2 className="mb-5 w-10/12 text-xl font-semibold text-navy xl:text-3xl">Rigly Review 2024 by blockdyor</h2>
-                <p className="mb-5 text-lg text-black xl:text-xl">
-                  Read this in-depth tour of how to start mining and bid on Rigly.
-                </p>
-
-                <div className="">
-                  <Link
-                    href="https://blockdyor.com/rigly-review"
-                    className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
-                    target="_blank"
-                  >
-                    Read the article
-                  </Link>
-                </div>
-              </div>
-
-              <div className="mb-12 flex w-full flex-col items-start rounded-xl border border-gray-400 bg-white p-8 sm:min-h-[320px] md:mb-0 md:w-8/12 md:px-6 xl:w-4/12 xl:px-8 2xl:w-3/12 2xl:px-16">
-                <div className="">
-                  <h2 className="mb-5 w-10/12 text-xl font-semibold text-navy xl:text-3xl">Want to sell your hashrate?</h2>
-                  <p className="mb-5 text-lg text-black xl:text-xl">Earn more for your hashrate on the Rigly marketplace.</p>
-                </div>
-                <div className="">
-                  <Link
-                    href="#"
-                    className="flex rounded-lg bg-navy px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
-                    target="_blank"
-                  >
-                    Read the article
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </section>
         </>
       )}
 
-
-          <Testimonials />
     </div>
   )
 }
