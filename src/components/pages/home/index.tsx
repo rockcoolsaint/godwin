@@ -126,10 +126,10 @@ export default function Home({ isDemo, code }: Props) {
               <>
                 <div className="mb-20 mt-6 flex w-full justify-center font-chakra font-bold">
                 <Link
-                href="/learn/rigly/start-mining-now"
+                href="/learn/upendo"
                 className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-[#f08222] px-5 py-4 text-lg text-white outline-none hover:bg-[#d97420] disabled:cursor-not-allowed disabled:opacity-50 lg:w-8/12 lg:text-2xl xl:w-4/12"
               >
-                Start mining now
+                Join the party
               </Link>
               </div>
               </>

@@ -29,13 +29,12 @@ const buyHashrateSubmenu: NavigationSubItem[] = [
 ]
 
 const learnSubmenu: NavigationSubItem[] = [
-  { name: 'Rigly', url: '/learn/rigly' },
-  { name: 'Mining Resources', url: '/learn/mining' },
-  { name: 'Glossary', url: '/learn/glossary' },
-  { name: 'FAQ', url: '/faq' },
+  { name: 'Upendo', url: '/learn/upendo' },
+  /* { name: 'FAQ', url: '/faq' }, */
 ]
 
 export const headerNavURL: NavigationItem[] = [
   { id: 1, name: 'Auctions', url: '/auction-market', showInDemo: true },
   { id: 2, name: 'Learn', showInDemo: true, submenu: learnSubmenu },
+  { id: 3, name: 'Rigly', url: 'https://rigly.io', showInDemo: true },
 ]

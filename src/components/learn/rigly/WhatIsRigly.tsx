@@ -2,62 +2,44 @@ import LearnCategoryTitle from 'src/components/learn/LearnCategoryTitle'
 import LearnCategorySubTitle from 'src/components/learn/LearnCategorySubTitle'
 import LearnCategoryText from 'src/components/learn/LearnCategoryText'
 import LearnCategoryTextWithImage from 'src/components/learn/LearnCategoryTextWithImage'
-import MiningPlan from 'src/assets/webp/mining_plan.webp' // This should be replaced with the correct images later
-import Trust from 'src/assets/webp/trust.webp'
 import Link from 'src/components/shared/Link'
 
-const WhatIsRigly = () => {
+const WhatIsUpendo = () => {
   return (
     <>
-      <LearnCategoryTitle>What is Rigly?</LearnCategoryTitle>
+      <LearnCategoryTitle>Join our block party</LearnCategoryTitle>
 
-      <LearnCategorySubTitle>Rigly is the first auction marketplace for hashrate</LearnCategorySubTitle>
-
-      <LearnCategoryText>
-        You can buy hashrate from mining farms around the world and mine bitcoin - <b>with a real chance of earning a profit.</b>
-      </LearnCategoryText>
-      <LearnCategoryText>
-        Rigly is the real deal.
-      </LearnCategoryText>
-      <LearnCategoryText>
-      We are <u>not</u> like other spot hashrate markets that do <Link href="https://www.reddit.com/r/NiceHash/comments/1fvteua/this_exchange_is_pushing_kyc_on_uslets_move_to_a" styled>shotgun KYC</Link>.
-      </LearnCategoryText>
+      <LearnCategorySubTitle>Upendo is a block party auction</LearnCategorySubTitle>
 
       <LearnCategoryText>
-      We are <u>not</u> a <Link href="https://bitcointalk.org/index.php?topic=5151528.0" styled>cloud mining</Link> provider.
-      </LearnCategoryText>
-
-
-      <LearnCategorySubTitle>Peer-to-peer</LearnCategorySubTitle>
-
-      <LearnCategoryText>
-        Rigly auctions provide <b>on-chain escrow protection</b> encouraging a secure and transparent transaction.
-      </LearnCategoryText>
-
-      <LearnCategoryText>
-        Hashrate is sent from the mining farm to your pool account (or bitcoin node) peer-to-peer via the stratum protocol.
-      </LearnCategoryText>
-
-      <LearnCategorySubTitle>Square deal</LearnCategorySubTitle>
-
-      <LearnCategoryText>
-        Hashrate is a scarce resource and Rigly offers a fair and transparent platform for price discovery - highest bid wins.
-      </LearnCategoryText>
-
-      <LearnCategoryText>
-        The payment process is fair to buyers and sellers. Mining farms get <b>50% payment upfront</b> and <b>50% is held in escrow</b>, released after hashrate delivery.
-      </LearnCategoryText>
-
-      <LearnCategorySubTitle>Mining farms earn more and scale faster</LearnCategorySubTitle>
-
-      <LearnCategoryText>
-        Selling hashrate on Rigly is pure win for miners.
+        You bid on hashrate and mine with other bitcoiners, as we try to find a block.
       </LearnCategoryText>
       <LearnCategoryText>
-        You earn a premium to FPPS as we bootstrap the marketplace, and then you can take the auction price and get 50% payment upfront as an established seller.
+        We will mine with 2,100 TH/s on Saturday, November 30th.
       </LearnCategoryText>
+      <LearnCategoryText>
+        The goal is <b>to find a block and earn 3.125 bitcoin + tx fees (!)</b>
+      </LearnCategoryText>
+      <LearnCategoryText>
+        To get a spot on the party, you have to win an auction. Each auction is for 21 TH/s in the block party.
+      </LearnCategoryText>
+      <LearnCategoryText>
+        Hashrate will be provided via <Link href="https://rigly.io" styled>Rigly</Link> and we will use <Link href="https://solo.ckpool.org" styled>CK Pool</Link> to solo mine.
+      </LearnCategoryText>
+      <LearnCategoryText>
+        The block party earns bonus hashrate for each new bidder, and so the odds get better and better over the course of the auction ... so get your spot early!
+      </LearnCategoryText>
+
+      <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
+                <Link
+                  href="https://upendo.rigly.io/register"
+                  className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-lg text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:w-8/12 lg:text-2xl xl:w-4/12"
+                >
+                  Sign up to bid
+                </Link>
+                </div>
     </>
   )
 }
 
-export default WhatIsRigly
+export default WhatIsUpendo

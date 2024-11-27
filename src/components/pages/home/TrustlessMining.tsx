@@ -6,11 +6,11 @@ import box3Image from 'src/assets/png/box3.png'
 const TrustlessMining: React.FC = () => {
   const boxes = [
     {
-      text: "Mining solo sucks. The odds are way better when you mine with bitcoiners.",
+      text: "Mining as a team is 100x better odds than solo mining with a Bitaxe.",
       image: box1Image
     },
     {
-      text: "Try to catch a low price - or upend other bidders to get your spot",
+      text: "You bid on hashrate to join - upend other bidders to get your spot",
       image: box2Image
     },
     {
@@ -22,7 +22,7 @@ const TrustlessMining: React.FC = () => {
   return (
 <section className="w-full py-9 flex flex-col items-center justify-center px-3 md:px-0">
   <div className="w-8/12 bg-gradient-to-r from-[#ef9327] to-[#f08222] bg-clip-text text-center font-chakra text-3xl font-extrabold text-transparent sm:mb-1.5 sm:w-3/12 sm:pb-3 md:w-4/12 md:text-4xl lg:w-6/12 lg:text-center xl:w-8/12 xl:text-7xl 2xl:w-6/12">
-    Bid your way into the game
+    How Block Party Works
   </div>
       
       <p className="mt-6 text-center text-xl text-navy md:w-8/12 lg:w-6/12 font-epilogue">
