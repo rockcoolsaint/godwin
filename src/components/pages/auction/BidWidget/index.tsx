@@ -169,6 +169,8 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
                 </div>
               )}
 
+              {!isLoading && !token && <p className="mt-8 text-red-500">You need to be logged in to place a bid</p>}
+
               {!isLoading && token && (
                 <>
                   <div className="mt-5 w-full">
@@ -226,9 +228,9 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: payout || 0 })
 
   // Solo mining calculator state
-  const baseHashrate = 5 // 5 PH/s base
+  const baseHashrate = 2.1 // 2.1 PH/s base
   const networkHashrate = 750 // 750 EH/s
-  const [boostAmount, setBoostAmount] = useState(1) // Number of 100 TH/s boosts
+  const [boostAmount, setBoostAmount] = useState(21) // Number of 21 TH/s boosts
   const [baseOdds, setBaseOdds] = useState(0)
   const [boostedOdds, setBoostedOdds] = useState(0)
 
@@ -247,7 +249,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       setBaseOdds(baseOneInX)
 
       // Calculate boosted odds (base + boost)
-      const boostHashrateEH = (boostAmount * 100) / 1000000 // Convert TH/s to EH/s
+      const boostHashrateEH = (boostAmount * 21) / 1000000 // Convert TH/s to EH/s
       const totalHashrateEH = baseHashrateEH + boostHashrateEH
       const boostedProbability = (totalHashrateEH / networkHashrate) * blocksPerDay
       const boostedOneInX = Math.round(1 / boostedProbability)
@@ -266,43 +268,41 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       <div className="mt-6 border-t pt-6 w-full">
         <h1 className="mb-2 text-base">Party Boost</h1>
         <p className="mb-4 text-sm text-dark-100 max-w-sm">
-          Get 100 TH/s extra hashrate for each new signup. <span className="font-semibold">More hashrate equals more speed, improving our odds of winning a block.</span>
-        </p>
-
+          Block party gets extra hashrate for each new signup.</p>
         {/* Party Boost Slider */}
         <div className="mb-6">
           <label 
             htmlFor="boostSlider" 
             className="mb-3 flex items-center text-sm font-semibold text-dark-200"
           >
-            +100 TH/s per signup
+            +21 TH/s per signup
             <ExclamationCircleIcon className="ml-1 inline h-4 w-4" />
           </label>
           <input
             type="range"
             id="boostSlider"
             min="1"
-            max="2100"
+            max="300"
             step="1"
             value={boostAmount}
             onChange={(e) => setBoostAmount(Number(e.target.value))}
             className={`${styles['range-slider']} w-full`}
           />
           <div className="mt-2 text-sm text-dark-100">
-            Current Boost: +{(boostAmount * 100).toLocaleString()} TH/s ({boostAmount} referrals)
+            Current Boost: +{(boostAmount * 21).toLocaleString()} TH/s ({boostAmount} signups)
           </div>
         </div>
 
       {/* Base Odds Display */}
       <div className="mb-6">
         <h2 className="flex items-center text-base">
-          Base Mining Odds (5 PH/s)
+          Base Mining Odds (2.1 PH/s)
           <Tooltip placement="bottom">
             <TooltipTrigger>
               <QuestionMarkCircleIcon className="ml-2 size-6" />
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Base odds with 5 PH/s hashrate
+              Base odds with 2,100 TH/s
             </TooltipContent>
           </Tooltip>
         </h2>
@@ -326,6 +326,10 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         </h2>
         <div className="mt-2 text-lg">
           1 in {formatMoney(boostedOdds)}
+        </div>
+        <div className="mt-2 text-lg">
+        <p className="mb-4 text-sm text-dark-100 max-w-sm">
+          Verify odds at <Link href="https://solochance.com" styled>solochance.com</Link></p>
         </div>
       </div>
       </div>

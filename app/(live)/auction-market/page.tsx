@@ -47,12 +47,12 @@ export default async function AuctionMarketPage() {
         <div className="flex flex-col items-center">
           {!!activeAuctions.results.length && (
             <>
-              <h2 className="mt-20 font-chakra text-lg font-bold text-navy lg:text-4xl">All active auctions</h2>
+              <h2 className="mt-20 font-chakra text-lg font-bold text-[#f08222] lg:text-4xl">All active auctions</h2>
               <AuctionSchedule auctionsData={activeAuctions.results} />
             </>
           )}
 
-          <h2 className="mt-20 font-chakra text-lg font-bold text-navy lg:text-4xl">Completed auctions</h2>
+          <h2 className="mt-20 font-chakra text-lg font-bold text-[#f08222] lg:text-4xl">Completed auctions</h2>
           <AuctionSchedulePaginated limit={limit} dataArgs={completedArgs} auctionsData={completedAuctions} />
         </div>
       </Suspense>

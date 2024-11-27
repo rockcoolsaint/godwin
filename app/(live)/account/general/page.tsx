@@ -58,11 +58,11 @@ function Account() {
       <Form className="items-start gap-8" onSubmit={handleSubmit} disabled={loading}>
         <Form.Section title="General">
           <Form.Field className="w-full flex-col">
-            <Form.Field.Label htmlFor="username">Username</Form.Field.Label>
+            <Form.Field.Label htmlFor="username">Your bidding name, or: what would you do with the bitcoin if you won?</Form.Field.Label>
             <Input type="text" name="username" defaultValue={account.username} placeholder="Anonymous" className="w-1/4"/>
           </Form.Field>
           <span className="text-sm text-gray-500">
-              This name is shown when you bid on auctions. By default it is anonymous.
+              This field is shown when you bid on auctions. By default it just says anonymous.
             </span>
         </Form.Section>
         <Form.Section title="Payments">

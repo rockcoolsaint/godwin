@@ -11,21 +11,7 @@ export default function FAQs() {
   }
 
   return (
-    <div className="mt-10 flex flex-col gap-3">
-      <div className="text-center font-chakra text-lg font-bold text-blue-700 lg:text-3xl">Why Auctions?</div>
-      <div className="text-center font-chakra text-medium">
-        3 reasons why auctions are the best fit for selling hashrate on Rigly:
-      </div>
-      <Section title="Hashrate Is a Scarce Resource">
-        Auctions help ensure limited hashrate is allocated to those who value it most.
-      </Section>
-      <Section title="High Demand Among Buyers">
-        Auctions offer a fair way for buyers to bid for scarce hashrate. 
-      </Section>
-      <Section title="Fair and Balanced">
-        Auctions balance supply and demand, ensuring a fair marketplace that benefits both buyers and sellers. 
-      </Section>
-      </div>
+<div></div>
   )
 }
 

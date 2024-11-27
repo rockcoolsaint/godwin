@@ -12,10 +12,15 @@ function BlockPartyExplanation() {
       <div className="px-4 py-5 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900">How Block Party Works</h3>
         <p className="mt-4 text-sm text-gray-500">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          On the start date and time, hashrate is purchased via Rigly and sent to CK Pool to solo mine.
+        </p>
+        <p className="mt-4 text-sm text-gray-500">
+          The mining's payout address is set to a multisig escrow address with Rigly and Evan.</p>
+        <p className="mt-4 text-sm text-gray-500">
+          If we find a block, payment will be split up by hashrate contribution and sent to the payout address in your account profile.
+        </p>
+        <p className="mt-4 text-sm text-gray-500">
+          You get an email once the block party mining begins.
         </p>
       </div>
     </div>
@@ -46,21 +51,21 @@ export default function HashPriceStats() {
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">In USD:</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-lg font-semibold text-black-500">~$302,547</div>
+                <div className="flex items-baseline text-lg font-semibold text-black-500">~$291,575</div>
               </dd>
             </div>
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">Per auction lot</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
                 <div className="flex items-baseline text-lg font-semibold text-orange-500">
-                0.01565 BTC
+                0.03125 BTC
                 </div>
               </dd>
             </div>
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">In USD:</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-lg font-semibold text-black-500">~$1,532</div>
+                <div className="flex items-baseline text-lg font-semibold text-black-500">~$2,915</div>
               </dd>
             </div>
           </dl>
