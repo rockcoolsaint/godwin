@@ -71,12 +71,12 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
             <h1 className="mb-4 text-2xl font-semibold">{auction.title}</h1>
             <div className="flex justify-between">
               <aside>
-                <p className="text-sm text-dark-100">{t('home.bid_start_date')}:</p>
-                <p className="text-xs font-normal">{start}</p>
+                <p className="text-sm text-dark-100">Lot Size:</p>
+                <p className="text-xs font-normal">21 TH/s lots</p>
               </aside>
               <aside className="ml-4">
-                <p className="text-sm text-dark-100">{t('home.bid_end_date')}:</p>
-                <p className="text-xs font-normal">{end}</p>
+                <p className="text-sm text-dark-100">Total Size:</p>
+                <p className="text-xs font-normal">2,100 TH/s block party</p>
               </aside>
             </div>
             <hr className="my-4 block w-full border" />
@@ -84,12 +84,13 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
               {auction.bid_count} {renderBidCount()}
             </p>
             <div className="flex w-full justify-between">
-              <aside>
-                <p className="mb-1 text-sm text-dark-100">{t('home.start_bid_amount')}:</p>
-                <p className="flex items-center text-xs font-medium">
-                  {formatMoney(auction.starting_bid)} <SatsSvg className="ml-2" />
+
+              {/* Replace the existing bid amount section with: */}
+              <div className="mt-4">
+                <p className="text-lg"> {/* Increased text size */}
+                  Potential Block Reward: <span className="font-bold">~$291,575</span> (3.125 btc + fees)
                 </p>
-              </aside>
+              </div>
               {auction.bid_count > 0 && (
                 <aside className="md:mr-9">
                   <p className="mb-1 text-sm text-dark-100">Current bid:</p>
