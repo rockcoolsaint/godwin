@@ -91,14 +91,6 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
                   Potential Block Reward: <span className="font-bold">~$291,575</span> (3.125 btc + fees)
                 </p>
               </div>
-              {auction.bid_count > 0 && (
-                <aside className="md:mr-9">
-                  <p className="mb-1 text-sm text-dark-100">Current bid:</p>
-                  <p className="flex items-center text-xs font-medium">
-                    {formatMoney(auction.current_bid)} <SatsSvg className="ml-2" />
-                  </p>
-                </aside>
-              )}
             </div>
             <Link
               className="mt-4 flex w-full items-center justify-center rounded-lg bg-gradient p-3 text-base text-white hover:bg-gradient-hover"
