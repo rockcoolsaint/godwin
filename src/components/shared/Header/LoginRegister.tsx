@@ -1,3 +1,13 @@
+import Link from 'src/components/shared/Link'
+import Icon from 'src/core/components/Icon'
+import { useAccountContext } from 'src/providers/AccountProvider'
+
+interface LoginRegisterProps {
+  handleLogoutClick: () => void
+  handleLoginClick: () => void
+  handleRegisterClick: () => void
+}
+
 const LoginRegister = ({ handleLogoutClick, handleLoginClick, handleRegisterClick }: LoginRegisterProps) => {
   const { account } = useAccountContext()
   if (account) {
@@ -46,3 +56,5 @@ const LoginRegister = ({ handleLogoutClick, handleLoginClick, handleRegisterClic
     )
   }
 }
+
+export default LoginRegister
