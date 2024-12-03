@@ -64,7 +64,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
             <aside className="w-3/6">
               <p className="p-3 pl-4 sm:whitespace-nowrap">
-               Saturday - November 30, 2024
+               Saturday - December 7th, 2024
               </p>
             </aside>
           </div>
@@ -82,7 +82,7 @@ const AuctionProfile = ({ data }: Props) => {
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
               <p className="p-3 py-6 font-semibold capitalize text-dark-100">Start time</p>
             </aside>
-            <aside><p className="p-3 pl-4">12:00 UTC</p></aside>
+            <aside><p className="p-3 pl-4">17:00 UTC</p></aside>
           </div>
 
           {/* Hashrate */}
@@ -91,7 +91,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-6 font-semibold capitalize text-dark-100">Party hashrate</p>
             </aside>
             <aside>
-              <p className="p-3 pl-4">2,100 TH/s</p>
+              <p className="p-3 pl-4">1000 TH/s</p>
             </aside>
           </div>
 
@@ -101,7 +101,7 @@ const AuctionProfile = ({ data }: Props) => {
               <p className="p-3 py-6 font-semibold text-dark-100">Lot hashrate</p>
             </aside>
             <aside>
-              <p className="p-3 py-6 pl-4">21 TH/s -- 1% of party</p>
+              <p className="p-3 py-6 pl-4">21 TH/s -- 2% of party</p>
             </aside>
           </div>
 

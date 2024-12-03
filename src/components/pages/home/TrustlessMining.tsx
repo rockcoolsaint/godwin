@@ -6,7 +6,7 @@ import box3Image from 'src/assets/png/box3.png'
 const TrustlessMining: React.FC = () => {
   const boxes = [
     {
-      text: "Mining as a team is 100x better odds than solo mining with a Bitaxe.",
+      text: "Mining as a team is 100x+ better odds than solo mining with a Bitaxe.",
       image: box1Image
     },
     {

@@ -51,21 +51,21 @@ export default function HashPriceStats() {
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">In USD:</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-lg font-semibold text-black-500">~$291,575</div>
+                <div className="flex items-baseline text-lg font-semibold text-black-500">~$300,067</div>
               </dd>
             </div>
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">Per auction lot</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
                 <div className="flex items-baseline text-lg font-semibold text-orange-500">
-                0.03125 BTC
+                0.06250 BTC
                 </div>
               </dd>
             </div>
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">In USD:</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-lg font-semibold text-black-500">~$2,915</div>
+                <div className="flex items-baseline text-lg font-semibold text-black-500">~$6,000</div>
               </dd>
             </div>
           </dl>

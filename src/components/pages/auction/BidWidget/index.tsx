@@ -228,9 +228,9 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: payout || 0 })
 
   // Solo mining calculator state
-  const baseHashrate = 2.1 // 2.1 PH/s base
-  const networkHashrate = 750 // 750 EH/s
-  const [boostAmount, setBoostAmount] = useState(21) // Number of 21 TH/s boosts
+  const baseHashrate = 1.0 // 1 PH/s base
+  const networkHashrate = 760 // 760 EH/s
+  const [boostAmount, setBoostAmount] = useState(5) // Number of 21 TH/s boosts
   const [baseOdds, setBaseOdds] = useState(0)
   const [boostedOdds, setBoostedOdds] = useState(0)
 
@@ -268,14 +268,14 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       <div className="mt-6 border-t pt-6 w-full">
         <h1 className="mb-2 text-base">Party Boost</h1>
         <p className="mb-4 text-sm text-dark-100 max-w-sm">
-          Block party gets extra hashrate for each new signup.</p>
+          Block party gets bonus hashrate from Evan after each auction close.</p>
         {/* Party Boost Slider */}
         <div className="mb-6">
           <label 
             htmlFor="boostSlider" 
             className="mb-3 flex items-center text-sm font-semibold text-dark-200"
           >
-            +21 TH/s per signup
+            +21 TH/s (or more) after each auction
             <ExclamationCircleIcon className="ml-1 inline h-4 w-4" />
           </label>
           <input
@@ -289,7 +289,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             className={`${styles['range-slider']} w-full`}
           />
           <div className="mt-2 text-sm text-dark-100">
-            Current Boost: +{(boostAmount * 21).toLocaleString()} TH/s ({boostAmount} signups)
+            Current Boost: +{(boostAmount * 21).toLocaleString()} TH/s
           </div>
         </div>
 
