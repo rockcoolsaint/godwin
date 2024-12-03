@@ -38,9 +38,9 @@ export default function AuctionInfo() {
         <div className="item-center flex flex-col gap-4 self-stretch">
           <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2 rounded-md border border-gray-400 p-1 text-left text-xs">
-              <div>- Block party is on Saturday, November 30th</div>
-              <div>- New auctions post every 6 hours</div>
-              <div>- Party earns bonus hashrate for each new bidder</div>
+              <div>- We mine together on CK Pool to try and mine a block</div>
+              <div>- Hashrate is sold at auction</div>
+              <div>- Bonus hashrate after each auction improves the odds</div>
             </div>
           </div>
         </div>

@@ -230,7 +230,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   // Solo mining calculator state
   const baseHashrate = 1.0 // 1 PH/s base
   const networkHashrate = 760 // 760 EH/s
-  const [boostAmount, setBoostAmount] = useState(5) // Number of 21 TH/s boosts
+  const [boostAmount, setBoostAmount] = useState(2) // Number of 10 TH/s boosts
   const [baseOdds, setBaseOdds] = useState(0)
   const [boostedOdds, setBoostedOdds] = useState(0)
 
@@ -241,7 +241,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   // In the odds calculation useEffect:
   useEffect(() => {
     function calculateOdds() {
-      // Calculate base odds (5 PH/s)
+      // Calculate base odds (1 PH/s)
       const baseHashrateEH = baseHashrate / 1000 // Convert PH/s to EH/s
       const blocksPerDay = 144 // 6 blocks per hour * 24 hours
       const baseProbability = (baseHashrateEH / networkHashrate) * blocksPerDay
@@ -249,7 +249,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       setBaseOdds(baseOneInX)
 
       // Calculate boosted odds (base + boost)
-      const boostHashrateEH = (boostAmount * 21) / 1000000 // Convert TH/s to EH/s
+      const boostHashrateEH = (boostAmount * 10) / 1000000 // Convert TH/s to EH/s
       const totalHashrateEH = baseHashrateEH + boostHashrateEH
       const boostedProbability = (totalHashrateEH / networkHashrate) * blocksPerDay
       const boostedOneInX = Math.round(1 / boostedProbability)
@@ -275,34 +275,34 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             htmlFor="boostSlider" 
             className="mb-3 flex items-center text-sm font-semibold text-dark-200"
           >
-            +21 TH/s (or more) after each auction
+            +10 TH/s (or more) after each auction
             <ExclamationCircleIcon className="ml-1 inline h-4 w-4" />
           </label>
           <input
             type="range"
             id="boostSlider"
             min="1"
-            max="300"
+            max="200"
             step="1"
             value={boostAmount}
             onChange={(e) => setBoostAmount(Number(e.target.value))}
             className={`${styles['range-slider']} w-full`}
           />
           <div className="mt-2 text-sm text-dark-100">
-            Current Boost: +{(boostAmount * 21).toLocaleString()} TH/s
+            Current Boost: +{(boostAmount * 10).toLocaleString()} TH/s
           </div>
         </div>
 
       {/* Base Odds Display */}
       <div className="mb-6">
         <h2 className="flex items-center text-base">
-          Base Mining Odds (2.1 PH/s)
+          Base Mining Odds (1 PH/s)
           <Tooltip placement="bottom">
             <TooltipTrigger>
               <QuestionMarkCircleIcon className="ml-2 size-6" />
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Base odds with 2,100 TH/s
+              Base odds with 1,000 TH/s
             </TooltipContent>
           </Tooltip>
         </h2>
