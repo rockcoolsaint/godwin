@@ -22,6 +22,11 @@ class WS {
         return reject('No valid ws url provided.')
       }
 
+      // Close existing socket if any
+      if (this.socket) {
+        this.socket.close()
+      }
+
       this.socket = new WebSocket(`${url}`)
       this.socket.onerror = reject
       this.socket.onopen = () => {
@@ -42,11 +47,15 @@ class WS {
 
   handleDisconnect() {
     console.log('disconnected')
+    // Clear subscriptions on disconnect
+    this.subscriptions = {}
+    this.callbacks = {}
   }
 
   handleMessage(e: any) {
     try {
       const { action, payload, request_id } = JSON.parse(e.data)
+      console.log('[ws] Received message:', action, payload) // Debug log
 
       switch (action) {
         case 'authorized': {
@@ -78,8 +87,30 @@ class WS {
           cb(payload)
           break
         }
+
+        case 'chat_message': {
+          if (this.subscriptions.hasOwnProperty('chat_message')) {
+            const handlers = this.subscriptions['chat_message']
+            handlers.forEach((handler: (messages: any) => void) => {
+              console.log('[ws] Sending chat message to handler:', payload)
+              handler(payload)
+            })
+          }
+          break
+        }
+
+        case 'get_chat_messages': {
+          if (request_id && this.callbacks.hasOwnProperty(request_id)) {
+            const cb = this.callbacks[request_id]
+            delete this.callbacks[request_id]
+            cb(payload)
+          }
+          break
+        }
       }
-    } catch (ex) {}
+    } catch (ex) {
+      console.error('[ws] Error handling message:', ex)
+    }
   }
 
   subscribe(channel: string, handler: (update: any) => void) {
@@ -89,9 +120,10 @@ class WS {
 
     this.subscriptions[channel].push(handler)
 
-    this.emit('subscribe', channel)
-
-    console.log(`[ws] subscribe ${channel}`)
+    if (this.socket?.readyState === WebSocket.OPEN) {
+      this.emit('subscribe', channel)
+      console.log(`[ws] subscribe ${channel}`)
+    }
   }
 
   unsubscribe(channel: string, handler: (update: any) => void) {
@@ -101,15 +133,18 @@ class WS {
 
     const sc = this.subscriptions[channel]
     const idx = sc.findIndex((sub: (update: any) => void) => sub === handler)
-    sc.splice(idx, 1)
-
-    this.emit('unsubscribe', channel)
-
-    console.log(`[ws] unsubscribe ${channel}`)
+    if (idx !== -1) {
+      sc.splice(idx, 1)
+      if (this.socket?.readyState === WebSocket.OPEN) {
+        this.emit('unsubscribe', channel)
+        console.log(`[ws] unsubscribe ${channel}`)
+      }
+    }
   }
 
   emit(action: string, payload?: any) {
-    if (!this.socket) {
+    if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+      console.warn('[ws] Cannot emit - socket not ready')
       return
     }
 
@@ -118,8 +153,8 @@ class WS {
 
   request(action: string, payload?: any) {
     return new Promise((resolve, reject) => {
-      if (!this.socket) {
-        return reject('Invalid socket')
+      if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
+        return reject('Socket not connected or not ready')
       }
 
       this.idc++
@@ -129,8 +164,12 @@ class WS {
         resolve(payload)
       }
 
-      this.socket.send(JSON.stringify({ action, payload, request_id: this.idc }))
+      this.socket.send(JSON.stringify({ action, payload, request_id: requestId }))
     })
+  }
+
+  isConnected(): boolean {
+    return this.socket?.readyState === WebSocket.OPEN
   }
 }
 

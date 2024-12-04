@@ -28,6 +28,9 @@ import { formatDate } from 'src/utils/date'
 import { formatMoney } from 'src/utils/currency'
 import { FC } from 'react';
 
+import ChatWall from 'src/components/pages/auction/ChatWall'
+
+
 const WinnersStatement: FC = () => {
   return (
     <section className="winners-statement mt-8">
@@ -277,6 +280,9 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
                 </Tab>
               </Tab.List>
             </Tab.Group>
+            <div className="mt-4">
+              <ChatWall />
+            </div>
           </div>
         </ErrorBoundary>
         <div className=" mt-4 flex min-w-fit flex-col lg:ml-4 lg:mt-0 lg:w-[25%]">
@@ -294,8 +300,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
           )}
         </div>
       </section>
-      {auction.id === 1705 && <WinnersStatement />}
-      
+
       <Joyride
         callback={handleCallback}
         steps={steps}
