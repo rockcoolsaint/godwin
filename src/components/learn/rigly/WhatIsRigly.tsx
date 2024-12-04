@@ -12,10 +12,10 @@ const WhatIsUpendo = () => {
       <LearnCategorySubTitle>Upendo is a block party auction</LearnCategorySubTitle>
 
       <LearnCategoryText>
-        You bid on hashrate and mine with other bitcoiners, as we try to find a block.
+        You bid on hashrate and mine with other bitcoiners, as we try to find a block. 
       </LearnCategoryText>
       <LearnCategoryText>
-        We will mine with 2,100 TH/s on Saturday, November 30th.
+        For the next several weeks, we will mine with 1 PH/s - or more! - on Saturdays.
       </LearnCategoryText>
       <LearnCategoryText>
         The goal is <b>to find a block and earn 3.125 bitcoin + tx fees (!)</b>
@@ -27,9 +27,11 @@ const WhatIsUpendo = () => {
         Hashrate will be provided via <Link href="https://rigly.io" styled>Rigly</Link> and we will use <Link href="https://solo.ckpool.org" styled>CK Pool</Link> to solo mine.
       </LearnCategoryText>
       <LearnCategoryText>
-        The block party earns bonus hashrate for each new bidder, and so the odds get better and better over the course of the auction ... so get your spot early!
+        The block party earns bonus hashrate after each auction, and so the odds get better and better over the course of the auction ... so get your spot early!
       </LearnCategoryText>
-
+      <LearnCategoryText>
+        If we find a block, that would be incredible. And, if we don't, at least we have some fun mining together.
+      </LearnCategoryText>
       <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
                 <Link
                   href="https://upendo.rigly.io/register"
