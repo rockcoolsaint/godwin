@@ -3,6 +3,7 @@ import { getFeaturedAuctions } from 'src/api/auction/getFeaturedAuctions'
 import Home from 'src/components/pages/home'
 import { Metadata } from 'next'
 import DemoModal from 'src/components/demo/Modal'
+export const dynamic = 'force-dynamic'
 
 export default async function HomePage({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
   const [auctions, auctionOfTheDay] = await Promise.all([getFeaturedAuctions(), getAuctionOfTheDay({ isDemo: true })])
