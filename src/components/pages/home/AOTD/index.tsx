@@ -7,7 +7,7 @@ import { format, parseISO } from 'date-fns'
 import SatsSvg from 'src/assets/svg/sats.svg'
 import { formatMoney } from 'src/utils/currency'
 import { isDateBefore } from 'src/utils/date'
-import * as miner from 'src/assets/jpg/mining.jpeg'
+import * as miner from 'src/assets/jpg/ASIC_hashrate_heartbeat.jpg'
 
 interface AOTD {
   auction: AuctionOfTheDayResponse
@@ -61,10 +61,11 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
         <div className="flex flex-col lg:flex-row">
           <Image
             className="max-h-96 rounded-3xl"
-            src={auction?.auction_meta?.site_photo || miner}
+            src={miner}
             alt="auction of the day"
             width={550}
             height={305}
+	    layout="responsive"
           />
           <div className="ml-0 mt-4 flex max-h-96 flex-col items-start justify-between lg:ml-9 lg:mt-0">
             {renderAuctionStatusTag()}
