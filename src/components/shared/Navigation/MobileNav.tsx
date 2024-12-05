@@ -18,17 +18,21 @@ interface MobileNavProps {
 const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegisterClick, handleNavigation, isDemo }: MobileNavProps) => {
   const [openDropdown, setOpenDropdown] = useState<number | null>(null)
   const { account } = useAccountContext()
-  const navigationURL = headerNavURL
+  
+  // Add null checks and filtering for navigationURL
+  const navigationURL = (headerNavURL || [])
+    .filter(Boolean) // Remove any null/undefined items
     .map(item => {
       if (item?.submenu) {
-        const filteredSubmenu = item.submenu.filter(subitem => !(subitem.hideIfAuthed && account))
+        const filteredSubmenu = (item.submenu || [])
+          .filter(Boolean) // Remove any null/undefined submenu items
+          .filter(subitem => !(subitem?.hideIfAuthed && account))
 
         return { ...item, submenu: filteredSubmenu }
       }
-
       return item
     })
-    .filter(item => !isDemo || item.showInDemo)
+    .filter(item => !isDemo || item?.showInDemo)
 
   if (!active) return null
 
@@ -39,18 +43,22 @@ const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegister
   return (
     <div className="absolute inset-0 top-20 z-50 h-screen bg-white lg:hidden">
       <div className="flex flex-col">
-        {navigationURL.map((nav: NavigationItem) => (
-          <div key={nav.id}>
+        {navigationURL.map((nav: NavigationItem) => nav && (
+          <div key={nav.id || 'nav-item'}>
             {nav.url ? (
-              <Link className="block px-5 py-4 text-sm text-dark-300 hover:text-primary" href={nav.url} onClick={handleNavigation}>
-                {nav.name}
+              <Link 
+                className="block px-5 py-4 text-sm text-dark-300 hover:text-primary" 
+                href={nav.url} 
+                onClick={handleNavigation}
+              >
+                {nav.name || ''}
               </Link>
             ) : (
               <button
                 onClick={() => toggleDropdown(nav.id)}
                 className="w-full px-5 py-4 text-left text-sm text-dark-300 hover:text-primary"
               >
-                {nav.name}
+                {nav.name || ''}
                 <span className={`ml-2 ${openDropdown === nav.id ? 'rotate-180' : ''}`}>
                   <svg className="inline h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
@@ -58,16 +66,16 @@ const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegister
                 </span>
               </button>
             )}
-            {nav.submenu && openDropdown === nav.id && (
+            {nav.submenu && nav.submenu.length > 0 && openDropdown === nav.id && (
               <div className="ml-4">
-                {nav.submenu.map(sub => (
+                {nav.submenu.map(sub => sub && (
                   <Link
-                    key={sub.url}
+                    key={sub.url || `sub-${nav.id}`}
                     className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    href={sub.url}
+                    href={sub.url || '#'}
                     onClick={handleNavigation}
                   >
-                    {sub.name}
+                    {sub.name || ''}
                   </Link>
                 ))}
               </div>
@@ -75,7 +83,11 @@ const MobileNav = ({ active, handleLogoutClick, handleLoginClick, handleRegister
           </div>
         ))}
       </div>
-      <LoginRegister handleLogoutClick={handleLogoutClick} handleLoginClick={handleLoginClick} handleRegisterClick={handleRegisterClick} />
+      <LoginRegister 
+        handleLogoutClick={handleLogoutClick} 
+        handleLoginClick={handleLoginClick} 
+        handleRegisterClick={handleRegisterClick} 
+      />
     </div>
   )
 }
