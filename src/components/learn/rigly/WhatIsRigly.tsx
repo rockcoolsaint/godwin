@@ -26,12 +26,6 @@ const WhatIsUpendo = () => {
       <LearnCategoryText>
         Hashrate will be provided via <Link href="https://rigly.io" styled>Rigly</Link> and we will use <Link href="https://solo.ckpool.org" styled>CK Pool</Link> to solo mine.
       </LearnCategoryText>
-      <LearnCategoryText>
-        The block party earns bonus hashrate after each auction, and so the odds get better and better over the course of the auction ... so get your spot early!
-      </LearnCategoryText>
-      <LearnCategoryText>
-        If we find a block, that would be incredible. And, if we don't, at least we have some fun mining together.
-      </LearnCategoryText>
       <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
                 <Link
                   href="https://upendo.rigly.io/register"
