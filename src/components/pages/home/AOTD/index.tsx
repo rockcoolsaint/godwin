@@ -73,11 +73,11 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
             <div className="flex justify-between">
               <aside>
                 <p className="text-sm text-dark-100">Lot Size:</p>
-                <p className="text-xs font-normal">48 lots of 21 TH/s</p>
+                <p className="text-xs font-normal">42x 21 TH/s</p>
               </aside>
               <aside className="ml-4">
                 <p className="text-sm text-dark-100">Total Size:</p>
-                <p className="text-xs font-normal">1,000 TH/s block party</p>
+                <p className="text-xs font-normal">880 TH/s (+bonus hashrate)</p>
               </aside>
             </div>
             <hr className="my-4 block w-full border" />
@@ -89,7 +89,7 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
               {/* Replace the existing bid amount section with: */}
               <div className="mt-4">
                 <p className="text-lg"> {/* Increased text size */}
-                  Potential Block Reward: <span className="font-bold">~$300,612</span> (3.125 btc + fees)
+                  Potential Block Reward: <span className="font-bold">~$290,800</span> (3.125 btc + fees)
                 </p>
               </div>
             </div>

@@ -64,7 +64,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
             <aside className="w-3/6">
               <p className="p-3 pl-4 sm:whitespace-nowrap">
-               Saturday - December 14th, 2024
+               Friday - January 3rd, 2025
               </p>
             </aside>
           </div>
@@ -82,7 +82,7 @@ const AuctionProfile = ({ data }: Props) => {
             <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
               <p className="p-3 py-6 font-semibold capitalize text-dark-100">Start time</p>
             </aside>
-            <aside><p className="p-3 pl-4">17:00 UTC</p></aside>
+            <aside><p className="p-3 pl-4">18:15:05 GMT</p></aside>
           </div>
 
           {/* Hashrate */}

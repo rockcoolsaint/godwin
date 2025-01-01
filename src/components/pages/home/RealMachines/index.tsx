@@ -4,15 +4,15 @@ import { useMobileScreen } from 'src/hooks/useIsMobile'
 const content = [
   {
     title: 'Block party',
-    body: 'Mine with bitcoiners and try to win a block',
+    body: 'We mine together and try to earn a block reward',
   },
   {
     title: 'Auction',
-    body: 'Bid on hashrate for a share of the potential mining reward',
+    body: 'Bid on hashrate to join our block party',
   },
   {
-    title: 'Referral bonus',
-    body: 'Free hashrate for every new bidder',
+    title: 'Provably Fair',
+    body: 'Don\'t trust. Verify our mining at solo.ckpool.org',
   },
 ]
 

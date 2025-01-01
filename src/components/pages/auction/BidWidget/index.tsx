@@ -169,7 +169,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
                 </div>
               )}
 
-              {!isLoading && !token && <p className="mt-8 text-red-500">You need to be logged in to place a bid</p>}
+              {!isLoading && !token && <p className="mt-8 text-red-500"><Link href="/login" styled>Login</Link> to place a bid</p>}
 
               {!isLoading && token && (
                 <>
@@ -230,7 +230,9 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   // Solo mining calculator state
   const baseHashrate = 1.0 // 1 PH/s base
   const networkHashrate = 760 // 760 EH/s
-  const [boostAmount, setBoostAmount] = useState(2) // Number of 10 TH/s boosts
+  const [boostAmount, setBoostAmount] = useState(
+    Number(process.env.NEXT_PUBLIC_BOOST_AMOUNT) || 2
+  );
   const [baseOdds, setBaseOdds] = useState(0)
   const [boostedOdds, setBoostedOdds] = useState(0)
 
@@ -249,7 +251,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       setBaseOdds(baseOneInX)
 
       // Calculate boosted odds (base + boost)
-      const boostHashrateEH = (boostAmount * 10) / 1000000 // Convert TH/s to EH/s
+      const boostHashrateEH = (boostAmount * 21) / 1000000 // Convert TH/s to EH/s
       const totalHashrateEH = baseHashrateEH + boostHashrateEH
       const boostedProbability = (totalHashrateEH / networkHashrate) * blocksPerDay
       const boostedOneInX = Math.round(1 / boostedProbability)
@@ -275,7 +277,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             htmlFor="boostSlider" 
             className="mb-3 flex items-center text-sm font-semibold text-dark-200"
           >
-            +10 TH/s (or more) after each auction
+            +21 TH/s (or more) after each auction
             <ExclamationCircleIcon className="ml-1 inline h-4 w-4" />
           </label>
           <input
@@ -289,7 +291,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             className={`${styles['range-slider']} w-full`}
           />
           <div className="mt-2 text-sm text-dark-100">
-            Current Boost: +{(boostAmount * 10).toLocaleString()} TH/s
+            Current Boost: +{(boostAmount * 21).toLocaleString()} TH/s
           </div>
         </div>
 
