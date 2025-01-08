@@ -79,7 +79,7 @@ const ChatWall = () => {
         {loading ? (
           <div className="text-center text-gray-500">Loading messages...</div>
         ) : messages.length === 0 ? (
-          <div className="text-center text-gray-500">No messages yet. Be the first to write something!</div>
+          <div className="text-center text-gray-500">Sign up or login to view the bidder chat wall.</div>
         ) : (
           messages.map((msg, idx) => (
             <div key={idx} className="mb-2">

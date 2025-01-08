@@ -33,7 +33,7 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
     return (
       <div className="flex h-full animate-pulse flex-col items-center justify-center">
         <ZapOff className="ml-10 mt-10 h-24 w-24 text-dark-100" />
-        <p className="ml-2 text-center text-gray-500">Live feed of mining at CK Pool on Saturday</p>
+        <p className="ml-2 text-center text-gray-500">Monitor: https://solo.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH</p>
       </div>
     )
   }
@@ -42,7 +42,7 @@ export default function AuctionLiveFeed({ auction }: { auction: Auction }) {
     return (
       <div className="flex h-full flex-col items-center justify-center">
         <ZapOff className="ml-10 mt-10 h-24 w-24 text-dark-100" />
-        <p className="ml-2 text-center text-gray-500">Live feed of mining at CK Pool on Saturday</p>
+        <p className="ml-2 text-center text-gray-500">Monitor: https://solo.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH</p>
       </div>
     )
   }
