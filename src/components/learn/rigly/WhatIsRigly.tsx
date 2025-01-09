@@ -7,25 +7,31 @@ import Link from 'src/components/shared/Link'
 const WhatIsUpendo = () => {
   return (
     <>
-      <LearnCategoryTitle>Join our Genesis Day block party</LearnCategoryTitle>
+      <LearnCategoryTitle>Join Our Bitcoin Mining Block Party</LearnCategoryTitle>
 
       <LearnCategoryText>
-        You bid on hashrate and mine with other bitcoiners, as we try to find a block. 
+        Hi -- I'm Evan, co-founder of <Link href="https://rigly.io" styled>Rigly</Link>
       </LearnCategoryText>
       <LearnCategoryText>
-        We will mine with at least 1 PH/s (or more) on Jan 3rd, 2025.
+      You bid on hashrate and mine with me, as we try to mine a block. 
       </LearnCategoryText>
       <LearnCategoryText>
-        The goal is to find a block and earn 3.125 bitcoin + tx fees <b>worth over $290,000</b>
+        We will mine with at least 1 PH/s (or more) on Saturdays. 
+      </LearnCategoryText>
+      <LearnCategoryText>
+        The goal is to find a block and earn 3.125 bitcoin + tx fees <b>worth over $300,000</b>
       </LearnCategoryText>
       <LearnCategoryText>
         To get a spot on the party, place your bid on an auction.
       </LearnCategoryText>
       <LearnCategoryText>
-      <b>Each auction is for 21 TH/s in the block party.</b>
+      <b>Each auction is for 21 TH/s (2% of the reward) in the block party.</b>
       </LearnCategoryText>
       <LearnCategoryText>
         Hashrate will be provided via <Link href="https://rigly.io" styled>Rigly</Link> and we will use <Link href="https://solo.ckpool.org" styled>CK Pool</Link> to solo mine.
+      </LearnCategoryText>
+      <LearnCategoryText>
+        Plus: I add bonus hashrate as new bidders join, so invite your friends!
       </LearnCategoryText>
       <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
                 <Link
