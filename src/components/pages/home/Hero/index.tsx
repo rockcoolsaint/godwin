@@ -8,7 +8,7 @@ const Hero = ({ children }: PropsWithChildren) => {
       </div>
       <div className="flex w-11/12 flex-col flex-wrap sm:flex-row sm:items-center sm:justify-center md:w-8/12 lg:w-4/6 xl:w-5/6">
         <p className="mb-2 text-center font-epilogue text-sm font-normal text-black lg:text-xl xl:text-4xl 2xl:w-11/12">
-          Place your bid to mine for $319,775+ in bitcoin on Jan 11th, 2025
+          Place your bid to mine for $319,775+ in bitcoin.
         </p>
       </div>
       {children}
