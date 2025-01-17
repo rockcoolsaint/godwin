@@ -1,0 +1,12 @@
+// src/api/party/getLeaderboard.ts
+import { makeClientRequest } from '../clientRequest'
+import { PartyLeaderboardEntry } from 'src/types'
+
+export async function getPartyLeaderboard(): Promise<PartyLeaderboardEntry[]> {
+  const response = await makeClientRequest({
+    method: 'GET',
+    path: '/api/party-leaderboard/'
+  })
+  return response
+}
+

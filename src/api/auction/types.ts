@@ -1,5 +1,22 @@
 import { OrderType } from 'src/types'
 
+export interface Party {
+  id: number
+  buyer: {
+    id: number
+    username: string
+  }
+  hashrate: number
+  start_datetime: string
+  end_datetime: string
+}
+
+export interface PartyLeaderboardEntry {
+  buyer_id: number
+  buyer_name: string
+  total_hashrate: number
+}
+
 export enum PaymentProvider {
   BitGo = 'bitgo',
   OpenNode = 'opennode',
