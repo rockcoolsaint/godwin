@@ -64,7 +64,7 @@ const AuctionProfile = ({ data }: Props) => {
             </aside>
             <aside className="w-3/6">
               <p className="p-3 pl-4 sm:whitespace-nowrap">
-               Saturday - January 11th, 2025
+               Saturday - January 25th, 2025
               </p>
             </aside>
           </div>

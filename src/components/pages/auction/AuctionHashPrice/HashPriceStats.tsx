@@ -51,7 +51,7 @@ export default function HashPriceStats() {
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">In USD:</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-lg font-semibold text-black-500">~$290,800</div>
+                <div className="flex items-baseline text-lg font-semibold text-black-500">~$326,342</div>
               </dd>
             </div>
             <div className="px-4 py-5 sm:p-6">
@@ -65,7 +65,7 @@ export default function HashPriceStats() {
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">In USD:</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-lg font-semibold text-black-500">~$6,920</div>
+                <div className="flex items-baseline text-lg font-semibold text-black-500">~$6,537</div>
               </dd>
             </div>
           </dl>
