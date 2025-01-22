@@ -36,5 +36,6 @@ const learnSubmenu: NavigationSubItem[] = [
 export const headerNavURL: NavigationItem[] = [
   { id: 1, name: 'Auctions', url: '/auction-market', showInDemo: true },
   { id: 2, name: 'Learn', showInDemo: true, submenu: learnSubmenu },
+  { id: 3, name: 'Live View', url: '/pages/dashboard', showInDemo:true },
   { id: 3, name: 'Rigly', url: 'https://rigly.io', showInDemo: true },
 ]

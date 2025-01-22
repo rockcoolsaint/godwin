@@ -26,15 +26,36 @@ export async function getCKPoolHashrateData(): Promise<CKPoolHashrateData[]> {
   }
 }
 
-
 export async function getTotalHashrateData(): Promise<TotalHashrateData> {
   try {
     const result = await makeClientRequest({
       method: 'GET',
       path: '/api/auctions/get-hashrate-comparison-view'
     })
-    return result.data
+
+    // Validate the response data
+    if (!result || typeof result !== 'object') {
+      throw new Error('Invalid response format')
+    }
+
+    const { base_hashrate, current_hashrate, bonus_hashrate } = result
+
+    // Validate that all required fields are numbers
+    if (
+      typeof base_hashrate !== 'number' ||
+      typeof current_hashrate !== 'number' ||
+      typeof bonus_hashrate !== 'number'
+    ) {
+      throw new Error('Invalid hashrate data format')
+    }
+
+    return {
+      base_hashrate,
+      current_hashrate,
+      bonus_hashrate
+    }
   } catch (error) {
-    throw new Error('Failed to fetch total hashrate comparison data')
+    console.error('Failed to fetch total hashrate comparison data:', error)
+    throw error
   }
 }
