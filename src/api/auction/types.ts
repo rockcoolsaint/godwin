@@ -15,6 +15,8 @@ export interface PartyLeaderboardEntry {
   buyer_id: number
   buyer_name: string
   total_hashrate: number
+  percentage: number
+  reward_share_btc: number;
 }
 
 export enum PaymentProvider {

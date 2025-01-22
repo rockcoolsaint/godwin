@@ -105,31 +105,7 @@ export default function Home({ isDemo, code }: Props) {
           </a>
         </p>
       </div>
-      {isLoggedIn && (
-        <>
-          <section className="mx-auto mt-8 flex flex-col items-center justify-center sm:mt-14">
-            <Gradient />
-            <Hero />
-            <div className="mt-20" />
-            <RealMachines />
-          </section>
-          <section className="-mt-6 flex w-full flex-col items-center justify-center border border-solid border-gray-300 py-12 sm:px-4 sm:py-28 md:px-0">
-            {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
-            {auctionData.length > 0 && auctionOfTheDay && (
-              <>
-                <div className="w-full max-w-7xl overflow-auto sm:mt-28">
-                  <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData} />
-                </div>
-                <Link href="/auction-market" className="mt-10 rounded-xl bg-navy p-2 font-epilogue text-sm font-bold text-white lg:p-4">
-                  Explore All Auctions
-                </Link>
-              </>
-            )}
-          </section>
 
-        </>
-      )}
-      {!isLoggedIn && (
         <>
           <section className="mx-auto mt-8 flex flex-col items-center justify-center sm:mt-14">
             <Gradient />
@@ -145,21 +121,25 @@ export default function Home({ isDemo, code }: Props) {
               </div>
               </>
             </Hero>
-            <RealMachines />
-            <section id="auction-market" className="flex w-full flex-col items-center justify-center px-4 py-28 md:px-0">
-              {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
-              {auctionData?.length > 0 && auctionOfTheDay && (
-                <div className="w-full max-w-7xl overflow-auto sm:mt-24">
+            <TrustlessMining />
+            <section className="-mt-6 flex w-full flex-col items-center justify-center border border-solid border-gray-300 py-12 sm:px-4 sm:py-28 md:px-0">
+            {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
+            {auctionData.length > 0 && auctionOfTheDay && (
+              <>
+                <div className="w-full max-w-7xl overflow-auto sm:mt-28">
                   <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData} />
                 </div>
-              )}
-            </section>
-            <TrustlessMining />
+                <Link href="/auction-market" className="mt-10 rounded-xl bg-navy p-2 font-epilogue text-sm font-bold text-white lg:p-4">
+                  Explore All Auctions
+                </Link>
+              </>
+            )}
+          </section>
+          <RealMachines />
 
           </section>
 
         </>
-      )}
 
     </div>
   )

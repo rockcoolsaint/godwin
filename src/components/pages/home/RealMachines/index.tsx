@@ -3,16 +3,16 @@ import { useMobileScreen } from 'src/hooks/useIsMobile'
 
 const content = [
   {
-    title: 'Block party',
-    body: 'We mine together and try to earn a block reward',
+    title: 'Know the Risk',
+    body: 'We mine together and try to earn a block reward - if no block is found, you earn nothing',
   },
   {
-    title: 'Auction',
-    body: 'Bid on hashrate to join our block party',
+    title: 'Check the Odds',
+    body: 'Odds are shown on the auction and live feed - verify at solochance.com',
   },
   {
     title: 'Provably Fair',
-    body: 'Don\'t trust. Verify our mining at solo.ckpool.org',
+    body: 'Don\'t trust - verify our mining at solo.ckpool.org',
   },
 ]
 
