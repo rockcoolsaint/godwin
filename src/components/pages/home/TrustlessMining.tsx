@@ -6,15 +6,15 @@ import box3Image from 'src/assets/png/box3.png'
 const TrustlessMining: React.FC = () => {
   const boxes = [
     {
-      text: "You bid on hashrate to join",
+      text: "You bid on hashrate to join our block party",
       image: box1Image
     },
     {
-      text: "Upend the odds! High bids earn bonus hashrate",
+      text: "Upend the odds by earning bonus hashrate",
       image: box2Image
     },
     {
-      text: "If we mine a block, we split the reward by hashrate",
+      text: "If we mine a block, we split the reward",
       image: box3Image
     }
   ];

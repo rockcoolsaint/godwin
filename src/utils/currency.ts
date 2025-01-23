@@ -1,5 +1,5 @@
 export function formatMoney(number: number) {
-  return Number(number.toFixed(2)).toLocaleString()
+  return Math.ceil(number).toLocaleString()
 }
 
 export function transformCurrencyToNumber(currency: string | number) {

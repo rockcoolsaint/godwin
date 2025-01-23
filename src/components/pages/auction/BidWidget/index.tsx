@@ -284,7 +284,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             type="range"
             id="boostSlider"
             min="1"
-            max="200"
+            max="2100"
             step="1"
             value={boostAmount}
             onChange={(e) => setBoostAmount(Number(e.target.value))}
@@ -298,13 +298,13 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       {/* Base Odds Display */}
       <div className="mb-6">
         <h2 className="flex items-center text-base">
-          Base Mining Odds (1 PH/s)
+          Example Mining Odds @ 1 PH/s
           <Tooltip placement="bottom">
             <TooltipTrigger>
               <QuestionMarkCircleIcon className="ml-2 size-6" />
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Base odds with 1,000 TH/s
+              Block party odds of finding a block in 1 day with 1,000 TH/s
             </TooltipContent>
           </Tooltip>
         </h2>
@@ -322,7 +322,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
               <QuestionMarkCircleIcon className="ml-2 size-6" />
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Odds with base hashrate plus party boost
+              Odds of finding a block in 1 day - with party boost hashrate
             </TooltipContent>
           </Tooltip>
         </h2>

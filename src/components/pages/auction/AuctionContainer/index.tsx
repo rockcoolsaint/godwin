@@ -104,7 +104,6 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
 
   const bidRef = useRef<HTMLButtonElement>(null)
   const profileRef = useRef<HTMLButtonElement>(null)
-  const liveFeedRef = useRef<HTMLButtonElement>(null)
   const hashPriceRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -259,11 +258,6 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
                     <AuctionHashPrice />
                   </div>
                 </Tab.Panel>
-                <Tab.Panel className={panelClass()}>
-                  <div className="scrollbar-hide relative h-full rounded-md">
-                    <AuctionLiveFeed auction={auction} />
-                  </div>
-                </Tab.Panel>
               </Tab.Panels>
               <Tab.List className="mt-4 flex space-x-1 rounded-xl bg-orange-100 p-1">
                 <Tab ref={bidRef} className={tabClass}>
@@ -274,9 +268,6 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
                 </Tab>
                 <Tab ref={hashPriceRef} className={tabClass}>
                   Block party
-                </Tab>
-                <Tab ref={liveFeedRef} className={tabClass}>
-                  Live feed
                 </Tab>
               </Tab.List>
             </Tab.Group>

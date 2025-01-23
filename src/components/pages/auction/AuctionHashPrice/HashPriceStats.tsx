@@ -3,7 +3,11 @@
 import { useEffect, useState } from 'react'
 import { getDifficultyAdjustment, getBlockTipHeight, getHashRate, getHashPrice, HashpriceDict } from 'src/api/hashprice'
 import { formatDistance, fromUnixTime } from 'date-fns'
+import Link from 'src/components/shared/Link'
 import HashPriceLoader from './Loader'
+import { getTotalHashrateData } from 'src/api/ckpool/getHashrateData'
+import { HashrateDataType } from 'src/api/hashrate/types'
+import { formatMoney } from 'src/utils/currency'
 
 // Replace the EpochTable component with BlockPartyExplanation
 function BlockPartyExplanation() {
@@ -12,15 +16,39 @@ function BlockPartyExplanation() {
       <div className="px-4 py-5 sm:p-6">
         <h3 className="text-lg font-semibold text-gray-900">How Block Party Works</h3>
         <p className="mt-4 text-sm text-gray-500">
-          On the start date and time, hashrate is purchased via Rigly and sent to CK Pool to solo mine.
+          You buy hashrate at auction, which is added to the block party's hashrate and sent to <Link href="https://solo.ckpool.org/" styled>CK Pool</Link> to solo mine.
         </p>
         <p className="mt-4 text-sm text-gray-500">
-          The mining's payout address is set to a multisig escrow address with Rigly and Evan.</p>
+          The mining's payout address is set to our multisig escrow address.</p>
         <p className="mt-4 text-sm text-gray-500">
-          If we find a block, payment will be split up by hashrate contribution and sent to the payout address in your account profile.
+          If we find a block, payment will be split up by hashrate contribution and sent to your payout address in your account profile.
         </p>
         <p className="mt-4 text-sm text-gray-500">
-          You get an email once the block party mining begins.
+          You can monitor status at the <Link href="/pages/dashboard" styled>Live View</Link>.
+        </p>
+        <br/>
+        <h3 className="text-lg font-semibold text-gray-900">Joining and Leaving</h3>
+        <p className="mt-4 text-sm text-gray-500">
+          You buy hashrate to join the party. You are in the party for the duration of your mining.
+        </p>
+        <p className="mt-4 text-sm text-gray-500">
+          Confirm your status by checking <b>Active Miners</b> on the <Link href="/pages/dashboard" styled>Live View</Link>.
+        </p>
+        <p className="mt-4 text-sm text-gray-500">
+          <b>Want to leave early?</b> Email us to configure your hashrate to point elsewhere.
+        </p>
+        <br/>
+        <h3 className="text-lg font-semibold text-gray-900">Size of Party and Reward Share</h3>
+        <p className="mt-4 text-sm text-gray-500">
+          The more people who join the party, the more hashrate we have, which improves our odds of mining a block.
+        </p>
+        <p className="mt-4 text-sm text-gray-500">
+          Likewise, the size of the party impacts your % share of the potential reward. 
+        </p>
+        <br/>
+        <h3 className="text-lg font-semibold text-gray-900">Bonus Hashrate</h3>
+        <p className="mt-4 text-sm text-gray-500">
+          High auction bids earn bonus hashrate for the block party, without decreasing anyone's share of the potential reward.
         </p>
       </div>
     </div>
@@ -34,6 +62,78 @@ export default function HashPriceStats() {
   const [epoch, setEpoch] = useState<HashpriceDict>({})
   const [timeToNextDifficulty, setTimeToNextDifficulty] = useState('')
   const [loading, setLoading] = useState(false)
+  const [btcPrice, setBtcPrice] = useState(0)
+  const [hashrateData, setHashrateData] = useState<HashrateDataType | null>(null)
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      try {
+        const difficultyEstimate = await getDifficultyAdjustment()
+        const hashrate = await getHashRate()
+        const blockHeight = await getBlockTipHeight()
+        const epochData = await getHashPrice()
+
+        const difficultyPeriod = blockHeight / 2016
+
+        setHashrate(hashrate.currentHashrate / 1_000_000_000_000_000_000)
+        setDifficultyEstimate(difficultyEstimate.difficultyChange)
+        setDifficultyPeriod(difficultyPeriod)
+        setEpoch(epochData)
+
+        const parseDate = fromUnixTime(difficultyEstimate.estimatedRetargetDate / 1000)
+        const distanceFromNow = formatDistance(parseDate, new Date())
+
+        setTimeToNextDifficulty(distanceFromNow)
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  useEffect(() => {
+    async function fetchHashrateData() {
+      try {
+        const data = await getTotalHashrateData()
+        setHashrateData(data)
+      } catch (error) {
+        console.error('Failed to fetch hashrate data:', error)
+      }
+    }
+
+    fetchHashrateData()
+    const interval = setInterval(fetchHashrateData, 60000)
+    return () => clearInterval(interval)
+  }, [])
+  
+  useEffect(() => {
+    const fetchBTCPrice = async () => {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+        const data = await response.json();
+        setBtcPrice(data.bitcoin.usd);
+      } catch (error) {
+        console.error('Error fetching BTC price:', error);
+      }
+    };
+
+    fetchBTCPrice();
+  }, []);
+
+  const formatUSD = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(amount);
+  }
+
+  const blockRewardInUSD = btcPrice * 3.125;
+  const perLotInUSD = btcPrice * 0.0625;
 
   return (
     <>
@@ -51,21 +151,31 @@ export default function HashPriceStats() {
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-normal text-gray-900">In USD:</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-lg font-semibold text-black-500">~$326,342</div>
-              </dd>
-            </div>
-            <div className="px-4 py-5 sm:p-6">
-              <dt className="text-sm font-normal text-gray-900">Per auction lot</dt>
-              <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-lg font-semibold text-orange-500">
-                0.06250 BTC
+                <div className="flex items-baseline text-lg font-semibold text-black-500">
+                  ~{btcPrice ? formatUSD(blockRewardInUSD) : 'Loading...'}
                 </div>
               </dd>
             </div>
             <div className="px-4 py-5 sm:p-6">
-              <dt className="text-sm font-normal text-gray-900">In USD:</dt>
+              <dt className="text-sm font-normal text-gray-900">Network hashrate</dt>
               <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                <div className="flex items-baseline text-lg font-semibold text-black-500">~$6,537</div>
+                <div className="flex items-baseline text-lg font-semibold text-orange-500">
+                {Math.floor(hashrate)} EH/s
+                </div>
+              </dd>
+            </div>
+            <div className="px-4 py-5 sm:p-6">
+              <dt className="text-sm font-normal text-gray-900">Block party hashrate</dt>
+              <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
+                <div className="flex items-baseline text-lg font-semibold text-black-500">
+                {hashrateData ? (
+                  <>
+                    {formatMoney(hashrateData.current_hashrate)} TH/s
+                  </>
+                ) : (
+                  'Loading...'
+                )}
+                </div>
               </dd>
             </div>
           </dl>
@@ -75,4 +185,3 @@ export default function HashPriceStats() {
     </>
   )
 }
-

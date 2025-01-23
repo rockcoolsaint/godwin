@@ -6,8 +6,10 @@ import { useTranslation } from 'src/hooks'
 import { format, parseISO } from 'date-fns'
 import SatsSvg from 'src/assets/svg/sats.svg'
 import { formatMoney } from 'src/utils/currency'
+import { formatDistanceToNow } from 'date-fns'
 import { isDateBefore } from 'src/utils/date'
 import * as miner from 'src/assets/jpg/ASIC_hashrate_heartbeat.jpg'
+import useSatsToFiat from 'src/hooks/useSatsToFiat'
 
 interface AOTD {
   auction: AuctionOfTheDayResponse
@@ -22,6 +24,8 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
 
   const { auction } = auctionResponse
 
+  const hashrate = auction.auction_meta.hashrate
+
   const start_iso = parseISO(auction.start_at)
   const end_iso = parseISO(auction.end_at)
 
@@ -29,6 +33,24 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
   const end = format(end_iso, 'do MMM, yy h:mmaa')
 
   const isAuctionEnded = isDateBefore(auction.end_at)
+
+  // Convert 3.125 BTC to sats
+  const BLOCK_REWARD_SATS = 3.125 * 100000000
+  
+  // Use the hook to get fiat value
+  const blockRewardInFiat = useSatsToFiat({
+    initialValue: 0,
+    bid: BLOCK_REWARD_SATS
+  })
+
+  // Get remaining time in natural language
+  const getTimeUntilEnd = () => {
+    const now = new Date()
+    if (end_iso <= now) {
+      return 'Auction ended'
+    }
+    return `Ends in ${formatDistanceToNow(end_iso, { addSuffix: false })}`
+  }
 
   function renderAuctionStatusTag() {
     if (isAuctionEnded) {
@@ -65,19 +87,19 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
             alt="auction of the day"
             width={550}
             height={305}
-	    layout="responsive"
+            layout="responsive"
           />
           <div className="ml-0 mt-4 flex max-h-96 flex-col items-start justify-between lg:ml-9 lg:mt-0">
             {renderAuctionStatusTag()}
             <h1 className="mb-4 text-2xl font-semibold">{auction.title}</h1>
             <div className="flex justify-between">
               <aside>
-                <p className="text-sm text-dark-100">Lot Size:</p>
-                <p className="text-xs font-normal">50x 21 TH/s</p>
+                <p className="text-sm font-semibold">Hashrate</p>
+                <p className="text-base">{hashrate} TH/s</p>
               </aside>
               <aside className="ml-4">
-                <p className="text-sm text-dark-100">Total Size:</p>
-                <p className="text-xs font-normal">1050 TH/s (+bonus hashrate)</p>
+                <p className="text-sm font-semibold">Time remaining</p>
+                <p className="text-base">{getTimeUntilEnd()}</p>
               </aside>
             </div>
             <hr className="my-4 block w-full border" />
@@ -85,11 +107,9 @@ export default function AOTD({ auction: auctionResponse }: AOTD) {
               {auction.bid_count} {renderBidCount()}
             </p>
             <div className="flex w-full justify-between">
-
-              {/* Replace the existing bid amount section with: */}
               <div className="mt-4">
-                <p className="text-lg"> {/* Increased text size */}
-                  Potential Block Reward: <span className="font-bold">~$319,775</span> (3.125 btc + fees)
+                <p className="text-lg">
+                  Potential Block Reward: <span className="font-bold">${formatMoney(blockRewardInFiat)}</span> (3.125 btc + fees)
                 </p>
               </div>
             </div>

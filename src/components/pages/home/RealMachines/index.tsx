@@ -8,7 +8,7 @@ const content = [
   },
   {
     title: 'Check the Odds',
-    body: 'Odds are shown on the auction and live feed - verify at solochance.com',
+    body: 'Odds are shown on the auction and live view - verify at solochance.com',
   },
   {
     title: 'Provably Fair',
