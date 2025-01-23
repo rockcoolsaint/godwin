@@ -24,31 +24,18 @@ function BlockPartyExplanation() {
           If we find a block, payment will be split up by hashrate contribution and sent to your payout address in your account profile.
         </p>
         <p className="mt-4 text-sm text-gray-500">
-          You can monitor status at the <Link href="/pages/dashboard" styled>Live View</Link>.
-        </p>
-        <br/>
-        <h3 className="text-lg font-semibold text-gray-900">Joining and Leaving</h3>
-        <p className="mt-4 text-sm text-gray-500">
-          You buy hashrate to join the party. You are in the party for the duration of your mining.
+          You are in the party for the duration of your auction's mining term - eg. 1 day, 3 days, etc.
         </p>
         <p className="mt-4 text-sm text-gray-500">
-          Confirm your status by checking <b>Active Miners</b> on the <Link href="/pages/dashboard" styled>Live View</Link>.
+          Monitor the block party on the <Link href="/pages/dashboard" styled>Live View</Link>.
         </p>
         <p className="mt-4 text-sm text-gray-500">
-          <b>Want to leave early?</b> Email us to configure your hashrate to point elsewhere.
-        </p>
-        <br/>
-        <h3 className="text-lg font-semibold text-gray-900">Size of Party and Reward Share</h3>
-        <p className="mt-4 text-sm text-gray-500">
-          The more people who join the party, the more hashrate we have, which improves our odds of mining a block.
-        </p>
-        <p className="mt-4 text-sm text-gray-500">
-          Likewise, the size of the party impacts your % share of the potential reward. 
+          The more people who join the party, the more hashrate we have, which improves our chances.
         </p>
         <br/>
         <h3 className="text-lg font-semibold text-gray-900">Bonus Hashrate</h3>
         <p className="mt-4 text-sm text-gray-500">
-          High auction bids earn bonus hashrate for the block party, without decreasing anyone's share of the potential reward.
+          Bonus hashrate is added after each auction, improving our odds <b>without</b> impacting your % of the potential block reward.
         </p>
       </div>
     </div>
