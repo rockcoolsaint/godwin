@@ -14,6 +14,7 @@ const ChatWall = () => {
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState('')
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const { socket } = useWebsocketContext()
   const { account } = useAccountContext()
 
@@ -26,50 +27,79 @@ const ChatWall = () => {
   }
 
   useEffect(() => {
-    if (socket) {
-      const loadMessages = async () => {
-        try {
-          console.log('[ChatWall] Requesting chat messages...')
-          const response = await socket.request('get_chat_messages')
-          console.log('[ChatWall] Received response:', response)
-          if (response && response.messages) {
-            setMessages(response.messages)
-          }
-        } catch (error) {
-          console.error('Failed to load messages:', error)
-        } finally {
-          setLoading(false)
+    console.log('[ChatWall] Socket state:', socket?.isConnected())
+    
+    if (!socket) {
+      setError('Chat connection unavailable')
+      setLoading(false)
+      return
+    }
+
+    const loadMessages = async () => {
+      try {
+        console.log('[ChatWall] Requesting chat messages...')
+        const response = await Promise.race([
+          socket.request('get_chat_messages'),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Request timeout')), 9000)
+          )
+        ])
+        
+        console.log('[ChatWall] Received response:', response)
+        
+        if (response && response.messages) {
+          setMessages(response.messages)
+          setError(null)
+        } else {
+          console.error('[ChatWall] Invalid response format:', response)
+          setError('Unable to load messages')
         }
+      } catch (error) {
+        console.error('[ChatWall] Failed to load messages:', error)
+        setError('Failed to load messages. Please try again.')
+      } finally {
+        setLoading(false)
       }
+    }
 
-      // Load initial messages
-      loadMessages()
+    // Load initial messages
+    loadMessages()
 
-      // Message handler
-      const handleNewMessage = (data: any) => {
-        console.log('[ChatWall] Received new message data:', data)
-        if (data && data.messages) {
-          setMessages(data.messages)
-        }
+    // Message handler
+    const handleNewMessage = (data: any) => {
+      console.log('[ChatWall] Received new message data:', data)
+      if (data && data.messages) {
+        setMessages(data.messages)
+        setError(null)
+      } else {
+        console.error('[ChatWall] Invalid message data format:', data)
       }
+    }
 
-      // Subscribe to chat messages
-      socket.subscribe('chat_message', handleNewMessage)
+    // Subscribe to chat messages
+    socket.subscribe('chat_message', handleNewMessage)
 
-      return () => {
-        socket.unsubscribe('chat_message', handleNewMessage)
-      }
+    // Cleanup
+    return () => {
+      socket.unsubscribe('chat_message', handleNewMessage)
     }
   }, [socket])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (newMessage.length <= 100 && account && socket) {
-      console.log('[ChatWall] Sending new message:', newMessage)
-      socket.emit('chat_message', {
-        message: newMessage
-      })
-      setNewMessage('')
+      try {
+        console.log('[ChatWall] Sending new message:', newMessage)
+        await socket.emit('chat_message', {
+          message: newMessage
+        })
+        console.log('[ChatWall] Message sent successfully')
+        setNewMessage('')
+        setError(null)
+      } catch (error) {
+        console.error('[ChatWall] Error sending message:', error)
+        setError('Failed to send message. Please try again.')
+      }
     }
   }
 
@@ -78,8 +108,12 @@ const ChatWall = () => {
       <div className="h-[225px] overflow-y-auto mb-4">
         {loading ? (
           <div className="text-center text-gray-500">Loading messages...</div>
+        ) : error ? (
+          <div className="text-center text-red-500">{error}</div>
         ) : messages.length === 0 ? (
-          <div className="text-center text-gray-500">Sign up or login to view the bidder chat wall.</div>
+          <div className="text-center text-gray-500">
+            {account ? 'No messages yet' : 'Sign up or login to view the bidder chat wall.'}
+          </div>
         ) : (
           messages.map((msg, idx) => (
             <div key={idx} className="mb-2">
@@ -118,4 +152,3 @@ const ChatWall = () => {
 }
 
 export default ChatWall
-

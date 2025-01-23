@@ -35,7 +35,7 @@ function BlockPartyExplanation() {
         <br/>
         <h3 className="text-lg font-semibold text-gray-900">Bonus Hashrate</h3>
         <p className="mt-4 text-sm text-gray-500">
-          Bonus hashrate is added after each auction, improving our odds <b>without</b> impacting your % of the potential block reward.
+          High auction bids result in bonus hashrate, further improving our chances.
         </p>
       </div>
     </div>
