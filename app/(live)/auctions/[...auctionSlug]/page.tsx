@@ -20,7 +20,7 @@ import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import Link from 'src/components/shared/Link'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 
-export default function AuctionPage({ params }: { params: { auctionSlug: [string, 'bids' | 'profile' | 'live-feed' | 'hash-price'] } }) {
+export default function AuctionPage({ params }: { params: { auctionSlug: [string, 'bids' | 'profile' | 'hash-price'] } }) {
   const [slug, tab] = params.auctionSlug
 
   const { token, isLoading: tokenLoading, account } = useAccountContext()

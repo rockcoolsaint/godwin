@@ -89,7 +89,7 @@ interface AuctionContainerProps {
   user_proxy_bid?: ProxyBid
   winner: Winner
   slug: string
-  tab?: 'bids' | 'profile' | 'hash-price' | 'live-feed'
+  tab?: 'bids' | 'profile' | 'hash-price' 
 }
 
 export default function AuctionContainer({ auction, order, bids, current_bid, user_proxy_bid, winner, tab }: AuctionContainerProps) {
@@ -132,12 +132,6 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
               placement: 'left',
               target: hashPriceRef.current!,
               title: <p className="font-bold">Block Party</p>,
-            },
-            {
-              content: <div className="text-left">Check live feed of hashrate from our proxy</div>,
-              placement: 'left',
-              target: liveFeedRef.current!,
-              title: <p className="font-bold">Livefeed</p>,
             },
             {
               content: <div className="text-left">Hashprice = (block subsidy + tx fees) / network hashrate</div>,
