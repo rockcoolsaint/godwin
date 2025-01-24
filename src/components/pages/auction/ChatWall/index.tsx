@@ -47,7 +47,7 @@ const ChatWall = () => {
         
         console.log('[ChatWall] Received response:', response)
         
-        if (response && response.messages) {
+        if (response && Array.isArray(response.messages)) {
           setMessages(response.messages)
           setError(null)
         } else {
@@ -62,19 +62,19 @@ const ChatWall = () => {
       }
     }
 
-    // Load initial messages
-    loadMessages()
-
-    // Message handler
+    // Message handler for new messages
     const handleNewMessage = (data: any) => {
       console.log('[ChatWall] Received new message data:', data)
-      if (data && data.messages) {
+      if (data && Array.isArray(data.messages)) {
         setMessages(data.messages)
         setError(null)
       } else {
         console.error('[ChatWall] Invalid message data format:', data)
       }
     }
+
+    // Load initial messages
+    loadMessages()
 
     // Subscribe to chat messages
     socket.subscribe('chat_message', handleNewMessage)
@@ -87,11 +87,11 @@ const ChatWall = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (newMessage.length <= 100 && account && socket) {
+    if (newMessage.trim().length > 0 && newMessage.length <= 100 && account && socket) {
       try {
         console.log('[ChatWall] Sending new message:', newMessage)
         await socket.emit('chat_message', {
-          message: newMessage
+          message: newMessage.trim()
         })
         console.log('[ChatWall] Message sent successfully')
         setNewMessage('')
@@ -115,14 +115,16 @@ const ChatWall = () => {
             {account ? 'No messages yet' : 'Sign up or login to view the bidder chat wall.'}
           </div>
         ) : (
-          messages.map((msg, idx) => (
-            <div key={idx} className="mb-2">
-              <span className="text-gray-500 text-sm">
-                {formatMessageTime(msg.timestamp)}:{' '}
-              </span>
-              {msg.message}
-            </div>
-          ))
+          <div className="flex flex-col-reverse">
+            {messages.map((msg, idx) => (
+              <div key={`${msg.timestamp}-${idx}`} className="mb-2">
+                <span className="text-gray-500 text-sm">
+                  {formatMessageTime(msg.timestamp)}:{' '}
+                </span>
+                {msg.message}
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
@@ -138,7 +140,7 @@ const ChatWall = () => {
           />
           <button 
             type="submit"
-            disabled={!socket?.isConnected() || newMessage.length === 0}
+            disabled={!socket?.isConnected() || newMessage.trim().length === 0}
             className="px-4 py-2 bg-orange-500 text-white rounded disabled:bg-gray-400"
           >
             Send
