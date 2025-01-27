@@ -24,6 +24,9 @@ import { calculateAuctionHashPrice } from 'utils'
 import MiningSvg from 'src/assets/svg/mine.svg'
 import Link from 'src/components/shared/Link'
 
+import { updateAccount } from 'src/api/auth/updateAccount'
+import { Input } from 'src/core'
+
 interface Props {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
@@ -35,6 +38,54 @@ interface Props {
   hasPaidOrder?: boolean
 }
 
+const UsernameChangeSection = () => {
+  const { account, token } = useAccountContext()
+  const [loading, setLoading] = useState(false)
+  const [newUsername, setNewUsername] = useState(account?.username || '')
+
+  const handleSubmit = async () => {
+    if (!token || newUsername === account?.username) return
+    
+    try {
+      setLoading(true)
+      const updateSuccess = await updateAccount({ username: newUsername }, token)
+      if (updateSuccess) {
+        toast.success('Username updated successfully')
+      }
+    } catch (ex: any) {
+      toast.error(ex.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="mt-4 flex w-full flex-col items-center bg-orange-50 p-4">
+      <div className="flex w-full items-center gap-2">
+        <span className="text-sm text-gray-600">Mining for:</span>
+        <Input
+          type="text"
+          value={newUsername}
+          onChange={(e) => setNewUsername(e.target.value)}
+          placeholder="Anonymous"
+          className="flex-1"
+          disabled={loading}
+        />
+        <button
+          onClick={handleSubmit}
+          disabled={loading || newUsername === account?.username}
+          className={`ml-2 rounded-md px-3 py-2 text-sm font-semibold text-white ${
+            loading || newUsername === account?.username
+              ? 'bg-orange-400'
+              : 'bg-orange-500 hover:bg-orange-500'
+          }`}
+        >
+          {loading ? 'Saving...' : 'Save'}
+        </button>
+      </div>
+    </div>
+  )
+}
 
 const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUser, hasPaidOrder }: Props) => {
   const { isLoading, token } = useAccountContext()
@@ -204,6 +255,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
           )}
         </div>
       </div>
+      <UsernameChangeSection />
       {renderCalculator()}
     </>
   )
