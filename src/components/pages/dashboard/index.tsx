@@ -61,15 +61,48 @@ export default function Dashboard() {
 
   return (
     <div className="container mx-auto px-4 py-4">
-      <div className="mb-4">
+      <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Block Party Mining</h1>
-        <p className="mt-2 text-sm text-gray-500">
-          Current mining hashrate
-        </p>
+        <div className="mt-4">
+          {!loading && !error && hashrateData && (
+            <div className="bg-white rounded-lg shadow overflow-x-auto">
+              <div className="min-w-full">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gray-50">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Current Hashrate
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Daily Odds
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Percentage Chance
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    <tr>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {hashrateData.current_hashrate.toFixed(2)} TH/s
+                      </td>
+                      <td className="px-4 py-4 whitespace-normal text-sm text-gray-500">
+                        1 in {currentHashrateCalc.chancePerBlockDay.toLocaleString()} per day
+                      </td>
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {formatDailyOdds(currentHashrateCalc.chancePerBlockDay)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       
-      {/* Add the hashrate graph */}
-      <div className="mb-12 h-[400px]">
+      {/* Add the hashrate graph with responsive height */}
+      <div className="mb-12 w-full h-[250px] sm:h-[300px] md:h-[400px]">
         <CKPoolHashrateGraph />
       </div>
 
@@ -105,31 +138,6 @@ export default function Dashboard() {
         <h2 className="text-lg font-semibold mb-4">Active Miners</h2>
         <PartyLeaderboard />
       </div>
-
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">Odds of Mining a Block</h2>
-        {!loading && !error && hashrateData && (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="min-w-full">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Current Hashrate</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Daily Odds</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Percentage Chance</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              <tr>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{hashrateData.current_hashrate.toFixed(2)} TH/s</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1 in {currentHashrateCalc.chancePerBlockDay.toLocaleString()} per day</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDailyOdds(currentHashrateCalc.chancePerBlockDay)}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      )}
-      </div>
-
-</div>
-)
+    </div>
+  )
 }
