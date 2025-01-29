@@ -1,10 +1,73 @@
 'use client'
 
+import { Tab } from '@headlessui/react'
 import CKPoolHashrateGraph from './CKPoolHashrateGraph'
 import PartyLeaderboard from './PartyLeaderboard'
 import { getTotalHashrateData, type TotalHashrateData as HashrateDataType } from 'src/api/ckpool/getHashrateData'
 import { useState, useEffect } from 'react'
 import useSoloMineCalculator from 'src/hooks/useSoloMineCalculator'
+import AuctionSchedule from 'src/components/pages/home/AuctionSchedule'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Suspense } from 'react'
+import { getAllAuctions } from 'src/api/auction/getAllAuctions'
+
+function ErrorFallback({ error }: { error: Error }) {
+  return (
+    <div className="text-center p-4 text-red-600">
+      <p>Something went wrong loading auctions:</p>
+      <pre className="text-sm">{error.message}</pre>
+    </div>
+  )
+}
+
+const AuctionsDataWrapper = () => {
+  const [auctionsData, setAuctionsData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchAuctions() {
+      try {
+        const activeAuctions = await getAllAuctions({
+          limit: 1000,
+          group_by: 'auction_status',
+          auction_status: 'active',
+        })
+        
+        if (activeAuctions?.results) {
+          setAuctionsData(activeAuctions.results)
+        }
+      } catch (err) {
+        setError('Failed to fetch auctions')
+        console.error('Error fetching auctions:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAuctions()
+  }, [])
+
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-[200px]">
+      <p className="text-gray-500">Loading auctions...</p>
+    </div>
+  }
+
+  if (error) {
+    return <div className="flex items-center justify-center min-h-[200px]">
+      <p className="text-red-500">{error}</p>
+    </div>
+  }
+
+  if (!auctionsData?.length) {
+    return <div className="flex items-center justify-center min-h-[200px]">
+      <p className="text-gray-500">No active auctions found</p>
+    </div>
+  }
+
+  return <AuctionSchedule auctionsData={auctionsData} showTitle={false} />
+}
 
 export default function Dashboard() {
   const [hashrateData, setHashrateData] = useState<HashrateDataType | null>(null)
@@ -134,10 +197,55 @@ export default function Dashboard() {
         )}
       </div>
 
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">Active Miners</h2>
-        <PartyLeaderboard />
-      </div>
+      <Tab.Group defaultIndex={1}>
+        <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
+          <Tab
+            className={({ selected }) =>
+              `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+              ${selected 
+                ? 'bg-white text-gray-900 shadow'
+                : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+            }
+          >
+            Active Miners
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+              ${selected 
+                ? 'bg-white text-gray-900 shadow'
+                : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+            }
+          >
+            Active Auctions
+          </Tab>
+        </Tab.List>
+
+        <Tab.Panels className="mt-4">
+          <Tab.Panel>
+            <div className="bg-white rounded-lg shadow p-4">
+              <h2 className="text-lg font-semibold mb-4">Active Miners</h2>
+              <PartyLeaderboard />
+            </div>
+          </Tab.Panel>
+
+          <Tab.Panel>
+          <div className="bg-white rounded-lg shadow p-4">
+            <h2 className="text-lg font-semibold mb-4">Active Auctions</h2>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Suspense fallback={<div className="min-h-[200px] flex items-center justify-center">
+                <p className="text-gray-500">Loading auctions...</p>
+              </div>}>
+                <div className="min-h-[200px]">
+                  <AuctionsDataWrapper />
+                </div>
+              </Suspense>
+            </ErrorBoundary>
+          </div>
+        </Tab.Panel>
+
+        </Tab.Panels>
+      </Tab.Group>
     </div>
   )
 }
