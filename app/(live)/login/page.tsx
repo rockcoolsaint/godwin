@@ -6,7 +6,7 @@ import Link from 'src/components/shared/Link'
 import { Container, Form, Input, Loader } from 'src/core'
 import Icon from 'src/core/components/Icon'
 import { useTranslation } from 'src/hooks'
-import useReturnUrl from 'src/hooks/useReturnUrl'
+// import useReturnUrl from 'src/hooks/useReturnUrl'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { toast } from 'react-hot-toast'
 import { LoginView } from 'src/utils/constants'
@@ -15,7 +15,7 @@ import { LocalStorageKeys } from 'src/constants/localStorage'
 export default function Login() {
   const { login } = useAccountContext()
   const { t } = useTranslation()
-  const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
+  // const returnUrl = useReturnUrl({ excludeKey: true, encode: true })
 
   const [loading, setLoading] = useState<boolean>(false)
   const [email, setEmail] = useState<string | undefined>('') // Default to an empty string for controlled input
@@ -33,7 +33,13 @@ export default function Login() {
       setLoading(true)
       setEmail(data.email)
 
-      const [success, error] = await login(data.email, returnUrl)
+      // const [success, error] = await login(data.email, returnUrl)
+      // if (!success) {
+      //   throw error
+      // }
+
+      // Pass '/pages/dashboard' directly instead of returnUrl
+      const [success, error] = await login(data.email, '/pages/dashboard')
       if (!success) {
         throw error
       }

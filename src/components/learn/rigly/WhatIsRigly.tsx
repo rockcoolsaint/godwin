@@ -3,8 +3,12 @@ import LearnCategorySubTitle from 'src/components/learn/LearnCategorySubTitle'
 import LearnCategoryText from 'src/components/learn/LearnCategoryText'
 import LearnCategoryTextWithImage from 'src/components/learn/LearnCategoryTextWithImage'
 import Link from 'src/components/shared/Link'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 const WhatIsUpendo = () => {
+  const { account } = useAccountContext()
+  const isLoggedIn = Boolean(account?.email)
+
   return (
     <>
       <LearnCategoryTitle>Join Our Bitcoin Mining Block Party</LearnCategoryTitle>
@@ -34,12 +38,12 @@ const WhatIsUpendo = () => {
       Bid high! and invite your friends!
       </LearnCategoryText>
       <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
-                <Link
-                  href="https://upendo.rigly.io/register"
-                  className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-lg text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:w-8/12 lg:text-2xl xl:w-4/12"
+                <Link 
+                href={isLoggedIn ? '/pages/dashboard' : '/register'} // Change link based on auth status
+                className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-lg text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:w-8/12 lg:text-2xl xl:w-4/12"
                 >
-                  Sign up to bid
-                </Link>
+                {isLoggedIn ? 'View the party' : 'Sign up'}
+              </Link>
                 </div>
     </>
   )

@@ -36,12 +36,16 @@ const AuctionsDataWrapper = () => {
           limit: 1000,
           group_by: 'auction_status',
           auction_status: 'active',
-          sort_by: 'end_time', // Sort by end time
-          sorting: 'asc'       // Ascending order (soonest first)
+          sort_by: 'end_time',
+          sorting: 'desc'
         })
         
         if (activeAuctions?.results) {
-          setAuctionsData(activeAuctions.results)
+          // Sort the auctions array before setting state
+          const sortedAuctions = [...activeAuctions.results].sort((a, b) => {
+            return new Date(a.end_at).getTime() - new Date(b.end_at).getTime()
+          })
+          setAuctionsData(sortedAuctions)
         }
       } catch (err) {
         setError('Failed to fetch auctions')
@@ -72,7 +76,8 @@ const AuctionsDataWrapper = () => {
     </div>
   }
 
-  return <AuctionSchedule auctionsData={auctionsData} showTitle={false} />
+  // Reverse the array before passing it to AuctionSchedule if the items are still appearing in reverse order
+  return <AuctionSchedule auctionsData={[...auctionsData].reverse()} showTitle={false} />
 }
 
 export default function Dashboard() {

@@ -112,11 +112,11 @@ export default function Home({ isDemo, code }: Props) {
             <Hero>
               <>
                 <div className="mb-20 mt-6 flex w-full justify-center font-chakra font-bold">
-                <Link
-                href="/learn/upendo"
+              <Link 
+                href={isLoggedIn ? '/pages/dashboard' : '/learn/upendo'} // Change link based on auth status
                 className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-[#f08222] px-5 py-4 text-lg text-white outline-none hover:bg-[#d97420] disabled:cursor-not-allowed disabled:opacity-50 lg:w-8/12 lg:text-2xl xl:w-4/12"
               >
-                Join the party
+                {isLoggedIn ? 'View the party' : 'Join the party'}
               </Link>
               </div>
               </>

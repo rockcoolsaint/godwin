@@ -28,7 +28,7 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
     return [
       {
         id: 'end_at',
-        desc: true, // columns sorting are inverted - so this is actually descending
+        desc: false, // Set to false for ascending order (soonest ending first)
       },
     ]
   }, [])
