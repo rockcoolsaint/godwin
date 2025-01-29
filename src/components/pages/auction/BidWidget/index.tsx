@@ -26,6 +26,7 @@ import Link from 'src/components/shared/Link'
 
 import { updateAccount } from 'src/api/auth/updateAccount'
 import { Input } from 'src/core'
+import { getTotalHashrateData, type TotalHashrateData } from 'src/api/ckpool/getHashrateData'
 
 interface Props {
   auction: Auction
@@ -267,6 +268,9 @@ interface BidWidgetCalculatorProps {
 }
 
 function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
+  // Add state for hashrate data
+  const [hashrateData, setHashrateData] = useState<TotalHashrateData | null>(null)
+  
   // Original hashprice calculator state
   let filteredEpoch: any = {}
   if (Object.keys(epoch).length > 0) {
@@ -280,23 +284,58 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: payout || 0 })
 
   // Solo mining calculator state
-  const baseHashrate = 1.0 // 1 PH/s base
   const networkHashrate = 760 // 760 EH/s
   const [boostAmount, setBoostAmount] = useState(
     Number(process.env.NEXT_PUBLIC_BOOST_AMOUNT) || 2
-  );
+  )
   const [baseOdds, setBaseOdds] = useState(0)
   const [boostedOdds, setBoostedOdds] = useState(0)
+
+  // Fetch hashrate data
+  useEffect(() => {
+    async function fetchHashrateData() {
+      try {
+        const data = await getTotalHashrateData()
+        setHashrateData(data)
+      } catch (error) {
+        console.error('Failed to fetch hashrate data:', error)
+      }
+    }
+
+    fetchHashrateData()
+    const interval = setInterval(fetchHashrateData, 60000)
+    return () => clearInterval(interval)
+  }, [])
 
   useEffect(() => {
     setHashPrice(Math.floor(filteredEpoch.mean))
   }, [filteredEpoch.mean])
 
-  // In the odds calculation useEffect:
+  // Calculate mining reward percentage and potential BTC reward
+  const calculateRewards = () => {
+    if (!hashrateData?.base_hashrate) return { percentage: 0, btcReward: 0 }
+    
+    // Calculate percentage of total hashrate
+    const percentage = (auction.auction_meta.hashrate / hashrateData.base_hashrate) * 100
+    
+    // Calculate potential BTC reward (percentage of 3.125 BTC block subsidy)
+    const blockSubsidy = 3.125
+    const btcReward = (percentage / 100) * blockSubsidy
+
+    return { percentage, btcReward }
+  }
+
+  // Add state for BTC reward fiat conversion
+  const btcRewardFiat = useSatsToFiat({ 
+    initialValue: 0, 
+    // Convert BTC to sats (1 BTC = 100,000,000 sats)
+    bid: calculateRewards().btcReward * 100000000 
+  })
+
   useEffect(() => {
     function calculateOdds() {
       // Calculate base odds (1 PH/s)
-      const baseHashrateEH = baseHashrate / 1000 // Convert PH/s to EH/s
+      const baseHashrateEH = 1.0 / 1000 // Convert PH/s to EH/s
       const blocksPerDay = 144 // 6 blocks per hour * 24 hours
       const baseProbability = (baseHashrateEH / networkHashrate) * blocksPerDay
       const baseOneInX = Math.round(1 / baseProbability)
@@ -313,13 +352,43 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
     calculateOdds()
   }, [boostAmount])
 
+  const rewards = calculateRewards()
+
   return (
     <div className="relative mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-6 opacity-70">
-      {/* Original hashprice calculator section */}
-      {/* ... keep existing hashprice calculator code ... */}
+      {/* Mining Power Share Section */}
+      <div className="mb-6 border-b pb-6 w-full">
+        <h2 className="flex items-center text-base">
+          Potential Mining Reward
+          <Tooltip placement="bottom">
+            <TooltipTrigger>
+              <QuestionMarkCircleIcon className="ml-2 size-6" />
+            </TooltipTrigger>
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+              Your share - and potential block reward - will vary with the size of the party
+            </TooltipContent>
+          </Tooltip>
+        </h2>
+        {hashrateData ? (
+          <>
+          <Tooltip placement="left">
+            <TooltipTrigger>
+            <div className="mt-1 text-medium font-semibold">
+            ${formatMoney(btcRewardFiat)}
+            </div>
+            </TooltipTrigger>
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+                {rewards.btcReward.toFixed(8)} BTC
+            </TooltipContent>
+            </Tooltip>
+          </>
+        ) : (
+          <p className="mt-2 text-sm text-dark-100">Loading hashrate data...</p>
+        )}
+      </div>
 
-      {/* New solo mining calculator section */}
-      <div className="mt-6 border-t pt-6 w-full">
+      {/* Party Boost section */}
+      <div className="mt-0 w-full">
         <h1 className="mb-2 text-base">Party Boost</h1>
         <p className="mb-4 text-sm text-dark-100 max-w-sm">
           Block party gets bonus hashrate from Evan after each auction close.</p>
@@ -347,45 +416,46 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
           </div>
         </div>
 
-      {/* Base Odds Display */}
-      <div className="mb-6">
-        <h2 className="flex items-center text-base">
-          Example Mining Odds @ 1 PH/s
-          <Tooltip placement="bottom">
-            <TooltipTrigger>
-              <QuestionMarkCircleIcon className="ml-2 size-6" />
-            </TooltipTrigger>
-            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Block party odds of finding a block in 1 day with 1,000 TH/s
-            </TooltipContent>
-          </Tooltip>
-        </h2>
-        <div className="mt-2 text-lg">
-          1 in {formatMoney(baseOdds)}
+        {/* Base Odds Display */}
+        <div className="mb-6">
+          <h2 className="flex items-center text-base">
+            Example Mining Odds @ 1 PH/s
+            <Tooltip placement="bottom">
+              <TooltipTrigger>
+                <QuestionMarkCircleIcon className="ml-2 size-6" />
+              </TooltipTrigger>
+              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+                Block party odds of finding a block in 1 day with 1,000 TH/s
+              </TooltipContent>
+            </Tooltip>
+          </h2>
+          <div className="mt-2 text-lg">
+            1 in {formatMoney(baseOdds)}
+          </div>
         </div>
-      </div>
 
-      {/* Boosted Odds Display */}
-      <div className="mt-4">
-        <h2 className="flex items-center text-base">
-          Boosted Mining Odds
-          <Tooltip placement="bottom">
-            <TooltipTrigger>
-              <QuestionMarkCircleIcon className="ml-2 size-6" />
-            </TooltipTrigger>
-            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Odds of finding a block in 1 day - with party boost hashrate
-            </TooltipContent>
-          </Tooltip>
-        </h2>
-        <div className="mt-2 text-lg">
-          1 in {formatMoney(boostedOdds)}
+        {/* Boosted Odds Display */}
+        <div className="mt-4">
+          <h2 className="flex items-center text-base">
+            Boosted Mining Odds
+            <Tooltip placement="bottom">
+              <TooltipTrigger>
+                <QuestionMarkCircleIcon className="ml-2 size-6" />
+              </TooltipTrigger>
+              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+                Odds of finding a block in 1 day - with party boost hashrate
+              </TooltipContent>
+            </Tooltip>
+          </h2>
+          <div className="mt-2 text-lg">
+            1 in {formatMoney(boostedOdds)}
+          </div>
+          <div className="mt-2 text-lg">
+            <p className="mb-4 text-sm text-dark-100 max-w-sm">
+              Verify odds at <Link href="https://solochance.com" styled>solochance.com</Link>
+            </p>
+          </div>
         </div>
-        <div className="mt-2 text-lg">
-        <p className="mb-4 text-sm text-dark-100 max-w-sm">
-          Verify odds at <Link href="https://solochance.com" styled>solochance.com</Link></p>
-        </div>
-      </div>
       </div>
     </div>
   )
