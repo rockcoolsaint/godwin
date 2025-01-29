@@ -32,6 +32,8 @@ const AuctionsDataWrapper = () => {
           limit: 1000,
           group_by: 'auction_status',
           auction_status: 'active',
+          sort_by: 'end_time', // Sort by end time
+          sorting: 'asc'       // Ascending order (soonest first)
         })
         
         if (activeAuctions?.results) {
