@@ -11,6 +11,9 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Suspense } from 'react'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import { PartyLeaderboardEntry } from 'src/types'
+import { getPartyLeaderboard } from 'src/api/party/getLeaderboard'
+import { formatMoney } from 'src/utils/currency'
 
 function ErrorFallback({ error }: { error: Error }) {
   return (
@@ -77,6 +80,45 @@ export default function Dashboard() {
   const [hashrateData, setHashrateData] = useState<HashrateDataType | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const [leaderboard, setLeaderboard] = useState<PartyLeaderboardEntry[]>([])
+  const [leaderboardLoading, setLeaderboardLoading] = useState(true)
+  const [bitcoinPrice, setBitcoinPrice] = useState(0)
+
+  // Add this useEffect to fetch leaderboard data
+  useEffect(() => {
+    const fetchBitcoinPrice = async () => {
+      try {
+        const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+        const data = await response.json()
+        setBitcoinPrice(data.bpi.USD.rate_float)
+      } catch (error) {
+        console.error('Error fetching Bitcoin price:', error)
+      }
+    }
+
+    const fetchLeaderboard = async () => {
+      try {
+        const data = await getPartyLeaderboard()
+        setLeaderboard(data)
+      } catch (error) {
+        console.error('Error fetching leaderboard:', error)
+      } finally {
+        setLeaderboardLoading(false)
+      }
+    }
+
+    fetchBitcoinPrice()
+    fetchLeaderboard()
+    
+    const priceInterval = setInterval(fetchBitcoinPrice, 60000)
+    const leaderboardInterval = setInterval(fetchLeaderboard, 60000)
+    
+    return () => {
+      clearInterval(priceInterval)
+      clearInterval(leaderboardInterval)
+    }
+  }, [])
 
   // Get solo mining calculations for base and current hashrate
   const baseHashrateCalc = useSoloMineCalculator({ 
@@ -194,51 +236,55 @@ export default function Dashboard() {
       </div>
     </div>
 
-    {/* User Stats Card - Only shown when user is logged in */}
-    {account && (
-      <div className="bg-white rounded-lg shadow p-6 mt-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* User Hashrate */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-              Your Hashrate
-            </h3>
-            <p className="text-2xl font-semibold text-gray-900">
-              {(account.hashrate || 0).toFixed(2)} TH/s
-            </p>
-          </div>
 
-          {/* Party Percentage */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-              Block Party Share
-            </h3>
-            <p className="text-2xl font-semibold text-gray-900">
-              {hashrateData.current_hashrate > 0 
-                ? ((account.hashrate || 0) / hashrateData.current_hashrate * 100).toFixed(2)
-                : '0'}%
-            </p>
-          </div>
+{/* User Stats Card - Only shown when user is logged in */}
+{account?.id && (
+  <div className="bg-white rounded-lg shadow p-6 mt-4">
+    {console.log('Account:', account)}
+    {console.log('Leaderboard:', leaderboard)}
+    {console.log('Found entry:', leaderboard?.find(entry => entry.buyer_name === account.username))}
+    
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* User Hashrate */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+          Your Hashrate
+        </h3>
+        <p className="text-2xl font-semibold text-gray-900">
+          {leaderboard?.find(entry => entry.buyer_name === account.username)?.total_hashrate.toFixed(2) || '0.00'} TH/s
+        </p>
+      </div>
 
-          {/* Potential Reward */}
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-              Your Potential Reward
-            </h3>
-            <p className="text-2xl font-semibold text-gray-900">
-              {hashrateData.current_hashrate > 0 
-                ? (6.25 * ((account.hashrate || 0) / hashrateData.current_hashrate)).toFixed(8)
-                : '0.00000000'} BTC
-            </p>
-          </div>
+      {/* Party Percentage */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+          Block Party Share
+        </h3>
+        <p className="text-2xl font-semibold text-gray-900">
+          {leaderboard?.find(entry => entry.buyer_name === account.username)?.percentage || '0'}%
+        </p>
+      </div>
+
+      {/* Potential Reward */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+          Your Potential Reward
+        </h3>
+        <div>
+          <p className="text-2xl font-semibold text-gray-900">
+            {leaderboard?.find(entry => entry.buyer_name === account.username)?.reward_share_btc || '0.00000000'} BTC
+          </p>
+          <p className="text-sm text-gray-500 mt-1">
+            ${formatMoney((leaderboard?.find(entry => entry.buyer_name === account.username)?.reward_share_btc || 0) * bitcoinPrice)} USD
+          </p>
         </div>
       </div>
-    )}
-  </>
+    </div>
+  </div>
 )}
 
-
-
+  </>
+)}
 
         </div>
       </div>
