@@ -10,6 +10,7 @@ import AuctionSchedule from 'src/components/pages/home/AuctionSchedule'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Suspense } from 'react'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 function ErrorFallback({ error }: { error: Error }) {
   return (
@@ -72,6 +73,7 @@ const AuctionsDataWrapper = () => {
 }
 
 export default function Dashboard() {
+  const { account } = useAccountContext()
   const [hashrateData, setHashrateData] = useState<HashrateDataType | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -129,43 +131,118 @@ export default function Dashboard() {
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Block Party Mining</h1>
         <div className="mt-4">
-          {!loading && !error && hashrateData && (
-            <div className="bg-white rounded-lg shadow overflow-x-auto">
-              <div className="min-w-full">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Current Hashrate
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Daily Odds
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Percentage Chance
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {hashrateData.current_hashrate.toFixed(2)} TH/s
-                      </td>
-                      <td className="px-4 py-4 whitespace-normal text-sm text-gray-500">
-                        1 in {currentHashrateCalc.chancePerBlockDay.toLocaleString()} per day
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {formatDailyOdds(currentHashrateCalc.chancePerBlockDay)}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+
+        {!loading && !error && hashrateData && (
+  <>
+    {/* Party Stats Card */}
+    <div className="bg-white rounded-lg shadow p-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Hashrate Section */}
+        <div>
+          <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+            Current Party Hashrate
+          </h3>
+          <p className="text-2xl font-semibold text-gray-900 mb-2">
+            {hashrateData.current_hashrate.toFixed(2)} TH/s
+          </p>
+          <div className="space-y-1 text-sm text-gray-600">
+            <p className="flex items-center">
+              <span className="w-16">Party:</span>
+              <span>{hashrateData.base_hashrate.toFixed(2)} TH/s</span>
+            </p>
+            <p className="flex items-center">
+              <span className="w-16">Bonus:</span>
+              <span>{hashrateData.bonus_hashrate.toFixed(2)} TH/s</span>
+              <span className="ml-1 group relative">
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  viewBox="0 0 20 20" 
+                  fill="currentColor" 
+                  className="w-4 h-4 text-gray-600 hover:text-gray-600"
+                >
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clipRule="evenodd" />
+                </svg>
+                <span className="invisible group-hover:visible absolute left-0 transform -translate-y-full -translate-x-1/2 mt-0 px-2 py-1 bg-gray-900 text-white text-sm rounded-md whitespace-nowrap">
+                  The party earns bonus hashrate for every new bidder and high auction bid
+                </span>
+              </span>
+            </p>
+          </div>
+        </div>
+
+        {/* Daily Odds Section */}
+        <div>
+          <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+            Daily Odds
+          </h3>
+          <p className="text-2xl font-semibold text-gray-900">
+            1 in {currentHashrateCalc.chancePerBlockDay.toLocaleString()}
+          </p>
+          <p className="text-sm text-gray-600 mt-2">chance of mining a block per day</p>
+        </div>
+
+        {/* Percentage Section */}
+        <div>
+          <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+            Daily Chance
+          </h3>
+          <p className="text-2xl font-semibold text-gray-900">
+            {formatDailyOdds(currentHashrateCalc.chancePerBlockDay)}
+          </p>
+          <p className="text-sm text-gray-600 mt-2">probability per day</p>
         </div>
       </div>
-      
+    </div>
+
+    {/* User Stats Card - Only shown when user is logged in */}
+    {account && (
+      <div className="bg-white rounded-lg shadow p-6 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* User Hashrate */}
+          <div>
+            <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+              Your Hashrate
+            </h3>
+            <p className="text-2xl font-semibold text-gray-900">
+              {(account.hashrate || 0).toFixed(2)} TH/s
+            </p>
+          </div>
+
+          {/* Party Percentage */}
+          <div>
+            <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+              Block Party Share
+            </h3>
+            <p className="text-2xl font-semibold text-gray-900">
+              {hashrateData.current_hashrate > 0 
+                ? ((account.hashrate || 0) / hashrateData.current_hashrate * 100).toFixed(2)
+                : '0'}%
+            </p>
+          </div>
+
+          {/* Potential Reward */}
+          <div>
+            <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+              Your Potential Reward
+            </h3>
+            <p className="text-2xl font-semibold text-gray-900">
+              {hashrateData.current_hashrate > 0 
+                ? (6.25 * ((account.hashrate || 0) / hashrateData.current_hashrate)).toFixed(8)
+                : '0.00000000'} BTC
+            </p>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
+)}
+
+
+
+
+        </div>
+      </div>
+        
       {/* Add the hashrate graph with responsive height */}
       <div className="mb-12 w-full h-[250px] sm:h-[300px] md:h-[400px]">
         <CKPoolHashrateGraph />
@@ -181,20 +258,6 @@ export default function Dashboard() {
         {error && (
           <div className="text-center py-4">
             <p className="text-red-600">{error}</p>
-          </div>
-        )}
-        
-        {!loading && !error && hashrateData && (
-          <div className="space-y-2">
-            <p className="text-sm text-gray-600">
-              <span className="font-semibold">Current Hashrate:</span> {hashrateData.current_hashrate.toFixed(2)} TH/s
-            </p>
-            <p className="text-sm text-gray-600">
-              <span className="font-italics">- Auction:</span> {hashrateData.base_hashrate.toFixed(2)} TH/s
-            </p>
-            <p className="text-sm text-gray-600">
-              <span className="font-italics">- Bonus:</span> {hashrateData.bonus_hashrate.toFixed(2)} TH/s
-            </p>
           </div>
         )}
       </div>

@@ -9,16 +9,45 @@ export default function ChartComponent({ title, data, layout }: { title: string;
 
   useEffect(() => {
     if (chartRef.current) {
-      Plotly.newPlot(chartRef.current, data, layout, {
-        title: title,
-        yaxis: {
-          ticksuffix: 'TH/sec  ',
+      const defaultLayout = {
+        title: {
+          text: title,
+          font: {
+            size: 24
+          },
+          y: 0.95,
+          x: 0.5,
+          xanchor: 'center',
+          yanchor: 'top'
         },
-        margin: { t: 0, r: 20 },
+        yaxis: {
+          ticksuffix: ' TH/s'
+        },
+        margin: { 
+          t: 100,  // Changed from 0 to allow space for title
+          r: 50,
+          l: 50,
+          b: 50 
+        },
+        showlegend: true,
+        legend: {
+          x: 1,
+          y: 1,
+          xanchor: 'right'
+        }
+      }
+
+      // Merge provided layout with default layout
+      const finalLayout = { ...defaultLayout, ...layout }
+
+      // Config should be separate from layout
+      const config = {
         displayModeBar: false,
         displaylogo: false,
         responsive: true
-      })
+      }
+
+      Plotly.newPlot(chartRef.current, data, finalLayout, config)
     }
   }, [chartRef, title, data, layout])
 

@@ -9,6 +9,35 @@ export default function CKPoolHashrateGraph() {
   const [hashrate, setHashrate] = useState<CKPoolHashrateData[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
+  const layout = {
+    title: {
+      text: 'Block Party Mining - in TH/s',
+      font: {
+        size: 24,
+        color: '#000000'
+      },
+      y: 0.95, // Adjust title position from top
+      x: 0.5,  // Center the title
+      xanchor: 'center',
+      yanchor: 'top'
+    },
+    showlegend: true,
+    legend: {
+      x: 0.95,
+      y: 0.05,
+      xanchor: 'right'
+    },
+    margin: {
+      t: 60, // Add top margin to accommodate title
+      l: 75,
+      r: 75,
+      b: 50
+    },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    height: 400  // Explicitly set height
+  }
+
   useEffect(() => {
     setLoading(true)
     const getPlotData = async () => {
@@ -60,7 +89,11 @@ export default function CKPoolHashrateGraph() {
 
   return (
     <div className="scrollbar-hide h-full w-full overflow-scroll overflow-y-hidden">
-      <Chart title="Block Party Mining" data={data} />
+      <Chart 
+        title="Block Party Mining - in TH/s" 
+        data={data} 
+        layout={layout}
+      />
     </div>
   )
 }
