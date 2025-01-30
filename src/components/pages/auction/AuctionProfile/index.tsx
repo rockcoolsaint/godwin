@@ -9,10 +9,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/T
 import { formatMoney } from 'src/utils/currency'
 import * as miner from 'src/assets/jpg/mining.jpeg'
 import { getTotalHashrateData } from 'src/api/ckpool/getHashrateData'
-
 import { HashrateDataType } from 'src/api/hashrate/types'
 import Link from 'src/components/shared/Link'
-
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 
 interface Props {
   data: Auction
@@ -21,6 +20,11 @@ interface Props {
 const AuctionProfile = ({ data }: Props) => {
   const { t } = useTranslation()
   const [hashrateData, setHashrateData] = useState<HashrateDataType | null>(null)
+  const [expandedSections, setExpandedSections] = useState({
+    basicInfo: true,
+    hashrate: true,
+    payment: false
+  })
 
   useEffect(() => {
     async function fetchHashrateData() {
@@ -40,138 +44,137 @@ const AuctionProfile = ({ data }: Props) => {
   const renderDuration = () => {
     if (data.auction_meta.duration) {
       const days = convertTime(data.auction_meta.duration).days
-
-      return (
-        <>
-          {days > 0 ? (
-            <p className="p-6 pl-4">
-              {days} {days > 1 ? 'days' : 'day'}{' '}
-            </p>
-          ) : (
-            <p className="p-6 pl-4">N/A there</p>
-          )}
-        </>
-      )
+      return days > 0 ? `${days} ${days > 1 ? 'days' : 'day'}` : 'N/A'
     }
+    return 'N/A'
+  }
 
-    return <p className="p-6 pl-4">N/A here</p>
+  const toggleSection = (section: string) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
   }
 
   return (
-     <section className="rounded-3 flow-root h-full rounded-xl border bg-gray-50 px-0 py-3 sm:px-4">
-      <div className="border-1 flex justify-between rounded-xl bg-white p-2">
-        <div className="flex-1">
-
-          {/* Type */}
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold capitalize text-dark-100">Hashrate source</p>
-            </aside>
-            <aside className="w-3/6">
-              <p className="p-3 pl-4 sm:whitespace-nowrap">
-              <Link href="https://rigly.io" styled>Rigly</Link>
-              </p>
-            </aside>
+    <section className="rounded-3 flow-root h-full rounded-xl border bg-gray-50 px-0 py-3 sm:px-4">
+      <div className="border-1 rounded-xl bg-white p-2">
+        {/* Basic Info Section */}
+        <div className="border-b">
+          <div 
+            className="flex items-center justify-between p-4 cursor-pointer"
+            onClick={() => toggleSection('basicInfo')}
+          >
+            <h3 className="text-lg font-bold">Basic Information</h3>
+            {expandedSections.basicInfo ? 
+              <ChevronUpIcon className="h-5 w-5" /> : 
+              <ChevronDownIcon className="h-5 w-5" />
+            }
           </div>
+          {expandedSections.basicInfo && (
+            <div className="px-4">
+              <div className="flex items-center border-b py-3">
+                <span className="w-1/2 font-semibold">Hashrate source</span>
+                <span className="w-1/2"><Link href="https://rigly.io" styled>Rigly</Link></span>
+              </div>
+              <div className="flex items-center border-b py-3">
+                <span className="w-1/2 font-semibold">Duration</span>
+                <span className="w-1/2">{renderDuration()}</span>
+              </div>
+              <div className="flex items-center border-b py-3">
+                <span className="w-1/2 font-semibold">Start Time</span>
+                <span className="w-1/2">{data.end_at ? new Date(data.end_at).toLocaleString() : 'N/A'}</span>
+              </div>
+            </div>
+          )}
+        </div>
 
-          {/* Duration */}
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold capitalize text-dark-100">Duration</p>
-            </aside>
-            <aside>
-              {renderDuration()}
-            </aside>
+        {/* Hashrate Section */}
+        <div className="border-b">
+          <div 
+            className="flex items-center justify-between p-4 cursor-pointer"
+            onClick={() => toggleSection('hashrate')}
+          >
+            <h3 className="text-lg font-bold">Hashrate Details</h3>
+            {expandedSections.hashrate ? 
+              <ChevronUpIcon className="h-5 w-5" /> : 
+              <ChevronDownIcon className="h-5 w-5" />
+            }
           </div>
+          {expandedSections.hashrate && (
+            <div className="px-4">
+              <div className="flex items-center border-b py-3">
+                <span className="w-1/2 font-semibold">Current block party hashrate</span>
+                <span className="w-1/2">
+                  {hashrateData ? (
+                    <>
+                      {formatMoney(hashrateData.base_hashrate)} TH/s
+                      <span className="text-gray-600 ml-2">
+                        (+{formatMoney(hashrateData.bonus_hashrate)} TH/s bonus)
+                      </span>
+                    </>
+                  ) : 'Loading...'}
+                </span>
+              </div>
+              <div className="flex items-center border-b py-3">
+                <span className="w-1/2 font-semibold">Lot hashrate</span>
+                <span className="w-1/2">
+                  {hashrateData ? (
+                    <>
+                      {formatMoney(data.auction_meta.hashrate)} TH/s
+                      <span className="text-gray-600 ml-2">
+                        ({((data.auction_meta.hashrate / hashrateData.base_hashrate) * 100).toFixed(1)}% of current party hashrate)
+                      </span>
+                    </>
+                  ) : 'Loading...'}
+                </span>
+              </div>
 
-          {/* Start Time */}
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold capitalize text-dark-100">Start Time</p>
-            </aside>
-            <aside>
-              <p className="p-3 py-6 pl-4">
-                {data.end_at ? new Date(data.end_at).toLocaleString() : 'N/A'}
-              </p>
-            </aside>
-          </div>
+              <div className="flex items-center border-b py-3">
+              <span className="w-1/2 font-semibold">Pool url</span>
+              <span className="w-1/2 break-all">
+                <Link href="https://solo.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH" styled>
+                https://solo.ckpool.org
+                </Link>
+              </span>
+            </div>
 
-          {/* Hashrate */}
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold capitalize text-dark-100">Current block party hashrate</p>
-            </aside>
-            <aside>
-              <p className="p-3 pl-4">
-                {hashrateData ? (
-                  <>
-                    {formatMoney(hashrateData.base_hashrate)} TH/s
-                    <span className="text-gray-600 ml-2">
-                      (+{formatMoney(hashrateData.bonus_hashrate)} TH/s bonus)
-                    </span>
-                  </>
-                ) : (
-                  'Loading...'
-                )}
-              </p>
-            </aside>
-          </div>
-
-          {/* Lot hashrate */}
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold text-dark-100">Lot hashrate</p>
-            </aside>
-            <aside>
-              <p className="p-3 py-6 pl-4">
-                {hashrateData ? (
-                  <>
-                    {formatMoney(data.auction_meta.hashrate)} TH/s
-                    <span className="text-gray-600 ml-2">
-                      ({((data.auction_meta.hashrate / hashrateData.base_hashrate) * 100).toFixed(1)}% of current party hashrate)
-                    </span>
-                  </>
-                ) : (
-                  'Loading...'
-                )}
-              </p>
-            </aside>
-          </div>
-
-          {/* Mining Escrow */}
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold text-dark-100">Mining escrow</p>
-            </aside>
-            <aside className="w-4/6">
-              <p className="p-3 py-6 pl-4">
-                <Link href="https://mempool.space/address/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
-                  styled>
+              <div className="flex items-center border-b py-3">
+              <span className="w-1/2 font-semibold">Mining escrow</span>
+              <span className="w-1/2 break-all">
+                <Link href="https://mempool.space/address/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH" styled>
                   3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH
                 </Link>
-              </p>
-            </aside>
-          </div>
+              </span>
+            </div>
+            </div>
+          )}
+        </div>
 
-          {/* Fee */}
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold text-dark-100">Auction fee</p>
-            </aside>
-            <aside>
-              <p className="p-3 py-6 pl-4">0%</p>
-            </aside>
+        {/* Payment Section */}
+        <div className="border-b">
+          <div 
+            className="flex items-center justify-between p-4 cursor-pointer"
+            onClick={() => toggleSection('payment')}
+          >
+            <h3 className="text-lg font-bold">Payment Details</h3>
+            {expandedSections.payment ? 
+              <ChevronUpIcon className="h-5 w-5" /> : 
+              <ChevronDownIcon className="h-5 w-5" />
+            }
           </div>
-
-          {/* Payment Terms */}
-          <div className="flex items-center border-b-2 border-white odd:bg-gray-300 even:bg-gray-50">
-            <aside className="w-3/6 border-r-2 border-white sm:w-1/6 md:w-1/3 lg:w-2/6">
-              <p className="p-3 py-6 font-semibold text-dark-100">Payment</p>
-            </aside>
-            <aside className="w-4/6">
-              <p className="p-3 py-6 pl-4">Bitcoin, on-chain or Lightning -- due within 1 hour of auction end</p>
-            </aside>
-          </div>
+          {expandedSections.payment && (
+            <div className="px-4">
+              <div className="flex items-center border-b py-3">
+                <span className="w-1/2 font-semibold">Auction fee</span>
+                <span className="w-1/2">0%</span>
+              </div>
+              <div className="flex items-center border-b py-3">
+                <span className="w-1/2 font-semibold">Payment terms</span>
+                <span className="w-1/2">Bitcoin, on-chain or Lightning -- due within 1 hour of auction end</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -179,7 +182,3 @@ const AuctionProfile = ({ data }: Props) => {
 }
 
 export default AuctionProfile
-
-
-
-
