@@ -12,6 +12,7 @@ import { getTotalHashrateData } from 'src/api/ckpool/getHashrateData'
 import { HashrateDataType } from 'src/api/hashrate/types'
 import Link from 'src/components/shared/Link'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
+import { format } from 'date-fns'
 
 interface Props {
   data: Auction
@@ -82,9 +83,11 @@ const AuctionProfile = ({ data }: Props) => {
                 <span className="w-1/2">{renderDuration()}</span>
               </div>
               <div className="flex items-center border-b py-3">
-                <span className="w-1/2 font-semibold">Start Time</span>
-                <span className="w-1/2">{data.end_at ? new Date(data.end_at).toLocaleString() : 'N/A'}</span>
-              </div>
+              <span className="w-1/2 font-semibold">Start Time</span>
+              <span className="w-1/2">
+                {data.end_at ? format(new Date(data.end_at), 'M/d/yy h:mm a') : 'N/A'}
+              </span>
+            </div>
             </div>
           )}
         </div>
@@ -134,7 +137,7 @@ const AuctionProfile = ({ data }: Props) => {
               <span className="w-1/2 font-semibold">Pool url</span>
               <span className="w-1/2 break-all">
                 <Link href="https://solo.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH" styled>
-                https://solo.ckpool.org
+                solo.ckpool.org
                 </Link>
               </span>
             </div>
