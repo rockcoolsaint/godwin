@@ -78,17 +78,17 @@ export default function PartyLeaderboard() {
             <thead>
               <tr className="bg-gray-50">
                 <th scope="col" className="w-[15%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
-                  Hashrate
+                  Hashrate ⛏️
                 </th>
                 <th scope="col" className="w-[40%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
-                  Miner
+                  Miner 👤
                 </th>
                 <th scope="col" className="w-[20%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
                   % of Block Party
                 </th>
                 <th scope="col" className="w-[25%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
                   <div className="flex items-center gap-1">
-                    Potential Reward
+                    Potential Reward 💸
                     <Tooltip>
                       <TooltipTrigger>
                         <div className="cursor-help">

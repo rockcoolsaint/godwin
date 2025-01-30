@@ -181,6 +181,49 @@ export default function Dashboard() {
 
         {!loading && !error && hashrateData && (
   <>
+
+{/* User Stats Card - Only shown when user is logged in */}
+{account?.id && (
+  <div className="bg-white rounded-lg shadow p-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* User Hashrate */}
+      <div className="bg-[#fff5eb] rounded-md p-4">
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+          Your Hashrate ⛏️
+        </h3>
+        <p className="text-2xl font-semibold text-[#f08222]">
+          {leaderboard?.find(entry => entry.buyer_name === account.username)?.total_hashrate.toFixed(2) || '0.00'} TH/s
+        </p>
+      </div>
+
+      {/* Party Percentage */}
+      <div className="bg-[#fff5eb] rounded-md p-4">
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+          Block Party Share 🥧
+        </h3>
+        <p className="text-2xl font-semibold text-[#f08222]">
+          {leaderboard?.find(entry => entry.buyer_name === account.username)?.percentage || '0'}%
+        </p>
+      </div>
+
+      {/* Potential Reward */}
+      <div className="bg-[#fff5eb] rounded-md p-4">
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+          Potential Reward 💸
+        </h3>
+        <div>
+          <p className="text-2xl font-semibold text-[#f08222]">
+            {leaderboard?.find(entry => entry.buyer_name === account.username)?.reward_share_btc || '0.00000000'} BTC
+          </p>
+          <p className="text-sm text-gray-500 mt-1">
+            ${formatMoney((leaderboard?.find(entry => entry.buyer_name === account.username)?.reward_share_btc || 0) * bitcoinPrice)} USD
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
     {/* Party Stats Card */}
     <div className="bg-white rounded-lg shadow p-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -217,8 +260,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        
-
         {/* Daily Odds Section */}
         <div>
           <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
@@ -242,53 +283,6 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-
-
-{/* User Stats Card - Only shown when user is logged in */}
-{account?.id && (
-  <div className="bg-white rounded-lg shadow p-6 mt-4">
-    {console.log('Account:', account)}
-    {console.log('Leaderboard:', leaderboard)}
-    {console.log('Found entry:', leaderboard?.find(entry => entry.buyer_name === account.username))}
-    
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {/* User Hashrate */}
-      <div>
-        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-          Your Hashrate
-        </h3>
-        <p className="text-2xl font-semibold text-gray-900">
-          {leaderboard?.find(entry => entry.buyer_name === account.username)?.total_hashrate.toFixed(2) || '0.00'} TH/s
-        </p>
-      </div>
-
-      {/* Party Percentage */}
-      <div>
-        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-          Block Party Share
-        </h3>
-        <p className="text-2xl font-semibold text-gray-900">
-          {leaderboard?.find(entry => entry.buyer_name === account.username)?.percentage || '0'}%
-        </p>
-      </div>
-
-      {/* Potential Reward */}
-      <div>
-        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-          Your Potential Reward
-        </h3>
-        <div>
-          <p className="text-2xl font-semibold text-gray-900">
-            {leaderboard?.find(entry => entry.buyer_name === account.username)?.reward_share_btc || '0.00000000'} BTC
-          </p>
-          <p className="text-sm text-gray-500 mt-1">
-            ${formatMoney((leaderboard?.find(entry => entry.buyer_name === account.username)?.reward_share_btc || 0) * bitcoinPrice)} USD
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
 
   </>
 )}
