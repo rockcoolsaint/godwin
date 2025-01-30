@@ -184,7 +184,7 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
           </Link>
         </>
       )}
-      <div className="mt-4 block w-full overflow-x-scroll rounded-lg bg-white">
+      <div className="mt-2 block w-full overflow-x-scroll rounded-lg bg-white">
         <table className="w-full border border-gray-400">
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
@@ -192,7 +192,7 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
                 {headerGroup.headers.map(header => {
                   return (
                     <th
-                      className="border-b border-r border-gray-400 p-2 text-center text-xs font-semibold text-primary sm:px-8 sm:text-sm"
+                      className="border-b border-r border-gray-400 p-1 text-center text-xs font-semibold text-primary sm:px-4 sm:text-sm"
                       key={header.id}
                       colSpan={header.colSpan}
                     >
@@ -235,7 +235,7 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
                 onClick={() => router.push(`/auctions/${row.original.slug}`)}
               >
                 {row.getVisibleCells().map(cell => (
-                  <td className="border-r border-gray-400 p-2 text-center text-[0.6875rem] sm:p-4 sm:text-sm" key={cell.id}>
+                  <td className="border-r border-gray-400 p-1 text-center text-[0.6875rem] sm:p-2 sm:text-sm" key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

@@ -126,7 +126,7 @@ export default function Home({ isDemo, code }: Props) {
             {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
             {auctionData.length > 0 && auctionOfTheDay && (
               <>
-                <div className="w-full max-w-7xl overflow-auto sm:mt-28">
+                <div className="w-3/4 mx-auto max-w-7xl overflow-auto sm:mt-28"> {/* Changed from w-full */}
                   <UpcomingAuctions auction={auctionOfTheDay} auctionsData={auctionData} />
                 </div>
                 <Link href="/auction-market" className="mt-10 rounded-xl bg-navy p-2 font-epilogue text-sm font-bold text-white lg:p-4">
@@ -144,3 +144,4 @@ export default function Home({ isDemo, code }: Props) {
     </div>
   )
 }
+

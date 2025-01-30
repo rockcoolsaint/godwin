@@ -41,20 +41,20 @@ export default async function AuctionMarketPage() {
   // console.log('Specific auctions fetched:', filteredAuctions)
 
   return (
-    <Container className="py-12 xl:w-full">
+    <Container className="py-6 xl:w-full">
       <AuctionInfo />
       <Suspense fallback={<TableSkeletonLoader title="Auction Market" />}>
-        <div className="flex flex-col items-center">
-          {!!activeAuctions.results.length && (
-            <>
-              <h2 className="mt-20 font-chakra text-lg font-bold text-[#f08222] lg:text-4xl">All active auctions</h2>
-              <AuctionSchedule auctionsData={activeAuctions.results} />
-            </>
-          )}
+        <div className="flex flex-col items-center w-3/4 mx-auto"> {/* Changed from just flex flex-col items-center */}
+        {!!activeAuctions.results.length && (
+          <>
+            <h2 className="mt-20 font-chakra text-lg font-bold text-[#f08222] lg:text-4xl">All active auctions</h2>
+            <AuctionSchedule auctionsData={activeAuctions.results} />
+          </>
+        )}
 
-          <h2 className="mt-20 font-chakra text-lg font-bold text-[#f08222] lg:text-4xl">Completed auctions</h2>
-          <AuctionSchedulePaginated limit={limit} dataArgs={completedArgs} auctionsData={completedAuctions} />
-        </div>
+        <h2 className="mt-20 font-chakra text-lg font-bold text-[#f08222] lg:text-4xl">Completed auctions</h2>
+        <AuctionSchedulePaginated limit={limit} dataArgs={completedArgs} auctionsData={completedAuctions} />
+      </div>
       </Suspense>
       <FAQs />
     </Container>
