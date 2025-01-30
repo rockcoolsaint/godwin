@@ -13,6 +13,21 @@ const WhatIsUpendo = () => {
     <>
       <LearnCategoryTitle>Join Our Bitcoin Mining Block Party</LearnCategoryTitle>
 
+
+      <div className="mt-10 flex justify-center">
+  <div className="relative w-[600px] aspect-video">
+    <iframe 
+      src="https://www.loom.com/embed/bfb1d104a7ca483e9cedb34d1caf17a3?sid=0a3586fd-32f4-4211-86b1-4ac177d9e78c" 
+      frameBorder="0" 
+      webkitallowfullscreen="true"
+      mozallowfullscreen="true"
+      allowFullScreen
+      className="w-full h-full"
+    />
+  </div>
+</div>
+<br/>
+
       <LearnCategoryText>
         Hi -- I'm Evan, co-founder of <Link href="https://rigly.io" styled>Rigly</Link>
       </LearnCategoryText>
