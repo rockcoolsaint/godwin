@@ -23,6 +23,7 @@ import ProxyBid from './ProxyBid'
 import { calculateAuctionHashPrice } from 'utils'
 import MiningSvg from 'src/assets/svg/mine.svg'
 import Link from 'src/components/shared/Link'
+import { ClipboardIcon, CheckIcon } from '@heroicons/react/24/outline'
 
 import { updateAccount } from 'src/api/auth/updateAccount'
 import { Input } from 'src/core'
@@ -237,11 +238,12 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
 
   return (
     <>
-      <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
+      <div className="flex w-full flex-col items-center rounded-xl bg-white p-4 max-w-md">
         {/* Add PotentialMiningReward at the top */}
         <PotentialMiningReward 
           auction={auction}
           hashrateData={hashrateData}
+          className="overflow-x-hidden"
         />
 
         {/* Bonus Hashrate section with adjusted margins */}
@@ -355,6 +357,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
       </div>
       <UsernameChangeSection />
       {renderCalculator()}
+      <ReferralSection />
     </>
   )
 }
@@ -365,28 +368,13 @@ interface BidWidgetCalculatorProps {
 }
 
 function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
-  // Add state for hashrate data
+  // Combined state declarations
   const [hashrateData, setHashrateData] = useState<TotalHashrateData | null>(null)
-  
-  // Original hashprice calculator state
-  let filteredEpoch: any = {}
-  if (Object.keys(epoch).length > 0) {
-    filteredEpoch = Object.values(epoch).reduce((a, b) => (a > b ? a : b))
-  }
-
-  const [hashPrice, setHashPrice] = useState<number>(Math.floor(filteredEpoch.mean || 0) || 0)
-  const [speed] = useState(auction.auction_meta.hashrate)
-  const [duration] = useState(auction.auction_meta.days_of_mining)
-  const payout = hashPrice * Number(speed) * Number(duration)
-  const priceInFiat = useSatsToFiat({ initialValue: 0, bid: payout || 0 })
-
-  // Solo mining calculator state
-  const networkHashrate = 760 // 760 EH/s
-  const [boostAmount, setBoostAmount] = useState(
-    Number(process.env.NEXT_PUBLIC_BOOST_AMOUNT) || 2
-  )
+  const [directReferrals, setDirectReferrals] = useState(0)
+  const [indirectReferrals, setIndirectReferrals] = useState(0)
   const [baseOdds, setBaseOdds] = useState(0)
   const [boostedOdds, setBoostedOdds] = useState(0)
+  const [withPurchasesOdds, setWithPurchasesOdds] = useState(0)
 
   // Fetch hashrate data
   useEffect(() => {
@@ -404,100 +392,261 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
     return () => clearInterval(interval)
   }, [])
 
-  useEffect(() => {
-    setHashPrice(Math.floor(filteredEpoch.mean))
-  }, [filteredEpoch.mean])
+  // Calculate hashrate from referral purchases
+  const calculateReferralPurchaseHashrate = () => {
+    // Each referral (direct + indirect) buys an auction
+    const totalReferrals = directReferrals + indirectReferrals
+    return totalReferrals * auction.auction_meta.hashrate
+  }
+
+  // Calculate bonus hashrate based on referrals' purchases
+  const calculateBonusHashrate = () => {
+    // Each purchase (by referrals) adds bonus hashrate
+    const totalReferrals = directReferrals + indirectReferrals
+    return totalReferrals * auction.auction_meta.hashrate
+  }
 
   useEffect(() => {
+    if (!hashrateData?.base_hashrate) return
+  
     function calculateOdds() {
-      // Calculate base odds (1 PH/s)
-      const baseHashrateEH = 1.0 / 1000 // Convert PH/s to EH/s
+      const networkHashrate = 760 // 760 EH/s
       const blocksPerDay = 144 // 6 blocks per hour * 24 hours
+  
+      // Base hashrate
+      const baseHashrateEH = hashrateData.base_hashrate / 1000000
       const baseProbability = (baseHashrateEH / networkHashrate) * blocksPerDay
       const baseOneInX = Math.round(1 / baseProbability)
       setBaseOdds(baseOneInX)
-
-      // Calculate boosted odds (base + boost)
-      const boostHashrateEH = (boostAmount * 21) / 1000000 // Convert TH/s to EH/s
-      const totalHashrateEH = baseHashrateEH + boostHashrateEH
+  
+      // Hashrate with referral purchases
+      const referralPurchaseHashrateEH = calculateReferralPurchaseHashrate() / 1000000
+      const withPurchasesHashrateEH = baseHashrateEH + referralPurchaseHashrateEH
+      const withPurchasesProbability = (withPurchasesHashrateEH / networkHashrate) * blocksPerDay
+      const withPurchasesOneInX = Math.round(1 / withPurchasesProbability)
+      setWithPurchasesOdds(withPurchasesOneInX)
+  
+      // Boosted hashrate (including bonus hashrate)
+      const bonusHashrateEH = calculateBonusHashrate() / 1000000
+      const totalHashrateEH = withPurchasesHashrateEH + bonusHashrateEH
       const boostedProbability = (totalHashrateEH / networkHashrate) * blocksPerDay
       const boostedOneInX = Math.round(1 / boostedProbability)
       setBoostedOdds(boostedOneInX)
     }
-
+  
     calculateOdds()
-  }, [boostAmount])
+  }, [hashrateData, directReferrals, indirectReferrals, auction.auction_meta.hashrate])
 
   return (
     <div className="relative mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-6 opacity-70">
-      {/* Party Boost section */}
+      {/* Referral Bonus section */}
       <div className="mt-0 w-full">
-        <h1 className="mb-2 text-base">Party Boost</h1>
+        <h1 className="mb-2 text-base">Referral Bonus</h1>
         <p className="mb-4 text-sm text-dark-100 max-w-sm">
-          Block party gets bonus hashrate from Evan after each auction close.</p>
-        {/* Party Boost Slider */}
+          Improve our odds of mining a block! <b>Each auction earns 50-50 bonus hashrate.</b>
+        </p>
+
+        {/* Direct Referrals Slider */}
         <div className="mb-6">
           <label 
-            htmlFor="boostSlider" 
+            htmlFor="directReferralsSlider" 
             className="mb-3 flex items-center text-sm font-semibold text-dark-200"
           >
-            +21 TH/s (or more) after each auction
-            <ExclamationCircleIcon className="ml-1 inline h-4 w-4" />
+            Number of users you refer
+            <Tooltip placement="bottom">
+              <TooltipTrigger>
+                <QuestionMarkCircleIcon className="ml-2 size-6" />
+              </TooltipTrigger>
+              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+                Direct referrals are users you personally invite
+              </TooltipContent>
+            </Tooltip>
           </label>
           <input
             type="range"
-            id="boostSlider"
-            min="1"
-            max="2100"
+            id="directReferralsSlider"
+            min="0"
+            max="10"
             step="1"
-            value={boostAmount}
-            onChange={(e) => setBoostAmount(Number(e.target.value))}
+            value={directReferrals}
+            onChange={(e) => setDirectReferrals(Number(e.target.value))}
             className={`${styles['range-slider']} w-full`}
           />
           <div className="mt-2 text-sm text-dark-100">
-            Current Boost: +{(boostAmount * 21).toLocaleString()} TH/s
+            Direct Referrals: {directReferrals} users
           </div>
         </div>
 
-        {/* Base Odds Display */}
+        {/* Indirect Referrals Slider */}
         <div className="mb-6">
-          <h2 className="flex items-center text-base">
-            Example Mining Odds @ 1 PH/s
+          <label 
+            htmlFor="indirectReferralsSlider" 
+            className="mb-3 flex items-center text-sm font-semibold text-dark-200"
+          >
+            Number of users they refer
             <Tooltip placement="bottom">
               <TooltipTrigger>
                 <QuestionMarkCircleIcon className="ml-2 size-6" />
               </TooltipTrigger>
               <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-                Block party odds of finding a block in 1 day with 1,000 TH/s
+                Indirect referrals are users invited by your referrals
               </TooltipContent>
             </Tooltip>
-          </h2>
-          <div className="mt-2 text-lg">
+          </label>
+          <input
+            type="range"
+            id="indirectReferralsSlider"
+            min="0"
+            max="10"
+            step="1"
+            value={indirectReferrals}
+            onChange={(e) => setIndirectReferrals(Number(e.target.value))}
+            className={`${styles['range-slider']} w-full`}
+          />
+          <div className="mt-2 text-sm text-dark-100">
+            Indirect Referrals: {indirectReferrals} users
+          </div>
+        </div>
+
+
+{/* Mining Odds Table */}
+<div className="mt-6">
+  <h2 className="flex items-center text-base mb-4">
+    Mining Odds Comparison
+    <Tooltip placement="bottom">
+      <TooltipTrigger>
+        <QuestionMarkCircleIcon className="ml-2 size-6" />
+      </TooltipTrigger>
+      <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+        Compare base odds vs boosted odds with referral bonus hashrate
+      </TooltipContent>
+    </Tooltip>
+  </h2>
+  
+  <div className="overflow-hidden rounded-lg border border-gray-200">
+    <table className="min-w-full divide-y divide-gray-200">
+      <thead className="bg-gray-50">
+        <tr>
+          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Type
+          </th>
+          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Daily Odds
+          </th>
+          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Hashrate
+          </th>
+        </tr>
+      </thead>
+      <tbody className="bg-white divide-y divide-gray-200">
+      {/* Base Odds Row */}
+      <tr>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="text-sm font-medium text-gray-900">Base</div>
+          <div className="text-sm text-gray-500">Without referrals</div>
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="text-sm text-gray-900">
             1 in {formatMoney(baseOdds)}
           </div>
-        </div>
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="text-sm text-gray-900">
+            {hashrateData?.base_hashrate?.toFixed(2) || '0'} TH/s
+          </div>
+        </td>
+      </tr>
 
-        {/* Boosted Odds Display */}
-        <div className="mt-4">
-          <h2 className="flex items-center text-base">
-            Boosted Mining Odds
-            <Tooltip placement="bottom">
-              <TooltipTrigger>
-                <QuestionMarkCircleIcon className="ml-2 size-6" />
-              </TooltipTrigger>
-              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-                Odds of finding a block in 1 day - with party boost hashrate
-              </TooltipContent>
-            </Tooltip>
-          </h2>
-          <div className="mt-2 text-lg">
+      {/* What they buy Row */}
+      <tr className="bg-gray-50">
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="text-sm font-medium text-gray-900">Plus referrals</div>
+          <div className="text-sm text-gray-500">Each buys {auction.auction_meta.hashrate} TH/s</div>
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="text-sm text-gray-900">
+            1 in {formatMoney(withPurchasesOdds)}
+          </div>
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="text-sm text-gray-900">
+            {((hashrateData?.base_hashrate || 0) + calculateReferralPurchaseHashrate()).toFixed(2)} TH/s
+          </div>
+        </td>
+      </tr>
+
+      {/* Boosted Odds Row */}
+      <tr className="bg-orange-50">
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="text-sm font-medium text-orange-900">Plus bonus</div>
+          <div className="text-sm text-orange-700">With bonus hashrate</div>
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="text-sm text-orange-900">
             1 in {formatMoney(boostedOdds)}
           </div>
-          <div className="mt-2 text-lg">
-            <p className="mb-4 text-sm text-dark-100 max-w-sm">
-              Verify odds at <Link href="https://solochance.com" styled>solochance.com</Link>
-            </p>
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="text-sm text-orange-900">
+            {((hashrateData?.base_hashrate || 0) + calculateReferralPurchaseHashrate() + calculateBonusHashrate()).toFixed(2)} TH/s
           </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      </div>
+    </div>
+  )
+}
+
+const ReferralSection = () => {
+  const { account, token } = useAccountContext()
+  const [copied, setCopied] = useState(false)
+  
+  if (!token || !account) {
+    return null
+  }
+  
+  const encodedReferralCode = encodeURIComponent(account.referral_code)
+  const signupUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/register?referral=${encodedReferralCode}`
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(signupUrl)
+      setCopied(true)
+      toast.success('Copied to clipboard!')
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      toast.error('Failed to copy')
+    }
+  }
+
+  return (
+    <div className="mt-4 w-full rounded-xl bg-white px-4 py-6">
+      <h2 className="text-xl font-bold mb-4">Who can you refer today?</h2>
+      
+      <div className="flex flex-col space-y-4">
+        <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
+          <div className="flex items-center gap-4">
+            <div>
+              <span className="text-sm text-gray-600 mr-2">Share your refer code:</span>
+              <span className="font-mono font-bold">{account.referral_code}</span>
+            </div>
+          </div>
+          <button
+            onClick={handleCopy}
+            className="flex items-center space-x-2 text-orange-600 hover:text-orange-700"
+          >
+            {copied ? (
+              <CheckIcon className="h-5 w-5" />
+            ) : (
+              <ClipboardIcon className="h-5 w-5" />
+            )}
+            <span className="text-sm">{copied ? 'Copied!' : 'Copy'}</span>
+          </button>
         </div>
       </div>
     </div>
