@@ -54,4 +54,28 @@
   transform: scale(1.2);
 }
 
+.bid-widget-container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
+.bid-widget-section {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.calculator-table {
+  width: 100%;
+  min-width: auto;
+  table-layout: fixed;
+}
+
+.calculator-table td {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.slider-container {
+  width: 75%; /* Makes the slider 25% shorter */
+  margin: 0 auto; /* Centers the slider */
+}

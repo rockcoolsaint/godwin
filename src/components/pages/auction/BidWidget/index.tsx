@@ -446,68 +446,58 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
           Improve our odds of mining a block! <b>Each auction earns 50-50 bonus hashrate.</b>
         </p>
 
-        {/* Direct Referrals Slider */}
-        <div className="mb-6">
-          <label 
-            htmlFor="directReferralsSlider" 
-            className="mb-3 flex items-center text-sm font-semibold text-dark-200"
-          >
-            Number of users you refer
-            <Tooltip placement="bottom">
-              <TooltipTrigger>
-                <QuestionMarkCircleIcon className="ml-2 size-6" />
-              </TooltipTrigger>
-              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-                Direct referrals are users you personally invite
-              </TooltipContent>
-            </Tooltip>
-          </label>
-          <input
-            type="range"
-            id="directReferralsSlider"
-            min="0"
-            max="10"
-            step="1"
-            value={directReferrals}
-            onChange={(e) => setDirectReferrals(Number(e.target.value))}
-            className={`${styles['range-slider']} w-full`}
-          />
-          <div className="mt-2 text-sm text-dark-100">
-            Direct Referrals: {directReferrals} users
-          </div>
-        </div>
+{/* Referral Sliders Container - New Flex Row Layout */}
+<div className="flex gap-4 mb-6">
+  {/* Direct Referrals Slider */}
+  <div className="flex-1">
+    <label 
+      htmlFor="directReferralsSlider" 
+      className="mb-3 block text-sm font-semibold text-dark-200"
+    >
+      Users you refer
+    </label>
+    <div className={styles['slider-container']}>
+      <input
+        type="range"
+        id="directReferralsSlider"
+        min="0"
+        max="21"
+        step="1"
+        value={directReferrals}
+        onChange={(e) => setDirectReferrals(Number(e.target.value))}
+        className={`${styles['range-slider']} w-full`}
+      />
+    </div>
+    <div className="mt-2 text-sm text-dark-100">
+      Direct: {directReferrals} users
+    </div>
+  </div>
 
-        {/* Indirect Referrals Slider */}
-        <div className="mb-6">
-          <label 
-            htmlFor="indirectReferralsSlider" 
-            className="mb-3 flex items-center text-sm font-semibold text-dark-200"
-          >
-            Number of users they refer
-            <Tooltip placement="bottom">
-              <TooltipTrigger>
-                <QuestionMarkCircleIcon className="ml-2 size-6" />
-              </TooltipTrigger>
-              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-                Indirect referrals are users invited by your referrals
-              </TooltipContent>
-            </Tooltip>
-          </label>
-          <input
-            type="range"
-            id="indirectReferralsSlider"
-            min="0"
-            max="10"
-            step="1"
-            value={indirectReferrals}
-            onChange={(e) => setIndirectReferrals(Number(e.target.value))}
-            className={`${styles['range-slider']} w-full`}
-          />
-          <div className="mt-2 text-sm text-dark-100">
-            Indirect Referrals: {indirectReferrals} users
-          </div>
-        </div>
-
+  {/* Indirect Referrals Slider */}
+  <div className="flex-1">
+    <label 
+      htmlFor="indirectReferralsSlider" 
+      className="mb-3 block text-sm font-semibold text-dark-200"
+    >
+      Users they refer
+    </label>
+    <div className={styles['slider-container']}>
+      <input
+        type="range"
+        id="indirectReferralsSlider"
+        min="0"
+        max="21"
+        step="1"
+        value={indirectReferrals}
+        onChange={(e) => setIndirectReferrals(Number(e.target.value))}
+        className={`${styles['range-slider']} w-full`}
+      />
+    </div>
+    <div className="mt-2 text-sm text-dark-100">
+      Indirect: {indirectReferrals} users
+    </div>
+  </div>
+</div>
 
 {/* Mining Odds Table */}
 <div className="mt-6">
@@ -515,7 +505,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
     Mining Odds Comparison
     <Tooltip placement="bottom">
       <TooltipTrigger>
-        <QuestionMarkCircleIcon className="ml-2 size-6" />
+        <QuestionMarkCircleIcon className="ml-2 size-4" />
       </TooltipTrigger>
       <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
         Compare base odds vs boosted odds with referral bonus hashrate
@@ -569,7 +559,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="text-sm text-gray-900">
-            {((hashrateData?.base_hashrate || 0) + calculateReferralPurchaseHashrate()).toFixed(2)} TH/s
+            {((hashrateData?.current_hashrate || 0) + calculateReferralPurchaseHashrate()).toFixed(2)} TH/s
           </div>
         </td>
       </tr>
@@ -587,7 +577,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="text-sm text-orange-900">
-            {((hashrateData?.base_hashrate || 0) + calculateReferralPurchaseHashrate() + calculateBonusHashrate()).toFixed(2)} TH/s
+            {((hashrateData?.current_hashrate || 0) + calculateReferralPurchaseHashrate() + calculateBonusHashrate()).toFixed(2)} TH/s
           </div>
         </td>
       </tr>
