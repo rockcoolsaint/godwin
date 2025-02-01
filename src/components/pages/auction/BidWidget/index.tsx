@@ -243,6 +243,22 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
           auction={auction}
           hashrateData={hashrateData}
         />
+
+        {/* Bonus Hashrate section with adjusted margins */}
+        <div className="w-full rounded-lg bg-yellow-50 border border-yellow-200 p-4 mt-2 mb-6"> {/* Changed mt-4 to mt-2 and added mb-6 */}
+          <div className="text-base text-gray-600">
+            This auction earns{' '}
+            <span className="font-bold text-orange-500">
+              {auction.auction_meta.hashrate} TH/s
+            </span>{' '}
+            in{' '}
+            <span className="font-bold text-orange-500">
+              bonus hashrate
+            </span>{' '}
+            for the block party.
+          </div>
+        </div>
+
         <p className="mb-4 flex items-center text-sm text-dark-100">
           {auctionStatus()}
           <span className="ml-1 text-sm font-normal text-dark-100">- {format(parseISO(auction.end_at), 'MMMM dd, yy - h:mm aa')}</span>
@@ -414,7 +430,6 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
 
   return (
     <div className="relative mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-6 opacity-70">
-
       {/* Party Boost section */}
       <div className="mt-0 w-full">
         <h1 className="mb-2 text-base">Party Boost</h1>
