@@ -414,7 +414,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       const blocksPerDay = 144 // 6 blocks per hour * 24 hours
   
       // Base hashrate
-      const baseHashrateEH = hashrateData.base_hashrate / 1000000
+      const baseHashrateEH = hashrateData.current_hashrate / 1000000
       const baseProbability = (baseHashrateEH / networkHashrate) * blocksPerDay
       const baseOneInX = Math.round(1 / baseProbability)
       setBaseOdds(baseOneInX)
@@ -542,8 +542,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       {/* Base Odds Row */}
       <tr>
         <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm font-medium text-gray-900">Base</div>
-          <div className="text-sm text-gray-500">Without referrals</div>
+          <div className="text-sm font-medium text-gray-900">Current block party</div>
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="text-sm text-gray-900">
@@ -552,7 +551,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="text-sm text-gray-900">
-            {hashrateData?.base_hashrate?.toFixed(2) || '0'} TH/s
+            {hashrateData?.current_hashrate?.toFixed(2) || '0'} TH/s
           </div>
         </td>
       </tr>
@@ -611,7 +610,7 @@ const ReferralSection = () => {
   }
   
   const encodedReferralCode = encodeURIComponent(account.referral_code)
-  const signupUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/register?referral=${encodedReferralCode}`
+  const signupUrl = `https://upendo.rigly.io/register?referral=${encodedReferralCode}`
 
   const handleCopy = async () => {
     try {
