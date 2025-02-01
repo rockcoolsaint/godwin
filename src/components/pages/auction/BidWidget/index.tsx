@@ -39,6 +39,64 @@ interface Props {
   hasPaidOrder?: boolean
 }
 
+const PotentialMiningReward = ({ auction, hashrateData }) => {
+
+  const calculateRewards = () => {
+    if (!hashrateData?.base_hashrate) return { percentage: 0, btcReward: 0 }
+    
+    // Calculate percentage of total hashrate
+    let percentage = (auction.auction_meta.hashrate / hashrateData.base_hashrate) * 100
+    
+    // Cap percentage at 100%
+    percentage = Math.min(percentage, 100)
+    
+    // Calculate potential BTC reward (percentage of 3.125 BTC block subsidy)
+    const blockSubsidy = 3.125
+    const btcReward = (percentage / 100) * blockSubsidy
+  
+    return { percentage, btcReward }
+  }
+
+  const rewards = calculateRewards()
+  const btcRewardFiat = useSatsToFiat({ 
+    initialValue: 0, 
+    bid: rewards.btcReward * 100000000 
+  })
+
+  return (
+    <div className="mb-4 w-full rounded-xl bg-yellow-50 border border-yellow-200 p-4">
+      <h2 className="flex items-center text-base font-bold mb-2">
+        Potential Mining Reward
+        <Tooltip placement="bottom">
+          <TooltipTrigger>
+            <QuestionMarkCircleIcon className="ml-2 size-6" />
+          </TooltipTrigger>
+          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+            Your share - and potential block reward - will vary with the size of the party
+          </TooltipContent>
+        </Tooltip>
+      </h2>
+      {hashrateData ? (
+        <div className="flex items-center gap-2">
+          <MiningSvg className="h-5 w-5" />
+          <Tooltip placement="left">
+            <TooltipTrigger>
+              <div className="text-2xl font-bold text-green-600">
+                ${formatMoney(btcRewardFiat)}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+              {rewards.btcReward.toFixed(8)} BTC
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      ) : (
+        <p className="text-sm text-dark-100">Loading hashrate data...</p>
+      )}
+    </div>
+  )
+}
+
 const UsernameChangeSection = () => {
   const { account, token } = useAccountContext()
   const [loading, setLoading] = useState(false)
@@ -94,6 +152,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
 
   const priceInFiat = useSatsToFiat({ initialValue: 0, bid: current_bid || 0 })
   const proxyFiat = useSatsToFiat({ initialValue: 0, bid: user_proxy_bid ? user_proxy_bid.maximum_amount : 0 })
+  const [hashrateData, setHashrateData] = useState<TotalHashrateData | null>(null)
 
   const auctionStatus = () => {
     if (auction.status === AuctionStatus.Scheduled) {
@@ -111,6 +170,22 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
     }
   }
 
+  // Add useEffect to fetch hashrate data
+  useEffect(() => {
+    async function fetchHashrateData() {
+      try {
+        const data = await getTotalHashrateData()
+        setHashrateData(data)
+      } catch (error) {
+        console.error('Failed to fetch hashrate data:', error)
+      }
+    }
+
+    fetchHashrateData()
+    const interval = setInterval(fetchHashrateData, 60000)
+    return () => clearInterval(interval)
+  }, [])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -124,6 +199,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
     fetchData()
   }, [])
 
+  
   const hasWinner = Object.keys(winner).length > 0
 
   const renderCalculator = () => {
@@ -162,6 +238,11 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
   return (
     <>
       <div className="flex w-full flex-col items-center rounded-xl bg-white p-4">
+        {/* Add PotentialMiningReward at the top */}
+        <PotentialMiningReward 
+          auction={auction}
+          hashrateData={hashrateData}
+        />
         <p className="mb-4 flex items-center text-sm text-dark-100">
           {auctionStatus()}
           <span className="ml-1 text-sm font-normal text-dark-100">- {format(parseISO(auction.end_at), 'MMMM dd, yy - h:mm aa')}</span>
@@ -311,27 +392,6 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
     setHashPrice(Math.floor(filteredEpoch.mean))
   }, [filteredEpoch.mean])
 
-  // Calculate mining reward percentage and potential BTC reward
-  const calculateRewards = () => {
-    if (!hashrateData?.base_hashrate) return { percentage: 0, btcReward: 0 }
-    
-    // Calculate percentage of total hashrate
-    const percentage = (auction.auction_meta.hashrate / hashrateData.base_hashrate) * 100
-    
-    // Calculate potential BTC reward (percentage of 3.125 BTC block subsidy)
-    const blockSubsidy = 3.125
-    const btcReward = (percentage / 100) * blockSubsidy
-
-    return { percentage, btcReward }
-  }
-
-  // Add state for BTC reward fiat conversion
-  const btcRewardFiat = useSatsToFiat({ 
-    initialValue: 0, 
-    // Convert BTC to sats (1 BTC = 100,000,000 sats)
-    bid: calculateRewards().btcReward * 100000000 
-  })
-
   useEffect(() => {
     function calculateOdds() {
       // Calculate base odds (1 PH/s)
@@ -352,40 +412,8 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
     calculateOdds()
   }, [boostAmount])
 
-  const rewards = calculateRewards()
-
   return (
     <div className="relative mt-4 flex w-full flex-col items-start rounded-xl bg-white px-4 py-6 opacity-70">
-      {/* Mining Power Share Section */}
-      <div className="mb-6 border-b pb-6 w-full">
-        <h2 className="flex items-center text-base">
-          Potential Mining Reward
-          <Tooltip placement="bottom">
-            <TooltipTrigger>
-              <QuestionMarkCircleIcon className="ml-2 size-6" />
-            </TooltipTrigger>
-            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Your share - and potential block reward - will vary with the size of the party
-            </TooltipContent>
-          </Tooltip>
-        </h2>
-        {hashrateData ? (
-          <>
-          <Tooltip placement="left">
-            <TooltipTrigger>
-            <div className="mt-1 text-medium font-semibold">
-            ${formatMoney(btcRewardFiat)}
-            </div>
-            </TooltipTrigger>
-            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-                {rewards.btcReward.toFixed(8)} BTC
-            </TooltipContent>
-            </Tooltip>
-          </>
-        ) : (
-          <p className="mt-2 text-sm text-dark-100">Loading hashrate data...</p>
-        )}
-      </div>
 
       {/* Party Boost section */}
       <div className="mt-0 w-full">
