@@ -41,25 +41,25 @@ interface Props {
 }
 
 const PotentialMiningReward = ({ auction, hashrateData }) => {
+  const BLOCK_REWARD = 3.125 // BTC
+  const blockRewardInSats = BLOCK_REWARD * 100000000
+
+  const blockRewardFiat = useSatsToFiat({
+    initialValue: 0,
+    bid: blockRewardInSats
+  })
 
   const calculateRewards = () => {
     if (!hashrateData?.base_hashrate) return { percentage: 0, btcReward: 0 }
     
-    // Calculate percentage of total hashrate
     let percentage = (auction.auction_meta.hashrate / hashrateData.base_hashrate) * 100
-    
-    // Cap percentage at 100%
     percentage = Math.min(percentage, 100)
-    
-    // Calculate potential BTC reward (percentage of 3.125 BTC block subsidy)
-    const blockSubsidy = 3.125
-    const btcReward = (percentage / 100) * blockSubsidy
-  
+    const btcReward = (percentage / 100) * BLOCK_REWARD
     return { percentage, btcReward }
   }
 
   const rewards = calculateRewards()
-  const btcRewardFiat = useSatsToFiat({ 
+  const auctionRewardFiat = useSatsToFiat({ 
     initialValue: 0, 
     bid: rewards.btcReward * 100000000 
   })
@@ -73,23 +73,22 @@ const PotentialMiningReward = ({ auction, hashrateData }) => {
             <QuestionMarkCircleIcon className="ml-2 size-6" />
           </TooltipTrigger>
           <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-            Your share - and potential block reward - will vary with the size of the party
+            Block reward is 3.125 BTC. Your share will vary with the size of the party.
           </TooltipContent>
         </Tooltip>
       </h2>
       {hashrateData ? (
-        <div className="flex items-center gap-2">
-          <MiningSvg className="h-5 w-5" />
-          <Tooltip placement="left">
-            <TooltipTrigger>
-              <div className="text-2xl font-bold text-green-600">
-                ${formatMoney(btcRewardFiat)}
+        <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2 text-left">
+                <MiningSvg className="h-6 w-6 flex-shrink-0" />
+                <div className="text-3xl font-bold text-green-600">
+                  ${formatMoney(blockRewardFiat)}
+                </div>
               </div>
-            </TooltipTrigger>
-            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              {rewards.btcReward.toFixed(8)} BTC
-            </TooltipContent>
-          </Tooltip>
+        
+              <div className="text-base text-gray-600 text-left">
+                This auction's share: <span className="font-semibold text-green-600">${formatMoney(auctionRewardFiat)}</span>
+              </div>
         </div>
       ) : (
         <p className="text-sm text-dark-100">Loading hashrate data...</p>
@@ -394,16 +393,19 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
 
   // Calculate hashrate from referral purchases
   const calculateReferralPurchaseHashrate = () => {
-    // Each referral (direct + indirect) buys an auction
-    const totalReferrals = directReferrals + indirectReferrals
-    return totalReferrals * auction.auction_meta.hashrate
+    // Direct referrals hashrate
+    const directHashrate = directReferrals * auction.auction_meta.hashrate
+    // Indirect referrals (exponential) - each direct referral refers indirectReferrals people
+    const indirectHashrate = (directReferrals * indirectReferrals) * auction.auction_meta.hashrate
+    return directHashrate + indirectHashrate
   }
 
-  // Calculate bonus hashrate based on referrals' purchases
   const calculateBonusHashrate = () => {
-    // Each purchase (by referrals) adds bonus hashrate
-    const totalReferrals = directReferrals + indirectReferrals
-    return totalReferrals * auction.auction_meta.hashrate
+    // Direct referrals bonus hashrate
+    const directBonus = directReferrals * auction.auction_meta.hashrate
+    // Indirect referrals bonus (exponential)
+    const indirectBonus = (directReferrals * indirectReferrals) * auction.auction_meta.hashrate
+    return directBonus + indirectBonus
   }
 
   useEffect(() => {
@@ -443,10 +445,11 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       <div className="mt-0 w-full">
         <h1 className="mb-2 text-base">Referral Bonus</h1>
         <p className="mb-4 text-sm text-dark-100 max-w-sm">
-          Improve our odds of mining a block! <b>Each auction earns 50-50 bonus hashrate.</b>
+          Improve our odds of mining a block. Each auction earns <b> 
+          <Link href="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ3YzbnpmOHQ4OWlwOHg5OGJ2MXE2ZnB2MTc5MHVwZzRjZzF5Y2w4aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/trN9ht5RlE3Dcwavg2/giphy.gif" styled>50-50 bonus hashrate</Link></b>
         </p>
 
-{/* Referral Sliders Container - New Flex Row Layout */}
+{/* Referral Sliders Container */}
 <div className="flex gap-4 mb-6">
   {/* Direct Referrals Slider */}
   <div className="flex-1">
@@ -467,9 +470,20 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         onChange={(e) => setDirectReferrals(Number(e.target.value))}
         className={`${styles['range-slider']} w-full`}
       />
+      <div className={styles['range-labels']}>
+        <span>0</span>
+        <span>21</span>
+      </div>
     </div>
     <div className="mt-2 text-sm text-dark-100">
-      Direct: {directReferrals} users
+      <Tooltip placement="bottom">
+        <TooltipTrigger>
+          {directReferrals} users → {directReferrals * auction.auction_meta.hashrate} TH/s
+        </TooltipTrigger>
+        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+          {directReferrals} users you directly refer<br/>will each contribute {auction.auction_meta.hashrate} TH/s
+        </TooltipContent>
+      </Tooltip>
     </div>
   </div>
 
@@ -479,7 +493,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
       htmlFor="indirectReferralsSlider" 
       className="mb-3 block text-sm font-semibold text-dark-200"
     >
-      Users they refer
+      Users they each refer
     </label>
     <div className={styles['slider-container']}>
       <input
@@ -492,26 +506,27 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         onChange={(e) => setIndirectReferrals(Number(e.target.value))}
         className={`${styles['range-slider']} w-full`}
       />
+      <div className={styles['range-labels']}>
+        <span>0</span>
+        <span>21</span>
+      </div>
     </div>
     <div className="mt-2 text-sm text-dark-100">
-      Indirect: {indirectReferrals} users
+      <Tooltip placement="bottom">
+        <TooltipTrigger>
+          {directReferrals * indirectReferrals} users → {directReferrals * indirectReferrals * auction.auction_meta.hashrate} TH/s
+        </TooltipTrigger>
+        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+          Each of your {directReferrals} direct referrals<br/>brings in {indirectReferrals} users, 
+          totaling {directReferrals * indirectReferrals} indirect referrals
+        </TooltipContent>
+      </Tooltip>
     </div>
   </div>
 </div>
 
 {/* Mining Odds Table */}
 <div className="mt-6">
-  <h2 className="flex items-center text-base mb-4">
-    Mining Odds Comparison
-    <Tooltip placement="bottom">
-      <TooltipTrigger>
-        <QuestionMarkCircleIcon className="ml-2 size-4" />
-      </TooltipTrigger>
-      <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-        Compare base odds vs boosted odds with referral bonus hashrate
-      </TooltipContent>
-    </Tooltip>
-  </h2>
   
   <div className="overflow-hidden rounded-lg border border-gray-200">
     <table className="min-w-full divide-y divide-gray-200">

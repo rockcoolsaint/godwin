@@ -79,3 +79,11 @@
   width: 75%; /* Makes the slider 25% shorter */
   margin: 0 auto; /* Centers the slider */
 }
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  color: #665;
+  font-size: 12px;
+}
