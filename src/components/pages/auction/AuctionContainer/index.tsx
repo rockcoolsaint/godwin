@@ -28,7 +28,7 @@ import { formatDate } from 'src/utils/date'
 import { formatMoney } from 'src/utils/currency'
 import { FC } from 'react';
 
-import ChatWall from 'src/components/pages/auction/ChatWall'
+// import ChatWall from 'src/components/pages/auction/ChatWall'
 
 
 const WinnersStatement: FC = () => {
@@ -219,7 +219,10 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
       <span className="mb-2 block text-sm text-dark-300">{`${auction.auction_meta?.days_of_mining} ${
         auction.auction_meta?.days_of_mining > 1 ? 'days' : 'day'
-      }  | ${formatMoney(auction.auction_meta?.hashrate)} TH/s `}</span>
+      } | ${formatMoney(auction.auction_meta?.hashrate)} TH/s `}
+      <span className="text-orange-500">+ {formatMoney(auction.auction_meta?.hashrate)} TH/s block party bonus
+      </span>
+</span>
       <BreadCrumb
         homeElement={'Home'}
         separator={
@@ -266,7 +269,17 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
               </Tab.List>
             </Tab.Group>
             <div className="mt-4">
-              <ChatWall />
+<div className="mt-8 flex items-center justify-center">
+  <a 
+    href="https://t.me/+K8JjHpTgqoFjZmIx"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-flex items-center gap-2 rounded-lg bg-orange-500 px-4 py-2 text-white hover:bg-orange-600 transition-colors"
+  >
+    <span>Chat with other bidders in Telegram</span>
+    <ArrowRightIcon className="h-5 w-5" />
+  </a>
+</div>
             </div>
           </div>
         </ErrorBoundary>

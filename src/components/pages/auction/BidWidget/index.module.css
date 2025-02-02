@@ -8,10 +8,6 @@
   background: #f08222; /* Changed from #0672f7 to match the orange theme */
 }
 
-.range-slider[type='range'] {
-  -webkit-appearance: none;
-}
-
 .range-slider[type='range']:focus {
   outline: none;
 }
@@ -76,8 +72,16 @@
 }
 
 .slider-container {
-  width: 75%; /* Makes the slider 25% shorter */
-  margin: 0 auto; /* Centers the slider */
+  width: 100%;
+  max-width: 150px; /* Reduced from 200px */
+  margin: 0 auto;
+  position: relative; /* Add this */
+}
+
+.range-slider[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+  max-width: 150px; /* Match container */
 }
 
 .range-labels {
@@ -86,4 +90,6 @@
   padding: 5px 0;
   color: #665;
   font-size: 12px;
+  max-width: 150px; /* Match container */
+  margin: 0 auto;
 }

@@ -35,7 +35,7 @@ function BlockPartyExplanation() {
         <br/>
         <h3 className="text-lg font-semibold text-gray-900">Bonus Hashrate</h3>
         <p className="mt-4 text-sm text-gray-500">
-          High auction bids result in bonus hashrate, further improving our chances.
+          Each auction earns 100% bonus hashrate, so more bidders means better odds for our party!
         </p>
       </div>
     </div>
