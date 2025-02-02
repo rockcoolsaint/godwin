@@ -97,11 +97,19 @@ const PotentialMiningReward = ({ auction, hashrateData }) => {
   )
 }
 
-const UsernameChangeSection = () => {
-  const { account, token } = useAccountContext()
+const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUser, hasPaidOrder }: Props) => {
+  const [epoch, setEpoch] = useState<HashpriceDict>({})
+  const { isLoading, token, account } = useAccountContext() // Get account context first
+
+  const priceInFiat = useSatsToFiat({ initialValue: 0, bid: current_bid || 0 })
+  const proxyFiat = useSatsToFiat({ initialValue: 0, bid: user_proxy_bid ? user_proxy_bid.maximum_amount : 0 })
+  const [hashrateData, setHashrateData] = useState<TotalHashrateData | null>(null)
+
   const [loading, setLoading] = useState(false)
   const [newUsername, setNewUsername] = useState(account?.username || '')
+  
 
+  // Add the handleSubmit function
   const handleSubmit = async () => {
     if (!token || newUsername === account?.username) return
     
@@ -117,42 +125,6 @@ const UsernameChangeSection = () => {
       setLoading(false)
     }
   }
-
-  return (
-    <div className="mt-4 flex w-full flex-col items-center bg-orange-50 p-4">
-      <div className="flex w-full items-center gap-2">
-        <span className="text-sm text-gray-600">Mining for:</span>
-        <Input
-          type="text"
-          value={newUsername}
-          onChange={(e) => setNewUsername(e.target.value)}
-          placeholder="Anonymous"
-          className="flex-1"
-          disabled={loading}
-        />
-        <button
-          onClick={handleSubmit}
-          disabled={loading || newUsername === account?.username}
-          className={`ml-2 rounded-md px-3 py-2 text-sm font-semibold text-white ${
-            loading || newUsername === account?.username
-              ? 'bg-orange-400'
-              : 'bg-orange-500 hover:bg-orange-500'
-          }`}
-        >
-          {loading ? 'Saving...' : 'Save'}
-        </button>
-      </div>
-    </div>
-  )
-}
-
-const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUser, hasPaidOrder }: Props) => {
-  const { isLoading, token } = useAccountContext()
-  const [epoch, setEpoch] = useState<HashpriceDict>({})
-
-  const priceInFiat = useSatsToFiat({ initialValue: 0, bid: current_bid || 0 })
-  const proxyFiat = useSatsToFiat({ initialValue: 0, bid: user_proxy_bid ? user_proxy_bid.maximum_amount : 0 })
-  const [hashrateData, setHashrateData] = useState<TotalHashrateData | null>(null)
 
   const auctionStatus = () => {
     if (auction.status === AuctionStatus.Scheduled) {
@@ -322,39 +294,62 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
               {!isLoading && !token && <p className="mt-8 text-red-500"><Link href="/login" styled>Login</Link> to place a bid</p>}
 
               {!isLoading && token && (
-                <>
-                  <div className="mt-5 w-full">
-                    <Tab.Group>
-                      <Tab.List className="flex items-center rounded-xl bg-gray-300 p-1">
-                        {[{ label: 'Bid' }, { label: 'Proxy' }].map((tab, i) => (
-                          <Tab key={i} className="h-8 w-full rounded-lg px-4 outline-none ui-selected:bg-gray-500">
-                            <span className="ui-selected:text-white">{tab.label}</span>
-                          </Tab>
-                        ))}
-                      </Tab.List>
+  <>
+    <div className="mt-5 w-full">
+      <Tab.Group>
+        <Tab.List className="flex items-center rounded-xl bg-gray-300 p-1">
+          {[{ label: 'Bid' }, { label: 'Proxy' }, { label: 'Name' }].map((tab, i) => (
+            <Tab key={i} className="h-8 w-full rounded-lg px-4 outline-none ui-selected:bg-gray-500">
+              <span className="ui-selected:text-white">{tab.label}</span>
+            </Tab>
+          ))}
+        </Tab.List>
 
-                      <Tab.Panels>
-                        <Tab.Panel className="pt-4">
-                          <RegularBid auction={auction} bids={bids} current_bid={current_bid} />
-                        </Tab.Panel>
-                        <Tab.Panel className="pt-4">
-                          <ProxyBid
-                            auction={auction}
-                            bids={bids}
-                            current_bid={current_bid}
-                            proxy_bid_max={(user_proxy_bid && user_proxy_bid.maximum_amount) || 0}
-                          />
-                        </Tab.Panel>
-                      </Tab.Panels>
-                    </Tab.Group>
-                  </div>
-                </>
-              )}
+        <Tab.Panels>
+          <Tab.Panel className="pt-4">
+            <RegularBid auction={auction} bids={bids} current_bid={current_bid} />
+          </Tab.Panel>
+          <Tab.Panel className="pt-4">
+            <ProxyBid
+              auction={auction}
+              bids={bids}
+              current_bid={current_bid}
+              proxy_bid_max={(user_proxy_bid && user_proxy_bid.maximum_amount) || 0}
+            />
+          </Tab.Panel>
+          <Tab.Panel className="pt-4">
+            <div className="flex w-full items-center gap-2">
+              <span className="text-sm text-gray-600">Mining for:</span>
+              <Input
+                type="text"
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+                placeholder="Anonymous"
+                className="flex-1"
+                disabled={loading}
+              />
+              <button
+                onClick={handleSubmit}
+                disabled={loading || newUsername === account?.username}
+                className={`ml-2 rounded-md px-3 py-2 text-sm font-semibold text-white ${
+                  loading || newUsername === account?.username
+                    ? 'bg-orange-400'
+                    : 'bg-orange-500 hover:bg-orange-500'
+                }`}
+              >
+                {loading ? 'Saving...' : 'Save'}
+              </button>
+            </div>
+          </Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
+    </div>
+  </>
+)}
             </>
           )}
         </div>
       </div>
-      <UsernameChangeSection />
       {renderCalculator()}
       <ReferralSection />
     </>
