@@ -22,6 +22,7 @@ import RegularBid from './RegularBid'
 import ProxyBid from './ProxyBid'
 import { calculateAuctionHashPrice } from 'utils'
 import MiningSvg from 'src/assets/svg/mine.svg'
+import RowingSvg from 'src/assets/svg/rowing.svg'
 import Link from 'src/components/shared/Link'
 import { ClipboardIcon, CheckIcon } from '@heroicons/react/24/outline'
 
@@ -29,6 +30,7 @@ import { updateAccount } from 'src/api/auth/updateAccount'
 import { Input } from 'src/core'
 import { getTotalHashrateData, type TotalHashrateData } from 'src/api/ckpool/getHashrateData'
 import useSoloMineCalculator from 'src/hooks/useSoloMineCalculator'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
 interface Props {
   auction: Auction
@@ -108,7 +110,62 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
 
   const [loading, setLoading] = useState(false)
   const [newUsername, setNewUsername] = useState(account?.username || '')
+
+  const BonusHashrateBox = ({ current_bid, auction }) => {
+    const bonusHashrate = calculateAuctionBonusHashrate(current_bid?.bid || 0, auction)
+    const baseValue = calculateBaseValue(auction)
+    const currentBidAmount = current_bid?.bid || 0
+    
+    const totalBonusHashrate = bonusHashrate * 2
+    
+    return (
+      <div className="mb-4 w-full max-w-sm rounded-xl bg-orange-50 border border-orange-200 p-4">
+        <h2 className="flex items-center text-base font-bold mb-2">
+          Bonus Hashrate
+          <Tooltip placement="bottom">
+            <TooltipTrigger>
+              <QuestionMarkCircleIcon className="ml-2 size-6" />
+            </TooltipTrigger>
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+              Block party earns extra hashrate from overbidding, matched by auctioneer (Evan)
+            </TooltipContent>
+          </Tooltip>
+        </h2>
   
+        {bonusHashrate > 0 ? (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 text-left">
+              <RowingSvg className="h-10 w-10 flex-shrink-0" />
+              <div className="text-3xl font-bold text-orange-600">
+                {totalBonusHashrate.toFixed(2)} TH/s
+              </div>
+            </div>
+  
+            <div className="text-sm text-gray-600 text-left">
+              Bidder <span className="font-semibold text-orange-600">{bonusHashrate.toFixed(2)} TH/s</span>
+            </div>
+            <div className="text-sm text-gray-600 text-left">
+              Auctioneer <span className="font-semibold text-orange-600">{bonusHashrate.toFixed(2)} TH/s</span>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 text-left">
+              <RowingSvg className="h-8 w-8 flex-shrink-0" />
+              <div className="text-lg text-gray-700">
+                Bid over <span className="font-bold text-orange-600">{formatMoney(baseValue)} sats</span> to earn<br/>bonus hashrate
+              </div>
+            </div>
+            {currentBidAmount > 0 && currentBidAmount < baseValue && (
+              <div className="mt-1 text-sm text-orange-600">
+                You need {formatMoney(baseValue - currentBidAmount)} more sats to start earning bonus hashrate
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    )
+  }
 
   // Add the handleSubmit function
   const handleSubmit = async () => {
@@ -172,6 +229,27 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
     fetchData()
   }, [])
 
+    // Add these constants at the top level, before the BidWidget component
+    const SPOT_HASHPRICE = 64 // Current spot hashprice in sats/TH/s/day
+
+    const calculateBaseValue = (auction) => {
+      return auction.auction_meta.hashrate * 
+            auction.auction_meta.days_of_mining * 
+            SPOT_HASHPRICE
+    }
+  
+    const calculateAuctionBonusHashrate = (bid: number, auction: Auction) => {
+      if (!auction?.auction_meta?.hashrate || !auction?.auction_meta?.days_of_mining) {
+        console.warn('Missing required auction properties for bonus calculation')
+        return 0
+      }
+      const baseValue = calculateBaseValue(auction)
+      if (bid > baseValue) {
+        const excessAmount = bid - baseValue
+        return excessAmount / (SPOT_HASHPRICE / 8) // For 3-hour bonus period
+      }
+      return 0
+    }
   
   const hasWinner = Object.keys(winner).length > 0
 
@@ -217,7 +295,11 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
           hashrateData={hashrateData}
           className="overflow-x-hidden"
         />
-
+        {/* Update the BonusHashrateBox call with correct props */}
+        <BonusHashrateBox 
+          current_bid={current_bid}
+          auction={auction}
+        />
         <p className="mb-4 flex items-center text-sm text-dark-100">
           {auctionStatus()}
           <span className="ml-1 text-sm font-normal text-dark-100">- {format(parseISO(auction.end_at), 'MMMM dd, yy - h:mm aa')}</span>
@@ -238,21 +320,23 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
         <div className="max-w-md text-center lg:w-full">
           {auction.status === AuctionStatus.Active && (
             <>
-              {current_bid && (
-                <div className="mt-5 flex w-full flex-col items-center bg-orange-100 p-4">
-                  <h5>Current bid</h5>
-                  <Tooltip placement="left">
-                    <TooltipTrigger>
-                      <h1 className="flex items-center justify-center">
-                        {formatMoney(current_bid.bid)} <SatsSvg className="ml-2" />
-                      </h1>
-                    </TooltipTrigger>
-                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-                      ${formatMoney(priceInFiat)}
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              )}
+        {current_bid && (
+          <div className="mt-5 flex w-full flex-col items-center bg-orange-100 p-4">
+            <h5>Current bid</h5>
+            <div className="flex items-center">
+              <Tooltip placement="left">
+                <TooltipTrigger>
+                  <h1 className="flex items-center justify-center">
+                    {formatMoney(current_bid.bid)} <SatsSvg className="ml-2" />
+                  </h1>
+                </TooltipTrigger>
+                <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
+                  ${formatMoney(priceInFiat)}
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+        )}
               {hasProxyBid && (
                 <div className={clsx('flex w-full flex-col items-center bg-orange-100 p-4', current_bid ? 'pt-0' : 'mt-5 pt-4')}>
                   <h6 className="w-4/12 items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-semibold text-gray-600 ring-1 ring-inset ring-gray-500/30">
@@ -352,6 +436,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   const [currentBid, setCurrentBid] = useState(0)
   const [hashrateData, setHashrateData] = useState<TotalHashrateData | null>(null)
   const [auctioneerBonus, setAuctioneerBonus] = useState(1000)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const HASHRATE_PER_USER = 105 // 5 auctions × 21 TH/s each = 105 TH/s
   const SPOT_HASHPRICE = 64 // Current spot hashprice in sats/TH/s/day
@@ -472,6 +557,13 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
           {/* Current Stats */}
           <div className="p-4 bg-gray-50 rounded-lg">
           <div className="space-y-2">
+          {/* Add Network Hashrate here */}
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Network Hashrate</span>
+            <span className="font-medium">
+              {miningCalc.isLoading ? 'Loading...' : `${formatMoney(miningCalc.globalHashrate || 0)} TH/s`}
+            </span>
+          </div>
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-600">Current Hashrate</span>
             <span className="font-medium">
@@ -506,67 +598,93 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
               {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 4).toLocaleString()}`}
             </span>
           </div>
+          <div className="text-xs text-gray-500 text-center mt-4">
+        Don't trust, verify at{' '}
+        <a 
+          href="https://solochance.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-orange-500 hover:text-orange-600"
+        >
+          Solochance
+        </a>
+      </div>
         </div>
           </div>
       </>
     )}
 
-        {activeTab === 'auction' && (
-          <>
-            <div className="mb-6">
+{activeTab === 'auction' && (
+  <>
+    <div className="mb-6">
+      <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">Spot hashprice</span>
+          <div className="font-medium">
+            {SPOT_HASHPRICE} <span className="text-xs text-gray-500">sats/TH/s/day</span>
+          </div>
+        </div>
+        <div className="flex items-center justify-between mt-2">
+          <span className="text-sm text-gray-600">Base cost</span>
+          <div className="font-medium">
+            {formatMoney(calculateBaseValue(auction))} <span className="text-xs text-gray-500">sats</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-
-              <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Spot hashprice</span>
-                  <div className="font-medium">
-                    {SPOT_HASHPRICE} <span className="text-xs text-gray-500">sats/TH/s/day</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mt-2">
-                  <span className="text-sm text-gray-600">Base cost</span>
-                  <div className="font-medium">
-                    {formatMoney(calculateBaseValue())} <span className="text-xs text-gray-500">sats</span>
-                  </div>
-                </div>
-              </div>
+    {/* Collapsible Bid Bonus Section */}
+    <div className="mb-6">
+      <button 
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full flex items-center justify-between p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
+      >
+        <div className="flex items-center">
+          <h1 className="text-lg font-medium text-gray-900">Bid Bonus Calculator</h1>
+          <div className="relative group ml-2">
+            <QuestionMarkCircleIcon 
+              className="h-5 w-5 text-gray-500 cursor-help" 
+            />
+            <div className="hidden group-hover:block absolute right-0 w-64 p-2 bg-gray-800 text-white text-sm rounded-md z-10">
+              Bid high to earn extra hashrate for the block party
             </div>
+          </div>
+        </div>
+        <ChevronDownIcon 
+          className={`h-5 w-5 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+        />
+      </button>
 
-            <div className="mb-6">
-              <div className="flex items-center justify-between">
-                <h1 className="text-lg font-medium text-gray-900">Bid Bonus</h1>
-                <div className="relative group">
-                  <QuestionMarkCircleIcon 
-                    className="h-5 w-5 text-gray-500 cursor-help" 
-                  />
-                  <div className="hidden group-hover:block absolute right-0 w-64 p-2 bg-gray-800 text-white text-sm rounded-md z-10">
-                    Bonus hashrate earned from bidding above base hashrate cost
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <label className="text-sm text-gray-600 mb-2 block">
-                  Earn more hashrate for the block party by bidding over the base cost
-                </label>
-                <div className={styles['slider-container']}>
-                  <input
-                    type="range"
-                    min={calculateBaseValue()}
-                    max={calculateBaseValue() * 10}
-                    value={currentBid}
-                    onChange={(e) => setCurrentBid(parseInt(e.target.value))}
-                    className={styles['range-slider']}
-                  />
-                  <div className="flex justify-between text-sm text-gray-600">
-                    <span>{formatMoney(calculateBaseValue())} sats</span>
-                    <span>{formatMoney(calculateBaseValue() * 10)} sats</span>
-                  </div>
-                </div>
-              </div>
+      {isExpanded && (
+        <div className="mt-4 space-y-4">
+          <div className="flex items-center justify-between mb-3">
+            <label className="text-base font-medium text-gray-900">
+              Adjust your bid
+            </label>
+            <div className="flex items-center">
+              <span className="text-lg font-semibold text-orange-500">
+                {formatMoney(currentBid)}
+              </span>
+              <span className="ml-1 text-xs text-gray-500">sats</span>
             </div>
+          </div>
 
-            <div className="p-4 bg-orange-50 rounded-lg">
+          <div className={styles['slider-container']}>
+            <input
+              type="range"
+              min={calculateBaseValue(auction)}
+              max={calculateBaseValue(auction) * 10}
+              value={currentBid}
+              onChange={(e) => setCurrentBid(parseInt(e.target.value))}
+              className={styles['range-slider']}
+            />
+            <div className="flex justify-between text-sm text-gray-600">
+              <span>{formatMoney(calculateBaseValue(auction))} sats</span>
+              <span>{formatMoney(calculateBaseValue(auction) * 10)} sats</span>
+            </div>
+          </div>
+
+          <div className="p-4 bg-orange-50 rounded-lg">
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Overbid hashrate</span>
@@ -582,7 +700,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
               </div>
               <div className="border-t pt-2 mt-2">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-700">Total</span>
+                  <span className="text-sm font-medium text-gray-700">TOTAL</span>
                   <span className="text-2xl font-bold text-orange-500">
                     {formatMoney(calculateAuctionBonusHashrate(currentBid) * 2)} TH/s
                   </span>
@@ -595,8 +713,12 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
               </p>
             </div>
           </div>
-          </>
-        )}
+        </div>
+      )}
+    </div>
+  </>
+)}
+
       </div>
     </div>
   )
