@@ -14,6 +14,7 @@ import { useAccountContext } from 'src/providers/AccountProvider'
 import { PartyLeaderboardEntry } from 'src/types'
 import { getPartyLeaderboard } from 'src/api/party/getLeaderboard'
 import { formatMoney } from 'src/utils/currency'
+import { getBitcoinPrice } from 'src/utils/bitcoin'
 
 function ErrorFallback({ error }: { error: Error }) {
   return (
@@ -93,13 +94,8 @@ export default function Dashboard() {
   // Add this useEffect to fetch leaderboard data
   useEffect(() => {
     const fetchBitcoinPrice = async () => {
-      try {
-        const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
-        const data = await response.json()
-        setBitcoinPrice(data.bpi.USD.rate_float)
-      } catch (error) {
-        console.error('Error fetching Bitcoin price:', error)
-      }
+      const price = await getBitcoinPrice() // Use the new utility function
+      setBitcoinPrice(price)
     }
 
     const fetchLeaderboard = async () => {
