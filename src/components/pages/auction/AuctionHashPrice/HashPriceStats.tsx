@@ -8,6 +8,7 @@ import HashPriceLoader from './Loader'
 import { getTotalHashrateData } from 'src/api/ckpool/getHashrateData'
 import { HashrateDataType } from 'src/api/hashrate/types'
 import { formatMoney } from 'src/utils/currency'
+import { getBitcoinPrice } from 'src/utils/bitcoin'
 
 // Replace the EpochTable component with BlockPartyExplanation
 function BlockPartyExplanation() {
@@ -98,15 +99,10 @@ export default function HashPriceStats() {
   }, [])
   
   useEffect(() => {
-    const fetchBTCPrice = async () => {
-      try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-        const data = await response.json();
-        setBtcPrice(data.bitcoin.usd);
-      } catch (error) {
-        console.error('Error fetching BTC price:', error);
-      }
-    };
+  const fetchBTCPrice = async () => {
+    const price = await getBitcoinPrice()
+    setBtcPrice(price)
+  }
 
     fetchBTCPrice();
   }, []);
