@@ -219,10 +219,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
       <span className="mb-2 block text-sm text-dark-300">{`${auction.auction_meta?.days_of_mining} ${
         auction.auction_meta?.days_of_mining > 1 ? 'days' : 'day'
-      } | ${formatMoney(auction.auction_meta?.hashrate)} TH/s `}
-      <span className="text-orange-500">+ {formatMoney(auction.auction_meta?.hashrate)} TH/s block party bonus
-      </span>
-</span>
+      }  | ${formatMoney(auction.auction_meta?.hashrate)} TH/s `}</span>
       <BreadCrumb
         homeElement={'Home'}
         separator={

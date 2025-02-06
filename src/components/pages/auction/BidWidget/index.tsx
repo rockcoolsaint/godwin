@@ -28,6 +28,7 @@ import { ClipboardIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { updateAccount } from 'src/api/auth/updateAccount'
 import { Input } from 'src/core'
 import { getTotalHashrateData, type TotalHashrateData } from 'src/api/ckpool/getHashrateData'
+import useSoloMineCalculator from 'src/hooks/useSoloMineCalculator'
 
 interface Props {
   auction: Auction
@@ -336,7 +337,6 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
         </div>
       </div>
       {renderCalculator()}
-      <ReferralSection />
     </>
   )
 }
@@ -347,9 +347,23 @@ interface BidWidgetCalculatorProps {
 }
 
 function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
+  const [activeTab, setActiveTab] = useState('refer')
   const [referredUsers, setReferredUsers] = useState(0)
+  const [currentBid, setCurrentBid] = useState(0)
   const [hashrateData, setHashrateData] = useState<TotalHashrateData | null>(null)
+  const [auctioneerBonus, setAuctioneerBonus] = useState(1000)
+
   const HASHRATE_PER_USER = 105 // 5 auctions × 21 TH/s each = 105 TH/s
+  const SPOT_HASHPRICE = 64 // Current spot hashprice in sats/TH/s/day
+
+  // Set initial bid to current auction bid or base value
+  useEffect(() => {
+    if (auction.current_bid) {
+      setCurrentBid(auction.current_bid)
+    } else {
+      setCurrentBid(calculateBaseValue())
+    }
+  }, [auction])
 
   // Fetch hashrate data
   useEffect(() => {
@@ -367,132 +381,226 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
     return () => clearInterval(interval)
   }, [])
 
-  const calculateBonusHashrate = () => {
+  const calculateBaseValue = () => {
+    return auction.auction_meta.hashrate * 
+           auction.auction_meta.days_of_mining * 
+           SPOT_HASHPRICE
+  }
+
+  const calculateReferralBonusHashrate = () => {
     return referredUsers * HASHRATE_PER_USER
   }
 
   const calculateOddsImprovement = () => {
     if (!hashrateData?.current_hashrate) return 0
-    const bonusHashrate = calculateBonusHashrate()
+    const bonusHashrate = calculateReferralBonusHashrate()
     const currentHashrate = hashrateData.current_hashrate
     return (bonusHashrate / currentHashrate) * 100
   }
 
+  const calculateAuctionBonusHashrate = (bid: number) => {
+    const baseValue = calculateBaseValue()
+    if (bid > baseValue) {
+      const excessAmount = bid - baseValue
+      return excessAmount / (SPOT_HASHPRICE / 8) // For 3-hour bonus period
+    }
+    return 0
+  }
+
+  const calculateAuctioneerOddsImprovement = () => {
+    if (!hashrateData?.current_hashrate) return 0
+    return (auctioneerBonus / hashrateData.current_hashrate) * 100
+  }
+
+  // Use the hook with the current hashrate
+  const miningCalc = useSoloMineCalculator({ 
+    customHashrate: hashrateData?.current_hashrate || 0 
+  })
+
+  const formatDailyOdds = (chancePerBlockDay: number) => {
+    const dailyPercentage = (1 / chancePerBlockDay) * 100
+    
+    if (dailyPercentage < 0.01) {
+      return `${dailyPercentage.toFixed(4)}%`
+    } else if (dailyPercentage < 0.1) {
+      return `${dailyPercentage.toFixed(3)}%`
+    } else if (dailyPercentage < 1) {
+      return `${dailyPercentage.toFixed(2)}%`
+    } else {
+      return `${dailyPercentage.toFixed(1)}%`
+    }
+  }
+
   return (
-  <div className="relative mt-4 flex w-full max-w-sm flex-col items-center rounded-xl bg-white px-4 py-6"> {/* Add max-w-md and items-center */}
-  <div className="w-full">
+    <div className="relative mt-4 flex w-full max-w-sm flex-col items-center rounded-xl bg-white px-4 py-6">
+      <div className="w-full">
+        {/* Tab Navigation */}
+        <div className="mb-6 flex border-b">
+          <button
+            className={`mr-4 pb-2 ${
+              activeTab === 'auction' ? 'border-b-2 border-orange-500 font-bold' : ''
+            }`}
+            onClick={() => setActiveTab('auction')}
+          >
+            Auction
+          </button>
+          <button
+            className={`mr-4 pb-2 ${
+              activeTab === 'refer' ? 'border-b-2 border-orange-500 font-bold' : ''
+            }`}
+            onClick={() => setActiveTab('refer')}
+          >
+            Block Party
+          </button>
+        </div>
+
+        {activeTab === 'refer' && (
+      <>
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-medium text-gray-900">Bonus hashrate</h1>
+          <h1 className="text-lg font-medium text-gray-900">Block Party Stats</h1>
           <div className="relative group">
             <QuestionMarkCircleIcon 
               className="h-5 w-5 text-gray-400 cursor-help" 
             />
             <div className="hidden group-hover:block absolute right-0 w-64 p-2 bg-gray-800 text-white text-sm rounded-md z-10">
-              Bonus hashrate based on each new bidder buying 5 auctions
+              Current mining power and odds of finding a block
             </div>
           </div>
         </div>
 
-        <p className="mt-2 mb-6 text-sm text-gray-600">
-          Refer new bidders to improve our odds of mining a block.
-        </p>
-
-        <div className="mb-6 flex flex-col items-center"> {/* Add flex and items-center */}
-        <label className="text-sm text-gray-600 mb-2"> {/* Add mb-2 */}
-          Number of referred users: {referredUsers}
-        </label>
-        <div className={styles['slider-container']}>
-          <input
-            type="range"
-            min="0"
-            max="21"
-            value={referredUsers}
-            onChange={(e) => setReferredUsers(parseInt(e.target.value))}
-            className={styles['range-slider']}
-          />
-          <div className={styles['range-labels']}>
-            <span>0</span>
-            <span>21</span>
+        <div className="mt-4 space-y-4">
+          {/* Current Stats */}
+          <div className="p-4 bg-gray-50 rounded-lg">
+          <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Current Hashrate</span>
+            <span className="font-medium">
+              {miningCalc.isLoading ? 'Loading...' : `${formatMoney(hashrateData?.current_hashrate || 0)} TH/s`}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Daily Block Chance</span>
+            <span className="font-medium">
+              {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay).toLocaleString()}`}
+            </span>
           </div>
         </div>
-      </div>
-
-        {/* New minimal grid-style table */}
-        <div className="border-t pt-4">
-          <div className="grid grid-cols-3 gap-4">
-            {/* Headers */}
-            <div className="text-xs font-medium text-gray-500 uppercase">Current Block Party</div>
-            <div className="text-xs font-medium text-gray-500 uppercase">Bonus Hashrate</div>
-            <div className="text-xs font-medium text-gray-500 uppercase">Odds Improvement</div>
-            
-            {/* Values */}
-            <div className="text-sm font-medium text-gray-900">
-              {formatMoney(hashrateData?.current_hashrate || 0)} TH/s
-            </div>
-            <div className="text-sm font-medium text-gray-900">
-              {formatMoney(calculateBonusHashrate())} TH/s
-            </div>
-            <div className="text-sm font-medium text-blue-500">
-              +{calculateOddsImprovement().toFixed(1)}%
-            </div>
+          </div>
+        {/* Projected Stats */}
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">At 2× Hashrate</span>
+            <span className="font-medium text-orange-600">
+              {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 2).toLocaleString()}`}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">At 3× Hashrate</span>
+            <span className="font-medium text-orange-600">
+              {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 3).toLocaleString()}`}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">At 4× Hashrate</span>
+            <span className="font-medium text-orange-600">
+              {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 4).toLocaleString()}`}
+            </span>
           </div>
         </div>
+          </div>
+      </>
+    )}
+
+        {activeTab === 'auction' && (
+          <>
+            <div className="mb-6">
+
+
+              <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Spot hashprice</span>
+                  <div className="font-medium">
+                    {SPOT_HASHPRICE} <span className="text-xs text-gray-500">sats/TH/s/day</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-sm text-gray-600">Base cost</span>
+                  <div className="font-medium">
+                    {formatMoney(calculateBaseValue())} <span className="text-xs text-gray-500">sats</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-lg font-medium text-gray-900">Bid Bonus</h1>
+                <div className="relative group">
+                  <QuestionMarkCircleIcon 
+                    className="h-5 w-5 text-gray-500 cursor-help" 
+                  />
+                  <div className="hidden group-hover:block absolute right-0 w-64 p-2 bg-gray-800 text-white text-sm rounded-md z-10">
+                    Bonus hashrate earned from bidding above base hashrate cost
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <label className="text-sm text-gray-600 mb-2 block">
+                  Earn more hashrate for the block party by bidding over the base cost
+                </label>
+                <div className={styles['slider-container']}>
+                  <input
+                    type="range"
+                    min={calculateBaseValue()}
+                    max={calculateBaseValue() * 10}
+                    value={currentBid}
+                    onChange={(e) => setCurrentBid(parseInt(e.target.value))}
+                    className={styles['range-slider']}
+                  />
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>{formatMoney(calculateBaseValue())} sats</span>
+                    <span>{formatMoney(calculateBaseValue() * 10)} sats</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-orange-50 rounded-lg">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600">Overbid hashrate</span>
+                <span className="text-m font-bold text-orange-500">
+                  {formatMoney(calculateAuctionBonusHashrate(currentBid))} TH/s
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600">Auctioneer match</span>
+                <span className="text-m font-bold text-orange-500">
+                  {formatMoney(calculateAuctionBonusHashrate(currentBid))} TH/s
+                </span>
+              </div>
+              <div className="border-t pt-2 mt-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-700">Total</span>
+                  <span className="text-2xl font-bold text-orange-500">
+                    {formatMoney(calculateAuctionBonusHashrate(currentBid) * 2)} TH/s
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center mt-4">
+              <p className="text-sm text-gray-600">
+                Bonus hashrate is for 3 hours
+              </p>
+            </div>
+          </div>
+          </>
+        )}
       </div>
     </div>
   )
 }
 
-
-
-const ReferralSection = () => {
-  const { account, token } = useAccountContext()
-  const [copied, setCopied] = useState(false)
-  
-  if (!token || !account) {
-    return null
-  }
-  
-  const encodedReferralCode = encodeURIComponent(account.referral_code)
-  const signupUrl = `https://upendo.rigly.io/register?referral=${encodedReferralCode}`
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(signupUrl)
-      setCopied(true)
-      toast.success('Copied to clipboard!')
-      setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
-      toast.error('Failed to copy')
-    }
-  }
-
-  return (
-    <div className="mt-4 w-full rounded-xl bg-white px-4 py-6">
-      <h2 className="text-xl font-bold mb-4">Who can you refer today?</h2>
-      
-      <div className="flex flex-col space-y-4">
-        <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
-          <div className="flex items-center gap-4">
-            <div>
-              <span className="text-sm text-gray-600 mr-2">Share your refer code:</span>
-              <span className="font-mono font-bold">{account.referral_code}</span>
-            </div>
-          </div>
-          <button
-            onClick={handleCopy}
-            className="flex items-center space-x-2 text-orange-600 hover:text-orange-700"
-          >
-            {copied ? (
-              <CheckIcon className="h-5 w-5" />
-            ) : (
-              <ClipboardIcon className="h-5 w-5" />
-            )}
-            <span className="text-sm">{copied ? 'Copied!' : 'Copy'}</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 export default BidWidget
