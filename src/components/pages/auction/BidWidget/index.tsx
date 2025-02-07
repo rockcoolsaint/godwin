@@ -430,7 +430,7 @@ interface BidWidgetCalculatorProps {
 }
 
 function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
-  const [activeTab, setActiveTab] = useState('refer')
+  const [activeTab, setActiveTab] = useState('auction')
   const [referredUsers, setReferredUsers] = useState(0)
   const [currentBid, setCurrentBid] = useState(0)
   const [hashrateData, setHashrateData] = useState<TotalHashrateData | null>(null)
