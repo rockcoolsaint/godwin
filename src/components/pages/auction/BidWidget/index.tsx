@@ -22,7 +22,6 @@ import RegularBid from './RegularBid'
 import ProxyBid from './ProxyBid'
 import { calculateAuctionHashPrice } from 'utils'
 import MiningSvg from 'src/assets/svg/mine.svg'
-import RowingSvg from 'src/assets/svg/rowing.svg'
 import Link from 'src/components/shared/Link'
 import { ClipboardIcon, CheckIcon } from '@heroicons/react/24/outline'
 
@@ -83,7 +82,6 @@ const PotentialMiningReward = ({ auction, hashrateData }) => {
       {hashrateData ? (
         <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2 text-left">
-                <MiningSvg className="h-6 w-6 flex-shrink-0" />
                 <div className="text-3xl font-bold text-green-600">
                   ${formatMoney(blockRewardFiat)}
                 </div>
@@ -135,7 +133,9 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
         {bonusHashrate > 0 ? (
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 text-left">
-              <RowingSvg className="h-10 w-10 flex-shrink-0" />
+            <div className="flex gap-1">
+      <MiningSvg className="h-5" /><MiningSvg className="h-5" />
+    </div>
               <div className="text-3xl font-bold text-orange-600">
                 {totalBonusHashrate.toFixed(2)} TH/s
               </div>
@@ -151,7 +151,6 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
         ) : (
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 text-left">
-              <RowingSvg className="h-8 w-8 flex-shrink-0" />
               <div className="text-lg text-gray-700">
                 Bid over <span className="font-bold text-orange-600">{formatMoney(baseValue)} sats</span> to earn<br/>bonus hashrate
               </div>
