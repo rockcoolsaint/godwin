@@ -47,10 +47,13 @@ const WhatIsUpendo = () => {
         Hashrate is provided via <Link href="https://rigly.io" styled>Rigly</Link> and we use <Link href="https://solo.ckpool.org" styled>CK Pool</Link> to solo mine.
       </LearnCategoryText>
       <LearnCategoryText>
-        Plus: <b>I add bonus hashrate</b> for new bidders and high bids.
+        <b>Bonus hashrate</b>
       </LearnCategoryText>
       <LearnCategoryText>
-      Bid high! and invite your friends!
+      When you bid over the cost of hashrate, the extra sats go to bonus hashrate for the block party.
+      </LearnCategoryText>
+      <LearnCategoryText>
+      To further the incentive, I match all bonus hashrate, improving our odds even more.
       </LearnCategoryText>
       <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
                 <Link 

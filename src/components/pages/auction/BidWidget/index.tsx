@@ -137,15 +137,15 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
       <MiningSvg className="h-5" /><MiningSvg className="h-5" />
     </div>
               <div className="text-3xl font-bold text-orange-600">
-                {totalBonusHashrate.toFixed(2)} TH/s
+                {totalBonusHashrate.toFixed(0)} TH/s
               </div>
             </div>
   
             <div className="text-sm text-gray-600 text-left">
-              Bidder <span className="font-semibold text-orange-600">{bonusHashrate.toFixed(2)} TH/s</span>
+              Bidder <span className="font-semibold text-orange-600">{bonusHashrate.toFixed(0)} TH/s</span>
             </div>
             <div className="text-sm text-gray-600 text-left">
-              Auctioneer <span className="font-semibold text-orange-600">{bonusHashrate.toFixed(2)} TH/s</span>
+              Auctioneer <span className="font-semibold text-orange-600">{bonusHashrate.toFixed(0)} TH/s</span>
             </div>
           </div>
         ) : (
