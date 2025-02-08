@@ -113,8 +113,12 @@ const AuctionProfile = ({ data }: Props) => {
                     <>
                       {formatMoney(hashrateData.base_hashrate)} TH/s
                       <span className="text-gray-600 ml-2">
-                        (+{formatMoney(hashrateData.bonus_hashrate)} TH/s bonus)
-                      </span>
+                      (+{formatMoney(
+                        hashrateData.bid_bonus_hashrate + 
+                        hashrateData.auctioneer_match_bonus + 
+                        hashrateData.extra_hashrate
+                      )} TH/s bonus)
+                    </span>
                     </>
                   ) : 'Loading...'}
                 </span>

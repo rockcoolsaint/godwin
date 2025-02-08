@@ -52,9 +52,10 @@ const GlobalReferralBox = () => {
       {!isMinimized && (
         <div className="px-4 pb-4">
           <p className="text-sm text-gray-600 mb-4">
-            Invite friends, improve our odds and <Link href="/pages/refer" styled>earn sats</Link>
+            New bidders improve our odds. Tell your friends.
           </p>
 
+          {/* Commenting out referral code section
           <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
             <div>
               <span className="text-sm text-gray-600 block mb-1">Your referral code:</span>
@@ -72,6 +73,8 @@ const GlobalReferralBox = () => {
               <span className="text-sm">{copied ? 'Copied!' : 'Copy'}</span>
             </button>
           </div>
+          */}
+          
         </div>
       )}
     </div>
