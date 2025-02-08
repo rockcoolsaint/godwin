@@ -43,9 +43,17 @@ const AuctionProfile = ({ data }: Props) => {
   }, [])
 
   const renderDuration = () => {
-    if (data.auction_meta.duration) {
-      const days = convertTime(data.auction_meta.duration).days
-      return days > 0 ? `${days} ${days > 1 ? 'days' : 'day'}` : 'N/A'
+    if (data.auction_meta.days_of_mining) {
+      const days = data.auction_meta.days_of_mining
+      
+      // If less than 1 day, show hours
+      if (days < 1) {
+        const hours = Math.round(days * 24)
+        return `${hours} ${hours > 1 ? 'hours' : 'hour'}`
+      }
+      
+      // For 1 day or more, show days
+      return `${days} ${days > 1 ? 'days' : 'day'}`
     }
     return 'N/A'
   }
