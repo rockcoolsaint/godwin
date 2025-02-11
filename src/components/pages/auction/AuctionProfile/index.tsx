@@ -43,9 +43,17 @@ const AuctionProfile = ({ data }: Props) => {
   }, [])
 
   const renderDuration = () => {
-    if (data.auction_meta.duration) {
-      const days = convertTime(data.auction_meta.duration).days
-      return days > 0 ? `${days} ${days > 1 ? 'days' : 'day'}` : 'N/A'
+    if (data.auction_meta.days_of_mining) {
+      const days = data.auction_meta.days_of_mining
+      
+      // If less than 1 day, show hours
+      if (days < 1) {
+        const hours = Math.round(days * 24)
+        return `${hours} ${hours > 1 ? 'hours' : 'hour'}`
+      }
+      
+      // For 1 day or more, show days
+      return `${days} ${days > 1 ? 'days' : 'day'}`
     }
     return 'N/A'
   }
@@ -113,8 +121,12 @@ const AuctionProfile = ({ data }: Props) => {
                     <>
                       {formatMoney(hashrateData.base_hashrate)} TH/s
                       <span className="text-gray-600 ml-2">
-                        (+{formatMoney(hashrateData.bonus_hashrate)} TH/s bonus)
-                      </span>
+                      (+{formatMoney(
+                        hashrateData.bid_bonus_hashrate + 
+                        hashrateData.auctioneer_match_bonus + 
+                        hashrateData.extra_hashrate
+                      )} TH/s bonus)
+                    </span>
                     </>
                   ) : 'Loading...'}
                 </span>

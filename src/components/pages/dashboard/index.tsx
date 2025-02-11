@@ -228,30 +228,26 @@ export default function Dashboard() {
           <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
             Current Party Hashrate
           </h3>
+          
           <p className="text-2xl font-semibold text-gray-900 mb-2">
             {hashrateData.current_hashrate.toFixed(2)} TH/s
           </p>
           <div className="space-y-1 text-sm text-gray-600">
             <p className="flex items-center">
-              <span className="w-16">Party:</span>
+              <span className="w-32">Party:</span>
               <span>{hashrateData.base_hashrate.toFixed(2)} TH/s</span>
             </p>
             <p className="flex items-center">
-              <span className="w-16">Bonus:</span>
-              <span>{hashrateData.bonus_hashrate.toFixed(2)} TH/s</span>
-              <span className="ml-1 group relative">
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  viewBox="0 0 20 20" 
-                  fill="currentColor" 
-                  className="w-4 h-4 text-gray-600 hover:text-gray-600"
-                >
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clipRule="evenodd" />
-                </svg>
-                <span className="invisible group-hover:visible absolute left-0 transform -translate-y-full -translate-x-1/2 mt-0 px-2 py-1 bg-gray-900 text-white text-sm rounded-md whitespace-nowrap">
-                  The party earns bonus hashrate<br/>for every new bidder and high auction bid
-                </span>
-              </span>
+              <span className="w-32">Bid Bonus:</span>
+              <span>{hashrateData.bid_bonus_hashrate.toFixed(2)} TH/s</span>
+            </p>
+            <p className="flex items-center">
+              <span className="w-32">Auctioneer Match:</span>
+              <span>{hashrateData.auctioneer_match_bonus.toFixed(2)} TH/s</span>
+            </p>
+            <p className="flex items-center">
+              <span className="w-32">Extra:</span>
+              <span>{hashrateData.extra_hashrate.toFixed(2)} TH/s</span>
             </p>
           </div>
         </div>

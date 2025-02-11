@@ -73,7 +73,7 @@
 
 .slider-container {
   width: 100%;
-  max-width: 150px; /* Reduced from 200px */
+  max-width: 175px; /* Reduced from 200px */
   margin: 0 auto;
   position: relative; /* Add this */
 }
@@ -81,7 +81,7 @@
 .range-slider[type='range'] {
   -webkit-appearance: none;
   width: 100%;
-  max-width: 150px; /* Match container */
+  max-width: 175px; /* Match container */
 }
 
 .range-labels {

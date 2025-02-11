@@ -181,6 +181,14 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
     )
   }
 
+  const formatDuration = (daysOfMining: number) => {
+    if (daysOfMining < 1) {
+      const hours = Math.round(daysOfMining * 24)
+      return `${hours} ${hours > 1 ? 'hours' : 'hour'}`
+    }
+    return `${daysOfMining} ${daysOfMining > 1 ? 'days' : 'day'}`
+  }
+
   const handleCallback = async (data: CallBackProps) => {
     const { action, index, status, type } = data
 
@@ -217,12 +225,7 @@ export default function AuctionContainer({ auction, order, bids, current_bid, us
   return (
     <>
       <h1 className="mb-2 text-4xl">{auction.title}</h1>
-      <span className="mb-2 block text-sm text-dark-300">{`${auction.auction_meta?.days_of_mining} ${
-        auction.auction_meta?.days_of_mining > 1 ? 'days' : 'day'
-      } | ${formatMoney(auction.auction_meta?.hashrate)} TH/s `}
-      <span className="text-orange-500">+ {formatMoney(auction.auction_meta?.hashrate)} TH/s block party bonus
-      </span>
-</span>
+      <span className="mb-2 block text-sm text-dark-300">{formatDuration(auction.auction_meta.days_of_mining)} | {formatMoney(auction.auction_meta?.hashrate)} TH/s</span>
       <BreadCrumb
         homeElement={'Home'}
         separator={

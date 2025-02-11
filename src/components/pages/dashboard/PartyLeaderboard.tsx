@@ -109,7 +109,23 @@ export default function PartyLeaderboard() {
               {currentEntries.map((entry, index) => (
                 <tr key={entry.buyer_id} className="even:bg-gray-50">
                   <td className="w-[15%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
-                    {formatMoney(entry.total_hashrate)} TH/s
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <div className="flex items-center cursor-help">
+                          {formatMoney(entry.total_hashrate)} TH/s
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                        <div className="space-y-1">
+                          {entry.total_bid_bonus > 0 && (
+                            <div>Bid Bonus: {formatMoney(entry.total_bid_bonus)} TH/s</div>
+                          )}
+                          {entry.total_auctioneer_match_bonus > 0 && (
+                            <div>Match Bonus: {formatMoney(entry.total_auctioneer_match_bonus)} TH/s</div>
+                          )}
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
                   </td>
                   <td className="w-[40%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                     {entry.buyer_name}
