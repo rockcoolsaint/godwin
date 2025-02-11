@@ -3,6 +3,12 @@
 import { useEffect, useState } from 'react'
 import Link from 'src/components/shared/Link'
 
+import HashPriceLoader from './Loader'
+import { getTotalHashrateData } from 'src/api/ckpool/getHashrateData'
+import { HashrateDataType } from 'src/api/hashrate/types'
+import { formatMoney } from 'src/utils/currency'
+import { getBitcoinPrice } from 'src/utils/bitcoin'
+
 // Replace the EpochTable component with BlockPartyExplanation
 function BlockPartyExplanation() {
   return (
@@ -40,6 +46,7 @@ function BlockPartyExplanation() {
 }
 
 export default function HashPriceStats() {
+
   return (
     <>
         <div className="h-full w-11/12 py-3">
