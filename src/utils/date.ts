@@ -24,3 +24,13 @@ export function convertTime(timeString: string) {
     minutes: Math.floor(totalMinutes % 60),
   }
 }
+
+export const formatAuctionDuration = (days: number): string => {
+  const hoursTotal = days * 24;
+  
+  if (days < 1) {
+    return `${Math.round(hoursTotal)} hours`;
+  }
+  
+  return `${days} ${days > 1 ? 'days' : 'day'}`;
+};

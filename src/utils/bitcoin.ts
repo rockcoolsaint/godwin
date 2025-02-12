@@ -2,10 +2,10 @@ const FALLBACK_BTC_PRICE = 98000
 
 export async function getBitcoinPrice(): Promise<number> {
   try {
-    const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
+    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
     if (!response.ok) throw new Error('Failed to fetch price')
     const data = await response.json()
-    return data.bpi.USD.rate_float
+    return data.bitcoin.usd
   } catch (error) {
     console.error('Error fetching Bitcoin price:', error)
     return FALLBACK_BTC_PRICE

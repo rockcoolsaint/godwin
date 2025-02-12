@@ -22,6 +22,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/T
 import useSatsToFiat from 'src/hooks/useSatsToFiat'
 import { useMobileScreen } from 'src/hooks/useIsMobile'
 import { useMemo } from 'react'
+import { formatAuctionDuration } from 'src/utils/date'
 
 export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsData: Auction[]; showTitle?: boolean }) {
   const initialSorting = useMemo(() => {
@@ -76,12 +77,7 @@ export default function AuctionSchedule({ auctionsData, showTitle }: { auctionsD
       cell: cell => {
         if (cell.row.original.auction_meta.days_of_mining) {
           const mineDays = cell.row.original.auction_meta?.days_of_mining
-
-          return (
-            <p>
-              {mineDays} {mineDays > 1 ? 'days' : 'day'}{' '}
-            </p>
-          )
+          return <p>{formatAuctionDuration(mineDays)}</p>
         } else {
           return <p>N/A</p>
         }

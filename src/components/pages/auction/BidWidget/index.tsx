@@ -125,7 +125,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
               <QuestionMarkCircleIcon className="ml-2 size-6" />
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Block party earns extra hashrate from overbidding, matched by auctioneer (Evan)
+              Block party earns 3 hours extra hashrate<br/>from overbidding, matched by auctioneer (Evan)
             </TooltipContent>
           </Tooltip>
         </h2>
@@ -367,7 +367,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
     <div className="mt-5 w-full">
       <Tab.Group>
         <Tab.List className="flex items-center rounded-xl bg-gray-300 p-1">
-          {[{ label: 'Bid' }, { label: 'Proxy' }, { label: 'Name' }].map((tab, i) => (
+          {[{ label: 'Bid' }, { label: 'Proxy' }, { label: 'Goal' }].map((tab, i) => (
             <Tab key={i} className="h-8 w-full rounded-lg px-4 outline-none ui-selected:bg-gray-500">
               <span className="ui-selected:text-white">{tab.label}</span>
             </Tab>

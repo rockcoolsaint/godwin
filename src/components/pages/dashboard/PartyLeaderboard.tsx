@@ -5,6 +5,7 @@ import { PartyLeaderboardEntry } from 'src/types'
 import { getPartyLeaderboard } from 'src/api/party/getLeaderboard'
 import { formatMoney } from 'src/utils/currency'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
+import { getBitcoinPrice } from 'src/utils/bitcoin'
 
 export default function PartyLeaderboard() {
   const [leaderboard, setLeaderboard] = useState<PartyLeaderboardEntry[]>([])
@@ -16,9 +17,8 @@ export default function PartyLeaderboard() {
   useEffect(() => {
     const fetchBitcoinPrice = async () => {
       try {
-        const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json')
-        const data = await response.json()
-        setBitcoinPrice(data.bpi.USD.rate_float)
+        const price = await getBitcoinPrice()
+        setBitcoinPrice(price)
       } catch (error) {
         console.error('Error fetching Bitcoin price:', error)
       }
