@@ -1,9 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
 import { Menu, Transition } from '@headlessui/react'
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
+import { ArrowTopRightOnSquareIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
 import { Fragment } from 'react'
@@ -17,6 +16,43 @@ import { Order, OrderStatus, OrderType } from 'src/types'
 import hasPassedOrderStatus from 'src/utils/hasPassedOrderStatus'
 import { isOrderFulfilled } from 'utils'
 import toast from 'react-hot-toast'
+
+function OrderHistoryView({ order, onClose }: { order: Order; onClose: () => void }) {
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div className="relative w-full max-w-2xl rounded-xl bg-white">
+        <button 
+          onClick={onClose}
+          className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+        >
+          <XMarkIcon className="h-6 w-6" />
+        </button>
+        <div className="p-6">
+          <h3 className="mb-4 text-lg font-bold">Order Details</h3>
+          <div className="space-y-4">
+            <div className="flex justify-between border-b py-2">
+              <span className="font-semibold">Order ID</span>
+              <span>{order.id}</span>
+            </div>
+            <div className="flex justify-between border-b py-2">
+              <span className="font-semibold">Type</span>
+              <span>{order.type === OrderType.Direct ? 'Direct' : 'Auction'}</span>
+            </div>
+            <div className="flex justify-between border-b py-2">
+              <span className="font-semibold">Name</span>
+              <span>{order.type === OrderType.Direct ? 'Instant Mining' : order.auction?.title}</span>
+            </div>
+            <div className="flex justify-between border-b py-2">
+              <span className="font-semibold">Status</span>
+              <span>{formatOrderStatus(order)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function formatOrderStatus(order: Order) {
   switch (order.status) {
@@ -83,7 +119,6 @@ export function formatOrderStatus(order: Order) {
 
 function Orders() {
   const { token } = useAccountContext()
-
   const [loading, setLoading] = useState<boolean>(true)
   const [orders, setOrders] = useState<Order[]>([])
 
@@ -97,7 +132,6 @@ function Orders() {
 
       try {
         const res = await getOrders(token)
-
         setOrders(res)
       } catch (ex) {
         console.error(ex)
@@ -185,65 +219,46 @@ function Orders() {
   )
 }
 
-export default protect(Orders)
-
 function OrderAction({ order, hasManageAccess }: { order: Order; hasManageAccess: boolean }) {
-  const router = useRouter()
+  const [showOrderHistory, setShowOrderHistory] = useState(false)
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <Menu.Button className="flex items-center text-gray-900 hover:text-gray-400 ">
-          <span>View</span>
-        </Menu.Button>
+    <>
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => setShowOrderHistory(true)}
+          className="text-sm text-blue-500 hover:text-blue-700"
+        >
+          View Details
+        </button>
+        
+        {!isOrderFulfilled(order.status) && (
+          <>
+            <span className="text-gray-300">|</span>
+            {order.type === OrderType.Direct ? (
+              <button
+                onClick={() => toast.error("This option is unsupported, please create a new instant mining order")}
+                className="text-sm text-blue-500 hover:text-blue-700"
+              >
+                Pay
+              </button>
+            ) : (
+              <Link
+                href={`/checkout/${order.id}`}
+                className="text-sm text-blue-500 hover:text-blue-700"
+              >
+                Pay
+              </Link>
+            )}
+          </>
+        )}
       </div>
 
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-          <div className="py-1">
-            <Menu.Item>
-            {({ active }) => (
-              <div>
-                {!isOrderFulfilled(order.status) ? (
-                  order.type === OrderType.Direct ? (
-                    <span
-                      onClick={() => toast.error("This option is unsupported, please create a new instant mining order")}
-                      className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm cursor-pointer')}
-                    >
-                      Pay
-                    </span>
-                  ) : (
-                    <Link
-                      href={`/checkout/${order.id}`}
-                      className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
-                    >
-                      Pay
-                    </Link>
-                  )
-                ) : hasManageAccess ? (
-                  <Link
-                    href={`/order/${order.id}`}
-                    className={clsx(active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm')}
-                  >
-                    Manage
-                  </Link>
-                ) : (
-                  <span className="text-sm text-gray-500">-</span>
-                )}
-              </div>
-            )}
-            </Menu.Item>
-          </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>
+      {showOrderHistory && (
+        <OrderHistoryView order={order} onClose={() => setShowOrderHistory(false)} />
+      )}
+    </>
   )
 }
+
+export default protect(Orders)
