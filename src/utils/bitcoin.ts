@@ -1,4 +1,4 @@
-const FALLBACK_BTC_PRICE = 98000
+const FALLBACK_BTC_PRICE = 83000
 
 export async function getBitcoinPrice(): Promise<number> {
   try {

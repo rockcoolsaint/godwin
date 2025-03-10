@@ -44,6 +44,7 @@ interface Props {
 
 const PotentialMiningReward = ({ auction, hashrateData }) => {
   const BLOCK_REWARD = 3.125 // BTC
+  const HYPOTHETICAL_BLOCK_PARTY_SPEED = 12000 // TH/s
   const blockRewardInSats = BLOCK_REWARD * 100000000
 
   const blockRewardFiat = useSatsToFiat({
@@ -52,12 +53,21 @@ const PotentialMiningReward = ({ auction, hashrateData }) => {
   })
 
   const calculateRewards = () => {
-    if (!hashrateData?.base_hashrate) return { percentage: 0, btcReward: 0 }
+    if (!auction?.auction_meta?.hashrate) return { percentage: 0, btcReward: 0 }
     
-    let percentage = (auction.auction_meta.hashrate / hashrateData.base_hashrate) * 100
+    // If hashrate data exists and is above 100 TH/s, use actual hashrate
+    if (hashrateData?.base_hashrate && hashrateData.base_hashrate > 100) {
+      let percentage = (auction.auction_meta.hashrate / hashrateData.base_hashrate) * 100
+      percentage = Math.min(percentage, 100)
+      const btcReward = (percentage / 100) * BLOCK_REWARD
+      return { percentage, btcReward, useActual: true }
+    }
+    
+    // Otherwise use hypothetical speed
+    let percentage = (auction.auction_meta.hashrate / HYPOTHETICAL_BLOCK_PARTY_SPEED) * 100
     percentage = Math.min(percentage, 100)
     const btcReward = (percentage / 100) * BLOCK_REWARD
-    return { percentage, btcReward }
+    return { percentage, btcReward, useActual: false }
   }
 
   const rewards = calculateRewards()
@@ -75,25 +85,25 @@ const PotentialMiningReward = ({ auction, hashrateData }) => {
             <QuestionMarkCircleIcon className="ml-2 size-6" />
           </TooltipTrigger>
           <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-            Block reward is 3.125 BTC. Your share will vary with the size of the party.
+            Block reward is 3.125 BTC. {rewards.useActual 
+              ? 'Your share is based on current block party speed.'
+              : 'Your share is based on a hypothetical block party speed of 12,000 TH/s.'
+            }
           </TooltipContent>
         </Tooltip>
       </h2>
-      {hashrateData ? (
-        <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-left">
-                <div className="text-3xl font-bold text-green-600">
-                  ${formatMoney(blockRewardFiat)}
-                </div>
-              </div>
-        
-              <div className="text-base text-gray-600 text-left">
-                This auction's share: <span className="font-semibold text-green-600">${formatMoney(auctionRewardFiat)}</span>
-              </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-2 text-left">
+          <div className="text-3xl font-bold text-green-600">
+            ${formatMoney(blockRewardFiat)}
+          </div>
         </div>
-      ) : (
-        <p className="text-sm text-dark-100">Loading hashrate data...</p>
-      )}
+  
+        <div className="text-base text-gray-600 text-left">
+          {rewards.useActual ? 'Your potential share: ' : 'Your hypothetical share: '}
+          <span className="font-semibold text-green-600">${formatMoney(auctionRewardFiat)}</span>
+        </div>
+      </div>
     </div>
   )
 }
@@ -115,6 +125,15 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
     const currentBidAmount = current_bid?.bid || 0
     
     const totalBonusHashrate = bonusHashrate * 2
+
+    // Format duration helper function
+    const formatDuration = (days) => {
+      const hours = days * 24
+      if (hours < 48) {
+        return `${hours} hours`
+      }
+      return `${days} days`
+    }
     
     return (
       <div className="mb-4 w-full max-w-sm rounded-xl bg-orange-50 border border-orange-200 p-4">
@@ -125,7 +144,8 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
               <QuestionMarkCircleIcon className="ml-2 size-6" />
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-              Block party earns 3 hours extra hashrate<br/>from overbidding, matched by auctioneer (Evan)
+              Block party earns {formatDuration(auction.auction_meta.days_of_mining)} extra hashrate<br/>
+              from overbidding, matched by auctioneer (Evan)
             </TooltipContent>
           </Tooltip>
         </h2>

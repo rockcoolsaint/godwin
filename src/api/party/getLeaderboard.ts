@@ -10,3 +10,11 @@ export async function getPartyLeaderboard(): Promise<PartyLeaderboardEntry[]> {
   return response
 }
 
+export async function getNextSaturdayPartyLeaderboard(): Promise<PartyLeaderboardEntry[]> {
+  const response = await makeClientRequest({
+    method: 'GET',
+    path: 'api/auctions/party-nextsat-leaderboard'
+  })
+  return response
+}
+

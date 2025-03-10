@@ -101,7 +101,7 @@ export default function Home({ isDemo, code }: Props) {
             <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
               <circle cx={1} cy={1} r={1} />
             </svg>
-            The party don't stop till we get a block!
+            The party continues Saturday, March 15th - place your bid now!
           </a>
         </p>
       </div>

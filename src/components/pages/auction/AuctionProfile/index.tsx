@@ -42,6 +42,13 @@ const AuctionProfile = ({ data }: Props) => {
     return () => clearInterval(interval)
   }, [])
 
+  const calculateEndDate = (startDate: Date, durationDays: number): Date => {
+    const endDate = new Date(startDate);
+    const hours = Math.round(durationDays * 24); // Convert days to hours
+    endDate.setHours(endDate.getHours() + hours);
+    return endDate;
+  };
+
   const renderDuration = () => {
     if (data.auction_meta.days_of_mining) {
       const days = data.auction_meta.days_of_mining
@@ -80,24 +87,40 @@ const AuctionProfile = ({ data }: Props) => {
               <ChevronDownIcon className="h-5 w-5" />
             }
           </div>
+
           {expandedSections.basicInfo && (
             <div className="px-4">
               <div className="flex items-center border-b py-3">
-                <span className="w-1/2 font-semibold">Hashrate source</span>
+                <span className="w-1/2">Hashrate source</span>
                 <span className="w-1/2"><Link href="https://rigly.io" styled>Rigly</Link></span>
               </div>
               <div className="flex items-center border-b py-3">
-                <span className="w-1/2 font-semibold">Duration</span>
+                <span className="w-1/2">Duration</span>
                 <span className="w-1/2">{renderDuration()}</span>
               </div>
               <div className="flex items-center border-b py-3">
-              <span className="w-1/2 font-semibold">Start Time</span>
-              <span className="w-1/2">
-                {data.end_at ? format(new Date(data.end_at), 'M/d/yy h:mm a') : 'N/A'}
-              </span>
-            </div>
+                <span className="w-1/2">Mining Start Date</span>
+                <span className="w-1/2">
+                  {data.delivery_date ? format(new Date(data.delivery_date), 'M/d/yy h:mm a') : 'N/A'}
+                </span>
+              </div>
+              <div className="flex items-center border-b py-3">
+                <span className="w-1/2">Mining End Date</span>
+                <span className="w-1/2">
+                  {data.delivery_date && data.auction_meta.days_of_mining ? (
+                    format(
+                      calculateEndDate(
+                        new Date(data.delivery_date), 
+                        data.auction_meta.days_of_mining
+                      ), 
+                      'M/d/yy h:mm a'
+                    )
+                  ) : 'N/A'}
+                </span>
+              </div>
             </div>
           )}
+
         </div>
 
         {/* Hashrate Section */}
@@ -113,40 +136,50 @@ const AuctionProfile = ({ data }: Props) => {
             }
           </div>
           {expandedSections.hashrate && (
-            <div className="px-4">
-              <div className="flex items-center border-b py-3">
-                <span className="w-1/2 font-semibold">Current block party hashrate</span>
-                <span className="w-1/2">
-                  {hashrateData ? (
-                    <>
-                      {formatMoney(hashrateData.base_hashrate)} TH/s
-                      <span className="text-gray-600 ml-2">
-                      (+{formatMoney(
-                        hashrateData.bid_bonus_hashrate + 
-                        hashrateData.auctioneer_match_bonus + 
-                        hashrateData.extra_hashrate
-                      )} TH/s bonus)
-                    </span>
-                    </>
-                  ) : 'Loading...'}
-                </span>
-              </div>
-              <div className="flex items-center border-b py-3">
-                <span className="w-1/2 font-semibold">Lot hashrate</span>
-                <span className="w-1/2">
-                  {hashrateData ? (
-                    <>
-                      {formatMoney(data.auction_meta.hashrate)} TH/s
-                      <span className="text-gray-600 ml-2">
-                        ({((data.auction_meta.hashrate / hashrateData.base_hashrate) * 100).toFixed(1)}% of current party hashrate)
-                      </span>
-                    </>
-                  ) : 'Loading...'}
-                </span>
-              </div>
+          <div className="px-4">
+            <div className="flex items-center border-b py-3">
+              <span className="w-1/2">
+                {hashrateData?.base_hashrate && hashrateData.base_hashrate > 100 
+                  ? "Current block party speed"
+                  : "Hypothetical block party speed"
+                }
+              </span>
+              <span className="w-1/2">
+                {hashrateData?.base_hashrate && hashrateData.base_hashrate > 100
+                  ? `${formatMoney(hashrateData.base_hashrate)} TH/s`
+                  : "12,000 TH/s"
+                }
+              </span>
+            </div>
+            <div className="flex items-center border-b py-3">
+              <span className="w-1/2">Lot hashrate</span>
+              <span className="w-1/2">
+                {formatMoney(data.auction_meta.hashrate)} TH/s
+              </span>
+            </div>
+
+            <div className="flex items-center border-b py-3">
+              <span className="w-1/2">
+                {hashrateData?.base_hashrate && hashrateData.base_hashrate > 100
+                  ? "Your potential share"
+                  : "Your hypothetical share"
+                }
+              </span>
+              <span className="w-1/2">
+                {data.auction_meta.hashrate ? (
+                  <>
+                    {((data.auction_meta.hashrate / 
+                      (hashrateData?.base_hashrate && hashrateData.base_hashrate > 100
+                        ? hashrateData.base_hashrate
+                        : 12000)
+                    ) * 100).toFixed(1)}%
+                  </>
+                ) : 'Loading...'}
+              </span>
+            </div>
 
               <div className="flex items-center border-b py-3">
-              <span className="w-1/2 font-semibold">Pool url</span>
+              <span className="w-1/2">Pool url</span>
               <span className="w-1/2 break-all">
                 <Link href="https://solo.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH" styled>
                 solo.ckpool.org
@@ -155,7 +188,7 @@ const AuctionProfile = ({ data }: Props) => {
             </div>
 
               <div className="flex items-center border-b py-3">
-              <span className="w-1/2 font-semibold">Mining escrow</span>
+              <span className="w-1/2">Mining escrow</span>
               <span className="w-1/2 break-all">
                 <Link href="https://mempool.space/address/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH" styled>
                   3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH
@@ -181,12 +214,12 @@ const AuctionProfile = ({ data }: Props) => {
           {expandedSections.payment && (
             <div className="px-4">
               <div className="flex items-center border-b py-3">
-                <span className="w-1/2 font-semibold">Auction fee</span>
+                <span className="w-1/2">Auction fee</span>
                 <span className="w-1/2">0%</span>
               </div>
               <div className="flex items-center border-b py-3">
-                <span className="w-1/2 font-semibold">Payment terms</span>
-                <span className="w-1/2">Bitcoin, on-chain or Lightning -- due within 1 hour of auction end</span>
+                <span className="w-1/2">Payment terms</span>
+                <span className="w-1/2">Bitcoin, on-chain or Lightning -- due after auction close</span>
               </div>
             </div>
           )}

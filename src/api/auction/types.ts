@@ -58,6 +58,7 @@ export interface Auction {
   payment_type: PaymentType
   going_hashprice: number
   proxy_bid_increment: number
+  delivery_date: string
 }
 
 export interface MiningEpoch {

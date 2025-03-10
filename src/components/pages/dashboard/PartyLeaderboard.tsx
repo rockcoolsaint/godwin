@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from 'react'
 import { PartyLeaderboardEntry } from 'src/types'
-import { getPartyLeaderboard } from 'src/api/party/getLeaderboard'
+import { getPartyLeaderboard, getNextSaturdayPartyLeaderboard } from 'src/api/party/getLeaderboard'
 import { formatMoney } from 'src/utils/currency'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import { getBitcoinPrice } from 'src/utils/bitcoin'
 
-export default function PartyLeaderboard() {
+interface PartyLeaderboardProps {
+  useNextSaturday?: boolean;
+}
+
+export default function PartyLeaderboard({ useNextSaturday = false }: PartyLeaderboardProps) {
   const [leaderboard, setLeaderboard] = useState<PartyLeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [bitcoinPrice, setBitcoinPrice] = useState(0)
@@ -26,7 +30,9 @@ export default function PartyLeaderboard() {
 
     const fetchLeaderboard = async () => {
       try {
-        const data = await getPartyLeaderboard()
+        const data = useNextSaturday 
+          ? await getNextSaturdayPartyLeaderboard()
+          : await getPartyLeaderboard()
         setLeaderboard(data)
       } catch (error) {
         console.error('Error fetching leaderboard:', error)
@@ -45,7 +51,7 @@ export default function PartyLeaderboard() {
       clearInterval(priceInterval)
       clearInterval(leaderboardInterval)
     }
-  }, [])
+  }, [useNextSaturday])
 
   // Pagination calculations
   const totalPages = Math.ceil(leaderboard.length / entriesPerPage)
@@ -69,7 +75,6 @@ export default function PartyLeaderboard() {
     )
   }
 
-
   return (
     <div className="flow-root">
       <div className="overflow-x-auto">
@@ -78,17 +83,20 @@ export default function PartyLeaderboard() {
             <thead>
               <tr className="bg-gray-50">
                 <th scope="col" className="w-[15%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
-                  Hashrate ⛏️
+                  Base Hashrate ⛏️
                 </th>
-                <th scope="col" className="w-[40%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
+                <th scope="col" className="w-[15%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
+                  Bonus Hashrate 🚀
+                </th>
+                <th scope="col" className="w-[30%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
                   Miner 👤
                 </th>
-                <th scope="col" className="w-[20%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
+                <th scope="col" className="w-[15%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
                   % of Block Party
                 </th>
                 <th scope="col" className="w-[25%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
                   <div className="flex items-center gap-1">
-                    Potential Reward 💸
+                    {useNextSaturday ? 'Projected Reward 💸' : 'Potential Reward 💸'}
                     <Tooltip>
                       <TooltipTrigger>
                         <div className="cursor-help">
@@ -98,7 +106,7 @@ export default function PartyLeaderboard() {
                         </div>
                       </TooltipTrigger>
                       <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
-                        Miner earnings if a block is found
+                        {useNextSaturday ? 'Projected miner earnings if a block is found next Saturday' : 'Miner earnings if a block is found'}
                       </TooltipContent>
                     </Tooltip>
                   </div>
@@ -109,28 +117,27 @@ export default function PartyLeaderboard() {
               {currentEntries.map((entry, index) => (
                 <tr key={entry.buyer_id} className="even:bg-gray-50">
                   <td className="w-[15%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                    {formatMoney(entry.total_hashrate)} TH/s
+                  </td>
+                  <td className="w-[15%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                     <Tooltip>
                       <TooltipTrigger>
                         <div className="flex items-center cursor-help">
-                          {formatMoney(entry.total_hashrate)} TH/s
+                          {formatMoney(entry.total_bid_bonus + entry.total_auctioneer_match_bonus)} TH/s
                         </div>
                       </TooltipTrigger>
                       <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
                         <div className="space-y-1">
-                          {entry.total_bid_bonus > 0 && (
-                            <div>Bid Bonus: {formatMoney(entry.total_bid_bonus)} TH/s</div>
-                          )}
-                          {entry.total_auctioneer_match_bonus > 0 && (
-                            <div>Match Bonus: {formatMoney(entry.total_auctioneer_match_bonus)} TH/s</div>
-                          )}
+                          <div>Bid Bonus: {formatMoney(entry.total_bid_bonus)} TH/s</div>
+                          <div>Match Bonus: {formatMoney(entry.total_auctioneer_match_bonus)} TH/s</div>
                         </div>
                       </TooltipContent>
                     </Tooltip>
                   </td>
-                  <td className="w-[40%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                  <td className="w-[30%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                     {entry.buyer_name}
                   </td>
-                  <td className="w-[20%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
+                  <td className="w-[15%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                     {entry.percentage}%
                   </td>
                   <td className="w-[25%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
