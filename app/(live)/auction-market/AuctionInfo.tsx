@@ -38,8 +38,8 @@ export default function AuctionInfo() {
         <div className="item-center flex flex-col gap-4 self-stretch">
           <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2 rounded-md border border-gray-400 p-1 text-left text-large">
-              <div>- We mine together on CK Pool to try and mine a block</div>
               <div>- Hashrate is sold at auction</div>
+              <div>- We mine solo, together on CK Pool</div>
               <div>- Bonus hashrate after each auction improves the odds</div>
             </div>
           </div>

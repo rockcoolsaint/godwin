@@ -139,16 +139,10 @@ const AuctionProfile = ({ data }: Props) => {
           <div className="px-4">
             <div className="flex items-center border-b py-3">
               <span className="w-1/2">
-                {hashrateData?.base_hashrate && hashrateData.base_hashrate > 100 
-                  ? "Current block party speed"
-                  : "Hypothetical block party speed"
-                }
+                Projected block party speed
               </span>
               <span className="w-1/2">
-                {hashrateData?.base_hashrate && hashrateData.base_hashrate > 100
-                  ? `${formatMoney(hashrateData.base_hashrate)} TH/s`
-                  : "12,000 TH/s"
-                }
+                {formatMoney(1200)} TH/s
               </span>
             </div>
             <div className="flex items-center border-b py-3">
@@ -160,19 +154,13 @@ const AuctionProfile = ({ data }: Props) => {
 
             <div className="flex items-center border-b py-3">
               <span className="w-1/2">
-                {hashrateData?.base_hashrate && hashrateData.base_hashrate > 100
-                  ? "Your potential share"
-                  : "Your hypothetical share"
-                }
+               Your share
               </span>
               <span className="w-1/2">
                 {data.auction_meta.hashrate ? (
                   <>
-                    {((data.auction_meta.hashrate / 
-                      (hashrateData?.base_hashrate && hashrateData.base_hashrate > 100
-                        ? hashrateData.base_hashrate
-                        : 12000)
-                    ) * 100).toFixed(1)}%
+                    {((data.auction_meta.hashrate / 1200)
+                     * 100).toFixed(1)}%
                   </>
                 ) : 'Loading...'}
               </span>

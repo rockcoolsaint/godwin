@@ -708,54 +708,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {featuredAuction && (
-        <div className="bg-white rounded-lg shadow p-6 mt-4 mb-4">
-          <Link href={`/auctions/${featuredAuction.id}`} className="block">
-            <div className="bg-gradient-to-r from-[#f08222] to-[#ffa94d] rounded-lg p-1">
-              <div className="bg-white rounded-md p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                <div>
-                  <h3 className="text-lg font-semibold text-[#f08222] flex items-center gap-2">
-                    Join the Block Party! 🎉
-                    <span className="text-sm font-normal bg-[#fff5eb] text-[#f08222] px-2 py-1 rounded">
-                      {(() => {
-                        const now = new Date()
-                        const end = new Date(featuredAuction.end_at)
-                        const diff = end.getTime() - now.getTime()
-                        
-                        if (diff <= 0) return 'Ended'
-                        
-                        const hours = Math.floor(diff / (1000 * 60 * 60))
-                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-                        
-                        if (hours > 24) {
-                          const days = Math.floor(hours / 24)
-                          return `${days}d ${hours % 24}h left`
-                        }
-                        
-                        if (hours > 0) {
-                          return `${hours}h ${minutes}m left`
-                        }
-                        
-                        return `${minutes}m left`
-                      })()}
-                    </span>
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Current auction: {featuredAuction.auction_meta.hashrate} TH/s
-                  </p>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-[#f08222] font-medium mr-2">Place Bid</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-[#f08222]">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </Link>
-        </div>
-      )}
-
       <Tab.Group defaultIndex={1}>
         <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
           <Tab
@@ -824,6 +776,54 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+
+{featuredAuction && (
+        <div className="bg-white rounded-lg shadow p-6 mt-4 mb-4">
+          <Link href={`/auctions/${featuredAuction.id}`} className="block">
+            <div className="bg-gradient-to-r from-[#f08222] to-[#ffa94d] rounded-lg p-1">
+              <div className="bg-white rounded-md p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                <div>
+                  <h3 className="text-lg font-semibold text-[#f08222] flex items-center gap-2">
+                    Join the Block Party! 🎉
+                    <span className="text-sm font-normal bg-[#fff5eb] text-[#f08222] px-2 py-1 rounded">
+                      {(() => {
+                        const now = new Date()
+                        const end = new Date(featuredAuction.end_at)
+                        const diff = end.getTime() - now.getTime()
+                        
+                        if (diff <= 0) return 'Ended'
+                        
+                        const hours = Math.floor(diff / (1000 * 60 * 60))
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+                        
+                        if (hours > 24) {
+                          const days = Math.floor(hours / 24)
+                          return `${days}d ${hours % 24}h left`
+                        }
+                        
+                        if (hours > 0) {
+                          return `${hours}h ${minutes}m left`
+                        }
+                        
+                        return `${minutes}m left`
+                      })()}
+                    </span>
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Current auction: {featuredAuction.auction_meta.hashrate} TH/s
+                  </p>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-[#f08222] font-medium mr-2">Place Bid</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-[#f08222]">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

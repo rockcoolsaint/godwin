@@ -16,22 +16,28 @@ function BlockPartyExplanation() {
       <div className="px-4 py-5 sm:p-6">
         <h3 className="text-xl font-semibold text-gray-900">How Block Party Works</h3>
         <p className="mt-4 text-lg text-gray-500">
-          You buy hashrate at auction, which is added to the block party's hashrate and sent to <Link href="https://solo.ckpool.org/" styled>CK Pool</Link> to solo mine.
+          You buy hashrate at auction, which is sent to <Link href="https://solo.ckpool.org/" styled>CK Pool</Link>.
         </p>
+
         <p className="mt-4 text-lg text-gray-500">
-          The mining's payout address is set to our multisig escrow address.</p>
+          Our combined hashrate mines to our escrow address.</p>
+        <p className="mt-4 text-lg text-gray-500"></p>
+
         <p className="mt-4 text-lg text-gray-500">
-          If we find a block, payment will be split up by hashrate contribution and sent to your payout address in your account profile.
+          If we find a block, payment will be split up by hashrate contribution.
         </p>
+
         <p className="mt-4 text-lg text-gray-500">
-          You are in the party for the duration of your auction's mining term - eg. 3 hours, 6 hours, etc.
+          Payment upon finding a block will be sent to your <Link href="/account/general" styled>payout address</Link>
+        </p>
+
+        <p className="mt-4 text-lg text-gray-500">
+          You are in the party during your auction's mining term.
         </p>
         <p className="mt-4 text-lg text-gray-500">
           Monitor the block party on the <Link href="/pages/dashboard" styled>Live View</Link>.
         </p>
-        <p className="mt-4 text-lg text-gray-500">
-          The more people who join the party, the more hashrate we have, which improves our chances.
-        </p>
+        
         <br/>
         <h3 className="text-xl font-semibold text-gray-900">Bonus Hashrate</h3>
         <p className="mt-4 text-lg text-gray-500">
@@ -40,6 +46,11 @@ function BlockPartyExplanation() {
         <p className="mt-4 text-lg text-gray-500">
           These funds buy bonus hashrate for <b>moar speed</b> to improve our odds.
         </p>
+
+        <p className="mt-4 text-lg text-gray-500">
+          The more bidders compete to join the block party, the more bonus hashrate we will have, improving our odds.
+        </p>
+
       </div>
     </div>
   )

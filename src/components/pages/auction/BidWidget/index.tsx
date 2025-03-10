@@ -31,6 +31,21 @@ import { getTotalHashrateData, type TotalHashrateData } from 'src/api/ckpool/get
 import useSoloMineCalculator from 'src/hooks/useSoloMineCalculator'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
+const PROJECTED_BLOCK_PARTY_SPEED = 1200;
+
+const isCurrentlyMining = (hashrateData?: TotalHashrateData | null) => {
+  return hashrateData?.current_hashrate > 0;
+};
+
+// Format duration helper function
+const formatDuration = (days) => {
+  const hours = days * 24
+  if (hours < 48) {
+    return `${hours} hours`
+  }
+  return `${days} days`
+}
+
 interface Props {
   auction: Auction
   bids: BidsEntityOrCurrentBid[]
@@ -44,7 +59,6 @@ interface Props {
 
 const PotentialMiningReward = ({ auction, hashrateData }) => {
   const BLOCK_REWARD = 3.125 // BTC
-  const HYPOTHETICAL_BLOCK_PARTY_SPEED = 12000 // TH/s
   const blockRewardInSats = BLOCK_REWARD * 100000000
 
   const blockRewardFiat = useSatsToFiat({
@@ -55,19 +69,16 @@ const PotentialMiningReward = ({ auction, hashrateData }) => {
   const calculateRewards = () => {
     if (!auction?.auction_meta?.hashrate) return { percentage: 0, btcReward: 0 }
     
-    // If hashrate data exists and is above 100 TH/s, use actual hashrate
-    if (hashrateData?.base_hashrate && hashrateData.base_hashrate > 100) {
-      let percentage = (auction.auction_meta.hashrate / hashrateData.base_hashrate) * 100
-      percentage = Math.min(percentage, 100)
-      const btcReward = (percentage / 100) * BLOCK_REWARD
-      return { percentage, btcReward, useActual: true }
-    }
+    const currentlyMining = isCurrentlyMining(hashrateData);
+    const effectiveHashrate = currentlyMining 
+      ? hashrateData?.current_hashrate 
+      : PROJECTED_BLOCK_PARTY_SPEED;
+
+    let percentage = (auction.auction_meta.hashrate / effectiveHashrate) * 100;
+    percentage = Math.min(percentage, 100);
+    const btcReward = (percentage / 100) * BLOCK_REWARD;
     
-    // Otherwise use hypothetical speed
-    let percentage = (auction.auction_meta.hashrate / HYPOTHETICAL_BLOCK_PARTY_SPEED) * 100
-    percentage = Math.min(percentage, 100)
-    const btcReward = (percentage / 100) * BLOCK_REWARD
-    return { percentage, btcReward, useActual: false }
+    return { percentage, btcReward, useActual: currentlyMining };
   }
 
   const rewards = calculateRewards()
@@ -87,7 +98,7 @@ const PotentialMiningReward = ({ auction, hashrateData }) => {
           <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
             Block reward is 3.125 BTC. {rewards.useActual 
               ? 'Your share is based on current block party speed.'
-              : 'Your share is based on a hypothetical block party speed of 12,000 TH/s.'
+              : 'Your share is based on projected block party speed.'
             }
           </TooltipContent>
         </Tooltip>
@@ -98,10 +109,10 @@ const PotentialMiningReward = ({ auction, hashrateData }) => {
             ${formatMoney(blockRewardFiat)}
           </div>
         </div>
-  
         <div className="text-base text-gray-600 text-left">
-          {rewards.useActual ? 'Your potential share: ' : 'Your hypothetical share: '}
-          <span className="font-semibold text-green-600">${formatMoney(auctionRewardFiat)}</span>
+          Your potential share: <span className="font-semibold text-green-600">
+            ${formatMoney(auctionRewardFiat)}
+          </span>
         </div>
       </div>
     </div>
@@ -125,15 +136,6 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
     const currentBidAmount = current_bid?.bid || 0
     
     const totalBonusHashrate = bonusHashrate * 2
-
-    // Format duration helper function
-    const formatDuration = (days) => {
-      const hours = days * 24
-      if (hours < 48) {
-        return `${hours} hours`
-      }
-      return `${days} days`
-    }
     
     return (
       <div className="mb-4 w-full max-w-sm rounded-xl bg-orange-50 border border-orange-200 p-4">
@@ -559,79 +561,97 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
         </div>
 
         {activeTab === 'refer' && (
-      <>
-        <div className="flex items-center justify-between">
-          <h1 className="text-lg font-medium text-gray-900">Block Party Stats</h1>
-          <div className="relative group">
-            <QuestionMarkCircleIcon 
-              className="h-5 w-5 text-gray-400 cursor-help" 
-            />
-            <div className="hidden group-hover:block absolute right-0 w-64 p-2 bg-gray-800 text-white text-sm rounded-md z-10">
-              Current mining power and odds of finding a block
-            </div>
-          </div>
-        </div>
+        <>
+          {hashrateData?.current_hashrate > 0 ? (
+            <>
+              <div className="flex items-center justify-between">
+                <h1 className="text-lg font-medium text-gray-900">Block Party Stats</h1>
+                <div className="relative group">
+                  <QuestionMarkCircleIcon 
+                    className="h-5 w-5 text-gray-400 cursor-help" 
+                  />
+                  <div className="hidden group-hover:block absolute right-0 w-64 p-2 bg-gray-800 text-white text-sm rounded-md z-10">
+                    Current mining power and odds of finding a block
+                  </div>
+                </div>
+              </div>
 
-        <div className="mt-4 space-y-4">
-          {/* Current Stats */}
-          <div className="p-4 bg-gray-50 rounded-lg">
-          <div className="space-y-2">
-          {/* Add Network Hashrate here */}
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Network Hashrate</span>
-            <span className="font-medium">
-              {miningCalc.isLoading ? 'Loading...' : `${formatMoney(miningCalc.globalHashrate || 0)} TH/s`}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Current Hashrate</span>
-            <span className="font-medium">
-              {miningCalc.isLoading ? 'Loading...' : `${formatMoney(hashrateData?.current_hashrate || 0)} TH/s`}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Daily Block Chance</span>
-            <span className="font-medium">
-              {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay).toLocaleString()}`}
-            </span>
-          </div>
-        </div>
-          </div>
-        {/* Projected Stats */}
-        <div className="space-y-2">
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">At 2× Hashrate</span>
-            <span className="font-medium text-orange-600">
-              {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 2).toLocaleString()}`}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">At 3× Hashrate</span>
-            <span className="font-medium text-orange-600">
-              {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 3).toLocaleString()}`}
-            </span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">At 4× Hashrate</span>
-            <span className="font-medium text-orange-600">
-              {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 4).toLocaleString()}`}
-            </span>
-          </div>
-          <div className="text-xs text-gray-500 text-center mt-4">
-        Don't trust, verify at{' '}
-        <a 
-          href="https://solochance.com" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="text-orange-500 hover:text-orange-600"
-        >
-          Solochance
-        </a>
-      </div>
-        </div>
-          </div>
-      </>
-    )}
+              <div className="mt-4 space-y-4">
+                {/* Current Stats */}
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Network Hashrate</span>
+                      <span className="font-medium">
+                        {miningCalc.isLoading ? 'Loading...' : `${formatMoney(miningCalc.globalHashrate || 0)} TH/s`}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Current Hashrate</span>
+                      <span className="font-medium">
+                        {miningCalc.isLoading ? 'Loading...' : `${formatMoney(hashrateData?.current_hashrate || 0)} TH/s`}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Daily Block Chance</span>
+                      <span className="font-medium">
+                        {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay).toLocaleString()}`}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {/* Projected Stats */}
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">At 2× Hashrate</span>
+                    <span className="font-medium text-orange-600">
+                      {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 2).toLocaleString()}`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">At 3× Hashrate</span>
+                    <span className="font-medium text-orange-600">
+                      {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 3).toLocaleString()}`}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">At 4× Hashrate</span>
+                    <span className="font-medium text-orange-600">
+                      {miningCalc.isLoading ? 'Loading...' : `1 in ${Math.round(miningCalc.chancePerBlockDay / 4).toLocaleString()}`}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-500 text-center mt-4">
+                    Don't trust, verify at{' '}
+                    <a 
+                      href="https://solochance.com" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-orange-500 hover:text-orange-600"
+                    >
+                      Solochance
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            // Show dashboard link when not mining
+            <div className="flex flex-col items-center justify-center py-8">
+              <h1 className="text-lg font-medium text-gray-900 mb-4">Block Party Stats</h1>
+              <p className="text-gray-600 mb-4 text-center">
+                Block party is not currently mining.<br/>
+                Check the dashboard for updates.
+              </p>
+              <Link 
+                href="/pages/dashboard" 
+                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-400 hover:bg-orange-700"
+              >
+                View Dashboard →
+              </Link>
+            </div>
+          )}
+        </>
+      )}
 
 {activeTab === 'auction' && (
   <>
@@ -728,7 +748,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             </div>
             <div className="flex items-center mt-4">
               <p className="text-sm text-gray-600">
-                Bonus hashrate is for 3 hours
+                Bonus hashrate is for {formatDuration(auction.auction_meta.days_of_mining)} 
               </p>
             </div>
           </div>
