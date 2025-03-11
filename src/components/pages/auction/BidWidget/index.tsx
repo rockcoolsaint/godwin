@@ -267,7 +267,10 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
       const baseValue = calculateBaseValue(auction)
       if (bid > baseValue) {
         const excessAmount = bid - baseValue
-        return excessAmount / (SPOT_HASHPRICE / 8) // For 3-hour bonus period
+        // Convert days_of_mining to a fraction of a day to adjust SPOT_HASHPRICE
+        const dailyFraction = 1 / auction.auction_meta.days_of_mining
+        // Divide SPOT_HASHPRICE by the daily fraction to get correct bonus hashrate
+        return excessAmount / (SPOT_HASHPRICE / dailyFraction)
       }
       return 0
     }
@@ -508,7 +511,10 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
     const baseValue = calculateBaseValue()
     if (bid > baseValue) {
       const excessAmount = bid - baseValue
-      return excessAmount / (SPOT_HASHPRICE / 8) // For 3-hour bonus period
+      // Convert days_of_mining to a fraction of a day to adjust SPOT_HASHPRICE
+      const dailyFraction = 1 / auction.auction_meta.days_of_mining
+      // Divide SPOT_HASHPRICE by the daily fraction to get correct bonus hashrate
+      return excessAmount / (SPOT_HASHPRICE / dailyFraction)
     }
     return 0
   }

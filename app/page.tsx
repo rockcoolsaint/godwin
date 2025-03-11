@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
       initialScale: 1,
       maximumScale: 1,
     },
-    title: 'Rigly',
+    title: 'Rigly - Upendo',
     keywords: ['bitcoin', 'mining', 'hashrate', 'bitcoin mining', 'rigly', 'upendo'],
     openGraph: {
       images: [{ url: 'https://i.postimg.cc/59HBs7Qy/upendo-logo-orange.png', width: 400, height:150 }],
@@ -34,11 +34,10 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Rigly - Your Bitcoin Mining Marketplace',
+      title: 'Upendo - Bitcoin Mining Block Party',
       description:
-        "Rigly is your marketplace for bitcoin mining. Buy hashrate from miners around the world. All plans include Trustless Mining escrow to ensure hashrate delivery. Don't get rugged, get Rigly.",
+        "Solo mine with bitcoiners. We mine until we find a block and split 3.125 btc.",
       creator: '@trustlessmining',
-      images: [{ url: 'https://cdn.shopify.com/s/files/1/0603/6648/7720/files/Rigly_1.png?v=1654535433', width: 800, height: 600 }],
     },
   }
 }
