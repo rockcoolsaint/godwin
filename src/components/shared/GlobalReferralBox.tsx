@@ -20,6 +20,18 @@ const GlobalReferralBox = () => {
     totalHashrate: number;
   } | null>(null)
 
+    // Get referral link based on account status
+    const referralLink = account?.referral_code 
+    ? `https://upendo.rigly.io/register?referral=${account.referral_code}`
+    : 'https://upendo.rigly.io'
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(referralLink)
+    setCopied(true)
+    toast.success('Copied to clipboard')
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   useEffect(() => {
     async function fetchUpcomingPartyData() {
       try {
@@ -91,14 +103,37 @@ const GlobalReferralBox = () => {
       
       {!isMinimized && (
         <div className="px-4 pb-4">
-          {/* Add projected hashrate message */}
           <div className="bg-orange-50 rounded-lg p-4 mb-4">
-          <p className="text-sm text-gray-600">
-            We could mine with 
-              <span className="font-bold text-orange-600"> {upcomingPartyData ? formatMoney((upcomingPartyData.totalHashrate*1.5)) : '...'} TH/s
-              </span> if you tell 3 people</p>
+            <p className="text-sm text-gray-600">
+              New bidders earn 200 TH/s bonus hashrate in their first auction win.
+            </p>
           </div>
-          <div><p className="text-sm text-gray-600">Bonus hashrate comes from new bidders.</p></div>
+          <div className="flex flex-col gap-2">
+            <p className="text-sm text-gray-600">Refer your friends to earn free party hashrate.</p>
+            
+            {/* Add referral link with copy button */}
+            <div className="flex items-center gap-2 mt-2">
+              <input
+                type="text"
+                value={referralLink}
+                readOnly
+                className="text-sm bg-gray-50 rounded p-2 flex-grow"
+              />
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleCopy()
+                }}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                {copied ? (
+                  <CheckIcon className="h-5 w-5 text-green-600" />
+                ) : (
+                  <ClipboardIcon className="h-5 w-5 text-gray-600" />
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
