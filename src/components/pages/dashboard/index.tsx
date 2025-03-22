@@ -632,22 +632,36 @@ export default function Dashboard() {
 
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Projected Daily Odds
+                          Projected Party Odds (6hr)
                         </h3>
-                        <p className="text-2xl font-semibold text-gray-900">
-                          1 in {upcomingPartyCalc.chancePerBlockDay.toLocaleString()}
-                        </p>
-                        <p className="text-sm text-gray-600 mt-2">Chance of mining a block</p>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <p className="text-2xl font-semibold text-gray-900">
+                              1 in {Math.round(upcomingPartyCalc.chancePerBlockDay * 4).toLocaleString()}
+                            </p>
+                          </TooltipTrigger>
+                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                            24hr: 1 in {upcomingPartyCalc.chancePerBlockDay.toLocaleString()}
+                          </TooltipContent>
+                        </Tooltip>
+                        <p className="text-sm text-gray-600 mt-2">Chance of mining a block in 6 hours</p>
                       </div>
 
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Projected Daily Chance
+                          Projected Party Chance (6hr)
                         </h3>
-                        <p className="text-2xl font-semibold text-gray-900">
-                          {formatDailyOdds(upcomingPartyCalc.chancePerBlockDay)}
-                        </p>
-                        <p className="text-sm text-gray-600 mt-2">Probability per day</p>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <p className="text-2xl font-semibold text-gray-900">
+                              {formatDailyOdds(upcomingPartyCalc.chancePerBlockDay / 4)}
+                            </p>
+                          </TooltipTrigger>
+                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                            24hr: {formatDailyOdds(upcomingPartyCalc.chancePerBlockDay)}
+                          </TooltipContent>
+                        </Tooltip>
+                        <p className="text-sm text-gray-600 mt-2">Probability per 6 hours</p>
                       </div>
                     </>
                   ) : (
@@ -682,22 +696,36 @@ export default function Dashboard() {
 
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Daily Odds
+                          Party Odds (6hr)
                         </h3>
-                        <p className="text-2xl font-semibold text-gray-900">
-                          1 in {currentHashrateCalc.chancePerBlockDay.toLocaleString()}
-                        </p>
-                        <p className="text-sm text-gray-600 mt-2">chance of mining a block per day</p>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <p className="text-2xl font-semibold text-gray-900">
+                              1 in {Math.round(currentHashrateCalc.chancePerBlockDay * 4).toLocaleString()}
+                            </p>
+                          </TooltipTrigger>
+                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                            24hr: 1 in {currentHashrateCalc.chancePerBlockDay.toLocaleString()}
+                          </TooltipContent>
+                        </Tooltip>
+                        <p className="text-sm text-gray-600 mt-2">chance of mining a block in 6 hours</p>
                       </div>
 
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Daily Chance
+                          Party Chance (6hr)
                         </h3>
-                        <p className="text-2xl font-semibold text-gray-900">
-                          {formatDailyOdds(currentHashrateCalc.chancePerBlockDay)}
-                        </p>
-                        <p className="text-sm text-gray-600 mt-2">probability per day</p>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <p className="text-2xl font-semibold text-gray-900">
+                              {formatDailyOdds(currentHashrateCalc.chancePerBlockDay / 4)}
+                            </p>
+                          </TooltipTrigger>
+                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                            24hr: {formatDailyOdds(currentHashrateCalc.chancePerBlockDay)}
+                          </TooltipContent>
+                        </Tooltip>
+                        <p className="text-sm text-gray-600 mt-2">probability per 6 hours</p>
                       </div>
                     </>
                   )}
