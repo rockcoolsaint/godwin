@@ -142,7 +142,7 @@ const AuctionProfile = ({ data }: Props) => {
                 Projected block party speed
               </span>
               <span className="w-1/2">
-                {formatMoney(1200)} TH/s
+                {formatMoney(4096)} TH/s
               </span>
             </div>
             <div className="flex items-center border-b py-3">
@@ -159,7 +159,7 @@ const AuctionProfile = ({ data }: Props) => {
               <span className="w-1/2">
                 {data.auction_meta.hashrate ? (
                   <>
-                    {((data.auction_meta.hashrate / 1200)
+                    {((data.auction_meta.hashrate / 4096)
                      * 100).toFixed(1)}%
                   </>
                 ) : 'Loading...'}

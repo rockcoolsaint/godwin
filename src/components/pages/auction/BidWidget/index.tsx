@@ -31,7 +31,7 @@ import { getTotalHashrateData, type TotalHashrateData } from 'src/api/ckpool/get
 import useSoloMineCalculator from 'src/hooks/useSoloMineCalculator'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
-const PROJECTED_BLOCK_PARTY_SPEED = 1200;
+const PROJECTED_BLOCK_PARTY_SPEED = 4096;
 
 const isCurrentlyMining = (hashrateData?: TotalHashrateData | null) => {
   return hashrateData?.current_hashrate > 0;
@@ -147,7 +147,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-base font-medium text-white">
               Block party earns {formatDuration(auction.auction_meta.days_of_mining)} extra hashrate<br/>
-              from overbidding, matched by auctioneer (Evan)
+              from overbidding, 21% match by auctioneer (Evan)
             </TooltipContent>
           </Tooltip>
         </h2>
@@ -167,7 +167,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
               Bidder <span className="font-semibold text-orange-600">{bonusHashrate.toFixed(0)} TH/s</span>
             </div>
             <div className="text-sm text-gray-600 text-left">
-              Auctioneer <span className="font-semibold text-orange-600">{bonusHashrate.toFixed(0)} TH/s</span>
+              Auctioneer <span className="font-semibold text-orange-600">{(bonusHashrate * 0.21).toFixed(0)} TH/s</span>
             </div>
           </div>
         ) : (
@@ -464,6 +464,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
 
   const HASHRATE_PER_USER = 105 // 5 auctions × 21 TH/s each = 105 TH/s
   const SPOT_HASHPRICE = 64 // Current spot hashprice in sats/TH/s/day
+  const AUCTIONEER_MATCH_PERCENTAGE = 0.21; // 21% match
 
   // Set initial bid to current auction bid or base value
   useEffect(() => {
@@ -738,16 +739,16 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Auctioneer match</span>
+                <span className="text-sm text-gray-600">Auctioneer match (21%)</span>
                 <span className="text-m font-bold text-orange-500">
-                  {formatMoney(calculateAuctionBonusHashrate(currentBid))} TH/s
+                  {formatMoney(calculateAuctionBonusHashrate(currentBid) * AUCTIONEER_MATCH_PERCENTAGE)} TH/s
                 </span>
               </div>
               <div className="border-t pt-2 mt-2">
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-700">TOTAL</span>
                   <span className="text-2xl font-bold text-orange-500">
-                    {formatMoney(calculateAuctionBonusHashrate(currentBid) * 2)} TH/s
+                    {formatMoney(calculateAuctionBonusHashrate(currentBid) * (1 + AUCTIONEER_MATCH_PERCENTAGE))} TH/s
                   </span>
                 </div>
               </div>

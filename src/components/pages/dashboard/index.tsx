@@ -305,7 +305,7 @@ const renderTopSection = (
           <div className="bg-[#fff5eb] rounded-md p-4">
             <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
               <div className="flex items-center gap-1">
-                Your potential block party share
+                Potential 21 TH/s mining share
                 <Tooltip>
                   <TooltipTrigger>
                     <div className="cursor-help">
@@ -315,17 +315,17 @@ const renderTopSection = (
                     </div>
                   </TooltipTrigger>
                   <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                    Based on 21 TH/s in a block party of 4,200 TH/s
+                    Based on 21 TH/s in a block party of 4,096 TH/s
                   </TooltipContent>
                 </Tooltip>
               </div>
             </h3>
             <div>
               <p className="text-2xl font-semibold text-[#f08222]">
-                ${formatMoney(0.005 * 3.125 * bitcoinPrice)} USD
+                ${formatMoney(0.00512 * 3.125 * bitcoinPrice)} USD
               </p>
               <p className="text-sm text-gray-500 mt-1">
-                {(0.005 * 3.125).toFixed(8)} BTC
+                {(0.00512 * 3.125).toFixed(8)} BTC
               </p>
             </div>
           </div>
