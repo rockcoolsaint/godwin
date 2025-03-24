@@ -24,10 +24,10 @@ const GlobalReferralBox = () => {
     const isSaturday = new Date().getDay() === 6
 
     // If it's Saturday, return null (don't render anything)
-    if (isSaturday) {
+    if (!isSaturday) {
       return null
     }
-    
+
     // Get referral link based on account status
     const referralLink = account?.referral_code 
     ? `https://upendo.rigly.io/register?referral=${account.referral_code}`

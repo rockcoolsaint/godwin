@@ -470,8 +470,8 @@ export default function Dashboard() {
     async function fetchUpcomingPartyData() {
       try {
         // Fetch upcoming block party auctions
-        const upcomingAuctions = await getAllAuctions({
-          limit: 1000,
+         const upcomingAuctions = await getAllAuctions({
+          limit: 10,
           auction_status: 'active',
           auction_type: 'blockparty_auction'
         });
@@ -492,11 +492,12 @@ export default function Dashboard() {
           // Get the next Saturday date
           const { nextSaturday } = getNextBlockPartyDate();
   
+          auctionHashrate = 4096
           // Calculate auction hashrate
-          const auctionHashrate = partyAuctions.reduce(
-            (sum, auction) => sum + (auction.auction_meta.hashrate || 0),
-            0
-          );
+          //const auctionHashrate = partyAuctions.reduce(
+          //  (sum, auction) => sum + (auction.auction_meta.hashrate || 0),
+          //  0
+          //);
   
           // Calculate party table hashrate from next Saturday's data
           const partyTableHashrate = nextSatPartyLeaderboard.reduce((sum, entry) => {
