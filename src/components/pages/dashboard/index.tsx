@@ -251,6 +251,9 @@ function getNextBlockPartyDate() {
   nextSaturday.setDate(now.getDate() + ((6 - now.getDay() + 7) % 7))
   nextSaturday.setHours(0, 0, 0, 0)
   
+  // Add another week if the next block party is two weeks out
+  nextSaturday.setDate(nextSaturday.getDate() + 7)
+  
   const followingSaturday = addDays(nextSaturday, 7)
   
   return { nextSaturday, followingSaturday }
