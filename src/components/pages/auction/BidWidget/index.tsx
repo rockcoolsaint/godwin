@@ -135,7 +135,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
     const baseValue = calculateBaseValue(auction)
     const currentBidAmount = current_bid?.bid || 0
     
-    const totalBonusHashrate = bonusHashrate * 2
+    const totalBonusHashrate = bonusHashrate * 1.21
     
     return (
       <div className="mb-4 w-full max-w-sm rounded-xl bg-orange-50 border border-orange-200 p-4">

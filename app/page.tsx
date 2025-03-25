@@ -24,10 +24,10 @@ export async function generateMetadata(): Promise<Metadata> {
     title: 'Rigly - Upendo',
     keywords: ['bitcoin', 'mining', 'hashrate', 'bitcoin mining', 'rigly', 'upendo'],
     openGraph: {
-      images: [{ url: 'https://i.postimg.cc/59HBs7Qy/upendo-logo-orange.png', width: 400, height:150 }],
+      images: [{ url: 'https://i.postimg.cc/9XSpV5Hy/up2.png', width: 300, height:110 }],
       title: 'Upendo - Bitcoin Mining Block Party',
       description:
-       "Solo mine with bitcoiners. We mine until we find a block and split 3.125 btc.",
+       "Solo mine with bitcoiners. We mine until we find a block.",
       url: 'https://upendo.rigly.io',
       siteName: 'upendo.rigly.io',
       type: 'website',

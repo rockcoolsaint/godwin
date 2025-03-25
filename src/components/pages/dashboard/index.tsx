@@ -654,7 +654,7 @@ export default function Dashboard() {
                         <Tooltip>
                           <TooltipTrigger>
                             <p className="text-2xl font-semibold text-gray-900">
-                              {formatDailyOdds(upcomingPartyCalc.chancePerBlockDay / 4)}
+                              {formatDailyOdds(upcomingPartyCalc.chancePerBlockDay * 4)}
                             </p>
                           </TooltipTrigger>
                           <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
@@ -718,7 +718,7 @@ export default function Dashboard() {
                         <Tooltip>
                           <TooltipTrigger>
                             <p className="text-2xl font-semibold text-gray-900">
-                              {formatDailyOdds(currentHashrateCalc.chancePerBlockDay / 4)}
+                              {formatDailyOdds(currentHashrateCalc.chancePerBlockDay * 4)}
                             </p>
                           </TooltipTrigger>
                           <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
