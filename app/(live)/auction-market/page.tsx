@@ -13,7 +13,7 @@ export default async function AuctionMarketPage() {
   const limit = 20
 
   const activeAuctions = await getAllAuctions({
-    limit: 1000,
+    limit: 50,
     group_by: 'auction_status',
     auction_status: 'active',
   })

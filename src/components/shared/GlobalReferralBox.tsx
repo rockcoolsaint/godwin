@@ -45,7 +45,7 @@ const GlobalReferralBox = () => {
       try {
         // Fetch upcoming block party auctions
         const upcomingAuctions = await getAllAuctions({
-          limit: 1000,
+          limit: 50,
           auction_status: 'active',
           auction_type: 'blockparty_auction'
         });

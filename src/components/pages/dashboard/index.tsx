@@ -200,7 +200,7 @@ const AuctionsDataWrapper = () => {
     async function fetchAuctions() {
       try {
         const activeAuctions = await getAllAuctions({
-          limit: 1000,
+          limit: 50,
           group_by: 'auction_status',
           auction_status: 'active',
           sort_by: 'end_time',
@@ -474,7 +474,7 @@ export default function Dashboard() {
       try {
         // Fetch upcoming block party auctions
         const upcomingAuctions = await getAllAuctions({
-          limit: 1000,
+          limit: 50,
           auction_status: 'active',
           auction_type: 'blockparty_auction'
         });
