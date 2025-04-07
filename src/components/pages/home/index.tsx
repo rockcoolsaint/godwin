@@ -101,7 +101,7 @@ export default function Home({ isDemo, code }: Props) {
             <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
               <circle cx={1} cy={1} r={1} />
             </svg>
-            Next block party is Saturday, April 5th 16:00-22:00 UTC
+            Next block party is Saturday, April 26th 16:00-22:00 UTC
           </a>
         </p>
       </div>
