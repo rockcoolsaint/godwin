@@ -3,6 +3,7 @@
 import { Tab } from '@headlessui/react'
 import CKPoolHashrateGraph from './CKPoolHashrateGraph'
 import PartyLeaderboard from './PartyLeaderboard'
+import DirectPartyLeaderboard from './DirectPartyLeaderboard'
 import { getTotalHashrateData, type TotalHashrateData as HashrateDataType } from 'src/api/ckpool/getHashrateData'
 import { useState, useEffect } from 'react'
 import useSoloMineCalculator from 'src/hooks/useSoloMineCalculator'
@@ -11,8 +12,8 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Suspense } from 'react'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { PartyLeaderboardEntry } from 'src/types'
-import { getPartyLeaderboard, getNextSaturdayPartyLeaderboard } from 'src/api/party/getLeaderboard'
+import { DirectPartyLeaderboardEntry, PartyLeaderboardEntry } from 'src/api/auction/types'
+import { getPartyLeaderboard, getNextSaturdayPartyLeaderboard, getDirectPartyLeaderboard, getNextSaturdayDirectPartyLeaderboard } from 'src/api/party/getLeaderboard'
 import { formatMoney } from 'src/utils/currency'
 import { getBitcoinPrice } from 'src/utils/bitcoin'
 import { format as formatDate, addDays } from 'date-fns'
@@ -252,7 +253,7 @@ function getNextBlockPartyDate() {
   nextSaturday.setHours(0, 0, 0, 0)
   
   // Add another week if the next block party is two weeks out
-  nextSaturday.setDate(nextSaturday.getDate() + 7)
+  // nextSaturday.setDate(nextSaturday.getDate() + 7)
   
   const followingSaturday = addDays(nextSaturday, 7)
   
@@ -413,6 +414,7 @@ export default function Dashboard() {
   const [upcomingPartyData, setUpcomingPartyData] = useState<{
     date: Date;
     totalHashrate: number;
+    directBuyHashrate: number;
     auctions: {
       delivery_date: string;
       auction_meta: {
@@ -481,6 +483,9 @@ export default function Dashboard() {
   
         // Fetch next Saturday's party leaderboard data
         const nextSatPartyLeaderboard = await getNextSaturdayPartyLeaderboard();
+        
+        // Fetch next Saturday's direct buy leaderboard data
+        const nextSatDirectLeaderboard = await getNextSaturdayDirectPartyLeaderboard();
   
         if (upcomingAuctions?.results) {
           const partyAuctions = upcomingAuctions.results.filter(auction => {
@@ -509,13 +514,20 @@ export default function Dashboard() {
               (entry.total_auctioneer_match_bonus || 0);
           }, 0);
   
+          // Calculate direct buy hashrate
+          const directBuyHashrate = nextSatDirectLeaderboard.reduce((sum, entry) => {
+            return sum + (entry.total_hashrate || 0);
+          }, 0);
+  
           console.log('Auction hashrate:', auctionHashrate);
           console.log('Party table hashrate:', partyTableHashrate);
-          console.log('Total hashrate:', auctionHashrate + partyTableHashrate);
+          console.log('Direct buy hashrate:', directBuyHashrate);
+          console.log('Total hashrate:', auctionHashrate + partyTableHashrate + directBuyHashrate);
   
           setUpcomingPartyData({
             date: nextSaturday,
-            totalHashrate: Math.max(auctionHashrate + partyTableHashrate, 0.01), // Ensure we never have 0 hashrate
+            totalHashrate: Math.max(auctionHashrate + partyTableHashrate + directBuyHashrate, 0.01), // Ensure we never have 0 hashrate
+            directBuyHashrate: directBuyHashrate, // Add direct buy hashrate to state
             auctions: partyAuctions
           });
         }
@@ -625,7 +637,7 @@ export default function Dashboard() {
                                   </div>
                                 </TooltipTrigger>
                                 <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                                  includes active and complete auctions, plus estimated bonus hashrate
+                                  includes active and complete auctions, bonus hashrate and direct buy ({formatMoney(upcomingPartyData.directBuyHashrate)} TH/s)
                                 </TooltipContent>
                               </Tooltip>
                             </p>
@@ -739,7 +751,21 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <Tab.Group defaultIndex={1}>
+      {/* Direct Buy Miners table */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Direct Buy Miners</h2>
+        <div className="bg-white rounded-lg shadow p-4">
+          {hashrateData?.current_hashrate === 0 && upcomingPartyData ? (
+            <DirectPartyLeaderboard useNextSaturday={true} />
+          ) : (
+            <DirectPartyLeaderboard useNextSaturday={false} />
+          )}
+        </div>
+      </div>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Auction Miners</h2>
+      <Tab.Group defaultIndex={0}>
         <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
           <Tab
             className={({ selected }) =>
@@ -791,6 +817,7 @@ export default function Dashboard() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
+      </div>
           {/* Add Live View at the bottom, only shown when there's active mining */}
         {hashrateData?.current_hashrate > 0 && (
           <div className="mt-8">

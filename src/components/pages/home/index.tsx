@@ -11,6 +11,7 @@ import Link from 'src/components/shared/Link'
 import { format } from 'date-fns'
 import dynamic from 'next/dynamic'
 import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
+import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
 
 const TrustlessMining = dynamic(() => import('./TrustlessMining'), {
   ssr: true
@@ -112,17 +113,17 @@ export default function Home({ isDemo, code }: Props) {
             <Hero>
               <>
                 <div className="mb-20 mt-6 flex w-full justify-center font-chakra font-bold">
-              <Link 
-                href={isLoggedIn ? '/pages/dashboard' : '/learn/upendo'} // Change link based on auth status
-                className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-[#f08222] px-5 py-4 text-lg text-white outline-none hover:bg-[#d97420] disabled:cursor-not-allowed disabled:opacity-50 lg:w-8/12 lg:text-2xl xl:w-4/12"
-              >
-                {isLoggedIn ? 'View the party' : 'Join the party'}
-              </Link>
               </div>
               </>
             </Hero>
-            <TrustlessMining />
-            <section className="-mt-6 flex w-full flex-col items-center justify-center border border-solid border-gray-300 py-12 sm:px-4 sm:py-28 md:px-0">
+
+            {/* Added text */}
+            <div className="text-center text-xl text-gray-600 mb-12 mt-8">
+              <h3 className="text-2xl font-bold mb-6">Want a bigger slice of the block party reward?</h3>
+              <p>Place your bid and earn bonus hashrate</p>
+            </div>
+
+            <section className="-mt-6 flex w-full flex-col items-center justify-center py-12 sm:px-4 sm:py-28 md:px-0">
             {auctionOfTheDay && <AOTD auction={auctionOfTheDay} />}
             {auctionData.length > 0 && auctionOfTheDay && (
               <>
@@ -138,6 +139,19 @@ export default function Home({ isDemo, code }: Props) {
           <RealMachines />
 
           </section>
+
+          {/* Add Telegram button */}
+          <div className="mt-20 mb-20 flex flex-col items-center justify-center">
+            <Link
+              href="https://t.me/+K8JjHpTgqoFjZmIx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 rounded-lg bg-orange-400 px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
+            >
+              <ChatBubbleLeftRightIcon className="h-6 w-6" />
+              Chat with the block party on Telegram
+            </Link>
+          </div>
 
         </>
 

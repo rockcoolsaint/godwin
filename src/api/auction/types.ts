@@ -21,6 +21,13 @@ export interface PartyLeaderboardEntry {
   reward_share_btc: number
 }
 
+export interface DirectPartyLeaderboardEntry {
+  payout_address: string
+  total_hashrate: number
+  percentage: number
+  reward_share_btc: number
+}
+
 export enum PaymentProvider {
   BitGo = 'bitgo',
   OpenNode = 'opennode',

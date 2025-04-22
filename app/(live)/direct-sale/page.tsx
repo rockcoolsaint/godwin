@@ -23,12 +23,9 @@ export default function DirectSalePage() {
           <div className="space-y-4 text-gray-600">
 
             <p>
-              If we successfully mine a block, you will receive your share of the reward based on your hashrate contribution.
+              If we successfully mine a block, you receive your share of the reward based on your hashrate contribution.
             </p>
 
-            <p>
-              Payment is sent to your configured payout address.
-            </p>
 
             <div className="mt-6">
               <Link href="/pages/dashboard" className="text-blue-600 hover:underline">

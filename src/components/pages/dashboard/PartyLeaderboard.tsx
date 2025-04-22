@@ -16,7 +16,7 @@ export default function PartyLeaderboard({ useNextSaturday = false }: PartyLeade
   const [loading, setLoading] = useState(true)
   const [bitcoinPrice, setBitcoinPrice] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const entriesPerPage = 10
+  const entriesPerPage = 7
 
   useEffect(() => {
     const fetchBitcoinPrice = async () => {
@@ -96,7 +96,7 @@ export default function PartyLeaderboard({ useNextSaturday = false }: PartyLeade
                 </th>
                 <th scope="col" className="w-[25%] px-3 py-3.5 text-left text-sm font-medium text-gray-900">
                   <div className="flex items-center gap-1">
-                    {useNextSaturday ? 'Projected Reward 💸' : 'Potential Reward 💸'}
+                    Potential Reward 💸
                     <Tooltip>
                       <TooltipTrigger>
                         <div className="cursor-help">

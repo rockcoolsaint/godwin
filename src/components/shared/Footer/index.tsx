@@ -62,7 +62,7 @@ const Footer = () => {
             />
             <div className="ml-3 border-l pl-3">
               <span className="block text-dark-200/[.7]">Bitcoin Mining</span>
-              <span className="block text-dark-200/[.7]">Block Party Auction</span>
+              <span className="block text-dark-200/[.7]">Block Party</span>
             </div>
           </div>
           <div className="flex w-fit flex-wrap items-center justify-start sm:mt-0 md:justify-end">

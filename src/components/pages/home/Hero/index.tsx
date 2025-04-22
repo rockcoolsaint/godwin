@@ -1,27 +1,53 @@
 import { PropsWithChildren } from 'react'
-import useSatsToFiat from 'src/hooks/useSatsToFiat'
-import { formatMoney } from 'src/utils/currency'
+import { MiningCalculator } from 'src/components/pages/home/JoinPool/Calculator'
+import Link from 'src/components/shared/Link'
+import { useAccountContext } from 'src/providers/AccountProvider'
 
 const Hero = ({ children }: PropsWithChildren) => {
-  // Convert 3.125 BTC to sats
-  const BLOCK_REWARD_SATS = 3.125 * 100000000
-  
-  // Use the hook to get fiat value
-  const blockRewardInFiat = useSatsToFiat({
-    initialValue: 0,
-    bid: BLOCK_REWARD_SATS
-  })
+  const { account } = useAccountContext()
 
   return (
-    <section className="mx-4 flex w-full flex-col items-center justify-center md:mb-12 lg:mb-0 lg:w-3/5">
-      <div className="w-10/12 text-center font-epilogue text-4xl font-extrabold text-[#f08222] sm:mb-2 sm:w-4/12 sm:pb-4 md:w-6/12 md:border-green-500 md:text-center md:text-5xl lg:w-8/12 lg:text-center xl:w-10/12 xl:text-8xl 2xl:w-8/12">
-        Solo mine with bitcoiners
+    <section className="w-full px-4 md:px-8 lg:px-12">
+      {/* Main Header */}
+      <div className="text-center mb-8">
+        <h1 className="font-epilogue text-4xl font-extrabold text-[#f08222] md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
+          Solo mine with bitcoiners
+        </h1>
       </div>
-      <div className="flex w-11/12 flex-col flex-wrap sm:flex-row sm:items-center sm:justify-center md:w-8/12 lg:w-4/6 xl:w-5/6">
-        <p className="mb-2 text-center font-epilogue text-sm font-normal text-black lg:text-xl xl:text-4xl 2xl:w-11/12">
-          Place your bid to mine for ${formatMoney(blockRewardInFiat)}+ in bitcoin.
-        </p>
+
+      {/* Direct Sale Content */}
+      <div className="max-w-6xl mx-auto">
+        {/* Two Column Layout */}
+        <div className="flex flex-col lg:flex-row lg:gap-16">
+          {/* Left side - Block Party Instructions */}
+          <div className="lg:w-2/5 flex flex-col items-start justify-center mb-8 lg:mb-0">
+            <h2 className="text-2xl font-bold mb-6">Join our Block Party</h2>
+            
+            <div className="space-y-4 text-gray-600">
+              <p>
+                If we successfully mine a block, you will receive your share of the reward based on your hashrate contribution.
+              </p>
+
+              <p>
+                Payment is sent to your configured payout address.
+              </p>
+
+              <div className="mt-6">
+                <Link href="/pages/dashboard" className="text-blue-600 hover:underline">
+                  Monitor the block party live →
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Right side - Buy Box */}
+          <div className="lg:w-3/5">
+            <MiningCalculator />
+          </div>
+        </div>
       </div>
+
+      {/* Original children content */}
       {children}
     </section>
   )
