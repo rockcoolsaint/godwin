@@ -305,38 +305,11 @@ const renderTopSection = (
   if (showPotentialView) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-[#fff5eb] rounded-md p-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Keeping the original Block Reward Box */}
+            <div className="bg-[#fff5eb] rounded-md p-4">
             <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-              <div className="flex items-center gap-1">
-                Potential 21 TH/s mining share
-                <Tooltip>
-                  <TooltipTrigger>
-                    <div className="cursor-help">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                    Based on 21 TH/s in a block party of 4,096 TH/s
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-            </h3>
-            <div>
-              <p className="text-2xl font-semibold text-[#f08222]">
-                ${formatMoney(0.00512 * 3.125 * bitcoinPrice)} USD
-              </p>
-              <p className="text-sm text-gray-500 mt-1">
-                {(0.00512 * 3.125).toFixed(8)} BTC
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-[#fff5eb] rounded-md p-4">
-            <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-              {isPartyActive ? 'Current block reward 💸' : 'Potential block reward 💸'}
+              {isPartyActive ? 'Block reward 💸' : 'Block reward 💸'}
             </h3>
             <div>
               <p className="text-2xl font-semibold text-[#f08222]">
@@ -347,6 +320,107 @@ const renderTopSection = (
               </p>
             </div>
           </div>
+
+          {/* Direct Buy Share Box */}
+          <div className="bg-[#fff5eb] rounded-md p-4">
+            <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+              <div className="flex items-center gap-1">
+                Direct Buy Share
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="cursor-help">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                    Based on 8 TH/s direct buy mining share
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </h3>
+            <div>
+              {upcomingPartyData?.totalHashrate ? (
+                <>
+                  <p className="text-2xl font-semibold text-[#f08222]">
+                    ${formatMoney((3.125 / upcomingPartyData.totalHashrate * 8) * bitcoinPrice)} USD
+                  </p>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <p className="text-sm text-gray-500 mt-1 cursor-help">
+                        {(3.125 / upcomingPartyData.totalHashrate * 8).toFixed(8)} BTC
+                      </p>
+                    </TooltipTrigger>
+                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                      Direct buy reward for 8 TH/s
+                    </TooltipContent>
+                  </Tooltip>
+                </>
+              ) : (
+                <p className="text-sm text-gray-500">Loading...</p>
+              )}
+            </div>
+          </div>
+  
+                  {/* Auction Share Box */}
+                  <div className="bg-[#fff5eb] rounded-md p-4">
+                    <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+                      <div className="flex items-center gap-1">
+                        Auction Share
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <div className="cursor-help">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                            Based on 21 TH/s auction mining share
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </h3>
+                    <div>
+                    {upcomingPartyData?.nextSatPartyLeaderboard ? (
+          (() => {
+            console.log('Looking for 21 TH/s entry in:', upcomingPartyData.nextSatPartyLeaderboard);
+            
+            const entry = upcomingPartyData.nextSatPartyLeaderboard.find(e => {
+              const roundedHashrate = Math.round(e.total_hashrate);
+              console.log('Entry hashrate:', e.total_hashrate, 'Rounded:', roundedHashrate);
+              return roundedHashrate === 21;
+            });
+
+            if (entry) {
+              return (
+                <>
+                  <p className="text-2xl font-semibold text-[#f08222]">
+                    ${formatMoney(entry.reward_share_btc * bitcoinPrice)} USD
+                  </p>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <p className="text-sm text-gray-500 mt-1 cursor-help">
+                        {entry.reward_share_btc.toFixed(8)} BTC
+                      </p>
+                    </TooltipTrigger>
+                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                      Auction reward for 21 TH/s
+                    </TooltipContent>
+                  </Tooltip>
+                </>
+              )
+            }
+            return <p className="text-sm text-gray-500">No 21 TH/s entry found</p>
+          })()
+        ) : (
+          <p className="text-sm text-gray-500">Loading next Saturday auction data...</p>
+        )}
+            </div>
+          </div>
+  
+
         </div>
       </div>
     )
@@ -415,6 +489,8 @@ export default function Dashboard() {
     date: Date;
     totalHashrate: number;
     directBuyHashrate: number;
+    nextSatDirectLeaderboard: DirectPartyLeaderboardEntry[]; // Add this
+    nextSatPartyLeaderboard: PartyLeaderboardEntry[]; // Add this
     auctions: {
       delivery_date: string;
       auction_meta: {
@@ -528,6 +604,8 @@ export default function Dashboard() {
             date: nextSaturday,
             totalHashrate: Math.max(auctionHashrate + partyTableHashrate + directBuyHashrate, 0.01), // Ensure we never have 0 hashrate
             directBuyHashrate: directBuyHashrate, // Add direct buy hashrate to state
+            nextSatDirectLeaderboard: nextSatDirectLeaderboard, // Add this
+            nextSatPartyLeaderboard: nextSatPartyLeaderboard, // Add this
             auctions: partyAuctions
           });
         }
