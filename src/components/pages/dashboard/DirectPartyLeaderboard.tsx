@@ -172,6 +172,10 @@ export default function DirectPartyLeaderboard({ useNextSaturday = false }: Dire
         </div>
       </div>
     )}
+        {/* Add this right after the closing </table> tag */}
+    <div className="mt-2 text-sm text-gray-500 italic">
+      Direct buy reward share is based on total block party hashrate.
+    </div>
     </div>
   )
 }

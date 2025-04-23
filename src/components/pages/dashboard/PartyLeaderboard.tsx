@@ -183,6 +183,11 @@ export default function PartyLeaderboard({ useNextSaturday = false }: PartyLeade
           )}
         </div>
       </div>
+                {/* Add this right after the closing </table> tag */}
+                <div className="mt-2 text-sm text-gray-500 italic">
+            Auction reward share is based on base hashrate. Bonus hashrate increases the reward percentage for all auction miners - and improves odds for everyone in the block party.
+          </div>
     </div>
+    
   )
 }
