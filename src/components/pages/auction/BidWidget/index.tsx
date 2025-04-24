@@ -719,14 +719,14 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
             <input
               type="range"
               min={calculateBaseValue(auction)}
-              max={calculateBaseValue(auction) * 10}
+              max={calculateBaseValue(auction) * 121}
               value={currentBid}
               onChange={(e) => setCurrentBid(parseInt(e.target.value))}
               className={styles['range-slider']}
             />
             <div className="flex justify-between text-sm text-gray-600">
               <span>{formatMoney(calculateBaseValue(auction))} sats</span>
-              <span>{formatMoney(calculateBaseValue(auction) * 10)} sats</span>
+              <span>{formatMoney(calculateBaseValue(auction) * 121)} sats</span>
             </div>
           </div>
 
