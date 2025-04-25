@@ -29,7 +29,7 @@ export async function createOrder({
       if (!payout_address) {
         throw new Error('Payout address is required for direct orders')
       }
-      if (!amount_sats || amount_sats < 100) { // Match backend minimum
+      if (!amount_sats || amount_sats < 3) { // Match backend minimum
         throw new Error('Amount must be at least 100 sats')
       }
       if (!duration_days || duration_days > 1) { // Match backend maximum
