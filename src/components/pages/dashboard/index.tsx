@@ -681,7 +681,7 @@ export default function Dashboard() {
 
               <div className="bg-white rounded-lg shadow p-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {hashrateData?.current_hashrate === 0 && upcomingPartyData ? (
+                  {upcomingPartyData ? (
                     <>
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
@@ -828,90 +828,99 @@ export default function Dashboard() {
           )}
         </div>
       </div>
+{/* Add CK Pool Hashrate Display */}
+{hashrateData?.current_hashrate > 0 && (
+  <div className="bg-white rounded-lg shadow p-4 mb-6">
+    <div className="flex items-center gap-2 mb-2">
+      <h3 className="text-sm font-medium text-gray-500 uppercase">
+        Pre-game Party Hashrate
+      </h3>
+      <Tooltip>
+        <TooltipTrigger>
+          <div className="cursor-help">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+            </svg>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+          current hashrate at our CK Pool address
+        </TooltipContent>
+      </Tooltip>
+    </div>
+    <p className="text-2xl font-semibold text-gray-900">
+      {formatMoney(hashrateData.current_hashrate)} TH/s
+    </p>
+    <Link 
+      href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
+      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View at CK Pool →
+    </Link>
+  </div>
+)}
 
       {/* Direct Buy Miners table */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Direct Buy Miners</h2>
         <div className="bg-white rounded-lg shadow p-4">
-          {hashrateData?.current_hashrate === 0 && upcomingPartyData ? (
-            <DirectPartyLeaderboard useNextSaturday={true} />
-          ) : (
-            <DirectPartyLeaderboard useNextSaturday={false} />
-          )}
+          <DirectPartyLeaderboard useNextSaturday={true} />
         </div>
       </div>
 
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">Auction Miners</h2>
-      <Tab.Group defaultIndex={0}>
-        <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
-          <Tab
-            className={({ selected }) =>
-              `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-              ${selected 
-                ? 'bg-white text-white-900 shadow'
-                : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
-            }
-          >
-            {hashrateData?.current_hashrate === 0 && upcomingPartyData ? 'Scheduled Miners' : 'Active Miners'}
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-              ${selected 
-                ? 'bg-white text-gray-900 shadow'
-                : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
-            }
-          >
-            Active Auctions
-          </Tab>
-        </Tab.List>
+{/* Auction Miners */}
+<div className="mb-8">
+  <h2 className="text-2xl font-bold mb-4">Auction Miners</h2>
+  <Tab.Group defaultIndex={0}>
+    <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
+      <Tab
+        className={({ selected }) =>
+          `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+          ${selected 
+            ? 'bg-white text-white-900 shadow'
+            : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+        }
+      >
+        Scheduled Miners
+      </Tab>
+      <Tab
+        className={({ selected }) =>
+          `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+          ${selected 
+            ? 'bg-white text-gray-900 shadow'
+            : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+        }
+      >
+        Active Auctions
+      </Tab>
+    </Tab.List>
 
-        <Tab.Panels className="mt-4">
-          <Tab.Panel>
-            <div className="bg-white rounded-lg shadow p-4">
-              {hashrateData?.current_hashrate === 0 && upcomingPartyData ? (
-                // Use a new state variable for next Saturday's leaderboard
-                <PartyLeaderboard useNextSaturday={true} />
-              ) : (
-                <PartyLeaderboard useNextSaturday={false} />
-              )}
-            </div>
-          </Tab.Panel>
+    <Tab.Panels>
+      <Tab.Panel>
+        <div className="bg-white rounded-lg shadow p-4">
+          <PartyLeaderboard useNextSaturday={true} />
+        </div>
+      </Tab.Panel>
 
-          <Tab.Panel>
-            <div className="bg-white rounded-lg shadow p-4">
-              <h2 className="text-lg font-semibold mb-4">Active Auctions</h2>
-              <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <Suspense fallback={<div className="min-h-[200px] flex items-center justify-center">
-                  <p className="text-gray-500">Loading auctions...</p>
-                </div>}>
-                  <div className="min-h-[200px]">
-                    <AuctionsDataWrapper />
-                  </div>
-                </Suspense>
-              </ErrorBoundary>
-            </div>
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group>
-      </div>
-          {/* Add Live View at the bottom, only shown when there's active mining */}
-        {hashrateData?.current_hashrate > 0 && (
-          <div className="mt-8">
-            <div className="bg-white rounded-lg shadow">
-              <div className="p-4 border-b">
-                <h2 className="text-lg font-semibold">Live Hashrate</h2>
+      <Tab.Panel>
+        <div className="bg-white rounded-lg shadow p-4">
+          <h2 className="text-lg font-semibold mb-4">Active Auctions</h2>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <Suspense fallback={<div className="min-h-[200px] flex items-center justify-center">
+              <p className="text-gray-500">Loading auctions...</p>
+            </div>}>
+              <div className="min-h-[200px]">
+                <AuctionsDataWrapper />
               </div>
-              <div className="h-[250px] sm:h-[300px] md:h-[400px]">
-                <CKPoolHashrateGraph />
-              </div>
-              <div className="p-4 border-b">
-                <p>Verify: <Link href="https://solo.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH" styled>CKPool</Link> and <Link href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH" styled>Solostats</Link></p>
-              </div>
-            </div>
-          </div>
-        )}
+            </Suspense>
+          </ErrorBoundary>
+        </div>
+      </Tab.Panel>
+    </Tab.Panels>
+  </Tab.Group>
+</div>
 
 {featuredAuction && (
         <div className="bg-white rounded-lg shadow p-6 mt-4 mb-4">
