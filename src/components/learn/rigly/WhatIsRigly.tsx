@@ -43,9 +43,9 @@ const WhatIsUpendo = () => {
       <LearnCategoryText>
         Hashrate is provided via <Link href="https://rigly.io" styled>Rigly</Link> and we use <Link href="https://solo.ckpool.org" styled>CK Pool</Link> to solo mine.
       </LearnCategoryText>
-      <LearnCategoryText>
-        <b>How Auction Works</b>
-      </LearnCategoryText>
+      <LearnCategorySubTitle>
+      How Auction Works
+      </LearnCategorySubTitle>
       <LearnCategoryText>
       In the auction, when you bid over the cost of hashrate, the extra sats go to bonus hashrate for the block party.
       </LearnCategoryText>
@@ -61,6 +61,20 @@ const WhatIsUpendo = () => {
       <LearnCategoryText>
       This way, auction bidders are incentivized and everyone benefits from the bonus hashrate.
       </LearnCategoryText>
+      <LearnCategorySubTitle>Do you have your own ASIC miner?</LearnCategorySubTitle>
+      
+      <LearnCategoryText>
+        If you have a Bitaxe or any other mining rig, send your hash to the block party!
+      </LearnCategoryText>
+
+      <LearnCategoryText>
+        <ul className="list-disc pl-6">
+          <li>Stratum address: solo.ckpool.org:3333</li>
+          <li>Username: 3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH</li>
+          <li>Put your BTC payout address as the workername (important!)</li>
+        </ul>
+      </LearnCategoryText>
+      <LearnCategoryText>If we mine a block, you will get your share of the reward based on hashrate contribution.</LearnCategoryText>
       <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
                 <Link 
                 href={isLoggedIn ? '/pages/dashboard' : '/register'} // Change link based on auth status
