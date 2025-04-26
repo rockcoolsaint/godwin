@@ -769,11 +769,15 @@ export default function Dashboard() {
                         </p>
                         <div className="space-y-1 text-sm text-gray-600">
                           <p className="flex items-center">
-                            <span className="w-32">Party:</span>
+                            <span className="w-32">Direct Buy:</span>
+                            <span>{upcomingPartyData?.directBuyHashrate?.toFixed(2) || '0.00'} TH/s</span>
+                          </p>
+                          <p className="flex items-center">
+                            <span className="w-32">Auction:</span>
                             <span>{hashrateData.base_hashrate.toFixed(2)} TH/s</span>
                           </p>
                           <p className="flex items-center">
-                            <span className="w-32">Bid Bonus:</span>
+                            <span className="w-32">Auction Bid Bonus:</span>
                             <span>{hashrateData.bid_bonus_hashrate.toFixed(2)} TH/s</span>
                           </p>
                           <p className="flex items-center">
