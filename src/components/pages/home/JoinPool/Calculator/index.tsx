@@ -173,7 +173,7 @@ export const MiningCalculator = () => {
           <Tooltip>
             <TooltipTrigger>
               <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">
-                Saturday, April 26th
+                Saturday, May 17th
               </span>
             </TooltipTrigger>
             <TooltipContent className="w-max rounded bg-gray-600 p-3 text-sm text-white">
