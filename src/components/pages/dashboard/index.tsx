@@ -318,10 +318,6 @@ const renderTopSection = (
                 <p className="text-sm text-gray-500 mt-1">
                   3.125 BTC
                 </p>
-                {/* Add the sub-label here */}
-                <p className="text-xs text-gray-500 mt-3 border-t border-gray-200 pt-2">
-                  Total block party reward
-                </p>
               </div>
             </div>
 
@@ -329,7 +325,7 @@ const renderTopSection = (
             <div className="bg-[#fff5eb] rounded-md p-4">
               <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
                 <div className="flex items-center gap-1">
-                  Direct Buy Share
+                  Direct Buy Reward
                   <Tooltip>
                     <TooltipTrigger>
                       <div className="cursor-help">
@@ -339,7 +335,7 @@ const renderTopSection = (
                       </div>
                     </TooltipTrigger>
                     <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                      per-TH/s reward based on current party hashrate
+                      per-TH/s reward is based on total party hashrate
                     </TooltipContent>
                   </Tooltip>
                 </div>
@@ -353,17 +349,13 @@ const renderTopSection = (
                     <Tooltip>
                       <TooltipTrigger>
                         <p className="text-sm text-gray-500 mt-1 cursor-help">
-                          {(3.125 / upcomingPartyData.totalHashrate * 8).toFixed(8)} BTC
+                          {(3.125 / upcomingPartyData.totalHashrate * 8).toFixed(8)} BTC per TH/s
                         </p>
                       </TooltipTrigger>
                       <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
                         Direct buy reward for 1 TH/s
                       </TooltipContent>
                     </Tooltip>
-                    {/* Add the sub-label here */}
-                    <p className="text-xs text-gray-500 mt-3 border-t border-gray-200 pt-2">
-                      per 1 TH/s share
-                    </p>
                   </>
                 ) : (
                   <p className="text-sm text-gray-500">Loading...</p>
@@ -375,7 +367,7 @@ const renderTopSection = (
                   <div className="bg-[#fff5eb] rounded-md p-4">
                     <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
                       <div className="flex items-center gap-1">
-                        Auction Share
+                        Auction Reward
                         <Tooltip>
                           <TooltipTrigger>
                             <div className="cursor-help">
@@ -385,8 +377,9 @@ const renderTopSection = (
                             </div>
                           </TooltipTrigger>
                           <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                          per-TH/s base auction hashrate reward<br/>
-                          based on current party hashrate
+                          per-TH/s reward is based on base auction hashrate<br/><br/>
+                          bonus hashrate increases reward share<br/>
+                          for all auction bidders
                           </TooltipContent>
                         </Tooltip>
                       </div>
@@ -418,10 +411,6 @@ const renderTopSection = (
                       per 1 TH/s base auction hashrate - excludes bonus hashrate
                     </TooltipContent>
                   </Tooltip>
-                  {/* Add the sub-label here */}
-                  <p className="text-xs text-gray-500 mt-3 border-t border-gray-200 pt-2">
-                    per 1 TH/s base hashrate
-                  </p>
                 </>
               )
             }
