@@ -251,7 +251,7 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
   }, [])
 
     // Add these constants at the top level, before the BidWidget component
-    const SPOT_HASHPRICE = 64 // Current spot hashprice in sats/TH/s/day
+    const SPOT_HASHPRICE = 60 // Current spot hashprice in sats/TH/s/day
 
     const calculateBaseValue = (auction) => {
       return auction.auction_meta.hashrate * 
@@ -463,7 +463,7 @@ function BidWidgetCalculator({ auction, epoch }: BidWidgetCalculatorProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const HASHRATE_PER_USER = 105 // 5 auctions × 21 TH/s each = 105 TH/s
-  const SPOT_HASHPRICE = 64 // Current spot hashprice in sats/TH/s/day
+  const SPOT_HASHPRICE = 60 // Current spot hashprice in sats/TH/s/day
   const AUCTIONEER_MATCH_PERCENTAGE = 0.21; // 21% match
 
   // Set initial bid to current auction bid or base value
