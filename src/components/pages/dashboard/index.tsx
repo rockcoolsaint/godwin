@@ -20,6 +20,26 @@ import { format as formatDate, addDays } from 'date-fns'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import Link from 'src/components/shared/Link'
 
+const TARGET_HASHRATE = 250000; // 250,000 TH/s
+
+function getNextNoonUTC() {
+  const now = new Date();
+  const nextNoon = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    12, 0, 0
+  ));
+  
+  if (now.getUTCHours() >= 12) {
+    nextNoon.setUTCDate(nextNoon.getUTCDate() + 1);
+  }
+
+  // Format the message based on whether it's today or tomorrow
+  const isToday = nextNoon.getUTCDate() === now.getUTCDate();
+  return `party starts ${isToday ? 'today' : 'tomorrow'} at 12p UTC`;
+}
+
 function ErrorFallback({ error }: { error: Error }) {
   return (
     <div className="text-center p-4 text-red-600">
@@ -253,7 +273,7 @@ function getNextBlockPartyDate() {
   nextSaturday.setHours(0, 0, 0, 0)
   
   // Add another week if the next block party is two weeks out - or +14 for 3 weeks
-  nextSaturday.setDate(nextSaturday.getDate() + 14) 
+  nextSaturday.setDate(nextSaturday.getDate() + 7) 
   
   const followingSaturday = addDays(nextSaturday, 7)
   
@@ -717,7 +737,7 @@ export default function Dashboard() {
                                   </div>
                                 </TooltipTrigger>
                                 <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                                  includes active and complete auctions, bonus hashrate and direct buy ({formatMoney(upcomingPartyData.directBuyHashrate)} TH/s)
+                                  includes auctions, bonus hashrate and direct buy ({formatMoney(upcomingPartyData.directBuyHashrate)} TH/s)
                                 </TooltipContent>
                               </Tooltip>
                             </p>
@@ -727,7 +747,7 @@ export default function Dashboard() {
 
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Projected Party Odds (6hr)
+                          Party Odds (6hr)
                         </h3>
                         <Tooltip>
                           <TooltipTrigger>
@@ -739,24 +759,19 @@ export default function Dashboard() {
                             24hr: 1 in {upcomingPartyCalc.chancePerBlockDay.toLocaleString()}
                           </TooltipContent>
                         </Tooltip>
-                        <p className="text-sm text-gray-600 mt-2">Chance of mining a block in 6 hours</p>
+                        <p className="text-sm text-gray-600 mt-2">Based on projected hashrate</p>
                       </div>
 
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Projected Party Chance (6hr)
+                          Target
                         </h3>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <p className="text-2xl font-semibold text-gray-900">
-                              {formatDailyOdds(upcomingPartyCalc.chancePerBlockDay * 4)}
-                            </p>
-                          </TooltipTrigger>
-                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                            24hr: {formatDailyOdds(upcomingPartyCalc.chancePerBlockDay)}
-                          </TooltipContent>
-                        </Tooltip>
-                        <p className="text-sm text-gray-600 mt-2">Probability per 6 hours</p>
+                        <p className="text-2xl font-semibold text-gray-900">
+                          {formatMoney(Math.max(0, TARGET_HASHRATE - upcomingPartyData.totalHashrate))} TH/s to go
+                        </p>
+                        <p className="text-sm text-gray-600 mt-2">
+                          If we reach target, {getNextNoonUTC()}
+                        </p>
                       </div>
                     </>
                   ) : (
@@ -795,6 +810,18 @@ export default function Dashboard() {
 
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
+                          Target
+                        </h3>
+                        <p className="text-2xl font-semibold text-gray-900">
+                          {formatMoney(Math.max(0, TARGET_HASHRATE - hashrateData.current_hashrate))} TH/s to go
+                        </p>
+                        <p className="text-sm text-gray-600 mt-2">
+                          If we reach target, {getNextNoonUTC()}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
                           Party Odds (6hr)
                         </h3>
                         <Tooltip>
@@ -809,23 +836,6 @@ export default function Dashboard() {
                         </Tooltip>
                         <p className="text-sm text-gray-600 mt-2">chance of mining a block in 6 hours</p>
                       </div>
-
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Party Chance (6hr)
-                        </h3>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <p className="text-2xl font-semibold text-gray-900">
-                              {formatDailyOdds(currentHashrateCalc.chancePerBlockDay * 4)}
-                            </p>
-                          </TooltipTrigger>
-                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                            24hr: {formatDailyOdds(currentHashrateCalc.chancePerBlockDay)}
-                          </TooltipContent>
-                        </Tooltip>
-                        <p className="text-sm text-gray-600 mt-2">probability per 6 hours</p>
-                      </div>
                     </>
                   )}
                 </div>
@@ -834,6 +844,7 @@ export default function Dashboard() {
           )}
         </div>
       </div>
+
 {/* Add CK Pool Hashrate Display */}
 {hashrateData?.current_hashrate > 0 && (
   <div className="bg-white rounded-lg shadow p-4 mb-6">
