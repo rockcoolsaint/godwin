@@ -37,7 +37,7 @@ function getNextNoonUTC() {
 
   // Format the message based on whether it's today or tomorrow
   const isToday = nextNoon.getUTCDate() === now.getUTCDate();
-  return `party starts ${isToday ? 'today' : 'tomorrow'} at 12p UTC`;
+  return `party will start ${isToday ? 'today' : 'tomorrow'} at 12p UTC`;
 }
 
 function ErrorFallback({ error }: { error: Error }) {
@@ -718,9 +718,7 @@ export default function Dashboard() {
                               </p>
                             </TooltipTrigger>
                             <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                              Starts {upcomingPartyData.auctions?.[0]?.delivery_date ? 
-                                formatDate(new Date(upcomingPartyData.auctions[0].delivery_date), 'h:mm a') : 
-                                'Time TBD'}
+                              If early start target is met, party will start early
                             </TooltipContent>
                           </Tooltip>
                             <p className="text-xl text-gray-700 mb-2">
@@ -764,13 +762,13 @@ export default function Dashboard() {
 
                       <div>
                         <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Target
+                          Early Start Target
                         </h3>
                         <p className="text-2xl font-semibold text-gray-900">
                           {formatMoney(Math.max(0, TARGET_HASHRATE - upcomingPartyData.totalHashrate))} TH/s to go
                         </p>
                         <p className="text-sm text-gray-600 mt-2">
-                          If we reach target, {getNextNoonUTC()}
+                          If we reach 250 PH/s {getNextNoonUTC()}
                         </p>
                       </div>
                     </>
