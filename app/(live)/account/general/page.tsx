@@ -1,19 +1,77 @@
 /* eslint-disable react/jsx-no-bind */
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { updateAccount } from 'src/api/auth/updateAccount'
+import { Team, getTeams } from 'src/api/account/getTeams'
 import AccountView from 'src/components/pages/account/AccountView'
 import { Form, Input, Loader } from 'src/core'
 import protect from 'src/hoc/protect'
 import { useAccountContext } from 'src/providers/AccountProvider'
-import { ClipboardDocumentIcon } from '@heroicons/react/24/outline' // Add this import
+import { ClipboardDocumentIcon } from '@heroicons/react/24/outline'
 import { toast } from 'react-hot-toast'
 
 function Account() {
   const { account, isLoading: isAccountLoading, token } = useAccountContext()
   const [loading, setLoading] = useState<boolean>(false)
-  const userReferral = `https://upendo.rigly.io/register?referral=${account.referral_code}`
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(account?.team || null)
+  const [teams, setTeams] = useState<Team[]>([])
+  const userReferral = `https://upendo.rigly.io/register?referral=${account?.referral_code}`
+
+  // Add useEffect to sync selectedTeam with account.team
+  useEffect(() => {
+    if (account?.team) {
+      setSelectedTeam(account.team)
+    }
+  }, [account])
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      console.log('Starting teams fetch...')
+      try {
+        const teamsData = await getTeams()
+        const filteredTeams = teamsData.filter(team => team.id !== 1)
+        setTeams(filteredTeams)
+        console.log('Teams data received:', filteredTeams)
+      } catch (error) {
+        console.error('Failed to fetch teams:', error)
+        console.error('Error details:', {
+          message: error.message,
+          stack: error.stack
+        })
+        toast.error('Failed to load teams')
+      }
+    }
+  
+    fetchTeams()
+  }, [])
+
+  const handleTeamSelect = async (teamId: string | null) => {
+    if (!token) {
+      console.error('No token available')
+      return
+    }
+    
+    console.log('Attempting to update team to:', teamId)
+    
+    try {
+      setLoading(true)
+      const updateSuccess = await updateAccount({ 
+        team_id: teamId 
+      }, token)
+      
+      if (updateSuccess) {
+        const newSelectedTeam = teamId ? teams.find(t => t.id.toString() === teamId.toString()) || null : null
+        setSelectedTeam(newSelectedTeam)
+        toast.success('Team updated successfully')
+      }
+    } catch (error) {
+      console.error('Team update error:', error)
+      toast.error(error.message || 'Failed to update team')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleCopyReferral = () => {
     const referralUrl = `https://upendo.rigly.io/register?referral=${account.referral_code}`
@@ -62,52 +120,60 @@ function Account() {
             <Input type="text" name="username" defaultValue={account.username} placeholder="Anonymous" className="w-1/4"/>
           </Form.Field>
           <span className="text-sm text-gray-500">
-              This field is shown when you bid on auctions. By default it just says anonymous.
-            </span>
+            This field is shown when you bid on auctions. By default it just says anonymous.
+          </span>
         </Form.Section>
-        <Form.Section title="Payments">
+
+        <Form.Section title="Mining Team">
           <Form.Field className="w-full flex-col">
-            <Form.Field.Label htmlFor="public_key" hideSuffix>
-              Public key
-            </Form.Field.Label>
-            <Input
-              type="text"
-              name="public_key"
-              defaultValue={account.public_key}
-              placeholder="xpub661MyMwAqRbcGjFB7GhGVVtib1BoHoFWLpFKcvnKdmbq6Z5oXLZxyG486JQQBx3N1vXF1JgcvCiXqRXbMBTi46y8QUdNE6on1HyVYpTkcS4"
-            />
-            <span className="text-sm text-gray-500">
-              <b>Not currently in use.</b> In the future, some auctions may support a 2-of-3 multisig wallet.
+            <Form.Field.Label>Select Team</Form.Field.Label>
+            <select
+              className="w-1/4 rounded-md border border-gray-300 px-3 py-2 text-gray-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              value={selectedTeam?.id?.toString() || ''}
+              onChange={(e) => handleTeamSelect(e.target.value || null)}
+            >
+              <option value="">No Team (Mine independently)</option>
+              {teams.map((team) => (
+                <option key={team.id} value={team.id}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+            <span className="text-sm text-gray-500 mt-2">
+              Join a team to participate in team mining activities and rewards
             </span>
           </Form.Field>
+        </Form.Section>
+
+        <Form.Section title="Payments">
           <Form.Field className="w-full flex-col">
             <Form.Field.Label htmlFor="payout_address" hideSuffix>Payout address</Form.Field.Label>
             <Input type="text" name="payout_address" defaultValue={account.payout_address} placeholder="bc1..." />
           </Form.Field>
           <span className="text-sm text-gray-500">
-          Your bitcoin payout address, to receive your share of reward if the party finds a block.
-            </span>
+            Your bitcoin payout address, to receive your share of reward if the party finds a block.
+          </span>
         </Form.Section>
 
         <Form.Section title="Referral details">
           <Form.Field className="w-full flex-col">
             <Form.Field.Label htmlFor="referral_code">Your referral code</Form.Field.Label>
-            <div className="flex items-center gap-2"> {/* This div ensures inline layout */}
-            <Input 
-              type="text" 
-              name="referral_code" 
-              defaultValue={account.referral_code} 
-              placeholder="Enter your referral code"
-              className="w-1/4" 
-            />
-            <button
+            <div className="flex items-center gap-2">
+              <Input 
+                type="text" 
+                name="referral_code" 
+                defaultValue={account.referral_code} 
+                placeholder="Enter your referral code"
+                className="w-1/4" 
+              />
+              <button
                 type="button"
                 onClick={handleCopyReferral}
                 className="flex items-center justify-center p-2 text-gray-500 hover:text-primary transition-colors"
                 title="Copy referral link"
               >
                 <ClipboardDocumentIcon className="h-5 w-5" />
-            </button>
+              </button>
             </div>
             <span className="text-sm text-gray-500">
               Share your referral code with friends!

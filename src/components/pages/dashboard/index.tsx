@@ -1,6 +1,7 @@
 'use client'
 
 import { Tab } from '@headlessui/react'
+import Image from 'next/image'
 import CKPoolHashrateGraph from './CKPoolHashrateGraph'
 import PartyLeaderboard from './PartyLeaderboard'
 import DirectPartyLeaderboard from './DirectPartyLeaderboard'
@@ -19,6 +20,8 @@ import { getBitcoinPrice } from 'src/utils/bitcoin'
 import { format as formatDate, addDays } from 'date-fns'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import Link from 'src/components/shared/Link'
+import Arusha from 'src/images/arusha.png'
+import Isla from 'src/images/isla.png'
 
 const TARGET_HASHRATE = 250000; // 250,000 TH/s
 
@@ -768,7 +771,7 @@ export default function Dashboard() {
                           {formatMoney(Math.max(0, TARGET_HASHRATE - upcomingPartyData.totalHashrate))} TH/s to go
                         </p>
                         <p className="text-sm text-gray-600 mt-2">
-                          If we reach 250 PH/s {getNextNoonUTC()}
+                          If we reach 250 PH/s party will start this Saturday, May 10th
                         </p>
                       </div>
                     </>
@@ -814,7 +817,7 @@ export default function Dashboard() {
                           {formatMoney(Math.max(0, TARGET_HASHRATE - hashrateData.current_hashrate))} TH/s to go
                         </p>
                         <p className="text-sm text-gray-600 mt-2">
-                          If we reach target, {getNextNoonUTC()}
+                        If we reach 250 PH/s party will start this Saturday, May 10th
                         </p>
                       </div>
 
@@ -842,6 +845,56 @@ export default function Dashboard() {
           )}
         </div>
       </div>
+
+{/* Teams Section */}
+<div className="mt-8">
+  <h3 className="text-xl font-semibold mb-4">Teams</h3>
+  
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {/* Team 1 */}
+    <div className="bg-[#fff5eb] rounded-lg shadow p-6"> {/* Changed bg-white to bg-[#fff5eb] */}
+      <div className="flex items-center gap-4 mb-4">
+        <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
+          <Image 
+            src={Arusha} 
+            alt="Bitcoin Arusha Logo" 
+            width={100} 
+            height={100} 
+            objectFit="contain" 
+          />
+        </a>
+        <h4 className="text-lg font-semibold">Team Heather / Bitcoin Arusha</h4>
+      </div>
+      <p className="text-gray-600 mb-4">
+        Bitcoin Arusha is an innovative initiative aimed at fostering a Bitcoin circular economy in Arusha, Tanzania
+      </p>
+      <p className="text-sm text-[#f08222] font-medium">
+        If we find a block, Heather is donating 10% of her share to Bitcoin Arusha!
+      </p>
+      <center><p><Link href="/account/general" styled>Join Team Heather</Link></p></center>
+    </div>
+
+    {/* Team 2 */}
+    <div className="bg-[#fff5eb] rounded-lg shadow p-6"> {/* Changed bg-white to bg-[#fff5eb] */}
+      <div className="flex items-center gap-4 mb-4">
+      <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
+        <h4 className="text-lg font-semibold">Team QW / Bitcoin Isla</h4>
+      </div>
+      <p className="text-gray-600 mb-4">
+        Building a Bitcoin Circular Economy in Isla Mujeres. Fix the money, fix the isla 🏝️
+      </p>
+      <p className="text-sm text-[#f08222] font-medium">
+        If we find a block, QW is donating 10% of his share to Bitcoin Arusha!
+      </p>
+      <center><p><Link href="/account/general" styled>Join Team QW</Link></p></center>
+    </div>
+  </div>
+
+  {/* Italicized note */}
+  <center><p className="mt-4 text-sm text-gray-500 italic">
+    Once the party starts, the team with the most hashrate gets 1 PH/s, runner-up gets 500 TH/s. 
+  </p></center>
+</div>
 
 {/* Add CK Pool Hashrate Display */}
 {hashrateData?.current_hashrate > 0 && (

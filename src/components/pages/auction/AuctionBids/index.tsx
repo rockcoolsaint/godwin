@@ -51,9 +51,16 @@ const AuctionBidList = ({ bid }: AuctionBidListProps) => {
               Proxy
             </span>
           )}
+          {/* Add team badge */}
+          {bid.account.team && (
+            <span className="ml-2 items-center rounded-md bg-blue-50 px-3 py-1.5 text-sm font-semibold leading-5 text-gray-600 ring-1 ring-inset ring-blue-500/30">
+              {bid.account.team.name}
+            </span>
+          )}
         </h6>
         <p className="text-sm font-medium text-dark-100/[.8]">{format(parseISO(bid.created_at), 'do MMMM, yy hh:mmaaa')}</p>
       </div>
+      {/* Rest of the component remains the same */}
       <div className="col-md-4 mt-2 flex flex-col items-end sm:mt-0">
         <Tooltip placement="left">
           <TooltipTrigger>
