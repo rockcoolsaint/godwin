@@ -892,7 +892,7 @@ export default function Dashboard() {
 
   {/* Italicized note */}
   <center><p className="mt-4 text-sm text-gray-500 italic">
-    Once the party starts, the team with the most hashrate gets 1 PH/s, runner-up gets 500 TH/s. 
+    Once the party starts, the team with the most hashrate gets 21 PH/s, runner-up gets 5 PH/s. 
   </p></center>
 </div>
 
