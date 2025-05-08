@@ -884,7 +884,7 @@ export default function Dashboard() {
         Building a Bitcoin Circular Economy in Isla Mujeres. Fix the money, fix the isla 🏝️
       </p>
       <p className="text-sm text-[#f08222] font-medium">
-        If we find a block, QW is donating 10% of his share to Bitcoin Arusha!
+        If we find a block, QW is donating 10% of his share to Bitcoin Isla!
       </p>
       <center><p><Link href="/account/general" styled>Join Team QW</Link></p></center>
     </div>
