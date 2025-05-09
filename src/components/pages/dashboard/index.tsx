@@ -377,6 +377,13 @@ const renderTopSection = (
         </div>
       </div>
 
+      {/* Direct Buy Miners table */}
+      <div className="mb-8">
+        <div className="bg-white rounded-lg shadow p-4">
+          <DirectPartyLeaderboard useNextSaturday={true} />
+        </div>
+      </div>
+
       {/* Second row */}
       <div className="flex gap-4">
         {/* Early Start Target Box */}
@@ -387,7 +394,7 @@ const renderTopSection = (
             </h3>
           </div>
           <p className="text-2xl font-semibold text-gray-900">
-            {formatMoney(Math.max(0, TARGET_HASHRATE - (hashrateData?.current_hashrate || 0)))} TH/s to go
+            {formatMoney(Math.max(0, TARGET_HASHRATE - (upcomingPartyData?.current_hashrate || 0)))} TH/s to go
           </p>
           <p className="text-sm text-gray-600 mt-2">
             Start @ May 10th if 250 PH/s
@@ -639,13 +646,6 @@ export default function Dashboard() {
             {renderTopSection(account, hashrateData, leaderboard, bitcoinPrice, upcomingPartyData, upcomingPartyCalc)}
             </>
           )}
-        </div>
-      </div>
-
-      {/* Direct Buy Miners table */}
-      <div className="mb-8">
-        <div className="bg-white rounded-lg shadow p-4">
-          <DirectPartyLeaderboard useNextSaturday={true} />
         </div>
       </div>
 
