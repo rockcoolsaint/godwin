@@ -679,19 +679,10 @@ export default function Dashboard() {
           <div className="mt-4 space-y-2">
             {teamData.find(t => t.team_name === 'bitcoinarusha')?.members.map((member: any) => (
               <div key={member.username} className="bg-white rounded p-3">
-                <Tooltip>
-                  <TooltipTrigger>
                     <div className="flex justify-between items-center cursor-help">
                       <span>{member.username}</span>
                       <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
                     </div>
-                  </TooltipTrigger>
-                  <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                    <div>Base: {formatMoney(member.hashrate)} TH/s</div>
-                    <div>Bid Bonus: {formatMoney(member.bid_bonus)} TH/s</div>
-                    <div>Match Bonus: {formatMoney(member.auctioneer_match_bonus)} TH/s</div>
-                  </TooltipContent>
-                </Tooltip>
               </div>
             ))}
           </div>
@@ -733,19 +724,10 @@ export default function Dashboard() {
           <div className="mt-4 space-y-2">
             {teamData.find(t => t.team_name === 'bitcoinisla')?.members.map((member: any) => (
               <div key={member.username} className="bg-white rounded p-3">
-                <Tooltip>
-                  <TooltipTrigger>
                     <div className="flex justify-between items-center cursor-help">
                       <span>{member.username}</span>
                       <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
                     </div>
-                  </TooltipTrigger>
-                  <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                    <div>Base: {formatMoney(member.hashrate)} TH/s</div>
-                    <div>Bid Bonus: {formatMoney(member.bid_bonus)} TH/s</div>
-                    <div>Match Bonus: {formatMoney(member.auctioneer_match_bonus)} TH/s</div>
-                  </TooltipContent>
-                </Tooltip>
               </div>
             ))}
           </div>
