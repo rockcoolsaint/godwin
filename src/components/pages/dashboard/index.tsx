@@ -384,57 +384,7 @@ const renderTopSection = (
         </div>
       </div>
 
-      {/* Second row */}
-      <div className="flex gap-4">
-        {/* Early Start Target Box */}
-        <div className="flex-1 bg-white rounded-lg shadow p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-sm font-medium text-gray-500 uppercase">
-              Early Start Target
-            </h3>
-          </div>
-          <p className="text-2xl font-semibold text-gray-900">
-            {formatMoney(Math.max(0, TARGET_HASHRATE - (upcomingPartyData?.totalHashrate || 0)))} TH/s to go
-          </p>
-          <p className="text-sm text-gray-600 mt-2">
-            Start @ May 10th if 250 PH/s
-          </p>
-        </div>
-
-        {/* Pre-game Party Hashrate Box */}
-        {hashrateData?.current_hashrate > 0 && (
-          <div className="flex-1 bg-white rounded-lg shadow p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-sm font-medium text-gray-500 uppercase">
-                Pre-game Party Hashrate
-              </h3>
-              <Tooltip>
-                <TooltipTrigger>
-                  <div className="cursor-help">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                  current hashrate at our CK Pool address
-                </TooltipContent>
-              </Tooltip>
-            </div>
-            <p className="text-2xl font-semibold text-gray-900">
-              {formatMoney(hashrateData.current_hashrate)} TH/s
-            </p>
-            <Link 
-              href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
-              className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View at CK Pool →
-            </Link>
-          </div>
-        )}
-      </div>
+      
     </div>
   )
 }
@@ -772,53 +722,92 @@ export default function Dashboard() {
   </Tab.Group>
 </div>
 
-{featuredAuction && (
-        <div className="bg-white rounded-lg shadow p-6 mt-4 mb-4">
-          <Link href={`/auctions/${featuredAuction.id}`} className="block">
-            <div className="bg-gradient-to-r from-[#f08222] to-[#ffa94d] rounded-lg p-1">
-              <div className="bg-white rounded-md p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                <div>
-                  <h3 className="text-lg font-semibold text-[#f08222] flex items-center gap-2">
-                    Join the Block Party! 🎉
-                    <span className="text-sm font-normal bg-[#fff5eb] text-[#f08222] px-2 py-1 rounded">
-                      {(() => {
-                        const now = new Date()
-                        const end = new Date(featuredAuction.end_at)
-                        const diff = end.getTime() - now.getTime()
-                        
-                        if (diff <= 0) return 'Ended'
-                        
-                        const hours = Math.floor(diff / (1000 * 60 * 60))
-                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-                        
-                        if (hours > 24) {
-                          const days = Math.floor(hours / 24)
-                          return `${days}d ${hours % 24}h left`
-                        }
-                        
-                        if (hours > 0) {
-                          return `${hours}h ${minutes}m left`
-                        }
-                        
-                        return `${minutes}m left`
-                      })()}
-                    </span>
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Current auction: {featuredAuction.auction_meta.hashrate} TH/s
-                  </p>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-[#f08222] font-medium mr-2">Place Bid</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-[#f08222]">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
-                </div>
-              </div>
+{/* Second row */}
+<div className="flex gap-4">
+        {/* Early Start Target Box */}
+        <div className="flex-1 bg-white rounded-lg shadow p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-sm font-medium text-gray-500 uppercase">
+              Early Start Target
+            </h3>
+          </div>
+          <p className="text-2xl font-semibold text-gray-900">
+            {formatMoney(Math.max(0, TARGET_HASHRATE - (upcomingPartyData?.totalHashrate || 0)))} TH/s to go
+          </p>
+          <p className="text-sm text-gray-600 mt-2">
+            Start @ May 10th if 250 PH/s
+          </p>
+        </div>
+
+        {/* Pre-game Party Hashrate Box */}
+        {hashrateData?.current_hashrate > 0 && (
+          <div className="flex-1 bg-white rounded-lg shadow p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-sm font-medium text-gray-500 uppercase">
+                Pre-game Party Hashrate
+              </h3>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="cursor-help">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                  current hashrate at our CK Pool address
+                </TooltipContent>
+              </Tooltip>
             </div>
+            <p className="text-2xl font-semibold text-gray-900">
+              {formatMoney(hashrateData.current_hashrate)} TH/s
+            </p>
+            <Link 
+              href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
+              className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View at CK Pool →
+            </Link>
+          </div>
+        )}
+      </div>
+      
+      {featuredAuction && (
+        <div className="flex justify-center mt-6">
+          <Link 
+            href={`/auctions/${featuredAuction.id}`} 
+            className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors flex items-center gap-3"
+          >
+            <span>Place your bid</span>
+            <span className="text-sm bg-[#d67420] px-3 py-1 rounded">
+              {(() => {
+                const now = new Date()
+                const end = new Date(featuredAuction.end_at)
+                const diff = end.getTime() - now.getTime()
+                
+                if (diff <= 0) return 'Ended'
+                
+                const hours = Math.floor(diff / (1000 * 60 * 60))
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+                
+                if (hours > 24) {
+                  const days = Math.floor(hours / 24)
+                  return `${days}d ${hours % 24}h left`
+                }
+                
+                if (hours > 0) {
+                  return `${hours}h ${minutes}m left`
+                }
+                
+                return `${minutes}m left`
+              })()}
+            </span>
           </Link>
         </div>
       )}
+      <br/>
     </div>
   )
 }
