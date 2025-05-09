@@ -337,9 +337,9 @@ export const MiningCalculator = () => {
       </button>
 
       {/* Add this new div for the notice text */}
-      <div className="text-sm text-gray-500 text-center mt-2">
-        If you buy hashrate once the block party has started, your speed and duration will be adjusted to reflect the remaining time in the party.
-      </div>
+      {/*  <div className="text-sm text-gray-500 text-center mt-2">
+        Speed may be increased if block party in progress 
+      </div> */}
 
     </div>
   )

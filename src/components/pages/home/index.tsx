@@ -119,7 +119,7 @@ export default function Home({ isDemo, code }: Props) {
 
             {/* Added text */}
             <div className="text-center text-xl text-gray-600 mb-12 mt-8">
-              <h3 className="text-2xl font-bold mb-6">Want a bigger slice of the block party reward?</h3>
+              <h3 className="text-2xl font-bold mb-6">Hashathon for Bitcoin Arusha and Bitcoin Isla</h3>
               <p>Place your bid and earn bonus hashrate</p>
             </div>
 

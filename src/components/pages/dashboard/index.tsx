@@ -305,199 +305,133 @@ const getUserHashrate = (
   }
 }
 
-// Add this function to render the top section
+
 const renderTopSection = (
   account: any,
   hashrateData: HashrateDataType | null,
   leaderboard: PartyLeaderboardEntry[],
   bitcoinPrice: number,
-  upcomingPartyData: any
+  upcomingPartyData: any,
+  upcomingPartyCalc: any
 ) => {
-  const isPartyActive = isBlockPartyActive(hashrateData)
-  const userHashrate = getUserHashrate(
-    account, 
-    isPartyActive ? leaderboard : [], // Use current leaderboard for active party
-    !isPartyActive // Use next Saturday's leaderboard for upcoming party
-  )
+  // Get next block party date
+  const { nextSaturday } = getNextBlockPartyDate()
+  
+  // Calculate time remaining
+  const now = new Date()
+  const timeRemaining = nextSaturday.getTime() - now.getTime()
+  const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60))
 
-  // Show potential block party view if:
-  // 1. User not logged in
-  // 2. User logged in but has no hashrate
-  const showPotentialView = !account?.id || !userHashrate
-
-  if (showPotentialView) {
-    return (
+  return (
+    <div className="space-y-6"> {/* Add wrapper div with spacing */}
+      {/* First row */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Block Reward Box */}
-            <div className="bg-[#fff5eb] rounded-md p-4">
-              <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                {isPartyActive ? 'Block reward 💸' : 'Block reward 💸'}
-              </h3>
-              <div>
-                <p className="text-2xl font-semibold text-[#f08222]">
-                  ${formatMoney(3.125 * bitcoinPrice)} USD
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  3.125 BTC
-                </p>
-              </div>
-            </div>
+          {/* Box 1: Next Block Party */}
+          <div className="bg-[#fff5eb] rounded-md p-4">
+            <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
+              Next block party
+            </h3>
+            <p className="text-2xl font-semibold text-gray-900 mb-2">
+              {formatDate(nextSaturday, 'EEEE, MMMM d')}
+            </p>
+            <p className="text-sm text-gray-600">
+              {days}d {hours}h {minutes}m
+            </p>
+          </div>
 
-            {/* Direct Buy Share Box */}
-            <div className="bg-[#fff5eb] rounded-md p-4">
-              <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                <div className="flex items-center gap-1">
-                  Direct Buy Reward
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <div className="cursor-help">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                      per-TH/s reward is based on total party hashrate
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              </h3>
-              <div>
-                {upcomingPartyData?.totalHashrate ? (
-                  <>
-                    <p className="text-2xl font-semibold text-[#f08222]">
-                      ${formatMoney((3.125 / upcomingPartyData.totalHashrate * 8) * bitcoinPrice)} USD
-                    </p>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <p className="text-sm text-gray-500 mt-1 cursor-help">
-                          {(3.125 / upcomingPartyData.totalHashrate * 8).toFixed(8)} BTC per TH/s
-                        </p>
-                      </TooltipTrigger>
-                      <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                        Direct buy reward for 1 TH/s
-                      </TooltipContent>
-                    </Tooltip>
-                  </>
-                ) : (
-                  <p className="text-sm text-gray-500">Loading...</p>
-                )}
-              </div>
-            </div>
-  
-                  {/* Auction Share Box */}
-                  <div className="bg-[#fff5eb] rounded-md p-4">
-                    <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                      <div className="flex items-center gap-1">
-                        Auction Reward
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <div className="cursor-help">
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                              </svg>
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                          per-TH/s reward is based on base auction hashrate<br/><br/>
-                          bonus hashrate increases reward share<br/>
-                          for all auction bidders
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                    </h3>
-                    <div>
-                    {upcomingPartyData?.nextSatPartyLeaderboard ? (
-          (() => {
-            console.log('Looking for 21 TH/s entry in:', upcomingPartyData.nextSatPartyLeaderboard);
-            
-            const entry = upcomingPartyData.nextSatPartyLeaderboard.find(e => {
-              const roundedHashrate = Math.round(e.total_hashrate);
-              console.log('Entry hashrate:', e.total_hashrate, 'Rounded:', roundedHashrate);
-              return roundedHashrate === 21;
-            });
+          {/* Box 2: Projected Hashrate */}
+          <div className="bg-[#fff5eb] rounded-md p-4">
+            <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
+              Projected Hashrate
+            </h3>
+            <p className="text-2xl font-semibold text-gray-900 mb-2">
+              {formatMoney(upcomingPartyData?.totalHashrate || 0)} TH/s
+            </p>
+            <Tooltip>
+              <TooltipTrigger>
+                <p className="text-sm text-gray-600 cursor-help">
+                  1 in {Math.round(upcomingPartyCalc?.chancePerBlockDay || 0).toLocaleString()} party odds
+                </p>
+              </TooltipTrigger>
+              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                Based on projected hashrate
+              </TooltipContent>
+            </Tooltip>
+          </div>
 
-            if (entry) {
-              return (
-                <>
-                  <p className="text-2xl font-semibold text-[#f08222]">
-                     ${formatMoney((entry.reward_share_btc * bitcoinPrice) / 21)} USD
-                  </p>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <p className="text-sm text-gray-500 mt-1 cursor-help">
-                        {(entry.reward_share_btc / 21).toFixed(8)} BTC
-                      </p>
-                    </TooltipTrigger>
-                    <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                      per 1 TH/s base auction hashrate - excludes bonus hashrate
-                    </TooltipContent>
-                  </Tooltip>
-                </>
-              )
-            }
-            return <p className="text-sm text-gray-500">No 21 TH/s entry found</p>
-          })()
-        ) : (
-          <p className="text-sm text-gray-500">Loading next Saturday auction data...</p>
+          {/* Box 3: Block Reward */}
+          <div className="bg-[#fff5eb] rounded-md p-4">
+            <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
+              Block reward
+            </h3>
+            <p className="text-2xl font-semibold text-gray-900">
+              ${formatMoney(3.125 * bitcoinPrice)} USD
+            </p>
+            <p className="text-sm text-gray-600 mt-1">
+              3.125 BTC
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Second row */}
+      <div className="flex gap-4">
+        {/* Early Start Target Box */}
+        <div className="flex-1 bg-white rounded-lg shadow p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-sm font-medium text-gray-500 uppercase">
+              Early Start Target
+            </h3>
+          </div>
+          <p className="text-2xl font-semibold text-gray-900">
+            {formatMoney(Math.max(0, TARGET_HASHRATE - (hashrateData?.current_hashrate || 0)))} TH/s to go
+          </p>
+          <p className="text-sm text-gray-600 mt-2">
+            Start @ May 10th if 250 PH/s
+          </p>
+        </div>
+
+        {/* Pre-game Party Hashrate Box */}
+        {hashrateData?.current_hashrate > 0 && (
+          <div className="flex-1 bg-white rounded-lg shadow p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-sm font-medium text-gray-500 uppercase">
+                Pre-game Party Hashrate
+              </h3>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div className="cursor-help">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                  current hashrate at our CK Pool address
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <p className="text-2xl font-semibold text-gray-900">
+              {formatMoney(hashrateData.current_hashrate)} TH/s
+            </p>
+            <Link 
+              href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
+              className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View at CK Pool →
+            </Link>
+          </div>
         )}
-      </div>
-    </div>
-  
-
-        </div>
-      </div>
-    )
-  }
-
-  // Show user hashrate view
-  return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#fff5eb] rounded-md p-4">
-          <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-            Your Hashrate ⛏️
-          </h3>
-          <p className="text-2xl font-semibold text-[#f08222]">
-            {userHashrate.hashrate.toFixed(2)} TH/s
-          </p>
-        </div>
-
-        <div className="bg-[#fff5eb] rounded-md p-4">
-          <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-            Block Party Share 🥧
-          </h3>
-          <p className="text-2xl font-semibold text-[#f08222]">
-            {userHashrate.percentage}%
-          </p>
-          <div>
-            <p className="text-lg font-semibold text-[#f08222] mt-2">
-              ${formatMoney(userHashrate.rewardShareBtc * bitcoinPrice)} USD
-            </p>
-            <p className="text-sm text-gray-500">
-              {userHashrate.rewardShareBtc.toFixed(8)} BTC
-            </p>
-          </div>
-        </div>
-
-        <div className="bg-[#fff5eb] rounded-md p-4">
-          <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-            {isPartyActive ? 'Current Reward 💸' : 'Potential Reward 💸'}
-          </h3>
-          <div>
-            <p className="text-2xl font-semibold text-[#f08222]">
-              ${formatMoney(userHashrate.rewardShareBtc * bitcoinPrice)} USD
-            </p>
-            <p className="text-sm text-gray-500 mt-1">
-              {userHashrate.rewardShareBtc.toFixed(8)} BTC
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   )
 }
+
 
 export default function Dashboard() {
   const { account } = useAccountContext()
@@ -702,157 +636,37 @@ export default function Dashboard() {
         <div className="mt-4">
         {!loading && !error && hashrateData && (
           <>
-            {renderTopSection(account, hashrateData, leaderboard, bitcoinPrice, upcomingPartyData)}
-
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {upcomingPartyData ? (
-                    <>
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Next Block Party
-                        </h3>
-                        {upcomingPartyData?.date && (
-                          <>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <p className="text-2xl font-semibold text-gray-900 mb-2 cursor-help">
-                                {formatDate(upcomingPartyData.date, 'EEEE, MMMM d')}
-                              </p>
-                            </TooltipTrigger>
-                            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                              If early start target is met, party will start early
-                            </TooltipContent>
-                          </Tooltip>
-                            <p className="text-xl text-gray-700 mb-2">
-                              {formatMoney((upcomingPartyData.totalHashrate).toFixed(0))} TH/s
-                            </p>
-                            <p className="text-sm text-gray-600 flex items-center gap-1">
-                              Projected hashrate
-                              <Tooltip>
-                                <TooltipTrigger>
-                                  <div className="cursor-help">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                                    </svg>
-                                  </div>
-                                </TooltipTrigger>
-                                <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                                  includes auctions, bonus hashrate and direct buy ({formatMoney(upcomingPartyData.directBuyHashrate)} TH/s)
-                                </TooltipContent>
-                              </Tooltip>
-                            </p>
-                          </>
-                        )}
-                      </div>
-
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Party Odds (6hr)
-                        </h3>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <p className="text-2xl font-semibold text-gray-900">
-                              1 in {Math.round(upcomingPartyCalc.chancePerBlockDay * 4).toLocaleString()}
-                            </p>
-                          </TooltipTrigger>
-                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                            24hr: 1 in {upcomingPartyCalc.chancePerBlockDay.toLocaleString()}
-                          </TooltipContent>
-                        </Tooltip>
-                        <p className="text-sm text-gray-600 mt-2">Based on projected hashrate</p>
-                      </div>
-
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Early Start Target
-                        </h3>
-                        <p className="text-2xl font-semibold text-gray-900">
-                          {formatMoney(Math.max(0, TARGET_HASHRATE - upcomingPartyData.totalHashrate))} TH/s to go
-                        </p>
-                        <p className="text-sm text-gray-600 mt-2">
-                          If we reach 250 PH/s party will start this Saturday, May 10th
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Current Party Hashrate
-                        </h3>
-                        
-                        <p className="text-2xl font-semibold text-gray-900 mb-2">
-                          {hashrateData.current_hashrate.toFixed(2)} TH/s
-                        </p>
-                        <div className="space-y-1 text-sm text-gray-600">
-                          <p className="flex items-center">
-                            <span className="w-32">Direct Buy:</span>
-                            <span>{upcomingPartyData?.directBuyHashrate?.toFixed(2) || '0.00'} TH/s</span>
-                          </p>
-                          <p className="flex items-center">
-                            <span className="w-32">Auction:</span>
-                            <span>{hashrateData.base_hashrate.toFixed(2)} TH/s</span>
-                          </p>
-                          <p className="flex items-center">
-                            <span className="w-32">Auction Bid Bonus:</span>
-                            <span>{hashrateData.bid_bonus_hashrate.toFixed(2)} TH/s</span>
-                          </p>
-                          <p className="flex items-center">
-                            <span className="w-32">Auctioneer Match:</span>
-                            <span>{hashrateData.auctioneer_match_bonus.toFixed(2)} TH/s</span>
-                          </p>
-                          <p className="flex items-center">
-                            <span className="w-32">Extra:</span>
-                            <span>{hashrateData.extra_hashrate.toFixed(2)} TH/s</span>
-                          </p>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Target
-                        </h3>
-                        <p className="text-2xl font-semibold text-gray-900">
-                          {formatMoney(Math.max(0, TARGET_HASHRATE - hashrateData.current_hashrate))} TH/s to go
-                        </p>
-                        <p className="text-sm text-gray-600 mt-2">
-                        If we reach 250 PH/s party will start this Saturday, May 10th
-                        </p>
-                      </div>
-
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">
-                          Party Odds (6hr)
-                        </h3>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <p className="text-2xl font-semibold text-gray-900">
-                              1 in {Math.round(currentHashrateCalc.chancePerBlockDay * 4).toLocaleString()}
-                            </p>
-                          </TooltipTrigger>
-                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                            24hr: 1 in {currentHashrateCalc.chancePerBlockDay.toLocaleString()}
-                          </TooltipContent>
-                        </Tooltip>
-                        <p className="text-sm text-gray-600 mt-2">chance of mining a block in 6 hours</p>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
+            {renderTopSection(account, hashrateData, leaderboard, bitcoinPrice, upcomingPartyData, upcomingPartyCalc)}
             </>
           )}
         </div>
       </div>
 
+      {/* Direct Buy Miners table */}
+      <div className="mb-8">
+        <div className="bg-white rounded-lg shadow p-4">
+          <DirectPartyLeaderboard useNextSaturday={true} />
+        </div>
+      </div>
+
 {/* Teams Section */}
 <div className="mt-8">
-  <h3 className="text-xl font-semibold mb-4">Teams</h3>
+  {/* Jazzed up heading */}
+  <h3 className="text-2xl font-bold text-[#f08222] mb-6">Hashathon Auction</h3>
   
+  {/* Enhanced banner text */}
+  <div className="bg-white rounded-lg shadow p-6 mb-6">
+    <p className="text-lg font-bold text-gray-700 text-center">
+      Team with the most hash gets 21 PH/s
+    </p>
+    <p className="text-md text-gray-700 text-center">
+
+    + runner up gets 5 PH/s</p>
+  </div>
+
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
     {/* Team 1 */}
-    <div className="bg-[#fff5eb] rounded-lg shadow p-6"> {/* Changed bg-white to bg-[#fff5eb] */}
+    <div className="bg-[#fff5eb] rounded-lg shadow p-6">
       <div className="flex items-center gap-4 mb-4">
         <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
           <Image 
@@ -869,13 +683,12 @@ export default function Dashboard() {
         Bitcoin Arusha is an innovative initiative aimed at fostering a Bitcoin circular economy in Arusha, Tanzania
       </p>
       <p className="text-sm text-[#f08222] font-medium">
-        If we find a block, Heather is donating 10% of her share to Bitcoin Arusha!
+        Heather is donating 10% of her share to Bitcoin Arusha!
       </p>
-      <center><p><Link href="/account/general" styled>Join Team Heather</Link></p></center>
     </div>
 
     {/* Team 2 */}
-    <div className="bg-[#fff5eb] rounded-lg shadow p-6"> {/* Changed bg-white to bg-[#fff5eb] */}
+    <div className="bg-[#fff5eb] rounded-lg shadow p-6">
       <div className="flex items-center gap-4 mb-4">
       <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
         <h4 className="text-lg font-semibold">Team QW / Bitcoin Isla</h4>
@@ -884,64 +697,34 @@ export default function Dashboard() {
         Building a Bitcoin Circular Economy in Isla Mujeres. Fix the money, fix the isla 🏝️
       </p>
       <p className="text-sm text-[#f08222] font-medium">
-        If we find a block, QW is donating 10% of his share to Bitcoin Isla!
+       QW is donating 10% of his share to Bitcoin Isla!
       </p>
-      <center><p><Link href="/account/general" styled>Join Team QW</Link></p></center>
     </div>
   </div>
 
-  {/* Italicized note */}
-  <center><p className="mt-4 text-sm text-gray-500 italic">
-    Once the party starts, the team with the most hashrate gets 21 PH/s, runner-up gets 5 PH/s. 
-  </p></center>
-</div>
-
-{/* Add CK Pool Hashrate Display */}
-{hashrateData?.current_hashrate > 0 && (
-  <div className="bg-white rounded-lg shadow p-4 mb-6">
-    <div className="flex items-center gap-2 mb-2">
-      <h3 className="text-sm font-medium text-gray-500 uppercase">
-        Pre-game Party Hashrate
-      </h3>
-      <Tooltip>
-        <TooltipTrigger>
-          <div className="cursor-help">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-            </svg>
-          </div>
-        </TooltipTrigger>
-        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-          current hashrate at our CK Pool address
-        </TooltipContent>
-      </Tooltip>
-    </div>
-    <p className="text-2xl font-semibold text-gray-900">
-      {formatMoney(hashrateData.current_hashrate)} TH/s
-    </p>
+    {/* Centered Button */}
+    <div className="flex justify-center mt-6">
     <Link 
-      href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
-      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
-      target="_blank"
-      rel="noopener noreferrer"
+      href="/account/general" 
+      className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
     >
-      View at CK Pool →
+      Pick your team
     </Link>
   </div>
-)}
 
-      {/* Direct Buy Miners table */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-4">Direct Buy Miners</h2>
-        <div className="bg-white rounded-lg shadow p-4">
-          <DirectPartyLeaderboard useNextSaturday={true} />
-        </div>
-      </div>
+  {/* Added Explainer Box */}
+  <div className="mt-6 bg-white rounded-lg shadow p-6">
+    <center><p className="text-gray-700">
+      High bids go to buy more hashrate for all auction miners - and earn a 21% match
+    </p></center>
+  </div>
+  <br/>
+</div>
+
 
 {/* Auction Miners */}
 <div className="mb-8">
-  <h2 className="text-2xl font-bold mb-4">Auction Miners</h2>
-  <Tab.Group defaultIndex={0}>
+    <Tab.Group defaultIndex={0}>
     <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
       <Tab
         className={({ selected }) =>
@@ -951,7 +734,7 @@ export default function Dashboard() {
             : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
         }
       >
-        Scheduled Miners
+        Auction Miners
       </Tab>
       <Tab
         className={({ selected }) =>

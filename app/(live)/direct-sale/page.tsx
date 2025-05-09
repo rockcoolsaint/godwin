@@ -18,12 +18,11 @@ export default function DirectSalePage() {
       <div className="flex flex-col lg:flex-row lg:gap-16 max-w-6xl mx-auto">
         {/* Left side - Block Party Instructions */}
         <div className="lg:w-2/5 flex flex-col items-start justify-center mb-8 lg:mb-0">
-          <h2 className="text-2xl font-bold mb-6">Join our Block Party</h2>
           
           <div className="space-y-4 text-gray-600">
 
             <p>
-              If we successfully mine a block, you receive your share of the reward based on your hashrate contribution.
+              <b>Join our block party.</b> If we successfully mine a block, you receive your share of the reward based on your hashrate contribution.
             </p>
 
 
