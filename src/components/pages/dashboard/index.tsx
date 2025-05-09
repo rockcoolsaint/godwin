@@ -352,9 +352,9 @@ const renderTopSection = (
             </p>
             <Tooltip>
               <TooltipTrigger>
-                <p className="text-sm text-gray-600 cursor-help">
-                  1 in {Math.round(upcomingPartyCalc?.chancePerBlockDay || 0).toLocaleString()} party odds
-                </p>
+               <p className="text-sm text-gray-600 cursor-help">
+                1 in {Math.round((upcomingPartyCalc?.chancePerBlockDay || 0) / 4).toLocaleString()} party odds (6 hrs)
+               </p> 
               </TooltipTrigger>
               <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
                 Based on projected hashrate
@@ -394,7 +394,7 @@ const renderTopSection = (
             </h3>
           </div>
           <p className="text-2xl font-semibold text-gray-900">
-            {formatMoney(Math.max(0, TARGET_HASHRATE - (upcomingPartyData?.current_hashrate || 0)))} TH/s to go
+            {formatMoney(Math.max(0, TARGET_HASHRATE - (upcomingPartyData?.totalHashrate || 0)))} TH/s to go
           </p>
           <p className="text-sm text-gray-600 mt-2">
             Start @ May 10th if 250 PH/s
@@ -639,7 +639,6 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto px-4 py-4">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Block Party Mining</h1>
         <div className="mt-4">
         {!loading && !error && hashrateData && (
           <>

@@ -16,7 +16,7 @@ export default function DirectPartyLeaderboard({ useNextSaturday = false }: Dire
   const [loading, setLoading] = useState(true)
   const [bitcoinPrice, setBitcoinPrice] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const entriesPerPage = 7
+  const entriesPerPage = 5
 
   useEffect(() => {
     const fetchBitcoinPrice = async () => {
