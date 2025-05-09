@@ -353,7 +353,7 @@ const renderTopSection = (
             <Tooltip>
               <TooltipTrigger>
                <p className="text-sm text-gray-600 cursor-help">
-                1 in {Math.round((upcomingPartyCalc?.chancePerBlockDay || 0) / 4).toLocaleString()} party odds (6 hrs)
+                1 in {Math.round((upcomingPartyCalc?.chancePerBlockDay || 0) * 4).toLocaleString()} party odds (6 hrs)
                </p> 
               </TooltipTrigger>
               <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
