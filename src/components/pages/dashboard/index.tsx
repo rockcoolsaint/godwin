@@ -677,7 +677,7 @@ export default function Dashboard() {
             objectFit="contain" 
           />
         </a>
-        <h4 className="text-lg font-semibold">Team Heather / Bitcoin Arusha</h4>
+        <h4 className="text-lg font-semibold">Team Arusha</h4>
       </div>
       <p className="text-gray-600 mb-4">
         Bitcoin Arusha is an innovative initiative aimed at fostering a Bitcoin circular economy in Arusha, Tanzania
@@ -691,7 +691,7 @@ export default function Dashboard() {
     <div className="bg-[#fff5eb] rounded-lg shadow p-6">
       <div className="flex items-center gap-4 mb-4">
       <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
-        <h4 className="text-lg font-semibold">Team QW / Bitcoin Isla</h4>
+        <h4 className="text-lg font-semibold">Team Isla</h4>
       </div>
       <p className="text-gray-600 mb-4">
         Building a Bitcoin Circular Economy in Isla Mujeres. Fix the money, fix the isla 🏝️
