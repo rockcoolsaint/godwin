@@ -14,7 +14,7 @@ import { Suspense } from 'react'
 import { getAllAuctions } from 'src/api/auction/getAllAuctions'
 import { useAccountContext } from 'src/providers/AccountProvider'
 import { DirectPartyLeaderboardEntry, PartyLeaderboardEntry } from 'src/api/auction/types'
-import { getPartyLeaderboard, getNextSaturdayPartyLeaderboard, getDirectPartyLeaderboard, getNextSaturdayDirectPartyLeaderboard } from 'src/api/party/getLeaderboard'
+import { getPartyLeaderboard, getNextSaturdayPartyLeaderboard, getDirectPartyLeaderboard, getNextSaturdayDirectPartyLeaderboard, getTeamLeaderboard } from 'src/api/party/getLeaderboard'
 import { formatMoney } from 'src/utils/currency'
 import { getBitcoinPrice } from 'src/utils/bitcoin'
 import { format as formatDate, addDays } from 'date-fns'
@@ -400,6 +400,30 @@ export default function Dashboard() {
   const [bitcoinPrice, setBitcoinPrice] = useState(0)
   const [projectedHashrate, setProjectedHashrate] = useState<HashrateDataType | null>(null)
   const [featuredAuction, setFeaturedAuction] = useState<any>(null)
+  const [teamData, setTeamData] = useState<any[]>([])
+  const [teamDataLoading, setTeamDataLoading] = useState(true)
+  const [showTeamMembers, setShowTeamMembers] = useState({
+    bitcoinisla: false,
+    bitcoinarusha: false
+  })
+
+  useEffect(() => {
+    const fetchTeamData = async () => {
+      try {
+        setTeamDataLoading(true)
+        const data = await getTeamLeaderboard()
+        setTeamData(data)
+      } catch (error) {
+        console.error('Error fetching team data:', error)
+      } finally {
+        setTeamDataLoading(false)
+      }
+    }
+  
+    fetchTeamData()
+    const interval = setInterval(fetchTeamData, 60000) // Refresh every minute
+    return () => clearInterval(interval)
+  }, [])
 
   const [upcomingPartyData, setUpcomingPartyData] = useState<{
     date: Date;
@@ -600,76 +624,154 @@ export default function Dashboard() {
 
 {/* Teams Section */}
 <div className="mt-8">
-  {/* Jazzed up heading */}
   <h3 className="text-2xl font-bold text-[#f08222] mb-6">Hashathon Auction</h3>
-  
-  {/* Enhanced banner text */}
-  <div className="bg-white rounded-lg shadow p-6 mb-6">
-    <p className="text-lg font-bold text-gray-700 text-center">
-      Team with the most hash gets 21 PH/s
-    </p>
-    <p className="text-md text-gray-700 text-center">
 
-    + runner up gets 5 PH/s</p>
-  </div>
-
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {/* Team 1 */}
-    <div className="bg-[#fff5eb] rounded-lg shadow p-6">
-      <div className="flex items-center gap-4 mb-4">
-        <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
-          <Image 
-            src={Arusha} 
-            alt="Bitcoin Arusha Logo" 
-            width={100} 
-            height={100} 
-            objectFit="contain" 
-          />
-        </a>
-        <h4 className="text-lg font-semibold">Team Arusha</h4>
-      </div>
-      <p className="text-gray-600 mb-4">
-        Bitcoin Arusha is an innovative initiative aimed at fostering a Bitcoin circular economy in Arusha, Tanzania
-      </p>
-      <p className="text-sm text-[#f08222] font-medium">
-        Heather is donating 10% of her share to Bitcoin Arusha!
-      </p>
+  {teamDataLoading ? (
+    <div className="flex justify-center items-center py-12">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#f08222]" />
     </div>
-
-    {/* Team 2 */}
-    <div className="bg-[#fff5eb] rounded-lg shadow p-6">
-      <div className="flex items-center gap-4 mb-4">
-      <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
-        <h4 className="text-lg font-semibold">Team Isla</h4>
-      </div>
-      <p className="text-gray-600 mb-4">
-        Building a Bitcoin Circular Economy in Isla Mujeres. Fix the money, fix the isla 🏝️
-      </p>
-      <p className="text-sm text-[#f08222] font-medium">
-       QW is donating 10% of his share to Bitcoin Isla!
-      </p>
+  ) : teamData.length === 0 ? (
+    <div className="text-center py-12 text-gray-500">
+      No team data available
     </div>
-  </div>
+  ) : (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Team Arusha */}
+      <div className="bg-[#fff5eb] rounded-lg shadow p-6">
+        <div className="flex items-center gap-4 mb-4">
+          <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
+            <Image 
+              src={Arusha} 
+              alt="Bitcoin Arusha Logo" 
+              width={100} 
+              height={100} 
+              objectFit="contain" 
+            />
+          </a>
+          <div>
+            <h4 className="text-lg font-semibold">Team Arusha</h4>
+            <p className="text-xl font-bold text-[#f08222]">
+              {formatMoney(teamData.find(t => t.team_name === 'bitcoinarusha')?.total_hashrate || 0)} TH/s
+            </p>
+          </div>
+        </div>
+        <p className="text-gray-600 mb-4">
+          Bitcoin Arusha is fostering a Bitcoin Circular Economy in Arusha, Tanzania.
+        </p>
+        <p className="text-sm text-[#f08222] font-medium">
+          Heather is donating 10% of her share to Bitcoin Arusha!
+        </p><br/>
+        <button
+          onClick={() => setShowTeamMembers(prev => ({
+            ...prev,
+            bitcoinarusha: !prev.bitcoinarusha
+          }))}
+          className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
+        >
+          {showTeamMembers.bitcoinarusha ? 'Hide miners' : 'Show miners'}
+          <svg className={`w-4 h-4 transform transition-transform ${showTeamMembers.bitcoinarusha ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        
+        {/* Team Members Dropdown */}
+        {showTeamMembers.bitcoinarusha && (
+          <div className="mt-4 space-y-2">
+            {teamData.find(t => t.team_name === 'bitcoinarusha')?.members.map((member: any) => (
+              <div key={member.username} className="bg-white rounded p-3">
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="flex justify-between items-center cursor-help">
+                      <span>{member.username}</span>
+                      <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                    <div>Base: {formatMoney(member.hashrate)} TH/s</div>
+                    <div>Bid Bonus: {formatMoney(member.bid_bonus)} TH/s</div>
+                    <div>Match Bonus: {formatMoney(member.auctioneer_match_bonus)} TH/s</div>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
-    {/* Centered Button */}
-    <div className="flex justify-center mt-6">
-    <Link 
+      {/* Team Isla */}
+      <div className="bg-[#fff5eb] rounded-lg shadow p-6">
+        <div className="flex items-center gap-4 mb-4">
+          <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
+          <div>
+            <h4 className="text-lg font-semibold">Team Isla</h4>
+            <p className="text-xl font-bold text-[#f08222]">
+              {formatMoney(teamData.find(t => t.team_name === 'bitcoinisla')?.total_hashrate || 0)} TH/s
+            </p>
+          </div>
+        </div>
+        <p className="text-gray-600 mb-4">
+          Building a Bitcoin Circular Economy in Isla Mujeres. Fix the money, fix the isla 🏝️
+        </p>
+        <p className="text-sm text-[#f08222] font-medium">
+          QW is donating 10% of his share to Bitcoin Isla!
+        </p><br/>
+        <button
+          onClick={() => setShowTeamMembers(prev => ({
+            ...prev,
+            bitcoinisla: !prev.bitcoinisla
+          }))}
+          className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
+        >
+          {showTeamMembers.bitcoinisla ? 'Hide miners' : 'Show miners'}
+          <svg className={`w-4 h-4 transform transition-transform ${showTeamMembers.bitcoinisla ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        
+        {/* Team Members Dropdown */}
+        {showTeamMembers.bitcoinisla && (
+          <div className="mt-4 space-y-2">
+            {teamData.find(t => t.team_name === 'bitcoinisla')?.members.map((member: any) => (
+              <div key={member.username} className="bg-white rounded p-3">
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="flex justify-between items-center cursor-help">
+                      <span>{member.username}</span>
+                      <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                    <div>Base: {formatMoney(member.hashrate)} TH/s</div>
+                    <div>Bid Bonus: {formatMoney(member.bid_bonus)} TH/s</div>
+                    <div>Match Bonus: {formatMoney(member.auctioneer_match_bonus)} TH/s</div>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )}
+</div>
+{/* Centered Button */}
+<div className="flex justify-center mt-6">
+<Link 
       href="/account/general" 
       className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
     >
       Pick your team
     </Link>
+ </div>
+<br/>
+<div className="bg-white rounded-lg shadow p-6 mb-6">
+    <p className="text-lg font-bold text-gray-700 text-center">
+      Team with the most hash gets 21 PH/s
+    </p>
+    <p className="text-md text-gray-700 text-center">
+      + runner up gets 5 PH/s
+    </p>
   </div>
-
-  {/* Added Explainer Box */}
-  <div className="mt-6 bg-white rounded-lg shadow p-6">
-    <center><p className="text-gray-700">
-      High bids go to buy more hashrate for all auction miners - and earn a 21% match
-    </p></center>
-  </div>
-  <br/>
-</div>
-
 
 {/* Auction Miners */}
 <div className="mb-8">

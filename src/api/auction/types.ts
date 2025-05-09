@@ -11,6 +11,22 @@ export interface Party {
   end_datetime: string
 }
 
+export interface TeamMember {
+  username: string
+  hashrate: number
+  bid_bonus: number
+  auctioneer_match_bonus: number
+}
+
+export interface TeamPartyLeaderboardEntry {
+  team_name: string
+  total_hashrate: number
+  total_bid_bonus: number
+  total_auctioneer_match_bonus: number
+  members: TeamMember[]
+  party_date: string
+}
+
 export interface PartyLeaderboardEntry {
   buyer_id: number
   buyer_name: string

@@ -1,6 +1,14 @@
 // src/api/party/getLeaderboard.ts
 import { makeClientRequest } from '../clientRequest'
-import { DirectPartyLeaderboardEntry, PartyLeaderboardEntry } from 'src/types'
+import { DirectPartyLeaderboardEntry, PartyLeaderboardEntry, TeamPartyLeaderboardEntry } from 'src/api/auction/types'
+
+export async function getTeamLeaderboard(): Promise<TeamPartyLeaderboardEntry[]> {
+  const response = await makeClientRequest({
+    method: 'GET',
+    path: 'api/auctions/team-party-leaderboard'
+  })
+  return response
+}
 
 export async function getPartyLeaderboard(): Promise<PartyLeaderboardEntry[]> {
   const response = await makeClientRequest({
