@@ -8,13 +8,6 @@ const Hero = ({ children }: PropsWithChildren) => {
 
   return (
     <section className="w-full px-4 md:px-8 lg:px-12">
-      {/* Main Header */}
-      <div className="text-center mb-8">
-        <h1 className="font-epilogue text-4xl font-extrabold text-[#f08222] md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl">
-          Solo mine with bitcoiners
-        </h1>
-      </div>
-
       {/* Direct Sale Content */}
       <div className="max-w-6xl mx-auto">
         {/* Two Column Layout */}
@@ -23,13 +16,13 @@ const Hero = ({ children }: PropsWithChildren) => {
         {/* Left side - Block Party Instructions */}
         <div className="lg:w-2/5 flex flex-col items-start justify-center mb-8 lg:mb-0">
           <div className="space-y-4">
-          <p className="text-2xl text-gray-600"><b>Join our Block Party</b>  </p>
-            <p className="text-2xl text-gray-600">
-              If we successfully mine a block, your reward is based on your hashrate contribution
+          <p className="text-2xl text-gray-600"><b>Solo mine with bitcoiners</b></p>
+            <p className="text-xl text-gray-600"> {/* Reduced from text-2xl */}
+            It's a block party! If we mine a block, your reward is based on your hashrate contribution.
             </p>
 
             <div className="mt-6">
-              <Link href="/pages/dashboard" className="text-xl text-blue-600 hover:underline">
+              <Link href="/pages/dashboard" className="text-lg text-blue-600 hover:underline"> {/* Reduced from text-xl */}
                 Monitor the block party live →
               </Link>
             </div>

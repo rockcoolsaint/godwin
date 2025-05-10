@@ -119,8 +119,14 @@ export default function Home({ isDemo, code }: Props) {
 
             {/* Added text */}
             <div className="text-center text-xl text-gray-600 mb-12 mt-8">
-              <h3 className="text-2xl font-bold mb-6">Hashathon for Bitcoin Arusha and Bitcoin Isla</h3>
-              <p>Place your bid and earn bonus hashrate</p>
+              <h3 className="text-2xl font-bold mb-6">Hashathon Auction for Bitcoin Arusha and Bitcoin Isla</h3>
+              <p>Mine with a team to earn a bigger reward</p>
+              <Link 
+                href="/auction-market"
+                className="inline-block mt-6 px-8 py-4 text-lg font-bold text-white bg-[#f08222] rounded-lg hover:bg-[#d67420] transition-colors duration-200"
+              >
+                Learn More
+              </Link>
             </div>
 
             <section className="-mt-6 flex w-full flex-col items-center justify-center py-12 sm:px-4 sm:py-28 md:px-0">
