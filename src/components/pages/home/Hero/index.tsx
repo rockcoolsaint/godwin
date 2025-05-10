@@ -18,7 +18,9 @@ const Hero = ({ children }: PropsWithChildren) => {
           <div className="space-y-4">
           <p className="text-2xl text-gray-600"><b>Solo mine with bitcoiners</b></p>
             <p className="text-xl text-gray-600"> {/* Reduced from text-2xl */}
-            It's a block party! If we mine a block, your reward is based on your hashrate contribution.
+            It's a block party!
+            </p>
+            <p className="text-xl text-gray-600">If we mine a block, your reward is based on your hashrate contribution.
             </p>
 
             <div className="mt-6">

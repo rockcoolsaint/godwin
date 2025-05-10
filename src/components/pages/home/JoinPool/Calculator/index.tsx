@@ -255,7 +255,7 @@ export const MiningCalculator = () => {
           <span className="font-medium text-gray-900">Block reward</span>
         </div>
         <div className="text-right flex items-center gap-2">
-          <span className="text-gray-600">{blockRewardBTC} BTC + tx fees</span>
+          <span className="text-gray-600">{blockRewardBTC} BTC</span>
           <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">
             ${formatMoney(blockRewardUSD)}
           </span>
