@@ -67,7 +67,71 @@ export default function Home({ isDemo, code }: Props) {
   const [auctionData, setAuctionData] = useState<Auction[]>([])
   const [auctionOfTheDay, setAuctionOfTheDay] = useState<AuctionOfTheDayResponse | null>(null)
   const isLoggedIn = Boolean(account?.email)
+  // Add a new state to track if countdown is ready
+  const [isCountdownReady, setIsCountdownReady] = useState(false);
 
+  // Add state for countdown
+  const [countdown, setCountdown] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  // Add function to calculate next block party date (Saturday at 16:00 UTC)
+  const getNextBlockPartyDate = () => {
+    const now = new Date();
+    const nextParty = new Date();
+    
+    // Set to next Saturday
+    nextParty.setUTCDate(now.getUTCDate() + ((6 - now.getUTCDay() + 7) % 7));
+    
+    // Set time to 16:00 UTC
+    nextParty.setUTCHours(16, 0, 0, 0);
+    
+    // If it's Saturday after 16:00 UTC, move to next Saturday
+    if (now.getUTCDay() === 6 && now.getUTCHours() >= 16) {
+      nextParty.setUTCDate(nextParty.getUTCDate() + 7);
+    }
+    
+    return nextParty;
+  };
+
+  // Modify the useEffect for countdown
+  useEffect(() => {
+    // Calculate initial countdown
+    const now = new Date();
+    const nextParty = getNextBlockPartyDate();
+    const timeRemaining = nextParty.getTime() - now.getTime();
+
+    if (timeRemaining > 0) {
+      setCountdown({
+        days: Math.floor(timeRemaining / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((timeRemaining % (1000 * 60)) / 1000)
+      });
+      setIsCountdownReady(true);
+    }
+
+    const timer = setInterval(() => {
+      const now = new Date();
+      const nextParty = getNextBlockPartyDate();
+      const timeRemaining = nextParty.getTime() - now.getTime();
+
+      if (timeRemaining > 0) {
+        setCountdown({
+          days: Math.floor(timeRemaining / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((timeRemaining % (1000 * 60)) / 1000)
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+  
   useEffect(() => {
     const prepareCollections = async () => {
       setLoading(true)
@@ -95,17 +159,20 @@ export default function Home({ isDemo, code }: Props) {
 
   return (
     <div>
+
       <div className="flex items-center justify-center gap-x-6 bg-[#f08222] px-6 py-2.5 sm:px-3.5">
-        <p className="text-sm leading-6 text-white">
-          <a href="https://solo.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH">
-            <strong className="font-semibold">{formatDateWithSuffix(new Date())}</strong>
-            <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
-              <circle cx={1} cy={1} r={1} />
-            </svg>
-            Next block party is Saturday, May 17th 16:00-22:00 UTC
-          </a>
-        </p>
-      </div>
+            <p className="text-sm leading-6 text-white">
+              <a href="/pages/dashboard">
+                <strong className="font-semibold">{formatDateWithSuffix(new Date())}</strong>
+                <svg viewBox="0 0 2 2" className="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
+                  <circle cx={1} cy={1} r={1} />
+                </svg>
+                {isCountdownReady ? (
+                  `Next block party in ${countdown.days} days, ${countdown.hours} hours, ${countdown.minutes} min, ${countdown.seconds} sec`
+                ) : null}
+              </a>
+            </p>
+          </div>
 
         <>
           <section className="mx-auto mt-8 flex flex-col items-center justify-center sm:mt-14">
