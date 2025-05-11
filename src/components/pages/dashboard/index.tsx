@@ -809,7 +809,7 @@ export default function Dashboard() {
 {/* Second row */}
 <div className="flex gap-4">
         {/* Early Start Target Box */}
-        <div className="flex-1 bg-white rounded-lg shadow p-4">
+        {/*  <div className="flex-1 bg-white rounded-lg shadow p-4">
           <div className="flex items-center gap-2 mb-2">
             <h3 className="text-sm font-medium text-gray-500 uppercase">
               Early Start Target
@@ -821,7 +821,7 @@ export default function Dashboard() {
           <p className="text-sm text-gray-600 mt-2">
             Start @ May 10th if 250 PH/s
           </p>
-        </div>
+        </div>  */}
 
         {/* Pre-game Party Hashrate Box */}
         {hashrateData?.current_hashrate > 0 && (
