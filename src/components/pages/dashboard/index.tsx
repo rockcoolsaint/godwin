@@ -273,7 +273,7 @@ function getNextBlockPartyDate() {
   const now = new Date()
   const nextSaturday = new Date()
   nextSaturday.setDate(now.getDate() + ((6 - now.getDay() + 7) % 7))
-  nextSaturday.setHours(0, 0, 0, 0)
+  nextSaturday.setHours(12, 0, 0, 0)
   
   // Add another week if the next block party is two weeks out - or +14 for 3 weeks
   // nextSaturday.setDate(nextSaturday.getDate() + 7) 
