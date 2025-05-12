@@ -331,26 +331,21 @@ const renderBottomSection = (
         <div className="bg-[#fff5eb] rounded-md p-4">
           <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
             Early Start Threshold
-          </h3> 
-          {/* <p className="text-2xl font-semibold text-gray-900 mb-2">
-            Tbd.
-          </p> */}
+          </h3>
           <p className="text-sm text-gray-600">
             (coming soon) If we reach a hashrate threshold, party starts early.
           </p>
         </div>
-        {/* Box 1: By Hashrate */}
+
+        {/* Box 1: By Group - removed heading */}
         <div className="bg-[#fff5eb] rounded-md p-4">
-          <h3 className="text-sm font-bold text-[#f08222] uppercase mb-4">
-            By Group
-          </h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
                 Direct Buy
               </span>
-              <div>
-                <p className="text-xl font-semibold text-gray-900">
+              <div className="text-left">
+                <p className="text-lg font-semibold text-gray-900">
                   {formatMoney(directBuyHashrate)} TH/s
                 </p>
                 <p className="text-xs text-gray-500">{directBuyPercentage}% of total</p>
@@ -360,8 +355,8 @@ const renderBottomSection = (
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
                 Auction
               </span>
-              <div>
-                <p className="text-xl font-semibold text-gray-900">
+              <div className="text-left">
+                <p className="text-lg font-semibold text-gray-900">
                   {formatMoney(auctionHashrate)} TH/s
                 </p>
                 <p className="text-xs text-gray-500">{auctionPercentage}% of total</p>
@@ -370,25 +365,21 @@ const renderBottomSection = (
           </div>
         </div>
 
-
-        {/* Box 2: By Reward */}
+        {/* Box 2: By Reward - removed heading */}
         <div className="bg-[#fff5eb] rounded-md p-4">
-          <h3 className="text-sm font-bold text-[#f08222] uppercase mb-4">
-            By Reward ~ per TH/s
-          </h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
                 Direct Buy
               </span>
-              <div>
+              <div className="text-left">
                 <Tooltip>
                   <TooltipTrigger>
                     <div className="cursor-help">
-                      <p className="text-xl font-semibold text-gray-900">
+                      <p className="text-left text-lg font-semibold text-gray-900">
                         ${formatMoney((3.125 / (upcomingPartyData?.totalHashrate || 1)) * bitcoinPrice)}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-left text-xs text-gray-500">
                         ₿ {(3.125 / (upcomingPartyData?.totalHashrate || 1)).toFixed(8)}
                       </p>
                     </div>
@@ -403,7 +394,7 @@ const renderBottomSection = (
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
                 Auction
               </span>
-              <div>
+              <div className="text-left">
                 {upcomingPartyData?.nextSatPartyLeaderboard ? (
                   (() => {
                     const entry = upcomingPartyData.nextSatPartyLeaderboard.find(e => 
@@ -414,10 +405,10 @@ const renderBottomSection = (
                         <Tooltip>
                           <TooltipTrigger>
                             <div className="cursor-help">
-                              <p className="text-xl font-semibold text-gray-900">
+                              <p className="text-left text-lg font-semibold text-gray-900">
                                 ${formatMoney((entry.reward_share_btc * bitcoinPrice) / 21)}
                               </p>
-                              <p className="text-xs text-gray-500">
+                              <p className="text-left text-xs text-gray-500">
                                 ₿ {(entry.reward_share_btc / 21).toFixed(8)}
                               </p>
                             </div>
