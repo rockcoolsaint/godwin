@@ -306,6 +306,144 @@ const getUserHashrate = (
 }
 
 
+const renderBottomSection = (
+  account: any,
+  hashrateData: HashrateDataType | null,
+  leaderboard: PartyLeaderboardEntry[],
+  bitcoinPrice: number,
+  upcomingPartyData: any,
+  upcomingPartyCalc: any
+) => {
+  // Calculate total hashrate and percentages
+  const directBuyHashrate = upcomingPartyData?.directBuyHashrate || 0
+  const auctionHashrate = (upcomingPartyData?.totalHashrate || 0) - directBuyHashrate
+  const totalHashrate = directBuyHashrate + auctionHashrate
+  
+  const directBuyPercentage = totalHashrate ? ((directBuyHashrate / totalHashrate) * 100).toFixed(1) : '0'
+  const auctionPercentage = totalHashrate ? ((auctionHashrate / totalHashrate) * 100).toFixed(1) : '0'
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-white rounded-lg shadow p-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        {/* Pre-game Hashrate */}
+        <div className="bg-[#fff5eb] rounded-md p-4">
+          <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
+            Early Start Threshold
+          </h3> 
+          {/* <p className="text-2xl font-semibold text-gray-900 mb-2">
+            Tbd.
+          </p> */}
+          <p className="text-sm text-gray-600">
+            (coming soon) If we reach a hashrate threshold, party starts early.
+          </p>
+        </div>
+        {/* Box 1: By Hashrate */}
+        <div className="bg-[#fff5eb] rounded-md p-4">
+          <h3 className="text-sm font-bold text-[#f08222] uppercase mb-4">
+            By Group
+          </h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
+                Direct Buy
+              </span>
+              <div>
+                <p className="text-xl font-semibold text-gray-900">
+                  {formatMoney(directBuyHashrate)} TH/s
+                </p>
+                <p className="text-xs text-gray-500">{directBuyPercentage}% of total</p>
+              </div>
+            </div>
+            <div>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
+                Auction
+              </span>
+              <div>
+                <p className="text-xl font-semibold text-gray-900">
+                  {formatMoney(auctionHashrate)} TH/s
+                </p>
+                <p className="text-xs text-gray-500">{auctionPercentage}% of total</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        {/* Box 2: By Reward */}
+        <div className="bg-[#fff5eb] rounded-md p-4">
+          <h3 className="text-sm font-bold text-[#f08222] uppercase mb-4">
+            By Reward ~ per TH/s
+          </h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
+                Direct Buy
+              </span>
+              <div>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="cursor-help">
+                      <p className="text-xl font-semibold text-gray-900">
+                        ${formatMoney((3.125 / (upcomingPartyData?.totalHashrate || 1)) * bitcoinPrice)}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        ₿ {(3.125 / (upcomingPartyData?.totalHashrate || 1)).toFixed(8)}
+                      </p>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                    per TH/s based on total hash
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </div>
+            <div>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
+                Auction
+              </span>
+              <div>
+                {upcomingPartyData?.nextSatPartyLeaderboard ? (
+                  (() => {
+                    const entry = upcomingPartyData.nextSatPartyLeaderboard.find(e => 
+                      Math.round(e.total_hashrate) === 21
+                    )
+                    if (entry) {
+                      return (
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <div className="cursor-help">
+                              <p className="text-xl font-semibold text-gray-900">
+                                ${formatMoney((entry.reward_share_btc * bitcoinPrice) / 21)}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                ₿ {(entry.reward_share_btc / 21).toFixed(8)}
+                              </p>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                            per TH/s base hash - bonus hashrate increases % for all auction miners
+                          </TooltipContent>
+                        </Tooltip>
+                      )
+                    }
+                    return <p className="text-sm text-gray-500">Calculating...</p>
+                  })()
+                ) : (
+                  <p className="text-sm text-gray-500">Loading...</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const renderTopSection = (
   account: any,
   hashrateData: HashrateDataType | null,
@@ -376,14 +514,6 @@ const renderTopSection = (
           </div>
         </div>
       </div>
-
-      {/* Direct Buy Miners table */}
-      <div className="mb-8">
-        <div className="bg-white rounded-lg shadow p-4">
-          <DirectPartyLeaderboard useNextSaturday={true} />
-        </div>
-      </div>
-
       
     </div>
   )
@@ -406,6 +536,8 @@ export default function Dashboard() {
     bitcoinisla: false,
     bitcoinarusha: false
   })
+  // In the Dashboard component, add this state
+  const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     const fetchTeamData = async () => {
@@ -617,282 +749,403 @@ export default function Dashboard() {
         {!loading && !error && hashrateData && (
           <>
             {renderTopSection(account, hashrateData, leaderboard, bitcoinPrice, upcomingPartyData, upcomingPartyCalc)}
+
+            {/* Add "Tell me more" button */}
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={() => setShowDetails(!showDetails)}
+                className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
+              >
+                {showDetails ? 'Show less' : 'Show more'}
+                <svg 
+                  className={`w-4 h-4 transform transition-transform ${showDetails ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M19 9l-7 7-7-7" 
+                  />
+                </svg>
+              </button>
+            </div>
+
+            {/* Conditionally render bottom section */}
+            {showDetails && renderBottomSection(
+              account,
+              hashrateData,
+              leaderboard,
+              bitcoinPrice,
+              upcomingPartyData,
+              upcomingPartyCalc
+            )}
             </>
           )}
         </div>
       </div>
 
-{/* Teams Section */}
-<div className="mt-8">
-  <h3 className="text-2xl font-bold text-[#f08222] mb-6">Hashathon Auction</h3>
-
-  {teamDataLoading ? (
-    <div className="flex justify-center items-center py-12">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#f08222]" />
-    </div>
-  ) : teamData.length === 0 ? (
-    <div className="text-center py-12 text-gray-500">
-      No team data available
-    </div>
-  ) : (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {/* Team Arusha */}
-      <div className="bg-[#fff5eb] rounded-lg shadow p-6">
-        <div className="flex items-center gap-4 mb-4">
-          <a href="https://x.com/bitcoinarusha" target="_blank" rel="noopener noreferrer">
-            <Image 
-              src={Arusha} 
-              alt="Bitcoin Arusha Logo" 
-              width={100} 
-              height={100} 
-              objectFit="contain" 
-            />
-          </a>
-          <div>
-            <h4 className="text-lg font-semibold">Team Arusha</h4>
-            <p className="text-xl font-bold text-[#f08222]">
-              {formatMoney(teamData.find(t => t.team_name === 'bitcoinarusha')?.total_hashrate || 0)} TH/s
-            </p>
-          </div>
-        </div>
-        <p className="text-gray-600 mb-4">
-          Bitcoin Arusha is fostering a Bitcoin Circular Economy in Arusha, Tanzania.
-        </p>
-        <p className="text-sm text-[#f08222] font-medium">
-          Heather is donating 10% of her share to Bitcoin Arusha!
-        </p><br/>
-        <button
-          onClick={() => setShowTeamMembers(prev => ({
-            ...prev,
-            bitcoinarusha: !prev.bitcoinarusha
-          }))}
-          className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
-        >
-          {showTeamMembers.bitcoinarusha ? 'Hide miners' : 'Show miners'}
-          <svg className={`w-4 h-4 transform transition-transform ${showTeamMembers.bitcoinarusha ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        
-        {/* Team Members Dropdown */}
-        {showTeamMembers.bitcoinarusha && (
-          <div className="mt-4 space-y-2">
-            {teamData.find(t => t.team_name === 'bitcoinarusha')?.members.map((member: any) => (
-              <div key={member.username} className="bg-white rounded p-3">
-                    <div className="flex justify-between items-center cursor-help">
-                      <span>{member.username}</span>
-                      <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
-                    </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Team Isla */}
-      <div className="bg-[#fff5eb] rounded-lg shadow p-6">
-        <div className="flex items-center gap-4 mb-4">
-        <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
-          <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
-        </a>
-          <div>
-            <h4 className="text-lg font-semibold">Team Isla</h4>
-            <p className="text-xl font-bold text-[#f08222]">
-              {formatMoney(teamData.find(t => t.team_name === 'bitcoinisla')?.total_hashrate || 0)} TH/s
-            </p>
-          </div>
-        </div>
-        <p className="text-gray-600 mb-4">
-          Building a Bitcoin Circular Economy in Isla Mujeres. Fix the money, fix the isla 🏝️
-        </p>
-        <p className="text-sm text-[#f08222] font-medium">
-          QW is donating 10% of his share to Bitcoin Isla!
-        </p><br/>
-        <button
-          onClick={() => setShowTeamMembers(prev => ({
-            ...prev,
-            bitcoinisla: !prev.bitcoinisla
-          }))}
-          className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
-        >
-          {showTeamMembers.bitcoinisla ? 'Hide miners' : 'Show miners'}
-          <svg className={`w-4 h-4 transform transition-transform ${showTeamMembers.bitcoinisla ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        
-        {/* Team Members Dropdown */}
-        {showTeamMembers.bitcoinisla && (
-          <div className="mt-4 space-y-2">
-            {teamData.find(t => t.team_name === 'bitcoinisla')?.members.map((member: any) => (
-              <div key={member.username} className="bg-white rounded p-3">
-                    <div className="flex justify-between items-center cursor-help">
-                      <span>{member.username}</span>
-                      <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
-                    </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  )}
-</div>
-{/* Centered Button */}
-<div className="flex justify-center mt-6">
-<Link 
-      href="/account/general" 
-      className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
-    >
-      Pick your team
-    </Link>
- </div>
-<br/>
-<div className="bg-white rounded-lg shadow p-6 mb-6">
-    <p className="text-lg font-bold text-gray-700 text-center">
-      Team with the most hash gets 21 PH/s
-    </p>
-    <p className="text-md text-gray-700 text-center">
-      + runner up gets 5 PH/s
-    </p>
-  </div>
-
-{/* Auction Miners */}
-<div className="mb-8">
-    <Tab.Group defaultIndex={0}>
-    <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
-      <Tab
-        className={({ selected }) =>
-          `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-          ${selected 
-            ? 'bg-white text-white-900 shadow'
-            : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
-        }
-      >
-        Auction Miners
-      </Tab>
-      <Tab
-        className={({ selected }) =>
-          `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-          ${selected 
-            ? 'bg-white text-gray-900 shadow'
-            : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
-        }
-      >
-        Active Auctions
-      </Tab>
-    </Tab.List>
-
-    <Tab.Panels>
-      <Tab.Panel>
-        <div className="bg-white rounded-lg shadow p-4">
-          <PartyLeaderboard useNextSaturday={true} />
-        </div>
-      </Tab.Panel>
-
-      <Tab.Panel>
-        <div className="bg-white rounded-lg shadow p-4">
-          <h2 className="text-lg font-semibold mb-4">Active Auctions</h2>
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <Suspense fallback={<div className="min-h-[200px] flex items-center justify-center">
-              <p className="text-gray-500">Loading auctions...</p>
-            </div>}>
-              <div className="min-h-[200px]">
-                <AuctionsDataWrapper />
-              </div>
-            </Suspense>
-          </ErrorBoundary>
-        </div>
-      </Tab.Panel>
-    </Tab.Panels>
-  </Tab.Group>
-</div>
-
-{/* Second row */}
-<div className="flex gap-4">
-        {/* Early Start Target Box */}
-        {/*  <div className="flex-1 bg-white rounded-lg shadow p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-sm font-medium text-gray-500 uppercase">
-              Early Start Target
-            </h3>
-          </div>
-          <p className="text-2xl font-semibold text-gray-900">
-            {formatMoney(Math.max(0, TARGET_HASHRATE - (upcomingPartyData?.totalHashrate || 0)))} TH/s to go
-          </p>
-          <p className="text-sm text-gray-600 mt-2">
-            Start @ May 10th if 250 PH/s
-          </p>
-        </div>  */}
-
-        {/* Pre-game Party Hashrate Box */}
-        {hashrateData?.current_hashrate > 0 && (
-          <div className="flex-1 bg-white rounded-lg shadow p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-sm font-medium text-gray-500 uppercase">
-                Pre-game Party Hashrate
-              </h3>
-              <Tooltip>
-                <TooltipTrigger>
-                  <div className="cursor-help">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                  current hashrate at our CK Pool address
-                </TooltipContent>
-              </Tooltip>
-            </div>
-            <p className="text-2xl font-semibold text-gray-900">
-              {formatMoney(hashrateData.current_hashrate)} TH/s
-            </p>
-            <Link 
-              href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
-              className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
-              target="_blank"
-              rel="noopener noreferrer"
+        {/* Main content tabs */}
+        <Tab.Group defaultIndex={0}>
+          <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 mb-6">
+            <Tab
+              className={({ selected }) =>
+                `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+                ${selected 
+                  ? 'bg-white text-gray-900 shadow'
+                  : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+              }
             >
-              View at CK Pool →
-            </Link>
-          </div>
-        )}
-      </div>
-      
-      {featuredAuction && (
-        <div className="flex justify-center mt-6">
+              Direct Buy
+            </Tab>
+            <Tab
+              className={({ selected }) =>
+                `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+                ${selected 
+                  ? 'bg-white text-gray-900 shadow'
+                  : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+              }
+            >
+              Auction
+            </Tab>
+            <Tab
+              className={({ selected }) =>
+                `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+                ${selected 
+                  ? 'bg-white text-gray-900 shadow'
+                  : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+              }
+            >
+              Pre-Game
+            </Tab>
+          </Tab.List>
+
+          <Tab.Panels>
+            {/* Direct Buy Tab */}
+            <Tab.Panel>
+              <div className="bg-white rounded-lg shadow p-4">
+                <DirectPartyLeaderboard useNextSaturday={true} />
+              </div>
+              {/* Buy button */}
+              <div className="flex justify-center pt-6">
+              <Link 
+                href="/" 
+                className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
+              >
+                Buy hashrate
+              </Link>
+            </div>
+            </Tab.Panel>
+
+            {/* Auction Tab */}
+            <Tab.Panel>
+            {/* Teams Section */}
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold text-[#f08222] mb-6">Hashathon Auction</h3>
+
+              {teamDataLoading ? (
+                <div className="flex justify-center items-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#f08222]" />
+                </div>
+              ) : teamData.length === 0 ? (
+                <div className="text-center py-12 text-gray-500">
+                  No team data available
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Team Arusha */}
+                  <div className="bg-[#fff5eb] rounded-lg shadow p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <a href="https://x.com/bitcoinarusha" target="_blank" rel="noopener noreferrer">
+                        <Image 
+                          src={Arusha} 
+                          alt="Bitcoin Arusha Logo" 
+                          width={100} 
+                          height={100} 
+                          objectFit="contain" 
+                        />
+                      </a>
+                      <div>
+                        <h4 className="text-lg font-semibold">Team Arusha</h4>
+                        <p className="text-xl font-bold text-[#f08222]">
+                          {formatMoney(teamData.find(t => t.team_name === 'bitcoinarusha')?.total_hashrate || 0)} TH/s
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mb-4">
+                      Bitcoin Arusha is fostering a Bitcoin Circular Economy in Arusha, Tanzania.
+                    </p>
+                    <p className="text-sm text-[#f08222] font-medium">
+                      Heather is donating 10% of her share to Bitcoin Arusha!
+                    </p><br/>
+                    <button
+                      onClick={() => setShowTeamMembers(prev => ({
+                        ...prev,
+                        bitcoinarusha: !prev.bitcoinarusha
+                      }))}
+                      className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
+                    >
+                      {showTeamMembers.bitcoinarusha ? 'Hide miners' : 'Show miners'}
+                      <svg className={`w-4 h-4 transform transition-transform ${showTeamMembers.bitcoinarusha ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    {/* Team Members Dropdown */}
+                    {showTeamMembers.bitcoinarusha && (
+                      <div className="mt-4 space-y-2">
+                        {teamData.find(t => t.team_name === 'bitcoinarusha')?.members.map((member: any) => (
+                          <div key={member.username} className="bg-white rounded p-3">
+                                <div className="flex justify-between items-center cursor-help">
+                                  <span>{member.username}</span>
+                                  <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
+                                </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Team Isla */}
+                  <div className="bg-[#fff5eb] rounded-lg shadow p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                    <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
+                      <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
+                    </a>
+                      <div>
+                        <h4 className="text-lg font-semibold">Team Isla</h4>
+                        <p className="text-xl font-bold text-[#f08222]">
+                          {formatMoney(teamData.find(t => t.team_name === 'bitcoinisla')?.total_hashrate || 0)} TH/s
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mb-4">
+                      Building a Bitcoin Circular Economy in Isla Mujeres. Fix the money, fix the isla 🏝️
+                    </p>
+                    <p className="text-sm text-[#f08222] font-medium">
+                      QW is donating 10% of his share to Bitcoin Isla!
+                    </p><br/>
+                    <button
+                      onClick={() => setShowTeamMembers(prev => ({
+                        ...prev,
+                        bitcoinisla: !prev.bitcoinisla
+                      }))}
+                      className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
+                    >
+                      {showTeamMembers.bitcoinisla ? 'Hide miners' : 'Show miners'}
+                      <svg className={`w-4 h-4 transform transition-transform ${showTeamMembers.bitcoinisla ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    {/* Team Members Dropdown */}
+                    {showTeamMembers.bitcoinisla && (
+                      <div className="mt-4 space-y-2">
+                        {teamData.find(t => t.team_name === 'bitcoinisla')?.members.map((member: any) => (
+                          <div key={member.username} className="bg-white rounded p-3">
+                                <div className="flex justify-between items-center cursor-help">
+                                  <span>{member.username}</span>
+                                  <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
+                                </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* Centered Button */}
+            <div className="flex justify-center mt-6">
+            <Link 
+                  href="/account/general" 
+                  className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
+                >
+                  Pick your team
+                </Link>
+            </div>
+            <br/>
+            <div className="bg-white rounded-lg shadow p-6 mb-6">
+                <p className="text-lg font-bold text-gray-700 text-center">
+                  Team with the most hash gets 21 PH/s
+                </p>
+                <p className="text-md text-gray-700 text-center">
+                  + runner up gets 5 PH/s
+                </p>
+              </div>
+
+            {/* Auction Miners */}
+            <div className="mb-8">
+                <Tab.Group defaultIndex={0}>
+                <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
+                  <Tab
+                    className={({ selected }) =>
+                      `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+                      ${selected 
+                        ? 'bg-white text-white-900 shadow'
+                        : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+                    }
+                  >
+                    Auction Miners
+                  </Tab>
+                  <Tab
+                    className={({ selected }) =>
+                      `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+                      ${selected 
+                        ? 'bg-white text-gray-900 shadow'
+                        : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+                    }
+                  >
+                    Active Auctions
+                  </Tab>
+                </Tab.List>
+
+                <Tab.Panels>
+                  <Tab.Panel>
+                    <div className="bg-white rounded-lg shadow p-4">
+                      <PartyLeaderboard useNextSaturday={true} />
+                    </div>
+                  </Tab.Panel>
+
+                  <Tab.Panel>
+                    <div className="bg-white rounded-lg shadow p-4">
+                      <h2 className="text-lg font-semibold mb-4">Active Auctions</h2>
+                      <ErrorBoundary FallbackComponent={ErrorFallback}>
+                        <Suspense fallback={<div className="min-h-[200px] flex items-center justify-center">
+                          <p className="text-gray-500">Loading auctions...</p>
+                        </div>}>
+                          <div className="min-h-[200px]">
+                            <AuctionsDataWrapper />
+                          </div>
+                        </Suspense>
+                      </ErrorBoundary>
+                    </div>
+                  </Tab.Panel>
+                </Tab.Panels>
+              </Tab.Group>
+            </div>
+            {/* View auction button */}
+            <div className="flex justify-center">
+              {featuredAuction && (
+              <div className="flex justify-center mt-2">
+                <Link 
+                  href={`/auctions/${featuredAuction.id}`} 
+                  className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors flex items-center gap-3"
+                >
+                  <span>Place your bid</span>
+                  <span className="text-sm bg-[#d67420] px-3 py-1 rounded">
+                    {(() => {
+                      const now = new Date()
+                      const end = new Date(featuredAuction.end_at)
+                      const diff = end.getTime() - now.getTime()
+                      
+                      if (diff <= 0) return 'Ended'
+                      
+                      const hours = Math.floor(diff / (1000 * 60 * 60))
+                      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+                      
+                      if (hours > 24) {
+                        const days = Math.floor(hours / 24)
+                        return `${days}d ${hours % 24}h left`
+                      }
+                      
+                      if (hours > 0) {
+                        return `${hours}h ${minutes}m left`
+                      }
+                      
+                      return `${minutes}m left`
+                    })()}
+                  </span>
+                </Link>
+              </div>
+            )}
+            </div>
+        </Tab.Panel>
+
+        {/* Pre-Game Tab */}
+        <Tab.Panel>
+        {/* Add explainer text */}
+        <div className="bg-white rounded-lg shadow p-6 mb-4">
+          <p className="text-lg font-medium text-gray-900 mb-2">
+            Bring-your-own Miner
+          </p>
+          <p className="text-sm text-gray-600">
+            Outside of the party, the miner who finds the block gets 1 BTC and everyone else gets a hashrate-% reward share
+          </p>
           <Link 
-            href={`/auctions/${featuredAuction.id}`} 
-            className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors flex items-center gap-3"
-          >
-            <span>Place your bid</span>
-            <span className="text-sm bg-[#d67420] px-3 py-1 rounded">
-              {(() => {
-                const now = new Date()
-                const end = new Date(featuredAuction.end_at)
-                const diff = end.getTime() - now.getTime()
-                
-                if (diff <= 0) return 'Ended'
-                
-                const hours = Math.floor(diff / (1000 * 60 * 60))
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-                
-                if (hours > 24) {
-                  const days = Math.floor(hours / 24)
-                  return `${days}d ${hours % 24}h left`
-                }
-                
-                if (hours > 0) {
-                  return `${hours}h ${minutes}m left`
-                }
-                
-                return `${minutes}m left`
-              })()}
-            </span>
-          </Link>
+                      href="/learn/upendo"
+                      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Learn more →
+                    </Link>
         </div>
-      )}
+        {/* Second row */}
+        <div className="flex gap-4">
+                {/* Early Start Target Box */}
+                {/*  <div className="flex-1 bg-white rounded-lg shadow p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-sm font-medium text-gray-500 uppercase">
+                      Early Start Target
+                    </h3>
+                  </div>
+                  <p className="text-2xl font-semibold text-gray-900">
+                    {formatMoney(Math.max(0, TARGET_HASHRATE - (upcomingPartyData?.totalHashrate || 0)))} TH/s to go
+                  </p>
+                  <p className="text-sm text-gray-600 mt-2">
+                    Start @ May 10th if 250 PH/s
+                  </p>
+                </div>  */}
+
+                {/* Pre-game Party Hashrate Box */}
+                {hashrateData?.current_hashrate > 0 && (
+                  <div className="flex-1 bg-white rounded-lg shadow p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="text-sm font-medium text-gray-500 uppercase">
+                        Pre-game Party Hashrate
+                      </h3>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="cursor-help">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                          current hashrate at our CK Pool address
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
+                    <p className="text-2xl font-semibold text-gray-900">
+                      {formatMoney(hashrateData.current_hashrate)} TH/s
+                    </p>
+                    <Link 
+                      href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
+                      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View at CK Pool →
+                    </Link>
+                  </div>
+                )}
+              </div>
+              {/* Configure miner button*/}
+              <div className="flex justify-center pt-6">
+              <Link 
+                href="/learn/upendo" 
+                className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
+              >
+                Configure your ASIC
+              </Link>
+            </div>
+        </Tab.Panel>
+        </Tab.Panels> 
+        </Tab.Group>
       <br/>
     </div>
   )
