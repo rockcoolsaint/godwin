@@ -305,143 +305,15 @@ const getUserHashrate = (
   }
 }
 
-
-const renderBottomSection = (
-  account: any,
-  hashrateData: HashrateDataType | null,
-  leaderboard: PartyLeaderboardEntry[],
-  bitcoinPrice: number,
-  upcomingPartyData: any,
-  upcomingPartyCalc: any
-) => {
-  // Calculate total hashrate and percentages
-  const directBuyHashrate = upcomingPartyData?.directBuyHashrate || 0
-  const auctionHashrate = (upcomingPartyData?.totalHashrate || 0) - directBuyHashrate
-  const totalHashrate = directBuyHashrate + auctionHashrate
-  
-  const directBuyPercentage = totalHashrate ? ((directBuyHashrate / totalHashrate) * 100).toFixed(1) : '0'
-  const auctionPercentage = totalHashrate ? ((auctionHashrate / totalHashrate) * 100).toFixed(1) : '0'
-
-  return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        {/* Pre-game Hashrate */}
-        <div className="bg-[#fff5eb] rounded-md p-4">
-          <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
-            Early Start Threshold
-          </h3>
-          <p className="text-sm text-gray-600">
-            (coming soon) If we reach a hashrate threshold, party starts early.
-          </p>
-        </div>
-
-        {/* Box 1: By Group - removed heading */}
-        <div className="bg-[#fff5eb] rounded-md p-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
-                Direct Buy
-              </span>
-              <div className="text-left">
-                <p className="text-md text-gray-900">
-                  {formatMoney(directBuyHashrate)} TH/s
-                </p>
-                <p className="text-xs text-gray-500">{directBuyPercentage}% of total</p>
-              </div>
-            </div>
-            <div>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
-                Auction
-              </span>
-              <div className="text-left">
-                <p className="text-md text-gray-900">
-                  {formatMoney(auctionHashrate)} TH/s
-                </p>
-                <p className="text-xs text-gray-500">{auctionPercentage}% of total</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Box 2: By Reward - removed heading */}
-        <div className="bg-[#fff5eb] rounded-md p-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
-                Direct Buy
-              </span>
-              <div className="text-left">
-                <Tooltip>
-                  <TooltipTrigger>
-                    <div className="cursor-help">
-                      <p className="text-left text-md text-gray-900">
-                        ${formatMoney((3.125 / (upcomingPartyData?.totalHashrate || 1)) * bitcoinPrice)}
-                      </p>
-                      <p className="text-left text-xs text-gray-500">
-                        ₿ {(3.125 / (upcomingPartyData?.totalHashrate || 1)).toFixed(8)}
-                      </p>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                    per TH/s based on total hash
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-            </div>
-            <div>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
-                Auction
-              </span>
-              <div className="text-left">
-                {upcomingPartyData?.nextSatPartyLeaderboard ? (
-                  (() => {
-                    const entry = upcomingPartyData.nextSatPartyLeaderboard.find(e => 
-                      Math.round(e.total_hashrate) === 21
-                    )
-                    if (entry) {
-                      return (
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <div className="cursor-help">
-                              <p className="text-left text-md text-gray-900">
-                                ${formatMoney((entry.reward_share_btc * bitcoinPrice) / 21)}
-                              </p>
-                              <p className="text-left text-xs text-gray-500">
-                                ₿ {(entry.reward_share_btc / 21).toFixed(8)}
-                              </p>
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                            per TH/s base hash - bonus hashrate increases % for all auction miners
-                          </TooltipContent>
-                        </Tooltip>
-                      )
-                    }
-                    return <p className="text-sm text-gray-500">Calculating...</p>
-                  })()
-                ) : (
-                  <p className="text-sm text-gray-500">Loading...</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        </div>
-      </div>
-    </div>
-  )
-}
-
 const renderTopSection = (
   account: any,
   hashrateData: HashrateDataType | null,
   leaderboard: PartyLeaderboardEntry[],
   bitcoinPrice: number,
   upcomingPartyData: any,
-  upcomingPartyCalc: any
+  upcomingPartyCalc: any,
+  showDetails: boolean,
+  setShowDetails: (show: boolean) => void
 ) => {
   // Get next block party date
   const { nextSaturday } = getNextBlockPartyDate()
@@ -453,10 +325,18 @@ const renderTopSection = (
   const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
   const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60))
 
+  // Calculate hashrates and percentages for expanded view
+  const directBuyHashrate = upcomingPartyData?.directBuyHashrate || 0
+  const auctionHashrate = (upcomingPartyData?.totalHashrate || 0) - directBuyHashrate
+  const totalHashrate = directBuyHashrate + auctionHashrate
+  
+  const directBuyPercentage = totalHashrate ? ((directBuyHashrate / totalHashrate) * 100).toFixed(1) : '0'
+  const auctionPercentage = totalHashrate ? ((auctionHashrate / totalHashrate) * 100).toFixed(1) : '0'
+
   return (
-    <div className="space-y-6"> {/* Add wrapper div with spacing */}
-      {/* First row */}
-      <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow p-6">
+      <div className="space-y-6">
+        {/* First row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Box 1: Next Block Party */}
           <div className="bg-[#fff5eb] rounded-md p-4">
@@ -479,7 +359,7 @@ const renderTopSection = (
             <p className="text-2xl font-semibold text-gray-900 mb-2">
               {formatMoney(upcomingPartyData?.totalHashrate || 0)} TH/s
             </p>
-            <Tooltip>
+            <Tooltip className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
               <TooltipTrigger>
                <p className="text-sm text-gray-600 cursor-help">
                 1 in {Math.round((upcomingPartyCalc?.chancePerBlockDay || 0) * 4).toLocaleString()} party odds (6 hrs)
@@ -504,8 +384,146 @@ const renderTopSection = (
             </p>
           </div>
         </div>
+
+        {/* Show more button */}
+        <div className="flex justify-center">
+          <button
+            onClick={() => setShowDetails(!showDetails)}
+            className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
+          >
+            {showDetails ? 'Show less' : 'Show more'}
+            <svg 
+              className={`w-4 h-4 transform transition-transform ${showDetails ? 'rotate-180' : ''}`} 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M19 9l-7 7-7-7" 
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Additional boxes when expanded */}
+        {showDetails && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+            {/* Pre-game Hashrate */}
+            <div className="bg-[#fff5eb] rounded-md p-4">
+              <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
+                Early Start Threshold
+              </h3>
+              <p className="text-sm text-gray-600">
+                (coming soon) If we reach a hashrate threshold, party starts early.
+              </p>
+            </div>
+
+            {/* Box 1: By Group */}
+            <div className="bg-[#fff5eb] rounded-md p-2">
+            <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
+              hash by group
+            </h3>
+              <div className="grid grid-cols-2 gap-4">
+                
+                <div>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
+                    Direct Buy
+                  </span>
+                  <div className="text-left">
+                    <p className="text-md text-gray-900">
+                      {formatMoney(directBuyHashrate)} TH/s
+                    </p>
+                    <p className="text-xs text-gray-500">{directBuyPercentage}% of total</p>
+                  </div>
+                </div>
+                <div>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
+                    Auction
+                  </span>
+                  <div className="text-left">
+                    <p className="text-md text-gray-900">
+                      {formatMoney(auctionHashrate)} TH/s
+                    </p>
+                    <p className="text-xs text-gray-500">{auctionPercentage}% of total</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Box 2: By Reward */}
+            <div className="bg-[#fff5eb] rounded-md p-2">
+            <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
+              reward per TH/s
+            </h3>
+              <div className="grid grid-cols-2 gap-4">
+                {/* Direct Buy Reward */}
+                <div>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
+                    Direct Buy
+                  </span>
+                  <div className="text-left">
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <div className="cursor-help">
+                          <p className="text-left text-md text-gray-900">
+                            ${formatMoney((3.125 / (upcomingPartyData?.totalHashrate || 1)) * bitcoinPrice)}
+                          </p>
+                          <p className="text-left text-xs text-gray-500">
+                            ₿ {(3.125 / (upcomingPartyData?.totalHashrate || 1)).toFixed(8)}
+                          </p>
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                        per TH/s based on total hash
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                </div>
+                {/* Auction Reward */}
+                <div>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
+                    Auction
+                  </span>
+                  <div className="text-left">
+                    {upcomingPartyData?.nextSatPartyLeaderboard ? (
+                      (() => {
+                        const entry = upcomingPartyData.nextSatPartyLeaderboard.find(e => 
+                          Math.round(e.total_hashrate) === 21
+                        )
+                        if (entry) {
+                          return (
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <div className="cursor-help">
+                                  <p className="text-left text-md text-gray-900">
+                                    ${formatMoney((entry.reward_share_btc * bitcoinPrice) / 21)}
+                                  </p>
+                                  <p className="text-left text-xs text-gray-500">
+                                    ₿ {(entry.reward_share_btc / 21).toFixed(8)}
+                                  </p>
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                                per TH/s base auction<br/><br/>bonus hash increases reward<br/>for all auction miners
+                              </TooltipContent>
+                            </Tooltip>
+                          )
+                        }
+                        return <p className="text-sm text-gray-500">Calculating...</p>
+                      })()
+                    ) : (
+                      <p className="text-sm text-gray-500">Loading...</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      
     </div>
   )
 }
@@ -739,40 +757,16 @@ export default function Dashboard() {
         <div className="mt-4">
         {!loading && !error && hashrateData && (
           <>
-            {renderTopSection(account, hashrateData, leaderboard, bitcoinPrice, upcomingPartyData, upcomingPartyCalc)}
-
-            {/* Add "Tell me more" button */}
-            <div className="flex justify-center mt-6">
-              <button
-                onClick={() => setShowDetails(!showDetails)}
-                className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
-              >
-                {showDetails ? 'Show less' : 'Show more'}
-                <svg 
-                  className={`w-4 h-4 transform transition-transform ${showDetails ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M19 9l-7 7-7-7" 
-                  />
-                </svg>
-              </button>
-            </div>
-
-            {/* Conditionally render bottom section */}
-            {showDetails && renderBottomSection(
-              account,
-              hashrateData,
-              leaderboard,
-              bitcoinPrice,
-              upcomingPartyData,
-              upcomingPartyCalc
-            )}
+          {renderTopSection(
+            account, 
+            hashrateData, 
+            leaderboard, 
+            bitcoinPrice, 
+            upcomingPartyData, 
+            upcomingPartyCalc,
+            showDetails,
+            setShowDetails
+          )}
             </>
           )}
         </div>
