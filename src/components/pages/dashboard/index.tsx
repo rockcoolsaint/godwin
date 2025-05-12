@@ -345,7 +345,7 @@ const renderBottomSection = (
                 Direct Buy
               </span>
               <div className="text-left">
-                <p className="text-lg font-semibold text-gray-900">
+                <p className="text-md text-gray-900">
                   {formatMoney(directBuyHashrate)} TH/s
                 </p>
                 <p className="text-xs text-gray-500">{directBuyPercentage}% of total</p>
@@ -356,7 +356,7 @@ const renderBottomSection = (
                 Auction
               </span>
               <div className="text-left">
-                <p className="text-lg font-semibold text-gray-900">
+                <p className="text-md text-gray-900">
                   {formatMoney(auctionHashrate)} TH/s
                 </p>
                 <p className="text-xs text-gray-500">{auctionPercentage}% of total</p>
@@ -376,7 +376,7 @@ const renderBottomSection = (
                 <Tooltip>
                   <TooltipTrigger>
                     <div className="cursor-help">
-                      <p className="text-left text-lg font-semibold text-gray-900">
+                      <p className="text-left text-md text-gray-900">
                         ${formatMoney((3.125 / (upcomingPartyData?.totalHashrate || 1)) * bitcoinPrice)}
                       </p>
                       <p className="text-left text-xs text-gray-500">
@@ -405,7 +405,7 @@ const renderBottomSection = (
                         <Tooltip>
                           <TooltipTrigger>
                             <div className="cursor-help">
-                              <p className="text-left text-lg font-semibold text-gray-900">
+                              <p className="text-left text-md text-gray-900">
                                 ${formatMoney((entry.reward_share_btc * bitcoinPrice) / 21)}
                               </p>
                               <p className="text-left text-xs text-gray-500">
@@ -834,7 +834,24 @@ export default function Dashboard() {
             <Tab.Panel>
             {/* Teams Section */}
             <div className="mt-8">
-              <h3 className="text-2xl font-bold text-[#f08222] mb-6">Hashathon Auction</h3>
+            
+            {/* Add explainer text */}
+            <div className="bg-white rounded-lg shadow p-6 mb-4">
+              <p className="text-lg font-medium text-gray-900 mb-2">
+                Hashathon Auction
+              </p>
+              <p className="text-sm text-gray-600">
+                Sign up, pick your team and place your bid. <b>Winning team gets 21 PH/s and runner-up gets 5 PH/s</b>
+              </p>
+              <Link 
+                          href="/auction-market"
+                          className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Learn more →
+                        </Link>
+            </div>
 
               {teamDataLoading ? (
                 <div className="flex justify-center items-center py-12">
@@ -846,6 +863,8 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+
                   {/* Team Arusha */}
                   <div className="bg-[#fff5eb] rounded-lg shadow p-6">
                     <div className="flex items-center gap-4 mb-4">
@@ -871,6 +890,11 @@ export default function Dashboard() {
                     <p className="text-sm text-[#f08222] font-medium">
                       Heather is donating 10% of her share to Bitcoin Arusha!
                     </p><br/>
+
+
+
+
+                    
                     <button
                       onClick={() => setShowTeamMembers(prev => ({
                         ...prev,
@@ -958,14 +982,6 @@ export default function Dashboard() {
                 </Link>
             </div>
             <br/>
-            <div className="bg-white rounded-lg shadow p-6 mb-6">
-                <p className="text-lg font-bold text-gray-700 text-center">
-                  Team with the most hash gets 21 PH/s
-                </p>
-                <p className="text-md text-gray-700 text-center">
-                  + runner up gets 5 PH/s
-                </p>
-              </div>
 
             {/* Auction Miners */}
             <div className="mb-8">
