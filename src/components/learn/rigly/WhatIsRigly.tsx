@@ -38,7 +38,7 @@ const WhatIsUpendo = () => {
         The goal is to find a block and earn 3.125 bitcoin + tx fees <b>worth over $300,000</b>
       </LearnCategoryText>
       <LearnCategoryText>
-        There are 2 ways to get a spot on the party - <b>a) buy hashrate on the front page</b> and <b>b) bid on a hashrate auction</b>
+        There are 3 ways to get a spot on the party - <b>a) buy hashrate on the front page</b> and <b>b) bid on a hashrate auction</b> or <b>c) use your own miner</b>
       </LearnCategoryText>
       <LearnCategoryText>
         Hashrate is provided via <Link href="https://rigly.io" styled>Rigly</Link> and we use <Link href="https://solo.ckpool.org" styled>CK Pool</Link> to solo mine.
@@ -74,7 +74,12 @@ const WhatIsUpendo = () => {
           <li>Put your BTC payout address as the workername (important!)</li>
         </ul>
       </LearnCategoryText>
-      <LearnCategoryText>If we mine a block, you will get your share of the reward based on hashrate contribution.</LearnCategoryText>
+      <LearnCategoryText>If we mine a block during the party, you will get your share of the reward based on hashrate contribution.</LearnCategoryText>
+
+      <LearnCategoryText>
+      Outside of the party, the miner who finds the block gets 1 BTC and everyone else gets a share of the reward based on hashrate contribution.
+      </LearnCategoryText>
+      
       <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
                 <Link 
                 href={isLoggedIn ? '/pages/dashboard' : '/register'} // Change link based on auth status
