@@ -875,7 +875,7 @@ export default function Dashboard() {
                       </div>
                     </div>
                     <p className="text-gray-600 mb-4">
-                      Bitcoin Arusha is fostering a Bitcoin Circular Economy in Arusha, Tanzania.
+                      Bitcoin Circular Economy in Tanzania
                     </p>
                     <p className="text-sm text-[#f08222] font-medium">
                       Heather is donating 10% of her share to Bitcoin Arusha!
@@ -922,7 +922,7 @@ export default function Dashboard() {
                       </div>
                     </div>
                     <p className="text-gray-600 mb-4">
-                      Building a Bitcoin Circular Economy in Isla Mujeres. Fix the money, fix the isla 🏝️
+                      Bitcoin Circular Economy in Mexico 🏝️
                     </p>
                     <p className="text-sm text-[#f08222] font-medium">
                       QW is donating 10% of his share to Bitcoin Isla!
