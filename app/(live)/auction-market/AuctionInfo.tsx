@@ -46,7 +46,7 @@ export default function AuctionInfo() {
           {/* Team Arusha */}
           <div className="bg-[#fff5eb] rounded-lg shadow p-4 w-full sm:w-[200px]">
             <div className="flex flex-col items-center gap-2">
-              <a href="https://x.com/btcarusha" target="_blank" rel="noopener noreferrer">
+              <a href="https://x.com/bitcoinarusha" target="_blank" rel="noopener noreferrer">
                 <Image 
                   src={Arusha} 
                   alt="Bitcoin Arusha Logo" 

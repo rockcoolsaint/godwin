@@ -639,7 +639,7 @@ export default function Dashboard() {
       {/* Team Arusha */}
       <div className="bg-[#fff5eb] rounded-lg shadow p-6">
         <div className="flex items-center gap-4 mb-4">
-          <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
+          <a href="https://x.com/bitcoinarusha" target="_blank" rel="noopener noreferrer">
             <Image 
               src={Arusha} 
               alt="Bitcoin Arusha Logo" 
@@ -692,7 +692,9 @@ export default function Dashboard() {
       {/* Team Isla */}
       <div className="bg-[#fff5eb] rounded-lg shadow p-6">
         <div className="flex items-center gap-4 mb-4">
+        <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
           <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
+        </a>
           <div>
             <h4 className="text-lg font-semibold">Team Isla</h4>
             <p className="text-xl font-bold text-[#f08222]">
