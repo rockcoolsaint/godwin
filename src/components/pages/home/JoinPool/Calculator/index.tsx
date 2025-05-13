@@ -18,16 +18,27 @@ export const MiningCalculator = () => {
   const { account } = useAccountContext()
   const router = useRouter()
   const [btcPrice, setBtcPrice] = useState<number>(0)
-  const [lightningEmail, setLightningEmail] = useState('')
-  const [bitcoinAddress, setBitcoinAddress] = useState('')
+  // Add this instead:
+  const [payoutAddress, setPayoutAddress] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
   
   const blockRewardBTC = 3.125
-  const hashrate = 8 // TH/s - hardcoded for now
-  
-  const [customHashrate, setCustomHashrate] = useState(8) // Default to 8 TH/s
+  const hashrate = 5 // TH/s - hardcoded for now
+  const [customHashrate, setCustomHashrate] = useState(5) // Default to 5 TH/s
   const [hashrateError, setHashrateError] = useState('')
+
+  const miningGoals = [
+    'More bitcoin 🔥',
+    'More corn 🌽',
+    'Lambo payment 🚗'
+  ]
+  const [miningGoal, setMiningGoal] = useState(miningGoals[0])
+  
+  const getRandomGoal = () => {
+    const randomIndex = Math.floor(Math.random() * miningGoals.length)
+    setMiningGoal(miningGoals[randomIndex])
+  }
 
   // Calculate price in sats based on hashrate
   const calculatePrice = (hashrate: number) => {
@@ -87,14 +98,6 @@ export const MiningCalculator = () => {
   }, []);
 
   useEffect(() => {
-    if (lightningEmail && bitcoinAddress) {
-      setError('Enter either a Lightning email or Bitcoin address, but not both')
-    } else {
-      setError('')
-    }
-  }, [lightningEmail, bitcoinAddress])
-
-  useEffect(() => {
     const fetchBTCPrice = async () => {
       const price = await getBitcoinPrice()
       setBtcPrice(price)
@@ -103,13 +106,8 @@ export const MiningCalculator = () => {
   }, [])
 
   const handleSubmit = async () => {
-    if (lightningEmail && bitcoinAddress) {
-      setError('Enter either a Lightning email or Bitcoin address, but not both')
-      return
-    }
-
-    if (!lightningEmail && !bitcoinAddress) {
-      setError('Please enter either a Lightning email or Bitcoin address')
+    if (!payoutAddress) {
+      setError('Please enter a Lightning email or Bitcoin address')
       return
     }
 
@@ -121,8 +119,9 @@ export const MiningCalculator = () => {
       const order = await createOrder({
         amount_sats: calculatePrice(customHashrate), // Use calculated price
         duration_days: 0.25, // 6 hours
-        payout_address: lightningEmail || bitcoinAddress,
-        hashrate_thps: customHashrate // Add hashrate to order
+        payout_address: payoutAddress,
+        hashrate_thps: customHashrate, // Add hashrate to order
+        promo_code: miningGoal // Add this line
       })
 
       if (order?.id) {
@@ -183,154 +182,177 @@ export const MiningCalculator = () => {
         </div>
       </div>
 
+{/* Block Reward */}
+<div className="flex justify-between items-center">
+  <div className="flex items-center gap-2">
+    <span className="font-medium text-gray-900">Potential block reward</span>
+  </div>
+  <div className="flex items-center gap-2">
+    <Tooltip>
+      <TooltipTrigger>
+        <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">
+          ${formatMoney(blockRewardUSD)}
+        </span>
+      </TooltipTrigger>
+      <TooltipContent className="w-max rounded bg-gray-600 p-3 text-sm text-white">
+        {blockRewardBTC} BTC
+        <br />
+        {(blockRewardBTC * 100000000).toLocaleString()} sats
+      </TooltipContent>
+    </Tooltip>
+  </div>
+</div>
+
+{/* Your Share - Now on its own line */}
+<div className="flex justify-between items-center mt-2">
+  <div className="flex items-center gap-2">
+    <span className="font-medium text-gray-900">Your share</span>
+    <Tooltip>
+      <TooltipTrigger>
+        <InformationCircleIcon className="h-4 w-4 text-gray-400" />
+      </TooltipTrigger>
+      <TooltipContent className="w-max rounded bg-gray-600 p-3 text-sm text-white">
+        Share will change based on total party hashrate
+      </TooltipContent>
+    </Tooltip>
+  </div>
+  <div className="flex items-center gap-2">
+    <Tooltip>
+      <TooltipTrigger>
+        <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">
+          ${formatMoney((customHashrate / upcomingPartyData.totalHashrate) * blockRewardBTC * btcPrice)}
+        </span>
+      </TooltipTrigger>
+      <TooltipContent className="w-max rounded bg-gray-600 p-3 text-sm text-white">
+        {((customHashrate / upcomingPartyData.totalHashrate) * blockRewardBTC).toFixed(8)} BTC
+        <br />
+        {Math.round((customHashrate / upcomingPartyData.totalHashrate) * blockRewardBTC * 100000000).toLocaleString()} sats
+      </TooltipContent>
+    </Tooltip>
+  </div>
+</div>
+
       <div className="flex justify-between items-center">
-      <div className="flex items-center gap-2">
-        <span className="font-medium text-gray-900">Hashrate</span>
-        <Tooltip>
-          <TooltipTrigger>
-            <InformationCircleIcon className="h-4 w-4 text-gray-400" />
-          </TooltipTrigger>
-          <TooltipContent className="w-max rounded bg-gray-600 p-3 text-sm text-white">
-            60 sats per TH/s/day, minimum 1 TH/s, maximum 21,000 TH/s
-          </TooltipContent>
-        </Tooltip>
-      </div>
-      <div className="flex items-center gap-2">
-        <div className="flex items-center">
-          <div className="flex flex-col border-y border-l rounded-l-lg">
-            <button
-              onClick={() => {
-                const newValue = customHashrate + 1
-                if (newValue <= 21000) {
-                  setCustomHashrate(newValue)
-                  setHashrateError('')
-                }
-              }}
-              className="px-1.5 py-0.75 border-b hover:bg-gray-100 text-gray-600 text-xs"
-            >
-              ▲
-            </button>
-            <button
-              onClick={() => {
-                const newValue = customHashrate - 1
-                if (newValue >= 1) {
-                  setCustomHashrate(newValue)
-                  setHashrateError('')
-                }
-              }}
-              className="px-1.5 py-0.75 hover:bg-gray-100 text-gray-600 text-xs"
-            >
-              ▼
-            </button>
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-gray-900">Hashrate</span>
+              <Tooltip>
+                <TooltipTrigger>
+                  <InformationCircleIcon className="h-4 w-4 text-gray-400" />
+                </TooltipTrigger>
+                <TooltipContent className="w-max rounded bg-gray-600 p-3 text-sm text-white">
+                  60 sats per TH/s/day, minimum 1 TH/s, maximum 21,000 TH/s
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center">
+                <div className="flex flex-col border-y border-l rounded-l-lg">
+                  <button
+                    onClick={() => {
+                      const newValue = customHashrate + 1
+                      if (newValue <= 21000) {
+                        setCustomHashrate(newValue)
+                        setHashrateError('')
+                      }
+                    }}
+                    className="px-1.5 py-0.75 border-b hover:bg-gray-100 text-gray-600 text-xs"
+                  >
+                    ▲
+                  </button>
+                  <button
+                    onClick={() => {
+                      const newValue = customHashrate - 1
+                      if (newValue >= 1) {
+                        setCustomHashrate(newValue)
+                        setHashrateError('')
+                      }
+                    }}
+                    className="px-1.5 py-0.75 hover:bg-gray-100 text-gray-600 text-xs"
+                  >
+                    ▼
+                  </button>
+                </div>
+                <input
+                  type="number"
+                  value={customHashrate}
+                  onChange={(e) => {
+                    const value = parseFloat(e.target.value)
+                    if (isNaN(value)) {
+                      setHashrateError('Please enter a valid number')
+                      return
+                    }
+                    if (value < 1) {
+                      setHashrateError('Minimum hashrate is 1 TH/s')
+                      return
+                    }
+                    if (value > 21000) {
+                      setHashrateError('Maximum hashrate is 21,000 TH/s')
+                      return
+                    }
+                    setHashrateError('')
+                    setCustomHashrate(value)
+                  }}
+                  className="w-24 px-3 py-1 text-right border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+              <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">TH/s</span>
+            </div>
           </div>
-          <input
-            type="number"
-            value={customHashrate}
-            onChange={(e) => {
-              const value = parseFloat(e.target.value)
-              if (isNaN(value)) {
-                setHashrateError('Please enter a valid number')
-                return
-              }
-              if (value < 1) {
-                setHashrateError('Minimum hashrate is 1 TH/s')
-                return
-              }
-              if (value > 21000) {
-                setHashrateError('Maximum hashrate is 21,000 TH/s')
-                return
-              }
-              setHashrateError('')
-              setCustomHashrate(value)
-            }}
-            className="w-24 px-3 py-1 text-right border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-          />
-        </div>
-        <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">TH/s</span>
-      </div>
-    </div>
-
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-900">Block reward</span>
-        </div>
-        <div className="text-right flex items-center gap-2">
-          <span className="text-gray-600">{blockRewardBTC} BTC</span>
-          <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">
-            ${formatMoney(blockRewardUSD)}
-          </span>
-        </div>
-      </div>
-
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <span className="font-medium text-gray-900">Your potential share</span>
-        </div>
-        <div className="text-right flex items-center gap-2">
-          <span className="text-gray-600">
-            {Math.round((customHashrate / upcomingPartyData.totalHashrate) * blockRewardBTC * 100000000).toLocaleString()} sats
-          </span>
-          <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">
-            ${formatMoney((customHashrate / upcomingPartyData.totalHashrate) * blockRewardBTC * btcPrice)}
-          </span>
-        </div>
-      </div>
 
       {/* Remove the existing Odds row and replace with this text */}
         <div className="text-sm text-gray-500 text-center">
         Odds: 1 in {Math.round(calculator.chancePerBlockDay * 4).toLocaleString()} based on {formatMoney(upcomingPartyData.totalHashrate)} TH/s
       </div>
 
-      {/* Payment Form */}
-      <div className="space-y-6">
-        <div className="relative flex py-1 items-center">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="flex-shrink mx-4 text-gray-600 text-lg font-semibold">
-            Enter your payout details
-          </span>
-          <div className="flex-grow border-t border-gray-300"></div>
-        </div>
-        <div className="max-w-3xl mx-auto">
-          <div className="flex gap-8 items-start justify-center">
-            <div className="flex-1 flex flex-col items-center">
-              <input
-                type="email"
-                value={lightningEmail}
-                onChange={(e) => setLightningEmail(e.target.value)}
-                placeholder="Lightning email"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-              />
-            </div>
+{/* Payment Form */}
+<div className="space-y-6">
+  <div className="relative flex py-1 items-center">
+    <div className="flex-grow border-t border-gray-300"></div>
+    <span className="flex-shrink mx-4 text-gray-600 text-lg font-semibold">
+      Enter your payout details
+    </span>
+    <div className="flex-grow border-t border-gray-300"></div>
+  </div>
+  <div className="max-w-3xl mx-auto space-y-4">
+    {/* Payout Address Field */}
+    <div className="grid grid-cols-[120px,1fr] items-center gap-4">
+      <label className="text-sm text-gray-600 whitespace-nowrap">
+        Lightning ⚡ or ₿
+      </label>
+      <input
+        type="text"
+        value={payoutAddress}
+        onChange={(e) => setPayoutAddress(e.target.value)}
+        placeholder="Eg. user@example.com or bc123abc1etc"
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+        aria-label="Lightning or Bitcoin address"
+      />
+    </div>
 
-            <div className="flex items-center self-center pt-2">
-              <span className="text-gray-600 font-bold px-4">or</span>
-            </div>
+    {/* Mining Goal Field */}
+    <div className="grid grid-cols-[120px,1fr] items-center gap-4">
+      <label className="text-sm text-gray-600 whitespace-nowrap">
+        Goal (optional)
+      </label>
+      <input
+        type="text"
+        value={miningGoal}
+        onChange={(e) => setMiningGoal(e.target.value)}
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+      />
+    </div>
 
-            <div className="flex-1 flex flex-col items-center">
-              <input
-                type="text"
-                value={bitcoinAddress}
-                onChange={(e) => setBitcoinAddress(e.target.value)}
-                placeholder="Bitcoin address"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-              />
-            </div>
-          </div>
-
-          {error && (
-            <div className="text-center text-red-500 text-sm mt-4">
-              {error}
-            </div>
-          )}
-        </div>
+    {error && (
+      <div className="text-center text-red-500 text-sm mt-4">
+        {error}
       </div>
-
-
-      
+    )}
+  </div>
+</div>
 
       <button 
         onClick={handleSubmit}
-        disabled={isSubmitting || (lightningEmail && bitcoinAddress) || hashrateError}
+        disabled={isSubmitting || hashrateError}
         className="w-full mt-6 bg-[#f08222] text-white py-3 px-6 rounded-full font-semibold hover:bg-[#e07212] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? 'Processing...' : `Buy - ${calculatePrice(customHashrate)} sats`}

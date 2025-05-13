@@ -10,6 +10,7 @@ interface CreateOrderPayload {
   end_date?: string
   amount_sats?: number
   duration_days?: number
+  promo_code?: string
 }
 
 export async function createOrder({ 
@@ -20,7 +21,8 @@ export async function createOrder({
   start_date,
   end_date,
   amount_sats,
-  duration_days = 0.25 // Default to 6 hours (0.25 days) for direct orders
+  duration_days = 0.25, // Default to 6 hours (0.25 days) for direct orders
+  promo_code
 }: CreateOrderPayload): Promise<Order> {
   try {
     // Validate direct order parameters
@@ -48,7 +50,8 @@ export async function createOrder({
         start_date,
         end_date,
         amount_sats,
-        duration_days
+        duration_days,
+        promo_code
       },
     })
 
