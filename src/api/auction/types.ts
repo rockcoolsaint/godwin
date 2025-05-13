@@ -11,6 +11,14 @@ export interface Party {
   end_datetime: string
 }
 
+export interface RecentOrderEntry {
+  identifier: string;      // Will contain either promo code or masked payout address
+  hashrate: number;        // Hashrate in TH/s
+  percentage: number;      // Percentage of block party
+  reward: number;          // Potential reward amount
+  created_at: string;      // For sorting by creation time
+}
+
 export interface TeamMember {
   username: string
   hashrate: number

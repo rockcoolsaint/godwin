@@ -832,10 +832,10 @@ export default function Dashboard() {
             {/* Add explainer text */}
             <div className="bg-white rounded-lg shadow p-6 mb-4">
               <p className="text-lg font-medium text-gray-900 mb-2">
-                Hashathon Auction
+                Block Party Auction
               </p>
               <p className="text-sm text-gray-600">
-                Sign up, pick your team and place your bid. <b>Winning team gets 21 PH/s and runner-up gets 5 PH/s</b>
+                Raise $ for Bitcoin Circular Economies. Sign up, pick your team and place your bid.
               </p>
               <Link 
                           href="/auction-market"
