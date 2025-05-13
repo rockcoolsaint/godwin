@@ -29,16 +29,23 @@ export const MiningCalculator = () => {
   const [hashrateError, setHashrateError] = useState('')
 
   const miningGoals = [
-    'More bitcoin 🔥',
-    'More corn 🌽',
-    'Lambo payment 🚗'
+    'Get more bitcoin!',
+    // 'More corn 🌽',
+    // 'Dinner with friends 🍽️',
+    // 'Lambo payment 🚗'
   ]
-  const [miningGoal, setMiningGoal] = useState(miningGoals[0])
+  const [miningGoal, setMiningGoal] = useState('')  // Initialize with empty string
   
+  // Get random goal function
   const getRandomGoal = () => {
     const randomIndex = Math.floor(Math.random() * miningGoals.length)
     setMiningGoal(miningGoals[randomIndex])
   }
+  
+  // Call getRandomGoal when component mounts
+  useEffect(() => {
+    getRandomGoal()
+  }, []) // Empty dependency array means this runs once on mount
 
   // Calculate price in sats based on hashrate
   const calculatePrice = (hashrate: number) => {
@@ -317,13 +324,13 @@ export const MiningCalculator = () => {
     {/* Payout Address Field */}
     <div className="grid grid-cols-[120px,1fr] items-center gap-4">
       <label className="text-sm text-gray-600 whitespace-nowrap">
-        Lightning ⚡ or ₿
+        ₿ or Lightning ⚡
       </label>
       <input
         type="text"
         value={payoutAddress}
         onChange={(e) => setPayoutAddress(e.target.value)}
-        placeholder="Eg. user@example.com or bc123abc1etc"
+        placeholder="bc123etc or LN email"
         className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
         aria-label="Lightning or Bitcoin address"
       />

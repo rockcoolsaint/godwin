@@ -9,10 +9,24 @@ const MinerInstructions = () => (
       If you have a Bitaxe or any other mining rig, send your hash:
     </h3>
     
-    <div className="space-y-2 font-mono bg-gray-50 p-4 rounded">
-      <p>Stratum address: solo.ckpool.org:3333</p>
-      <p>Username: 3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH.mybtcaddress</p><br/>
-      <p>Put your BTC payout address as the workername (important!)</p>
+    <div className="space-y-4 bg-gray-50 p-4 rounded">
+      <div className="space-y-1">
+        <label className="text-sm text-gray-600">Stratum address:</label>
+        <div className="text-gray-900 break-all bg-white p-2 rounded border border-gray-200">
+          solo.ckpool.org:3333
+        </div>
+      </div>
+      
+      <div className="space-y-1">
+        <label className="text-sm text-gray-600">Username:</label>
+        <div className="text-gray-900 break-all bg-white p-2 rounded border border-gray-200">
+         3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH.mybtcaddress
+        </div>
+      </div>
+
+      <div className="text-sm text-gray-600 mt-4">
+        Important: Replace <b>"mybtcaddress"</b> with <b>your BTC payout address</b>
+      </div>
     </div>
 
     <div className="mt-6 space-y-4">
@@ -75,7 +89,7 @@ const Hero = ({ children }: PropsWithChildren) => {
                     }`}
                     onClick={() => setActiveTab('buy')}
                   >
-                    Buy
+                    Buy hashrate
                   </button>
                   <button
                     className={`px-6 py-2 font-medium ${
