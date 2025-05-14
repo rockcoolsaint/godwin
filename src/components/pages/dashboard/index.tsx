@@ -4,6 +4,8 @@ import { Tab } from '@headlessui/react'
 import Image from 'next/image'
 import CKPoolHashrateGraph from './CKPoolHashrateGraph'
 import PartyLeaderboard from './PartyLeaderboard'
+import TeamPartyLeaderboard from './TeamPartyLeaderboard'
+
 import DirectPartyLeaderboard from './DirectPartyLeaderboard'
 import { getTotalHashrateData, type TotalHashrateData as HashrateDataType } from 'src/api/ckpool/getHashrateData'
 import { useState, useEffect } from 'react'
@@ -22,6 +24,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/T
 import Link from 'src/components/shared/Link'
 import Arusha from 'src/images/arusha.png'
 import Isla from 'src/images/isla.png'
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 
 const TARGET_HASHRATE = 250000; // 250,000 TH/s
 
@@ -541,6 +544,8 @@ export default function Dashboard() {
   const [featuredAuction, setFeaturedAuction] = useState<any>(null)
   const [teamData, setTeamData] = useState<any[]>([])
   const [teamDataLoading, setTeamDataLoading] = useState(true)
+  const [showAuctions, setShowAuctions] = useState(false)
+
   const [showTeamMembers, setShowTeamMembers] = useState({
     bitcoinisla: false,
     bitcoinarusha: false
@@ -882,39 +887,8 @@ export default function Dashboard() {
                       Bitcoin Circular Economy in Tanzania
                     </p>
                     <p className="text-sm text-[#f08222] font-medium">
-                      Heather is donating 10% of her share to Bitcoin Arusha!
-                    </p><br/>
-
-
-
-
-                    
-                    <button
-                      onClick={() => setShowTeamMembers(prev => ({
-                        ...prev,
-                        bitcoinarusha: !prev.bitcoinarusha
-                      }))}
-                      className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
-                    >
-                      {showTeamMembers.bitcoinarusha ? 'Hide miners' : 'Show miners'}
-                      <svg className={`w-4 h-4 transform transition-transform ${showTeamMembers.bitcoinarusha ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    
-                    {/* Team Members Dropdown */}
-                    {showTeamMembers.bitcoinarusha && (
-                      <div className="mt-4 space-y-2">
-                        {teamData.find(t => t.team_name === 'bitcoinarusha')?.members.map((member: any) => (
-                          <div key={member.username} className="bg-white rounded p-3">
-                                <div className="flex justify-between items-center cursor-help">
-                                  <span>{member.username}</span>
-                                  <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
-                                </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                      Heather is donating 10% of her share to Arusha!
+                    </p>
                   </div>
 
                   {/* Team Isla */}
@@ -934,34 +908,8 @@ export default function Dashboard() {
                       Bitcoin Circular Economy in Mexico 🏝️
                     </p>
                     <p className="text-sm text-[#f08222] font-medium">
-                      QW is donating 10% of his share to Bitcoin Isla!
-                    </p><br/>
-                    <button
-                      onClick={() => setShowTeamMembers(prev => ({
-                        ...prev,
-                        bitcoinisla: !prev.bitcoinisla
-                      }))}
-                      className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
-                    >
-                      {showTeamMembers.bitcoinisla ? 'Hide miners' : 'Show miners'}
-                      <svg className={`w-4 h-4 transform transition-transform ${showTeamMembers.bitcoinisla ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    
-                    {/* Team Members Dropdown */}
-                    {showTeamMembers.bitcoinisla && (
-                      <div className="mt-4 space-y-2">
-                        {teamData.find(t => t.team_name === 'bitcoinisla')?.members.map((member: any) => (
-                          <div key={member.username} className="bg-white rounded p-3">
-                                <div className="flex justify-between items-center cursor-help">
-                                  <span>{member.username}</span>
-                                  <span className="font-medium">: {formatMoney(member.hashrate)} TH/s</span>
-                                </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                      QW is donating 10% of his share to Isla!
+                    </p>
                   </div>
                 </div>
               )}
@@ -977,60 +925,46 @@ export default function Dashboard() {
             </div>
             <br/>
 
-            {/* Auction Miners */}
-            <div className="mb-8">
-                <Tab.Group defaultIndex={0}>
-                <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1">
-                  <Tab
-                    className={({ selected }) =>
-                      `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-                      ${selected 
-                        ? 'bg-white text-white-900 shadow'
-                        : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
-                    }
-                  >
-                    Auction Miners
-                  </Tab>
-                  <Tab
-                    className={({ selected }) =>
-                      `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-                      ${selected 
-                        ? 'bg-white text-gray-900 shadow'
-                        : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
-                    }
-                  >
-                    Active Auctions
-                  </Tab>
-                </Tab.List>
-
-                <Tab.Panels>
-                  <Tab.Panel>
-                    <div className="bg-white rounded-lg shadow p-4">
-                      <PartyLeaderboard useNextSaturday={true} />
-                    </div>
-                  </Tab.Panel>
-
-                  <Tab.Panel>
-                    <div className="bg-white rounded-lg shadow p-4">
-                      <h2 className="text-lg font-semibold mb-4">Active Auctions</h2>
-                      <ErrorBoundary FallbackComponent={ErrorFallback}>
-                        <Suspense fallback={<div className="min-h-[200px] flex items-center justify-center">
-                          <p className="text-gray-500">Loading auctions...</p>
-                        </div>}>
-                          <div className="min-h-[200px]">
-                            <AuctionsDataWrapper />
-                          </div>
-                        </Suspense>
-                      </ErrorBoundary>
-                    </div>
-                  </Tab.Panel>
-                </Tab.Panels>
-              </Tab.Group>
+            {/* Team Leaderboards */}
+            <div className="bg-white rounded-lg shadow">
+              <div className="px-4 py-5 sm:p-6">
+                <TeamPartyLeaderboard useNextSaturday={true} />
+              </div>
             </div>
+
+
+
+
+            {/* Replace the boxed button with a simple centered link */}
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={() => setShowAuctions(!showAuctions)}
+                className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
+              >
+                {showAuctions ? 'Hide active auctions' : 'Show active auctions'}
+                <svg 
+                  className={`w-4 h-4 transform transition-transform ${showAuctions ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Show auctions content when expanded */}
+            {showAuctions && (
+              <div className="mt-6">
+                <AuctionsDataWrapper />
+              </div>
+            )}
+
+
             {/* View auction button */}
             <div className="flex justify-center">
               {featuredAuction && (
-              <div className="flex justify-center mt-2">
+              <div className="flex justify-center mt-2 pt-4">
                 <Link 
                   href={`/auctions/${featuredAuction.id}`} 
                   className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors flex items-center gap-3"
