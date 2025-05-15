@@ -11,7 +11,6 @@ interface TeamPartyLeaderboardProps {
   useNextSaturday?: boolean;
 }
 
-// Define team name constants
 const TEAM_NAMES = {
   ARUSHA: 'bitcoinarusha',
   ISLA: 'bitcoinisla',
@@ -23,12 +22,21 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
   const [loading, setLoading] = useState(true)
   const [bitcoinPrice, setBitcoinPrice] = useState(0)
   const [activeTeam, setActiveTeam] = useState(TEAM_NAMES.ARUSHA)
+  const [teamEntries, setTeamEntries] = useState<PartyLeaderboardEntry[]>([])
+
+  const filterTeamEntries = (team: string, entries: PartyLeaderboardEntry[]) => {
+    if (team === TEAM_NAMES.UNDECIDED) {
+      return entries.filter(entry => !entry.team_name || entry.team_name === TEAM_NAMES.UNDECIDED)
+    }
+    return entries.filter(entry => entry.team_name === team)
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getNextSaturdayPartyLeaderboard()
         setLeaderboard(data)
+        setTeamEntries(filterTeamEntries(activeTeam, data))
       } catch (error) {
         console.error('Error fetching leaderboard:', error)
       } finally {
@@ -57,6 +65,10 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
     }
   }, [useNextSaturday])
 
+  useEffect(() => {
+    setTeamEntries(filterTeamEntries(activeTeam, leaderboard))
+  }, [activeTeam, leaderboard])
+
   if (loading) {
     return (
       <div className="flex justify-center py-8">
@@ -64,17 +76,6 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
       </div>
     )
   }
-
-  // Update the filtering logic in TeamPartyLeaderboard.tsx
-  const teamEntries = leaderboard.filter(entry => {
-    if (activeTeam === TEAM_NAMES.UNDECIDED) {
-      // Only show entries in Undecided tab if they have no team or are explicitly undecided
-      return !entry.team_name || entry.team_name === TEAM_NAMES.UNDECIDED;
-    }
-    
-    // Show entries in team tabs based solely on team_name, regardless of buyer_name
-    return entry.team_name === activeTeam;
-  });
 
   return (
     <div className="space-y-4">
@@ -141,7 +142,7 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {teamEntries.map((entry) => (
-              <tr key={entry.buyer_name} className="even:bg-gray-50">
+              <tr key={`${entry.buyer_name}-${entry.total_hashrate}-${entry.team_percentage}`} className="even:bg-gray-50">
                 <td className="w-[15%] whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                   {formatMoney(entry.total_hashrate)} TH/s
                 </td>
