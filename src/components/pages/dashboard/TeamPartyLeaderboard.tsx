@@ -11,11 +11,18 @@ interface TeamPartyLeaderboardProps {
   useNextSaturday?: boolean;
 }
 
+// Define team name constants
+const TEAM_NAMES = {
+  ARUSHA: 'bitcoinarusha',
+  ISLA: 'bitcoinisla',
+  UNDECIDED: 'undecided'
+} as const;
+
 export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPartyLeaderboardProps) {
   const [leaderboard, setLeaderboard] = useState<PartyLeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [bitcoinPrice, setBitcoinPrice] = useState(0)
-  const [activeTeam, setActiveTeam] = useState('arusha')
+  const [activeTeam, setActiveTeam] = useState(TEAM_NAMES.ARUSHA)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +65,13 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
     )
   }
 
-  const teamEntries = leaderboard.filter(entry => entry.team_name === activeTeam)
+  // Updated filtering logic
+  const teamEntries = leaderboard.filter(entry => {
+    if (activeTeam === TEAM_NAMES.UNDECIDED) {
+      return !entry.team_name || entry.team_name === TEAM_NAMES.UNDECIDED;
+    }
+    return entry.team_name === activeTeam;
+  });
 
   return (
     <div className="space-y-4">
@@ -66,9 +79,9 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8" aria-label="Tabs">
           <button
-            onClick={() => setActiveTeam('bitcoinarusha')}
+            onClick={() => setActiveTeam(TEAM_NAMES.ARUSHA)}
             className={`${
-              activeTeam === 'arusha'
+              activeTeam === TEAM_NAMES.ARUSHA
                 ? 'border-indigo-500 text-indigo-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
             } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
@@ -76,9 +89,9 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
             Arusha Miners
           </button>
           <button
-            onClick={() => setActiveTeam('bitcoinisla')}
+            onClick={() => setActiveTeam(TEAM_NAMES.ISLA)}
             className={`${
-              activeTeam === 'isla'
+              activeTeam === TEAM_NAMES.ISLA
                 ? 'border-indigo-500 text-indigo-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
             } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
@@ -86,9 +99,9 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
             Isla Miners
           </button>
           <button
-            onClick={() => setActiveTeam('undecided')}
+            onClick={() => setActiveTeam(TEAM_NAMES.UNDECIDED)}
             className={`${
-              activeTeam === 'undecided'
+              activeTeam === TEAM_NAMES.UNDECIDED
                 ? 'border-indigo-500 text-indigo-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
             } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
