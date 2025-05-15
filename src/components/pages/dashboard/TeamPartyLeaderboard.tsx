@@ -65,22 +65,15 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
     )
   }
 
-  // Update the filtering logic to be more strict about team membership
+  // Update the filtering logic in TeamPartyLeaderboard.tsx
   const teamEntries = leaderboard.filter(entry => {
     if (activeTeam === TEAM_NAMES.UNDECIDED) {
-      // For undecided tab, show entries that:
-      // 1. Have no team_name OR
-      // 2. Have team_name === 'undecided' OR
-      // 3. Have buyer_name === 'Anonymous'
-      return !entry.team_name || 
-            entry.team_name === TEAM_NAMES.UNDECIDED || 
-            entry.buyer_name === 'Anonymous';
+      // Only show entries in Undecided tab if they have no team or are explicitly undecided
+      return !entry.team_name || entry.team_name === TEAM_NAMES.UNDECIDED;
     }
     
-    // For team tabs (Arusha/Isla), only show entries that:
-    // 1. Have matching team_name AND
-    // 2. Are not Anonymous users
-    return entry.team_name === activeTeam && entry.buyer_name !== 'Anonymous';
+    // Show entries in team tabs based solely on team_name, regardless of buyer_name
+    return entry.team_name === activeTeam;
   });
 
   return (
