@@ -397,7 +397,6 @@ const renderTopSection = (
 
 
 {/* Additional boxes when expanded */}
-{showDetails && (
   <div className="pt-2">
     {/* Hash by Group Box - Full Width */}
     <div className="bg-[#fff5eb] rounded-md p-4">
@@ -464,7 +463,6 @@ const renderTopSection = (
       </div>
     </div>
   </div>
-)}
       </div>
     </div>
   )
