@@ -395,74 +395,101 @@ const renderTopSection = (
           </div>
         </div>
 
-
 {/* Additional boxes when expanded */}
-  <div className="pt-2">
-    {/* Hash by Group Box - Full Width */}
-    <div className="bg-[#fff5eb] rounded-md p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Direct Buy */}
-        <div className="flex flex-col items-center space-y-1.5">
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
-            Direct Buy
-          </span>
-          <div className="text-center">
-            <p className="text-2xl text-gray-900">
-              ${formatMoney((directBuyHashrate / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
-            </p>
-            <p className="text-xs text-gray-500">
-              {directBuyPercentage}% of block
-            </p>
-          </div>
-        </div>
+<div className="pt-2">
+  {/* Hash by Group Box - Full Width */}
+  <div className="bg-[#fff5eb] rounded-md p-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Direct Buy */}
+      <div className="flex flex-col items-center space-y-1.5">
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+          Direct Buy
+        </span>
+        <Tooltip>
+          <TooltipTrigger>
+            <div className="text-center cursor-help">
+              <p className="text-2xl text-gray-900">
+                ${formatMoney((directBuyHashrate / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
+              </p>
+              <p className="text-xs text-gray-500">
+                {directBuyPercentage}% of block
+              </p>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+            {formatMoney(directBuyHashrate)} TH/s
+          </TooltipContent>
+        </Tooltip>
+      </div>
 
-        {/* Team Arusha */}
-        <div className="flex flex-col items-center space-y-1.5">
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
-            Team Arusha
-          </span>
-          <div className="text-center">
-            <p className="text-2xl text-gray-900">
-              ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
-            </p>
-            <p className="text-xs text-gray-500">
-              {((teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
-            </p>
-          </div>
-        </div>
+      {/* Team Arusha */}
+      <div className="flex flex-col items-center space-y-1.5">
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+          Team Arusha
+        </span>
+        <Tooltip>
+          <TooltipTrigger>
+            <div className="text-center cursor-help">
+              <p className="text-2xl text-gray-900">
+                ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
+              </p>
+              <p className="text-xs text-gray-500">
+                {((teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
+              </p>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+            {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0)} TH/s
+          </TooltipContent>
+        </Tooltip>
+      </div>
 
-        {/* Team Isla */}
-        <div className="flex flex-col items-center space-y-1.5">
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
-            Team Isla
-          </span>
-          <div className="text-center">
-            <p className="text-2xl text-gray-900">
-              ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
-            </p>
-            <p className="text-xs text-gray-500">
-              {((teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
-            </p>
-          </div>
-        </div>
+      {/* Team Isla */}
+      <div className="flex flex-col items-center space-y-1.5">
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+          Team Isla
+        </span>
+        <Tooltip>
+          <TooltipTrigger>
+            <div className="text-center cursor-help">
+              <p className="text-2xl text-gray-900">
+                ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
+              </p>
+              <p className="text-xs text-gray-500">
+                {((teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
+              </p>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+            {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0)} TH/s
+          </TooltipContent>
+        </Tooltip>
+      </div>
 
-        {/* Undecided */}
-        <div className="flex flex-col items-center space-y-1.5">
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
-            Undecided
-          </span>
-          <div className="text-center">
-            <p className="text-2xl text-gray-900">
-              ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
-            </p>
-            <p className="text-xs text-gray-500">
-              {((teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
-            </p>
-          </div>
-        </div>
+      {/* Undecided */}
+      <div className="flex flex-col items-center space-y-1.5">
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+          Undecided
+        </span>
+        <Tooltip>
+          <TooltipTrigger>
+            <div className="text-center cursor-help">
+              <p className="text-2xl text-gray-900">
+                ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
+              </p>
+              <p className="text-xs text-gray-500">
+                {((teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
+              </p>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+            {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0)} TH/s
+          </TooltipContent>
+        </Tooltip>
       </div>
     </div>
   </div>
+</div>
       </div>
     </div>
   )
