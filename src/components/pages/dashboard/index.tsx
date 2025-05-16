@@ -384,7 +384,7 @@ const renderTopSection = (
           {/* Box 3: Block Reward */}
           <div className="bg-[#fff5eb] rounded-md p-4">
             <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
-              Block reward
+              Potential Block reward
             </h3>
             <p className="text-2xl font-semibold text-gray-900">
               ${formatMoney(3.125 * bitcoinPrice)} USD
@@ -760,8 +760,8 @@ export default function Dashboard() {
   <Tab.Group defaultIndex={0}>
       <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 mb-6">
         <TabButton>Direct Buy</TabButton>
-        <TabButton>Team Arusha</TabButton>
-        <TabButton>Team Isla</TabButton>
+        <TabButton>Arusha</TabButton>
+        <TabButton>Isla</TabButton>
         <TabButton>Undecided</TabButton>
         <TabButton>Pre-party</TabButton>
       </Tab.List>

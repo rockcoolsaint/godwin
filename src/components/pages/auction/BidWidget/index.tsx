@@ -31,7 +31,16 @@ import { getTotalHashrateData, type TotalHashrateData } from 'src/api/ckpool/get
 import useSoloMineCalculator from 'src/hooks/useSoloMineCalculator'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
+import { getTeams } from 'src/api/account/getTeams'
+
 const PROJECTED_BLOCK_PARTY_SPEED = 4096;
+
+type Team = {
+  id: string
+  name: string
+  logo?: string
+  slug: string
+}
 
 const isCurrentlyMining = (hashrateData?: TotalHashrateData | null) => {
   return hashrateData?.current_hashrate > 0;
@@ -130,13 +139,45 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
   const [loading, setLoading] = useState(false)
   const [newUsername, setNewUsername] = useState(account?.username || '')
 
+  const [teams, setTeams] = useState<Team[]>([])
+  const [selectedTeam, setSelectedTeam] = useState(account?.team || '')
+  const [updatingTeam, setUpdatingTeam] = useState(false)
+  
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const teamsData = await getTeams()
+        setTeams(teamsData)
+      } catch (error) {
+        console.error('Error fetching teams:', error)
+      }
+    }
+    fetchTeams()
+  }, [])
+
+  const handleTeamChange = async (teamId: string) => {
+    if (!token) return
+    
+    try {
+      setUpdatingTeam(true)
+      // Try sending just the team_id as a field name
+      await updateAccount({ team_id: teamId }, token)
+      setSelectedTeam(teamId)
+      toast.success('Team updated successfully')
+    } catch (error: any) {
+      toast.error(error.message)
+    } finally {
+      setUpdatingTeam(false)
+    }
+  }
+
   const BonusHashrateBox = ({ current_bid, auction }) => {
     const bonusHashrate = calculateAuctionBonusHashrate(current_bid?.bid || 0, auction)
     const baseValue = calculateBaseValue(auction)
     const currentBidAmount = current_bid?.bid || 0
     
     const totalBonusHashrate = bonusHashrate * 1.21
-    
+
     return (
       <div className="mb-4 w-full max-w-sm rounded-xl bg-orange-50 border border-orange-200 p-4">
         <h2 className="flex items-center text-base font-bold mb-2">
@@ -392,12 +433,13 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
     <div className="mt-5 w-full">
       <Tab.Group>
         <Tab.List className="flex items-center rounded-xl bg-gray-300 p-1">
-          {[{ label: 'Bid' }, { label: 'Proxy' }, { label: 'Goal' }].map((tab, i) => (
+          {[{ label: 'Bid' }, { label: 'Proxy' }, { label: 'Team' }].map((tab, i) => (
             <Tab key={i} className="h-8 w-full rounded-lg px-4 outline-none ui-selected:bg-gray-500">
               <span className="ui-selected:text-white">{tab.label}</span>
             </Tab>
           ))}
         </Tab.List>
+
 
         <Tab.Panels>
           <Tab.Panel className="pt-4">
@@ -412,29 +454,42 @@ const BidWidget = ({ auction, current_bid, bids, winner, user_proxy_bid, isNewUs
             />
           </Tab.Panel>
           <Tab.Panel className="pt-4">
-            <div className="flex w-full items-center gap-2">
-              <span className="text-sm text-gray-600">Mining for:</span>
-              <Input
-                type="text"
-                value={newUsername}
-                onChange={(e) => setNewUsername(e.target.value)}
-                placeholder="Anonymous"
-                className="flex-1"
-                disabled={loading}
-              />
-              <button
-                onClick={handleSubmit}
-                disabled={loading || newUsername === account?.username}
-                className={`ml-2 rounded-md px-3 py-2 text-sm font-semibold text-white ${
-                  loading || newUsername === account?.username
-                    ? 'bg-orange-400'
-                    : 'bg-orange-500 hover:bg-orange-500'
-                }`}
-              >
-                {loading ? 'Saving...' : 'Save'}
-              </button>
+  <div className="flex flex-col space-y-4">
+    <h3 className="text-sm font-medium text-gray-900">Select your team</h3>
+    <div className="space-y-3">
+      {teams
+        .filter(team => team.name !== 'Rigly') // Add this filter
+        .map((team) => (
+          <div
+            key={team.id}
+            className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
+              selectedTeam === team.id
+                ? 'bg-orange-100 border border-orange-500'
+                : 'bg-gray-50 hover:bg-gray-100'
+            }`}
+            onClick={() => handleTeamChange(team.id)}
+          >
+            <div className="flex items-center space-x-3">
+              {team.logo && (
+                <img src={team.logo} alt={team.name} className="w-8 h-8 rounded-full" />
+              )}
+              <span className="font-medium">{team.name}</span>
             </div>
-          </Tab.Panel>
+            {selectedTeam === team.id && (
+              <div className="text-orange-500">
+                <CheckIcon className="h-5 w-5" />
+              </div>
+            )}
+          </div>
+        ))}
+    </div>
+    {updatingTeam && (
+      <div className="text-center text-sm text-gray-500">
+        Updating team...
+      </div>
+    )}
+  </div>
+</Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
     </div>
