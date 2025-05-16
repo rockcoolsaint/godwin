@@ -28,6 +28,12 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 
 const TARGET_HASHRATE = 250000; // 250,000 TH/s
 
+const TEAM_NAMES = {
+  ARUSHA: 'bitcoinarusha',
+  ISLA: 'bitcoinisla',
+  UNDECIDED: 'undecided'
+} as const;
+
 function getNextNoonUTC() {
   const now = new Date();
   const nextNoon = new Date(Date.UTC(
@@ -316,7 +322,8 @@ const renderTopSection = (
   upcomingPartyData: any,
   upcomingPartyCalc: any,
   showDetails: boolean,
-  setShowDetails: (show: boolean) => void
+  setShowDetails: (show: boolean) => void,
+  teamData: any[]
 ) => {
   // Get next block party date
   const { nextSaturday } = getNextBlockPartyDate()
@@ -388,149 +395,96 @@ const renderTopSection = (
           </div>
         </div>
 
-        {/* Show more button */}
-        <div className="flex justify-center">
-          <button
-            onClick={() => setShowDetails(!showDetails)}
-            className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
-          >
-            {showDetails ? 'Show less' : 'Show more'}
-            <svg 
-              className={`w-4 h-4 transform transition-transform ${showDetails ? 'rotate-180' : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M19 9l-7 7-7-7" 
-              />
-            </svg>
-          </button>
+
+{/* Additional boxes when expanded */}
+{showDetails && (
+  <div className="pt-2">
+    {/* Hash by Group Box - Full Width */}
+    <div className="bg-[#fff5eb] rounded-md p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Direct Buy */}
+        <div className="flex flex-col items-center space-y-1.5">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+            Direct Buy
+          </span>
+          <div className="text-center">
+            <p className="text-2xl text-gray-900">
+              ${formatMoney((directBuyHashrate / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
+            </p>
+            <p className="text-xs text-gray-500">
+              {directBuyPercentage}% of block
+            </p>
+          </div>
         </div>
 
-        {/* Additional boxes when expanded */}
-        {showDetails && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-            {/* Pre-game Hashrate */}
-            <div className="bg-[#fff5eb] rounded-md p-4">
-              <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
-                Early Start Threshold
-              </h3>
-              <p className="text-sm text-gray-600">
-                (coming soon) If we reach a hashrate threshold, party starts early.
-              </p>
-            </div>
-
-            {/* Box 1: By Group */}
-            <div className="bg-[#fff5eb] rounded-md p-2">
-            <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
-              hash by group
-            </h3>
-              <div className="grid grid-cols-2 gap-4">
-                
-                <div>
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
-                    Direct Buy
-                  </span>
-                  <div className="text-left">
-                    <p className="text-md text-gray-900">
-                      {formatMoney(directBuyHashrate)} TH/s
-                    </p>
-                    <p className="text-xs text-gray-500">{directBuyPercentage}% of total</p>
-                  </div>
-                </div>
-                <div>
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
-                    Auction
-                  </span>
-                  <div className="text-left">
-                    <p className="text-md text-gray-900">
-                      {formatMoney(auctionHashrate)} TH/s
-                    </p>
-                    <p className="text-xs text-gray-500">{auctionPercentage}% of total</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Box 2: By Reward */}
-            <div className="bg-[#fff5eb] rounded-md p-2">
-            <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
-              reward per TH/s
-            </h3>
-              <div className="grid grid-cols-2 gap-4">
-                {/* Direct Buy Reward */}
-                <div>
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
-                    Direct Buy
-                  </span>
-                  <div className="text-left">
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <div className="cursor-help">
-                          <p className="text-left text-md text-gray-900">
-                            ${formatMoney((3.125 / (upcomingPartyData?.totalHashrate || 1)) * bitcoinPrice)}
-                          </p>
-                          <p className="text-left text-xs text-gray-500">
-                            ₿ {(3.125 / (upcomingPartyData?.totalHashrate || 1)).toFixed(8)}
-                          </p>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                        per TH/s based on total hash
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                </div>
-                {/* Auction Reward */}
-                <div>
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white mb-1">
-                    Auction
-                  </span>
-                  <div className="text-left">
-                    {upcomingPartyData?.nextSatPartyLeaderboard ? (
-                      (() => {
-                        const entry = upcomingPartyData.nextSatPartyLeaderboard.find(e => 
-                          Math.round(e.total_hashrate) === 21
-                        )
-                        if (entry) {
-                          return (
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <div className="cursor-help">
-                                  <p className="text-left text-md text-gray-900">
-                                    ${formatMoney((entry.reward_share_btc * bitcoinPrice) / 21)}
-                                  </p>
-                                  <p className="text-left text-xs text-gray-500">
-                                    ₿ {(entry.reward_share_btc / 21).toFixed(8)}
-                                  </p>
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                                per TH/s base auction<br/><br/>bonus hash increases reward<br/>for all auction miners
-                              </TooltipContent>
-                            </Tooltip>
-                          )
-                        }
-                        return <p className="text-sm text-gray-500">Calculating...</p>
-                      })()
-                    ) : (
-                      <p className="text-sm text-gray-500">Loading...</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
+        {/* Team Arusha */}
+        <div className="flex flex-col items-center space-y-1.5">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+            Team Arusha
+          </span>
+          <div className="text-center">
+            <p className="text-2xl text-gray-900">
+              ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
+            </p>
+            <p className="text-xs text-gray-500">
+              {((teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
+            </p>
           </div>
-        )}
+        </div>
+
+        {/* Team Isla */}
+        <div className="flex flex-col items-center space-y-1.5">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+            Team Isla
+          </span>
+          <div className="text-center">
+            <p className="text-2xl text-gray-900">
+              ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
+            </p>
+            <p className="text-xs text-gray-500">
+              {((teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
+            </p>
+          </div>
+        </div>
+
+        {/* Undecided */}
+        <div className="flex flex-col items-center space-y-1.5">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+            Undecided
+          </span>
+          <div className="text-center">
+            <p className="text-2xl text-gray-900">
+              ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
+            </p>
+            <p className="text-xs text-gray-500">
+              {((teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
       </div>
     </div>
   )
 }
 
+// Define TabButton component at the top level
+const TabButton = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Tab
+      className={({ selected }) =>
+        `w-full rounded-lg py-2.5 text-sm font-medium leading-5
+        ${selected 
+          ? 'bg-white text-gray-900 shadow'
+          : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
+      }
+    >
+      {children}
+    </Tab>
+  )
+}
 
 export default function Dashboard() {
   const { account } = useAccountContext()
@@ -770,69 +724,154 @@ export default function Dashboard() {
             upcomingPartyData, 
             upcomingPartyCalc,
             showDetails,
-            setShowDetails
+            setShowDetails,
+            teamData
           )}
             </>
           )}
         </div>
       </div>
 
-        {/* Main content tabs */}
-        <Tab.Group defaultIndex={0}>
-          <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 mb-6">
-            <Tab
-              className={({ selected }) =>
-                `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-                ${selected 
-                  ? 'bg-white text-gray-900 shadow'
-                  : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
-              }
-            >
-              Direct Buy
-            </Tab>
-            <Tab
-              className={({ selected }) =>
-                `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-                ${selected 
-                  ? 'bg-white text-gray-900 shadow'
-                  : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
-              }
-            >
-              Auction
-            </Tab>
-            <Tab
-              className={({ selected }) =>
-                `w-full rounded-lg py-2.5 text-sm font-medium leading-5
-                ${selected 
-                  ? 'bg-white text-gray-900 shadow'
-                  : 'text-gray-700 hover:bg-white/[0.12] hover:text-gray-900'}`
-              }
-            >
-              Pre-Game
-            </Tab>
-          </Tab.List>
+  <Tab.Group defaultIndex={0}>
+      <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 mb-6">
+        <TabButton>Direct Buy</TabButton>
+        <TabButton>Team Arusha</TabButton>
+        <TabButton>Team Isla</TabButton>
+        <TabButton>Undecided</TabButton>
+        <TabButton>Pre-party</TabButton>
+      </Tab.List>
 
-          <Tab.Panels>
-            {/* Direct Buy Tab */}
-            <Tab.Panel>
-              <div className="bg-white rounded-lg shadow p-4">
-                <DirectPartyLeaderboard useNextSaturday={true} />
+      <Tab.Panels>
+        {/* Direct Buy Tab */}
+        <Tab.Panel>
+          <div className="bg-white rounded-lg shadow p-4">
+            <DirectPartyLeaderboard useNextSaturday={true} />
+          </div>
+          <div className="flex justify-center pt-6">
+            <Link 
+              href="/" 
+              className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
+            >
+              Buy hashrate
+            </Link>
+          </div>
+        </Tab.Panel>
+
+        {/* Team Arusha Tab */}
+        <Tab.Panel>
+          <div className="bg-white rounded-lg shadow">
+            <div className="px-4 py-5 sm:p-6">
+              <TeamPartyLeaderboard 
+                useNextSaturday={true}
+                defaultTeam={TEAM_NAMES.ARUSHA}
+                hideTeamTabs={true}
+              />
+            </div>
+          </div>
+        </Tab.Panel>
+
+        {/* Team Isla Tab */}
+        <Tab.Panel>
+          <div className="bg-white rounded-lg shadow">
+            <div className="px-4 py-5 sm:p-6">
+              <TeamPartyLeaderboard 
+                useNextSaturday={true}
+                defaultTeam={TEAM_NAMES.ISLA}
+                hideTeamTabs={true}
+              />
+            </div>
+          </div>
+        </Tab.Panel>
+
+        {/* Undecided Tab */}
+        <Tab.Panel>
+          <div className="bg-white rounded-lg shadow">
+            <div className="px-4 py-5 sm:p-6">
+              <TeamPartyLeaderboard 
+                useNextSaturday={true}
+                defaultTeam={TEAM_NAMES.UNDECIDED}
+                hideTeamTabs={true}
+              />
+            </div>
+          </div>
+        </Tab.Panel>
+
+        {/* Pre-game Tab */}
+        <Tab.Panel>
+         {/* Add explainer text */}
+         <div className="bg-white rounded-lg shadow p-6 mb-4">
+          <p className="text-lg font-medium text-gray-900 mb-2">
+            Bring-your-own Miner
+          </p>
+          <p className="text-sm text-gray-600">
+            Outside of the party, the miner who finds the block gets 1 BTC and everyone else gets a hashrate-% reward share
+          </p>
+          <Link 
+                      href="/learn/upendo"
+                      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Learn more →
+                    </Link>
+        </div>
+        {/* Second row */}
+        <div className="flex gap-4">
+                {/* Pre-game Party Hashrate Box */}
+                {hashrateData?.current_hashrate > 0 && (
+                  <div className="flex-1 bg-white rounded-lg shadow p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="text-sm font-medium text-gray-500 uppercase">
+                        Pre-Party Hashrate - a.k.a <Link 
+                      href="https://yakihonne.com/users/npub1x8xa3dw79urgev8pvuzdk7uupcrvqj9cwduq0yypzzkr0m3gkwks07q3eq"
+                      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Team Alliance
+                    </Link>
+                      </h3>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="cursor-help">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                          Current hashrate at our CK Pool address
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
+                    <p className="text-2xl font-semibold text-gray-900">
+                      {formatMoney(hashrateData.current_hashrate)} TH/s
+                    </p>
+                    <Link 
+                      href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
+                      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View at CK Pool →
+                    </Link>
+                  </div>
+                )}
               </div>
-              {/* Buy button */}
+              {/* Configure miner button*/}
               <div className="flex justify-center pt-6">
               <Link 
-                href="/" 
+                href="/learn/upendo" 
                 className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
               >
-                Buy hashrate
+                Configure your ASIC
               </Link>
             </div>
-            </Tab.Panel>
+        </Tab.Panel>
+      </Tab.Panels>
+    </Tab.Group>
 
-            {/* Auction Tab */}
-            <Tab.Panel>
-            {/* Teams Section */}
-            <div className="mt-8">
+    <div className="mt-8">
             
             {/* Add explainer text */}
             <div className="bg-white rounded-lg shadow p-6 mb-4">
@@ -914,52 +953,12 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
-            {/* Centered Button */}
-            <div className="flex justify-center mt-6">
-            <Link 
-                  href="/account/general" 
-                  className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
-                >
-                  Pick your team
-                </Link>
-            </div>
             <br/>
 
-            {/* Team Leaderboards */}
-            <div className="bg-white rounded-lg shadow">
-              <div className="px-4 py-5 sm:p-6">
-                <TeamPartyLeaderboard useNextSaturday={true} />
-              </div>
-            </div>
-
-
-
-
-            {/* Replace the boxed button with a simple centered link */}
-            <div className="flex justify-center mt-6">
-              <button
-                onClick={() => setShowAuctions(!showAuctions)}
-                className="text-[#f08222] hover:text-[#d67420] font-medium flex items-center gap-2"
-              >
-                {showAuctions ? 'Hide active auctions' : 'Show active auctions'}
-                <svg 
-                  className={`w-4 h-4 transform transition-transform ${showAuctions ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Show auctions content when expanded */}
-            {showAuctions && (
+            {/* Show auctions list */}
               <div className="mt-6">
                 <AuctionsDataWrapper />
               </div>
-            )}
-
 
             {/* View auction button */}
             <div className="flex justify-center">
@@ -997,90 +996,6 @@ export default function Dashboard() {
               </div>
             )}
             </div>
-        </Tab.Panel>
-
-        {/* Pre-Game Tab */}
-        <Tab.Panel>
-        {/* Add explainer text */}
-        <div className="bg-white rounded-lg shadow p-6 mb-4">
-          <p className="text-lg font-medium text-gray-900 mb-2">
-            Bring-your-own Miner
-          </p>
-          <p className="text-sm text-gray-600">
-            Outside of the party, the miner who finds the block gets 1 BTC and everyone else gets a hashrate-% reward share
-          </p>
-          <Link 
-                      href="/learn/upendo"
-                      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Learn more →
-                    </Link>
-        </div>
-        {/* Second row */}
-        <div className="flex gap-4">
-                {/* Early Start Target Box */}
-                {/*  <div className="flex-1 bg-white rounded-lg shadow p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-sm font-medium text-gray-500 uppercase">
-                      Early Start Target
-                    </h3>
-                  </div>
-                  <p className="text-2xl font-semibold text-gray-900">
-                    {formatMoney(Math.max(0, TARGET_HASHRATE - (upcomingPartyData?.totalHashrate || 0)))} TH/s to go
-                  </p>
-                  <p className="text-sm text-gray-600 mt-2">
-                    Start @ May 10th if 250 PH/s
-                  </p>
-                </div>  */}
-
-                {/* Pre-game Party Hashrate Box */}
-                {hashrateData?.current_hashrate > 0 && (
-                  <div className="flex-1 bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="text-sm font-medium text-gray-500 uppercase">
-                        Pre-game Party Hashrate
-                      </h3>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <div className="cursor-help">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                            </svg>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                          current hashrate at our CK Pool address
-                        </TooltipContent>
-                      </Tooltip>
-                    </div>
-                    <p className="text-2xl font-semibold text-gray-900">
-                      {formatMoney(hashrateData.current_hashrate)} TH/s
-                    </p>
-                    <Link 
-                      href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
-                      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View at CK Pool →
-                    </Link>
-                  </div>
-                )}
-              </div>
-              {/* Configure miner button*/}
-              <div className="flex justify-center pt-6">
-              <Link 
-                href="/learn/upendo" 
-                className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors"
-              >
-                Configure your ASIC
-              </Link>
-            </div>
-        </Tab.Panel>
-        </Tab.Panels> 
-        </Tab.Group>
       <br/>
     </div>
   )

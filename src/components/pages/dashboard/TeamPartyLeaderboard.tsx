@@ -9,6 +9,8 @@ import { getBitcoinPrice } from 'src/utils/bitcoin'
 
 interface TeamPartyLeaderboardProps {
   useNextSaturday?: boolean;
+  defaultTeam?: string;
+  hideTeamTabs?: boolean;
 }
 
 const TEAM_NAMES = {
@@ -17,12 +19,21 @@ const TEAM_NAMES = {
   UNDECIDED: 'undecided'
 } as const;
 
-export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPartyLeaderboardProps) {
+export default function TeamPartyLeaderboard({ 
+  useNextSaturday = false,
+  defaultTeam = TEAM_NAMES.ARUSHA,
+  hideTeamTabs = false 
+}: TeamPartyLeaderboardProps) {
   const [leaderboard, setLeaderboard] = useState<PartyLeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [bitcoinPrice, setBitcoinPrice] = useState(0)
-  const [activeTeam, setActiveTeam] = useState(TEAM_NAMES.ARUSHA)
+  const [activeTeam, setActiveTeam] = useState(defaultTeam)
   const [teamEntries, setTeamEntries] = useState<PartyLeaderboardEntry[]>([])
+
+  // Update activeTeam when defaultTeam prop changes
+  useEffect(() => {
+    setActiveTeam(defaultTeam)
+  }, [defaultTeam])
 
   const filterTeamEntries = (team: string, entries: PartyLeaderboardEntry[]) => {
     if (team === TEAM_NAMES.UNDECIDED) {
@@ -79,42 +90,6 @@ export default function TeamPartyLeaderboard({ useNextSaturday = false }: TeamPa
 
   return (
     <div className="space-y-4">
-      {/* Team Tabs */}
-      <div className="border-b border-gray-200">
-        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-          <button
-            onClick={() => setActiveTeam(TEAM_NAMES.ARUSHA)}
-            className={`${
-              activeTeam === TEAM_NAMES.ARUSHA
-                ? 'border-indigo-500 text-indigo-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
-          >
-            Arusha Miners
-          </button>
-          <button
-            onClick={() => setActiveTeam(TEAM_NAMES.ISLA)}
-            className={`${
-              activeTeam === TEAM_NAMES.ISLA
-                ? 'border-indigo-500 text-indigo-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
-          >
-            Isla Miners
-          </button>
-          <button
-            onClick={() => setActiveTeam(TEAM_NAMES.UNDECIDED)}
-            className={`${
-              activeTeam === TEAM_NAMES.UNDECIDED
-                ? 'border-indigo-500 text-indigo-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
-          >
-            Undecided
-          </button>
-        </nav>
-      </div>
-
       {/* Team Leaderboard Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-300">
