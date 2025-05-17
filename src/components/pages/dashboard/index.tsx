@@ -395,100 +395,103 @@ const renderTopSection = (
           </div>
         </div>
 
+
 {/* Additional boxes when expanded */}
 <div className="pt-2">
-  {/* Hash by Group Box - Full Width */}
-  <div className="bg-[#fff5eb] rounded-md p-4">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {/* Direct Buy */}
-      <div className="flex flex-col items-center space-y-1.5">
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
-          Direct Buy
-        </span>
-        <Tooltip>
-          <TooltipTrigger>
-            <div className="text-center cursor-help">
-              <p className="text-2xl text-gray-900">
-                ${formatMoney((directBuyHashrate / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
-              </p>
-              <p className="text-xs text-gray-500">
-                {directBuyPercentage}% of block
-              </p>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-            {formatMoney(directBuyHashrate)} TH/s
-          </TooltipContent>
-        </Tooltip>
-      </div>
 
-      {/* Team Arusha */}
-      <div className="flex flex-col items-center space-y-1.5">
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
-          Team Arusha
-        </span>
-        <Tooltip>
-          <TooltipTrigger>
-            <div className="text-center cursor-help">
-              <p className="text-2xl text-gray-900">
-                ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
-              </p>
-              <p className="text-xs text-gray-500">
-                {((teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
-              </p>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-            {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0)} TH/s
-          </TooltipContent>
-        </Tooltip>
-      </div>
 
-      {/* Team Isla */}
-      <div className="flex flex-col items-center space-y-1.5">
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
-          Team Isla
-        </span>
-        <Tooltip>
-          <TooltipTrigger>
-            <div className="text-center cursor-help">
-              <p className="text-2xl text-gray-900">
-                ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
-              </p>
-              <p className="text-xs text-gray-500">
-                {((teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
-              </p>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-            {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0)} TH/s
-          </TooltipContent>
-        </Tooltip>
-      </div>
+<div className="bg-[#fff5eb] rounded-md p-4">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {/* Team Arusha */}
+    <div className="flex flex-col items-center space-y-1.5">
+      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+        Team Arusha
+      </span>
+      <Tooltip>
+        <TooltipTrigger>
+          <div className="text-center cursor-help">
+            <p className="text-2xl text-gray-900">
+              {formatMoney(
+                (teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0) +
+                (upcomingPartyData?.nextSatDirectLeaderboard
+                  .filter(entry => entry.team_name === "Bitcoin Arusha")
+                  .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)
+              )} TH/s
+            </p>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+          <div className="space-y-1">
+            <div>Auction: {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.ARUSHA)?.total_hashrate || 0)} TH/s</div>
+            <div>Direct Buy: {formatMoney(upcomingPartyData?.nextSatDirectLeaderboard
+              .filter(entry => entry.team_name === "Bitcoin Arusha")
+              .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)} TH/s</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+    
 
-      {/* Undecided */}
-      <div className="flex flex-col items-center space-y-1.5">
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
-          Undecided
-        </span>
-        <Tooltip>
-          <TooltipTrigger>
-            <div className="text-center cursor-help">
-              <p className="text-2xl text-gray-900">
-                ${formatMoney(((teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1)) * 3.125 * bitcoinPrice)}
-              </p>
-              <p className="text-xs text-gray-500">
-                {((teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) / (upcomingPartyData?.totalHashrate || 1) * 100).toFixed(1)}% of block
-              </p>
-            </div>
-          </TooltipTrigger>
-          <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-            {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0)} TH/s
-          </TooltipContent>
-        </Tooltip>
-      </div>
+    {/* Team Isla */}
+    <div className="flex flex-col items-center space-y-1.5">
+      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+        Team Isla
+      </span>
+      <Tooltip>
+        <TooltipTrigger>
+          <div className="text-center cursor-help">
+            <p className="text-2xl text-gray-900">
+              {formatMoney(
+                (teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0) +
+                (upcomingPartyData?.nextSatDirectLeaderboard
+                  .filter(entry => entry.team_name === "Bitcoin Isla")
+                  .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)
+              )} TH/s
+            </p>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+          <div className="space-y-1">
+            <div>Auction: {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.ISLA)?.total_hashrate || 0)} TH/s</div>
+            <div>Direct Buy: {formatMoney(upcomingPartyData?.nextSatDirectLeaderboard
+              .filter(entry => entry.team_name === "Bitcoin Isla")
+              .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)} TH/s</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+
+    {/* Undecided */}
+    <div className="flex flex-col items-center space-y-1.5">
+      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-[#f08222] text-white">
+        Undecided
+      </span>
+      <Tooltip>
+        <TooltipTrigger>
+          <div className="text-center cursor-help">
+            <p className="text-2xl text-gray-900">
+              {formatMoney(
+                (teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) +
+                (upcomingPartyData?.nextSatDirectLeaderboard
+                  .filter(entry => !entry.team_name || entry.team_name === TEAM_NAMES.UNDECIDED)
+                  .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)
+              )} TH/s
+            </p>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+          <div className="space-y-1">
+            <div>Auction: {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0)} TH/s</div>
+            <div>Direct Buy: {formatMoney(upcomingPartyData?.nextSatDirectLeaderboard
+              .filter(entry => !entry.team_name || entry.team_name === "undecided")
+              .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)} TH/s</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
     </div>
   </div>
+</div>
+
 </div>
       </div>
     </div>
@@ -757,14 +760,12 @@ export default function Dashboard() {
         </div>
       </div>
 
-  <Tab.Group defaultIndex={0}>
-      <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 mb-6">
-        <TabButton>Direct Buy</TabButton>
-        <TabButton>Arusha</TabButton>
-        <TabButton>Isla</TabButton>
-        <TabButton>Undecided</TabButton>
-        <TabButton>Pre-party</TabButton>
-      </Tab.List>
+      <Tab.Group defaultIndex={0}>
+        <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 mb-6">
+          <TabButton>Direct Buy</TabButton>
+          <TabButton>Auction</TabButton>
+          <TabButton>Pre-party</TabButton>
+        </Tab.List>
 
       <Tab.Panels>
         {/* Direct Buy Tab */}
@@ -782,44 +783,47 @@ export default function Dashboard() {
           </div>
         </Tab.Panel>
 
-        {/* Team Arusha Tab */}
-        <Tab.Panel>
-          <div className="bg-white rounded-lg shadow">
-            <div className="px-4 py-5 sm:p-6">
-              <TeamPartyLeaderboard 
-                useNextSaturday={true}
-                defaultTeam={TEAM_NAMES.ARUSHA}
-                hideTeamTabs={true}
-              />
-            </div>
-          </div>
-        </Tab.Panel>
 
-        {/* Team Isla Tab */}
-        <Tab.Panel>
-          <div className="bg-white rounded-lg shadow">
-            <div className="px-4 py-5 sm:p-6">
-              <TeamPartyLeaderboard 
-                useNextSaturday={true}
-                defaultTeam={TEAM_NAMES.ISLA}
-                hideTeamTabs={true}
-              />
-            </div>
+    {/* Auction Tab */}
+    <Tab.Panel>
+      <div className="space-y-8">
+        {/* Team Arusha */}
+        <div className="bg-white rounded-lg shadow">
+          <h3 className="px-4 pt-5 font-medium text-gray-900">Team Arusha</h3>
+          <div className="px-4 py-5 sm:p-6">
+            <TeamPartyLeaderboard 
+              useNextSaturday={true}
+              defaultTeam={TEAM_NAMES.ARUSHA}
+              hideTeamTabs={true}
+            />
           </div>
-        </Tab.Panel>
+        </div>
 
-        {/* Undecided Tab */}
-        <Tab.Panel>
-          <div className="bg-white rounded-lg shadow">
-            <div className="px-4 py-5 sm:p-6">
-              <TeamPartyLeaderboard 
-                useNextSaturday={true}
-                defaultTeam={TEAM_NAMES.UNDECIDED}
-                hideTeamTabs={true}
-              />
-            </div>
+        {/* Team Isla */}
+        <div className="bg-white rounded-lg shadow">
+          <h3 className="px-4 pt-5 font-medium text-gray-900">Team Isla</h3>
+          <div className="px-4 py-5 sm:p-6">
+            <TeamPartyLeaderboard 
+              useNextSaturday={true}
+              defaultTeam={TEAM_NAMES.ISLA}
+              hideTeamTabs={true}
+            />
           </div>
-        </Tab.Panel>
+        </div>
+
+        {/* Undecided */}
+        <div className="bg-white rounded-lg shadow">
+          <h3 className="px-4 pt-5 font-medium text-gray-900">Undecided</h3>
+          <div className="px-4 py-5 sm:p-6">
+            <TeamPartyLeaderboard 
+              useNextSaturday={true}
+              defaultTeam={TEAM_NAMES.UNDECIDED}
+              hideTeamTabs={true}
+            />
+          </div>
+        </div>
+      </div>
+    </Tab.Panel>
 
         {/* Pre-game Tab */}
         <Tab.Panel>
@@ -928,53 +932,88 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
 
-                  {/* Team Arusha */}
-                  <div className="bg-[#fff5eb] rounded-lg shadow p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                      <a href="https://x.com/bitcoinarusha" target="_blank" rel="noopener noreferrer">
-                        <Image 
-                          src={Arusha} 
-                          alt="Bitcoin Arusha Logo" 
-                          width={100} 
-                          height={100} 
-                          objectFit="contain" 
-                        />
-                      </a>
-                      <div>
-                        <h4 className="text-lg font-semibold">Team Arusha</h4>
-                        <p className="text-xl font-bold text-[#f08222]">
-                          {formatMoney(teamData.find(t => t.team_name === 'bitcoinarusha')?.total_hashrate || 0)} TH/s
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 mb-4">
-                      Bitcoin Circular Economy in Tanzania
-                    </p>
-                    <p className="text-sm text-[#f08222] font-medium">
-                      Heather is donating 10% of her share to Arusha!
-                    </p>
-                  </div>
+{/* Team Arusha */}
+<div className="bg-[#fff5eb] rounded-lg shadow p-6">
+  <div className="flex items-center gap-4 mb-4">
+    <a href="https://x.com/bitcoinarusha" target="_blank" rel="noopener noreferrer">
+      <Image 
+        src={Arusha} 
+        alt="Bitcoin Arusha Logo" 
+        width={100} 
+        height={100} 
+        objectFit="contain" 
+      />
+    </a>
+    <div>
+      <h4 className="text-lg font-semibold">Team Arusha</h4>
+      <Tooltip>
+        <TooltipTrigger>
+          <p className="text-xl font-bold text-[#f08222] cursor-help">
+            {formatMoney(
+              (teamData?.find(t => t.team_name === 'bitcoinarusha')?.total_hashrate || 0) +
+              (upcomingPartyData?.nextSatDirectLeaderboard
+                .filter(entry => entry.team_name === "Bitcoin Arusha")
+                .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)
+            )} TH/s
+          </p>
+        </TooltipTrigger>
+        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+          <div className="space-y-1">
+            <div>Auction: {formatMoney(teamData?.find(t => t.team_name === 'bitcoinarusha')?.total_hashrate || 0)} TH/s</div>
+            <div>Direct Buy: {formatMoney(upcomingPartyData?.nextSatDirectLeaderboard
+              .filter(entry => entry.team_name === "Bitcoin Arusha")
+              .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)} TH/s</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  </div>
+  <p className="text-gray-600 mb-4">
+    Bitcoin Circular Economy in Tanzania
+  </p>
+  <p className="text-sm text-[#f08222] font-medium">
+    Heather is donating 10% of her share to Arusha!
+  </p>
+</div>
 
-                  {/* Team Isla */}
-                  <div className="bg-[#fff5eb] rounded-lg shadow p-6">
-                    <div className="flex items-center gap-4 mb-4">
-                    <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
-                      <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
-                    </a>
-                      <div>
-                        <h4 className="text-lg font-semibold">Team Isla</h4>
-                        <p className="text-xl font-bold text-[#f08222]">
-                          {formatMoney(teamData.find(t => t.team_name === 'bitcoinisla')?.total_hashrate || 0)} TH/s
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 mb-4">
-                      Bitcoin Circular Economy in Mexico 🏝️
-                    </p>
-                    <p className="text-sm text-[#f08222] font-medium">
-                      QW is donating 10% of his share to Isla!
-                    </p>
-                  </div>
+{/* Team Isla */}
+<div className="bg-[#fff5eb] rounded-lg shadow p-6">
+  <div className="flex items-center gap-4 mb-4">
+    <a href="https://x.com/btcisla" target="_blank" rel="noopener noreferrer">
+      <Image src={Isla} alt="Bitcoin Isla Logo" width={100} height={100} objectFit="contain" />
+    </a>
+    <div>
+      <h4 className="text-lg font-semibold">Team Isla</h4>
+      <Tooltip>
+        <TooltipTrigger>
+          <p className="text-xl font-bold text-[#f08222] cursor-help">
+            {formatMoney(
+              (teamData?.find(t => t.team_name === 'bitcoinisla')?.total_hashrate || 0) +
+              (upcomingPartyData?.nextSatDirectLeaderboard
+                .filter(entry => entry.team_name === "Bitcoin Isla")
+                .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)
+            )} TH/s
+          </p>
+        </TooltipTrigger>
+        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+          <div className="space-y-1">
+            <div>Auction: {formatMoney(teamData?.find(t => t.team_name === 'bitcoinisla')?.total_hashrate || 0)} TH/s</div>
+            <div>Direct Buy: {formatMoney(upcomingPartyData?.nextSatDirectLeaderboard
+              .filter(entry => entry.team_name === "Bitcoin Isla")
+              .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)} TH/s</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  </div>
+  <p className="text-gray-600 mb-4">
+    Bitcoin Circular Economy in Mexico 🏝️
+  </p>
+  <p className="text-sm text-[#f08222] font-medium">
+    QW is donating 10% of his share to Isla!
+  </p>
+</div>
+
                 </div>
               )}
             </div>
