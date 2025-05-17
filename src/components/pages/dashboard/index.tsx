@@ -28,6 +28,8 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 
 const TARGET_HASHRATE = 250000; // 250,000 TH/s
 
+const LIVE_PARTY = true;
+
 const TEAM_NAMES = {
   ARUSHA: 'bitcoinarusha',
   ISLA: 'bitcoinisla',
@@ -323,7 +325,8 @@ const renderTopSection = (
   upcomingPartyCalc: any,
   showDetails: boolean,
   setShowDetails: (show: boolean) => void,
-  teamData: any[]
+  teamData: any[],
+  currentHashrateCalc: any,
 ) => {
   // Get next block party date
   const { nextSaturday } = getNextBlockPartyDate()
@@ -348,35 +351,46 @@ const renderTopSection = (
       <div className="space-y-6">
         {/* First row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Box 1: Next Block Party */}
+          {/* Box 1: Block Party Status */}
           <div className="bg-[#fff5eb] rounded-md p-4">
             <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
-              Next block party
+              {LIVE_PARTY ? "Block party" : "Next block party"}
             </h3>
-            <p className="text-2xl font-semibold text-gray-900 mb-2">
-              {formatDate(nextSaturday, 'EEEE, MMMM d')}
-            </p>
-            <p className="text-sm text-gray-600">
-              {days}d {hours}h {minutes}m
-            </p>
+            {LIVE_PARTY ? (
+              <p className="text-2xl font-semibold text-gray-900 mb-2">
+                IN PROGRESS
+              </p>
+            ) : (
+              <>
+                <p className="text-2xl font-semibold text-gray-900 mb-2">
+                  {formatDate(nextSaturday, 'EEEE, MMMM d')}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {days}d {hours}h {minutes}m
+                </p>
+              </>
+            )}
           </div>
 
-          {/* Box 2: Projected Hashrate */}
+          {/* Box 2: Hashrate */}
           <div className="bg-[#fff5eb] rounded-md p-4">
             <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
-              Projected Hashrate
+              {LIVE_PARTY ? "Live Hashrate" : "Projected Hashrate"}
             </h3>
             <p className="text-2xl font-semibold text-gray-900 mb-2">
-              {formatMoney(upcomingPartyData?.totalHashrate || 0)} TH/s
+              {LIVE_PARTY 
+                ? `${formatMoney(hashrateData?.current_hashrate || 0)} TH/s`
+                : `${formatMoney(upcomingPartyData?.totalHashrate || 0)} TH/s`
+              }
             </p>
-            <Tooltip className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+            <Tooltip>
               <TooltipTrigger>
-               <p className="text-sm text-gray-600 cursor-help">
-                1 in {Math.round((upcomingPartyCalc?.chancePerBlockDay || 0) * 4).toLocaleString()} party odds (6 hrs)
-               </p> 
+                <p className="text-sm text-gray-600 cursor-help">
+                  1 in {Math.round((LIVE_PARTY ? currentHashrateCalc?.chancePerBlockDay : upcomingPartyCalc?.chancePerBlockDay || 0) * 4).toLocaleString()} party odds (6 hrs)
+                </p>
               </TooltipTrigger>
               <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                Based on projected hashrate
+                Based on {LIVE_PARTY ? "current" : "projected"} hashrate
               </TooltipContent>
             </Tooltip>
           </div>
@@ -395,7 +409,7 @@ const renderTopSection = (
           </div>
         </div>
 
-
+        {/* Additional boxes when expanded */}
 {/* Additional boxes when expanded */}
 <div className="pt-2">
 
@@ -753,7 +767,8 @@ export default function Dashboard() {
             upcomingPartyCalc,
             showDetails,
             setShowDetails,
-            teamData
+            teamData,
+            currentHashrateCalc  // Add this argument
           )}
             </>
           )}
@@ -764,7 +779,7 @@ export default function Dashboard() {
         <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 mb-6">
           <TabButton>Direct Buy</TabButton>
           <TabButton>Auction</TabButton>
-          <TabButton>Pre-party</TabButton>
+          <TabButton>Alliance Miners</TabButton>
         </Tab.List>
 
       <Tab.Panels>
@@ -846,46 +861,6 @@ export default function Dashboard() {
         </div>
         {/* Second row */}
         <div className="flex gap-4">
-                {/* Pre-game Party Hashrate Box */}
-                {hashrateData?.current_hashrate > 0 && (
-                  <div className="flex-1 bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="text-sm font-medium text-gray-500 uppercase">
-                        Pre-Party Hashrate - a.k.a <Link 
-                      href="https://yakihonne.com/users/npub1x8xa3dw79urgev8pvuzdk7uupcrvqj9cwduq0yypzzkr0m3gkwks07q3eq"
-                      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Team Alliance
-                    </Link>
-                      </h3>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <div className="cursor-help">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                            </svg>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
-                          Current hashrate at our CK Pool address
-                        </TooltipContent>
-                      </Tooltip>
-                    </div>
-                    <p className="text-2xl font-semibold text-gray-900">
-                      {formatMoney(hashrateData.current_hashrate)} TH/s
-                    </p>
-                    <Link 
-                      href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH"
-                      className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View at CK Pool →
-                    </Link>
-                  </div>
-                )}
               </div>
               {/* Configure miner button*/}
               <div className="flex justify-center pt-6">
