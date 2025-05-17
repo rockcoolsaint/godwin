@@ -138,6 +138,10 @@ export const MiningCalculator = () => {
       setError('Please enter a Lightning email or Bitcoin address')
       return
     }
+    if (payoutAddress.toLowerCase().startsWith('lnbc')) {
+      setError('Enter a Lightning email not an LNBC invoice')
+      return
+    }
 
     setIsSubmitting(true)
     setError('')
@@ -351,8 +355,16 @@ export const MiningCalculator = () => {
       <input
         type="text"
         value={payoutAddress}
-        onChange={(e) => setPayoutAddress(e.target.value)}
-        placeholder="bc123etc or LN email"
+        onChange={(e) => {
+          const value = e.target.value
+          if (value.toLowerCase().startsWith('lnbc')) {
+            setError('Enter a Lightning email not an LNBC invoice')
+          } else {
+            setError('')
+          }
+          setPayoutAddress(value)
+        }}
+        placeholder="bc123etc or Lightning email"
         className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
         aria-label="Lightning or Bitcoin address"
       />
