@@ -393,6 +393,17 @@ const renderTopSection = (
                 Based on {LIVE_PARTY ? "current" : "projected"} hashrate
               </TooltipContent>
             </Tooltip>
+            {/* Add the new link here */}
+            {LIVE_PARTY && (
+              <a 
+                href="https://solostats.ckpool.org/users/3Gk1GfP3bHA6M2ZzK5mHdqbWN1iNsqAenH" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block mt-2 text-xs text-orange-500 italic hover:text-orange-800"
+              >
+                Verify at CK Pool
+              </a>
+            )}
           </div>
 
           {/* Box 3: Block Reward */}
