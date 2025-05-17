@@ -1,5 +1,11 @@
 import { Account, Auction } from 'src/api/auction/types'
 
+export interface Team {
+  id: number
+  name: string
+  // Add other team properties as needed
+}
+
 export enum PaymentStatus {
   Processing = 'processing',
   Underpaid = 'underpaid',
@@ -115,6 +121,9 @@ export interface Order {
   type: OrderType
   cancellation_reason?: string
   messages: OrderMessage[]
+  team_id?: number | null // Add team ID field
+  team?: Team | null // Add team object field if you need the full team details
+  payout_address?: string // Add payout address field that was missing
 }
 
 export interface Invoice {

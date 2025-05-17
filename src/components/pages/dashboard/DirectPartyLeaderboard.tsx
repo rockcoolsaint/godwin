@@ -7,6 +7,13 @@ import { formatMoney } from 'src/utils/currency'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'
 import { getBitcoinPrice } from 'src/utils/bitcoin'
 
+// Add TeamBadge component
+const TeamBadge = ({ teamName }: { teamName: string }) => (
+  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+    {teamName}
+  </span>
+)
+
 interface DirectPartyLeaderboardProps {
   useNextSaturday?: boolean;
 }
@@ -94,7 +101,12 @@ export default function DirectPartyLeaderboard({ useNextSaturday = false }: Dire
             currentEntries.map((entry, index) => (
               <tr key={entry.payout_address}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {entry.payout_address}
+                  <div className="flex items-center">
+                    {entry.payout_address}
+                    {entry.team_name && (
+                      <TeamBadge teamName={entry.team_name} />
+                    )}
+                  </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {entry.total_hashrate.toLocaleString()}
@@ -160,7 +172,6 @@ export default function DirectPartyLeaderboard({ useNextSaturday = false }: Dire
         </div>
       </div>
     )}
-        {/* Add this right after the closing </table> tag */}
     <div className="mt-2 text-sm text-gray-500 italic">
       Direct buy reward share is based on total block party hashrate.
     </div>

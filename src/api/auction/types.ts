@@ -50,6 +50,8 @@ export interface DirectPartyLeaderboardEntry {
   total_hashrate: number
   percentage: number
   reward_share_btc: number
+  team_name?: string
+  team_slug?: string
 }
 
 export enum PaymentProvider {

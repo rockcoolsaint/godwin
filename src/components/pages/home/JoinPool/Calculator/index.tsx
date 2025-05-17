@@ -13,6 +13,8 @@ import { createOrder } from 'src/api/orders/createOrder'
 import createDirectOrderPayment from 'src/api/checkout/createDirectOrderPayment'
 import { makeClientRequest } from 'src/api/clientRequest'
 import { toast } from 'react-hot-toast'
+import { Team, getTeams } from 'src/api/account/getTeams'
+
 
 export const MiningCalculator = () => {
   const { account } = useAccountContext()
@@ -27,6 +29,9 @@ export const MiningCalculator = () => {
   const hashrate = 5 // TH/s - hardcoded for now
   const [customHashrate, setCustomHashrate] = useState(5) // Default to 5 TH/s
   const [hashrateError, setHashrateError] = useState('')
+
+  const [teams, setTeams] = useState<Team[]>([])
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null)
 
   const miningGoals = [
     'Get more bitcoin!',
@@ -52,6 +57,22 @@ export const MiningCalculator = () => {
     const SATS_PER_THS_PER_DAY = 60
     return Math.round(hashrate * (SATS_PER_THS_PER_DAY / 4)) // Divide by 4 for 6 hours
   }
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const teamsData = await getTeams()
+        // Filter out team with ID 1 (as done in account page)
+        const filteredTeams = teamsData.filter(team => team.id !== 1)
+        setTeams(filteredTeams)
+      } catch (error) {
+        console.error('Failed to fetch teams:', error)
+        toast.error('Failed to load teams')
+      }
+    }
+  
+    fetchTeams()
+  }, [])
 
   // Add this state to your component
   const [upcomingPartyData, setUpcomingPartyData] = useState<{
@@ -127,8 +148,9 @@ export const MiningCalculator = () => {
         amount_sats: calculatePrice(customHashrate), // Use calculated price
         duration_days: 0.25, // 6 hours
         payout_address: payoutAddress,
-        hashrate_thps: customHashrate, // Add hashrate to order
-        promo_code: miningGoal // Add this line
+        hashrate_thps: customHashrate,
+        promo_code: miningGoal,
+        team_id: selectedTeam?.id || null,
       })
 
       if (order?.id) {
@@ -337,7 +359,7 @@ export const MiningCalculator = () => {
     </div>
 
     {/* Mining Goal Field */}
-    <div className="grid grid-cols-[120px,1fr] items-center gap-4">
+    {/* <div className="grid grid-cols-[120px,1fr] items-center gap-4">
       <label className="text-sm text-gray-600 whitespace-nowrap">
         Goal (optional)
       </label>
@@ -347,7 +369,32 @@ export const MiningCalculator = () => {
         onChange={(e) => setMiningGoal(e.target.value)}
         className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
       />
-    </div>
+    </div> */}
+
+<div className="grid grid-cols-[120px,1fr] gap-4">
+  <div className="items-center">
+    <label className="text-sm text-gray-600 whitespace-nowrap">
+      Mining Team
+    </label>
+  </div>
+  <div className="flex flex-col gap-1">
+    <select
+      className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-600 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+      value={selectedTeam?.id?.toString() || ''}
+      onChange={(e) => setSelectedTeam(teams.find(t => t.id.toString() === e.target.value) || null)}
+    >
+      <option value="">No Team</option>
+      {teams.map((team) => (
+        <option key={team.id} value={team.id}>
+          {team.name}
+        </option>
+      ))}
+    </select>
+    <span className="text-sm text-gray-500">
+      Help bitcoin projects earn hashrate
+    </span>
+  </div>
+</div>
 
     {error && (
       <div className="text-center text-red-500 text-sm mt-4">

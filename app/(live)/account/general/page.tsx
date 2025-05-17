@@ -132,7 +132,7 @@ function Account() {
               value={selectedTeam?.id?.toString() || ''}
               onChange={(e) => handleTeamSelect(e.target.value || null)}
             >
-              <option value="">No Team (Mine independently)</option>
+              <option value="">No Team</option>
               {teams.map((team) => (
                 <option key={team.id} value={team.id}>
                   {team.name}
