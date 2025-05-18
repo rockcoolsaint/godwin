@@ -26,8 +26,8 @@ export const MiningCalculator = () => {
   const [error, setError] = useState('')
   
   const blockRewardBTC = 3.125
-  const hashrate = 5 // TH/s - hardcoded for now
-  const [customHashrate, setCustomHashrate] = useState(5) // Default to 5 TH/s
+  const hashrate = 3 // TH/s - hardcoded for now
+  const [customHashrate, setCustomHashrate] = useState(3) // Default to 3 TH/s
   const [hashrateError, setHashrateError] = useState('')
 
   const [teams, setTeams] = useState<Team[]>([])
@@ -55,7 +55,7 @@ export const MiningCalculator = () => {
   // Calculate price in sats based on hashrate
   const calculatePrice = (hashrate: number) => {
     const SATS_PER_THS_PER_DAY = 60
-    return Math.round(hashrate * (SATS_PER_THS_PER_DAY / 4)) // Divide by 4 for 6 hours
+    return Math.round(hashrate * (SATS_PER_THS_PER_DAY / 12)) // Divide by 4 for 12 hours
   }
 
   useEffect(() => {
@@ -265,46 +265,44 @@ export const MiningCalculator = () => {
   </div>
 </div>
 
-      <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <span className="font-medium text-gray-900">Hashrate</span>
-              <Tooltip>
-                <TooltipTrigger>
-                  <InformationCircleIcon className="h-4 w-4 text-gray-400" />
-                </TooltipTrigger>
-                <TooltipContent className="w-max rounded bg-gray-600 p-3 text-sm text-white">
-                  60 sats per TH/s/day, minimum 1 TH/s, maximum 21,000 TH/s
-                </TooltipContent>
-              </Tooltip>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center">
-                <div className="flex flex-col border-y border-l rounded-l-lg">
-                  <button
-                    onClick={() => {
-                      const newValue = customHashrate + 1
-                      if (newValue <= 21000) {
-                        setCustomHashrate(newValue)
-                        setHashrateError('')
-                      }
-                    }}
-                    className="px-1.5 py-0.75 border-b hover:bg-gray-100 text-gray-600 text-xs"
-                  >
-                    ▲
-                  </button>
-                  <button
-                    onClick={() => {
-                      const newValue = customHashrate - 1
-                      if (newValue >= 1) {
-                        setCustomHashrate(newValue)
-                        setHashrateError('')
-                      }
-                    }}
-                    className="px-1.5 py-0.75 hover:bg-gray-100 text-gray-600 text-xs"
-                  >
-                    ▼
-                  </button>
-                </div>
+
+
+<div className="flex justify-between items-center">
+  <div className="flex items-center gap-2">
+    <span className="font-medium text-gray-900">Hashrate</span>
+    <span className="text-xs text-gray-500 align-text-bottom">
+      60 sats/TH/day
+    </span>
+  </div>
+  <div className="flex items-center gap-2">
+    <div className="flex items-center">
+      <div className="flex flex-col border-y border-l rounded-l-lg">
+        <button
+          onClick={() => {
+            const newValue = customHashrate + 1
+            if (newValue <= 21000) {
+              setCustomHashrate(newValue)
+              setHashrateError('')
+            }
+          }}
+          className="px-1.5 py-0.75 border-b hover:bg-gray-100 text-gray-600 text-xs"
+        >
+          ▲
+        </button>
+        <button
+          onClick={() => {
+            const newValue = customHashrate - 1
+            if (newValue >= 1) {
+              setCustomHashrate(newValue)
+              setHashrateError('')
+            }
+          }}
+          className="px-1.5 py-0.75 hover:bg-gray-100 text-gray-600 text-xs"
+        >
+          ▼
+        </button>
+      </div>
+
                 <input
                   type="number"
                   value={customHashrate}
