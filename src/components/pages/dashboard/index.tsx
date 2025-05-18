@@ -28,7 +28,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 
 const TARGET_HASHRATE = 250000; // 250,000 TH/s
 
-const LIVE_PARTY = true;
+const LIVE_PARTY = false;
 
 const TEAM_NAMES = {
   ARUSHA: 'bitcoinarusha',
