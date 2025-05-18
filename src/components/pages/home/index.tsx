@@ -84,7 +84,7 @@ export default function Home({ isDemo, code }: Props) {
     const nextParty = new Date();
     
     // Set to next Saturday
-    nextParty.setUTCDate(now.getUTCDate() + ((6 - now.getUTCDay() + 7) % 7));
+    nextParty.setUTCDate(now.getUTCDate() + ((6 - now.getUTCDay() + 7) % 14));
     
     // Set time to 16:00 UTC
     nextParty.setUTCHours(16, 0, 0, 0);
