@@ -896,7 +896,7 @@ export default function Dashboard() {
     <div className="mt-8">
             
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
 {/* Team Arusha */}
 <div className="bg-[#fff5eb] rounded-lg shadow p-6">
@@ -980,8 +980,44 @@ export default function Dashboard() {
   </p>
 </div>
 
+    {/* Team Undecided - Styled to match others */}
+    <div className="bg-[#fff5eb] rounded-lg shadow p-6">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="w-[100px] h-[100px] flex items-center justify-center">
+          <span className="text-6xl">🤷</span>
+        </div>
+        <div>
+          <h4 className="text-lg font-semibold">Team Undecided</h4>
+          <Tooltip>
+            <TooltipTrigger>
+              <p className="text-xl font-bold text-[#f08222] cursor-help">
+                {formatMoney(
+                  (teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0) +
+                  (upcomingPartyData?.nextSatDirectLeaderboard
+                    .filter(entry => !entry.team_name || entry.team_name === TEAM_NAMES.UNDECIDED)
+                    .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)
+                )} TH/s
+              </p>
+            </TooltipTrigger>
+            <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+              <div className="space-y-1">
+                <div>Auction: {formatMoney(teamData?.find(t => t.team_name === TEAM_NAMES.UNDECIDED)?.total_hashrate || 0)} TH/s</div>
+                <div>Direct Buy: {formatMoney(upcomingPartyData?.nextSatDirectLeaderboard
+                  .filter(entry => !entry.team_name || entry.team_name === TEAM_NAMES.UNDECIDED)
+                  .reduce((sum, entry) => sum + entry.total_hashrate, 0) || 0)} TH/s</div>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </div>
+      <p className="text-gray-600 mb-4">
+        People who didn't pick a team
+      </p>
+      <p className="text-sm text-[#f08222] font-medium">
+        &nbsp; {/* Empty space to maintain consistent height */}
+      </p>
+    </div>
                 </div>
-
             </div>
 
 

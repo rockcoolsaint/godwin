@@ -365,7 +365,7 @@ export const MiningCalculator = () => {
           }
           setPayoutAddress(value)
         }}
-        placeholder="bc1b.. or Lightning email"
+        placeholder="bc1d.. or lightning email"
         className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
         aria-label="Lightning or Bitcoin address"
       />
@@ -404,7 +404,7 @@ export const MiningCalculator = () => {
       ))}
     </select>
     <span className="text-sm text-gray-500">
-      Help bitcoin projects earn hashrate
+      Earn 21% more reward if your team gets the most hashrate
     </span>
   </div>
 </div>

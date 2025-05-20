@@ -4,6 +4,8 @@ import LearnCategoryText from 'src/components/learn/LearnCategoryText'
 import LearnCategoryTextWithImage from 'src/components/learn/LearnCategoryTextWithImage'
 import Link from 'src/components/shared/Link'
 import { useAccountContext } from 'src/providers/AccountProvider'
+import Blockparty from 'src/images/get_in.png'
+import Image from 'next/image'
 
 const WhatIsUpendo = () => {
   const { account } = useAccountContext()
@@ -11,25 +13,24 @@ const WhatIsUpendo = () => {
 
   return (
     <>
-      <LearnCategoryTitle>Join Our Bitcoin Mining Block Party</LearnCategoryTitle>
 
-
-      <div className="mt-10 flex justify-center">
-  <div className="relative w-[600px] aspect-video">
-    <iframe 
-      src="https://www.loom.com/embed/bfb1d104a7ca483e9cedb34d1caf17a3?sid=0a3586fd-32f4-4211-86b1-4ac177d9e78c" 
-      frameBorder="0" 
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allowFullScreen
-      className="w-full h-full"
-    />
+      <div className="mt-10 flex justify-left">
+  <div className="relative w-[600px]">
+              <a href="/pages/dashboard" target="_blank" rel="noopener noreferrer">
+                <Image 
+                  src={Blockparty} 
+                  alt="Block party with us" 
+                  width={400} 
+                  height={400} 
+                  objectFit="contain" 
+                />
+              </a>
   </div>
 </div>
 <br/>
 
       <LearnCategoryText>
-        Hi -- I'm Evan, co-founder of <Link href="https://rigly.io" styled>Rigly</Link>
+        Hi -- Evan here, co-founder of <Link href="https://rigly.io" styled>Rigly</Link>
       </LearnCategoryText>
       <LearnCategoryText>
       Join us as we try to mine a block. 
@@ -38,28 +39,19 @@ const WhatIsUpendo = () => {
         The goal is to find a block and earn 3.125 bitcoin + tx fees <b>worth over $300,000</b>
       </LearnCategoryText>
       <LearnCategoryText>
-        There are 3 ways to get a spot on the party - <b>a) buy hashrate on the front page</b> and <b>b) bid on a hashrate auction</b> or <b>c) use your own miner</b>
+        There are 2 ways to get a spot on the party - <b>a) buy hashrate on the front page</b> or <b>b) use your own miner</b>
       </LearnCategoryText>
       <LearnCategoryText>
         Hashrate is provided via <Link href="https://rigly.io" styled>Rigly</Link> and we use <Link href="https://solo.ckpool.org" styled>CK Pool</Link> to solo mine.
       </LearnCategoryText>
       <LearnCategorySubTitle>
-      How Auction Works
+      Pick your team - win 21% more reward
       </LearnCategorySubTitle>
       <LearnCategoryText>
-      In the auction, when you bid over the cost of hashrate, the extra sats go to bonus hashrate for the block party.
+      If we mine a block during the block party, the reward is split by hashrate contribution, and <b>the team that contributes the most hashrate gets 21% more of the reward</b>.
       </LearnCategoryText>
       <LearnCategoryText>
-      To further the incentive, I match 21% of bonus hashrate, improving our odds even more.
-      </LearnCategoryText>
-      <LearnCategoryText>
-      When you <b>direct buy</b> hashrate in the block party, your reward is calculated on the total block party hashrate.
-      </LearnCategoryText>
-      <LearnCategoryText>
-      When you <b>auction buy</b> hashrate in the block party, your reward is calculated with other auction bidders, so you get direct benefit from bonus hashrate.
-      </LearnCategoryText>
-      <LearnCategoryText>
-      This way, auction bidders are incentivized and everyone benefits from the bonus hashrate.
+      This way, there is an incentive to spread the word and refer people to your team!
       </LearnCategoryText>
       <LearnCategorySubTitle>Do you have your own ASIC miner?</LearnCategorySubTitle>
       
@@ -82,10 +74,10 @@ const WhatIsUpendo = () => {
       
       <div className="mb-20 mt-6 flex w-full flex-col items-center justify-center font-chakra font-bold sm:flex-row sm:px-10 lg:mt-12 lg:px-0">
                 <Link 
-                href={isLoggedIn ? '/pages/dashboard' : '/register'} // Change link based on auth status
+                href="/pages/dashboard"
                 className="lg:h-15 flex w-11/12 items-center justify-center rounded-full bg-gradient px-5 py-4 text-lg text-white outline-none hover:bg-gradient-hover disabled:cursor-not-allowed disabled:bg-gradient-disabled sm:ml-16 lg:w-8/12 lg:text-2xl xl:w-4/12"
                 >
-                {isLoggedIn ? 'View the party' : 'Sign up to bid'}
+                View the party
               </Link>
                 </div>
     </>

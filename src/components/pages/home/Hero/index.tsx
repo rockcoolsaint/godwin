@@ -56,10 +56,9 @@ const Hero = ({ children }: PropsWithChildren) => {
           <div className="lg:w-2/5 flex flex-col items-start justify-center mb-8 lg:mb-0">
             <div className="space-y-4">
               <p className="text-2xl text-gray-600"><b>Solo mine with bitcoiners</b></p>
-              <p className="text-xl text-gray-600">It's a block party!</p>
               {activeTab === 'buy' ? (
                 <p className="text-xl text-gray-600">
-                  If we mine a block, your reward is based on your hashrate contribution.
+                  Join our block party. Your reward is based on your hashrate contribution.
                 </p>
               ) : (
                 <p className="text-xl text-gray-600">
@@ -68,7 +67,7 @@ const Hero = ({ children }: PropsWithChildren) => {
               )}
               <div className="mt-6">
                 <Link href="/pages/dashboard" className="text-lg text-blue-600 hover:underline">
-                  Monitor the block party live →
+                  View the party →
                 </Link>
               </div>
             </div>
