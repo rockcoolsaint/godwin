@@ -789,7 +789,6 @@ export default function Dashboard() {
       <Tab.Group defaultIndex={0}>
         <Tab.List className="flex space-x-1 rounded-xl bg-gray-200 p-1 mb-6">
           <TabButton>Direct Buy</TabButton>
-          <TabButton>Auction</TabButton>
           <TabButton>Alliance Miners</TabButton>
         </Tab.List>
 
@@ -808,48 +807,6 @@ export default function Dashboard() {
             </Link>
           </div>
         </Tab.Panel>
-
-
-    {/* Auction Tab */}
-    <Tab.Panel>
-      <div className="space-y-8">
-        {/* Team Arusha */}
-        <div className="bg-white rounded-lg shadow">
-          <h3 className="px-4 pt-5 font-medium text-gray-900">Team Arusha</h3>
-          <div className="px-4 py-5 sm:p-6">
-            <TeamPartyLeaderboard 
-              useNextSaturday={true}
-              defaultTeam={TEAM_NAMES.ARUSHA}
-              hideTeamTabs={true}
-            />
-          </div>
-        </div>
-
-        {/* Team Isla */}
-        <div className="bg-white rounded-lg shadow">
-          <h3 className="px-4 pt-5 font-medium text-gray-900">Team Isla</h3>
-          <div className="px-4 py-5 sm:p-6">
-            <TeamPartyLeaderboard 
-              useNextSaturday={true}
-              defaultTeam={TEAM_NAMES.ISLA}
-              hideTeamTabs={true}
-            />
-          </div>
-        </div>
-
-        {/* Undecided */}
-        <div className="bg-white rounded-lg shadow">
-          <h3 className="px-4 pt-5 font-medium text-gray-900">Undecided</h3>
-          <div className="px-4 py-5 sm:p-6">
-            <TeamPartyLeaderboard 
-              useNextSaturday={true}
-              defaultTeam={TEAM_NAMES.UNDECIDED}
-              hideTeamTabs={true}
-            />
-          </div>
-        </div>
-      </div>
-    </Tab.Panel>
 
         {/* Pre-game Tab */}
         <Tab.Panel>
@@ -938,35 +895,8 @@ export default function Dashboard() {
 
     <div className="mt-8">
             
-            {/* Add explainer text */}
-            <div className="bg-white rounded-lg shadow p-6 mb-4">
-              <p className="text-lg font-medium text-gray-900 mb-2">
-                Block Party Auction
-              </p>
-              <p className="text-sm text-gray-600">
-                Raise $ for Bitcoin Circular Economies. Sign up, pick your team and place your bid.
-              </p>
-              <Link 
-                          href="/auction-market"
-                          className="text-sm text-[#f08222] hover:text-[#d06000] mt-2 inline-block"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Learn more →
-                        </Link>
-            </div>
 
-              {teamDataLoading ? (
-                <div className="flex justify-center items-center py-12">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#f08222]" />
-                </div>
-              ) : teamData.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">
-                  No team data available
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
 {/* Team Arusha */}
 <div className="bg-[#fff5eb] rounded-lg shadow p-6">
@@ -1051,52 +981,21 @@ export default function Dashboard() {
 </div>
 
                 </div>
-              )}
-            </div>
-            <br/>
 
-            {/* Show auctions list */}
-              <div className="mt-6">
-                <AuctionsDataWrapper />
-              </div>
-
-            {/* View auction button */}
-            <div className="flex justify-center">
-              {featuredAuction && (
-              <div className="flex justify-center mt-2 pt-4">
-                <Link 
-                  href={`/auctions/${featuredAuction.id}`} 
-                  className="bg-[#f08222] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d67420] transition-colors flex items-center gap-3"
-                >
-                  <span>Place your bid</span>
-                  <span className="text-sm bg-[#d67420] px-3 py-1 rounded">
-                    {(() => {
-                      const now = new Date()
-                      const end = new Date(featuredAuction.end_at)
-                      const diff = end.getTime() - now.getTime()
-                      
-                      if (diff <= 0) return 'Ended'
-                      
-                      const hours = Math.floor(diff / (1000 * 60 * 60))
-                      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-                      
-                      if (hours > 24) {
-                        const days = Math.floor(hours / 24)
-                        return `${days}d ${hours % 24}h left`
-                      }
-                      
-                      if (hours > 0) {
-                        return `${hours}h ${minutes}m left`
-                      }
-                      
-                      return `${minutes}m left`
-                    })()}
-                  </span>
-                </Link>
-              </div>
-            )}
             </div>
-      <br/>
+
+
+                  {/* Add Auction Note */}
+                  <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <h3 className="text-lg font-semibold">Note on auctions</h3>
+              <p className="mt-2 text-gray-600">
+                We're renovating the auction workflow - they will return in a few weeks
+              </p>
+            </div>
+
+
+
+
     </div>
   )
 }

@@ -265,14 +265,17 @@ export const MiningCalculator = () => {
   </div>
 </div>
 
-
-
 <div className="flex justify-between items-center">
   <div className="flex items-center gap-2">
     <span className="font-medium text-gray-900">Hashrate</span>
-    <span className="text-xs text-gray-500 align-text-bottom">
-      60 sats/TH/day
-    </span>
+    <Tooltip>
+      <TooltipTrigger>
+        <InformationCircleIcon className="h-4 w-4 text-gray-400" />
+      </TooltipTrigger>
+      <TooltipContent className="w-max rounded bg-gray-600 p-3 text-sm text-white">
+        Hashprice: 5 sats per TH/s -- 60 sats per TH/s/day
+      </TooltipContent>
+    </Tooltip>
   </div>
   <div className="flex items-center gap-2">
     <div className="flex items-center">
@@ -303,32 +306,32 @@ export const MiningCalculator = () => {
         </button>
       </div>
 
-                <input
-                  type="number"
-                  value={customHashrate}
-                  onChange={(e) => {
-                    const value = parseFloat(e.target.value)
-                    if (isNaN(value)) {
-                      setHashrateError('Please enter a valid number')
-                      return
-                    }
-                    if (value < 1) {
-                      setHashrateError('Minimum hashrate is 1 TH/s')
-                      return
-                    }
-                    if (value > 21000) {
-                      setHashrateError('Maximum hashrate is 21,000 TH/s')
-                      return
-                    }
-                    setHashrateError('')
-                    setCustomHashrate(value)
-                  }}
-                  className="w-24 px-3 py-1 text-right border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">TH/s</span>
-            </div>
-          </div>
+      <input
+        type="number"
+        value={customHashrate}
+        onChange={(e) => {
+          const value = parseFloat(e.target.value)
+          if (isNaN(value)) {
+            setHashrateError('Please enter a valid number')
+            return
+          }
+          if (value < 1) {
+            setHashrateError('Minimum hashrate is 1 TH/s')
+            return
+          }
+          if (value > 21000) {
+            setHashrateError('Maximum hashrate is 21,000 TH/s')
+            return
+          }
+          setHashrateError('')
+          setCustomHashrate(value)
+        }}
+        className="w-24 px-3 py-1 text-right border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+      />
+    </div>
+    <span className="text-lg font-semibold bg-gray-100 px-3 py-1 rounded-full">TH/s</span>
+  </div>
+</div>
 
       {/* Remove the existing Odds row and replace with this text */}
         <div className="text-sm text-gray-500 text-center">
@@ -348,7 +351,7 @@ export const MiningCalculator = () => {
     {/* Payout Address Field */}
     <div className="grid grid-cols-[120px,1fr] items-center gap-4">
       <label className="text-sm text-gray-600 whitespace-nowrap">
-        ₿ or Lightning ⚡
+        ₿ or ⚡
       </label>
       <input
         type="text"
@@ -362,7 +365,7 @@ export const MiningCalculator = () => {
           }
           setPayoutAddress(value)
         }}
-        placeholder="bc123etc or Lightning email"
+        placeholder="bc1b.. or Lightning email"
         className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
         aria-label="Lightning or Bitcoin address"
       />
