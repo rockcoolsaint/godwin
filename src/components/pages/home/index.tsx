@@ -190,7 +190,9 @@ export default function Home({ isDemo, code }: Props) {
             {/* Added text */}
             <div className="text-center text-l text-gray-600 mb-12 mt-8">
               <h2 className="text-3xl font-orange mb-6">Mine with a Team and Earn a Bigger Reward</h2>
-              <p>If we mine a block, team with most hashrate gets +21% reward</p>
+              <p>Team with most hash wins</p>
+
+              <p><small>+21% reward share</small></p>
               <br/>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Team Arusha */}
@@ -226,7 +228,7 @@ export default function Home({ isDemo, code }: Props) {
                   </a>
                   <div className="text-center">
                     <h4 className="text-lg font-semibold">Team Isla</h4>
-                    <p className="text-sm font-bold text-[#f08222]">Bitcoin Circular Economy in El Salvador</p>
+                    <p className="text-sm font-bold text-[#f08222]">Bitcoin Circular Economy in Maxico</p>
                   </div>
                 </div>
               </div>

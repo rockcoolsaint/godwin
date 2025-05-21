@@ -403,9 +403,6 @@ export const MiningCalculator = () => {
         </option>
       ))}
     </select>
-    <span className="text-sm text-gray-500">
-      Earn 21% more reward if your team gets the most hashrate
-    </span>
   </div>
 </div>
 
