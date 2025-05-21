@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { DirectPartyLeaderboardEntry } from 'src/api/auction'
+import { DirectPartyLeaderboardEntry } from 'src/api/auction/types'
 import { getDirectPartyLeaderboard, getNextSaturdayDirectPartyLeaderboard } from 'src/api/party/getLeaderboard'
 import { formatMoney } from 'src/utils/currency'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'src/components/shared/Tooltip'

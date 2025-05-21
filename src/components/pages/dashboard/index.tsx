@@ -25,8 +25,11 @@ import Link from 'src/components/shared/Link'
 import Arusha from 'src/images/arusha.png'
 import Isla from 'src/images/isla.png'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
-const TARGET_HASHRATE = 250000; // 250,000 TH/s
+const TARGET_HASHRATE = 400000; // 400,000 TH/s
+const PARTY_TIME = '20:00 UTC';
+const FALLBACK_DATE = new Date('2025-05-31'); // May 31, 2025
 
 const LIVE_PARTY = false;
 
@@ -61,6 +64,40 @@ function ErrorFallback({ error }: { error: Error }) {
       <pre className="text-sm">{error.message}</pre>
     </div>
   )
+}
+
+// Add this component for the countdown timer
+function CountdownTimer() {
+  const [timeLeft, setTimeLeft] = useState('');
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date();
+      const diff = FALLBACK_DATE.getTime() - now.getTime();
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <span className="text-sm text-gray-600 cursor-help">
+          or will start in {timeLeft}
+        </span>
+      </TooltipTrigger>
+      <TooltipContent>
+        {formatDate(FALLBACK_DATE, 'MMMM d')}
+      </TooltipContent>
+    </Tooltip>
+  );
 }
 
 function HashrateTable({ auctions }: HashrateTableProps) {
@@ -346,31 +383,43 @@ const renderTopSection = (
   const directBuyPercentage = totalHashrate ? ((directBuyHashrate / totalHashrate) * 100).toFixed(1) : '0'
   const auctionPercentage = totalHashrate ? ((auctionHashrate / totalHashrate) * 100).toFixed(1) : '0'
 
+  function NextBlockPartySection({ currentHashrate }: { currentHashrate: number }) {
+    const hashrateToGo = TARGET_HASHRATE - currentHashrate;
+    
+    return (
+      <div className="bg-[#fff5eb] rounded-md p-4">
+        <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
+          {LIVE_PARTY ? "Block party" : "Next block party"}
+        </h3>
+        <div className="flex flex-col">
+          <p className="text-2xl font-semibold text-gray-900 mb-2">
+            In {formatMoney(hashrateToGo)} TH/s
+          </p>
+          <div className="flex items-center gap-2">
+            <Tooltip>
+              <TooltipTrigger>
+                <span className="text-sm text-gray-600 cursor-help">
+                  <CountdownTimer />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent className="w-max rounded bg-gray-600 px-2 py-1 text-sm text-white">
+                If threshold reached, party will start at {PARTY_TIME}
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="space-y-6">
         {/* First row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Box 1: Block Party Status */}
-          <div className="bg-[#fff5eb] rounded-md p-4">
-            <h3 className="text-sm font-bold text-[#f08222] uppercase mb-2">
-              {LIVE_PARTY ? "Block party" : "Next block party"}
-            </h3>
-            {LIVE_PARTY ? (
-              <p className="text-2xl font-semibold text-gray-900 mb-2">
-                IN PROGRESS
-              </p>
-            ) : (
-              <>
-                <p className="text-2xl font-semibold text-gray-900 mb-2">
-                  {formatDate(nextSaturday, 'EEEE, MMMM d')}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {days}d {hours}h {minutes}m
-                </p>
-              </>
-            )}
-          </div>
+{/* Add this where you want the Next Block Party section to appear */}
+<NextBlockPartySection currentHashrate={upcomingPartyData?.totalHashrate} />
 
           {/* Box 2: Hashrate */}
           <div className="bg-[#fff5eb] rounded-md p-4">

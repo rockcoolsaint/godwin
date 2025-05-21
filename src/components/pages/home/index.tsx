@@ -12,6 +12,9 @@ import { format } from 'date-fns'
 import dynamic from 'next/dynamic'
 import { getAuctionOfTheDay } from 'src/api/auction/getAuctionOfTheDay'
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image'
+import Arusha from 'src/images/arusha.png'
+import Isla from 'src/images/isla.png'
 
 const TrustlessMining = dynamic(() => import('./TrustlessMining'), {
   ssr: true
@@ -185,14 +188,55 @@ export default function Home({ isDemo, code }: Props) {
             </Hero>
 
             {/* Added text */}
-            <div className="text-center text-xl text-gray-600 mb-12 mt-8">
-              <h3 className="text-2xl font-bold mb-6">Mine with a team to earn a bigger reward</h3>
-              <p>Block Party Auction for Bitcoin Arusha and Bitcoin Isla</p>
+            <div className="text-center text-l text-gray-600 mb-12 mt-8">
+              <h2 className="text-3xl font-orange mb-6">Mine with a Team and Earn a Bigger Reward</h2>
+              <p>If we mine a block, team with most hashrate gets +21% reward</p>
+              <br/>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {/* Team Arusha */}
+              <div className="bg-[#fff5eb] rounded-lg shadow p-4 w-full sm:w-[200px]">
+                <div className="flex flex-col items-center gap-2">
+                  <a href="https://x.com/bitcoinarusha" target="_blank" rel="noopener noreferrer">
+                    <Image 
+                      src={Arusha} 
+                      alt="Bitcoin Arusha Logo" 
+                      width={80} 
+                      height={80} 
+                      objectFit="contain" 
+                    />
+                  </a>
+                  <div className="text-center">
+                    <h4 className="text-lg font-semibold">Team Arusha</h4>
+                    <p className="text-sm font-bold text-[#f08222]">Bitcoin Circular Economy in Tanzania</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Team Isla */}
+              <div className="bg-[#fff5eb] rounded-lg shadow p-4 w-full sm:w-[200px]">
+                <div className="flex flex-col items-center gap-2">
+                  <a href="https://x.com/bitcoinisla" target="_blank" rel="noopener noreferrer">
+                    <Image 
+                      src={Isla} 
+                      alt="Bitcoin Isla Logo" 
+                      width={80} 
+                      height={80} 
+                      objectFit="contain" 
+                    />
+                  </a>
+                  <div className="text-center">
+                    <h4 className="text-lg font-semibold">Team Isla</h4>
+                    <p className="text-sm font-bold text-[#f08222]">Bitcoin Circular Economy in El Salvador</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
               <Link 
-                href="/auction-market"
+                href="/pages/dashboard"
                 className="inline-block mt-6 px-8 py-4 text-lg font-bold text-white bg-[#f08222] rounded-lg hover:bg-[#d67420] transition-colors duration-200"
               >
-                Learn More
+                View the dashboard
               </Link>
             </div>
 
@@ -222,7 +266,7 @@ export default function Home({ isDemo, code }: Props) {
               className="flex items-center justify-center gap-2 rounded-lg bg-orange-400 px-8 py-4 font-epilogue text-lg text-white hover:opacity-90"
             >
               <ChatBubbleLeftRightIcon className="h-6 w-6" />
-              Chat with the block party on Telegram
+              Block party chat - Telegram
             </Link>
           </div>
 
