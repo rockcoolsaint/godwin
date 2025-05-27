@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import useReturnUrl from 'src/hooks/useReturnUrl'
 import DesktopNav from 'src/components/shared/Navigation/DesktopNav'
 import MobileNav from 'src/components/shared/Navigation/MobileNav'
+import ThemeToggle from '../Navigation/ThemeToggle'
 
 interface Props {
   isDemo?: boolean
@@ -77,7 +78,10 @@ export default function HeaderNav({ isDemo }: Props) {
           <div className="hidden lg:block">
             <DesktopNav />
           </div>
-          {!isLoading && <div className="ml-8 hidden lg:block">{account ? <Authorized /> : <Unauthorized isDemo={isDemo} />}</div>}
+          <div className='flex items-center'>
+            <ThemeToggle />
+            {!isLoading && <div className="ml-8 hidden lg:block">{account ? <Authorized /> : <Unauthorized isDemo={isDemo} />}</div>}
+          </div>
         </div>
       </header>
       <div className="lg:hidden">

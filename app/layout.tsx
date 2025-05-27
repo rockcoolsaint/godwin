@@ -11,6 +11,7 @@ import GoogleAnalytics from 'src/components/shared/GoogleAnalytics'
 import { epilogue, chakra } from './fonts'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import { ThemeProvider } from "next-themes"
 
 const NotificationsProvider = dynamic(() => import('src/providers/NotificationsProvider'), {
   ssr: false,
@@ -32,7 +33,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: PropsWithChildren<unknown>) {
   return (
-    <html lang="en" className={`${epilogue.variable} ${chakra.variable}`}>
+    <html lang="en" className={`${epilogue.variable} ${chakra.variable}`} suppressHydrationWarning>
       <Head>
         <GoogleAnalytics />
         <title>Rigly</title>
@@ -44,7 +45,7 @@ export default function RootLayout({ children }: PropsWithChildren<unknown>) {
           <WebsocketProvider>
             <NotificationsProvider>
               <Notifier />
-              <div className="flex flex-col justify-between overflow-x-hidden">{children}</div>
+              <ThemeProvider attribute="class" enableSystem defaultTheme="system"><div className="flex flex-col justify-between overflow-x-hidden">{children}</div></ThemeProvider>
             </NotificationsProvider>
           </WebsocketProvider>
         </AccountProvider>

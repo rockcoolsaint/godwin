@@ -24,11 +24,11 @@ const DesktopNav = ({ isDemo }: DesktopNavProps) => {
         <div key={nav.id} className="group relative ml-8">
           <div className="flex cursor-pointer items-center hover:text-primary">
             {nav.url ? (
-              <Link className="font-epilogue text-sm font-normal text-dark-300" href={nav.url}>
+              <Link className="font-epilogue text-sm font-normal text-dark-300 dark:text-white"  href={nav.url}>
                 {nav.name}
               </Link>
             ) : (
-              <span className="font-epilogue text-sm font-normal text-dark-300">{nav.name}</span>
+              <span className="font-epilogue text-sm font-normal text-dark-300 dark:text-white">{nav.name}</span>
             )}
             {nav.submenu && (
               <svg className="-mt-1 ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
